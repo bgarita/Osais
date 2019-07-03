@@ -15,7 +15,7 @@ public class CaracteresEscape {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        String a = "Daniel O'Hara ";
+        String a = "Daniel O'Hara";
         System.out.println(a);
         a = a.replace("'", "\\'");
         System.out.println(a);
