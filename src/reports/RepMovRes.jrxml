@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Existencias" pageWidth="612" pageHeight="792" columnWidth="592" leftMargin="18" rightMargin="2" topMargin="6" bottomMargin="6">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="pQuery" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["SELECT     " +
+"a.artcode, " +
+"a.bodega,  " +
+"c.artdesc, " +
+"Sum(If(a.movtimo = 'E',a.movcant,0)) as Entradas,   " +
+"Sum(If(a.movtimo = 'S',a.movcant,0)) as Salidas,    " +
+"Sum(a.movcant * a.movcoun * b.tipoca) as CostoTotal," +
+"(Select empresa from config) as empresa             " +
+"FROM inmovimd a                                     " +
+"INNER JOIN inmovime b ON a.movdocu = b.movdocu      " +
+"INNER JOIN inarticu c ON a.artcode = c.artcode      " +
+"AND a.movtimo = b.movtimo " +
+"AND a.movtido = b.movtido " +
+"GROUP BY artcode,bodega,artdesc "]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pFiltro" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[$P!{pQuery}]]>
+	</queryString>
+	<field name="artcode" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="bodega" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="artdesc" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Entradas" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Salidas" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CostoTotal" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="empresa" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="vRegistros" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{artcode}]]></variableExpression>
+	</variable>
+	<variable name="vTotalEntradas" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{Entradas}]]></variableExpression>
+	</variable>
+	<variable name="vTotalSalidas" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{Salidas}]]></variableExpression>
+	</variable>
+	<variable name="vTotalCosto" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{CostoTotal}]]></variableExpression>
+	</variable>
+	<variable name="vSubTEntradas" class="java.math.BigDecimal" resetType="Group" resetGroup="Codigo" calculation="Sum">
+		<variableExpression><![CDATA[$F{Entradas}]]></variableExpression>
+	</variable>
+	<variable name="vSubTSalidas" class="java.math.BigDecimal" resetType="Group" resetGroup="Codigo" calculation="Sum">
+		<variableExpression><![CDATA[$F{Salidas}]]></variableExpression>
+	</variable>
+	<variable name="vSubTCosto" class="java.lang.Double" resetType="Group" resetGroup="Codigo" calculation="Sum">
+		<variableExpression><![CDATA[$F{CostoTotal}]]></variableExpression>
+	</variable>
+	<group name="Codigo">
+		<groupExpression><![CDATA[$F{artcode}]]></groupExpression>
+		<groupFooter>
+			<band height="31">
+				<textField pattern="#,##0.00;-#,##0.00">
+					<reportElement x="321" y="7" width="58" height="13" forecolor="#006600"/>
+					<textElement textAlignment="Right">
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{vSubTSalidas}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Codigo" pattern="#,##0.00;-#,##0.00">
+					<reportElement x="259" y="7" width="58" height="13" forecolor="#006600"/>
+					<textElement textAlignment="Right">
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{vSubTEntradas}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00;-#,##0.00">
+					<reportElement x="386" y="7" width="79" height="13" forecolor="#006600"/>
+					<textElement textAlignment="Right">
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{vSubTCosto}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="259" y="3" width="58" height="1"/>
+				</line>
+				<line>
+					<reportElement x="321" y="3" width="58" height="1"/>
+				</line>
+				<line>
+					<reportElement x="386" y="3" width="79" height="1"/>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="7" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="50" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="592" height="20" forecolor="#0033CC"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{empresa}.trim()]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy h.mm a">
+				<reportElement x="0" y="20" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="200" y="20" width="193" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Movimientos de inventario]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="501" y="20" width="80" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Pág.: "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="26" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="11" width="57" height="15"/>
+				<textElement>
+					<font fontName="Tahoma" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="60" y="11" width="172" height="15"/>
+				<textElement>
+					<font fontName="Tahoma" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descripción]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="259" y="11" width="58" height="15"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Entradas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="233" y="11" width="26" height="15"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Bod]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="321" y="11" width="58" height="15"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Salidas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="407" y="11" width="58" height="15"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[*Costo]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="58" height="13"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{artcode}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="60" y="0" width="172" height="13"/>
+				<textElement>
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{artdesc}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="259" y="0" width="58" height="13"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Entradas}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="386" y="0" width="79" height="13"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CostoTotal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="233" y="0" width="26" height="13"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bodega}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="321" y="0" width="58" height="13"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Salidas}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="13" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="51" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="4" width="177" height="12"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[* Costo en moneda predeterminada (local)]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="3" y="19" width="582" height="13"/>
+				<textElement>
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pFiltro}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="69" splitType="Stretch">
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="259" y="7" width="58" height="13" forecolor="#0000FF"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{vTotalEntradas}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="321" y="7" width="58" height="13" forecolor="#0000FF"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{vTotalSalidas}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="386" y="7" width="79" height="13" forecolor="#0000FF"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{vTotalCosto}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

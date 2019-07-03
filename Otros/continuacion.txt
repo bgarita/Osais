@@ -1,0 +1,2 @@
+1.  En la asignación de proveedores poner característica de auto búsqueda y hacer que
+    los registros se eliminen de la tabla cuando presiona el botón eliminar.

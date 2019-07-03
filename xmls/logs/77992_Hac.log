@@ -1,0 +1,11 @@
+Estado: 5 RECHAZADO
+Respuesta_ext: El comprobante electrónico tiene los siguientes errores: 
+
+[
+codigo, mensaje, fila, columna
+-16, "El archivo XML, fue enviado a la Dirección General de Tributación de manera extemporánea; con base en lo estipulado en el artículo 9 y 15 ambos de la resolución 48-2016", 0, 0
+-99, "La numeración consecutiva del comprobante que se esta utilizando para este archivo XML ya existe en nuestras bases de datos.", 0, 0
+
+]
+Numero_consecutivo: 00100001010000000050
+claveHacienda: 50603111800310117850600100001010000000050126208584

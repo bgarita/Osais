@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FacturaElectronica xmlns="https://tribunet.hacienda.go.cr/docs/esquemas/2017/v4.2/facturaElectronica" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xsi:schemaLocation="https://tribunet.hacienda.go.cr/docs/esquemas/2017/v4.2/facturaElectronica  https://tribunet.hacienda.go.cr/docs/esquemas/2017/v4.2/FacturaElectronica_V.4.2.xsd">
+  <Clave>50603101800310113392600100001010000000025103101802</Clave>
+  <NumeroConsecutivo>00100001010000000025</NumeroConsecutivo>
+  <FechaEmision>2018-10-03T10:37:32</FechaEmision>
+  <Emisor>
+    <Nombre>NUTRIQUIM, S.A.</Nombre>
+    <Identificacion>
+      <Tipo>02</Tipo>
+      <Numero>3101133926</Numero>
+    </Identificacion>
+    <NombreComercial>NUTRIQUIM S.A.</NombreComercial>
+    <Ubicacion>
+      <Provincia>4</Provincia>
+      <Canton>03</Canton>
+      <Distrito>06</Distrito>
+      <Barrio>06</Barrio>
+      <OtrasSenas>Parque Industrial Z.</OtrasSenas>
+    </Ubicacion>
+    <Telefono>
+      <CodigoPais>506</CodigoPais>
+      <NumTelefono>41015101</NumTelefono>
+    </Telefono>
+    <Fax>
+      <CodigoPais>0</CodigoPais>
+      <NumTelefono>0</NumTelefono>
+    </Fax>
+    <CorreoElectronico>factura.electronica@grupontq.com</CorreoElectronico>
+  </Emisor>
+  <Receptor>
+    <Nombre>FABRICA DE REFRESCOS Y SIROPES DISTRIBUIDORA LA FLOR SOCIEDAD ANONIMA</Nombre>
+    <Identificacion>
+      <Tipo>02</Tipo>
+      <Numero>3101178506</Numero>
+    </Identificacion>
+    <Ubicacion>
+      <Provincia>4</Provincia>
+      <Canton>01</Canton>
+      <Distrito>01</Distrito>
+      <Barrio>01</Barrio>
+      <OtrasSenas>CAMPO EN BLANCO</OtrasSenas>
+    </Ubicacion>
+    <Telefono>
+      <CodigoPais>506</CodigoPais>
+      <NumTelefono>22370024</NumTelefono>
+    </Telefono>
+    <CorreoElectronico>warnerj854@gmail.com</CorreoElectronico>
+  </Receptor>
+  <CondicionVenta>02</CondicionVenta>
+  <PlazoCredito>45</PlazoCredito>
+  <MedioPago>01</MedioPago>
+  <DetalleServicio>
+    <LineaDetalle>
+      <NumeroLinea>1</NumeroLinea>
+      <Codigo>
+        <Tipo>04</Tipo>
+        <Codigo>0242020</Codigo>
+      </Codigo>
+      <Cantidad>25.00</Cantidad>
+      <UnidadMedida>kg</UnidadMedida>
+      <Detalle>SIROPE LIGHT</Detalle>
+      <PrecioUnitario>6752.23</PrecioUnitario>
+      <MontoTotal>168805.75</MontoTotal>
+      <MontoDescuento>0.00</MontoDescuento>
+      <NaturalezaDescuento>Descuento Comercial</NaturalezaDescuento>
+      <SubTotal>168805.75</SubTotal>
+      <Impuesto>
+        <Codigo>01</Codigo>
+        <Tarifa>13.00</Tarifa>
+        <Monto>21944.75</Monto>
+      </Impuesto>
+      <MontoTotalLinea>190750.50</MontoTotalLinea>
+    </LineaDetalle>
+  </DetalleServicio>
+  <ResumenFactura>
+    <CodigoMoneda>CRC</CodigoMoneda>
+    <TipoCambio>1</TipoCambio>
+    <TotalServGravados>0.00</TotalServGravados>
+    <TotalServExentos>0.00</TotalServExentos>
+    <TotalMercanciasGravadas>168805.75</TotalMercanciasGravadas>
+    <TotalMercanciasExentas>0.00</TotalMercanciasExentas>
+    <TotalGravado>168805.75</TotalGravado>
+    <TotalExento>0.00</TotalExento>
+    <TotalVenta>168805.75</TotalVenta>
+    <TotalDescuentos>0.00</TotalDescuentos>
+    <TotalVentaNeta>168805.75</TotalVentaNeta>
+    <TotalImpuesto>21944.75</TotalImpuesto>
+    <TotalComprobante>190750.50</TotalComprobante>
+  </ResumenFactura>
+  <Normativa>
+    <NumeroResolucion>DGT-R-48-2016</NumeroResolucion>
+    <FechaResolucion>10-07-2016 08:00:00</FechaResolucion>
+  </Normativa>
+  <Otros>
+    <OtroTexto>CAMPO EN BLANCO</OtroTexto>
+  </Otros>
+<ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#" Id="Signature-ab6a456a-dc88-4872-8fc5-d11397de6083"><ds:SignedInfo><ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" /><ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256" /><ds:Reference Id="Reference-e13914ce-7cfc-4fdd-8cdd-2e1be562d037" URI=""><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" /><ds:DigestValue>mhCw7xANu2gIuRG1zbps2GKBNTfGqrCwr+0SfQPhcuI=</ds:DigestValue></ds:Reference><ds:Reference Id="ReferenceKeyInfo" URI="#KeyInfoId-Signature-ab6a456a-dc88-4872-8fc5-d11397de6083"><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" /><ds:DigestValue>F8da7oVU9oiPwdCAIaXzwh+QEQ4mywNrRvMhcU4sYkY=</ds:DigestValue></ds:Reference><ds:Reference Type="http://uri.etsi.org/01903#SignedProperties" URI="#SignedProperties-Signature-ab6a456a-dc88-4872-8fc5-d11397de6083"><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" /><ds:DigestValue>9J7FKHAXfPNFMXKazXf01fmfObPMZnW5LhJSTPYJuuk=</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue Id="SignatureValue-ab6a456a-dc88-4872-8fc5-d11397de6083">krSaunziNCLh+dPm/ph8TXVo/JUq5NnmHV+2TiIJcOwC8BdkoB/806EzWtrRQGXT7WdSEPA0jU+SGlQ8R6rB7UyoLacgldlxrsmhegZAeBmEu1wtHexvrIE+yclxa/u34TQQZqb53ogrm+LndfgY7ANi0JPVKsdcGilS0vjB9vcrEJDlsVEvl09B9ZcbvZ6G0iKlVMEJ0agVZfOzppromnpSyCGmPwvzC1VQ5o3yosKDRkfrX7/9Si3H9DSac6IYeZY2fSuBSbcKZwXwfJOHzhfdWCfGO+1vL9UQLmBq4/zOgFif27XITiXi4JQDoo5oeEtlSZGzQ9reouvEoiTx4w==</ds:SignatureValue><ds:KeyInfo Id="KeyInfoId-Signature-ab6a456a-dc88-4872-8fc5-d11397de6083"><ds:X509Data><ds:X509Certificate>MIIFGzCCAwOgAwIBAgIGAWYh7ui9MA0GCSqGSIb3DQEBCwUAMFoxCzAJBgNVBAYTAkNSMR8wHQYDVQQKDBZNSU5JU1RFUklPIERFIEhBQ0lFTkRBMQwwCgYDVQQLDANER1QxHDAaBgNVBAMME0NBIFBFUlNPTkEgSlVSSURJQ0EwHhcNMTgwOTI4MjA0NjM3WhcNMjAwOTI3MjA0NjM3WjB2MRkwFwYDVQQFExBDUEotMy0xMDEtMTMzOTI2MQswCQYDVQQGEwJDUjEZMBcGA1UECgwQUEVSU09OQSBKVVJJRElDQTEMMAoGA1UECwwDQ1BKMSMwIQYDVQQDDBpOVVRSSVFVSU0gU09DSUVEQUQgQU5PTklNQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAK5Bfx0wMNjiiqmqwW6gUc418bM8FxuFIUVUj1I0lJwSRhZ0fJvgAAjTNpNBw+koNIuSiNn65Xf1g5qnefiOeIQK8LztlnCYpZ+azDf4QlYMgGroQ5oVUK6naseYVkrWsFUcjLT5aRIdIEROgvUkABErkUxybcon4VZJx6NP1ueCD0ltEzg+OOYtemLrrcUCm25TPHVEVtH7vVEWNL00gw2qb7OBSvU5IslEO5fp+54sNUvPLepV9Np8ysRR3bh9nU9l+uxxorKjNdDdqF0sZFVA2/AKK0NyRlwa1NDh7Vc5Rzpx66NfczCDnJBn8ykVAEExOx7DyfymyH+9IMHagJMCAwEAAaOByjCBxzAfBgNVHSMEGDAWgBQ7bVf11nzpnhACIEHjvRrMz7NOlTAdBgNVHQ4EFgQURuvmd3M5r3eYvdhSXeAp/oJpJQ4wCwYDVR0PBAQDAgbAMBMGA1UdJQQMMAoGCCsGAQUFBwMEMGMGCCsGAQUFBwEBBFcwVTBTBggrBgEFBQcwAoZHaHR0cHM6Ly9wa2kuY29tcHJvYmFudGVzZWxlY3Ryb25pY29zLmdvLmNyL3Byb2QvaW50ZXJtZWRpYXRlLXBqLXBlbS5jcnQwDQYJKoZIhvcNAQELBQADggIBAI4/UfcJbobFulE6rtF1NDP69GI4HAov4ly9E5Gbk2D0djeyHLkpHhVsqILkUFcfz2FmEuIYp2Os/k/y/Kwtb0yJqIeYYii9oaSv1IfM8UN0vAgXuQaOgN4fg96HaIzrpUFG3kNMC4t1nPJGumjTUfbmN2bG/rrcXYBRLmsiWw0mEr6H8dcVydYc49RG1aU2EuPvEh18XdZrpc9EQXL+OFUqhnhLW+OUpFFZkPAzZfRy9N46VgVD2vpi2JKiXkY1/TUiLtbNX/AcF8ezNVr7xIZ3/z595pK/uTxvaSrz1+Ipz90Rf0JXeraNtF0xtnwEpEsUDdriqbNHwQheAhrDeyS6uRvKKkgEqwRBu/H1BqTfCjuFJwjPQN2pMFhoaqtQBeHLUHZRD9hTtD66Is3jRrIMLzpb6pPjED9+dlf2OQKSs4G6rDxpnGIDdYfLD1TiZgHqLPOEzQf+tlum4M3r/7Ypi6ek3Bjsfu+t6AwRKNZno5vBg5Rf5U3cu/9bR5xsQSoy4SR6RQKFgWNo1Ym4UsIbuksS/qDXdSmRBODZY7HS1en22nUsCrA0sfY7ldElhvNExelbzqSmXoDCMWyhxPmYW/Y7k3YRy2DCs8QjaeJ3S0BceRyMhHDpyV9sGfGnGG0PJawfiWlPmwt4rqk80UKZK94EjLg65QgeJkLdv3fR</ds:X509Certificate></ds:X509Data><ds:KeyValue><ds:RSAKeyValue><ds:Modulus>rkF/HTAw2OKKqarBbqBRzjXxszwXG4UhRVSPUjSUnBJGFnR8m+AACNM2k0HD6Sg0i5KI2frld/WDmqd5+I54hArwvO2WcJiln5rMN/hCVgyAauhDmhVQrqdqx5hWStawVRyMtPlpEh0gRE6C9SQAESuRTHJtyifhVknHo0/W54IPSW0TOD445i16YuutxQKbblM8dURW0fu9URY0vTSDDapvs4FK9TkiyUQ7l+n7niw1S88t6lX02nzKxFHduH2dT2X67HGisqM10N2oXSxkVUDb8AorQ3JGXBrU0OHtVzlHOnHro19zMIOckGfzKRUAQTE7HsPJ/KbIf70gwdqAkw==</ds:Modulus><ds:Exponent>AQAB</ds:Exponent></ds:RSAKeyValue></ds:KeyValue></ds:KeyInfo><ds:Object Id="XadesObjectId-1a939ce3-551b-4793-b5cc-719fd045e2c5"><xades:QualifyingProperties xmlns:xades="http://uri.etsi.org/01903/v1.3.2#" Id="QualifyingProperties-42e7026c-0cb1-4938-82aa-b9ab00ad06be" Target="#Signature-ab6a456a-dc88-4872-8fc5-d11397de6083"><xades:SignedProperties Id="SignedProperties-Signature-ab6a456a-dc88-4872-8fc5-d11397de6083"><xades:SignedSignatureProperties><xades:SigningTime>2018-10-03T10:38:22</xades:SigningTime><xades:SigningCertificate><xades:Cert><xades:CertDigest><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" /><ds:DigestValue>6CiWMG+tVrN5Bt7shclT/tQNpTR1cNr5dMBqnSHTbbU=</ds:DigestValue></xades:CertDigest><xades:IssuerSerial><ds:X509IssuerName>CN=CA PERSONA JURIDICA, OU=DGT, O=MINISTERIO DE HACIENDA, C=CR</ds:X509IssuerName><ds:X509SerialNumber>1538167597245</ds:X509SerialNumber></xades:IssuerSerial></xades:Cert></xades:SigningCertificate><xades:SignaturePolicyIdentifier><xades:SignaturePolicyId><xades:SigPolicyId><xades:Identifier>https://tribunet.hacienda.go.cr/docs/esquemas/2016/v4.1/Resolucion_Comprobantes_Electronicos_DGT-R-48-2016.pdf</xades:Identifier></xades:SigPolicyId><xades:SigPolicyHash><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" /><ds:DigestValue>LoXZC86JwDL7zWC35qj7Q4AzrRQ=</ds:DigestValue></xades:SigPolicyHash></xades:SignaturePolicyId></xades:SignaturePolicyIdentifier></xades:SignedSignatureProperties></xades:SignedProperties></xades:QualifyingProperties></ds:Object></ds:Signature></FacturaElectronica>

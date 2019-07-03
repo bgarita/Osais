@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<NotaCreditoElectronica xmlns="https://tribunet.hacienda.go.cr/docs/esquemas/2019/v4.2/notaCreditoElectronica" xmlns:xds="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <CodigoActividad>155403</CodigoActividad>
+    <Clave>50618061900310117850600100001030000000016117011619</Clave>
+    <NumeroConsecutivo>00100001030000000016</NumeroConsecutivo>
+    <FechaEmision>2019-06-18T01:47:51</FechaEmision>
+    <Emisor>
+        <Nombre>Distribuidora La Flor, S.A.</Nombre>
+        <Identificacion>
+            <Tipo>02</Tipo>
+            <Numero>3101178506</Numero>
+        </Identificacion>
+        <Ubicacion>
+            <Provincia>4</Provincia>
+            <Canton>01</Canton>
+            <Distrito>01</Distrito>
+            <Barrio>01</Barrio>
+            <OtrasSenas>Calle 4, Avenidas 10 y 12, Heredia</OtrasSenas>
+        </Ubicacion>
+        <Telefono>
+            <CodigoPais>506</CodigoPais>
+            <NumTelefono>22370024</NumTelefono>
+        </Telefono>
+        <CorreoElectronico>bgarita@hotmail.com</CorreoElectronico>
+    </Emisor>
+    <Receptor>
+        <Nombre>OLDEMAR ALBERTO GUEVARA PRENDAS</Nombre>
+        <Identificacion>
+            <Tipo>01</Tipo>
+            <Numero>111910553</Numero>
+        </Identificacion>
+        <CorreoElectronico>bgarita@hotmail.com</CorreoElectronico>
+    </Receptor>
+    <CondicionVenta>01</CondicionVenta>
+    <PlazoCredito>0</PlazoCredito>
+    <DetalleServicio>
+        <LineaDetalle>
+            <NumeroLinea>1</NumeroLinea>
+            <PartidaArancelaria></PartidaArancelaria>
+            <Codigo></Codigo>
+            <CodigoComercial>
+                <Tipo>04</Tipo>
+                <Codigo>0012CH</Codigo>
+            </CodigoComercial>
+            <Cantidad>1.0</Cantidad>
+            <UnidadMedida>Unid</UnidadMedida>
+            <Detalle>SIROPE BOTELLA CHICLE</Detalle>
+            <PrecioUnitario>765.0</PrecioUnitario>
+            <MontoTotal>765.0</MontoTotal>
+            <SubTotal>765.0</SubTotal>
+            <Impuesto>
+                <Codigo>01</Codigo>
+                <CodigoTarifa>08</CodigoTarifa>
+                <Tarifa>0.0</Tarifa>
+                <FactorIVA>0.0</FactorIVA>
+                <Monto>0.0</Monto>
+                <MontoExportacion>0.0</MontoExportacion>
+            </Impuesto>
+            <OtrosCargos>
+                <TipoDocumento></TipoDocumento>
+                <NumeroIdentidadTercero></NumeroIdentidadTercero>
+                <NombreTercero></NombreTercero>
+                <Detalle></Detalle>
+                <Porcentaje>0.0</Porcentaje>
+                <MontoCargo>0.0</MontoCargo>
+            </OtrosCargos>
+            <MontoTotalLinea>765.0</MontoTotalLinea>
+        </LineaDetalle>
+    </DetalleServicio>
+    <ResumenFactura>
+        <CodigoTipoMoneda>
+            <CodigoMoneda>CRC</CodigoMoneda>
+            <TipoCambio>1.0</TipoCambio>
+        </CodigoTipoMoneda>
+        <TotalServGravados>0.0</TotalServGravados>
+        <TotalServExentos>0.0</TotalServExentos>
+        <TotalServExonerado>0.0</TotalServExonerado>
+        <TotalMercanciasGravadas>0.0</TotalMercanciasGravadas>
+        <TotalMercanciasExentas>765.0</TotalMercanciasExentas>
+        <TotalMercExonerada>0.0</TotalMercExonerada>
+        <TotalGravado>0.0</TotalGravado>
+        <TotalExento>0.0</TotalExento>
+        <TotalExonerado>0.0</TotalExonerado>
+        <TotalVenta>765.0</TotalVenta>
+        <TotalDescuentos>0.0</TotalDescuentos>
+        <TotalVentaNeta>765.0</TotalVentaNeta>
+        <TotalImpuesto>0.0</TotalImpuesto>
+        <TotalIVADevuelto>0.0</TotalIVADevuelto>
+        <TotalOtrosCargos>0.0</TotalOtrosCargos>
+        <TotalComprobante>765.0</TotalComprobante>
+    </ResumenFactura>
+    <InformacionReferencia>
+        <TipoDoc>01</TipoDoc>
+        <Numero>50628101800310117850600100001010000000046148493292</Numero>
+        <FechaEmision>2018-09-28T00:00:00-06:00</FechaEmision>
+        <Codigo>04</Codigo>
+        <Razon>Nota de crédito - varios</Razon>
+    </InformacionReferencia>
+    <Otros>
+        <OtroTexto codigo="OrdenCompra">0</OtroTexto>
+    </Otros>
+</NotaCreditoElectronica>

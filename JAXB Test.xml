@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<FacturaElectronica>
+    <Clave>50628072018030288056900000000000000002450181359831</Clave>
+    <NumeroConsecutivo>00000000000000002450</NumeroConsecutivo>
+    <FechaEmision>2018-07-28T12:06:05.102-06:00</FechaEmision>
+    <Emisor>
+        <Nombre>Siropes La Flor, S.A.</Nombre>
+        <Identificacion>
+            <Tipo>01</Tipo>
+            <Numero>107660219</Numero>
+        </Identificacion>
+        <Ubicacion>
+            <Provincia>04</Provincia>
+            <Canton>12</Canton>
+            <Distrito>02</Distrito>
+            <Barrio>05</Barrio>
+            <OtrasSenas>200 sur del salón la patada traicionera</OtrasSenas>
+        </Ubicacion>
+        <Telefono>
+            <CodigoPais>506</CodigoPais>
+            <NumTelefono>83751109</NumTelefono>
+        </Telefono>
+        <CorreoElectronico>emisor@hotmail.com</CorreoElectronico>
+    </Emisor>
+    <Receptor>
+        <Nombre>Geanina Monge Villalobos</Nombre>
+        <Identificacion>
+            <Tipo>01</Tipo>
+            <Numero>107660219</Numero>
+        </Identificacion>
+        <CorreoElectronico>cliente@gmail.com</CorreoElectronico>
+    </Receptor>
+    <CondicionVenta>02</CondicionVenta>
+    <PlazoCredito>30</PlazoCredito>
+    <MedioPago>04</MedioPago>
+    <DetalleServicio>
+        <LineaDetalle>
+            <NumeroLinea>100</NumeroLinea>
+            <Codigo>
+                <Tipo>02</Tipo>
+                <Codigo>Bosco1</Codigo>
+            </Codigo>
+            <Cantidad>2.0</Cantidad>
+            <UnidadMedida>Unid</UnidadMedida>
+            <Detalle>Sirope de Kola 3.75</Detalle>
+            <PrecioUnitario>25.325</PrecioUnitario>
+            <MontoTotal>425.02</MontoTotal>
+            <MontoDescuento>3.25</MontoDescuento>
+            <NaturalezaDescuento>Porque me dio la gana</NaturalezaDescuento>
+            <SubTotal>400.15</SubTotal>
+            <Impuesto>
+                <Codigo>01</Codigo>
+                <Tarifa>0.13</Tarifa>
+                <Monto>25.13</Monto>
+            </Impuesto>
+            <MontoTotalLinea>412.45</MontoTotalLinea>
+        </LineaDetalle>
+        <LineaDetalle>
+            <NumeroLinea>200</NumeroLinea>
+            <Codigo>
+                <Tipo>02</Tipo>
+                <Codigo>Bosco2</Codigo>
+            </Codigo>
+            <Cantidad>5.35</Cantidad>
+            <UnidadMedida>KG</UnidadMedida>
+            <Detalle>Azúcar Refinado</Detalle>
+            <PrecioUnitario>42.328</PrecioUnitario>
+            <MontoTotal>600.02</MontoTotal>
+            <MontoDescuento>13.25</MontoDescuento>
+            <NaturalezaDescuento>Que te importa</NaturalezaDescuento>
+            <SubTotal>450.15</SubTotal>
+            <Impuesto>
+                <Codigo>01</Codigo>
+                <Tarifa>0.13</Tarifa>
+                <Monto>32.13</Monto>
+            </Impuesto>
+            <MontoTotalLinea>325.42</MontoTotalLinea>
+        </LineaDetalle>
+    </DetalleServicio>
+    <ResumenFactura>
+        <CodigoMoneda>CRC</CodigoMoneda>
+        <TipoCambio>570.25</TipoCambio>
+        <TotalServGravados>0.0</TotalServGravados>
+        <TotalServExentos>0.0</TotalServExentos>
+        <TotalMercanciasGravadas>450.15</TotalMercanciasGravadas>
+        <TotalMercanciasExentas>25.35</TotalMercanciasExentas>
+        <TotalGravado>200.25</TotalGravado>
+        <TotalExento>400.03</TotalExento>
+        <TotalVenta>450.35</TotalVenta>
+        <TotalDescuentos>30.25</TotalDescuentos>
+        <TotalVentaNeta>650.13</TotalVentaNeta>
+        <TotalImpuesto>65.35</TotalImpuesto>
+        <TotalComprobante>650.75</TotalComprobante>
+    </ResumenFactura>
+    <Normativa>
+        <NumeroResolucion>DGT-R-48-2016</NumeroResolucion>
+        <FechaResolucion>07-10-2016 01:00:00</FechaResolucion>
+    </Normativa>
+</FacturaElectronica>

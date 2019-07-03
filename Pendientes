@@ -1,0 +1,182 @@
+Factura electrónica (V4.3): (VERSIÓN = "4.0r7")
+1.  Nueva etiqueta antes de la clave (CodigoActividad, String (6)) LISTO FAC, NC (1 HORA)
+    Hay que conseguir el código que le corresponde a La Flor 155403
+
+    ENCABEZADO (LISTO 1 HORA)
+2.  El nombre del emisor era de 80 y ahora es de 100.
+3.  El campo OtrasSenas se amplió de 160 a 250.
+4.  El campo CorreoElectronico del emisor se amplió de 60 a 160
+5.  El campo Nombre del receptor se amplió de 80 a 100.
+6.  El campo El campo CorreoElectronico del receptor se amplió de 60 a 160
+
+    DETALLE
+7.  Se agrega el campo PartidaArancelaria (String de 12, obligatorio para factura de exportación, 
+    va después de NumeroLinea) LISTO FAC, NC (media hora)
+8.  El campo Codigo (ComplexType) cambia por CodigoComercial LISTO FAC, NC (media hora)
+9.  Se agrega un nuevo campo Codigo (String, 13 
+    [Se estará publicando la lista de códigos de Producto/servicio a partir del 15 de mayo de 2019])
+    que va antes del CodigoComercial.  Este campo será obligatorio a partir del 01/01/2020. (LISTO FAC, NC media hora)
+10. El campo Detalle pasa 160 a 200.
+11. La estructura del descuento cambia.  Ahora es como el impuesto, con un subnivel.  
+    Pero se le agrega el campo BaseImponible Decimal(18,5)  (LISTO FAC 1 Hora) NO APLICA EN NC.
+12. En el impuesto se agrega el campo CodigoTarifa String, 2 (Ver nota 8.1) (LISTO FAC, NC MEDIA HORA)
+13. En el impuesto se agrega el campo Factor IVA Decimal 5,4 
+    (En espera de respuesta de Warner, por ahora se pone en cero, por ahora llevo MEDIA HORA FAC, NC)
+14. En el impuesto se agrega el campo MontoExportacion Decimal 18,5 
+    (Exclusivo para exportación) (LISTO FAC, NC MEDIA HORA)
+15. En Exoneración el campo NumeroDocumento cambia de 17 a 40 NombreInstitucion
+    cambia de 100 a 160. (La exoneración se incluyó en el diseño original del sistema y no es obligatorio para LaFlor).
+16. En exoneración se agrega el campo PorcentajeExoneracion Integer de 3.
+17. En Exoneración se agrega el campo MontoExoneracion Decimal 18,5
+18. El campo MontoImpuesto se cambia por ImpuestoNeto y se sale al nivel de 
+    Impuesto (dos niveles atrás). (Depende de exoneración y por tanto no se incluyó)
+19. El campo PorcentajeCompra desaparece. (Depende de exoneración y por tanto no se incluyó la modificación)
+20. Se agrega un ComplexType nuevo (OtrosCargos) que tiene 6 campos nuevos. (LISTO FAC, NC 1.5 horas)
+
+    RESUMEN
+21. El campo CodigoMoneda se convierte en un ComplexType con el nombre de CodigoTipoMoneda (LISTO FAC, NC 2 HORAS)
+22. Se agrega el campo TotalServExonerado Decimal 18,5 después de TotalServExentos (LISTO FAC, NC media hora)
+23. Se agrega el campo TotalMercExonerada Decimal 18,5 después de TotalMercanciasExentas (LISTO FAC, NC media hora)
+24. Se agrega el campo TotalExonerado Decimal 18,5 después de TotalExento (LISTO FAC, NC media hora)
+25. Se agrega el campo TotalIVADevuelto Decimal 18,5 después de TotalImpuesto (LISTO FAC, NC media hora)
+26. Se agrega el campo TotalOtrosCargos Decimal 18,5 después de TotalIVADevuelto (LISTO FAC, NC media hora)
+
+    NORMATIVA
+27. Se eliminan los tres campos
+
+    FORMATO PARA LA CONFIRMACIÓN DE ACEPTACIÓN O RECHAZO DE LOS DOCUMENTOS ELECTRÓNICOS POR PARTE DEL OBLIGADO TRIBUTARIO (Listo)
+28. El campo DetalleMensaje duplica su tamaño (160)
+29. Se agregan los siguientes campos:
+    CodigoActividad String 6 después de DetalleMensaje
+    CondicionImpuesto String 2 
+        01=Genera crédito 9 IVA, 
+        02=Genera Crédito parcial del IVA 10, 
+        03=Bienes de Capital 11
+        04=Gasto corriente 12 no genera crédito
+        05=Proporcionalidad 13
+    MontoTotalImpuestoAcreditar Decimal 18,5
+    MontoTotalDeGastoAplicable Decimal 18,5
+    
+
+
+
+    FACTURA DE COMPRA PARA REGIMEN SIMPLIFICADO
+1.  Análisis general                                    (1 hora)    (LISTO)
+2.  Agregar un botón de radio (F Compra) en la pantalla que genera los xmls (FacturaXML.java) (LISTO)
+3.  Agregar una bifurcación al if que decide el tipo de xml que se generará.    (LISTO)
+4.  Crear método crearFacturaCompraXML
+    a.  Agregar a la tabla cxpfacturas los siguientes campos:               (1/2 hora)
+         `claveHacienda` VARCHAR(50),
+         `consHacienda` VARCHAR(20)
+                                   
+    b.  Crear método existeDoc sobre cargado para documentos de compra.     (1/2 hora)
+    c.  Clonar FacturaElectronica.java y hacer los cambios necesarios       (1/2 hora)
+    d.  Agregar las propiedades factura y tipo a la clase Clave.            (1/2 hora)
+    e.  Agregar el método saveClaveFC() a la clase Clave.                   (1/2 hora)
+    f.  Agregar a las tabla inproved y hinproved los siguientes campos:     (1/2 hora)
+        idcprov     varchar(20)
+        idtipo      tinyint(4)
+        provincia   int
+        canton      int
+        distrito    in
+        email       varchar(50)
+    g.  Agregar a la clase Emisor los campos facturaCompra y tipoFacturaCompra 
+        y el método setDataCompras()                                        (1 hora)
+    h.  Agregar nuevo campo para llevar el consecutivo de las facturas
+        electrónicas de compra.                                             (1/2 hora)
+    i.  Modificar la clase Receptor para que cuando sea factura de compra
+        obtenga los datos de la configuración.                              (1 hora)
+    j.  Modificar la clase DetalleFactura para que procese las Fact de compra (3 horas)
+    
+
+5.  Modificar el proceso de cierre para que traslade los nuevos campos de la   (1.5 horas)
+    tabla inproved a hinproved.
+6.  Modificar la pantalla de mantenimiento para que incluya los nuevos campos. (1 hora)
+    a. Modificar el SP InsertarProveedor para que incluya los nuevos campos.   (1 hora)
+7.  Modificar el sistema C# para que pueda identificar las facturas de compra,
+    las envíe a Hacienda y guarde los datos en la tabla faestadoDocElect.      (1 hora)
+8.  Modificar la tabla faestadodocelect agregando el campo tipoxml para poder           (LISTO)
+    diferenciar cuando es venta y cuando es compra.  Se debe agregar este nuevo
+    campo a la llave primaria.
+9.  Modificar el trigger de faencabe para que incluya el nuevo valor al nuevo campo.    (LISTO)
+10. Crear un trigger similar en cxpfacturas para que agregue los registros que      (1/2 hora)
+    corresponden a facturas de compra.
+11. Eliminar la llave forárea en la tabla faestadoDocElect para que se pueda agregar (LISTO)
+    facturas de compra.
+12. Modificar la pantalla de consulta de documentos electrónicos para que muestre
+    el proveedor cuando se trata de facturas de compra.                             (1/2 hora)
+13. Modificar las pantallas de registro de compras y ventas para que en vez de      (1 hora)
+    IV diga IVA.
+14. Modificar los formularios de impresión de facturas para que digan IVA en vez de IV (1 hora)
+15. Revisar y ajusta la consulta de documentos electrónicos V1
+16. Modificar el EXE que realiza los envíos para que pueda procesar facturas de compra (3 horas)
+
+TOTAL: $1,270.00 (EN REALIDAD SON 29 HORAS * 55 = 1,595.00) 
+NOTA:   No se crea proceso de envío por correo del xml de compras porque no es necesario,
+    cuando se genera el xml queda localmente en la misma ubicación de los xml de ventas.
+    Se distingue de los demás porque el nombre termina con _C.xml
+
+
+Notas Generales:
+1. Explicar a los usuarios que de ahora en adelante no se debe marcar Generar xml y Enviar xml 
+   juntos porque ahora se necesita que el xml firmado exista y eso solo sucede cuando el MH
+   lo da por aceptado. En todo caso el sistema le dará un error indicando que el xml firmado
+   aún no existe.
+   Entonces el proceso se debe correr en dos etapas; 1 para generar el xml y el pdf
+   y 2 Cuando ya el xml haya sido aceptado por Hacienda.  En esta segunda etapa solo 
+   se debe elegir enviar correo.
+
+13. IMPLEMENTACIÓN:
+    Usuario y clave del anexo (para envío de facturas electrónicas):
+        Usuario:    osais_FE
+        Clave:      FE2018$
+    
+
+
+
+Contabilidad #2 (En fox) Dufará (procesando solo el primer mes)
+- El balance tanto a nivel del mayor como de comprobación están correctos.
+- El reporte de asientos está correcto.
+- Balance de situación para febrero 2010:
+    - Total activos es correcto
+    - Pasivo a corto plazo está correcto
+    - Patrimonio está correcto
+    - Utilidad del periodo está correcta
+    - Total pasivo y patrimonio correcto
+    
+    En java sale màs detalle que en fox: Hay que revisar de donde se generan las 
+    agrupaciones porque algunas están repetidas.
+
+0.  Balance de situación.  sale más detalle que en Fox. Probar eliminar todas las
+    subcuentas (sub_cta) que sean distintas de 000 sin eliminar los registros en blanco que
+    se metieron.  ver como sale el reporte y si aún así no sale bien probar cambiar el
+    orden a mayor en vez de orden.
+
+
+1.  Hay que ver porqué la variable de pasivo y capital
+    no tiene datos. (es que las cuentas de mayor no tienen datos, hay que ver a otros niveles si
+    continúa el mismo comportamiento).
+2.  En el balanceSituacion2 en el encabezado y el detalle sale lo mismo.  Revisar contra fox para encontrar 
+    la diferencia a la hora de preparar los datos. Pero debe cargarse una contabilidad que tenga ya los datos
+    creados en Fox.
+
+
+
+*   Crear reporte de balance (a todos los niveles)
+*   Reporte estados financieros
+*   Reporte esatdo de resultados
+*   Reporte histórico de movimientos de cuentas
+*   Reporte de cédulas
+*   Cierre mensual
+*   Crear proceso de registro de cheques
+
+
+
+NOTAS:
+1.  Se creó la tabla hcocatalo con la misma estructura de cocatalogo más el campo fecha_cierre.
+    Esta fecha es de tipo date y se usa como parte de la llave para guardar la fecha en que se
+    ejecutó el cierre mensual contable.
+2.  Se creó una función saldoAl() dentro de UtilBD.java que obtiene el saldo de una cuenta específica 
+    a una fecha específica. Esta función será usada en varios procesos como el 
+    movimiento de cuentas que está en el mantenimiento de cuentas o el auxiliar analítico.
+    

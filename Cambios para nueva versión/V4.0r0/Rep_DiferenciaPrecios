@@ -1,0 +1,113 @@
+USE `LaFlor`;
+DROP procedure IF EXISTS `Rep_DiferenciaPrecios`;
+
+DELIMITER $$
+CREATE DEFINER=`bgarita`@`%` PROCEDURE `Rep_DiferenciaPrecios`(
+  IN  `pFacfech1`    datetime,
+  IN  `pFacfech2`    datetime,
+  IN  `pTolerancia`  float,
+  IN  `pUser`        char(16),
+  IN  `pOrden`       tinyint(1)
+)
+BEGIN
+  
+	-- Autor: Bosco Garita Azofeifa
+  Declare vUsarIVI tinyInt(1);
+  Declare vEmpresa varchar(60);
+
+  Select usarIvi, Empresa from config into vUsarIVI, vEmpresa;
+
+  
+
+  If pOrden is null or pOrden = 0 then
+    Set pOrden = 1;
+  End if;
+
+  Select
+    vEmpresa as Empresa,
+    b.precio,
+    a.artcode,
+    c.artdesc,
+    (Case b.precio
+        When 1 then
+        If(vUsarIVI,c.artpre1 / (1 + c.artimpv/100),1)
+        When 2 then
+        If(vUsarIVI,c.artpre2 / (1 + c.artimpv/100),1)
+        When 3 then
+        If(vUsarIVI,c.artpre3 / (1 + c.artimpv/100),1)
+        When 4 then
+        If(vUsarIVI,c.artpre4 / (1 + c.artimpv/100),1)
+        When 5 then
+        If(vUsarIVI,c.artpre5 / (1 + c.artimpv/100),1)
+    End) as Vale,
+    a.artprec * b.tipoca as SeVendio,
+    b.facfech,
+    a.facnume,
+    b.user,
+    a.faccant,
+    ((Case b.precio
+        When 1 then
+        If(vUsarIVI,c.artpre1 / (1 + c.artimpv/100),1)
+        When 2 then
+        If(vUsarIVI,c.artpre2 / (1 + c.artimpv/100),1)
+        When 3 then
+        If(vUsarIVI,c.artpre3 / (1 + c.artimpv/100),1)
+        When 4 then
+        If(vUsarIVI,c.artpre4 / (1 + c.artimpv/100),1)
+        When 5 then
+        If(vUsarIVI,c.artpre5 / (1 + c.artimpv/100),1)
+    End) - (a.artprec * b.tipoca)) /
+    (Case b.precio
+        When 1 then
+        If(vUsarIVI,c.artpre1 / (1 + c.artimpv/100),1)
+        When 2 then
+        If(vUsarIVI,c.artpre2 / (1 + c.artimpv/100),1)
+        When 3 then
+        If(vUsarIVI,c.artpre3 / (1 + c.artimpv/100),1)
+        When 4 then
+        If(vUsarIVI,c.artpre4 / (1 + c.artimpv/100),1)
+        When 5 then
+        If(vUsarIVI,c.artpre5 / (1 + c.artimpv/100),1)
+    End) * 100 as Porcentaje
+  from fadetall a
+  Inner join faencabe b on a.facnume = b.facnume and a.facnd = b.facnd
+  Inner join inarticu c on a.artcode = c.artcode
+  Where a.facnd = 0
+  and b.facestado = ''
+  and b.facfech between pFacfech1 and pFacfech2 and
+  If(pUser > '',
+      Substring(b.user FROM 1 FOR position('@' in b.user)-1) = pUser,
+      b.user = b.user) and
+  ((Case b.precio
+        When 1 then
+        If(vUsarIVI,c.artpre1 / (1 + c.artimpv/100),1)
+        When 2 then
+        If(vUsarIVI,c.artpre2 / (1 + c.artimpv/100),1)
+        When 3 then
+        If(vUsarIVI,c.artpre3 / (1 + c.artimpv/100),1)
+        When 4 then
+        If(vUsarIVI,c.artpre4 / (1 + c.artimpv/100),1)
+        When 5 then
+        If(vUsarIVI,c.artpre5 / (1 + c.artimpv/100),1)
+    End) - (a.artprec * b.tipoca)) /
+    (Case b.precio
+        When 1 then
+        If(vUsarIVI,c.artpre1 / (1 + c.artimpv/100),1)
+        When 2 then
+        If(vUsarIVI,c.artpre2 / (1 + c.artimpv/100),1)
+        When 3 then
+        If(vUsarIVI,c.artpre3 / (1 + c.artimpv/100),1)
+        When 4 then
+        If(vUsarIVI,c.artpre4 / (1 + c.artimpv/100),1)
+        When 5 then
+        If(vUsarIVI,c.artpre5 / (1 + c.artimpv/100),1)
+    End) * 100 > pTolerancia
+   Order by Case pOrden
+               When 1 then a.artcode
+               When 2 then c.artdesc
+               When 3 then a.facnume
+               When 4 then b.facfech
+               When 5 then user
+            End;
+END$$
+DELIMITER ;

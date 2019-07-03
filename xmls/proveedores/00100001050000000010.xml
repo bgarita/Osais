@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<MensajeReceptor xmlns="https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/mensajeReceptor" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <Clave>50615061900310117850600100001010000000068168429059</Clave>
+    <NumeroCedulaEmisor>3101178506</NumeroCedulaEmisor>
+    <FechaEmisionDoc>2019-06-19T11:55:17-06:00</FechaEmisionDoc>
+    <Mensaje>1</Mensaje>
+    <CodigoActividad>155403</CodigoActividad>
+    <MontoTotalImpuesto>0.0</MontoTotalImpuesto>
+    <TotalFactura>765.0</TotalFactura>
+    <NumeroCedulaReceptor>111910553</NumeroCedulaReceptor>
+    <NumeroConsecutivoReceptor>00100001050000000010</NumeroConsecutivoReceptor>
+</MensajeReceptor>

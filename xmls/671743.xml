@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<FacturaElectronica xmlns="https://tribunet.hacienda.go.cr/docs/esquemas/2017/v4.2/facturaElectronica" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <Clave>50602111800310117850600100001010000000026119843335</Clave>
+    <NumeroConsecutivo>00100001010000000026</NumeroConsecutivo>
+    <FechaEmision>2018-10-02T11:40:26</FechaEmision>
+    <Emisor>
+        <Nombre>Distribuidora La Flor, S.A.</Nombre>
+        <Identificacion>
+            <Tipo>02</Tipo>
+            <Numero>3101178506</Numero>
+        </Identificacion>
+        <Ubicacion>
+            <Provincia>4</Provincia>
+            <Canton>01</Canton>
+            <Distrito>01</Distrito>
+            <Barrio>01</Barrio>
+            <OtrasSenas>Calle 4, Avenidas 10 y 12
+Heredia</OtrasSenas>
+        </Ubicacion>
+        <Telefono>
+            <CodigoPais>506</CodigoPais>
+            <NumTelefono>22370024</NumTelefono>
+        </Telefono>
+        <CorreoElectronico>warnerj854@gmail.com</CorreoElectronico>
+    </Emisor>
+    <CondicionVenta>01</CondicionVenta>
+    <PlazoCredito>0</PlazoCredito>
+    <MedioPago>01</MedioPago>
+    <DetalleServicio>
+        <LineaDetalle>
+            <NumeroLinea>1</NumeroLinea>
+            <Codigo>
+                <Tipo>04</Tipo>
+                <Codigo>0012</Codigo>
+            </Codigo>
+            <Cantidad>72.0</Cantidad>
+            <UnidadMedida>Unid</UnidadMedida>
+            <Detalle>SIROPE KOLA  BOTELLA  710 ML</Detalle>
+            <PrecioUnitario>765.0</PrecioUnitario>
+            <MontoTotal>55080.0</MontoTotal>
+            <MontoDescuento>13770.0</MontoDescuento>
+            <NaturalezaDescuento>Buen cliente</NaturalezaDescuento>
+            <SubTotal>41310.0</SubTotal>
+            <Impuesto>
+                <Codigo>01</Codigo>
+                <Tarifa>0.0</Tarifa>
+                <Monto>0.0</Monto>
+            </Impuesto>
+            <MontoTotalLinea>41310.0</MontoTotalLinea>
+        </LineaDetalle>
+        <LineaDetalle>
+            <NumeroLinea>2</NumeroLinea>
+            <Codigo>
+                <Tipo>04</Tipo>
+                <Codigo>0013</Codigo>
+            </Codigo>
+            <Cantidad>24.0</Cantidad>
+            <UnidadMedida>Unid</UnidadMedida>
+            <Detalle>SIROPE KOLA   1/2 LITRO</Detalle>
+            <PrecioUnitario>620.0</PrecioUnitario>
+            <MontoTotal>14880.0</MontoTotal>
+            <MontoDescuento>3720.0</MontoDescuento>
+            <NaturalezaDescuento>Buen cliente</NaturalezaDescuento>
+            <SubTotal>11160.0</SubTotal>
+            <Impuesto>
+                <Codigo>01</Codigo>
+                <Tarifa>0.0</Tarifa>
+                <Monto>0.0</Monto>
+            </Impuesto>
+            <MontoTotalLinea>11160.0</MontoTotalLinea>
+        </LineaDetalle>
+        <LineaDetalle>
+            <NumeroLinea>3</NumeroLinea>
+            <Codigo>
+                <Tipo>04</Tipo>
+                <Codigo>0015</Codigo>
+            </Codigo>
+            <Cantidad>18.0</Cantidad>
+            <UnidadMedida>Unid</UnidadMedida>
+            <Detalle>SIROPE KOLA  1/2 GALON</Detalle>
+            <PrecioUnitario>1685.0</PrecioUnitario>
+            <MontoTotal>30330.0</MontoTotal>
+            <MontoDescuento>7582.5</MontoDescuento>
+            <NaturalezaDescuento>Buen cliente</NaturalezaDescuento>
+            <SubTotal>22747.5</SubTotal>
+            <Impuesto>
+                <Codigo>01</Codigo>
+                <Tarifa>0.0</Tarifa>
+                <Monto>0.0</Monto>
+            </Impuesto>
+            <MontoTotalLinea>22747.5</MontoTotalLinea>
+        </LineaDetalle>
+        <LineaDetalle>
+            <NumeroLinea>4</NumeroLinea>
+            <Codigo>
+                <Tipo>04</Tipo>
+                <Codigo>0016</Codigo>
+            </Codigo>
+            <Cantidad>4.0</Cantidad>
+            <UnidadMedida>Unid</UnidadMedida>
+            <Detalle>SIROPE KOLA GALON</Detalle>
+            <PrecioUnitario>3225.0</PrecioUnitario>
+            <MontoTotal>12900.0</MontoTotal>
+            <MontoDescuento>3225.0</MontoDescuento>
+            <NaturalezaDescuento>Buen cliente</NaturalezaDescuento>
+            <SubTotal>9675.0</SubTotal>
+            <Impuesto>
+                <Codigo>01</Codigo>
+                <Tarifa>0.0</Tarifa>
+                <Monto>0.0</Monto>
+            </Impuesto>
+            <MontoTotalLinea>9675.0</MontoTotalLinea>
+        </LineaDetalle>
+        <LineaDetalle>
+            <NumeroLinea>5</NumeroLinea>
+            <Codigo>
+                <Tipo>04</Tipo>
+                <Codigo>0018</Codigo>
+            </Codigo>
+            <Cantidad>12.0</Cantidad>
+            <UnidadMedida>Unid</UnidadMedida>
+            <Detalle>SIROPE LIGHT KOLA BOTELLA</Detalle>
+            <PrecioUnitario>840.71</PrecioUnitario>
+            <MontoTotal>10088.52</MontoTotal>
+            <MontoDescuento>2522.13</MontoDescuento>
+            <NaturalezaDescuento>Buen cliente</NaturalezaDescuento>
+            <SubTotal>7566.39</SubTotal>
+            <Impuesto>
+                <Codigo>01</Codigo>
+                <Tarifa>13.0</Tarifa>
+                <Monto>983.6307</Monto>
+            </Impuesto>
+            <MontoTotalLinea>8550.0207</MontoTotalLinea>
+        </LineaDetalle>
+    </DetalleServicio>
+    <ResumenFactura>
+        <CodigoMoneda>CRC</CodigoMoneda>
+        <TipoCambio>1.0</TipoCambio>
+        <TotalServGravados>0.0</TotalServGravados>
+        <TotalServExentos>0.0</TotalServExentos>
+        <TotalMercanciasGravadas>10088.52</TotalMercanciasGravadas>
+        <TotalMercanciasExentas>113190.0</TotalMercanciasExentas>
+        <TotalGravado>10088.52</TotalGravado>
+        <TotalExento>113190.0</TotalExento>
+        <TotalVenta>123278.52</TotalVenta>
+        <TotalDescuentos>30819.63</TotalDescuentos>
+        <TotalVentaNeta>92458.89</TotalVentaNeta>
+        <TotalImpuesto>983.6307</TotalImpuesto>
+        <TotalComprobante>93442.5207</TotalComprobante>
+    </ResumenFactura>
+    <Normativa>
+        <NumeroResolucion>DGT-R-48-2016</NumeroResolucion>
+        <FechaResolucion>07-10-2016 01:00:00</FechaResolucion>
+    </Normativa>
+    <Otros>
+        <OtroTexto codigo="OrdenCompra">0</OtroTexto>
+    </Otros>
+</FacturaElectronica>

@@ -1,0 +1,12 @@
+Estado: 5 RECHAZADO
+Respuesta_ext: Este comprobante fue aceptado en el ambiente de pruebas, por lo cual no tiene validez para fines tributarios
+
+El comprobante electrónico tiene los siguientes errores: 
+
+[
+codigo, mensaje, fila, columna
+-1, "cvc-pattern-valid: Value '' is not facet-valid with respect to pattern '\d{9,12}' for type '#AnonType_NumeroIdentificacionType'.", 1, 998
+
+]
+Numero_consecutivo: 00100001010000000046
+claveHacienda: 50628101800310117850600100001010000000046108139219

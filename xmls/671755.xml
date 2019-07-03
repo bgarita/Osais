@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<FacturaElectronica xmlns="https://tribunet.hacienda.go.cr/docs/esquemas/2017/v4.2/facturaElectronica" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <Clave>50604111800310117850600100001010000000120138004208</Clave>
+    <NumeroConsecutivo>00100001010000000120</NumeroConsecutivo>
+    <FechaEmision>2018-10-04T12:40:18</FechaEmision>
+    <Emisor>
+        <Nombre>Distribuidora La Flor, S.A.</Nombre>
+        <Identificacion>
+            <Tipo>02</Tipo>
+            <Numero>3101178506</Numero>
+        </Identificacion>
+        <Ubicacion>
+            <Provincia>4</Provincia>
+            <Canton>01</Canton>
+            <Distrito>01</Distrito>
+            <Barrio>01</Barrio>
+            <OtrasSenas>Calle 4, Avenidas 10 y 12
+Heredia</OtrasSenas>
+        </Ubicacion>
+        <Telefono>
+            <CodigoPais>506</CodigoPais>
+            <NumTelefono>22370024</NumTelefono>
+        </Telefono>
+        <CorreoElectronico>warnerj854@gmail.com</CorreoElectronico>
+    </Emisor>
+    <CondicionVenta>01</CondicionVenta>
+    <PlazoCredito>0</PlazoCredito>
+    <MedioPago>01</MedioPago>
+    <DetalleServicio>
+        <LineaDetalle>
+            <NumeroLinea>1</NumeroLinea>
+            <Codigo>
+                <Tipo>04</Tipo>
+                <Codigo>0002</Codigo>
+            </Codigo>
+            <Cantidad>2.0</Cantidad>
+            <UnidadMedida>Unid</UnidadMedida>
+            <Detalle>REFRESCO KOLA PET 365ML</Detalle>
+            <PrecioUnitario>300.88</PrecioUnitario>
+            <MontoTotal>601.76</MontoTotal>
+            <MontoDescuento>66.1936</MontoDescuento>
+            <NaturalezaDescuento>Buen cliente</NaturalezaDescuento>
+            <SubTotal>535.5664</SubTotal>
+            <Impuesto>
+                <Codigo>01</Codigo>
+                <Tarifa>13.0</Tarifa>
+                <Monto>69.6236</Monto>
+            </Impuesto>
+            <MontoTotalLinea>605.19</MontoTotalLinea>
+        </LineaDetalle>
+        <LineaDetalle>
+            <NumeroLinea>2</NumeroLinea>
+            <Codigo>
+                <Tipo>04</Tipo>
+                <Codigo>0002U</Codigo>
+            </Codigo>
+            <Cantidad>2.0</Cantidad>
+            <UnidadMedida>Unid</UnidadMedida>
+            <Detalle>REFR. DESECH. UVA</Detalle>
+            <PrecioUnitario>300.88</PrecioUnitario>
+            <MontoTotal>601.76</MontoTotal>
+            <MontoDescuento>66.1936</MontoDescuento>
+            <NaturalezaDescuento>Buen cliente</NaturalezaDescuento>
+            <SubTotal>535.5664</SubTotal>
+            <Impuesto>
+                <Codigo>01</Codigo>
+                <Tarifa>13.0</Tarifa>
+                <Monto>69.6236</Monto>
+            </Impuesto>
+            <MontoTotalLinea>605.19</MontoTotalLinea>
+        </LineaDetalle>
+        <LineaDetalle>
+            <NumeroLinea>3</NumeroLinea>
+            <Codigo>
+                <Tipo>04</Tipo>
+                <Codigo>0003Z</Codigo>
+            </Codigo>
+            <Cantidad>1.0</Cantidad>
+            <UnidadMedida>Unid</UnidadMedida>
+            <Detalle>FRESCO ZARZA 600 ML PLASTICO</Detalle>
+            <PrecioUnitario>393.81</PrecioUnitario>
+            <MontoTotal>393.81</MontoTotal>
+            <MontoDescuento>43.3191</MontoDescuento>
+            <NaturalezaDescuento>Buen cliente</NaturalezaDescuento>
+            <SubTotal>350.4909</SubTotal>
+            <Impuesto>
+                <Codigo>01</Codigo>
+                <Tarifa>13.0</Tarifa>
+                <Monto>45.5638</Monto>
+            </Impuesto>
+            <MontoTotalLinea>396.0547</MontoTotalLinea>
+        </LineaDetalle>
+        <LineaDetalle>
+            <NumeroLinea>4</NumeroLinea>
+            <Codigo>
+                <Tipo>04</Tipo>
+                <Codigo>0012ZM</Codigo>
+            </Codigo>
+            <Cantidad>3.0</Cantidad>
+            <UnidadMedida>Unid</UnidadMedida>
+            <Detalle>SIROPE ZARZA BOTELLA MARCOS</Detalle>
+            <PrecioUnitario>340.0</PrecioUnitario>
+            <MontoTotal>1020.0</MontoTotal>
+            <MontoDescuento>112.2</MontoDescuento>
+            <NaturalezaDescuento>Buen cliente</NaturalezaDescuento>
+            <SubTotal>907.8</SubTotal>
+            <Impuesto>
+                <Codigo>01</Codigo>
+                <Tarifa>0.0</Tarifa>
+                <Monto>0.0</Monto>
+            </Impuesto>
+            <MontoTotalLinea>907.8</MontoTotalLinea>
+        </LineaDetalle>
+        <LineaDetalle>
+            <NumeroLinea>5</NumeroLinea>
+            <Codigo>
+                <Tipo>04</Tipo>
+                <Codigo>0019</Codigo>
+            </Codigo>
+            <Cantidad>1.0</Cantidad>
+            <UnidadMedida>Unid</UnidadMedida>
+            <Detalle>SIROPE COCO BOTELLA</Detalle>
+            <PrecioUnitario>785.0</PrecioUnitario>
+            <MontoTotal>785.0</MontoTotal>
+            <MontoDescuento>86.35</MontoDescuento>
+            <NaturalezaDescuento>Buen cliente</NaturalezaDescuento>
+            <SubTotal>698.65</SubTotal>
+            <Impuesto>
+                <Codigo>01</Codigo>
+                <Tarifa>0.0</Tarifa>
+                <Monto>0.0</Monto>
+            </Impuesto>
+            <MontoTotalLinea>698.65</MontoTotalLinea>
+        </LineaDetalle>
+        <LineaDetalle>
+            <NumeroLinea>6</NumeroLinea>
+            <Codigo>
+                <Tipo>04</Tipo>
+                <Codigo>0023</Codigo>
+            </Codigo>
+            <Cantidad>1.0</Cantidad>
+            <UnidadMedida>Unid</UnidadMedida>
+            <Detalle>VINAGRE CLARO BOTELLA DONA JULIA</Detalle>
+            <PrecioUnitario>430.0</PrecioUnitario>
+            <MontoTotal>430.0</MontoTotal>
+            <MontoDescuento>47.3</MontoDescuento>
+            <NaturalezaDescuento>Buen cliente</NaturalezaDescuento>
+            <SubTotal>382.7</SubTotal>
+            <Impuesto>
+                <Codigo>01</Codigo>
+                <Tarifa>0.0</Tarifa>
+                <Monto>0.0</Monto>
+            </Impuesto>
+            <MontoTotalLinea>382.7</MontoTotalLinea>
+        </LineaDetalle>
+        <LineaDetalle>
+            <NumeroLinea>7</NumeroLinea>
+            <Codigo>
+                <Tipo>04</Tipo>
+                <Codigo>1706</Codigo>
+            </Codigo>
+            <Cantidad>1.0</Cantidad>
+            <UnidadMedida>Unid</UnidadMedida>
+            <Detalle>Sorbeto grande</Detalle>
+            <PrecioUnitario>920.35</PrecioUnitario>
+            <MontoTotal>920.35</MontoTotal>
+            <MontoDescuento>101.2385</MontoDescuento>
+            <NaturalezaDescuento>Buen cliente</NaturalezaDescuento>
+            <SubTotal>819.1115</SubTotal>
+            <Impuesto>
+                <Codigo>01</Codigo>
+                <Tarifa>13.0</Tarifa>
+                <Monto>106.4845</Monto>
+            </Impuesto>
+            <MontoTotalLinea>925.596</MontoTotalLinea>
+        </LineaDetalle>
+        <LineaDetalle>
+            <NumeroLinea>8</NumeroLinea>
+            <Codigo>
+                <Tipo>04</Tipo>
+                <Codigo>1910</Codigo>
+            </Codigo>
+            <Cantidad>4.0</Cantidad>
+            <UnidadMedida>Unid</UnidadMedida>
+            <Detalle>JUGO DE SABILA ALOE 500 ML</Detalle>
+            <PrecioUnitario>707.96</PrecioUnitario>
+            <MontoTotal>2831.84</MontoTotal>
+            <MontoDescuento>311.5024</MontoDescuento>
+            <NaturalezaDescuento>Buen cliente</NaturalezaDescuento>
+            <SubTotal>2520.3376</SubTotal>
+            <Impuesto>
+                <Codigo>01</Codigo>
+                <Tarifa>13.0</Tarifa>
+                <Monto>327.6439</Monto>
+            </Impuesto>
+            <MontoTotalLinea>2847.9815</MontoTotalLinea>
+        </LineaDetalle>
+    </DetalleServicio>
+    <ResumenFactura>
+        <CodigoMoneda>CRC</CodigoMoneda>
+        <TipoCambio>1.0</TipoCambio>
+        <TotalServGravados>0.0</TotalServGravados>
+        <TotalServExentos>0.0</TotalServExentos>
+        <TotalMercanciasGravadas>5349.52</TotalMercanciasGravadas>
+        <TotalMercanciasExentas>2235.0</TotalMercanciasExentas>
+        <TotalGravado>5349.52</TotalGravado>
+        <TotalExento>2235.0</TotalExento>
+        <TotalVenta>7584.52</TotalVenta>
+        <TotalDescuentos>834.2972</TotalDescuentos>
+        <TotalVentaNeta>6750.2228</TotalVentaNeta>
+        <TotalImpuesto>618.9394</TotalImpuesto>
+        <TotalComprobante>7369.1622</TotalComprobante>
+    </ResumenFactura>
+    <Normativa>
+        <NumeroResolucion>DGT-R-48-2016</NumeroResolucion>
+        <FechaResolucion>07-10-2016 01:00:00</FechaResolucion>
+    </Normativa>
+    <Otros>
+        <OtroTexto codigo="OrdenCompra">0</OtroTexto>
+    </Otros>
+</FacturaElectronica>

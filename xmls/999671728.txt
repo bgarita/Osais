@@ -1,0 +1,4 @@
+05-10-2018
+Estado del envío: 1
+Referencia: 10302
+Mensaje: Se registró el XML correctamente

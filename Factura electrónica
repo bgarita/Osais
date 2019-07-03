@@ -1,0 +1,15 @@
+Falta crear la parte del receptor:
+Para enviar el xml de aceptación debe usar el método wsFactura.RegistraMensajeReceptor(PasaXmlString,this.TipoIdRespuesta)
+Respuestas:
+    1 - Aceptado
+    2 - Aceptación parcial
+    3 - Rechazado
+
+Se toma la información del xml que viene del proveedor y se agrega la identificación del cliente que en este caso es receptor.
+
+
+Antes:
+1.  Crear el campo para guardar el consecutivo de Hacienda      OK
+2.  Modificar la clase Clave para que guarde ese consecutivo    OK
+3.  Modificar la impresión de la factura para que incluya tanto la clave numérica como el consecutivo de hacienda
+4.  Modificar la pantalla de consulta de estado de Hacienda para que en cuando haya referencia se guarde en Faencabe

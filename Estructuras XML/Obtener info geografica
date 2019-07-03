@@ -1,0 +1,20 @@
+
+-- Como obtener información geográfica
+use LaFlor;
+
+Select * from canton
+Inner join provincia on canton.idProvincia = provincia.id
+Where provincia.provincia = 'Cartago';
+
+Select * from distrito
+Inner join canton on distrito.idCanton = canton.id
+Where canton.idProvincia = 3;
+
+Select * from barrio
+Inner join distrito on barrio.idDistrito = distrito.id
+Inner join canton on distrito.idCanton = canton.id
+Inner join provincia on canton.idProvincia = provincia.id
+Where provincia.provincia = 'Cartago' 
+and canton.canton = 'Turrialba'
+and distrito.distrito = 'SANTA TERESITA';
+

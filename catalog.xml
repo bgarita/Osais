@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://149.28.194.37/FacturaElectronica/Factura.asmx" uri="xml-resources/web-service-references/Factura/wsdl/149.28.194.37/FacturaElectronica/Factura.asmx"/>
+</catalog>

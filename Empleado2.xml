@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Prueba xxx1="Lo que sea">
+    <empleado>
+        <iDEmpleado>100</iDEmpleado>
+        <nombre>Juan</nombre>
+        <paterno>López</paterno>
+        <materno>Jiménez</materno>
+    </empleado>
+    <empleado>
+        <iDEmpleado>200</iDEmpleado>
+        <nombre>María</nombre>
+        <paterno>Reyes</paterno>
+        <materno>Cruz</materno>
+    </empleado>
+</Prueba>

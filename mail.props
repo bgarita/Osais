@@ -1,0 +1,8 @@
+#Parámetros para el envío de correos
+#Mon Dec 24 10:08:51 CST 2018
+mail.smtp.starttls.enable=true
+mail.smtp.port=587
+mail.smtp.user=osais3112@gmail.com
+mail.smtp.auth=true
+mail.smtp.host=smtp.gmail.com
+mail.smtp.clave=Bendicion3112$
