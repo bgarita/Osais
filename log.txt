@@ -254,3 +254,5 @@ Vaya al menú Registro y elija Tipo de cambio.
 Wed Jul 03 09:29:57 CST 2019
 interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
 Vaya al menú Registro y elija Tipo de cambio.
+Wed Jul 03 22:46:06 CST 2019
+accesoDatos.DataBaseConnection--> Unknown database 'LaFlor;autoReconnect=true;useSSL=false'

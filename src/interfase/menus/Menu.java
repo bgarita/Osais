@@ -3407,7 +3407,7 @@ public class Menu extends javax.swing.JFrame {
          Ejemplo:
          15655*Pruebas de sincronización*312354657*003*0.0000*500.0000*500.0000*0.0000*0.0000*625.0000*25*625.0000*25*625.0000*25*625.0000*25*625.0000*25*0026*0.0000*0.0000*0.0000*0.00*2016-08-16 09:37:36.0*null*null*0.000*0.0000*0.0000*0.0000* *0*0*1* * *0
          */
-        /*
+ /*
          1.  Crear la nueva instancia del maestro de artículos
          2.  Setear todos los campos y ejecutar todos eventos ordenadamente 
          3.  Guardar el dato sin mostrar mensajes (excepto si hay errores)
@@ -3566,15 +3566,26 @@ public class Menu extends javax.swing.JFrame {
                 return;
             } // end if
         } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,
+                    ex.getMessage(), "Error",
+                    JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
             new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
+        /*
+        Nota:
+            Este formulario corriendo desde un acceso directo en Windows 7 con
+            MySQL 6 no arranca.  El problema es que no muestra ningún error.
+            Si lo corro desde el prompt (java -jar osais.jar si corre) 03/07/2019
+        */
         FacturaXML fact = new FacturaXML(conexion.getConnection());
+        
         fact.setMode(FacturaXML.INTERACTIVE);
         fact.setTipo(FacturaXML.FACTURA);
         fact.setVisible(true);
+
     }//GEN-LAST:event_mnuXmlActionPerformed
 
     private void mnuConsultaXMLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsultaXMLActionPerformed
@@ -3649,7 +3660,7 @@ public class Menu extends javax.swing.JFrame {
                 + "Left join inproved e ON "
                 + "	d.procode = e.procode "
                 + "order by fecha desc";
-        
+
         ResultSet rs;
         try {
             PreparedStatement ps = conexion.getConnection().prepareStatement(sqlSent,
@@ -3683,10 +3694,10 @@ public class Menu extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException |
-                InstantiationException |
-                IllegalAccessException |
-                javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException
+                | InstantiationException
+                | IllegalAccessException
+                | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>

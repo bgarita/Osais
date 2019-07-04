@@ -87,11 +87,12 @@ public class DataBaseConnection {
 
     private Connection conectar(String url,String user,String password){
         Connection conn;
+        url += "?autoReconnect=true&useSSL=false";
         try{
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             conn = DriverManager.getConnection(url,user,password);
         } // end try
-        catch(ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex){
+        catch(Exception ex){
             errorMessage = "[Conexión] " + ex.getMessage();
             conn = null;
             new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
