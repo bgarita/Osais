@@ -478,7 +478,7 @@ public class ImpresionFactura extends java.awt.Dialog {
 
         String sqlSelect
                 = "Select "
-                + "   if(I.cligenerico = 1, FC.clidesc, I.clidesc) as clidesc,"
+                + "   if(I.cligenerico = 1, IfNull(FC.clidesc,I.clidesc), I.clidesc) as clidesc,"
                 + "   I.facConIV,"
                 + "   F.facplazo,I.cligenerico "
                 + "from faencabe F "
