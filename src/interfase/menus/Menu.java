@@ -7,19 +7,17 @@ package interfase.menus;
 
 import Catalogos.CathalogDriver;
 import Mail.Bitacora;
-import interfase.otros.CierreCaja;
 import accesoDatos.CMD;
 import accesoDatos.DataBaseConnection;
 import accesoDatos.UpdateVersion;
-import interfase.mantenimiento.*;
-import interfase.transacciones.*;
-import interfase.consultas.*;
-import interfase.reportes.*;
-import interfase.seguridad.*;
-import interfase.otros.*;
-import logica.Fondo;
 import accesoDatos.UtilBD;
 import com.svcon.jdbf.JDBFException;
+import interfase.consultas.*;
+import interfase.mantenimiento.*;
+import interfase.otros.*;
+import interfase.reportes.*;
+import interfase.seguridad.*;
+import interfase.transacciones.*;
 import invw.CargarAsientos;
 import invw.CargarCatalogoContable;
 import invw.ExportarAsientos;
@@ -45,11 +43,11 @@ import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import logica.contabilidad.CoactualizCat;
+import logica.Fondo;
 import logica.Usuario;
+import logica.contabilidad.CoactualizCat;
 import logica.utilitarios.DirectoryStructure;
 import logica.utilitarios.Ut;
-import interfase.otros.FacturaElectProveedor;
 
 /**
  *

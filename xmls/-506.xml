@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<NotaCreditoElectronica xmlns="https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/notaCreditoElectronica" xmlns:xds="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <Clave>50605071900310117850600100001030000000018199980748</Clave>
+    <CodigoActividad>155403</CodigoActividad>
+    <NumeroConsecutivo>00100001030000000018</NumeroConsecutivo>
+    <FechaEmision>2019-07-05T10:33:15</FechaEmision>
+    <Emisor>
+        <Nombre>Distribuidora La Flor, S.A.</Nombre>
+        <Identificacion>
+            <Tipo>01</Tipo>
+            <Numero>3101178506</Numero>
+        </Identificacion>
+        <Ubicacion>
+            <Provincia>3</Provincia>
+            <Canton>05</Canton>
+            <Distrito>05</Distrito>
+            <Barrio>01</Barrio>
+            <OtrasSenas>Calle 4, Avenidas 10 y 12, Heredia</OtrasSenas>
+        </Ubicacion>
+        <Telefono>
+            <CodigoPais>506</CodigoPais>
+            <NumTelefono>22370024</NumTelefono>
+        </Telefono>
+        <CorreoElectronico>bgarita@hotmail.com</CorreoElectronico>
+    </Emisor>
+    <CondicionVenta>01</CondicionVenta>
+    <PlazoCredito>0</PlazoCredito>
+    <MedioPago>01</MedioPago>
+    <DetalleServicio>
+        <LineaDetalle>
+            <NumeroLinea>1</NumeroLinea>
+            <Codigo></Codigo>
+            <CodigoComercial>
+                <Tipo>04</Tipo>
+                <Codigo>_NOINV</Codigo>
+            </CodigoComercial>
+            <Cantidad>1.0</Cantidad>
+            <UnidadMedida>Unid</UnidadMedida>
+            <Detalle>Facturacion de servicios y otros</Detalle>
+            <PrecioUnitario>1061.95</PrecioUnitario>
+            <MontoTotal>1061.95</MontoTotal>
+            <Descuento>
+                <MontoDescuento>0.0</MontoDescuento>
+                <NaturalezaDescuento>N/A</NaturalezaDescuento>
+            </Descuento>
+            <SubTotal>1061.95</SubTotal>
+            <BaseImponible>1061.95</BaseImponible>
+            <Impuesto>
+                <Codigo>01</Codigo>
+                <CodigoTarifa>08</CodigoTarifa>
+                <Tarifa>13.0</Tarifa>
+                <FactorIVA>0.0</FactorIVA>
+                <Monto>138.0535</Monto>
+            </Impuesto>
+            <MontoTotalLinea>1200.0035</MontoTotalLinea>
+        </LineaDetalle>
+    </DetalleServicio>
+    <ResumenFactura>
+        <CodigoTipoMoneda>
+            <CodigoMoneda>CRC</CodigoMoneda>
+            <TipoCambio>1.0</TipoCambio>
+        </CodigoTipoMoneda>
+        <TotalServGravados>0.0</TotalServGravados>
+        <TotalServExentos>0.0</TotalServExentos>
+        <TotalServExonerado>0.0</TotalServExonerado>
+        <TotalMercanciasGravadas>1061.95</TotalMercanciasGravadas>
+        <TotalMercanciasExentas>0.0</TotalMercanciasExentas>
+        <TotalMercExonerada>0.0</TotalMercExonerada>
+        <TotalGravado>1061.95</TotalGravado>
+        <TotalExento>0.0</TotalExento>
+        <TotalExonerado>0.0</TotalExonerado>
+        <TotalVenta>1061.95</TotalVenta>
+        <TotalDescuentos>0.0</TotalDescuentos>
+        <TotalVentaNeta>1061.95</TotalVentaNeta>
+        <TotalImpuesto>138.0535</TotalImpuesto>
+        <TotalIVADevuelto>0.0</TotalIVADevuelto>
+        <TotalOtrosCargos>0.0</TotalOtrosCargos>
+        <TotalComprobante>1200.0035</TotalComprobante>
+    </ResumenFactura>
+    <InformacionReferencia>
+        <TipoDoc>01</TipoDoc>
+        <Numero>-1</Numero>
+        <FechaEmision>2017-03-23T00:00:00-06:00</FechaEmision>
+        <Codigo>04</Codigo>
+        <Razon>Nota de crédito - varios</Razon>
+    </InformacionReferencia>
+    <Otros>
+        <OtroTexto codigo="OrdenCompra">0</OtroTexto>
+    </Otros>
+</NotaCreditoElectronica>

@@ -905,8 +905,8 @@ public class ImpresionFactura extends java.awt.Dialog {
         rpt.setExportToPDF(this.chkExportToPDF.isSelected());
         rpt.imprimirFacNDNC(
                 Integer.parseInt(documento), // Facnume
-                Integer.parseInt(facnd), // Facnd
-                this.radPOS.isSelected(), // Indica si se usa el formato POS
+                Integer.parseInt(facnd),     // Facnd
+                this.radPOS.isSelected(),  // Indica si se usa el formato POS
                 facConIV,
                 radFormulario.isSelected());
 

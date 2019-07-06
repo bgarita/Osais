@@ -132,13 +132,10 @@ public class UtilBD {
     public static float ultimoTipoCambio(String pCodigo, Connection c)
             throws SQLException {
         float tc = 0f;
-        String sqlSent
-                = "Select tipoca from tipocambio "
-                + "Where codigo = ? "
-                + "and fecha = (Select max(fecha) from tipocambio B "
-                + "             Where B.codigo = tipocambio.codigo)";
+        String sqlSent = "Select ConsultarUltimoTipocambio(?)";
         ResultSet rs;
-        try (PreparedStatement ps = c.prepareStatement(sqlSent, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+        try (PreparedStatement ps = c.prepareStatement(sqlSent, 
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
             ps.setString(1, pCodigo);
             rs = CMD.select(ps);
             if (rs != null && rs.first()) {
@@ -212,7 +209,8 @@ public class UtilBD {
         String sqlSent;
         double existencia = 0.00;
         sqlSent = "Select ConsultarExistenciaDisponible(?,?)";
-        PreparedStatement ps = c.prepareStatement(sqlSent, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        PreparedStatement ps = c.prepareStatement(sqlSent, 
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
         ps.setString(1, artcode);
         ps.setString(2, bodega);
         ResultSet rs = CMD.select(ps);
@@ -307,7 +305,8 @@ public class UtilBD {
         String sqlSent;
         sqlSent = "Select PermitirFecha(" + fechaSQL + ")";
         boolean fechaAceptada = false;
-        try (PreparedStatement ps = c.prepareStatement(sqlSent, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+        try (PreparedStatement ps = c.prepareStatement(sqlSent, 
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
             ResultSet rs = CMD.select(ps);
 
             if (rs != null && rs.first()) {
