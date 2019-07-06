@@ -283,3 +283,6 @@ Fri Jul 05 02:11:39 CST 2019
 accesoDatos.DataBaseConnection--> Could not create connection to database server. Attempted reconnect 3 times. Giving up.
 Fri Jul 05 20:16:46 CST 2019
 accesoDatos.DataBaseConnection--> Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+Sat Jul 06 09:08:51 CST 2019
+interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.

@@ -235,9 +235,20 @@ public class Clave {
     
     /**
     * Debe generar 20 dígitos
+    * Según la documentación de Hacienda, resolución No DGT-R-48-2016 4.3 los siguientes son los tipos de documento a utilizar:
+    * 01=Factura electrónica
+    * 02=Nota de débito electrónica
+    * 03=Nota de crédito electrónica
+    * 04=Tiquete Electrónico
+    * 05=Confirmación de aceptación del comprobante electrónico
+    * 06=Confirmación de aceptación parcial del comprobante electrónico
+    * 07=Confirmación de rechazo del comprobante electrónico
+    * 08=Factura electrónica de compra
+    * 09=Factura electrónica de exportación
     */
     public void generarConsecutivo(){
         String consecutivo = Ut.lpad(documento, "0", 10);
+        
         this.consecutivoDoc = "" + this.sucursal;       // 3 dígitos
         this.consecutivoDoc += this.terminal;           // 5 dígitos
         this.consecutivoDoc += this.tipoComprobante;    // 2 dígitos
