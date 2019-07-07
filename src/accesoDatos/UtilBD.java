@@ -3,22 +3,22 @@
  */
 package accesoDatos;
 
+import Exceptions.CurrencyExchangeException;
+import Exceptions.EmptyDataSourceException;
+import Exceptions.NotUniqueValueException;
+import interfase.menus.Menu;
+import interfase.otros.Navegador;
 import java.sql.*;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import Exceptions.NotUniqueValueException;
-import interfase.otros.Navegador;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import Exceptions.CurrencyExchangeException;
-import Exceptions.EmptyDataSourceException;
-import interfase.menus.Menu;
-import java.util.ArrayList;
-import java.util.List;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import logica.contabilidad.Cuenta;
 import logica.utilitarios.Ut;
 
@@ -1097,7 +1097,7 @@ public class UtilBD {
     } // asignadoEnBodega
 
     /**
-     * Este método actualiza la tabla notificado. No debe usarse control de
+     * Este método actualiza la tabla notificado.No debe usarse control de
      * transacciones ya que el proceso no es controlado por el usuario, es
      * automático y podría coincidir con alguna transacción de usuario ya que
      * utiliza una conexión compartida. Si se produce un error simplemente se
@@ -1111,6 +1111,7 @@ public class UtilBD {
      * @param codigo String Puede ser un documento o un artículo
      * @param bodega String Puede ser una bodega o un tipo de doc
      * @param BD String Base de datos origen
+     * @throws java.sql.SQLException
      */
     public static void actualizarNotificaciones(
             Connection c,
@@ -1118,7 +1119,7 @@ public class UtilBD {
             int ID,
             String codigo,
             String bodega,
-            String BD) {
+            String BD) throws SQLException {
 
         String sqlSent;
         PreparedStatement ps;
@@ -1127,10 +1128,11 @@ public class UtilBD {
                 = "Insert into saisystem.notificado("
                 + "   user,mensaje,fecha,idNotificacion,codigo,bodega,basedatos) "
                 + "Values(GetDBUser(), ?, now(), ?, ?, ?, ?) ";
-        try {
-            ps = c.prepareStatement(sqlSent, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        //try {
+            ps = c.prepareStatement(sqlSent, 
+                    ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
-            ps.setString(1, mensaje);
+            ps.setString(1, mensaje + ""); // Se concatena por aquello de un null
             ps.setInt(2, ID);
             ps.setString(3, codigo);
             ps.setString(4, bodega);
@@ -1138,9 +1140,9 @@ public class UtilBD {
 
             ps.executeUpdate();
             ps.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(UtilBD.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        //} catch (SQLException ex) {
+        //    Logger.getLogger(UtilBD.class.getName()).log(Level.SEVERE, null, ex);
+        //}
 
     } // end actualizarNotificaciones
 

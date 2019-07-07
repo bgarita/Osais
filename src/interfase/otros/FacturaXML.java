@@ -34,6 +34,7 @@ import logica.xmls.FacturaElectronicaCompra;
 import logica.xmls.GeneraXML;
 import logica.xmls.InformacionReferencia;
 import logica.xmls.NotaCreditoElectronica;
+import logica.xmls.NotaDebitoElectronica;
 import logica.xmls.Otros;
 import logica.xmls.Receptor;
 import logica.xmls.ResumenFactura;
@@ -1213,7 +1214,7 @@ public class FacturaXML extends javax.swing.JFrame {
                 return envio; // No hubo error
             } // end if
 
-            FacturaElectronica notaD = new FacturaElectronica();
+            NotaDebitoElectronica notaD = new NotaDebitoElectronica();
 
             /*
              fac.setAtributo1("https://tribunet.hacienda.go.cr/docs/esquemas/2017/v4.2/facturaElectronica");
@@ -1221,8 +1222,8 @@ public class FacturaXML extends javax.swing.JFrame {
              fac.setAtributo3("http://www.w3.org/2007/XMLSchema-versioning");
              fac.setAtributo4("http://www.w3.org/2001/XMLSchema");
              */
-            notaD.setAtributo1("https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/facturaElectronica"); //Julio 2019
-            //notaD.setAtributo1("https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/notaDebitoElectronica"); //Julio 2019
+            //notaD.setAtributo1("https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/facturaElectronica"); //Julio 2019
+            notaD.setAtributo1("https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/notaDebitoElectronica"); //Julio 2019
             notaD.setAtributo2("http://www.w3.org/2000/09/xmldsig#");
             notaD.setAtributo3("http://www.w3.org/2007/XMLSchema-versioning");
             notaD.setAtributo4("http://www.w3.org/2001/XMLSchema");
@@ -1345,11 +1346,10 @@ public class FacturaXML extends javax.swing.JFrame {
             clave.saveClave();
             notaD.setClave(clave.getClave());
 
-            //String dir = Ut.getProperty(Ut.USER_DIR) + Ut.getProperty(Ut.FILE_SEPARATOR) + "xmls" + Ut.getProperty(Ut.FILE_SEPARATOR);
             String dir = Menu.DIR.getXmls() + Ut.getProperty(Ut.FILE_SEPARATOR);
 
             // JAXB
-            JAXBContext ctx = JAXBContext.newInstance(FacturaElectronica.class);
+            JAXBContext ctx = JAXBContext.newInstance(NotaDebitoElectronica.class);
             Marshaller ms = ctx.createMarshaller();
             ms.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             ms.marshal(notaD, new File(dir + facnume + ".xml"));
