@@ -1499,7 +1499,7 @@
         <Menu class="javax.swing.JMenu" name="mnuConfig">
           <Properties>
             <Property name="mnemonic" type="int" value="102"/>
-            <Property name="text" type="java.lang.String" value="Config"/>
+            <Property name="text" type="java.lang.String" value="Configuraci&#xf3;n"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="mnuConfiguracion">

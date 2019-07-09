@@ -41,6 +41,8 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblDocumentosXML = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txaEstado = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Documentos XML");
@@ -91,6 +93,11 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
         });
         tblDocumentosXML.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         tblDocumentosXML.setColumnSelectionAllowed(true);
+        tblDocumentosXML.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblDocumentosXMLMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblDocumentosXML);
         tblDocumentosXML.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (tblDocumentosXML.getColumnModel().getColumnCount() > 0) {
@@ -115,20 +122,25 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel2.setText("* = Proveedor");
 
+        txaEstado.setColumns(20);
+        txaEstado.setRows(5);
+        jScrollPane2.setViewportView(txaEstado);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 990, Short.MAX_VALUE))
-                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addGap(287, 287, 287))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 990, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -136,12 +148,14 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2))
         );
 
-        setSize(new java.awt.Dimension(1024, 320));
+        setSize(new java.awt.Dimension(1024, 466));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -156,6 +170,15 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
     //        }
         // Se quitó porque después de notificar se debe actualizar el estado de informado
     }//GEN-LAST:event_formWindowClosing
+
+    private void tblDocumentosXMLMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDocumentosXMLMouseClicked
+        txaEstado.setText("");
+        if (tblDocumentosXML.getSelectedRow() < 0){
+            return;
+        } // end if
+        
+        txaEstado.setText(tblDocumentosXML.getValueAt(tblDocumentosXML.getSelectedRow(), 3) + ""); // Concatenar para controlar el null
+    }//GEN-LAST:event_tblDocumentosXMLMouseClicked
 
     /**
      * @param r
@@ -193,7 +216,9 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tblDocumentosXML;
+    private javax.swing.JTextArea txaEstado;
     // End of variables declaration//GEN-END:variables
 
     private void cargarTabla() {

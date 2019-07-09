@@ -14,9 +14,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import logica.utilitarios.Ut;
+import logica.xmls.ConsultaXMLv1;
 
 /**
  *
@@ -49,11 +49,12 @@ public class ConsultaFacturasXML extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        lstDocumentos = new javax.swing.JList<String>();
+        lstDocumentos = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         txaReporteHacienda = new javax.swing.JTextArea();
         jScrollPane3 = new javax.swing.JScrollPane();
         txaEstadoEnvio = new javax.swing.JTextArea();
+        pgbAvance = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Consultar documentos electrónicos");
@@ -87,29 +88,36 @@ public class ConsultaFacturasXML extends javax.swing.JFrame {
         txaEstadoEnvio.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Estado del envío", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
         jScrollPane3.setViewportView(txaEstadoEnvio);
 
+        pgbAvance.setStringPainted(true);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2)))
+                    .addComponent(pgbAvance, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(4, 4, 4)
+                .addComponent(pgbAvance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -256,28 +264,20 @@ public class ConsultaFacturasXML extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JList<String> lstDocumentos;
+    private javax.swing.JProgressBar pgbAvance;
     private javax.swing.JTextArea txaEstadoEnvio;
     private javax.swing.JTextArea txaReporteHacienda;
     // End of variables declaration//GEN-END:variables
 
     private void loadDocumentList() {
         this.validFiles = new ArrayList<>();
-        String dir = Ut.getProperty(Ut.USER_DIR) + Ut.getProperty(Ut.FILE_SEPARATOR) + "xmls" + Ut.getProperty(Ut.FILE_SEPARATOR);
-        File f = new File(dir);
-        File[] files = f.listFiles();
-        DefaultListModel<String> dlm = new DefaultListModel<>();
-        for (File file : files) {
-            if (!file.exists() || file.isDirectory()) {
-                continue;
-            } // end if
-
-            // Cargo simultáneamente el arreglo de archivos válidos.
-            if (file.getName().contains(".txt")) {
-                dlm.addElement(file.getName());
-                this.validFiles.add(file.getAbsolutePath());
-            } // end if
-        } // end for
-        this.lstDocumentos.setModel(dlm);
+        
+        ConsultaXMLv1 cxml = new ConsultaXMLv1();
+        cxml.setValidFiles(validFiles);
+        cxml.setLstDocumentos(lstDocumentos);
+        cxml.setPb(pgbAvance);
+        cxml.setHidepb(true); // Ocultar la barra de avance
+        cxml.start();
     } // end loadDocumentList
 
     /**

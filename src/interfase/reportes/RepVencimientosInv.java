@@ -27,7 +27,9 @@ public class RepVencimientosInv extends JFrame {
 
     private Connection conn = null;
     
-    /** Creates new form */
+    /** Creates new form
+     * @param c
+     * @throws java.sql.SQLException */
     public RepVencimientosInv(Connection c) throws SQLException {
         initComponents();
 

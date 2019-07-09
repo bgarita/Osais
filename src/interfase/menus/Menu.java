@@ -113,8 +113,10 @@ public class Menu extends javax.swing.JFrame {
     //public static final String VERSIONN = "4.0r6";
     //public static final String VERSIONN = "4.0r7";
     //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Enero 2019";
-    public static final String VERSIONN = "4.0r8";
-    private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Jun 2019"; // Cambios en factura electrónica para Julio 2019
+    //public static final String VERSIONN = "4.0r8";
+    //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Jun 2019"; // Cambios en factura electrónica para Julio 2019
+    public static final String VERSIONN = "4.0r9";
+    private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Jul 2019";
     public static String USUARIO;
     private static String SERVIDOR;
     public static String BASEDATOS;
@@ -1732,7 +1734,7 @@ public class Menu extends javax.swing.JFrame {
         mnuPrincipal.add(mnuHerramientas);
 
         mnuConfig.setMnemonic('f');
-        mnuConfig.setText("Config");
+        mnuConfig.setText("Configuración");
 
         mnuConfiguracion.setText("Parámetros generales");
         mnuConfiguracion.addActionListener(new java.awt.event.ActionListener() {

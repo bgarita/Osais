@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlType;
  *
  * @author bosco, 22/06/2019
 /*/
-@XmlRootElement(name = "FacturaElectronica")
+@XmlRootElement(name = "FacturaElectronicaCompra")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(propOrder = 
         {"codigoActividad", "clave", "numeroConsecutivo","fechaEmision","emisor",
