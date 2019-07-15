@@ -5,16 +5,21 @@
  */
 package interfase.transacciones;
 
-import interfase.seguridad.Permiso;
-import interfase.mantenimiento.TarifasExpress;
+import Exceptions.CurrencyExchangeException;
+import Exceptions.EmptyDataSourceException;
+import Exceptions.NotUniqueValueException;
+import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
 import static accesoDatos.UtilBD.getCajaForThisUser;
-import interfase.otros.Buscador;
 import interfase.consultas.ImpresionFactura;
+import interfase.mantenimiento.TarifasExpress;
 import interfase.mantenimiento.TarjetaDC;
+import interfase.otros.Buscador;
 import interfase.otros.Cantidad;
 import interfase.otros.Navegador;
+import interfase.otros.OrdendeCompra;
+import interfase.seguridad.Permiso;
 import java.applet.AudioClip;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -26,30 +31,25 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JApplet;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import logica.Cacaja;
 import logica.Catransa;
+import logica.OrdenCompra;
+import logica.Usuario;
 import logica.contabilidad.CoasientoD;
 import logica.contabilidad.CoasientoE;
 import logica.contabilidad.Cuenta;
-import Exceptions.CurrencyExchangeException;
-import Exceptions.EmptyDataSourceException;
 import logica.utilitarios.FormatoTabla;
-import Exceptions.NotUniqueValueException;
-import Mail.Bitacora;
-import interfase.otros.OrdendeCompra;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JComboBox;
-import logica.OrdenCompra;
-import logica.Usuario;
 import logica.utilitarios.Ut;
 
 /**
@@ -331,7 +331,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
 
         // Busco la moneda predeterminada en el combo y la selecciono.
         for (int i = 0; i < this.cboMoneda.getItemCount(); i++) {
-            if (cboMoneda.getItemAt(i).toString().contains(codigoTC + "-")) {
+            if (cboMoneda.getItemAt(i).contains(codigoTC + "-")) {
                 cboMoneda.setSelectedIndex(i);
                 break;
             } // end if
@@ -4779,6 +4779,9 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             } // end if
 
             txtClidesc.setText(rsCliente.getString("clidesc"));
+            
+            // El tipo de pago default es Efectivo
+            this.cboTipoPago.setSelectedIndex(1);
 
             // Si el cliente es de crédito pongo el tipo de pago en desconocido
             // y lo deshabilito.  Caso contrario queda habilitado.
@@ -6022,6 +6025,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
     private void POSBehaviour() {
         this.txtClicode.setText(this.clicode + "");
         this.txtClicodeActionPerformed(null);
+        this.cboTipoPago.setSelectedIndex(1); // Contado es el default
         this.txtBodega.setText(bodega);
         //this.txtClicode.setFocusable(false);
         this.spnCliprec.setEnabled(false);

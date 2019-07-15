@@ -6,9 +6,11 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -205,5 +207,19 @@ public class Archivos {
         return cuenta;
     } // end countFiles
 
-    
+    /**
+     * Guardar texto en un archivo ASCII
+     * @param text String - texto a almacenar
+     * @param path String - nombre del archivo a guardar (incluye la ruta completa)
+     * @param append boolean - true=Agrega el texto, false=Reemplaza el texto existente
+     * @throws IOException 
+     * @author Bosco Garita Azofeifa, 13/07/2019
+     */
+    public void stringToFile(String text, String path, boolean append) throws IOException{
+        FileWriter write = new FileWriter(path, append);
+        try (PrintWriter pw = new PrintWriter(write)) {
+            pw.printf("%s" + "%n", text);
+            pw.close();
+        } // end try
+    } // end stringToFile
 } // end class

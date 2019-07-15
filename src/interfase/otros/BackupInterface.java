@@ -30,7 +30,7 @@ import logica.utilitarios.Ut;
  */
 public class BackupInterface extends javax.swing.JFrame {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 21L;
     private Properties prop, prop2;
     private InputStream input, input2;
     private FileOutputStream output, output2;
@@ -48,13 +48,13 @@ public class BackupInterface extends javax.swing.JFrame {
         this.lblProceso.setVisible(false);
         this.txtPassword = new javax.swing.JPasswordField();
         this.conn = conn;
-        sourceFile = "backupDB.properties";
-        targetFile = "destinoF.properties";
-        prop = new Properties();
-        prop2 = new Properties();
+        this.sourceFile = "backupDB.properties";
+        this.targetFile = "destinoF.properties";
+        this.prop = new Properties();
+        this.prop2 = new Properties();
         try {
-            input = new FileInputStream(sourceFile);  // Lectura
-            input2 = new FileInputStream(targetFile);  // Lectura
+            this.input = new FileInputStream(sourceFile);   // Lectura
+            this.input2 = new FileInputStream(targetFile);  // Lectura
         } catch (FileNotFoundException ex) {
             Logger.getLogger(BackupInterface.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
@@ -482,8 +482,8 @@ public class BackupInterface extends javax.swing.JFrame {
         bk.setDataBases(dataBases);
         bk.setTargetFolder(this.txtDestino.getText().trim());
         bk.setLabel(this.lblBytes);
-        bk.setPb(pgbAvance);
-        bk.setTblConfig(tblConfig);
+        bk.setPb(this.pgbAvance);
+        bk.setTblConfig(this.tblConfig);
         bk.setLblProceso(this.lblProceso);
         bk.start();
     }//GEN-LAST:event_btnRespActionPerformed

@@ -194,7 +194,9 @@ public class DetalleFactura {
             
             lineaFac.setBaseImponible(0.0);
             if (rs.getDouble("facimve") > 0){
-                lineaFac.setBaseImponible(rs.getDouble("facmont") - rs.getDouble("facdesc"));
+                //lineaFac.setBaseImponible(rs.getDouble("facmont") - rs.getDouble("facdesc"));
+                // Redondeo para cumplir con Hacienda.
+                lineaFac.setBaseImponible(Ut.redondear(rs.getDouble("facmont") - rs.getDouble("facdesc"),5,3));
             } // end if
             
 
