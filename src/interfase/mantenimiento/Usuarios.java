@@ -302,22 +302,22 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
         jLabel9.setText("Cada");
 
         spnIntervalo1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        spnIntervalo1.setModel(new javax.swing.SpinnerNumberModel(Short.valueOf((short)60), Short.valueOf((short)1), null, Short.valueOf((short)1)));
+        spnIntervalo1.setModel(new javax.swing.SpinnerNumberModel((short)60, (short)1, null, (short)1));
         spnIntervalo1.setToolTipText("");
         spnIntervalo1.setEditor(new javax.swing.JSpinner.NumberEditor(spnIntervalo1, "0"));
 
         spnIntervalo2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        spnIntervalo2.setModel(new javax.swing.SpinnerNumberModel(Short.valueOf((short)60), Short.valueOf((short)1), null, Short.valueOf((short)1)));
+        spnIntervalo2.setModel(new javax.swing.SpinnerNumberModel((short)60, (short)1, null, (short)1));
         spnIntervalo2.setToolTipText("");
         spnIntervalo2.setEditor(new javax.swing.JSpinner.NumberEditor(spnIntervalo2, "0"));
 
         spnIntervalo3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        spnIntervalo3.setModel(new javax.swing.SpinnerNumberModel(Short.valueOf((short)60), Short.valueOf((short)1), null, Short.valueOf((short)1)));
+        spnIntervalo3.setModel(new javax.swing.SpinnerNumberModel((short)60, (short)1, null, (short)1));
         spnIntervalo3.setToolTipText("");
         spnIntervalo3.setEditor(new javax.swing.JSpinner.NumberEditor(spnIntervalo3, "0"));
 
         spnIntervalo4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        spnIntervalo4.setModel(new javax.swing.SpinnerNumberModel(Short.valueOf((short)2), Short.valueOf((short)1), null, Short.valueOf((short)1)));
+        spnIntervalo4.setModel(new javax.swing.SpinnerNumberModel((short)2, (short)1, null, (short)1));
         spnIntervalo4.setToolTipText("");
         spnIntervalo4.setEditor(new javax.swing.JSpinner.NumberEditor(spnIntervalo4, "0"));
 
@@ -406,7 +406,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
 
         jPanel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {spnIntervalo1, spnIntervalo2, spnIntervalo3, spnIntervalo4});
 
-        btnPrimero.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/resultset_first.png"))); // NOI18N
+        btnPrimero.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZTOP.png"))); // NOI18N
         btnPrimero.setToolTipText("Ir al primer registro");
         btnPrimero.setFocusCycleRoot(true);
         btnPrimero.setPreferredSize(new java.awt.Dimension(28, 31));
@@ -416,7 +416,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
             }
         });
 
-        btnAnterior.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/resultset_previous.png"))); // NOI18N
+        btnAnterior.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZBACK.png"))); // NOI18N
         btnAnterior.setToolTipText("Ir al registro anterior");
         btnAnterior.setFocusCycleRoot(true);
         btnAnterior.setMaximumSize(new java.awt.Dimension(93, 29));
@@ -426,7 +426,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
             }
         });
 
-        btnSiguiente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/resultset_next.png"))); // NOI18N
+        btnSiguiente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZNEXT.png"))); // NOI18N
         btnSiguiente.setToolTipText("Ir al siguiente registro");
         btnSiguiente.setMaximumSize(new java.awt.Dimension(93, 29));
         btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
@@ -435,7 +435,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
             }
         });
 
-        btnUltimo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/resultset_last.png"))); // NOI18N
+        btnUltimo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZEND.png"))); // NOI18N
         btnUltimo.setToolTipText("Ir al último registro");
         btnUltimo.setFocusCycleRoot(true);
         btnUltimo.addActionListener(new java.awt.event.ActionListener() {
@@ -444,7 +444,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
             }
         });
 
-        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/disk.png"))); // NOI18N
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZSAVE.png"))); // NOI18N
         btnGuardar.setToolTipText("Guardar registro");
         btnGuardar.setMaximumSize(new java.awt.Dimension(93, 29));
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -453,7 +453,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
             }
         });
 
-        btnBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/eraser.png"))); // NOI18N
+        btnBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZDELETE.png"))); // NOI18N
         btnBorrar.setToolTipText("Borrar registro");
         btnBorrar.setMaximumSize(new java.awt.Dimension(93, 29));
         btnBorrar.addActionListener(new java.awt.event.ActionListener() {
@@ -980,9 +980,13 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
         // En rsPermisosSQL se encuentra los permisos registrados en la BD
         String SQLGrant = "GRANT ";
         String SQLRevoke = "REVOKE ";
+        
+        // Bosco modificado 18/07/2019
+        // En mysql server 8.0 estas dos tablas cambian.
         // Este permiso es requerido para que el usuario pueda ejecutar SPs.
-        String SQLGrantOnMySQL = "GRANT SELECT ON mysql.proc to " + user;
-        String SQLRevokeOnMySQL = "REVOKE SELECT ON mysql.proc from " + user;
+        //String SQLGrantOnMySQL = "GRANT SELECT ON mysql.proc to " + user;
+        //String SQLRevokeOnMySQL = "REVOKE SELECT ON mysql.proc from " + user;
+        // Fin Bosco modificado 18/07/2019
 
         SQLGrant += chkSelect.isSelected() ? "SELECT," : "";
         SQLRevoke += chkSelect.isSelected() ? "" : "SELECT,";
@@ -1023,11 +1027,14 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
                 stat.execute(SQLRevoke);
             } // end if
 
+            // Esto ya no aplica en mysql server 8.0
+            /*
             // Permiso o revocación de permiso para ejecutar SPs
             stat.execute(SQLGrantOnMySQL);
             if (!chkExecute.isSelected()) {
                 stat.execute(SQLRevokeOnMySQL);
             } // end if
+            */
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),

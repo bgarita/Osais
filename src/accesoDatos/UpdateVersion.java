@@ -54,6 +54,76 @@ public class UpdateVersion {
             ps.close();
         } // end if (!UtilBD.fieldInTable(conn, "enviarFacturaE", "config"))
 
+        // Bosco agregado 18/07/2019.  Elimino varios índices y agrego uno.
+        if (UtilBD.indexInDB(conn, "FK_Hinmovimd_bodexis")) {
+            sqlSent
+                    = "ALTER TABLE `inmovimd`  "
+                    + "        DROP INDEX `FK_Hinmovimd_bodexis`";
+
+            ps = conn.prepareStatement(sqlSent);
+            ps.execute();
+            ps.close();
+        } // end if
+
+        if (UtilBD.indexInDB(conn, "Index_Movdocu_H")) {
+            sqlSent
+                    = "ALTER TABLE `inmovimd`  "
+                    + "        DROP INDEX `Index_Movdocu_H`";
+
+            ps = conn.prepareStatement(sqlSent);
+            ps.execute();
+            ps.close();
+        } // end if
+
+        if (UtilBD.indexInDB(conn, "FK_Hinmovimd_inmovime")) {
+            sqlSent
+                    = "ALTER TABLE `inmovimd`  "
+                    + "        DROP INDEX `FK_Hinmovimd_inmovime`";
+
+            ps = conn.prepareStatement(sqlSent);
+            ps.execute();
+            ps.close();
+        } // end if
         
+        if (UtilBD.indexInDB(conn, "FK_Hinmovim_Tipocambio")) {
+            sqlSent
+                    = "ALTER TABLE `inmovime`  "
+                    + "        DROP INDEX `FK_Hinmovim_Tipocambio`";
+
+            ps = conn.prepareStatement(sqlSent);
+            ps.execute();
+            ps.close();
+        } // end if
+        
+        if (!UtilBD.indexInDB(conn, "Index_recalcular_inv")) {
+            sqlSent
+                    = "ALTER TABLE `inmovime`  "
+                    + "        ADD INDEX `Index_recalcular_inv` (`movfech` ASC, `estado` ASC)";
+
+            ps = conn.prepareStatement(sqlSent);
+            ps.execute();
+            ps.close();
+        } // end if
+        
+        if (UtilBD.indexInDB(conn, "fk_hbodexis_hintarticu")) {
+            sqlSent
+                    = "ALTER TABLE `hbodexis`  "
+                    + "        DROP FOREIGN KEY `fk_hbodexis_hintarticu`";
+
+            ps = conn.prepareStatement(sqlSent);
+            ps.execute();
+            ps.close();
+        } // end if
+        
+        if (UtilBD.indexInDB(conn, "FK_hbodexis_bodexis")) {
+            sqlSent
+                    = "ALTER TABLE `hbodexis`  "
+                    + "        DROP INDEX `FK_hbodexis_bodexis`";
+
+            ps = conn.prepareStatement(sqlSent);
+            ps.execute();
+            ps.close();
+        } // end if
+        // Fin Bosco agregado 18/07/2019
     } // end update
 } // end UpdateVersion

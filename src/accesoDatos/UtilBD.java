@@ -134,7 +134,7 @@ public class UtilBD {
         float tc = 0f;
         String sqlSent = "Select ConsultarUltimoTipocambio(?)";
         ResultSet rs;
-        try (PreparedStatement ps = c.prepareStatement(sqlSent, 
+        try (PreparedStatement ps = c.prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
             ps.setString(1, pCodigo);
             rs = CMD.select(ps);
@@ -209,7 +209,7 @@ public class UtilBD {
         String sqlSent;
         double existencia = 0.00;
         sqlSent = "Select ConsultarExistenciaDisponible(?,?)";
-        PreparedStatement ps = c.prepareStatement(sqlSent, 
+        PreparedStatement ps = c.prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
         ps.setString(1, artcode);
         ps.setString(2, bodega);
@@ -305,7 +305,7 @@ public class UtilBD {
         String sqlSent;
         sqlSent = "Select PermitirFecha(" + fechaSQL + ")";
         boolean fechaAceptada = false;
-        try (PreparedStatement ps = c.prepareStatement(sqlSent, 
+        try (PreparedStatement ps = c.prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
             ResultSet rs = CMD.select(ps);
 
@@ -925,8 +925,10 @@ public class UtilBD {
             movtido = rsMovtido.getInt("Movtido");
             String sqlQuery
                     = "Select ConsultarDocumento("
-                    + "?," + // Documento
-                    "?," + // Tipo de movimiento
+                    + "?,"
+                    + // Documento
+                    "?,"
+                    + // Tipo de movimiento
                     "?)";  // Tipo de documento
 
             PreparedStatement ps = c.prepareStatement(sqlQuery, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -1129,17 +1131,17 @@ public class UtilBD {
                 + "   user,mensaje,fecha,idNotificacion,codigo,bodega,basedatos) "
                 + "Values(GetDBUser(), ?, now(), ?, ?, ?, ?) ";
         //try {
-            ps = c.prepareStatement(sqlSent, 
-                    ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        ps = c.prepareStatement(sqlSent,
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
-            ps.setString(1, mensaje + ""); // Se concatena por aquello de un null
-            ps.setInt(2, ID);
-            ps.setString(3, codigo);
-            ps.setString(4, bodega);
-            ps.setString(5, BD);
+        ps.setString(1, mensaje + ""); // Se concatena por aquello de un null
+        ps.setInt(2, ID);
+        ps.setString(3, codigo);
+        ps.setString(4, bodega);
+        ps.setString(5, BD);
 
-            ps.executeUpdate();
-            ps.close();
+        ps.executeUpdate();
+        ps.close();
         //} catch (SQLException ex) {
         //    Logger.getLogger(UtilBD.class.getName()).log(Level.SEVERE, null, ex);
         //}
@@ -1651,7 +1653,7 @@ public class UtilBD {
                 + "	IS_NULLABLE, "
                 + "	COLUMN_TYPE, "
                 + "	COLUMN_COMMENT, "
-                + "       ORDINAL_POSITION "
+                + "     ORDINAL_POSITION "
                 + "FROM information_schema.COLUMNS "
                 + "Where TABLE_SCHEMA = ?  "
                 + "and TABLE_NAME = ?";
@@ -1666,9 +1668,48 @@ public class UtilBD {
         rs = CMD.select(ps);
 
         existe = Ut.seek(rs, fieldName, "COLUMN_NAME");
+        ps.close();
 
         return existe;
     } // end fieldInTable
+
+    /**
+     * Determina si un índice existe o no.
+     *
+     * @author Bosco Garita, 18/07/2019 08:53 am
+     * @param conn Connection conexión a la base de datos
+     * @param indexName String índice a buscar
+     * @return true=Existe, false=No existe
+     * @throws SQLException
+     */
+    public static boolean indexInDB(
+            Connection conn, String indexName) throws SQLException {
+        boolean existe;
+
+        // Obtener los campos de una tabla.
+        String sqlSent
+                = "Select  "
+                + "	a.name as indice,  "
+                + "	b.name "
+                + "from information_schema.INNODB_INDEXES a "
+                + "Inner join information_schema.innodb_tables b on a.table_id = b.table_id "
+                + "Where a.name = ? "
+                + "and b.name like '" + Menu.BASEDATOS + "%'";
+
+        PreparedStatement ps;
+        ResultSet rs;
+
+        ps = conn.prepareStatement(sqlSent,
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        ps.setString(1, indexName);
+
+        rs = CMD.select(ps);
+
+        existe = Ut.seek(rs, indexName, "indice");
+        ps.close();
+
+        return existe;
+    } // end indexInDB
 
     /**
      * Validar la estructura lógica de una cuenta contable para garantizar que
@@ -1784,37 +1825,36 @@ public class UtilBD {
                 + "Where facnume = ? and facnd = ?";
         PreparedStatement ps = c.prepareStatement(
                 sqlSent,
-                ResultSet.TYPE_SCROLL_SENSITIVE, 
+                ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY);
         ps.setInt(1, facnume);
         ps.setInt(2, facnd);
         ResultSet rs = CMD.select(ps);
-        if (rs != null && rs.first()){
+        if (rs != null && rs.first()) {
             mail = rs.getString(1).trim();
         } // end if
-        
-        if (mail.isEmpty()){
-            throw new Exception("Documento # " + facnume + ".\n" +
-                    "Cliente no tiene una dirección de correo electrónica asociada.");
+
+        if (mail.isEmpty()) {
+            throw new Exception("Documento # " + facnume + ".\n"
+                    + "Cliente no tiene una dirección de correo electrónica asociada.");
         } // end if
-        
+
         return mail;
     } // end getCustomerMail
-    
-    
+
     /**
-     * Determina si un cliente es genérico o no.  Se usa para, por lo general
-     * para decidir si se envía tiquete electrónico o factura.
-     * Es posible que el cliente sea de crédito pero si tiene habilitado el
-     * check de genérico entonces se comportará como cliente de contado a la 
-     * hora de generar el xml.
-     * Recibe un documento y su tipo y en base a esos valores determina qué
+     * Determina si un cliente es genérico o no. Se usa para, por lo general
+     * para decidir si se envía tiquete electrónico o factura. Es posible que el
+     * cliente sea de crédito pero si tiene habilitado el check de genérico
+     * entonces se comportará como cliente de contado a la hora de generar el
+     * xml. Recibe un documento y su tipo y en base a esos valores determina qué
      * cliente es y de ahí el valor del campo cligenerico.
+     *
      * @param c Connection conexión a la base de datos
      * @param facnume int número de factura
      * @param facnd int determina si es factura (=0), NC (<0), ND(>0)
      * @return boolean tru=Es genérico, false=No lo es
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static boolean esClienteGenerico(Connection c, int facnume, int facnd) throws SQLException {
         boolean contado = false;

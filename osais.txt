@@ -1,3 +1,2 @@
-//192.168.1.9:3306/LaFlor@La Flor
-//192.168.1.24:3307/sai@Server8
-//192.168.1.9:3306/sai@Pulperia Real
+//192.168.1.53:3307/sai@La Flor
+//192.168.1.53:3307/pul@Pulperia Real

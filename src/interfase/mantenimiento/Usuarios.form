@@ -726,7 +726,7 @@
         <Component class="javax.swing.JButton" name="btnPrimero">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Icons/resultset_first.png"/>
+              <Image iconType="3" name="/Icons/WZTOP.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Ir al primer registro"/>
             <Property name="focusCycleRoot" type="boolean" value="true"/>
@@ -741,7 +741,7 @@
         <Component class="javax.swing.JButton" name="btnAnterior">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Icons/resultset_previous.png"/>
+              <Image iconType="3" name="/Icons/WZBACK.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Ir al registro anterior"/>
             <Property name="focusCycleRoot" type="boolean" value="true"/>
@@ -756,7 +756,7 @@
         <Component class="javax.swing.JButton" name="btnSiguiente">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Icons/resultset_next.png"/>
+              <Image iconType="3" name="/Icons/WZNEXT.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Ir al siguiente registro"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -770,7 +770,7 @@
         <Component class="javax.swing.JButton" name="btnUltimo">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Icons/resultset_last.png"/>
+              <Image iconType="3" name="/Icons/WZEND.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Ir al &#xfa;ltimo registro"/>
             <Property name="focusCycleRoot" type="boolean" value="true"/>
@@ -782,7 +782,7 @@
         <Component class="javax.swing.JButton" name="btnGuardar">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Icons/disk.png"/>
+              <Image iconType="3" name="/Icons/WZSAVE.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Guardar registro"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -796,7 +796,7 @@
         <Component class="javax.swing.JButton" name="btnBorrar">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Icons/eraser.png"/>
+              <Image iconType="3" name="/Icons/WZDELETE.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Borrar registro"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">

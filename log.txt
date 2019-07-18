@@ -334,3 +334,26 @@ Wed Jul 17 09:02:33 CST 2019
 interfase.otros.Notificacionxml--> Cannot run program "C:\Java": CreateProcess error=2, El sistema no puede encontrar el archivo especificado
 Wed Jul 17 09:06:50 CST 2019
 interfase.otros.Notificacionxml--> Cannot run program "C:\Java": CreateProcess error=2, El sistema no puede encontrar el archivo especificado
+Thu Jul 18 07:23:21 CST 2019
+accesoDatos.DataBaseConnection--> Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+Thu Jul 18 07:24:08 CST 2019
+interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.
+Thu Jul 18 07:24:22 CST 2019
+interfase.otros.Notificacionxml--> Cannot run program "C:\Java": CreateProcess error=2, El sistema no puede encontrar el archivo especificado
+Thu Jul 18 08:04:45 CST 2019
+interfase.otros.Notificacionxml--> Cannot run program "C:\Java": CreateProcess error=2, El sistema no puede encontrar el archivo especificado
+Thu Jul 18 08:05:28 CST 2019
+interfase.mantenimiento.Usuarios--> Access denied for user 'bgarita'@'%' to database 'information_schema'
+Thu Jul 18 08:31:39 CST 2019
+interfase.otros.Notificacionxml--> Cannot run program "C:\Java": CreateProcess error=2, El sistema no puede encontrar el archivo especificado
+Thu Jul 18 08:32:14 CST 2019
+interfase.otros.Notificacionxml--> Cannot run program "C:\Java": CreateProcess error=2, El sistema no puede encontrar el archivo especificado
+Thu Jul 18 08:43:54 CST 2019
+interfase.otros.Notificacionxml--> Cannot run program "C:\Java": CreateProcess error=2, El sistema no puede encontrar el archivo especificado
+Thu Jul 18 09:26:44 CST 2019
+interfase.menus.Menu--> Can't DROP 'FK_hbodexis_bodexis'; check that column/key exists
+Thu Jul 18 09:28:01 CST 2019
+interfase.otros.Notificacionxml--> Cannot run program "C:\Java": CreateProcess error=2, El sistema no puede encontrar el archivo especificado
+Thu Jul 18 09:39:55 CST 2019
+interfase.otros.Notificacionxml--> Cannot run program "C:\Java": CreateProcess error=2, El sistema no puede encontrar el archivo especificado
