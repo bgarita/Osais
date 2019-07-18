@@ -1,8 +1,3 @@
-//localhost:3307/LaFlor@La Flor, S.A.
-//192.168.2.109:3307/dufara@Dufara
+//192.168.1.9:3306/LaFlor@La Flor
 //192.168.1.24:3307/sai@Server8
-//192.168.2.109:3307/dufaram@Dufara Mayoreo
-//localhost:3306/dufaram@Mayoreo pruebas
-//localhost:3307/pul@Pulperia - Desarrollo
-//192.168.1.7:3306/sai@Pulperia Real
-//localhost:3307/Karol@Pulperia Karol
+//192.168.1.9:3306/sai@Pulperia Real

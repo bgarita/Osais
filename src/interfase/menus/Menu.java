@@ -58,10 +58,12 @@ public class Menu extends javax.swing.JFrame {
 
     // Creo la propiedad que contendrá la conexión compartida
     private final Connection sConn;
+    
     private final Fondo f;
     private final Navegador nav;
     private final Notificacion notif;         // Notificaciones
     public static String url;
+    public static boolean enviarDocumentosElectronicos;
 
     //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Abr 2014";
     //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Jun 2014";
@@ -212,23 +214,9 @@ public class Menu extends javax.swing.JFrame {
         //JOptionPane.showMessageDialog(null, DIR);
         // Fin Bosco agregado 06/11/2010.
 
-        // Bosco agregado 27/07/2013
-        /**
-         * Se crearon las siguientes tablas: saisystem.notificaion (catálogo de
-         * notificaciones) saisystem.notificado (usuarios notificados)
-         * saisystem.excepcion_notif (excepción de notificaciones)
-         *
-         * Se modificó la tabla de usuarios para incluir el intervalo de cada
-         * notificación. Este intervalo se debe comparar contra el max(fecha) de
-         * la tabla saisystem.notificado.
-         */
-        notif = new Notificacion(conexion.getConnection());
-        notif.start();
-        // Fin Bosco agregado 27/07/2013
-
         try {
+            UpdateVersion.update(sConn);
             ResultSet rs;
-            //sta = conn.createStatement();
 
             // Bosco agregado 23/11/2013
             // Otengo el usuario de base de datos según el motor
@@ -242,20 +230,20 @@ public class Menu extends javax.swing.JFrame {
             rs = nav.ejecutarQuery("Select * from config");
             rs.first();
             Menu.EMPRESA = rs.getString("empresa");
-            if (rs.getString("WallPaper").isEmpty()) {
-                return;
+            if (!rs.getString("WallPaper").isEmpty()) {
+                f.setImagen(rs.getString("WallPaper").trim());
             } // end if
-            f.setImagen(rs.getString("WallPaper").trim());
+            Menu.enviarDocumentosElectronicos = rs.getBoolean("enviarFacturaE");
             rs.close();
 
             rs = nav.ejecutarQuery("select @@hostname");
             Menu.SERVIDOR = rs.getString(1);
 
             rs.close();
-            UpdateVersion.update(sConn);
-
+            
             // Esta conexión (sConn) se deja abierta porque los procesos de migración
             // de datos usan esta misma conexión.
+            
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
@@ -263,6 +251,20 @@ public class Menu extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
             new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
+        
+        // Bosco agregado 27/07/2013
+        /**
+         * Se crearon las siguientes tablas: saisystem.notificaion (catálogo de
+         * notificaciones) saisystem.notificado (usuarios notificados)
+         * saisystem.excepcion_notif (excepción de notificaciones)
+         *
+         * Se modificó la tabla de usuarios para incluir el intervalo de cada
+         * notificación. Este intervalo se debe comparar contra el max(fecha) de
+         * la tabla saisystem.notificado.
+         */
+        notif = new Notificacion(conexion.getConnection());
+        notif.start();
+        // Fin Bosco agregado 27/07/2013
 
         setTitle(
                 "OSAIS  - "
@@ -633,7 +635,7 @@ public class Menu extends javax.swing.JFrame {
         mnuArchivo.add(mnuCatalogoCont);
         mnuArchivo.add(jSeparator15);
 
-        mnuCajas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/money_dollar.png"))); // NOI18N
+        mnuCajas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/pos-terminal-16.png"))); // NOI18N
         mnuCajas.setText("Cajas");
         mnuCajas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -650,6 +652,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuArchivo.add(mnuBancos);
 
+        mnuTarjetas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/mastercard-16.png"))); // NOI18N
         mnuTarjetas.setText("Tarjetas");
         mnuTarjetas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -740,7 +743,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuRegistro.add(mnuNDCXC);
 
-        mnuNCCXC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/63.png"))); // NOI18N
+        mnuNCCXC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/copybook.png"))); // NOI18N
         mnuNCCXC.setText("Notas de crédito (CXC)");
         mnuNCCXC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -757,7 +760,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuRegistro.add(mnuOtrasCXC);
 
-        mnuAplicarNCCXC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/64.png"))); // NOI18N
+        mnuAplicarNCCXC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/brocha.png"))); // NOI18N
         mnuAplicarNCCXC.setText("Aplicar notas de crédito (CXC)");
         mnuAplicarNCCXC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -766,6 +769,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuRegistro.add(mnuAplicarNCCXC);
 
+        mnuRefNC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/ref.png"))); // NOI18N
         mnuRefNC.setText("Referenciar notas de crédigo (CXC)");
         mnuRefNC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

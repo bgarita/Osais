@@ -170,7 +170,7 @@ public class ConsultaFacturasXML extends javax.swing.JFrame {
         try {
             // Este proceso es únicamente windows por lo que no debe correr en Linux
             String os = Ut.getProperty(Ut.OS_NAME).toLowerCase();
-            if (os.contains("win")) {
+            if (os.contains("win") && Menu.enviarDocumentosElectronicos) {
                 Process p = Runtime.getRuntime().exec(cmd);
             } // end if
 

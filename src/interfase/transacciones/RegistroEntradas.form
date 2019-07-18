@@ -706,7 +706,7 @@
           <Font name="Tahoma" size="11" style="1"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/Icons/disk.png"/>
+          <Image iconType="3" name="/Icons/WZSAVE.png"/>
         </Property>
       </Properties>
       <Events>
@@ -801,7 +801,7 @@
           <Font name="Tahoma" size="11" style="1"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/Icons/control-power.png"/>
+          <Image iconType="3" name="/Icons/WZCLOSE.png"/>
         </Property>
       </Properties>
       <Events>

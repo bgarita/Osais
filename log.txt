@@ -298,3 +298,39 @@ Tue Jul 09 09:08:20 CST 2019
 interfase.mantenimiento.MinimoAutomatico--> Unknown column 'c.movtido' in 'where clause'
 Tue Jul 09 09:09:06 CST 2019
 interfase.mantenimiento.MinimoAutomatico--> Table 'durp' already exists
+Mon Jul 15 16:35:22 CST 2019
+interfase.otros.Notificacionxml--> Cannot run program "C:\Java": CreateProcess error=2, El sistema no puede encontrar el archivo especificado
+Mon Jul 15 16:35:54 CST 2019
+interfase.seguridad.CambioClave--> Table 'LaFlor.paramUsuario' doesn't exist
+Mon Jul 15 16:36:00 CST 2019
+interfase.seguridad.CambioClave--> Table 'LaFlor.paramUsuario' doesn't exist
+Tue Jul 16 17:11:26 CST 2019
+interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.
+Tue Jul 16 17:11:32 CST 2019
+interfase.otros.Notificacionxml--> Cannot run program "C:\Java": CreateProcess error=2, El sistema no puede encontrar el archivo especificado
+Tue Jul 16 17:17:25 CST 2019
+accesoDatos.DataBaseConnection--> Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+Tue Jul 16 17:17:37 CST 2019
+accesoDatos.DataBaseConnection--> Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+Tue Jul 16 17:17:51 CST 2019
+interfase.otros.Notificacionxml--> Cannot run program "C:\Java": CreateProcess error=2, El sistema no puede encontrar el archivo especificado
+Tue Jul 16 18:58:34 CST 2019
+interfase.otros.Notificacionxml--> Cannot run program "C:\Java": CreateProcess error=2, El sistema no puede encontrar el archivo especificado
+Tue Jul 16 19:23:28 CST 2019
+interfase.otros.Notificacionxml--> Cannot run program "C:\Java": CreateProcess error=2, El sistema no puede encontrar el archivo especificado
+Tue Jul 16 19:24:26 CST 2019
+interfase.transacciones.RegistroEntradas--> No operations allowed after connection closed.
+Tue Jul 16 19:32:39 CST 2019
+interfase.otros.Notificacionxml--> Cannot run program "C:\Java": CreateProcess error=2, El sistema no puede encontrar el archivo especificado
+Tue Jul 16 19:32:56 CST 2019
+interfase.transacciones.RegistroEntradas--> No operations allowed after connection closed.
+Wed Jul 17 08:21:42 CST 2019
+interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.
+Wed Jul 17 08:21:46 CST 2019
+interfase.otros.Notificacionxml--> Cannot run program "C:\Java": CreateProcess error=2, El sistema no puede encontrar el archivo especificado
+Wed Jul 17 09:02:33 CST 2019
+interfase.otros.Notificacionxml--> Cannot run program "C:\Java": CreateProcess error=2, El sistema no puede encontrar el archivo especificado
+Wed Jul 17 09:06:50 CST 2019
+interfase.otros.Notificacionxml--> Cannot run program "C:\Java": CreateProcess error=2, El sistema no puede encontrar el archivo especificado

@@ -178,6 +178,7 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
         spnPrecioOferta = new javax.swing.JSpinner();
         cboDiaOferta = new javax.swing.JComboBox();
         chkGenMovCaja = new javax.swing.JCheckBox();
+        chkenviarFacturaE = new javax.swing.JCheckBox();
         jPanel5 = new javax.swing.JPanel();
         jLabel25 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
@@ -761,6 +762,9 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
         chkGenMovCaja.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         chkGenMovCaja.setText("Generar movimientos de caja");
 
+        chkenviarFacturaE.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        chkenviarFacturaE.setText("Enviar documentos electrónicos");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -784,7 +788,7 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
                                 .addComponent(jLabel20)
                                 .addGap(18, 18, 18)
                                 .addComponent(spnPrecioOferta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                                 .addComponent(cboDiaOferta, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -797,17 +801,23 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
                                     .addComponent(txtBloqDias, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(spndiasFactTemp, javax.swing.GroupLayout.Alignment.TRAILING))))
                         .addGap(31, 31, 31)))
-                .addGap(10, 10, 10)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel16)
-                    .addComponent(jLabel18)
-                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cboVariarPrecios, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cboformatoCant, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cboformatoPrecio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(12, 12, 12))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel16)
+                            .addComponent(jLabel18)
+                            .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cboVariarPrecios, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cboformatoCant, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cboformatoPrecio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(12, 12, 12))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(chkenviarFacturaE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(316, 316, 316)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -878,13 +888,15 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
                     .addComponent(chkBloquearNpag, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(chkGenMovCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(chkBloquearCatP, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(chkBloquearCatP, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(chkenviarFacturaE, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
                     .addComponent(txtTimbre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(chkUsarIvi, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(67, Short.MAX_VALUE))
         );
 
         tabGeneral.addTab("Facturación", jPanel3);
@@ -1231,6 +1243,7 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
     private javax.swing.JCheckBox chkSincronizar;
     private javax.swing.JCheckBox chkUsarIvi;
     private javax.swing.JCheckBox chkasignarprovaut;
+    private javax.swing.JCheckBox chkenviarFacturaE;
     private javax.swing.JCheckBox chkfactcomoPOS;
     private javax.swing.JCheckBox chkimprimirFactura;
     private javax.swing.JCheckBox chkstarttls;
@@ -1440,6 +1453,10 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
             this.spnPrecioOferta.setValue(rs.getShort("precioOferta"));
             this.cboDiaOferta.setSelectedIndex(rs.getInt("diaOferta"));
             // Fin Bosco agregado 01/03/2014
+            
+            // Bosco agregado 17/07/2019. Este campo decide si se envían o no los documentos electrónicos.
+            this.chkenviarFacturaE.setSelected(rs.getBoolean("enviarFacturaE"));
+            // Fin Bosco agregado 17/07/2019
 
             // Cejilla Cuentas por cobrar
             this.txtDiasDevol.setText(Integer.toString(rs.getInt("DiasDevol")));
@@ -1572,11 +1589,11 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
         asignarprovaut = this.chkasignarprovaut.isSelected(); // Bosco agregado 30/12/2013
 
         // Cejilla Facturación
-        short BloqDias, exist0, precio0, redond5, bloquearConsF,
+        short bloqDias, exist0, precio0, redond5, bloquearConsF,
                 bloquearFechaF, bloquearNpag, bloquearCatP, usarIvi,
                 diasFactTemp, variarprecios, genasienfac, factcomoPOS,
-                precioOferta, diaOferta, genmovcaja;
-        float DescAutom;
+                precioOferta, diaOferta, genmovcaja, enviarFacturaE;
+        float descAutomatico;
         // Bosco agregado 24/12/2013
         String formatoCant, formatoPrecio;
         formatoCant = this.cboformatoCant.getSelectedItem().toString();
@@ -1588,9 +1605,9 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
         // Fin Bosco agregado 26/12/213
 
         try {
-            DescAutom = Float.valueOf(Ut.quitarFormato(
+            descAutomatico = Float.valueOf(Ut.quitarFormato(
                     txtDescAutom.getText().trim()));
-            BloqDias = Short.parseShort(Ut.quitarFormato(
+            bloqDias = Short.parseShort(Ut.quitarFormato(
                     txtBloqDias.getText().trim()));
             precioOferta = Short.parseShort(spnPrecioOferta.getValue().toString()); // Bosco agregado 01/03/2014
         } catch (Exception ex) {
@@ -1623,6 +1640,10 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
         factcomoPOS = (short) (this.chkfactcomoPOS.isSelected() ? 1 : 0);
         int clicode = Integer.parseInt(this.txtClicode.getText().trim());
         // Fin Bosco agregado 10/12/2013
+        
+        // Bosco agregado 17/07/2019
+        enviarFacturaE = (short) (this.chkenviarFacturaE.isSelected() ? 1 : 0);
+        // Fin Bosco agregado 17/07/2019
 
         // Cejilla Cuentas por cobrar
         short diasDevol, intervalo, diasG, creditoaf,
@@ -1708,7 +1729,8 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
                     "movtidoE       = ?," + // 44  Bosco agregado 08/02/2015
                     "movtidoS       = ?," + // 45  Bosco agregado 08/02/2015
                     "genmovcaja     = ?," + // 46  Bosco agregado 08/07/2015
-                    "sincronizarTablas = ?"; // 47  Bosco agregado 16/08/2016
+                    "enviarFacturaE = ?," + // 47  Bosco agregado 17/07/2019
+                    "sincronizarTablas = ?"; // 48  Bosco agregado 16/08/2016
 
         } else {
             // Falta codificar para cuando es la primera vez que se crea
@@ -1727,7 +1749,7 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
             ps.setString(5, wallPaper);
             ps.setString(6, codigoTC);
             ps.setString(7, codigoDolar);
-            ps.setShort(47, sincronizar);
+            ps.setShort(48, sincronizar);
 
             // Cejilla Inventarios
             ps.setShort(8, precioAut);
@@ -1739,8 +1761,8 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
             ps.setShort(45, movtidoS);
 
             // Cejilla Facturación
-            ps.setFloat(13, DescAutom);
-            ps.setShort(14, BloqDias);
+            ps.setFloat(13, descAutomatico);
+            ps.setShort(14, bloqDias);
             ps.setShort(15, exist0);
             ps.setShort(16, precio0);
             ps.setShort(17, redond5);
@@ -1754,6 +1776,7 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
             ps.setString(25, timbre);
             ps.setShort(26, genasienfac);
             ps.setShort(46, genmovcaja);
+            ps.setShort(47, enviarFacturaE);
 
             // Cejilla Cuentas por cobrar
             ps.setShort(27, diasDevol);

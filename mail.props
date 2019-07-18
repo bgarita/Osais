@@ -1,5 +1,5 @@
 #Parámetros para el envío de correos
-#Mon Dec 24 10:08:51 CST 2018
+#Wed Jul 17 09:07:03 CST 2019
 mail.smtp.starttls.enable=true
 mail.smtp.port=587
 mail.smtp.user=osais3112@gmail.com

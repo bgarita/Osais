@@ -214,7 +214,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="mnuCajas">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Icons/money_dollar.png"/>
+                  <Image iconType="3" name="/Icons/pos-terminal-16.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Cajas"/>
               </Properties>
@@ -232,6 +232,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuTarjetas">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Icons/mastercard-16.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Tarjetas"/>
               </Properties>
               <Events>
@@ -346,7 +349,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="mnuNCCXC">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Icons/63.png"/>
+                  <Image iconType="3" name="/Icons/copybook.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Notas de cr&#xe9;dito (CXC)"/>
               </Properties>
@@ -365,7 +368,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="mnuAplicarNCCXC">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Icons/64.png"/>
+                  <Image iconType="3" name="/Icons/brocha.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Aplicar notas de cr&#xe9;dito (CXC)"/>
               </Properties>
@@ -375,6 +378,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuRefNC">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Icons/ref.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Referenciar notas de cr&#xe9;digo (CXC)"/>
               </Properties>
               <Events>

@@ -301,7 +301,7 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
         String os = Ut.getProperty(Ut.OS_NAME).toLowerCase();
         try {
             // Este proceso es únicamente windows por lo que no debe correr en Linux
-            if (os.contains("win")) {
+            if (os.contains("win") && Menu.enviarDocumentosElectronicos) {
                 Process p = Runtime.getRuntime().exec(cmd);
                 int size = 1000;
                 InputStream is = p.getInputStream();

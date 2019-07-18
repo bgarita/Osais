@@ -17,30 +17,43 @@ import java.sql.SQLException;
  * @author bosco, 11/04/2016
  */
 public class UpdateVersion {
+
     public static String INITIAL_VERSION = "2.8r0";
-    
-    
-    
-    public static void update(Connection conn) throws SQLException{
+
+    public static void update(Connection conn) throws SQLException {
         String sqlSent;
         PreparedStatement ps;
-        
+
         // Si la versión inicial es mayor que la versión del sistema 
         // entonces no hago nada.
-        if (INITIAL_VERSION.compareTo(Menu.VERSIONN) > 0){
+        if (INITIAL_VERSION.compareTo(Menu.VERSIONN) > 0) {
             return;
         }
-        
+
         // Si el campo no existe lo agrego
-        if (!UtilBD.fieldInTable(conn, "sincronizarTablas", "config")){
-            sqlSent = 
-                    "ALTER TABLE `config` " +
-                    "ADD COLUMN `sincronizarTablas` TINYINT(1) NOT NULL DEFAULT '0' AFTER `genmovcaja`";
+        if (!UtilBD.fieldInTable(conn, "sincronizarTablas", "config")) {
+            sqlSent
+                    = "ALTER TABLE `config` "
+                    + "ADD COLUMN `sincronizarTablas` TINYINT(1) NOT NULL DEFAULT '0' AFTER `genmovcaja`";
 
             ps = conn.prepareStatement(sqlSent);
             ps.execute();
             ps.close();
         } // end if (!UtilBD.fieldInTable(conn, "sincronizarTablas", "config"))
+
+        // Modificar la tabla de configuración para que el sistema sea parametrizable
+        // en cuanto enviar o no enviar las facturas electrónicas a Hacienda.
+        if (!UtilBD.fieldInTable(conn, "enviarFacturaE", "config")) {
+            sqlSent
+                    = "ALTER TABLE `config` "
+                    + "ADD COLUMN `enviarFacturaE` TINYINT(1) NOT NULL DEFAULT 1 "
+                    + "COMMENT 'Enviar facturas electrónicas 1=Si, 0=No' AFTER `tiqElect`";
+
+            ps = conn.prepareStatement(sqlSent);
+            ps.execute();
+            ps.close();
+        } // end if (!UtilBD.fieldInTable(conn, "enviarFacturaE", "config"))
+
         
     } // end update
 } // end UpdateVersion

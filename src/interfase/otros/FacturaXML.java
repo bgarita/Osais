@@ -163,7 +163,7 @@ public class FacturaXML extends javax.swing.JFrame {
         jLabel3.setText("A");
 
         btnGuardar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Save24.png"))); // NOI18N
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZSAVE.png"))); // NOI18N
         btnGuardar.setToolTipText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -182,7 +182,7 @@ public class FacturaXML extends javax.swing.JFrame {
         jScrollPane1.setViewportView(txaBitacora);
 
         btnSalir.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Exit24.png"))); // NOI18N
+        btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZCLOSE.png"))); // NOI18N
         btnSalir.setToolTipText("Cerrar");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1579,7 +1579,7 @@ public class FacturaXML extends javax.swing.JFrame {
     private void enviarXML(int facnume) {
         // Este proceso es únicamente windows por lo que no debe correr en Linux
         String os = Ut.getProperty(Ut.OS_NAME).toLowerCase();
-        if (!os.contains("win")) {
+        if (!os.contains("win") || !Menu.enviarDocumentosElectronicos) {
             return;
         } // end if
 
