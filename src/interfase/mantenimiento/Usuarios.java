@@ -981,13 +981,11 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
         String SQLGrant = "GRANT ";
         String SQLRevoke = "REVOKE ";
         
-        // Bosco modificado 18/07/2019
-        // En mysql server 8.0 estas dos tablas cambian.
+        // En mysql server 8.0 estas dos tablas no existen.
         // Este permiso es requerido para que el usuario pueda ejecutar SPs.
-        //String SQLGrantOnMySQL = "GRANT SELECT ON mysql.proc to " + user;
-        //String SQLRevokeOnMySQL = "REVOKE SELECT ON mysql.proc from " + user;
-        // Fin Bosco modificado 18/07/2019
-
+        String SQLGrantOnMySQL = "GRANT SELECT ON mysql.proc to " + user;
+        String SQLRevokeOnMySQL = "REVOKE SELECT ON mysql.proc from " + user;
+        
         SQLGrant += chkSelect.isSelected() ? "SELECT," : "";
         SQLRevoke += chkSelect.isSelected() ? "" : "SELECT,";
         SQLGrant += chkInsert.isSelected() ? "INSERT," : "";
@@ -1027,14 +1025,15 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
                 stat.execute(SQLRevoke);
             } // end if
 
-            // Esto ya no aplica en mysql server 8.0
-            /*
+            // Esto no aplica en mysql server 8.0
+            
             // Permiso o revocación de permiso para ejecutar SPs
             stat.execute(SQLGrantOnMySQL);
             if (!chkExecute.isSelected()) {
                 stat.execute(SQLRevokeOnMySQL);
             } // end if
-            */
+            
+            stat.execute("FLUSH PRIVILEGES");
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),

@@ -357,3 +357,17 @@ Thu Jul 18 09:28:01 CST 2019
 interfase.otros.Notificacionxml--> Cannot run program "C:\Java": CreateProcess error=2, El sistema no puede encontrar el archivo especificado
 Thu Jul 18 09:39:55 CST 2019
 interfase.otros.Notificacionxml--> Cannot run program "C:\Java": CreateProcess error=2, El sistema no puede encontrar el archivo especificado
+Thu Jul 18 15:50:42 CST 2019
+interfase.menus.Menu--> Unknown table 'innodb_indexes' in information_schema
+Thu Jul 18 16:29:57 CST 2019
+accesoDatos.DataBaseConnection--> Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+Thu Jul 18 16:30:15 CST 2019
+accesoDatos.DataBaseConnection--> Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+Thu Jul 18 16:30:38 CST 2019
+accesoDatos.DataBaseConnection--> Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+Thu Jul 18 16:33:12 CST 2019
+interfase.mantenimiento.Usuarios--> Access denied for user 'bgarita'@'%' to database 'pulAnge'
+Thu Jul 18 16:34:09 CST 2019
+accesoDatos.DataBaseConnection--> Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+Thu Jul 18 16:37:10 CST 2019
+interfase.mantenimiento.Usuarios--> Access denied for user 'bgarita'@'%' to database 'pulAnge'

@@ -1685,14 +1685,21 @@ public class UtilBD {
     public static boolean indexInDB(
             Connection conn, String indexName) throws SQLException {
         boolean existe;
+        /* Esta sería la forma para mysql server 8.0
+        String tableA = "information_schema.INNODB_INDEXES";
+        String tableB = "information_schema.innodb_tables";
+        */
+        // mysql server 5.7 y MariaDB
+        String tableA = "information_schema.INNODB_SYS_INDEXES";
+        String tableB = "information_schema.INNODB_SYS_TABLES";
 
-        // Obtener los campos de una tabla.
+        // Validar si existe el índice.
         String sqlSent
                 = "Select  "
                 + "	a.name as indice,  "
                 + "	b.name "
-                + "from information_schema.INNODB_INDEXES a "
-                + "Inner join information_schema.innodb_tables b on a.table_id = b.table_id "
+                + "from " + tableA + " a "
+                + "Inner join " + tableB + " b on a.table_id = b.table_id "
                 + "Where a.name = ? "
                 + "and b.name like '" + Menu.BASEDATOS + "%'";
 
