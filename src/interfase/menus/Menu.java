@@ -59,9 +59,9 @@ public class Menu extends javax.swing.JFrame {
     // Creo la propiedad que contendrá la conexión compartida
     private final Connection sConn;
     
-    private final Fondo f;
-    private final Navegador nav;
-    private final Notificacion notif;         // Notificaciones
+    private final Fondo FONDO;
+    private final Navegador NAV;
+    private final Notificacion NOTIF;         // Notificaciones
     public static String url;
     public static boolean enviarDocumentosElectronicos;
 
@@ -125,8 +125,11 @@ public class Menu extends javax.swing.JFrame {
     public static String USUARIOBD;
     public static String EMPRESA;
     public static String OS_NAME;
+    public static String PORT;
     public static DirectoryStructure DIR;
     public final DataBaseConnection conexion;
+    public static String engineVersion;
+    public static String dataBaseVersion;
 
     /**
      * Creates new form Menu
@@ -147,6 +150,42 @@ public class Menu extends javax.swing.JFrame {
         } // end inner class
         ); // end Listener
 
+        // Bosco agregado 19/07/2019
+        // Establecer la versión del motor de base de datos
+        // y la versión de la base de datos.
+        try {
+            String sqlSent = 
+                    "SHOW VARIABLES LIKE '%VERSION%'";
+            PreparedStatement ps = c.getConnection().prepareStatement(
+                    sqlSent, ResultSet.TYPE_SCROLL_SENSITIVE, 
+                    ResultSet.CONCUR_READ_ONLY);
+            ResultSet rs = CMD.select(ps);
+            Menu.engineVersion = "N/A";
+            Menu.dataBaseVersion = "N/A";
+            if (rs.first()){
+                rs.beforeFirst();
+                while (rs.next()){
+                    if (rs.getString("variable_name").trim().equals("innodb_version")){
+                        Menu.dataBaseVersion = rs.getString("value");
+                        continue;
+                    } // end if
+                    
+                    if (rs.getString("variable_name").trim().equals("version")){
+                        Menu.engineVersion = rs.getString("value");
+                    } // end if
+                } // end while
+            } // end if
+            ps.close();
+                    
+        } catch(SQLException ex) {
+            JOptionPane.showMessageDialog(null,
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+        } // end try-catch
+        // Fin Bosco agregado 19/07/2019
+        
         // Estructura de carpetas del sistema.
         DIR = new DirectoryStructure();
 
@@ -155,6 +194,7 @@ public class Menu extends javax.swing.JFrame {
         Menu.BASEDATOS = c.getDataBaseName();
         Menu.url = url;
         Menu.OS_NAME = Ut.getProperty(Ut.OS_NAME);
+        Menu.PORT = Ut.getConnectionPort(url);
 
         this.setExtendedState(Frame.MAXIMIZED_BOTH);
 
@@ -180,13 +220,13 @@ public class Menu extends javax.swing.JFrame {
         Usuario.USUARIOBD = USUARIOBD;
         // Fin Bosco agregado 23/04/2015
 
-        f = new Fondo();
-        this.add(f);
+        FONDO = new Fondo();
+        this.add(FONDO);
 
         sConn = c.getSharedConnection();
 
-        nav = new Navegador();
-        nav.setConexion(sConn);
+        NAV = new Navegador();
+        NAV.setConexion(sConn);
 
         // Bosco agregado 06/11/2010.
         // Creo la carpeta que se usará como repositorio de
@@ -220,23 +260,23 @@ public class Menu extends javax.swing.JFrame {
 
             // Bosco agregado 23/11/2013
             // Otengo el usuario de base de datos según el motor
-            rs = nav.ejecutarQuery("Select user()");
+            rs = NAV.ejecutarQuery("Select user()");
             if (rs.first()) {
                 Menu.USUARIOBD = rs.getString(1);
                 rs.close();
             } // end if
             // Fin Bosco agregado 23/11/2013
 
-            rs = nav.ejecutarQuery("Select * from config");
+            rs = NAV.ejecutarQuery("Select * from config");
             rs.first();
             Menu.EMPRESA = rs.getString("empresa");
             if (!rs.getString("WallPaper").isEmpty()) {
-                f.setImagen(rs.getString("WallPaper").trim());
+                FONDO.setImagen(rs.getString("WallPaper").trim());
             } // end if
             Menu.enviarDocumentosElectronicos = rs.getBoolean("enviarFacturaE");
             rs.close();
 
-            rs = nav.ejecutarQuery("select @@hostname");
+            rs = NAV.ejecutarQuery("select @@hostname");
             Menu.SERVIDOR = rs.getString(1);
 
             rs.close();
@@ -262,15 +302,16 @@ public class Menu extends javax.swing.JFrame {
          * notificación. Este intervalo se debe comparar contra el max(fecha) de
          * la tabla saisystem.notificado.
          */
-        notif = new Notificacion(conexion.getConnection());
-        notif.start();
+        NOTIF = new Notificacion(conexion.getConnection());
+        NOTIF.start();
         // Fin Bosco agregado 27/07/2013
 
         setTitle(
                 "OSAIS  - "
                 + " Servidor: " + Menu.SERVIDOR
                 + " Base de datos: " + Menu.BASEDATOS
-                + " Usuario: " + Menu.USUARIO);
+                + " Usuario: " + Menu.USUARIO
+                + " Motor: " + Menu.engineVersion);
 
     } // constructor
 
@@ -1937,7 +1978,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void mnuConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConfiguracionActionPerformed
         // Se envía el fondo de pantalla como parámetro
-        Config.main(conexion.getConnection(), f);
+        Config.main(conexion.getConnection(), FONDO);
     }//GEN-LAST:event_mnuConfiguracionActionPerformed
 
     private void mnuTerritoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuTerritoriosActionPerformed
@@ -4016,7 +4057,7 @@ public class Menu extends javax.swing.JFrame {
         // Bosco agregado 07/08/2013
         // Detener las notificaciones
         try {
-            notif.detener();
+            NOTIF.detener();
             setVisible(false);
             dispose();
             if (opcion == 1) {

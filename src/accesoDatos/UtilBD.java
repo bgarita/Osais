@@ -1685,14 +1685,22 @@ public class UtilBD {
     public static boolean indexInDB(
             Connection conn, String indexName) throws SQLException {
         boolean existe;
-        /* Esta sería la forma para mysql server 8.0
+        
+        // Bosco agregado 20/07/2019.  Determinar el número de versión del motor de base de datos.
+        double versionNumber = 
+                Double.parseDouble(Ut.quitarCaracteres(Menu.dataBaseVersion, ".").toString());
+        // Fin Bosco agregado 20/07/2019.
+        
+        // Esta sería la forma para mysql server 8.0
         String tableA = "information_schema.INNODB_INDEXES";
         String tableB = "information_schema.innodb_tables";
-        */
+        
         // mysql server 5.7 y MariaDB
-        String tableA = "information_schema.INNODB_SYS_INDEXES";
-        String tableB = "information_schema.INNODB_SYS_TABLES";
-
+        if (versionNumber >= 5.7 || Menu.engineVersion.contains("Maria")){
+            tableA = "information_schema.INNODB_SYS_INDEXES";
+            tableB = "information_schema.INNODB_SYS_TABLES";
+        } // end if
+        
         // Validar si existe el índice.
         String sqlSent
                 = "Select  "

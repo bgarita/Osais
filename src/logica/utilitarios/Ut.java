@@ -48,6 +48,20 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Ut {
 
+    /**
+     * Obtener el número de puerto por el que está escuchando el motor de base de datos.
+     * @param url String texto que incluye parte de la conexión a base de datos.
+     * @return String número de puerto
+     */
+    public static String getConnectionPort(String url) {
+        String port = "";
+        int pos = getPosicion(url, ":");
+        String temp = url.substring(pos+1);
+        pos = getPosicion(temp, "/");
+        port = temp.substring(0,pos);
+        return port;
+    } // end getConnectionPort
+
     public final int DIA = 1;
     final int MES = 2;
     final int AÑO = 3;
@@ -2213,7 +2227,7 @@ public class Ut {
 
     /**
      * @author Bosco Garita 18/02/2013 Quita todos los caracteres de una cadena
-     * dejando solo los dìgitos.
+     * dejando solo los dígitos.
      * @param valor String que será examinada
      * @return Number valor numérico de la cadena recibida.
      */
@@ -2229,6 +2243,35 @@ public class Ut {
         } // end for
         if (tempString.length() > 0) {
             numero = Integer.parseInt(tempString);
+        } // end if
+        return numero;
+    } // end quitarCaracteres
+    
+    /**
+     * @author Bosco Garita 20/07/2019 Quita todos los caracteres de una cadena
+     * dejando sólo los dígitos y el primer punto.
+     * @param valor String que será examinada
+     * @param separadorDecimal String indica el separador decimal que pueda traer la cadena.
+     * @return Number valor numérico de la cadena recibida.
+     */
+    public static Number quitarCaracteres(String valor, String separadorDecimal) {
+        Number numero = 0;
+        char tempChar;
+        String tempString = "";
+        boolean separador = false; // Se vuelve true cuando se detecta el separador decimal.
+        for (int i = 0; i < valor.length(); i++) {
+            tempChar = valor.charAt(i);
+            
+            if (Character.isDigit(tempChar) || (!separador && separadorDecimal.charAt(0) == tempChar)) {
+                tempString = tempString + tempChar;
+                if (separadorDecimal.charAt(0) == tempChar){
+                   separador = true; 
+                } // end if
+            } // end if
+            
+        } // end for
+        if (tempString.length() > 0) {
+            numero = Double.parseDouble(tempString);
         } // end if
         return numero;
     } // end quitarCaracteres

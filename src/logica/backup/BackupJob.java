@@ -82,19 +82,21 @@ public class BackupJob extends Thread {
         
         for (String dataBase : dataBases) {
             DB = dataBase.trim();
-            //String cmd = "mysqldump -u " + Menu.USUARIO + " -p" + passw.trim() + " --routines " + DB; // original
-            
-//            String cmd = 
-//                    "mysqldump --defaults-extra-file=" + defaultsFile + " --user=" + Menu.USUARIO.trim() + 
-//                    " --max_allowed_packet=1G --default-character-set=utf8 --single-transaction=TRUE --routines --events " + DB;
-            
+
             /*
-            Este string funciona en mysql server 5.7 y en 8.0
-            Hay que buscar la forma de traer el puerto desde la conexión inicial.
-            */
+            Este string fue probado en mysql server 5.5, 5.6, 5.7, 8.0 y en MariaDB 10
+            Si se tiene mysql y MariaDB en el mismo servidor habrá que configurar
+            el path para que ubique la carpeta según el motor que se use.  Por ejemplo:
+            si es MariaDB entonces en el path debe aparecer la ruta de MariaDB/bin
+            pero si es mysql la ruta deberá ser el lugar donde se haya instalado el 
+            servidor de mysql.
             
-            String cmd = 
-                    "mysqldump --defaults-file=" + defaultsFile + " --user=" + Menu.USUARIO.trim() + " --port=3307" +
+            Luego habrá que crear un parámetro para ubicar la herramienta según
+            corresponda con el motor de base de datos.
+            */
+            String tool = "mysqldump ";
+            String cmd = tool +
+                    "--defaults-file=" + defaultsFile + " --user=" + Menu.USUARIO.trim() + " --port=" + Menu.PORT +
                     " --default-character-set=utf8 --single-transaction=TRUE --routines --events " + DB;
             String fileName = targetFolder + "/" + fecha + "_" + DB + ".osais";
             try {
@@ -102,7 +104,6 @@ public class BackupJob extends Thread {
                 lblProceso.setVisible(true);
                 pb.setValue(0);
 
-                //Process p = Runtime.getRuntime().exec("mysqldump -u bgarita -pBendicion0088 sai");
                 Process p = Runtime.getRuntime().exec(cmd);
                 Process calculate = Runtime.getRuntime().exec(cmd);
 
@@ -115,7 +116,6 @@ public class BackupJob extends Thread {
                 
                 Ut.seek(tblConfig, DB, 1);
 
-                //FileOutputStream fos = new FileOutputStream("/home/bosco/dumps/saiTest.sql");
                 FileOutputStream fos = new FileOutputStream(fileName);
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
                 int size = 1000;
