@@ -1,1 +1,0 @@
-05-10-2018 --> No se pueden leer las claves cuando cualquiera de las aplicaciones no tiene una consola o cuando la entrada de la consola se ha redirigido desde un archivo. Inténtelo con Console.Read.

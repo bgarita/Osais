@@ -1,1 +1,0 @@
-05-10-2018 --> El proceso no puede obtener acceso al archivo '\\SERVIDOR\Infot\OSAIS\System\xmls\firmados\00100001010000000150.xml' porque está siendo utilizado en otro proceso.

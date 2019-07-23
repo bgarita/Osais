@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<MensajeReceptor xmlns="https://tribunet.hacienda.go.cr/docs/esquemas/2017/v4.2/mensajeReceptor" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <Clave>50611101800300704203600200001010000004661100004661</Clave>
-    <NumeroCedulaEmisor>3007042036</NumeroCedulaEmisor>
-    <FechaEmisionDoc>2018-10-15T21:34:20-06:00</FechaEmisionDoc>
+<MensajeReceptor xmlns="https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/mensajeReceptor" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <Clave>50618011900310160356900100001030000000043111004721</Clave>
+    <NumeroCedulaEmisor>3101603569</NumeroCedulaEmisor>
+    <Tipo>02</Tipo>
+    <FechaEmisionDoc>2019-07-22T15:02:31-06:00</FechaEmisionDoc>
     <Mensaje>1</Mensaje>
+    <DetalleMensaje></DetalleMensaje>
+    <CodigoActividad>155403</CodigoActividad>
+    <CondicionImpuesto>01</CondicionImpuesto>
+    <MontoTotalImpuestoAcreditar>0.0</MontoTotalImpuestoAcreditar>
+    <MontoTotalDeGastoAplicable>0.0</MontoTotalDeGastoAplicable>
     <MontoTotalImpuesto>0.0</MontoTotalImpuesto>
-    <TotalFactura>3117240.0</TotalFactura>
-    <NumeroCedulaReceptor>3101178506</NumeroCedulaReceptor>
+    <TotalFactura>25.0</TotalFactura>
+    <NumeroCedulaReceptor>302880569</NumeroCedulaReceptor>
     <NumeroConsecutivoReceptor>00100001050000000009</NumeroConsecutivoReceptor>
 </MensajeReceptor>

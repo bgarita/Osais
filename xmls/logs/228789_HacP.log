@@ -1,0 +1,12 @@
+Estado: 5 RECHAZADO
+Respuesta_ext: Este comprobante fue aceptado en el ambiente de pruebas, por lo cual no tiene validez para fines tributarios
+
+El comprobante electrónico tiene los siguientes errores: 
+
+[
+codigo, mensaje, fila, columna
+-29, "El comprobante al cual se está haciendo referencia en el espacio denominado 'clave del comprobante', no se encuentra registrado en las bases de datos de la Administración Tributaria, favor revisar dicha clave.", 0, 0
+
+]
+Numero_consecutivo: 00100001050000000013
+claveHacienda: 50625051900310128649300100001010000440680100000001

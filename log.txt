@@ -392,3 +392,34 @@ Fri Jul 19 19:07:20 CST 2019
 interfase.otros.Notificacionxml--> Cannot run program "C:\Java": CreateProcess error=2, El sistema no puede encontrar el archivo especificado
 Sat Jul 20 09:47:43 CST 2019
 logica.backup.BackupJob--> Cannot run program "mysqldump": CreateProcess error=2, El sistema no puede encontrar el archivo especificado
+Sun Jul 21 20:31:18 CST 2019
+interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.
+Sun Jul 21 20:33:28 CST 2019
+interfase.otros.Notificacionxml--> Cannot run program "C:\Java": CreateProcess error=2, El sistema no puede encontrar el archivo especificado
+Sun Jul 21 20:35:32 CST 2019
+accesoDatos.DataBaseConnection--> Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+Sun Jul 21 20:37:25 CST 2019
+interfase.otros.Notificacionxml--> Cannot run program "C:\Java": CreateProcess error=2, El sistema no puede encontrar el archivo especificado
+Sun Jul 21 21:21:50 CST 2019
+interfase.otros.Notificacionxml--> Cannot run program "C:\Java": CreateProcess error=2, El sistema no puede encontrar el archivo especificado
+Sun Jul 21 21:28:43 CST 2019
+interfase.otros.FacturaElectProveedor--> Cannot run program "C:\Java": CreateProcess error=2, El sistema no puede encontrar el archivo especificado
+Sun Jul 21 21:28:51 CST 2019
+interfase.otros.Notificacionxml--> Cannot run program "C:\Java": CreateProcess error=2, El sistema no puede encontrar el archivo especificado
+Sun Jul 21 22:08:13 CST 2019
+interfase.otros.FacturaElectProveedor--> null
+Mon Jul 22 10:43:29 CST 2019
+interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.
+Mon Jul 22 12:25:01 CST 2019
+interfase.otros.FacturaElectProveedor--> Cannot run program "C:\Java": CreateProcess error=2, El sistema no puede encontrar el archivo especificado
+Mon Jul 22 12:26:37 CST 2019
+interfase.otros.FacturaElectProveedor--> Cannot run program "C:\Java": CreateProcess error=2, El sistema no puede encontrar el archivo especificado
+Mon Jul 22 12:26:40 CST 2019
+interfase.otros.FacturaElectProveedor--> Cannot run program "C:\Java": CreateProcess error=2, El sistema no puede encontrar el archivo especificado
+Tue Jul 23 10:31:08 CST 2019
+interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.
+Tue Jul 23 11:31:49 CST 2019
+interfase.mantenimiento.Inclient--> For input string: ""

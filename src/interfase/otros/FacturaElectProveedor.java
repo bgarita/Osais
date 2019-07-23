@@ -42,8 +42,7 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
     private static final long serialVersionUID = 501L;
     private final Connection conn;
     private ArrayList<String> validFiles;
-    private String detalleMensaje;  // Se usa para incluir el mensaje de facturas rechazadas o aceptadas parcialmente
-
+    
     /**
      * Creates new form FacturaElectProveedor
      *
@@ -51,7 +50,6 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
      */
     public FacturaElectProveedor(Connection conn) {
         initComponents();
-        this.detalleMensaje = "";
         this.conn = conn;
         loadDocumentList();
     }
@@ -81,6 +79,10 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         txaEstadoEnvio = new javax.swing.JTextArea();
         btnSalir = new javax.swing.JButton();
+        cboCondicionImpuesto = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        txtMensaje = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Recibir y consultar documentos electrónicos de proveedores");
@@ -140,7 +142,7 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
             }
         });
 
-        lstDocumentos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Referencias", 2, 0));
+        lstDocumentos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Referencias", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
         lstDocumentos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lstDocumentosMouseClicked(evt);
@@ -153,7 +155,7 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
         txaReporteHacienda.setLineWrap(true);
         txaReporteHacienda.setRows(5);
         txaReporteHacienda.setWrapStyleWord(true);
-        txaReporteHacienda.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Validación de Hacienda", 2, 0));
+        txaReporteHacienda.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Validación de Hacienda", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
         jScrollPane2.setViewportView(txaReporteHacienda);
 
         txaEstadoEnvio.setColumns(20);
@@ -161,7 +163,7 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
         txaEstadoEnvio.setLineWrap(true);
         txaEstadoEnvio.setRows(5);
         txaEstadoEnvio.setWrapStyleWord(true);
-        txaEstadoEnvio.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Estado del envío", 2, 0));
+        txaEstadoEnvio.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Estado del envío", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
         jScrollPane3.setViewportView(txaEstadoEnvio);
 
         btnSalir.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -173,14 +175,22 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
             }
         });
 
+        cboCondicionImpuesto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Genera crédito IVA", "Genera Crédito parcial del IVA", "Bienes de Capital", "Gasto corriente no genera crédito", "Proporcionalidad" }));
+
+        jLabel2.setText("Condición de impuesto");
+
+        jLabel3.setText("Mensaje:");
+
+        txtMensaje.setText(" ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(4, 4, 4)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
@@ -188,24 +198,33 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
                                 .addComponent(btnExaminar))
                             .addComponent(jLabel11))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(radAceptado)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(radAceptadoParcial)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(radRechazado)
-                                .addGap(66, 66, 66)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lblArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 627, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(lblArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 627, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane2)
-                            .addComponent(jScrollPane3))))
+                            .addComponent(jScrollPane3)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtMensaje)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cboCondicionImpuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -214,12 +233,12 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(4, 4, 4)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(btnExaminar)
                     .addComponent(lblArchivo))
-                .addGap(14, 14, 14)
+                .addGap(4, 4, 4)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel11)
                     .addComponent(radAceptado)
@@ -227,14 +246,20 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
                     .addComponent(radRechazado)
                     .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(4, 4, 4)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(cboCondicionImpuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnEnviar, btnSalir});
@@ -296,8 +321,14 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
         // Este archivo queda en la ruta de xmls de proveedores según la clase DirectoryStructure.java
         String xmlEnviar = crearXML(f, respuestaHacienda); // Retorna solo el nombre, no la ruta.
 
-        String cmd = dirXMLS + "EnviarFactura.exe " + xmlEnviar + " " + respuestaHacienda + " 3"; // Enviar respuesta
-        //JOptionPane.showMessageDialog(null, cmd);
+        // Bosco modificado 21/07/2019
+        //String cmd = dirXMLS + "EnviarFactura.exe " + xmlEnviar + " " + respuestaHacienda + " 3"; // Enviar respuesta
+        String cmd = dirXMLS + "EnviarFactura2.exe " + xmlEnviar + " " + this.getTipoCedulaEmisor(f) + " 3"; // Enviar respuesta
+        
+        // DEBUG:
+        //JOptionPane.showMessageDialog(null, "CMD = " + cmd);
+        // Fin Bosco modificado 21/07/2019
+        
         String os = Ut.getProperty(Ut.OS_NAME).toLowerCase();
         try {
             // Este proceso es únicamente windows por lo que no debe correr en Linux
@@ -348,7 +379,9 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
         int selectedIndex = lstDocumentos.getSelectedIndex();
         if (selectedIndex < 0) {
             return;
-        }
+        } // end if
+        
+        String tipoXML = "N/A";
 
         Path path = Paths.get(this.validFiles.get(selectedIndex));
 
@@ -371,7 +404,7 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
         try {
             String dirXMLS = Menu.DIR.getXmls() + Ut.getProperty(Ut.FILE_SEPARATOR);
 
-            String cmd = dirXMLS + "EnviarFactura.exe " + documento + " " + documento + " 4";
+            String cmd = dirXMLS + "EnviarFactura2.exe " + documento + " " + documento + " 4 " + tipoXML;
 
             //JOptionPane.showMessageDialog(null, cmd);
             
@@ -425,29 +458,31 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void radAceptadoParcialMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_radAceptadoParcialMouseClicked
-        this.detalleMensaje = "";
-        if (radAceptadoParcial.isSelected()){
-            this.detalleMensaje = 
-                    JOptionPane.showInputDialog(null, 
-                            "", 
-                            "Motivo de aceptación parcial", 
-                            JOptionPane.QUESTION_MESSAGE);
-        } // end if
+//        this.detalleMensaje = "";
+//        if (radAceptadoParcial.isSelected()){
+//            this.detalleMensaje = 
+//                    JOptionPane.showInputDialog(null, 
+//                            "", 
+//                            "Motivo de aceptación parcial", 
+//                            JOptionPane.QUESTION_MESSAGE);
+//        } // end if
+        this.txtMensaje.requestFocusInWindow();
     }//GEN-LAST:event_radAceptadoParcialMouseClicked
 
     private void radRechazadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_radRechazadoMouseClicked
-        this.detalleMensaje = "";
-        if (radRechazado.isSelected()){
-            this.detalleMensaje = 
-                    JOptionPane.showInputDialog(null, 
-                            "", 
-                            "Motivo de rechazo", 
-                            JOptionPane.QUESTION_MESSAGE);
-        } // end if
+//        this.detalleMensaje = "";
+//        if (radRechazado.isSelected()){
+//            this.detalleMensaje = 
+//                    JOptionPane.showInputDialog(null, 
+//                            "", 
+//                            "Motivo de rechazo", 
+//                            JOptionPane.QUESTION_MESSAGE);
+//        } // end if
+        this.txtMensaje.requestFocusInWindow();
     }//GEN-LAST:event_radRechazadoMouseClicked
 
     private void radAceptadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_radAceptadoMouseClicked
-        this.detalleMensaje = "";
+        this.txtMensaje.setText("");
     }//GEN-LAST:event_radAceptadoMouseClicked
 
 
@@ -456,8 +491,11 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
     private javax.swing.JButton btnExaminar;
     private javax.swing.JButton btnSalir;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JComboBox<String> cboCondicionImpuesto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -468,6 +506,7 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
     private javax.swing.JRadioButton radRechazado;
     private javax.swing.JTextArea txaEstadoEnvio;
     private javax.swing.JTextArea txaReporteHacienda;
+    private javax.swing.JTextField txtMensaje;
     // End of variables declaration//GEN-END:variables
 
     
@@ -476,6 +515,7 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
         String fileName = "";
         String clave;
         String cedulaEmisor;
+        //String tipoCedulaEmisor;
         String cedulaReceptor;
         String impuesto;
         String totalComprobante;
@@ -522,6 +562,7 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
             return "";
         } // end if
+        
 
         // Leo el archivo xml recibido para tomar los valores y generar la respuesta.
         try {
@@ -541,6 +582,7 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
             clave = node.getTextContent();
 
             // Obtengo el número de cédula del emisor
+            /* Bosco modificado 22/07/2019
             nList = doc.getElementsByTagName("NumeroCedulaEmisor");
             node = nList.item(0);
             if (node == null) {
@@ -548,7 +590,18 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
                 node = nList.item(0);
             } // end if
             cedulaEmisor = node.getTextContent();
-
+            */
+            
+            // Obtengo el tipo de cédula del emisor
+//            nList = doc.getElementsByTagName("Tipo");
+//            node = nList.item(0);
+//            tipoCedulaEmisor = node.getTextContent();
+            
+            // Obtengo el número de cédula del emisor
+            nList = doc.getElementsByTagName("Numero");
+            node = nList.item(0);
+            cedulaEmisor = node.getTextContent();
+            
             // Obtengo el número de cédula del receptor (o sea nosotros)
             nList = doc.getElementsByTagName("NumeroCedulaReceptor");
             node = nList.item(0);
@@ -565,8 +618,13 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
                 nList = doc.getElementsByTagName("TotalImpuesto");
                 node = nList.item(0);
             } // end if
-            impuesto = node.getTextContent();
-
+            
+            // Bosco modificado 22/07/2019
+            // Si el nodo del impuesto no está presente entonces pongo el monto en cero.
+            //impuesto = node.getTextContent();
+            impuesto = (node == null? "0.0": node.getTextContent());
+            // Fin Bosco modificado 22/07/2019
+            
             // Total de la factura
             nList = doc.getElementsByTagName("TotalFactura");
             node = nList.item(0);
@@ -584,23 +642,25 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
 
             mr.setClave(clave);
             mr.setNumeroCedulaEmisor(cedulaEmisor);
+            //mr.setTipoIdentificacionEmisor(tipoCedulaEmisor);
             mr.setFechaEmisionDoc(fechaEmisionDoc);
             mr.setMensaje(respuestaHacienda);
             mr.setMontoTotalImpuesto(Double.parseDouble(impuesto));
-            
             mr.setCodigoActividad("155403"); // Julio 2019
-            mr.setCondicionImpuesto("01");   // Julio 2019
+            
             /*
-            01=Genera crédito 9 IVA, 
-            02=Genera Crédito parcial del IVA 10, 
-            03=Bienes de Capital 11
-            04=Gasto corriente 12 no genera crédito
-            05=Proporcionalidad 13
+            01=Genera crédito IVA, 
+            02=Genera Crédito parcial del IVA, 
+            03=Bienes de Capital
+            04=Gasto corriente no genera crédito
+            05=Proporcionalidad
             */
+            String condicionImpuesto = "0" + (this.cboCondicionImpuesto.getSelectedIndex() + 1);
+            mr.setCondicionImpuesto(condicionImpuesto);   // Julio 2019
             mr.setMontoTotalImpuestoAcreditar(Double.parseDouble(impuesto)); // Julio 2019
             mr.setMontoTotalDeGastoAplicable(0.00);                         // Julio 2019
             
-            mr.setDetalleMensaje(this.detalleMensaje);
+            mr.setDetalleMensaje(this.txtMensaje.getText());
             
             mr.setTotalFactura(Double.parseDouble(totalComprobante));
             mr.setNumeroCedulaReceptor(cedulaReceptor);
@@ -696,4 +756,32 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
         } // end for
         this.lstDocumentos.setModel(dlm);
     } // end loadDocumentList
+    
+    
+    private String getTipoCedulaEmisor(File xmlFile) {
+        String tipoCedulaEmisor = "01";
+        
+        // Leo el archivo xml recibido para obtener el tipo de cédula del emisor.
+        try {
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(xmlFile);
+            doc.getDocumentElement().normalize();
+            
+            // Obtengo el tipo de cédula del emisor
+            NodeList nList = doc.getElementsByTagName("Tipo");
+            Node node = nList.item(0);
+            tipoCedulaEmisor = node.getTextContent();
+            
+        } catch (Exception ex) {
+            Logger.getLogger(FacturaElectProveedor.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+        } // end try-catch
+
+        return tipoCedulaEmisor;
+    } // end getTipoIDFromXML
 } // end class

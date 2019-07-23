@@ -1,0 +1,87 @@
+<MensajeReceptor xmlns="https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/mensajeReceptor" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Clave>50625051900310128649300100001010000440680100000001</Clave>
+  <NumeroCedulaEmisor>3101286493</NumeroCedulaEmisor>
+  <FechaEmisionDoc>2019-07-23T11:24:38-06:00</FechaEmisionDoc>
+  <Mensaje>1</Mensaje>
+  <DetalleMensaje> Pruebas</DetalleMensaje>
+  <MontoTotalImpuesto>0.0</MontoTotalImpuesto>
+  <CodigoActividad>155403</CodigoActividad>
+  <CondicionImpuesto>01</CondicionImpuesto>
+  <MontoTotalImpuestoAcreditar>0.0</MontoTotalImpuestoAcreditar>
+  <MontoTotalDeGastoAplicable>0.0</MontoTotalDeGastoAplicable>
+  <TotalFactura>6870.0</TotalFactura>
+  <NumeroCedulaReceptor>302880569</NumeroCedulaReceptor>
+  <NumeroConsecutivoReceptor>00100001050000000013</NumeroConsecutivoReceptor>
+  <ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#" Id="Signature-23c71db1-36d9-4cc8-b082-771c2643b9cb">
+    <ds:SignedInfo>
+      <ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+      <ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256" />
+      <ds:Reference Id="Reference-83f581a7-14cf-433b-bd6f-505087c2abf6" URI="">
+        <ds:Transforms>
+          <ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+        </ds:Transforms>
+        <ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" />
+        <ds:DigestValue>o5qrrsBMaJwKPATQXw4Bt+YpiRZjw2qcGjZ93l0Gvr4=</ds:DigestValue>
+      </ds:Reference>
+      <ds:Reference Id="ReferenceKeyInfo" URI="#KeyInfoId-Signature-23c71db1-36d9-4cc8-b082-771c2643b9cb">
+        <ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" />
+        <ds:DigestValue>C+WK78ldMe93qNO1YQcZLNyTeXc4lJFiw0HPPaemOM4=</ds:DigestValue>
+      </ds:Reference>
+      <ds:Reference Type="http://uri.etsi.org/01903#SignedProperties" URI="#SignedProperties-Signature-23c71db1-36d9-4cc8-b082-771c2643b9cb">
+        <ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" />
+        <ds:DigestValue>VfInXb5UDvhapbP3OKl9xQSNkt8Lja6sx7ragXxE/Cs=</ds:DigestValue>
+      </ds:Reference>
+    </ds:SignedInfo>
+    <ds:SignatureValue Id="SignatureValue-23c71db1-36d9-4cc8-b082-771c2643b9cb">TOvNn8D30tWv+aHdxKvK9ZUXxL+sGlr7755OuBwZW4VU2nMOWEgWVuHPthYO5hVpgMpkA3dvuGfmwxh/1lFDIQXpOXtrCMR/rbOMhxF4C8REJvmcDhMwsZeVQZfgzgDzgTtXFou9HwbzwDuWlK1H4s5MbAza3Zl4GwSl4FqBE9ZF8jWazsAlOTO8TyGVdIeQ13DXY9180+YGL4X3XbRC0fzwoPU73mEJXB9UrhW8H7MwzHBTMQ36+FVwBqOOwBsTajh9e/qVZ1rUiYjeJQyhgTWosqGRR06exEq/bKG7mnCv3CdJQDe8XqE+PdaATRpCGqBAy1WtMUVPs2tL2E8KAA==</ds:SignatureValue>
+    <ds:KeyInfo Id="KeyInfoId-Signature-23c71db1-36d9-4cc8-b082-771c2643b9cb">
+      <ds:X509Data>
+        <ds:X509Certificate>MIIFXzCCA0egAwIBAgIGAWuaQGDyMA0GCSqGSIb3DQEBCwUAMGwxCzAJBgNVBAYTAkNSMSkwJwYDVQQKDCBNSU5JU1RFUklPIERFIEhBQ0lFTkRBIC0gU0FOREJPWDEMMAoGA1UECwwDREdUMSQwIgYDVQQDDBtDQSBQRVJTT05BIEZJU0lDQSAtIFNBTkRCT1gwHhcNMTkwNjI3MTg0MzU4WhcNMjEwNjI2MTg0MzU4WjCBpzEZMBcGA1UEBRMQQ1BGLTAzLTAyODgtMDU2OTEYMBYGA1UEBAwPR0FSSVRBIEFaT0ZFSUZBMRUwEwYDVQQqDAxCT1NDTyBFVkVMSU8xCzAJBgNVBAYTAkNSMRcwFQYDVQQKDA5QRVJTT05BIEZJU0lDQTEMMAoGA1UECwwDQ1BGMSUwIwYDVQQDDBxCT1NDTyBFVkVMSU8gR0FSSVRBIEFaT0ZFSUZBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAi9gev54vH3/4yvDls62OPBEdzljlJMw9yFA+goCRRniAiC5c39gslVDYACpiTX1VoW4+1S45cvobfV7Fom8kPwZF4Yrswvfm2bclg7ByCXvg+E9ErKkONoFwNIgmO0UG2c6jhbbGjq9QkN9WAYZqLj73FpL7kcmbROtKT7zZg0mGq1u3GtGffIK7JOD6Rrwg6JBZw2dLY7jy7brQoM5A2kzhFe7jZkY7bVvbbOZVASUpHOEAAkDZshRTscbkSY9BIP7+CwVRdC5tMFMXyKWz7vI7DuwIQtkNjwXSQA0YwxNPUha/HvXl1/h9wJu1c+0xqqMEFu5PZmiOQiElE2A0rQIDAQABo4HKMIHHMB8GA1UdIwQYMBaAFEYj0kRPv1dZIeS/k9Uwm5VM4/eHMB0GA1UdDgQWBBToP+FESrLo83oSTjwWgoc+oH5ipzALBgNVHQ8EBAMCBsAwEwYDVR0lBAwwCgYIKwYBBQUHAwQwYwYIKwYBBQUHAQEEVzBVMFMGCCsGAQUFBzAChkdodHRwczovL3BraS5jb21wcm9iYW50ZXNlbGVjdHJvbmljb3MuZ28uY3Ivc3RhZy9pbnRlcm1lZGlhdGUtcGYtcGVtLmNydDANBgkqhkiG9w0BAQsFAAOCAgEAjjHSSKXEyg6HZY5ylzil+p2PxmhBkkIc17q17F9BUgNa8Od4YwYGT/z1fPaaUeUGtnh5jt2c4HLUw6zOn8gcBKx9qoAypkExvKHsdxlU4ksctaV5UiDcrA+fnXGMUY2XRoWlgi8bk8NvU9Cuf4A1R/L/UsGLZrfoWP+lR9jc/RLLZxXeNrrs0dLu4p/l8nFc36ZEQhGm3Jm4CIr8lisbdXGbMB02qJPS4E6Nr7DzCAn9Sz5hi7c9tXBrzAPiCXld09pn2rm2i4z2vv9lqrN/r7yvtmPdoB2sDCywV2VxBukBwKRD/Q2fLKKMchMDZQ0nd2o0ALH5RMIIhP+guOpdu5ebxYAf4IxwNwHGyyPI5ywIz6VReKuEWT3tNNxPr29geoW63NpCpla5fxyf/ar4xy3odZi70VBoQIgf5Fjbiz76jNCpI3/YZztoP3oni4S6teL1PBbS3Dt39j5jvpkKZTbCVpSzSVNz+V+GBvFX+Q8MK5VF9HltT5ww5aBpsO/fq/yk4ytFn8AYdT9C7GahaCnlCQga3rGToEqiXlQ8wvcy1JeEj3DdIt19zzmNppx7zBUUujYuLxPMfASoY2AO0tYWnrjm4JFg6N5rnsXgpKoqo7rV80TIE0bSDbJESICOfmYsKmc7l2SKNu+hVsh1zs3SEJ0Japtm7INYDGyF8Rg=</ds:X509Certificate>
+      </ds:X509Data>
+      <ds:KeyValue>
+        <ds:RSAKeyValue>
+          <ds:Modulus>i9gev54vH3/4yvDls62OPBEdzljlJMw9yFA+goCRRniAiC5c39gslVDYACpiTX1VoW4+1S45cvobfV7Fom8kPwZF4Yrswvfm2bclg7ByCXvg+E9ErKkONoFwNIgmO0UG2c6jhbbGjq9QkN9WAYZqLj73FpL7kcmbROtKT7zZg0mGq1u3GtGffIK7JOD6Rrwg6JBZw2dLY7jy7brQoM5A2kzhFe7jZkY7bVvbbOZVASUpHOEAAkDZshRTscbkSY9BIP7+CwVRdC5tMFMXyKWz7vI7DuwIQtkNjwXSQA0YwxNPUha/HvXl1/h9wJu1c+0xqqMEFu5PZmiOQiElE2A0rQ==</ds:Modulus>
+          <ds:Exponent>AQAB</ds:Exponent>
+        </ds:RSAKeyValue>
+      </ds:KeyValue>
+    </ds:KeyInfo>
+    <ds:Object Id="XadesObjectId-a4b70b33-51cf-47f9-8936-8a19bca9d102">
+      <xades:QualifyingProperties xmlns:xades="http://uri.etsi.org/01903/v1.3.2#" Id="QualifyingProperties-b802a94e-9d6f-4fe6-b0af-dfc52564d8fc" Target="#Signature-23c71db1-36d9-4cc8-b082-771c2643b9cb">
+        <xades:SignedProperties Id="SignedProperties-Signature-23c71db1-36d9-4cc8-b082-771c2643b9cb">
+          <xades:SignedSignatureProperties>
+            <xades:SigningTime>2019-07-23T11:25:07-06:00</xades:SigningTime>
+            <xades:SigningCertificate>
+              <xades:Cert>
+                <xades:CertDigest>
+                  <ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" />
+                  <ds:DigestValue>9X16Xs/TTKqKefLtTdV1+oiXQ/qUVS67qCP/GMJqTP0=</ds:DigestValue>
+                </xades:CertDigest>
+                <xades:IssuerSerial>
+                  <ds:X509IssuerName>CN=CA PERSONA FISICA - SANDBOX, OU=DGT, O=MINISTERIO DE HACIENDA - SANDBOX, C=CR</ds:X509IssuerName>
+                  <ds:X509SerialNumber>1561661038834</ds:X509SerialNumber>
+                </xades:IssuerSerial>
+              </xades:Cert>
+            </xades:SigningCertificate>
+            <xades:SignaturePolicyIdentifier>
+              <xades:SignaturePolicyId>
+                <xades:SigPolicyId>
+                  <xades:Identifier>https://tribunet.hacienda.go.cr/docs/esquemas/2016/v4.1/Resolucion_Comprobantes_Electronicos_DGT-R-48-2016.pdf</xades:Identifier>
+                  <xades:Description />
+                </xades:SigPolicyId>
+                <xades:SigPolicyHash>
+                  <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+                  <ds:DigestValue>Ohixl6upD6av8N7pEvDABhEL6hM=</ds:DigestValue>
+                </xades:SigPolicyHash>
+              </xades:SignaturePolicyId>
+            </xades:SignaturePolicyIdentifier>
+          </xades:SignedSignatureProperties>
+          <xades:SignedDataObjectProperties>
+            <xades:DataObjectFormat ObjectReference="#Reference-83f581a7-14cf-433b-bd6f-505087c2abf6">
+              <xades:MimeType>text/xml</xades:MimeType>
+              <xades:Encoding>UTF-8</xades:Encoding>
+            </xades:DataObjectFormat>
+          </xades:SignedDataObjectProperties>
+        </xades:SignedProperties>
+      </xades:QualifyingProperties>
+    </ds:Object>
+  </ds:Signature>
+</MensajeReceptor>

@@ -14,9 +14,10 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "MensajeReceptor")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(propOrder
-        = {"clave", "numeroCedulaEmisor", "fechaEmisionDoc", "mensaje","detalleMensaje",
-            "codigoActividad", "condicionImpuesto", "montoTotalImpuestoAcreditar",
-            "montoTotalDeGastoAplicable","montoTotalImpuesto", "totalFactura",
+        = {"clave", "numeroCedulaEmisor", "fechaEmisionDoc",                    // "tipoIdentificacionEmisor",
+            "mensaje", "detalleMensaje", "montoTotalImpuesto", "codigoActividad",
+            "condicionImpuesto","montoTotalImpuestoAcreditar",   
+            "montoTotalDeGastoAplicable", "totalFactura",
             "numeroCedulaReceptor", "numeroConsecutivoReceptor"})
 public class MensajeReceptor {
 
@@ -32,9 +33,12 @@ public class MensajeReceptor {
     @XmlElement(name = "Clave")
     private String clave;
 
+//    @XmlElement(name = "TipoIdentificacionEmisor")
+//    private String tipoIdentificacionEmisor;
+    
     @XmlElement(name = "NumeroCedulaEmisor")
     private String numeroCedulaEmisor;
-
+    
     @XmlElement(name = "FechaEmisionDoc")
     private String fechaEmisionDoc;
 
@@ -44,6 +48,9 @@ public class MensajeReceptor {
     @XmlElement(name = "DetalleMensaje")
     private String detalleMensaje;
     
+    @XmlElement(name = "MontoTotalImpuesto")
+    private double montoTotalImpuesto;
+    
     @XmlElement(name = "CodigoActividad")
     private String codigoActividad; // Julio 2019
     
@@ -52,22 +59,21 @@ public class MensajeReceptor {
     
     @XmlElement(name = "MontoTotalImpuestoAcreditar")
     private double montoTotalImpuestoAcreditar; // Julio 2019
-
+    
     @XmlElement(name = "MontoTotalDeGastoAplicable")
     private double montoTotalDeGastoAplicable; // Julio 2019
     
-    
-    @XmlElement(name = "MontoTotalImpuesto")
-    private double montoTotalImpuesto;
-
     @XmlElement(name = "TotalFactura")
     private double totalFactura;
 
     @XmlElement(name = "NumeroCedulaReceptor")
     private String numeroCedulaReceptor;
-
+    
     @XmlElement(name = "NumeroConsecutivoReceptor")
     private String numeroConsecutivoReceptor;
+    
+
+    
 
     
     // Métodos accesorios
@@ -111,6 +117,14 @@ public class MensajeReceptor {
         this.numeroCedulaEmisor = numeroCedulaEmisor;
     }
 
+//    public String getTipoIdentificacionEmisor() {
+//        return tipoIdentificacionEmisor;
+//    }
+//
+//    public void setTipoIdentificacionEmisor(String tipoIdentificacionEmisor) {
+//        this.tipoIdentificacionEmisor = tipoIdentificacionEmisor;
+//    }
+    
     public String getFechaEmisionDoc() {
         return fechaEmisionDoc;
     }
