@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Factura" pageWidth="220" pageHeight="1080" columnWidth="198" leftMargin="20" rightMargin="2" topMargin="6" bottomMargin="6" uuid="944bfb6a-109e-4767-a15c-3a5fd07cdb3e">
 	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="954"/>
 	<parameter name="pFacnume" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[new Integer(1)]]></defaultValueExpression>
 	</parameter>
@@ -174,21 +174,21 @@
 			<staticText>
 				<reportElement x="0" y="106" width="32" height="13" uuid="11b54022-85f5-448b-b617-e140d32f44e7"/>
 				<textElement>
-					<font fontName="Arial" size="9"/>
+					<font fontName="Calibri" size="10"/>
 				</textElement>
 				<text><![CDATA[Cliente]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="38" y="106" width="44" height="13" uuid="8ad67be5-6088-4e51-bf95-6cd538579d7b"/>
+				<reportElement x="38" y="106" width="52" height="13" uuid="8ad67be5-6088-4e51-bf95-6cd538579d7b"/>
 				<textElement>
-					<font fontName="Arial" size="9" isBold="true"/>
+					<font fontName="Calibri" size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{clicode}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="119" y="106" width="59" height="13" uuid="47048e55-d5f3-48e7-a52f-e422f40913b0"/>
 				<textElement>
-					<font fontName="Arial" size="9"/>
+					<font fontName="Calibri" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{clitel1}]]></textFieldExpression>
 			</textField>
@@ -202,7 +202,7 @@
 			<staticText>
 				<reportElement x="100" y="106" width="18" height="13" uuid="b3a303ec-92ea-4e53-a125-98522bce14c4"/>
 				<textElement>
-					<font fontName="Arial" size="9"/>
+					<font fontName="Calibri" size="10"/>
 				</textElement>
 				<text><![CDATA[Tel.:]]></text>
 			</staticText>

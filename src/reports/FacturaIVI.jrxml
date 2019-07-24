@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Factura" pageWidth="216" pageHeight="1080" columnWidth="194" leftMargin="20" rightMargin="2" topMargin="6" bottomMargin="6" uuid="8a6871c2-9858-4e1b-b535-91cec5e8fa2b">
 	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="657"/>
+	<property name="ireport.y" value="561"/>
 	<parameter name="pFacnume" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[new Integer(1)]]></defaultValueExpression>
 	</parameter>
@@ -137,16 +137,16 @@
 				<textFieldExpression><![CDATA[$F{Direccion}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="49" y="80" width="43" height="15" uuid="de7dd02e-f331-43d3-a496-fed877cb8d92"/>
-				<textElement textAlignment="Right">
-					<font fontName="SansSerif" size="9" isBold="true"/>
+				<reportElement x="49" y="80" width="67" height="15" uuid="de7dd02e-f331-43d3-a496-fed877cb8d92"/>
+				<textElement>
+					<font fontName="Calibri" size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{facnume}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
 				<reportElement x="125" y="80" width="53" height="15" uuid="ce0b5b26-5221-4842-b47d-bbfb250e3490"/>
 				<textElement textAlignment="Right">
-					<font fontName="SansSerif" size="9"/>
+					<font fontName="Calibri" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{facfech}]]></textFieldExpression>
 			</textField>
@@ -212,8 +212,8 @@
 			</staticText>
 			<textField evaluationTime="Report">
 				<reportElement x="0" y="80" width="47" height="15" uuid="48ef4e40-2fbb-4cfe-9f93-0f7e2b3446bb"/>
-				<textElement>
-					<font fontName="SansSerif" size="9"/>
+				<textElement textAlignment="Right">
+					<font fontName="Calibri" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{plblDocum}]]></textFieldExpression>
 			</textField>
@@ -229,7 +229,7 @@
 					<printWhenExpression><![CDATA[$P{pFacnume}.intValue() > 0 && $P{pFacnd}.intValue() == 0 ? new Boolean(true): new Boolean(false)]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Center">
-					<font fontName="SansSerif" size="9"/>
+					<font fontName="Calibri" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cedulajur}.trim()]]></textFieldExpression>
 			</textField>
