@@ -35,7 +35,6 @@ import logica.utilitarios.Ut;
  *
  * @author Bosco Garita
  */
-@SuppressWarnings("serial")
 public class RegistroFacturasC extends javax.swing.JFrame {
 
     private Connection conn;
@@ -483,16 +482,21 @@ public class RegistroFacturasC extends javax.swing.JFrame {
         );
 
         btnGuardar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/disk.png"))); // NOI18N
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZSAVE.png"))); // NOI18N
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarActionPerformed(evt);
             }
         });
+        btnGuardar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnGuardarKeyPressed(evt);
+            }
+        });
 
         btnSalir.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/control-power.png"))); // NOI18N
+        btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZCLOSE.png"))); // NOI18N
         btnSalir.setText("Salir");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1265,6 +1269,12 @@ public class RegistroFacturasC extends javax.swing.JFrame {
         this.habilitarMediodePago();
     }//GEN-LAST:event_cboTipoPagoFocusGained
 
+    private void btnGuardarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnGuardarKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            btnGuardarActionPerformed(null);
+        }
+    }//GEN-LAST:event_btnGuardarKeyPressed
+
     /**guments
      * @param tipoDoc
      * @param procode
@@ -1324,14 +1334,13 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                     } // end if
                     
                     RegistroFacturasC rfc = new RegistroFacturasC(c);
+                    rfc.setVisible(true);
                     
                     if (tipoDoc != 0){
                         rfc.setParameters(tipoDoc, procode, refInv, monto, IV, descuento);
                         rfc.setAlwaysOnTop(true);
                         rfc.btnGuardar.requestFocusInWindow();
                     } // end if
-                    
-                    rfc.setVisible(true);
                     
                 } catch (CurrencyExchangeException | SQLException | NumberFormatException | HeadlessException ex) {
                     JOptionPane.showMessageDialog(null,

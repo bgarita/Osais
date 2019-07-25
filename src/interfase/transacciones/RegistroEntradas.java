@@ -526,6 +526,11 @@ public class RegistroEntradas extends javax.swing.JFrame {
                 btnAgregarActionPerformed(evt);
             }
         });
+        btnAgregar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnAgregarKeyPressed(evt);
+            }
+        });
 
         btnBorrar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/cross.png"))); // NOI18N
@@ -2997,6 +3002,12 @@ public class RegistroEntradas extends javax.swing.JFrame {
     private void lblCantidadMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCantidadMouseExited
         lblCantidad.setCursor(null);
     }//GEN-LAST:event_lblCantidadMouseExited
+
+    private void btnAgregarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnAgregarKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            btnAgregarActionPerformed(null);
+        }
+    }//GEN-LAST:event_btnAgregarKeyPressed
 
     /**
      * @param c

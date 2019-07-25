@@ -3674,6 +3674,8 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuRefNCActionPerformed
 
     private void mnuConsXMLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsXMLActionPerformed
+        // Nota: se debe establecer un filtro ya que esta consulta carga
+        // muchos datos. Bosco 24/07/2019.
         String sqlSent
                 = "Select     "
                 + "	a.facnume,  "

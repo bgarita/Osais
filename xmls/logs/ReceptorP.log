@@ -339,3 +339,43 @@ Argumento 3 = N/A
 Log generado: xmls\logs\228809_HacP.log
 23-07-2019 11:48:52: Guardando xml firmado y devuelto por Hacienda.
 Finaliza proceso: 23-07-2019 11:48:52
+Inicia proceso: 25-07-2019 12:26:36
+25-07-2019 12:26:36: Validaci¢n de par metros recibidos.
+Argumentos recibidos
+Argumento 0 = 228809
+Argumento 1 = 228809
+Argumento 2 = 4
+Argumento 3 = N/A
+25-07-2019 12:26:36: Validaci¢n de par metros recibidos.
+25-07-2019 12:26:36: Consultando referencia 228809
+25-07-2019 12:26:36: El estado reportado por Hacienda es: 4 ACEPTADO
+Log generado: xmls\logs\228809_HacP.log
+25-07-2019 12:26:36: Guardando xml firmado y devuelto por Hacienda.
+Finaliza proceso: 25-07-2019 12:26:36
+Inicia proceso: 25-07-2019 12:26:39
+25-07-2019 12:26:39: Validaci¢n de par metros recibidos.
+Argumentos recibidos
+Argumento 0 = 228789
+Argumento 1 = 228789
+Argumento 2 = 4
+Argumento 3 = N/A
+25-07-2019 12:26:39: Validaci¢n de par metros recibidos.
+25-07-2019 12:26:39: Consultando referencia 228789
+25-07-2019 12:26:39: El estado reportado por Hacienda es: 5 RECHAZADO
+Log generado: xmls\logs\228789_HacP.log
+25-07-2019 12:26:39: Guardando xml firmado y devuelto por Hacienda.
+25-07-2019 12:26:39: Hacienda a£n no ha emitido respuesta firmada.
+Finaliza proceso: 25-07-2019 12:26:39
+Inicia proceso: 25-07-2019 12:26:44
+25-07-2019 12:26:44: Validaci¢n de par metros recibidos.
+Argumentos recibidos
+Argumento 0 = 228809
+Argumento 1 = 228809
+Argumento 2 = 4
+Argumento 3 = N/A
+25-07-2019 12:26:44: Validaci¢n de par metros recibidos.
+25-07-2019 12:26:44: Consultando referencia 228809
+25-07-2019 12:26:44: El estado reportado por Hacienda es: 4 ACEPTADO
+Log generado: xmls\logs\228809_HacP.log
+25-07-2019 12:26:44: Guardando xml firmado y devuelto por Hacienda.
+Finaliza proceso: 25-07-2019 12:26:44

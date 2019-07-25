@@ -1,0 +1,4 @@
+25-07-2019
+Estado del envío: -1
+Referencia: 
+Mensaje: RegistraFactura: Tipo de documento no es permitido por el momento

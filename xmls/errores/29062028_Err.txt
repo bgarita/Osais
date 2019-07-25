@@ -1,0 +1,1 @@
+25-07-2019 --> Incorrect integer value: '' for column `laflor`.`faestadodocelect`.`referencia` at row 1
