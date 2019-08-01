@@ -1,10 +1,7 @@
 package Mail;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
 import javax.activation.DataHandler;
@@ -26,11 +23,18 @@ public class MailSender {
     private String remitente;
     private String[] asCorreoDestino;
     private String errorMessage = "";
+    private boolean error;
 
     private Properties gmailProps;
 
     public MailSender() {
         //this.CONFIG_FILE = "mail.props"; // Debe estar en la carpeta del sistema
+        error = false;
+        errorMessage = "";
+    }
+
+    public boolean isError() {
+        return error;
     }
 
     
@@ -99,6 +103,7 @@ public class MailSender {
 
             Transport.send(msg);
         } catch (MessagingException ex) {
+            error = true;
             errorMessage = ex.getMessage();
             new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return false;
@@ -142,6 +147,7 @@ public class MailSender {
 
             Transport.send(msg);
         } catch (MessagingException ex) {
+            error = true;
             errorMessage = ex.getMessage();
             return false;
         } // end try-catch
@@ -218,6 +224,7 @@ public class MailSender {
             Transport.send(msg);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
+            error = true;
             errorMessage = ex.getMessage();
             return false;
         } // end try-catch
@@ -277,6 +284,7 @@ public class MailSender {
             Transport.send(message);
         } catch (Exception ex) {
             System.out.println(ex);
+            error = true;
             errorMessage = ex.getMessage();
             return false;
         } // end try-catch

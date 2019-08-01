@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import logica.DocumentoElectronico;
 import logica.utilitarios.Ut;
 import logica.xmls.ConsultaXMLv1;
 
@@ -163,7 +164,9 @@ public class ConsultaFacturasXML extends javax.swing.JFrame {
         } // end if
 
         String dirXMLS = Menu.DIR.getXmls() + Ut.getProperty(Ut.FILE_SEPARATOR);
-        String tipo = getTipo(Integer.parseInt(ref.trim()));
+        //String tipo = getTipo(Integer.parseInt(ref.trim()));
+        DocumentoElectronico doc = new DocumentoElectronico(0,0,"",conn);
+        String tipo = doc.getTipoDoc(Integer.parseInt(ref));
 
         //String cmd = dirXMLS + "EnviarFactura.exe " + ref + " " + documento + " 2";
         String cmd = dirXMLS + "EnviarFactura2.exe " + ref + " " + documento + " 2 " + tipo;
@@ -184,9 +187,6 @@ public class ConsultaFacturasXML extends javax.swing.JFrame {
             return;
         }
 
-        // Aquí va el proceso de consulta a Hacienda (se hace con la referencia).
-        // Formar el nombre del archivo que contiene la información que viene
-        // de Hacienda.
         String dirLogs = Menu.DIR.getLogs() + Ut.getProperty(Ut.FILE_SEPARATOR);
         String sufijo = "_Hac.log";
         
@@ -199,15 +199,27 @@ public class ConsultaFacturasXML extends javax.swing.JFrame {
             if (!f.exists()){ // Proveedores
                 sufijo = "_HacCompras.log";
             } // end if
+            if (!f.exists()) {
+                /*
+                Si tampoco existe este archivo es porque hay un error que se
+                generó drante la ejecusión de EnviarFactura2.exe
+                El log que genera queda en la misma carpeta del xml, con el
+                mismo nombre de la factura pero con la extensión .log
+                */
+                sufijo = ".log";
+            } // end if
         } // end if
         
-        //path = Paths.get(dirLogs + documento + "_Hac.log");
-        path = Paths.get(dirLogs + documento + sufijo);
-
+        if (sufijo.equals(".log")){
+            path = Paths.get(dirXMLS + documento + sufijo);
+        } else {
+            path = Paths.get(dirLogs + documento + sufijo);
+        } // end if-else
+        
         String texto = Ut.fileToString(path);
         if (texto.contains("Archivo no encontrado")) {
-            texto = "Hacienda aún no ha respondido.";
-        } // end if   
+            texto = "Ocurrió un error. Falta el archivo " + path.toFile().getAbsolutePath();
+        } // end if  
         this.txaReporteHacienda.setText(texto);
 
     }//GEN-LAST:event_lstDocumentosMouseClicked

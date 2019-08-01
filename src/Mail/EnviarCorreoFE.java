@@ -197,6 +197,12 @@ public class EnviarCorreoFE {
             } // end if
             envioCorreo.sendAttachmentMail_GM(
                     destinatario, titulo, texto, archivos);
+            if (envioCorreo.isError()){
+                // Aquí no se escribe en bitácora porque la clase MailSender ya lo hizo
+                this.error = true;
+                this.error_msg = envioCorreo.getErrorMessage();
+                return false;
+            } // end if
         } catch (Exception ex) {
             b.writeToLog(
                     "ERROR: " + ex.getMessage() + " " + destinatario + ". "

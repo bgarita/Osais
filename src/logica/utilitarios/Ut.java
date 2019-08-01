@@ -3112,6 +3112,7 @@ public class Ut {
 
         // Establecer los parámetros predeterminados
         props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
         props.put("mail.smtp.user", "osais3112@gmail.com");
         props.put("mail.smtp.clave", "Bendicion3112$");
         props.put("mail.smtp.auth", "true");

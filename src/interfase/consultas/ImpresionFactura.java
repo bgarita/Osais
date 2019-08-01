@@ -6,7 +6,6 @@
 package interfase.consultas;
 
 import Mail.Bitacora;
-import Mail.EnviarCorreoFE;
 import accesoDatos.CMD;
 import interfase.reportes.Reportes;
 import accesoDatos.UtilBD;
@@ -23,6 +22,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import logica.DocumentoElectronico;
 
 /**
  *
@@ -886,7 +886,7 @@ public class ImpresionFactura extends java.awt.Dialog {
                             JOptionPane.ERROR_MESSAGE);
                     new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 } // end try-catch
-                
+
                 fact.setTipo(tipo);
             } else if (this.radNotaC.isSelected()) {
                 fact.setTipo(FacturaXML.NOTACR);
@@ -905,8 +905,8 @@ public class ImpresionFactura extends java.awt.Dialog {
         rpt.setExportToPDF(this.chkExportToPDF.isSelected());
         rpt.imprimirFacNDNC(
                 Integer.parseInt(documento), // Facnume
-                Integer.parseInt(facnd),     // Facnd
-                this.radPOS.isSelected(),  // Indica si se usa el formato POS
+                Integer.parseInt(facnd), // Facnd
+                this.radPOS.isSelected(), // Indica si se usa el formato POS
                 facConIV,
                 radFormulario.isSelected());
 
@@ -927,34 +927,65 @@ public class ImpresionFactura extends java.awt.Dialog {
 
             // Validar que el xml haya sido aceptado
             if (continuarEnvio) {
-                if (!documentoAceptado(Integer.parseInt(documento), Integer.parseInt(facnd))) {
-                    continuarEnvio = false;
+                //                if (!documentoAceptado(Integer.parseInt(documento), Integer.parseInt(facnd))) {
+                //                    continuarEnvio = false;
+                //                    JOptionPane.showMessageDialog(null,
+                //                            "El documento electrónico # " + documento + " aún no ha sido\n"
+                //                            + "aceptado por el Ministerio de Hacienda.\n\n"
+                //                            + "Correo no enviado al cliente.",
+                //                            "Error",
+                //                            JOptionPane.ERROR_MESSAGE);
+                //                } // end if
+
+                try {
+                    DocumentoElectronico doc
+                            = new DocumentoElectronico(Integer.parseInt(documento), Integer.parseInt(facnd), "V", conn);
+                    if (!doc.aceptado()) {
+                        continuarEnvio = false;
+                        JOptionPane.showMessageDialog(null,
+                                "El documento electrónico # " + documento + " aún no ha sido\n"
+                                + "aceptado por el Ministerio de Hacienda.\n\n"
+                                + "Correo no enviado al cliente.",
+                                "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    } // end if
+                } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null,
-                            "El documento electrónico # " + documento + " aún no ha sido\n"
-                            + "aceptado por el Ministerio de Hacienda.\n\n"
-                            + "Correo no enviado al cliente.",
+                            ex.getMessage(),
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
-                } // end if
+                    Logger.getLogger(ImpresionFactura.class.getName()).log(Level.SEVERE, null, ex);
+                    new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    continuarEnvio = false;
+                } // end try-catch
             } // end if
 
             if (continuarEnvio) {
-                EnviarCorreoFE correo = new EnviarCorreoFE();
-                correo.setDestinatario(mailAddress);
-                correo.setFacnd(Integer.parseInt(facnd));
-                correo.setFacnume(Integer.parseInt(documento));
-                correo.setTitulo("Factura electrónica - La Flor, S.A.");
-                correo.setTexto("Envío automático.");
-
-                boolean enviado = correo.sendMail("", conn); // Si se pone algo en el primer parámetro es para cambiar el remitente (funciona como una máscara)
-                if (!enviado) {
-                    JOptionPane.showMessageDialog(null,
-                            correo.getError_msg(),
+                //                EnviarCorreoFE correo = new EnviarCorreoFE();
+                //                correo.setDestinatario(mailAddress);
+                //                correo.setFacnd(Integer.parseInt(facnd));
+                //                correo.setFacnume(Integer.parseInt(documento));
+                //                correo.setTitulo("Factura electrónica - " + Menu.EMPRESA);
+                //                correo.setTexto("Envío automático.");
+                //
+                //                boolean enviado = correo.sendMail("", conn); // Si se pone algo en el primer parámetro es para cambiar el remitente (funciona como una máscara)
+                //                if (!enviado) {
+                //                    JOptionPane.showMessageDialog(null,
+                //                            correo.getError_msg(),
+                //                            "Error",
+                //                            JOptionPane.ERROR_MESSAGE);
+                //                } else {
+                //                    actualizarDocumentoElectronico(mailAddress);
+                //                } // end if-else
+                DocumentoElectronico doc
+                            = new DocumentoElectronico(Integer.parseInt(documento), Integer.parseInt(facnd), "V", conn);
+                doc.enviarDocumentoCliente(mailAddress);
+                if (doc.isError()){
+                    JOptionPane.showMessageDialog(null, 
+                            doc.getError_msg(),
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
-                } else {
-                    actualizarDocumentoElectronico(mailAddress);
-                } // end if-else
+                } // end if
             } // end if
         } // end enviar por correo
 

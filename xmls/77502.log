@@ -1,0 +1,13 @@
+Inicia proceso: 31-07-2019 15:04:08
+31-07-2019 15:04:08: Validaci¢n de par metros recibidos.
+Argumentos recibidos
+Argumento 0 = 77502.xml
+Argumento 1 = 77502
+Argumento 2 = 1
+Argumento 3 = FAC
+Inicia proceso: 31-07-2019 15:04:08
+31-07-2019 15:04:08: Validaci¢n de par metros recibidos.
+Factura recibida: 77502
+31-07-2019 15:04:08: Enviando archivo [xmls\77502.xml]
+31-07-2019 15:04:08: El estado del env¡o es: 1 y la referencia es: 238200
+Finaliza proceso: 31-07-2019 15:04:08

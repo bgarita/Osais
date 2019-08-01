@@ -42,7 +42,7 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
     private static final long serialVersionUID = 501L;
     private final Connection conn;
     private ArrayList<String> validFiles;
-    
+
     /**
      * Creates new form FacturaElectProveedor
      *
@@ -321,14 +321,25 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
         // Este archivo queda en la ruta de xmls de proveedores según la clase DirectoryStructure.java
         String xmlEnviar = crearXML(f, respuestaHacienda); // Retorna solo el nombre, no la ruta.
 
+        // Bosco agregado 31/07/2019
+        if (xmlEnviar == null || xmlEnviar.trim().isEmpty()) {
+            String msg = "Sucedió un error que impidió que se generara el xml.\n"
+                    + "No fue pusible realizar la confirmación del mismo.";
+            JOptionPane.showMessageDialog(null,
+                    msg,
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            new Bitacora().writeToLog(this.getClass().getName() + "--> " + msg);
+            return;
+        } // end if
+        
         // Bosco modificado 21/07/2019
         //String cmd = dirXMLS + "EnviarFactura.exe " + xmlEnviar + " " + respuestaHacienda + " 3"; // Enviar respuesta
         String cmd = dirXMLS + "EnviarFactura2.exe " + xmlEnviar + " " + this.getTipoCedulaEmisor(f) + " 3"; // Enviar respuesta
-        
+
         // DEBUG:
         //JOptionPane.showMessageDialog(null, "CMD = " + cmd);
         // Fin Bosco modificado 21/07/2019
-        
         String os = Ut.getProperty(Ut.OS_NAME).toLowerCase();
         try {
             // Este proceso es únicamente windows por lo que no debe correr en Linux
@@ -380,7 +391,7 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
         if (selectedIndex < 0) {
             return;
         } // end if
-        
+
         String tipoXML = "N/A";
 
         Path path = Paths.get(this.validFiles.get(selectedIndex));
@@ -397,17 +408,16 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
             return;
         } // end if
-        
+
         // En el caso de proveedores la referencia y el documento son lo mismo
         String documento = this.lstDocumentos.getSelectedValue().toString().replace(".log", "");
-        
+
         try {
             String dirXMLS = Menu.DIR.getXmls() + Ut.getProperty(Ut.FILE_SEPARATOR);
 
             String cmd = dirXMLS + "EnviarFactura2.exe " + documento + " " + documento + " 4 " + tipoXML;
 
             //JOptionPane.showMessageDialog(null, cmd);
-            
             // Este proceso es únicamente windows por lo que no debe correr en Linux
             String os = Ut.getProperty(Ut.OS_NAME).toLowerCase();
             if (os.contains("win")) {
@@ -509,8 +519,6 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
     private javax.swing.JTextField txtMensaje;
     // End of variables declaration//GEN-END:variables
 
-    
-
     private String crearXML(File f, String respuestaHacienda) {
         String fileName = "";
         String clave;
@@ -562,7 +570,6 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
             return "";
         } // end if
-        
 
         // Leo el archivo xml recibido para tomar los valores y generar la respuesta.
         try {
@@ -582,24 +589,19 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
             clave = node.getTextContent();
 
             // Obtengo el número de cédula del emisor
-            /* Bosco modificado 22/07/2019
+            // Si el archivo procesado es la respuesta de Hacienda entonces
+            // este nodo será el correcto, de lo contrario será null.
             nList = doc.getElementsByTagName("NumeroCedulaEmisor");
             node = nList.item(0);
+            
+            // Si no se trata del archivo de respuesta de Hacienda entonces
+            // el nodo será null por lo que busco este otro tag.  Este caso
+            // es para el archivo xml grande, es decir, el que genera el 
+            // proveedor, no Hacienda.
             if (node == null) {
                 nList = doc.getElementsByTagName("Numero");
                 node = nList.item(0);
             } // end if
-            cedulaEmisor = node.getTextContent();
-            */
-            
-            // Obtengo el tipo de cédula del emisor
-//            nList = doc.getElementsByTagName("Tipo");
-//            node = nList.item(0);
-//            tipoCedulaEmisor = node.getTextContent();
-            
-            // Obtengo el número de cédula del emisor
-            nList = doc.getElementsByTagName("Numero");
-            node = nList.item(0);
             cedulaEmisor = node.getTextContent();
             
             // Obtengo el número de cédula del receptor (o sea nosotros)
@@ -618,13 +620,13 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
                 nList = doc.getElementsByTagName("TotalImpuesto");
                 node = nList.item(0);
             } // end if
-            
+
             // Bosco modificado 22/07/2019
             // Si el nodo del impuesto no está presente entonces pongo el monto en cero.
             //impuesto = node.getTextContent();
-            impuesto = (node == null? "0.0": node.getTextContent());
+            impuesto = (node == null ? "0.0" : node.getTextContent());
             // Fin Bosco modificado 22/07/2019
-            
+
             // Total de la factura
             nList = doc.getElementsByTagName("TotalFactura");
             node = nList.item(0);
@@ -647,21 +649,21 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
             mr.setMensaje(respuestaHacienda);
             mr.setMontoTotalImpuesto(Double.parseDouble(impuesto));
             mr.setCodigoActividad("155403"); // Julio 2019
-            
+
             /*
             01=Genera crédito IVA, 
             02=Genera Crédito parcial del IVA, 
             03=Bienes de Capital
             04=Gasto corriente no genera crédito
             05=Proporcionalidad
-            */
+             */
             String condicionImpuesto = "0" + (this.cboCondicionImpuesto.getSelectedIndex() + 1);
             mr.setCondicionImpuesto(condicionImpuesto);   // Julio 2019
             mr.setMontoTotalImpuestoAcreditar(Double.parseDouble(impuesto)); // Julio 2019
             mr.setMontoTotalDeGastoAplicable(0.00);                         // Julio 2019
-            
+
             mr.setDetalleMensaje(this.txtMensaje.getText());
-            
+
             mr.setTotalFactura(Double.parseDouble(totalComprobante));
             mr.setNumeroCedulaReceptor(cedulaReceptor);
             mr.setNumeroConsecutivoReceptor(consecutivoReceptor);
@@ -756,23 +758,22 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
         } // end for
         this.lstDocumentos.setModel(dlm);
     } // end loadDocumentList
-    
-    
+
     private String getTipoCedulaEmisor(File xmlFile) {
         String tipoCedulaEmisor = "01";
-        
+
         // Leo el archivo xml recibido para obtener el tipo de cédula del emisor.
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(xmlFile);
             doc.getDocumentElement().normalize();
-            
+
             // Obtengo el tipo de cédula del emisor
             NodeList nList = doc.getElementsByTagName("Tipo");
             Node node = nList.item(0);
             tipoCedulaEmisor = node.getTextContent();
-            
+
         } catch (Exception ex) {
             Logger.getLogger(FacturaElectProveedor.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,

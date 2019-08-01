@@ -430,3 +430,71 @@ Thu Jul 25 12:40:55 CST 2019
 accesoDatos.DataBaseConnection--> Could not create connection to database server. Attempted reconnect 3 times. Giving up.
 Thu Jul 25 12:41:10 CST 2019
 accesoDatos.DataBaseConnection--> Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+Sat Jul 27 10:56:05 CST 2019
+interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.
+Sat Jul 27 10:57:49 CST 2019
+interfase.consultas.DetalleNotificacionXml--> You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '4) order by fecha desc' at line 1
+Sat Jul 27 11:02:07 CST 2019
+interfase.consultas.DetalleNotificacionXml--> You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '4) order by fecha desc' at line 1
+Sat Jul 27 11:03:50 CST 2019
+interfase.consultas.DetalleNotificacionXml--> You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '4) order by fecha desc' at line 1
+Sat Jul 27 11:10:28 CST 2019
+interfase.consultas.DetalleNotificacionXml--> You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ') order by fecha desc' at line 1
+Sat Jul 27 11:10:31 CST 2019
+interfase.consultas.DetalleNotificacionXml--> You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ') order by fecha desc' at line 1
+Sat Jul 27 11:10:39 CST 2019
+interfase.consultas.DetalleNotificacionXml--> You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ') order by fecha desc' at line 1
+Sat Jul 27 11:10:51 CST 2019
+interfase.consultas.DetalleNotificacionXml--> You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ') order by fecha desc' at line 1
+Sat Jul 27 11:12:31 CST 2019
+interfase.consultas.DetalleNotificacionXml--> You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'order by fecha desc' at line 1
+Sat Jul 27 11:12:40 CST 2019
+interfase.consultas.DetalleNotificacionXml--> You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'order by fecha desc' at line 1
+Sat Jul 27 11:12:43 CST 2019
+interfase.consultas.DetalleNotificacionXml--> You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'order by fecha desc' at line 1
+Sat Jul 27 11:13:46 CST 2019
+interfase.consultas.DetalleNotificacionXml--> You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'order by fecha desc' at line 1
+Sun Jul 28 19:10:59 CST 2019
+interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.
+Mon Jul 29 11:55:21 CST 2019
+interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.
+Mon Jul 29 11:57:05 CST 2019
+interfase.consultas.DetalleNotificacionXml--> Communications link failure
+
+The last packet successfully received from the server was 74,318 milliseconds ago.  The last packet sent successfully to the server was 18,959 milliseconds ago.
+Mon Jul 29 12:04:00 CST 2019
+interfase.consultas.DetalleNotificacionXml--> Communications link failure
+
+The last packet successfully received from the server was 121,027 milliseconds ago.  The last packet sent successfully to the server was 34,097 milliseconds ago.
+Mon Jul 29 12:04:10 CST 2019
+interfase.otros.Notificacionxml--> No operations allowed after connection closed.
+Mon Jul 29 12:04:11 CST 2019
+interfase.otros.Notificacionxml--> No operations allowed after connection closed.
+Mon Jul 29 12:04:12 CST 2019
+interfase.consultas.DetalleNotificacionXml--> No operations allowed after connection closed.
+Mon Jul 29 12:04:20 CST 2019
+interfase.consultas.DetalleNotificacionXml--> No operations allowed after connection closed.
+Mon Jul 29 12:04:22 CST 2019
+interfase.consultas.DetalleNotificacionXml--> No operations allowed after connection closed.
+Mon Jul 29 12:05:34 CST 2019
+interfase.consultas.DetalleNotificacionXml--> Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+Mon Jul 29 12:06:41 CST 2019
+interfase.consultas.DetalleNotificacionXml--> Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+Mon Jul 29 12:07:48 CST 2019
+interfase.consultas.DetalleNotificacionXml--> Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+Mon Jul 29 23:38:58 CST 2019
+accesoDatos.DataBaseConnection--> Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+Wed Jul 31 11:21:42 CST 2019
+interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.
+Wed Jul 31 11:30:36 CST 2019
+interfase.otros.Notificacionxml--> No operations allowed after connection closed.
+Wed Jul 31 11:30:37 CST 2019
+interfase.otros.Notificacionxml--> No operations allowed after connection closed.
+Wed Jul 31 11:30:38 CST 2019
+interfase.consultas.DetalleNotificacionXml--> No operations allowed after connection closed.
+Wed Jul 31 11:30:40 CST 2019
+interfase.consultas.DetalleNotificacionXml--> No operations allowed after connection closed.
