@@ -635,7 +635,18 @@ public class ImpresionFactura extends java.awt.Dialog {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            return;
         } // end try-catch
+
+        // Solo se envía mensaje al usuario cuando está seleccionada la
+        // opción de exportar a PDF ya que de lo contrario la prueba de que
+        // terminó el proceso será la impresión física del documento.
+        if (chkExportToPDF.isSelected()) {
+            JOptionPane.showMessageDialog(null,
+                    "Se procesaron " + documentos.size() + " documentos.",
+                    "Mensaje",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } // end if
     }//GEN-LAST:event_btnImprimirMouseClicked
 
     private void radNotaCMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_radNotaCMouseClicked
@@ -978,10 +989,10 @@ public class ImpresionFactura extends java.awt.Dialog {
                 //                    actualizarDocumentoElectronico(mailAddress);
                 //                } // end if-else
                 DocumentoElectronico doc
-                            = new DocumentoElectronico(Integer.parseInt(documento), Integer.parseInt(facnd), "V", conn);
+                        = new DocumentoElectronico(Integer.parseInt(documento), Integer.parseInt(facnd), "V", conn);
                 doc.enviarDocumentoCliente(mailAddress);
-                if (doc.isError()){
-                    JOptionPane.showMessageDialog(null, 
+                if (doc.isError()) {
+                    JOptionPane.showMessageDialog(null,
                             doc.getError_msg(),
                             "Error",
                             JOptionPane.ERROR_MESSAGE);

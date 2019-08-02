@@ -127,7 +127,7 @@ public class Menu extends javax.swing.JFrame {
     public static String OS_NAME;
     public static String PORT;
     public static DirectoryStructure DIR;
-    public final DataBaseConnection conexion;
+    public static DataBaseConnection CONEXION;
     public static String engineVersion;
     public static String dataBaseVersion;
 
@@ -189,7 +189,7 @@ public class Menu extends javax.swing.JFrame {
         // Estructura de carpetas del sistema.
         DIR = new DirectoryStructure();
 
-        conexion = c;
+        CONEXION = c;
         Menu.USUARIO = c.getUserID();
         Menu.BASEDATOS = c.getDataBaseName();
         Menu.url = url;
@@ -302,7 +302,7 @@ public class Menu extends javax.swing.JFrame {
          * notificación. Este intervalo se debe comparar contra el max(fecha) de
          * la tabla saisystem.notificado.
          */
-        NOTIF = new Notificacion(conexion.getConnection());
+        NOTIF = new Notificacion(CONEXION.getConnection());
         NOTIF.start();
         // Fin Bosco agregado 27/07/2013
 
@@ -465,6 +465,7 @@ public class Menu extends javax.swing.JFrame {
         mnuBalances = new javax.swing.JMenuItem();
         mnuEstResult = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
+        mnuMovAux = new javax.swing.JMenuItem();
         mnuCierre = new javax.swing.JMenu();
         mnuPrepararTabla = new javax.swing.JMenuItem();
         mnuListadoToma = new javax.swing.JMenuItem();
@@ -1554,6 +1555,14 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuRepConta.add(jMenuItem1);
 
+        mnuMovAux.setText("Movimientos auxiliares");
+        mnuMovAux.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuMovAuxActionPerformed(evt);
+            }
+        });
+        mnuRepConta.add(mnuMovAux);
+
         mnuReportes.add(mnuRepConta);
 
         mnuPrincipal.add(mnuReportes);
@@ -1957,47 +1966,47 @@ public class Menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mnuInarticuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuInarticuActionPerformed
-        Inarticu.main("", conexion.getConnection());
+        Inarticu.main("", CONEXION.getConnection());
 }//GEN-LAST:event_mnuInarticuActionPerformed
 
     private void mnuInfamilyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuInfamilyActionPerformed
-        Infamily.main(conexion.getConnection());
+        Infamily.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuInfamilyActionPerformed
 
     private void mnuBodegasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBodegasActionPerformed
-        Bodegas.main(conexion.getConnection());
+        Bodegas.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuBodegasActionPerformed
 
     private void mnuInprovedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuInprovedActionPerformed
-        Inproved.main(conexion.getConnection());
+        Inproved.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuInprovedActionPerformed
 
     private void mnuCentroCostoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCentroCostoActionPerformed
-        CentroCosto.main(conexion.getConnection());
+        CentroCosto.main(CONEXION.getConnection());
 }//GEN-LAST:event_mnuCentroCostoActionPerformed
 
     private void mnuConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConfiguracionActionPerformed
         // Se envía el fondo de pantalla como parámetro
-        Config.main(conexion.getConnection(), FONDO);
+        Config.main(CONEXION.getConnection(), FONDO);
     }//GEN-LAST:event_mnuConfiguracionActionPerformed
 
     private void mnuTerritoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuTerritoriosActionPerformed
-        Territorios.main(conexion.getConnection());
+        Territorios.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuTerritoriosActionPerformed
 
     private void mnuVendedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuVendedoresActionPerformed
-        Vendedores.main(conexion.getConnection());
+        Vendedores.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuVendedoresActionPerformed
 
     private void mnuClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuClientesActionPerformed
-        Inclient.main(conexion.getConnection(), "");
+        Inclient.main(CONEXION.getConnection(), "");
     }//GEN-LAST:event_mnuClientesActionPerformed
 
     private void mnuEntradasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuEntradasActionPerformed
         Catalogos.CathalogDriver driver;
         int[] catalogo = {CathalogDriver.BODEGAS, CathalogDriver.TIPOS_DOCUMENTO};
         try {
-            driver = new CathalogDriver(conexion.getConnection(), catalogo);
+            driver = new CathalogDriver(CONEXION.getConnection(), catalogo);
         } catch (SQLException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
@@ -2007,42 +2016,42 @@ public class Menu extends javax.swing.JFrame {
             new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
-        RegistroEntradas.main(conexion.getConnection(), driver);
+        RegistroEntradas.main(CONEXION.getConnection(), driver);
 }//GEN-LAST:event_mnuEntradasActionPerformed
 
     private void mnuMonedasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMonedasActionPerformed
-        Monedas.main(conexion.getConnection());
+        Monedas.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuMonedasActionPerformed
 
     private void mnuTipocambioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuTipocambioActionPerformed
-        Tipocambio.main(conexion.getConnection());
+        Tipocambio.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuTipocambioActionPerformed
 
     private void mnuBarcodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBarcodeActionPerformed
-        Codigosdebarra.main(conexion.getConnection());
+        Codigosdebarra.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuBarcodeActionPerformed
 
     private void mnuSalidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSalidasActionPerformed
-        RegistroSalidas.main(conexion.getConnection());
+        RegistroSalidas.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuSalidasActionPerformed
 
     private void mnuInterBodegaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuInterBodegaActionPerformed
-        RegistroInterbodega.main(conexion.getConnection());
+        RegistroInterbodega.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuInterBodegaActionPerformed
 
     private void mnuPedidosVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPedidosVActionPerformed
-        RegistroPedidosV.main(conexion.getConnection(), "");
+        RegistroPedidosV.main(CONEXION.getConnection(), "");
     }//GEN-LAST:event_mnuPedidosVActionPerformed
 
     private void mnuFacturacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuFacturacionActionPerformed
-        RegistroFacturasV.main(conexion.getConnection());
+        RegistroFacturasV.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuFacturacionActionPerformed
 
     private void mnuIntegridadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuIntegridadActionPerformed
         try {
             // Bosco agregado 23/07/2011
             // Integración del segundo nivel de seguridad.
-            if (!UtilBD.tienePermiso(conexion.getConnection(), "Integridad")) {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "Integridad")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
@@ -2060,7 +2069,7 @@ public class Menu extends javax.swing.JFrame {
             return;
         }
 
-        new MantenimientoSistema(conexion.getConnection()).setVisible(true);
+        new MantenimientoSistema(CONEXION.getConnection()).setVisible(true);
 
     }//GEN-LAST:event_mnuIntegridadActionPerformed
 
@@ -2071,7 +2080,7 @@ public class Menu extends javax.swing.JFrame {
             // de lo contrario habría que modificar también los menúes contextuales.
             // Bosco agregado 23/07/2011
             // Integración del segundo nivel de seguridad.
-            if (!UtilBD.tienePermiso(conexion.getConnection(), "ImpresionFactura")) {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "ImpresionFactura")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no posee privilegios para ejecutar este proceso",
                         "Error - Permisos",
@@ -2091,22 +2100,22 @@ public class Menu extends javax.swing.JFrame {
         new ImpresionFactura(
                 new java.awt.Frame(),
                 true, // Modal
-                conexion.getConnection(), // Conexión
+CONEXION.getConnection(), // Conexión
                 "0", // Número de factura, ND o NC
                 1) // 1 = Factura, 2 = ND, 3 = NC
                 .setVisible(true);
     }//GEN-LAST:event_mnuImprimirFacturaActionPerformed
 
     private void mnuNDCXCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuNDCXCActionPerformed
-        RegistroNDCXC.main(conexion.getConnection());
+        RegistroNDCXC.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuNDCXCActionPerformed
 
     private void mnuNCCXCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuNCCXCActionPerformed
-        RegistroNCCXC.main(conexion.getConnection());
+        RegistroNCCXC.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuNCCXCActionPerformed
 
     private void mnuPagosCXCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPagosCXCActionPerformed
-        RegistroPagosCXC.main(conexion.getConnection()); // Debe correr con conexión compartida
+        RegistroPagosCXC.main(CONEXION.getConnection()); // Debe correr con conexión compartida
     }//GEN-LAST:event_mnuPagosCXCActionPerformed
 
     private void mnuImprimirRecibosCXCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuImprimirRecibosCXCActionPerformed
@@ -2116,7 +2125,7 @@ public class Menu extends javax.swing.JFrame {
             // de lo contrario habría que modificar también los menúes contextuales.
             // Bosco agregado 23/07/2011
             // Integración del segundo nivel de seguridad.
-            if (!UtilBD.tienePermiso(conexion.getConnection(), "ImpresionReciboCXC")) {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "ImpresionReciboCXC")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
@@ -2136,20 +2145,20 @@ public class Menu extends javax.swing.JFrame {
         new ImpresionReciboCXC(
                 new java.awt.Frame(),
                 true, // Modal
-                conexion.getConnection(), // Conexión
+CONEXION.getConnection(), // Conexión
                 "0") // Número de recibo
                 .setVisible(true);
     }//GEN-LAST:event_mnuImprimirRecibosCXCActionPerformed
 
     private void mnuAplicarNCCXCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAplicarNCCXCActionPerformed
-        AplicacionNotaCXC.main(conexion.getConnection(), 0);
+        AplicacionNotaCXC.main(CONEXION.getConnection(), 0);
     }//GEN-LAST:event_mnuAplicarNCCXCActionPerformed
 
     private void mnuAnularPagosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAnularPagosActionPerformed
         try {
             // Bosco agregado 18/07/2011
             // Integración del segundo nivel de seguridad.
-            if (!UtilBD.tienePermiso(conexion.getConnection(), "AnulacionRecibosCXC")) {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "AnulacionRecibosCXC")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
@@ -2170,7 +2179,7 @@ public class Menu extends javax.swing.JFrame {
         new AnulacionRecibosCXC(
                 new java.awt.Frame(),
                 true, // Modal
-                conexion.getConnection(), // Conexión
+CONEXION.getConnection(), // Conexión
                 "0") // Número de recibo
                 .setVisible(true);
     }//GEN-LAST:event_mnuAnularPagosActionPerformed
@@ -2181,7 +2190,7 @@ public class Menu extends javax.swing.JFrame {
             // que encontrar la forma de hacerlo igual que todos los demás.
             // Bosco agregado 18/07/2011
             // Integración del segundo nivel de seguridad.
-            if (!UtilBD.tienePermiso(conexion.getConnection(), "AnulacionDocInv")) {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "AnulacionDocInv")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
@@ -2202,7 +2211,7 @@ public class Menu extends javax.swing.JFrame {
         new AnulacionDocInv(
                 new java.awt.Frame(),
                 true, // Modal
-                conexion.getConnection(), // Conexión
+CONEXION.getConnection(), // Conexión
                 "0", 0) // Número de documento y tipo
                 .setVisible(true);
     }//GEN-LAST:event_mnuAnularDocsInvActionPerformed
@@ -2213,7 +2222,7 @@ public class Menu extends javax.swing.JFrame {
             // que encontrar la forma de hacerlo igual que todos los demás.
             // Bosco agregado 18/07/2011
             // Integración del segundo nivel de seguridad.
-            if (!UtilBD.tienePermiso(conexion.getConnection(), "AnulacionFacturasCXC")) {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "AnulacionFacturasCXC")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
@@ -2234,48 +2243,48 @@ public class Menu extends javax.swing.JFrame {
         new AnulacionFacturasCXC(
                 new java.awt.Frame(),
                 true, // Modal
-                conexion.getConnection(), // Conexión
+CONEXION.getConnection(), // Conexión
                 "0") // Número de documento
                 .setVisible(true);
     }//GEN-LAST:event_mnuAnularFacturasActionPerformed
 
     private void mnuExistBodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuExistBodActionPerformed
-        RepExistenciasPB.main(conexion.getConnection());
+        RepExistenciasPB.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuExistBodActionPerformed
 
     private void mnuMovInvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMovInvActionPerformed
-        RepMovInv.main(conexion.getConnection());
+        RepMovInv.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuMovInvActionPerformed
 
     private void mnuDocsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDocsActionPerformed
-        RepDocInv.main(conexion.getConnection(), "", "");
+        RepDocInv.main(CONEXION.getConnection(), "", "");
     }//GEN-LAST:event_mnuDocsActionPerformed
 
     private void mnuMovSaldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMovSaldActionPerformed
-        RepMovSaldos.main(conexion.getConnection());
+        RepMovSaldos.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuMovSaldActionPerformed
 
     private void mnuVencimientosInvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuVencimientosInvActionPerformed
-        RepVencimientosInv.main(conexion.getConnection());
+        RepVencimientosInv.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuVencimientosInvActionPerformed
 
     private void mnuFacResumenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuFacResumenActionPerformed
-        RepFacturacionResumen.main(conexion.getConnection());
+        RepFacturacionResumen.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuFacResumenActionPerformed
 
     private void mnuFactXArtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuFactXArtActionPerformed
-        RepFacturacionXArticulo.main(conexion.getConnection());
+        RepFacturacionXArticulo.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuFactXArtActionPerformed
 
     private void mnuIncongruenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuIncongruenciaActionPerformed
-        RepFacturacionIncongruenciaDePrecios.main(conexion.getConnection());
+        RepFacturacionIncongruenciaDePrecios.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuIncongruenciaActionPerformed
 
     private void mnuInteresMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuInteresMActionPerformed
         try {
             // Bosco agregado 18/07/2011
             // Integración del segundo nivel de seguridad.
-            if (!UtilBD.tienePermiso(conexion.getConnection(), "GenerarInteresMoratorio")) {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "GenerarInteresMoratorio")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
@@ -2296,7 +2305,7 @@ public class Menu extends javax.swing.JFrame {
         try {
             ResultSet rs;
             String sqlSent = "Call GenerarInteresMoratorio()";
-            PreparedStatement ps = conexion.getConnection().prepareStatement(sqlSent,
+            PreparedStatement ps = CONEXION.getConnection().prepareStatement(sqlSent,
                     ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
 
@@ -2327,38 +2336,38 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuInteresMActionPerformed
 
     private void mnuRClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRClientesActionPerformed
-        RepClientes.main(conexion.getConnection());
+        RepClientes.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuRClientesActionPerformed
 
     private void mnuUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuUsuariosActionPerformed
-        Usuarios.main(conexion.getConnection(), BASEDATOS);
+        Usuarios.main(CONEXION.getConnection(), BASEDATOS);
     }//GEN-LAST:event_mnuUsuariosActionPerformed
 
     private void mnuDocsXCobrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDocsXCobrarActionPerformed
-        RepCXC.main(conexion.getConnection());
+        RepCXC.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuDocsXCobrarActionPerformed
 
     private void mnuAntSaldCXCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAntSaldCXCActionPerformed
-        RepAntigSaldosCXC.main(conexion.getConnection());
+        RepAntigSaldosCXC.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuAntSaldCXCActionPerformed
 
     private void mnuTariasExpressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuTariasExpressActionPerformed
-        TarifasExpress.main(conexion.getConnection(), new javax.swing.JTextField(""));
+        TarifasExpress.main(CONEXION.getConnection(), new javax.swing.JTextField(""));
     }//GEN-LAST:event_mnuTariasExpressActionPerformed
 
     private void mnuPagos_recibos_CXCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPagos_recibos_CXCActionPerformed
-        RepPagosCXC.main(conexion.getConnection(), null);
+        RepPagosCXC.main(CONEXION.getConnection(), null);
     }//GEN-LAST:event_mnuPagos_recibos_CXCActionPerformed
 
     private void mnuEstadoCtaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuEstadoCtaActionPerformed
-        RepEstadoCtaCXC.main(conexion.getConnection(), 0);
+        RepEstadoCtaCXC.main(CONEXION.getConnection(), 0);
     }//GEN-LAST:event_mnuEstadoCtaActionPerformed
 
     private void mnuNCPendientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuNCPendientesActionPerformed
         try {
             // Bosco agregado 18/07/2011
             // Integración del segundo nivel de seguridad.
-            if (!UtilBD.tienePermiso(conexion.getConnection(), "RepNCPendientes")) {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "RepNCPendientes")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
@@ -2388,7 +2397,7 @@ public class Menu extends javax.swing.JFrame {
 
         filtro = "Notas de crédito pendients de aplicar";
         formJasper = "RepNCPendientesCXC.jasper";
-        new Reportes(conexion.getConnection()).generico(
+        new Reportes(CONEXION.getConnection()).generico(
                 query,
                 "", // where
                 "", // Order By
@@ -2398,62 +2407,62 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuNCPendientesActionPerformed
 
     private void mnuIntMoratoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuIntMoratoriosActionPerformed
-        RepIntMoratCXC.main(conexion.getConnection());
+        RepIntMoratCXC.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuIntMoratoriosActionPerformed
 
     private void mnuDetalleCXCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDetalleCXCActionPerformed
-        RepDetalleCXC.main(conexion.getConnection());
+        RepDetalleCXC.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuDetalleCXCActionPerformed
 
     private void mnuPagaresCXCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPagaresCXCActionPerformed
-        RegistroPagaresCXC.main(conexion.getConnection());
+        RegistroPagaresCXC.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuPagaresCXCActionPerformed
 
     private void mnuPagaresEmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPagaresEmActionPerformed
-        RepPagaresCXC.main(conexion.getConnection());
+        RepPagaresCXC.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuPagaresEmActionPerformed
 
     private void mnuVtasxproveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuVtasxproveedorActionPerformed
-        RepVentasxproveedor.main(conexion.getConnection());
+        RepVentasxproveedor.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuVtasxproveedorActionPerformed
 
     private void mnuVtasxclienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuVtasxclienteActionPerformed
-        RepVentasxcliente.main(conexion.getConnection());
+        RepVentasxcliente.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuVtasxclienteActionPerformed
 
     private void mnuVtasxvendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuVtasxvendedorActionPerformed
-        RepVentasxvendedor.main(conexion.getConnection());
+        RepVentasxvendedor.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuVtasxvendedorActionPerformed
 
     private void mnuVtasxzonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuVtasxzonaActionPerformed
-        RepVentasxzona.main(conexion.getConnection());
+        RepVentasxzona.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuVtasxzonaActionPerformed
 
     private void mnuVtasxfamiliaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuVtasxfamiliaActionPerformed
-        RepVentasxfamilia.main(conexion.getConnection());
+        RepVentasxfamilia.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuVtasxfamiliaActionPerformed
 
     private void mnuVtasD151ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuVtasD151ActionPerformed
-        RepVentasD151.main(conexion.getConnection());
+        RepVentasD151.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuVtasD151ActionPerformed
 
     private void mnuVtasxClienteDetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuVtasxClienteDetActionPerformed
-        RepVentasxclienteDetalle.main(conexion.getConnection());
+        RepVentasxclienteDetalle.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuVtasxClienteDetActionPerformed
 
     private void mnuVtasxarticuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuVtasxarticuloActionPerformed
-        RepVentasxarticulo.main(conexion.getConnection());
+        RepVentasxarticulo.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuVtasxarticuloActionPerformed
 
     private void mnuDetallePYAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDetallePYAActionPerformed
-        RepPedidosyAp.main(conexion.getConnection(), "");
+        RepPedidosyAp.main(CONEXION.getConnection(), "");
     }//GEN-LAST:event_mnuDetallePYAActionPerformed
 
     private void mnuDirEncomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDirEncomActionPerformed
         try {
             // Bosco agregado 23/07/2011
             // Integración del segundo nivel de seguridad.
-            if (!UtilBD.tienePermiso(conexion.getConnection(), "RepDirEncom")) {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "RepDirEncom")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
@@ -2484,7 +2493,7 @@ public class Menu extends javax.swing.JFrame {
         // al ordenamiento de los datos (0=Clidesc, 1=Clicode).
         query = "Call Rep_DirEncom(0)";
 
-        new Reportes(conexion.getConnection()).generico(
+        new Reportes(CONEXION.getConnection()).generico(
                 query,
                 "", // where
                 "", // Order By
@@ -2500,7 +2509,7 @@ public class Menu extends javax.swing.JFrame {
         try {
             // Bosco agregado 23/07/2011
             // Integración del segundo nivel de seguridad.
-            if (!UtilBD.tienePermiso(conexion.getConnection(), formJasper)) {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(), formJasper)) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
@@ -2528,7 +2537,7 @@ public class Menu extends javax.swing.JFrame {
         // algún cambio al SP.
         query = "Call Rep_PedidosyDisponibles(0)";
 
-        new Reportes(conexion.getConnection()).generico(
+        new Reportes(CONEXION.getConnection()).generico(
                 query,
                 "", // where
                 "", // Order By
@@ -2548,7 +2557,7 @@ public class Menu extends javax.swing.JFrame {
         try {
             // Bosco agregado 23/07/2011
             // Integración del segundo nivel de seguridad.
-            if (!UtilBD.tienePermiso(conexion.getConnection(), "RepPedidosxconfirmar")) {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "RepPedidosxconfirmar")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
@@ -2574,7 +2583,7 @@ public class Menu extends javax.swing.JFrame {
         // algún cambio al SP.
         query = "Call Rep_PedidosyDisponibles(1)";
 
-        new Reportes(conexion.getConnection()).generico(
+        new Reportes(CONEXION.getConnection()).generico(
                 query,
                 "", // where
                 "", // Order By
@@ -2584,51 +2593,51 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuPeidosxConfirmarActionPerformed
 
     private void mnuPedidosxfamiliaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPedidosxfamiliaActionPerformed
-        RepPedidosxfamilia.main(conexion.getConnection());
+        RepPedidosxfamilia.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuPedidosxfamiliaActionPerformed
 
     private void mnuConsultarFactNDNCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsultarFactNDNCActionPerformed
-        ConsultaFactNDNC_CXC.main(conexion.getConnection());
+        ConsultaFactNDNC_CXC.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuConsultarFactNDNCActionPerformed
 
     private void mnuConsultarRegCXCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsultarRegCXCActionPerformed
-        ConsultaRegistrosCXC.main(conexion.getConnection());
+        ConsultaRegistrosCXC.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuConsultarRegCXCActionPerformed
 
     private void mnuPrepararTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPrepararTablaActionPerformed
-        TablaConteo.main(conexion.getConnection());
+        TablaConteo.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuPrepararTablaActionPerformed
 
     private void mnuListadoTomaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuListadoTomaActionPerformed
-        RepListaparaConteo.main(conexion.getConnection());
+        RepListaparaConteo.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuListadoTomaActionPerformed
 
     private void mnuDigitarConteoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDigitarConteoActionPerformed
-        DigitacionConteo.main(conexion.getConnection());
+        DigitacionConteo.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuDigitarConteoActionPerformed
 
     private void mnuDiferenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDiferenciasActionPerformed
-        RepDiferenciasInv.main(conexion.getConnection());
+        RepDiferenciasInv.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuDiferenciasActionPerformed
 
     private void mnuAplicarAjActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAplicarAjActionPerformed
-        AplicacionAjustesInv.main(conexion.getConnection());
+        AplicacionAjustesInv.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuAplicarAjActionPerformed
 
     private void mnuCierreMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCierreMActionPerformed
-        CierreMensual.main(conexion.getConnection());
+        CierreMensual.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuCierreMActionPerformed
 
     private void mnuEstadodelasCXCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuEstadodelasCXCActionPerformed
-        RepEstadoDeLasCXC.main(conexion.getConnection());
+        RepEstadoDeLasCXC.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuEstadodelasCXCActionPerformed
 
     private void mnuRecodificarArticulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRecodificarArticulosActionPerformed
-        RecodificacionArticulos.main(conexion.getConnection());
+        RecodificacionArticulos.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuRecodificarArticulosActionPerformed
 
     private void mnuCambiarDatosFactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCambiarDatosFactActionPerformed
-        CambioEnFacturaCXC.main(conexion.getConnection());
+        CambioEnFacturaCXC.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuCambiarDatosFactActionPerformed
 
     private void mnuVersionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuVersionActionPerformed
@@ -2660,7 +2669,7 @@ public class Menu extends javax.swing.JFrame {
 
         mensaje += "satisfactoriamente.";
         try {
-            if (UtilBD.SQLUpdate(conexion.getConnection(), sqlUpdate) > 0) {
+            if (UtilBD.SQLUpdate(CONEXION.getConnection(), sqlUpdate) > 0) {
                 JOptionPane.showMessageDialog(
                         null,
                         mensaje,
@@ -2685,36 +2694,36 @@ public class Menu extends javax.swing.JFrame {
         // MEJORA: Esto deberá ser por permisos especiales, no por usuario.
 
         UsuariosSQLActivos eu = new UsuariosSQLActivos(
-                new java.awt.Frame(), true, conexion.getConnection(), USUARIO);
+                new java.awt.Frame(), true, CONEXION.getConnection(), USUARIO);
         eu.setVisible(true);
     }//GEN-LAST:event_mnuDesconectarUsersActionPerformed
 
     private void mnuDatosEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDatosEmpresaActionPerformed
-        Empresa.main(conexion.getConnection());
+        Empresa.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuDatosEmpresaActionPerformed
 
     private void mnuConsecutivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsecutivosActionPerformed
-        Consecutivos.main(conexion.getConnection());
+        Consecutivos.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuConsecutivosActionPerformed
 
     private void mnuPermisosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPermisosActionPerformed
-        Autorizaciones.main(conexion.getConnection());
+        Autorizaciones.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuPermisosActionPerformed
 
     private void mnuConsultarPreciosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsultarPreciosActionPerformed
-        ConsultaPrecios.main(conexion.getConnection(), "");
+        ConsultaPrecios.main(CONEXION.getConnection(), "");
     }//GEN-LAST:event_mnuConsultarPreciosActionPerformed
 
     private void mnuConsultarMovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsultarMovActionPerformed
-        ConsultaMovimientosInv.main(conexion.getConnection(), "", 1);
+        ConsultaMovimientosInv.main(CONEXION.getConnection(), "", 1);
     }//GEN-LAST:event_mnuConsultarMovActionPerformed
 
     private void mnuBorrarRecibosCXCAnuladosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBorrarRecibosCXCAnuladosActionPerformed
-        EliminacionReciboAnuladoCXC.main(conexion.getConnection());
+        EliminacionReciboAnuladoCXC.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuBorrarRecibosCXCAnuladosActionPerformed
 
     private void mnuBorrarFacturasCXCAnuladasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBorrarFacturasCXCAnuladasActionPerformed
-        EliminacionFacturaAnuladaCXC.main(conexion.getConnection());
+        EliminacionFacturaAnuladaCXC.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuBorrarFacturasCXCAnuladasActionPerformed
 
     private void mnuImportarInvwActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuImportarInvwActionPerformed
@@ -2751,7 +2760,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuImportarInvwActionPerformed
 
     private void mnuConsultarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsultarClientesActionPerformed
-        ConsultaCliente.main(conexion.getConnection());
+        ConsultaCliente.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuConsultarClientesActionPerformed
 
     private void mnuClaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuClaveActionPerformed
@@ -2759,11 +2768,11 @@ public class Menu extends javax.swing.JFrame {
         CambioClave cambioClave
                 = new CambioClave(
                         new javax.swing.JFrame(),
-                        true, conexion.getConnection(), this.USUARIO, false);
+                        true, CONEXION.getConnection(), this.USUARIO, false);
     }//GEN-LAST:event_mnuClaveActionPerformed
 
     private void mnuSeguridadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSeguridadActionPerformed
-        Seguridad.main(conexion.getConnection());
+        Seguridad.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuSeguridadActionPerformed
 
     private void mnuMaestroArtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMaestroArtActionPerformed
@@ -2775,7 +2784,7 @@ public class Menu extends javax.swing.JFrame {
 
         filtro += "Todos los artículos.";
         try {
-            if (!UtilBD.tienePermiso(conexion.getConnection(), "RepMaestroArt")) {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "RepMaestroArt")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
@@ -2803,7 +2812,7 @@ public class Menu extends javax.swing.JFrame {
 
         ReportesProgressBar rpb
                 = new ReportesProgressBar(
-                        conexion.getConnection(),
+                        CONEXION.getConnection(),
                         "Maestro de artículos",
                         formJasper,
                         query,
@@ -2814,36 +2823,36 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuMaestroArtActionPerformed
 
     private void mnuFacTransitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuFacTransitoActionPerformed
-        ConsultaFacturacionTransito.main(conexion.getConnection());
+        ConsultaFacturacionTransito.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuFacTransitoActionPerformed
 
     private void mnuFactExpressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuFactExpressActionPerformed
-        RepFactExpress.main(conexion.getConnection());
+        RepFactExpress.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuFactExpressActionPerformed
 
     private void mnuFacturasCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuFacturasCActionPerformed
-        RegistroFacturasC.main(0, "", "", 0.0, 0.0, 0.0, conexion.getConnection());
+        RegistroFacturasC.main(0, "", "", 0.0, 0.0, 0.0, CONEXION.getConnection());
     }//GEN-LAST:event_mnuFacturasCActionPerformed
 
     private void mnuRecibosCXPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRecibosCXPActionPerformed
-        RegistroPagosCXP.main(conexion.getConnection(), "");
+        RegistroPagosCXP.main(CONEXION.getConnection(), "");
     }//GEN-LAST:event_mnuRecibosCXPActionPerformed
 
     private void mnuAplicarNDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAplicarNDBActionPerformed
-        AplicacionNotaCXP.main(conexion.getConnection(), null);
+        AplicacionNotaCXP.main(CONEXION.getConnection(), null);
     }//GEN-LAST:event_mnuAplicarNDBActionPerformed
 
     private void mnuAntSaldCXPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAntSaldCXPActionPerformed
-        RepAntigSaldosCXP.main(conexion.getConnection(), "");
+        RepAntigSaldosCXP.main(CONEXION.getConnection(), "");
     }//GEN-LAST:event_mnuAntSaldCXPActionPerformed
 
     private void mnuCXPsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCXPsActionPerformed
-        RepCXP.main(conexion.getConnection());
+        RepCXP.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuCXPsActionPerformed
 
     private void mnuAnulaRCXPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAnulaRCXPActionPerformed
         try {
-            if (!UtilBD.tienePermiso(conexion.getConnection(), "AnulacionRecibosCXP")) {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "AnulacionRecibosCXP")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
@@ -2863,7 +2872,7 @@ public class Menu extends javax.swing.JFrame {
         new AnulacionRecibosCXP(
                 new java.awt.Frame(),
                 true, // Modal
-                conexion.getConnection(), // Conexión
+CONEXION.getConnection(), // Conexión
                 "0") // Número de recibo
                 .setVisible(true);
     }//GEN-LAST:event_mnuAnulaRCXPActionPerformed
@@ -2874,7 +2883,7 @@ public class Menu extends javax.swing.JFrame {
             // que encontrar la forma de hacerlo igual que todos los demás.
             // Bosco agregado 18/07/2011
             // Integración del segundo nivel de seguridad.
-            if (!UtilBD.tienePermiso(conexion.getConnection(), "AnulacionFacturasCXP")) {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "AnulacionFacturasCXP")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
@@ -2895,21 +2904,21 @@ public class Menu extends javax.swing.JFrame {
         new AnulacionFacturasCXP(
                 new java.awt.Frame(),
                 true, // Modal
-                conexion.getConnection(), // Conexión
+CONEXION.getConnection(), // Conexión
                 "0") // Número de documento
                 .setVisible(true);
     }//GEN-LAST:event_mnuEliminarCXPActionPerformed
 
     private void mnuImpPagActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuImpPagActionPerformed
-        RepFacturacionCXP.main(conexion.getConnection());
+        RepFacturacionCXP.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuImpPagActionPerformed
 
     private void mnuEstadosCXPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuEstadosCXPActionPerformed
-        RepEstadoCtaCXP.main(conexion.getConnection(), "");
+        RepEstadoCtaCXP.main(CONEXION.getConnection(), "");
     }//GEN-LAST:event_mnuEstadosCXPActionPerformed
 
     private void mnuD151CXPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuD151CXPActionPerformed
-        RepComprasD151.main(conexion.getConnection());
+        RepComprasD151.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuD151CXPActionPerformed
 
     private void mnuEstadodelasCXPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuEstadodelasCXPActionPerformed
@@ -2920,7 +2929,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuEstadodelasCXPActionPerformed
 
     private void mnuMovCXPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMovCXPActionPerformed
-        RepMovimientosCXP.main(conexion.getConnection());
+        RepMovimientosCXP.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuMovCXPActionPerformed
 
     private void mnuConsultaSumarizadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsultaSumarizadaActionPerformed
@@ -2929,7 +2938,7 @@ public class Menu extends javax.swing.JFrame {
             // que encontrar la forma de hacerlo igual que todos los demás.
             // Bosco agregado 18/07/2011
             // Integración del segundo nivel de seguridad.
-            if (!UtilBD.tienePermiso(conexion.getConnection(), "ConsultaSumarizada")) {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "ConsultaSumarizada")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
@@ -2950,26 +2959,26 @@ public class Menu extends javax.swing.JFrame {
         new ConsultaSumarizada(
                 new java.awt.Frame(),
                 true, // Modal
-                conexion.getConnection()) // Conexión
+CONEXION.getConnection()) // Conexión
 
                 .setVisible(true);
     }//GEN-LAST:event_mnuConsultaSumarizadaActionPerformed
 
     private void mnuLiquidacionDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuLiquidacionDActionPerformed
-        LiquidacionDiaria.main(conexion.getConnection());
+        LiquidacionDiaria.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuLiquidacionDActionPerformed
 
     private void mnuCatalogoCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCatalogoCActionPerformed
-        TiposAsiento.main(conexion.getConnection());
+        TiposAsiento.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuCatalogoCActionPerformed
 
     private void mnuParmContActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuParmContActionPerformed
-        Configconta.main(conexion.getConnection());
+        Configconta.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuParmContActionPerformed
 
     private void mnuImportCatalogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuImportCatalogoActionPerformed
         try {
-            if (!UtilBD.tienePermiso(conexion.getConnection(), "ImportarCatalogo")) {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "ImportarCatalogo")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
@@ -3000,7 +3009,7 @@ public class Menu extends javax.swing.JFrame {
             // obtener el archivo seleccionado
             File nombreArchivo = archivo.getSelectedFile();
             String srcFile = nombreArchivo.getAbsolutePath();
-            new CargarCatalogoContable(conexion.getConnection(), srcFile);
+            new CargarCatalogoContable(CONEXION.getConnection(), srcFile);
         } catch (HeadlessException | JDBFException | InstantiationException | IllegalAccessException | SQLException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
@@ -3011,7 +3020,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuImportCatalogoActionPerformed
 
     private void mnuCatalogoContActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCatalogoContActionPerformed
-        CatalogoContable.main(conexion.getConnection());
+        CatalogoContable.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuCatalogoContActionPerformed
 
     private void jmnuNotifAutomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmnuNotifAutomActionPerformed
@@ -3020,7 +3029,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void mnuExportarAsientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuExportarAsientosActionPerformed
         try {
-            if (!UtilBD.tienePermiso(conexion.getConnection(), "ExportarAsientos")) {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "ExportarAsientos")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
@@ -3038,7 +3047,7 @@ public class Menu extends javax.swing.JFrame {
         }
 
         try {
-            ExportarAsientos.main(conexion.getConnection());
+            ExportarAsientos.main(CONEXION.getConnection());
         } catch (JDBFException | IOException | SQLException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
@@ -3051,7 +3060,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void mnuAsientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAsientosActionPerformed
         try {
-            if (!UtilBD.tienePermiso(conexion.getConnection(), "RegistroAsientos")) {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "RegistroAsientos")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
@@ -3067,85 +3076,85 @@ public class Menu extends javax.swing.JFrame {
             new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
-        RegistroAsientos.main(conexion.getConnection());
+        RegistroAsientos.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuAsientosActionPerformed
 
     private void mnuPeriodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPeriodosActionPerformed
-        PeriodoContable.main(conexion.getConnection());
+        PeriodoContable.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuPeriodosActionPerformed
 
     private void mnuCierreCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCierreCajaActionPerformed
-        CierreCaja.main(conexion.getConnection());
+        CierreCaja.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuCierreCajaActionPerformed
 
     private void mnuTrasladarMovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuTrasladarMovActionPerformed
-        TrasladoMovimientosInv.main(conexion.getConnection());
+        TrasladoMovimientosInv.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuTrasladarMovActionPerformed
 
     private void mnuMinAutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMinAutActionPerformed
-        MinimoAutomatico.main(conexion.getConnection());
+        MinimoAutomatico.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuMinAutActionPerformed
 
     private void mnuArticulosxprovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuArticulosxprovActionPerformed
-        RepArticulosXProveedor.main(conexion.getConnection());
+        RepArticulosXProveedor.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuArticulosxprovActionPerformed
 
     private void mnuDocsxtipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDocsxtipoActionPerformed
-        RepDocumentosXTipo.main(conexion.getConnection());
+        RepDocumentosXTipo.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuDocsxtipoActionPerformed
 
     private void mnuArtMenosVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuArtMenosVActionPerformed
-        RepArticulosMenosVendidos.main(conexion.getConnection());
+        RepArticulosMenosVendidos.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuArtMenosVActionPerformed
 
     private void mnuPagosCXPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPagosCXPActionPerformed
-        RepPagosCXP.main(conexion.getConnection(), null);
+        RepPagosCXP.main(CONEXION.getConnection(), null);
     }//GEN-LAST:event_mnuPagosCXPActionPerformed
 
     private void mnuOrdenesCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuOrdenesCActionPerformed
-        RegistroOrdenCompra.main(conexion.getConnection(), true);
+        RegistroOrdenCompra.main(CONEXION.getConnection(), true);
     }//GEN-LAST:event_mnuOrdenesCActionPerformed
 
     private void mnuConsultarFactNDNC1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsultarFactNDNC1ActionPerformed
-        ConsultaFactNDNC_CXP.main(conexion.getConnection());
+        ConsultaFactNDNC_CXP.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuConsultarFactNDNC1ActionPerformed
 
     private void mnuClienteFrecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuClienteFrecActionPerformed
-        ClienteFrecuente.main(conexion.getConnection());
+        ClienteFrecuente.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuClienteFrecActionPerformed
 
     private void mnuOtrasCXCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuOtrasCXCActionPerformed
-        PendienteCXC.main(conexion.getConnection());
+        PendienteCXC.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuOtrasCXCActionPerformed
 
     private void mnuMovInterCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMovInterCActionPerformed
-        RegistroIntercodigo.main(conexion.getConnection());
+        RegistroIntercodigo.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuMovInterCActionPerformed
 
     private void mnuVisitaProveedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuVisitaProveedoresActionPerformed
-        VisitaProveedores.main(conexion.getConnection());
+        VisitaProveedores.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuVisitaProveedoresActionPerformed
 
     private void mnuCajasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCajasActionPerformed
-        Caja.main(conexion.getConnection());
+        Caja.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuCajasActionPerformed
 
     private void mnuTransCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuTransCajaActionPerformed
-        RegistroTransaccionesCaja.main(conexion.getConnection());
+        RegistroTransaccionesCaja.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuTransCajaActionPerformed
 
     private void mnuBancosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBancosActionPerformed
-        Banco.main(conexion.getConnection());
+        Banco.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuBancosActionPerformed
 
     private void mnuTarjetasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuTarjetasActionPerformed
-        TarjetaDC.main(conexion.getConnection(), null, null);
+        TarjetaDC.main(CONEXION.getConnection(), null, null);
     }//GEN-LAST:event_mnuTarjetasActionPerformed
 
     private void mnuAnularCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAnularCajaActionPerformed
         try {
             // Integración del segundo nivel de seguridad.
-            if (!UtilBD.tienePermiso(conexion.getConnection(), "AnulacionRecibosCaja")) {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "AnulacionRecibosCaja")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
@@ -3165,7 +3174,7 @@ public class Menu extends javax.swing.JFrame {
         new AnulacionRecibosCaja(
                 new java.awt.Frame(),
                 true, // Modal
-                conexion.getConnection(), // Conexión
+CONEXION.getConnection(), // Conexión
                 "0") // Número de recibo
                 .setVisible(true);
     }//GEN-LAST:event_mnuAnularCajaActionPerformed
@@ -3176,7 +3185,7 @@ public class Menu extends javax.swing.JFrame {
             // que encontrar la forma de hacerlo ingual que todos los demás ya que
             // de lo contrario habría que modificar también los menúes contextuales.
             // Bosco agregado 23/07/2011
-            if (!UtilBD.tienePermiso(conexion.getConnection(), "ImpresionReciboCaja")) {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "ImpresionReciboCaja")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
@@ -3196,7 +3205,7 @@ public class Menu extends javax.swing.JFrame {
         new ImpresionReciboCaja(
                 new java.awt.Frame(),
                 true, // Modal
-                conexion.getConnection(), // Conexión
+CONEXION.getConnection(), // Conexión
                 "0", // Número de recibo
                 true) // (true = Caja)
                 .setVisible(true);
@@ -3206,7 +3215,7 @@ public class Menu extends javax.swing.JFrame {
         // Por ahora se validará igual que los recibos de caja porque
         // utilizan el mismo programa.
         try {
-            if (!UtilBD.tienePermiso(conexion.getConnection(), "ImpresionReciboCaja")) {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "ImpresionReciboCaja")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
@@ -3226,14 +3235,14 @@ public class Menu extends javax.swing.JFrame {
         new ImpresionReciboCaja(
                 new java.awt.Frame(),
                 true, // Modal
-                conexion.getConnection(), // Conexión
+CONEXION.getConnection(), // Conexión
                 "0", // Número de recibo
                 false) // (false = no fue llamado desde caja)
                 .setVisible(true);
     }//GEN-LAST:event_mnuRecibosCXP0ActionPerformed
 
     private void mnuConsCierreCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsCierreCajaActionPerformed
-        ConsultaCajaHist.main(conexion.getConnection());
+        ConsultaCajaHist.main(CONEXION.getConnection());
 
     }//GEN-LAST:event_mnuConsCierreCajaActionPerformed
 
@@ -3248,7 +3257,7 @@ public class Menu extends javax.swing.JFrame {
     private void mnuSumarizarCtasMayorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSumarizarCtasMayorActionPerformed
         // Está pendiente la parte de seguridad
 
-        CoactualizCat actuCat = new CoactualizCat(conexion.getConnection());
+        CoactualizCat actuCat = new CoactualizCat(CONEXION.getConnection());
         boolean exito = actuCat.sumarizarCuentas();
         String mensaje = actuCat.getMensaje_err();
         if (exito) {
@@ -3264,7 +3273,7 @@ public class Menu extends javax.swing.JFrame {
     private void mnuRecalcularContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRecalcularContaActionPerformed
         // Está pendiente la parte de seguridad
 
-        CoactualizCat actuCat = new CoactualizCat(conexion.getConnection());
+        CoactualizCat actuCat = new CoactualizCat(CONEXION.getConnection());
         boolean exito = actuCat.recalcularSaldos();
         String mensaje = actuCat.getMensaje_err();
         if (exito) {
@@ -3281,17 +3290,17 @@ public class Menu extends javax.swing.JFrame {
 
     private void mnuActuCatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuActuCatActionPerformed
         // Está pendiente la parte de seguridad
-        CoAplicaMov.main(conexion.getConnection());
+        CoAplicaMov.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuActuCatActionPerformed
 
     private void mnuRepAsientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRepAsientosActionPerformed
         // Está pendiente la parte de seguridad
-        RepAsientos.main(conexion.getConnection());
+        RepAsientos.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuRepAsientosActionPerformed
 
     private void mnuMovxctaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMovxctaActionPerformed
         // Está pendiente la parte de seguridad
-        RepMovimCta.main(conexion.getConnection());
+        RepMovimCta.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuMovxctaActionPerformed
 
     private void mnuGenArchSincActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuGenArchSincActionPerformed
@@ -3301,7 +3310,7 @@ public class Menu extends javax.swing.JFrame {
         PreparedStatement ps;
         ResultSet rs1;
         String sqlSent, dbtable, line, textFile;
-        Connection conn = conexion.getConnection();
+        Connection conn = CONEXION.getConnection();
 
         JFileChooser selectorArchivo = new JFileChooser();
         selectorArchivo.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -3457,7 +3466,7 @@ public class Menu extends javax.swing.JFrame {
          2.  Setear todos los campos y ejecutar todos eventos ordenadamente 
          3.  Guardar el dato sin mostrar mensajes (excepto si hay errores)
          */
-        Connection conn = conexion.getConnection();
+        Connection conn = CONEXION.getConnection();
         Inarticu in = new Inarticu("", conn);
         in.setInteractive(false);
         boolean continuar = true;
@@ -3546,7 +3555,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuAplicarSincActionPerformed
 
     private void mnuBalancesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBalancesActionPerformed
-        RepBalanceSituacion.main(conexion.getConnection());
+        RepBalanceSituacion.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuBalancesActionPerformed
 
     private void mnuImpAsientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuImpAsientosActionPerformed
@@ -3564,7 +3573,7 @@ public class Menu extends javax.swing.JFrame {
             // obtener el archivo seleccionado
             File nombreArchivo = archivo.getSelectedFile();
             String srcFile = nombreArchivo.getAbsolutePath();
-            new CargarAsientos(conexion.getConnection(), srcFile);
+            new CargarAsientos(CONEXION.getConnection(), srcFile);
         } catch (HeadlessException | JDBFException | InstantiationException | IllegalAccessException | SQLException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
@@ -3575,12 +3584,12 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuImpAsientosActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        RepBalances.main(conexion.getConnection());
+        RepBalances.main(CONEXION.getConnection());
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void mnuBackupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBackupActionPerformed
         try {
-            if (!UtilBD.tienePermiso(conexion.getConnection(), "BackupInterface")) {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "BackupInterface")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
@@ -3597,13 +3606,13 @@ public class Menu extends javax.swing.JFrame {
             return;
         } // end try-catch
 
-        interfase.otros.BackupInterface bk = new interfase.otros.BackupInterface(conexion.getConnection());
+        interfase.otros.BackupInterface bk = new interfase.otros.BackupInterface(CONEXION.getConnection());
         bk.setVisible(true);
     }//GEN-LAST:event_mnuBackupActionPerformed
 
     private void mnuXmlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuXmlActionPerformed
         try {
-            if (!UtilBD.tienePermiso(conexion.getConnection(), "FacturaXML")) {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "FacturaXML")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
@@ -3625,7 +3634,7 @@ public class Menu extends javax.swing.JFrame {
             MySQL 6 no arranca.  El problema es que no muestra ningún error.
             Si lo corro desde el prompt (java -jar osais.jar si corre) 03/07/2019
         */
-        FacturaXML fact = new FacturaXML(conexion.getConnection());
+        FacturaXML fact = new FacturaXML(CONEXION.getConnection());
         
         fact.setMode(FacturaXML.INTERACTIVE);
         fact.setTipo(FacturaXML.FACTURA);
@@ -3635,7 +3644,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void mnuConsultaXMLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsultaXMLActionPerformed
         try {
-            if (!UtilBD.tienePermiso(conexion.getConnection(), "ConsultaFacturasXML")) {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "ConsultaFacturasXML")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
@@ -3647,12 +3656,12 @@ public class Menu extends javax.swing.JFrame {
             new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
-        ConsultaFacturasXML.main(conexion.getConnection());
+        ConsultaFacturasXML.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuConsultaXMLActionPerformed
 
     private void mnuRecibirXMLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRecibirXMLActionPerformed
         try {
-            if (!UtilBD.tienePermiso(conexion.getConnection(), "FacturaElectProveedor")) {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "FacturaElectProveedor")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
@@ -3665,12 +3674,12 @@ public class Menu extends javax.swing.JFrame {
             return;
         } // end try-catch
 
-        FacturaElectProveedor facP = new FacturaElectProveedor(conexion.getConnection());
+        FacturaElectProveedor facP = new FacturaElectProveedor(CONEXION.getConnection());
         facP.setVisible(true);
     }//GEN-LAST:event_mnuRecibirXMLActionPerformed
 
     private void mnuRefNCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRefNCActionPerformed
-        ReferenciaNotaCXC.main(conexion.getConnection(), 0);
+        ReferenciaNotaCXC.main(CONEXION.getConnection(), 0);
     }//GEN-LAST:event_mnuRefNCActionPerformed
 
     private void mnuConsXMLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsXMLActionPerformed
@@ -3708,7 +3717,7 @@ public class Menu extends javax.swing.JFrame {
         //
         //        ResultSet rs;
         //        try {
-        //            PreparedStatement ps = conexion.getConnection().prepareStatement(sqlSent,
+        //            PreparedStatement ps = CONEXION.getConnection().prepareStatement(sqlSent,
         //                    ResultSet.TYPE_SCROLL_SENSITIVE,
         //                    ResultSet.CONCUR_READ_ONLY);
         //            rs = CMD.select(ps);
@@ -3723,9 +3732,13 @@ public class Menu extends javax.swing.JFrame {
         //        }
         //
         //        DetalleNotificacionXml.main(rs);
-        DetalleNotificacionXml dnx = new DetalleNotificacionXml(new javax.swing.JFrame(), true,conexion.getConnection());
+        DetalleNotificacionXml dnx = new DetalleNotificacionXml(new javax.swing.JFrame(), true,CONEXION.getConnection());
         dnx.setVisible(true);
     }//GEN-LAST:event_mnuConsXMLActionPerformed
+
+    private void mnuMovAuxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMovAuxActionPerformed
+        ConsultaMovCierre.main(new String[1]);
+    }//GEN-LAST:event_mnuMovAuxActionPerformed
 
     public static void main(final DataBaseConnection c, final boolean disponible, final String url) {
 
@@ -3885,6 +3898,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuMaestroArt;
     private javax.swing.JMenuItem mnuMinAut;
     private javax.swing.JMenuItem mnuMonedas;
+    private javax.swing.JMenuItem mnuMovAux;
     private javax.swing.JMenuItem mnuMovCXP;
     private javax.swing.JMenuItem mnuMovInterC;
     private javax.swing.JMenuItem mnuMovInv;
@@ -4074,7 +4088,7 @@ public class Menu extends javax.swing.JFrame {
     } // end close
 
     public Connection getConn() {
-        return this.conexion.getConnection();
+        return this.CONEXION.getConnection();
     }
 
 }

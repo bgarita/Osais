@@ -498,3 +498,36 @@ Wed Jul 31 11:30:38 CST 2019
 interfase.consultas.DetalleNotificacionXml--> No operations allowed after connection closed.
 Wed Jul 31 11:30:40 CST 2019
 interfase.consultas.DetalleNotificacionXml--> No operations allowed after connection closed.
+Thu Aug 01 11:31:46 CST 2019
+interfase.consultas.ConsultaMovCierre--> You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''2019-06-01 00:00:00'','','',0)' at line 1
+Thu Aug 01 11:33:00 CST 2019
+interfase.consultas.ConsultaMovCierre--> Not supported yet.
+Thu Aug 01 11:37:44 CST 2019
+interfase.consultas.ConsultaMovCierre--> Not supported yet.
+Thu Aug 01 11:39:14 CST 2019
+interfase.consultas.ConsultaMovCierre--> Not supported yet.
+Thu Aug 01 12:25:47 CST 2019
+interfase.consultas.ConsultaMovCierre--> Not supported yet.
+Thu Aug 01 12:41:43 CST 2019
+interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.
+Thu Aug 01 12:42:56 CST 2019
+interfase.consultas.ConsultaMovCierre--> Not supported yet.
+Thu Aug 01 12:43:10 CST 2019
+interfase.consultas.ConsultaMovCierre--> Not supported yet.
+Thu Aug 01 12:46:19 CST 2019
+interfase.consultas.ConsultaMovCierre--> Not supported yet.
+Thu Aug 01 12:54:44 CST 2019
+interfase.consultas.ConsultaMovCierre--> Not supported yet.
+Thu Aug 01 13:31:05 CST 2019
+interfase.consultas.ConsultaMovCierre--> Not supported yet.
+Thu Aug 01 13:32:26 CST 2019
+interfase.consultas.ConsultaMovCierre--> Not supported yet.
+Thu Aug 01 13:38:26 CST 2019
+interfase.consultas.ConsultaMovCierre--> Not supported yet.
+Fri Aug 02 08:49:41 CST 2019
+interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.
+Fri Aug 02 08:52:37 CST 2019
+interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.

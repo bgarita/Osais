@@ -851,6 +851,15 @@ public class UtilBD {
         ps.close();
         return existe;
     } // end existeRegistro
+    
+    public static boolean existeRegistro(PreparedStatement ps, boolean cerrarRS) throws SQLException {
+        ResultSet rs = CMD.select(ps);
+        boolean existe = rs != null && rs.first();
+        if (cerrarRS && rs != null){
+            rs.close();
+        } // end if
+        return existe;
+    } // end existeRegistro
 
     /**
      * @author Bosco Garita 28/01/2012
@@ -1372,7 +1381,7 @@ public class UtilBD {
     /**
      * Obtener el saldo de una cuenta a una fecha específica.
      *
-     * @param cta Cuenta objeto con la cuenta y conexion ya cargados.
+     * @param cta Cuenta objeto con la cuenta y CONEXION ya cargados.
      * @param fecha Date fecha a la que se desea obtener el saldo
      * @return double saldo de la cuenta
      * @throws java.lang.Exception

@@ -2378,7 +2378,7 @@ public class Ut {
      *
      * @author Bosco Garita Azofeifa 17/11/2013
      * @param t JTable tabla cuyo tamaño será cambiado
-     * @param cantidad int número de columnas a agregar o restar
+     * @param cantidad int número de columnas o filas a agregar o restar
      * @param tipo String "Columnas", "Filas" tipo de dato a modificar
      */
     public static void resizeTable(JTable t, int cantidad, String tipo) {

@@ -10,7 +10,11 @@ package accesoDatos;
 import interfase.menus.Menu;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import logica.utilitarios.Ut;
 
 /**
@@ -56,9 +60,9 @@ public class UpdateVersion {
         } // end if (!UtilBD.fieldInTable(conn, "enviarFacturaE", "config"))
 
         // Bosco agregado 18/07/2019.  Elimino varios índices y agrego uno.
-        double versionNumber = 
-                Double.parseDouble(Ut.quitarCaracteres(Menu.dataBaseVersion, ".").toString());
-        
+        double versionNumber
+                = Double.parseDouble(Ut.quitarCaracteres(Menu.dataBaseVersion, ".").toString());
+
         if (versionNumber >= 5.7 && UtilBD.indexInDB(conn, "FK_Hinmovimd_bodexis")) {
             sqlSent
                     = "ALTER TABLE `inmovimd`  "
@@ -88,7 +92,7 @@ public class UpdateVersion {
             ps.execute();
             ps.close();
         } // end if
-        
+
         if (versionNumber >= 5.7 && UtilBD.indexInDB(conn, "FK_Hinmovim_Tipocambio")) {
             sqlSent
                     = "ALTER TABLE `inmovime`  "
@@ -98,7 +102,7 @@ public class UpdateVersion {
             ps.execute();
             ps.close();
         } // end if
-        
+
         if (versionNumber >= 5.7 && !UtilBD.indexInDB(conn, "Index_recalcular_inv")) {
             sqlSent
                     = "ALTER TABLE `inmovime`  "
@@ -108,7 +112,7 @@ public class UpdateVersion {
             ps.execute();
             ps.close();
         } // end if
-        
+
         if (versionNumber >= 5.7 && UtilBD.indexInDB(conn, "fk_hbodexis_hintarticu")) {
             sqlSent
                     = "ALTER TABLE `hbodexis`  "
@@ -118,7 +122,7 @@ public class UpdateVersion {
             ps.execute();
             ps.close();
         } // end if
-        
+
         if (versionNumber >= 5.7 && UtilBD.indexInDB(conn, "FK_hbodexis_bodexis")) {
             sqlSent
                     = "ALTER TABLE `hbodexis`  "
@@ -129,5 +133,42 @@ public class UpdateVersion {
             ps.close();
         } // end if
         // Fin Bosco agregado 18/07/2019
+
+        // ** Actualización de la tabla de opciones (tareas del sistema)
+        // --------------------------------------------------------------
+        sqlSent
+                = "SELECT * FROM programa "
+                + "WHERE programa = ?";
+        HashMap<String, String> tareas = new HashMap<String, String>();
+        tareas.put("ReferenciaNotaCXC", "Referenciar notas de crédito.");
+        tareas.put("ConsultaMovCierre", "Movimientos auxiliares");
+
+        ps = conn.prepareStatement(sqlSent,
+                ResultSet.TYPE_SCROLL_SENSITIVE,
+                ResultSet.CONCUR_READ_ONLY);
+
+        // Hacer un recorrido agregando las tareas que faltan.
+        String sqlInsert
+                = "INSERT INTO programa (programa, descrip) "
+                + "	VALUES( ?,?)";
+        String program;
+        Iterator<String> it = tareas.keySet().iterator();
+        while (it.hasNext()) {
+            program = it.next();
+            ps.setString(1, program);
+            if (UtilBD.existeRegistro(ps, true)) { // Revisa si hay registros y cierra el RS
+                continue;
+            } // end if
+
+            // Si el registro no existe lo agrego.
+            PreparedStatement ps2 = conn.prepareStatement(sqlInsert);
+            ps2.setString(1, program);
+            ps2.setString(2, tareas.get(program));
+            CMD.update(ps2);
+            ps2.close();
+        } // end while
+        // --------------------------------------------------------------
+        
+        
     } // end update
 } // end UpdateVersion

@@ -56,7 +56,7 @@ public class Ingreso extends javax.swing.JFrame {
         initComponents();
         // Una vez establecida la conexión se debe enviar el objeto de conección
         // al menú y éste a su vez debe enviarlo a cada form o programa que invoque.
-        //conn = conexion.getConnection();
+        //conn = CONEXION.getConnection();
         splashInit();           // initialize splash overlay drawing parameters
         appInit();              // simulate what an application would do
                                 // before starting
@@ -210,7 +210,7 @@ public class Ingreso extends javax.swing.JFrame {
 
     private void cmdAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdAceptarActionPerformed
         // Bosco modificado 01/05/2011
-        //        conexion = new DataBaseConnection(
+        //        CONEXION = new DataBaseConnection(
         //                txtUser.getText().trim(),
         //                txtPassword.getText().trim());
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
@@ -243,7 +243,7 @@ public class Ingreso extends javax.swing.JFrame {
             */
             
 //            if (Ut.jPing(IP)){
-//                conexion = new DataBaseConnection(usuario,pass2,url);
+//                CONEXION = new DataBaseConnection(usuario,pass2,url);
 //            } else {
 //                retryConnection(usuario,pass2,url);
 //            } // end if
@@ -253,7 +253,7 @@ public class Ingreso extends javax.swing.JFrame {
             if (!conexion.isConnected() &&
                     conexion.getErrorMessage().contains("Communications link failure")){
                 retryConnection(usuario,pass2,url);
-            } // end if (!conexion.isConnected()) && ...
+            } // end if (!CONEXION.isConnected()) && ...
         } // end if (url.contains("localhost")) else ...
         
         this.setCursor(null);

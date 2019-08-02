@@ -215,7 +215,7 @@ public class Permiso extends javax.swing.JDialog {
                     JOptionPane.ERROR_MESSAGE);
         } // end if
         
-        // Validar el permiso con la nueva conexion
+        // Validar el permiso con la nueva CONEXION
         // Correr proceso de verificación y actualizar propiedad de usuario.
         if (c != null && UtilBD.tienePermisoEspecial(c, permiso)){
             Permiso.autorizaUsr = usuario;
