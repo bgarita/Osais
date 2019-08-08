@@ -49,16 +49,18 @@ import javax.swing.table.DefaultTableModel;
 public class Ut {
 
     /**
-     * Obtener el número de puerto por el que está escuchando el motor de base de datos.
+     * Obtener el número de puerto por el que está escuchando el motor de base
+     * de datos.
+     *
      * @param url String texto que incluye parte de la conexión a base de datos.
      * @return String número de puerto
      */
     public static String getConnectionPort(String url) {
         String port = "";
         int pos = getPosicion(url, ":");
-        String temp = url.substring(pos+1);
+        String temp = url.substring(pos + 1);
         pos = getPosicion(temp, "/");
-        port = temp.substring(0,pos);
+        port = temp.substring(0, pos);
         return port;
     } // end getConnectionPort
 
@@ -121,7 +123,7 @@ public class Ut {
         NumberFormat nf = NumberFormat.getNumberInstance();
         try {
             valor = nf.parse(valortexto.trim());
-        } catch (Exception ex){
+        } catch (Exception ex) {
             valor = nf.parse("0");
         }
         return valor.toString();
@@ -1815,6 +1817,7 @@ public class Ut {
 
     /**
      * @throws java.sql.SQLException
+     * @throws Exceptions.EmptyDataSourceException
      * @Author: Bosco Garita 04/01/2011. Carga un comboBox con los datos de un
      * ResultSet
      * @param combo comboBox que se llenará
@@ -1828,7 +1831,6 @@ public class Ut {
      * esté asociado al comboBox no se dispare durante la ejecución de este
      * método porque causará un error de Null Pointer.
      */
-    @SuppressWarnings("unchecked")
     public static boolean fillComboBox(
             javax.swing.JComboBox combo,
             ResultSet rs,
@@ -1863,12 +1865,13 @@ public class Ut {
     } // end fillComboBox
 
     /**
-     * Autor: Bosco Garita 08/02/2011 10:48 p.m. Objet: Mover el puntero a una
+     * Autor: Bosco Garita 08/02/2011 10:48 p.m.Objet: Mover el puntero a una
      * posición relativa dentro del RS
      *
      * @param r ResultSet, debe venir con movilidad
      * @param pos Posición a la que se moverá el puntero
      * @return boolean true = Fue exitoso, false = No lo fue
+     * @throws java.sql.SQLException
      */
     public static boolean goRecord(ResultSet r, int pos) throws SQLException {
         boolean exito = false;
@@ -2025,18 +2028,30 @@ public class Ut {
         s = s.replaceAll(" ", "");
         // Buscar secuencias peligrosas que permiten la inyección de código.
         inyectado
-                = s.contains(";") || // Finaliza un query y abre uno nuevo
-                s.contains("LIKE'%'") || // Como lo que sea
-                s.contains("'--") || // Comentarios de líea
-                (s.contains("*/") && s.contains("*/")) || // Comentarios de bloque
-                s.contains("')OR1=") || // Evitar que se agregue una expresión
-                s.contains("CHAR(0X66)") || // Evitar expresiones demasiado largas
-                s.contains("CHAR(0X5045)") || // Evitar expresiones demasiado largas
-                s.contains("0X50+0X45") || // Evitar expresiones demasiado largas
-                s.contains("LOAD_FILE(") || // No se permite el uso de Load_File()
-                s.contains("LIMIT0") || // Evitar LIMIT 0 (MySQL).
-                s.contains("TOP0") || // Evitar TOP 0 (MSSQL).
-                s.contains("BENCHMARK(") || // No se permite la función BENCHMARK()
+                = s.contains(";")
+                || // Finaliza un query y abre uno nuevo
+                s.contains("LIKE'%'")
+                || // Como lo que sea
+                s.contains("'--")
+                || // Comentarios de líea
+                (s.contains("*/") && s.contains("*/"))
+                || // Comentarios de bloque
+                s.contains("')OR1=")
+                || // Evitar que se agregue una expresión
+                s.contains("CHAR(0X66)")
+                || // Evitar expresiones demasiado largas
+                s.contains("CHAR(0X5045)")
+                || // Evitar expresiones demasiado largas
+                s.contains("0X50+0X45")
+                || // Evitar expresiones demasiado largas
+                s.contains("LOAD_FILE(")
+                || // No se permite el uso de Load_File()
+                s.contains("LIMIT0")
+                || // Evitar LIMIT 0 (MySQL).
+                s.contains("TOP0")
+                || // Evitar TOP 0 (MSSQL).
+                s.contains("BENCHMARK(")
+                || // No se permite la función BENCHMARK()
                 s.contains("VERSION(") // No se permite la función VERSION()
                 ;
         if (inyectado) {
@@ -2246,12 +2261,13 @@ public class Ut {
         } // end if
         return numero;
     } // end quitarCaracteres
-    
+
     /**
      * @author Bosco Garita 20/07/2019 Quita todos los caracteres de una cadena
      * dejando sólo los dígitos y el primer punto.
      * @param valor String que será examinada
-     * @param separadorDecimal String indica el separador decimal que pueda traer la cadena.
+     * @param separadorDecimal String indica el separador decimal que pueda
+     * traer la cadena.
      * @return Number valor numérico de la cadena recibida.
      */
     public static Number quitarCaracteres(String valor, String separadorDecimal) {
@@ -2261,14 +2277,14 @@ public class Ut {
         boolean separador = false; // Se vuelve true cuando se detecta el separador decimal.
         for (int i = 0; i < valor.length(); i++) {
             tempChar = valor.charAt(i);
-            
+
             if (Character.isDigit(tempChar) || (!separador && separadorDecimal.charAt(0) == tempChar)) {
                 tempString = tempString + tempChar;
-                if (separadorDecimal.charAt(0) == tempChar){
-                   separador = true; 
+                if (separadorDecimal.charAt(0) == tempChar) {
+                    separador = true;
                 } // end if
             } // end if
-            
+
         } // end for
         if (tempString.length() > 0) {
             numero = Double.parseDouble(tempString);
@@ -2975,17 +2991,27 @@ public class Ut {
         StringBuilder sb = new StringBuilder();
         try {
             if (path.toFile().exists()) {
-                Stream<String> stream = Files.lines(path, Charset.forName("UTF-8"));
-                Object[] content = stream.toArray();
+                // Primero intento leer el archivo con UTF-8 y si se da un error
+                // lo intento con ISO-8859-1
+                Object[] content;
+                try {
+                    Stream<String> stream = Files.lines(path, Charset.forName("UTF-8"));
+                    content = stream.toArray();
+                } catch (Exception ex) {
+                    Stream<String> stream = Files.lines(path, Charset.forName("ISO-8859-1"));
+                    content = stream.toArray();
+                } // end try-catch interno
+                
                 for (Object o : content) {
                     sb.append(o).append("\n");
                 } // end for
+
             } else {
                 sb.append("Archivo no encontrado.");
             } // end if-else
         } // end fileToString
         catch (Exception ex) {
-            Logger.getLogger(Archivos.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Ut.class.getName()).log(Level.SEVERE, null, ex);
             sb.append(ex.getMessage());
         }
         return sb.toString();
@@ -3118,7 +3144,7 @@ public class Ut {
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.port", "587");
-        
+
         if (mailConfig.exists()) {
             try (FileInputStream fis = new FileInputStream(mailConfig)) {
                 props.load(fis);

@@ -139,7 +139,7 @@ public class ConsultaFacturasXML extends javax.swing.JFrame {
 
         this.txaEstadoEnvio.setText(Ut.fileToString(path));
 
-        // Obtengo referencia, si no existe no hago la consulta.
+        // Obtengo la referencia, si no existe no hago la consulta.
         int pos = Ut.getPosicionIgnoreCase(this.txaEstadoEnvio.getText(), "Referencia:");
         if (pos < 0) {
             return;
@@ -151,8 +151,8 @@ public class ConsultaFacturasXML extends javax.swing.JFrame {
         ref = ref.substring(Ut.getPosicion(ref, " ") + 1);
 
         String documento = this.lstDocumentos.getSelectedValue().replace(".txt", "");
-
-        // La referencia no puede ser cero o vacío
+        
+        // La referencia no puede ser cero, vacío o negativo
         if (ref.trim().isEmpty() || Integer.parseInt(ref.trim()) == 0) {
             String msg = "No se pudo obtener la referencia para el documento " + documento;
             JOptionPane.showMessageDialog(null,
@@ -164,11 +164,25 @@ public class ConsultaFacturasXML extends javax.swing.JFrame {
         } // end if
 
         String dirXMLS = Menu.DIR.getXmls() + Ut.getProperty(Ut.FILE_SEPARATOR);
-        //String tipo = getTipo(Integer.parseInt(ref.trim()));
-        DocumentoElectronico doc = new DocumentoElectronico(0,0,"",conn);
+        DocumentoElectronico doc = new DocumentoElectronico(0, 0, "", conn);
+        /*
+        Tipos de documento:
+            FAC=Factura
+            NCR=Nota de crédito
+            NDB=Nota de débio
+            FCO=Factura de compra
+            Vacío=No existe referencia aún
+         */
         String tipo = doc.getTipoDoc(Integer.parseInt(ref));
 
-        //String cmd = dirXMLS + "EnviarFactura.exe " + ref + " " + documento + " 2";
+        // Si el archivo que contiene la información existe, se muestran los
+        // datos; caso contrario continúo con la generación del archivo.
+        path = doc.getLogPath(documento);
+        if (path != null && path.toFile().exists()) {
+            this.txaReporteHacienda.setText(Ut.fileToString(path));
+            return;
+        } // end if
+
         String cmd = dirXMLS + "EnviarFactura2.exe " + ref + " " + documento + " 2 " + tipo;
         try {
             // Este proceso es únicamente windows por lo que no debe correr en Linux
@@ -178,50 +192,51 @@ public class ConsultaFacturasXML extends javax.swing.JFrame {
             } // end if
 
         } catch (IOException ex) {
-            Logger.getLogger(ConsultaFacturasXML.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
-        }
+        } // end try-catch
 
-        String dirLogs = Menu.DIR.getLogs() + Ut.getProperty(Ut.FILE_SEPARATOR);
-        String sufijo = "_Hac.log";
+        path = doc.getLogPath(documento);
         
-        // Como no hay forma de saber si la referencia es de ventas, compras o proveedores
-        // entonces busco los tres tipos.
-        File f = new File(dirLogs + documento + sufijo);
-        if (!f.exists()){ // ventas
-            sufijo = "_HacP.log";
-            f = new File(dirLogs + documento + sufijo);
-            if (!f.exists()){ // Proveedores
-                sufijo = "_HacCompras.log";
-            } // end if
-            if (!f.exists()) {
-                /*
-                Si tampoco existe este archivo es porque hay un error que se
-                generó drante la ejecusión de EnviarFactura2.exe
-                El log que genera queda en la misma carpeta del xml, con el
-                mismo nombre de la factura pero con la extensión .log
-                */
-                sufijo = ".log";
-            } // end if
-        } // end if
-        
-        if (sufijo.equals(".log")){
-            path = Paths.get(dirXMLS + documento + sufijo);
-        } else {
-            path = Paths.get(dirLogs + documento + sufijo);
-        } // end if-else
+        //        String dirLogs = Menu.DIR.getLogs() + Ut.getProperty(Ut.FILE_SEPARATOR);
+        //        String sufijo = "_Hac.log";
+        //
+        //        // Como no hay forma de saber si la referencia es de ventas, compras o proveedores
+        //        // entonces busco los tres tipos.
+        //        File f = new File(dirLogs + documento + sufijo);
+        //        if (!f.exists()) { // ventas
+        //            sufijo = "_HacP.log";
+        //            f = new File(dirLogs + documento + sufijo);
+        //            if (!f.exists()) { // Proveedores
+        //                sufijo = "_HacCompras.log";
+        //            } // end if
+        //            if (!f.exists()) {
+        //                /*
+        //                Si tampoco existe este archivo es porque hay un error que se
+        //                generó drante la ejecusión de EnviarFactura2.exe
+        //                El log que genera queda en la misma carpeta del xml, con el
+        //                mismo nombre de la factura pero con la extensión .log
+        //                 */
+        //                sufijo = ".log";
+        //            } // end if
+        //        } // end if
+        //
+        //        if (sufijo.equals(".log")) {
+        //            path = Paths.get(dirXMLS + documento + sufijo);
+        //        } else {
+        //            path = Paths.get(dirLogs + documento + sufijo);
+        //        } // end if-else
         
         String texto = Ut.fileToString(path);
         if (texto.contains("Archivo no encontrado")) {
             texto = "Ocurrió un error. Falta el archivo " + path.toFile().getAbsolutePath();
         } // end if  
         this.txaReporteHacienda.setText(texto);
-
     }//GEN-LAST:event_lstDocumentosMouseClicked
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
@@ -231,7 +246,8 @@ public class ConsultaFacturasXML extends javax.swing.JFrame {
                 conn.close();
             }
         } catch (SQLException ex) {
-            Logger.getLogger(ConsultaFacturasXML.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     }//GEN-LAST:event_formWindowClosed
 
@@ -283,7 +299,7 @@ public class ConsultaFacturasXML extends javax.swing.JFrame {
 
     private void loadDocumentList() {
         this.validFiles = new ArrayList<>();
-        
+
         ConsultaXMLv1 cxml = new ConsultaXMLv1();
         cxml.setValidFiles(validFiles);
         cxml.setLstDocumentos(lstDocumentos);

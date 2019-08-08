@@ -1,1 +1,1 @@
-02-08-2019 --> Data too long for column 'descrip' at row 23
+07-08-2019 --> Data too long for column 'descrip' at row 23

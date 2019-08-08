@@ -8,8 +8,11 @@ import Mail.Bitacora;
 import Mail.EnviarCorreoFE;
 import accesoDatos.CMD;
 import interfase.menus.Menu;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -40,8 +43,8 @@ public class DocumentoElectronico {
         this.facnd = facnd;
         this.tipoXML = tipoXML;
         this.conn = conn;
-        error = false;
-        error_msg = "";
+        this.error = false;
+        this.error_msg = "";
     }
 
     public boolean isError() {
@@ -60,7 +63,6 @@ public class DocumentoElectronico {
         this.error_msg = error_msg;
     }
 
-    
     /**
      * Determinar si un documento electrónico ya fue aceptado por Hacienda o no.
      *
@@ -152,7 +154,7 @@ public class DocumentoElectronico {
         } else {
             actualizarDocumentoElectronico(mailAddress);
         } // end if-else
-        
+
         return enviado;
     } // end if
 
@@ -179,7 +181,7 @@ public class DocumentoElectronico {
         } // end try-catch
 
     } // end actualizarDocumentoElectronico
-    
+
     /**
      * Obtener el tipo de documento tomando la referencia como criterio de
      * búsqueda en la tabla de documentos electrónicos.
@@ -216,15 +218,13 @@ public class DocumentoElectronico {
         }
         return tipoDoc;
     } // end getTipo
-    
+
     /**
      * Enviar un xml a Hacienda.
+     *
      * @param facnume int número de documento.
-     * @param tipoDoc String tipo de documento:
-     *                      FAC=Factura o tiquete
-     *                      NCR=Nota de crédito
-     *                      NDB=Nota de débito
-     *                      FCO=Factura de compra
+     * @param tipoDoc String tipo de documento: FAC=Factura o tiquete NCR=Nota
+     * de crédito NDB=Nota de débito FCO=Factura de compra
      */
     public void enviarXML(int facnume, String tipoDoc) {
         // Este proceso es únicamente windows por lo que no debe correr en Linux
@@ -239,7 +239,7 @@ public class DocumentoElectronico {
             String logFile = dir + facnume + ".log";
 
             // Si el xml es el de compras entonces el nombre del archivo termina por _C.xml 25/06/2019
-            if (this.tipoXML.equals("C")) {
+            if (tipoDoc.equals("FCO") || this.tipoXML.equals("C")) {
                 xmlFile = facnume + "_C.xml";
                 logFile = dir + facnume + "_C.log";
             } // end if
@@ -270,4 +270,47 @@ public class DocumentoElectronico {
             new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // end enviarXML
+
+    /**
+     * Obtener el path completo para el documento que tiene la información de la
+     * respuesta de Hacienda para un XML.
+     *
+     * @param documento
+     * @return
+     */
+    public Path getLogPath(String documento) {
+        String dirLogs = Menu.DIR.getLogs() + Ut.getProperty(Ut.FILE_SEPARATOR);
+        String sufijo = "_Hac.log";
+
+        // Como no hay forma de saber si la referencia es de ventas, compras o proveedores
+        // entonces busco los tres tipos.
+        File f = new File(dirLogs + documento + sufijo);
+        if (!f.exists()) { // ventas
+            sufijo = "_HacP.log";
+            f = new File(dirLogs + documento + sufijo);
+            if (!f.exists()) { // Proveedores
+                sufijo = "_HacCompras.log";
+                f = new File(dirLogs + documento + sufijo);
+                if (!f.exists()) {
+                    /*
+                    Si tampoco existe este archivo es porque hay un error que se
+                    generó drante la ejecusión de EnviarFactura2.exe
+                    El log que genera queda en la misma carpeta del xml, con el
+                    mismo nombre de la factura pero con la extensión .log
+                     */
+                    sufijo = ".log";
+                } // end if
+            } // end if
+        } // end if
+
+        Path path;
+        String dirXMLS = Menu.DIR.getXmls() + Ut.getProperty(Ut.FILE_SEPARATOR);
+        if (sufijo.equals(".log")) {
+            path = Paths.get(dirXMLS + documento + sufijo);
+        } else {
+            path = Paths.get(dirLogs + documento + sufijo);
+        } // end if-else
+
+        return path;
+    } // end getLogPath
 } // end Class

@@ -235,6 +235,13 @@ public class UtilBD {
      */
     // Modificado por Bosco Garita 17/03/2013
     // Elimino el despliegue de errores, ahora se envía al programa que lo invoque.
+    /*
+    Nota:
+        En la clase CathalogDriver.java existe un método "isBodegaCerrada()"
+        que recibe la bodega y la fecha igual que este método.  Hace la misma
+        función pero más veloz ya que todo el catálogo de bodegas está en memoria.
+        Bosco 02/08/2019 17:35 pm
+    */
     public static boolean bodegaCerrada(
             Connection c, String bodega, java.util.Date fechaR) throws SQLException {
         String sqlSent;

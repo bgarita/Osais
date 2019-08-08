@@ -37,7 +37,6 @@ import logica.utilitarios.Ut;
  *
  * @author Bosco Garita
  */
-@SuppressWarnings("serial")
 public class RegistroEntradas extends javax.swing.JFrame {
 
     private Catalogos.CathalogDriver driver;  // Catálogos
@@ -1307,14 +1306,22 @@ public class RegistroEntradas extends javax.swing.JFrame {
 
         updateSql
                 = "CALL InsertarEncabezadoDocInv("
-                + " ?," + // Documento
-                "   ?," + // Tipo de movimiento (E o S)
-                "   ?," + // Orden de compra
-                "   ?," + // Descripción del movimiento
-                "   ?," + // Fecha del movimiento
-                "   ?," + // Tipo de cambio
-                "   ?," + // Tipo de Movdocu (detalle arriba)
-                "   ?," + // Persona que solicita (se usa en salidas)
+                + " ?,"
+                + // Documento
+                "   ?,"
+                + // Tipo de movimiento (E o S)
+                "   ?,"
+                + // Orden de compra
+                "   ?,"
+                + // Descripción del movimiento
+                "   ?,"
+                + // Fecha del movimiento
+                "   ?,"
+                + // Tipo de cambio
+                "   ?,"
+                + // Tipo de Movdocu (detalle arriba)
+                "   ?,"
+                + // Persona que solicita (se usa en salidas)
                 "   ?)";  // Código de moneda
 
         try {
@@ -1358,19 +1365,32 @@ public class RegistroEntradas extends javax.swing.JFrame {
                 PreparedStatement psDetalle
                         = conn.prepareStatement(
                                 "CALL InsertarDetalleDocInv("
-                                + "   ?," + // Documento
-                                "   ?," + // Tipo de movimiento
-                                "   ?," + // Artículo
-                                "   ?," + // Bodega
-                                "   ?," + // Proveedor
-                                "   ?," + // Cantidad
-                                "   ?," + // Costo unitario
-                                "   ?," + // Costo FOB
-                                "   ?," + // Precio
-                                "   ?," + // Impuesto de ventas
-                                "   ?," + // Descuento
-                                "   ?," + // Tipo de documento
-                                "   ?," + // Centro de costo
+                                + "   ?,"
+                                + // Documento
+                                "   ?,"
+                                + // Tipo de movimiento
+                                "   ?,"
+                                + // Artículo
+                                "   ?,"
+                                + // Bodega
+                                "   ?,"
+                                + // Proveedor
+                                "   ?,"
+                                + // Cantidad
+                                "   ?,"
+                                + // Costo unitario
+                                "   ?,"
+                                + // Costo FOB
+                                "   ?,"
+                                + // Precio
+                                "   ?,"
+                                + // Impuesto de ventas
+                                "   ?,"
+                                + // Descuento
+                                "   ?,"
+                                + // Tipo de documento
+                                "   ?,"
+                                + // Centro de costo
                                 "   ?)"); // Fecha de vencimiento
 
                 // Recorrido por la tabla para guardar el detalle de la entrada
@@ -1552,11 +1572,16 @@ public class RegistroEntradas extends javax.swing.JFrame {
                     if (regAfec > 0) {
                         updateSql
                                 = "CALL ActualizarCostos("
-                                + "   ?," + // Artículo
-                                "   ?," + // Cantidad
-                                "   ?," + // Costo unitario
-                                "   ?," + // Costo FOB
-                                "   ?," + // Moneda
+                                + "   ?,"
+                                + // Artículo
+                                "   ?,"
+                                + // Cantidad
+                                "   ?,"
+                                + // Costo unitario
+                                "   ?,"
+                                + // Costo FOB
+                                "   ?,"
+                                + // Moneda
                                 "   ?)";  // Fecha
 
                         PreparedStatement psCostos
@@ -1762,43 +1787,49 @@ public class RegistroEntradas extends javax.swing.JFrame {
     }//GEN-LAST:event_txtProcodeFocusGained
 
     private void mnuBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBuscarActionPerformed
-        if (buscar == this.PROVEEDOR) {
-            bd = new Buscador(new java.awt.Frame(), true,
-                    "inproved", "procode,prodesc", "prodesc", txtProcode, conn);
-            bd.setTitle("Buscar proveedores");
-            bd.lblBuscar.setText("Nombre:");
-        } else if (buscar == this.ARTICULO) {
-
-            String campos = "artcode,artdesc,artexis-artreserv as Disponible, artpre1";
-            bd = new Buscador(new java.awt.Frame(), true,
-                    "inarticu",
-                    campos,
-                    "artdesc",
-                    txtArtcode,
-                    conn,
-                    3,
-                    new String[]{"Código", "Descripción", "Disponible", "precio"}
-            );
-            bd.setTitle("Buscar artículos");
-            bd.lblBuscar.setText("Descripción:");
-            bd.buscar("");
-        } else if (buscar == this.BODEGA) {
-            bd = new Buscador(new java.awt.Frame(), true,
-                    "bodegas", "bodega,descrip", "descrip", txtBodega, conn);
-            bd.setTitle("Buscar bodegas");
-            bd.lblBuscar.setText("Descripción:");
-        }
+        switch (buscar) {
+            case PROVEEDOR:
+                bd = new Buscador(new java.awt.Frame(), true,
+                        "inproved", "procode,prodesc", "prodesc", txtProcode, conn);
+                bd.setTitle("Buscar proveedores");
+                bd.lblBuscar.setText("Nombre:");
+                break;
+            case ARTICULO:
+                String campos = "artcode,artdesc,artexis-artreserv as Disponible, artpre1";
+                bd = new Buscador(new java.awt.Frame(), true,
+                        "inarticu",
+                        campos,
+                        "artdesc",
+                        txtArtcode,
+                        conn,
+                        3,
+                        new String[]{"Código", "Descripción", "Disponible", "precio"}
+                );
+                bd.setTitle("Buscar artículos");
+                bd.lblBuscar.setText("Descripción:");
+                bd.buscar("");
+                break;
+            case BODEGA:
+                bd = new Buscador(new java.awt.Frame(), true,
+                        "bodegas", "bodega,descrip", "descrip", txtBodega, conn);
+                bd.setTitle("Buscar bodegas");
+                bd.lblBuscar.setText("Descripción:");
+                break;
+        } // end switch
 
         bd.setVisible(true);
 
-        if (buscar == this.PROVEEDOR) {
-            txtProcodeActionPerformed(null);
-        } else if (buscar == this.ARTICULO) {
-            txtArtcodeActionPerformed(null);
-        } else if (buscar == this.BODEGA) {
-            txtBodegaActionPerformed(null);
-        }
-
+        switch (buscar) {
+            case PROVEEDOR:
+                txtProcodeActionPerformed(null);
+                break;
+            case ARTICULO:
+                txtProcodeActionPerformed(null);
+                break;
+            case BODEGA:
+                txtBodegaActionPerformed(null);
+                break;
+        } // end switch
         bd.dispose();
 }//GEN-LAST:event_mnuBuscarActionPerformed
 
@@ -2146,7 +2177,6 @@ public class RegistroEntradas extends javax.swing.JFrame {
 
         // Uso un método que también será usado para validar a la hora de
         // guardar la entrada.
-        //if (!UtilBD.existeBodega(conn, txtBodega.getText())) {
         if (descrip.isEmpty()) {
             JOptionPane.showMessageDialog(
                     null,
@@ -2157,27 +2187,28 @@ public class RegistroEntradas extends javax.swing.JFrame {
             return;
         } // end if
 
-        try {
-            // Verificar la fecha de cierre de la bodega.
-            if (UtilBD.bodegaCerrada(conn, txtBodega.getText(), DatMovfech.getDate())) {
-                JOptionPane.showMessageDialog(
-                        null,
-                        "La bodega ya se encuentra cerrada para esta fecha.",
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                this.btnAgregar.setEnabled(false);
-                return;
-            } // end if
-        } catch (SQLException ex) {
+        //try {
+        // Verificar la fecha de cierre de la bodega.
+        //if (UtilBD.bodegaCerrada(conn, txtBodega.getText(), DatMovfech.getDate())) {
+        if (driver.isBodegaCerrada(txtBodega.getText().trim(), DatMovfech.getDate())) {
             JOptionPane.showMessageDialog(
                     null,
-                    ex.getMessage(),
+                    "La bodega ya se encuentra cerrada para esta fecha.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             this.btnAgregar.setEnabled(false);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
-        } // end try-catch
+        } // end if
+        //        } catch (SQLException ex) {
+        //            JOptionPane.showMessageDialog(
+        //                    null,
+        //                    ex.getMessage(),
+        //                    "Error",
+        //                    JOptionPane.ERROR_MESSAGE);
+        //            this.btnAgregar.setEnabled(false);
+        //            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+        //            return;
+        //        } // end try-catch
 
         try {
             if (!UtilBD.asignadoEnBodega(conn, txtArtcode.getText(), txtBodega.getText())) {

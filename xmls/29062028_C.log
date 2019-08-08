@@ -1,14 +1,13 @@
-Inicia proceso: 25-07-2019 13:06:24
-25-07-2019 13:06:24: Validaci¢n de par metros recibidos.
+Inicia proceso: 07-08-2019 19:34:27
+07-08-2019 19:34:27: Validación de par metros recibidos.
 Argumentos recibidos
 Argumento 0 = 29062028_C.xml
 Argumento 1 = 29062028
 Argumento 2 = 1
 Argumento 3 = FCO
-Inicia proceso: 25-07-2019 13:06:24
-25-07-2019 13:06:24: Validaci¢n de par metros recibidos.
+Inicia proceso: 07-08-2019 19:34:27
+07-08-2019 19:34:27: Validación de par metros recibidos.
 Factura recibida: 29062028
-25-07-2019 13:06:24: Enviando archivo [xmls\29062028_C.xml]
-25-07-2019 13:06:24: El estado del env¡o es: -1 y la referencia es: 
-25-07-2019 13:06:24: Ocurri¢ un error [Incorrect integer value: '' for column `laflor`.`faestadodocelect`.`referencia` at row 1]
-Finaliza proceso: 25-07-2019 13:06:24
+07-08-2019 19:34:27: Enviando archivo [xmls\29062028_C.xml]
+07-08-2019 19:34:27: El estado del envío es: -1 y la referencia es: 
+Finaliza proceso: 07-08-2019 19:34:27

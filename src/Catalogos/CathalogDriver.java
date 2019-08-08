@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -146,7 +147,7 @@ public class CathalogDriver {
     } // end getBodega
 
     /**
-     * Devuelve la descripción de la bodega recibid por parámetro. Si no
+     * Devuelve la descripción de la bodega recibida por parámetro. Si no
      * encuentra el dato devuelve vacío
      *
      * @param bodega
@@ -161,6 +162,29 @@ public class CathalogDriver {
             } // end if
         } // end for
         return descrip;
+    } // end getDescripcionBodega
+
+    /**
+     * Indica si la bodega se encuentra cerrada para la fecha especificada.
+     *
+     * @param bodega String bodega a revisar
+     * @param fechaR String fecha a comparar
+     * @return
+     */
+    public boolean isBodegaCerrada(String bodega, java.util.Date fechaR) {
+        boolean cerrada = false;
+        Timestamp fechaRx = new Timestamp(fechaR.getTime());
+        for (Bodega b : this.bodegas) {
+            if (b.getBodega().equals(bodega)) {
+                // Si hay una fecha válida y la fecha solicitada no es mayor
+                // a la fecha de cierre...
+                if (b.getCerrada() != null && !fechaRx.after(b.getCerrada())) {
+                    cerrada = true;
+                } // end if
+                break;
+            } // end if
+        } // end for
+        return cerrada;
     } // end getDescripcionBodega
 
     /* =========================================================================
@@ -219,7 +243,7 @@ public class CathalogDriver {
             if (catalogo[i] == BANCOS) {
                 this.loadBancos();
             } // end if
-            
+
             if (catalogo[i] == VENDEDORES) {
                 this.loadVendedores();
             } // end if
@@ -272,7 +296,7 @@ public class CathalogDriver {
     private void loadBodegas() throws SQLException {
         this.bodegas = new ArrayList<>();
 
-        // Catálogo de tipos de documento
+        // Catálogo de bodegas
         String sqlSent
                 = "SELECT  "
                 + "	`bodegas`.`bodega`, "
@@ -303,7 +327,7 @@ public class CathalogDriver {
     private void loadBancos() throws SQLException {
         this.bancos = new ArrayList<>();
 
-        // Catálogo de tipos de documento
+        // Catálogo de bancos
         String sqlSent
                 = "SELECT  "
                 + "     `babanco`.`idbanco`, "
@@ -332,7 +356,7 @@ public class CathalogDriver {
     private void loadVendedores() throws SQLException {
         this.vendedores = new ArrayList<>();
 
-        // Catálogo de tipos de vendedores
+        // Catálogo de vendedores
         String sqlSent
                 = "SELECT  "
                 + "	`vend`, "

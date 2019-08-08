@@ -118,15 +118,14 @@ public class Tipocambio extends JFrame {
     private void cargarCombo() {
 
         try {
-            //rs3 = nav.cargarRegistro(Navegador.TODOS, "", "monedas", "codigo");
             String sqlSent = "Select codigo,descrip from monedas";
-            PreparedStatement ps = sConn.prepareStatement(sqlSent, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            PreparedStatement ps = sConn.prepareStatement(sqlSent, 
+                    ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             rs3 = CMD.select(ps);
             if (rs3 == null) {
                 return;
             } // end if
             Ut.fillComboBox(cboDescrip, rs3, 2, false);
-            //ps.close();
         } catch (SQLException | EmptyDataSourceException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
