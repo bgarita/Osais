@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import logica.Column;
 import logica.contabilidad.Cuenta;
 import logica.utilitarios.Ut;
 
@@ -241,7 +242,7 @@ public class UtilBD {
         que recibe la bodega y la fecha igual que este método.  Hace la misma
         función pero más veloz ya que todo el catálogo de bodegas está en memoria.
         Bosco 02/08/2019 17:35 pm
-    */
+     */
     public static boolean bodegaCerrada(
             Connection c, String bodega, java.util.Date fechaR) throws SQLException {
         String sqlSent;
@@ -858,11 +859,11 @@ public class UtilBD {
         ps.close();
         return existe;
     } // end existeRegistro
-    
+
     public static boolean existeRegistro(PreparedStatement ps, boolean cerrarRS) throws SQLException {
         ResultSet rs = CMD.select(ps);
         boolean existe = rs != null && rs.first();
-        if (cerrarRS && rs != null){
+        if (cerrarRS && rs != null) {
             rs.close();
         } // end if
         return existe;
@@ -1690,6 +1691,80 @@ public class UtilBD {
     } // end fieldInTable
 
     /**
+     * Determina el tamaño de una columna
+     *
+     * @author Bosco Garita, 14/08/2019 5:08 pm
+     * @param conn Connection conexión a la base de datos
+     * @param columnName String nombre de la columna a consultar
+     * @param tableName String tabla a la que pertenece la columna
+     * @return double length (-1) si la tabla o el la columna no existe
+     * @throws SQLException
+     */
+    public static double columnLength(
+            Connection conn, String columnName, String tableName) throws SQLException {
+        double length = -1;
+
+        // Obtener los campos de una tabla.
+        String sqlSent
+                = "SELECT  "
+                + "	COLUMN_NAME, "
+                + "	COLUMN_TYPE, "
+                + "	COLUMN_DEFAULT, "
+                + "	IS_NULLABLE, "
+                + "	ifNull(CHARACTER_MAXIMUM_LENGTH,0) AS CHARACTER_MAXIMUM_LENGTH, "
+                + "	ifNull(NUMERIC_PRECISION,0) AS NUMERIC_PRECISION, "
+                + "	ifNull(NUMERIC_SCALE,0) AS NUMERIC_SCALE, "
+                + "	COLUMN_KEY, "
+                + "	COLUMN_COMMENT, "
+                + "	ORDINAL_POSITION "
+                + "FROM information_schema.COLUMNS "
+                + "Where TABLE_SCHEMA = ? "
+                + "and TABLE_NAME = ?"
+                + "and COLUMN_NAME = ?";
+
+        PreparedStatement ps;
+        ResultSet rs;
+
+        ps = conn.prepareStatement(sqlSent,
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        ps.setString(1, Menu.BASEDATOS);
+        ps.setString(2, tableName);
+        ps.setString(3, columnName);
+        rs = CMD.select(ps);
+        if (rs != null && rs.first()) {
+            Column column = new Column();
+            column.setColumnName(rs.getString("COLUMN_NAME"));
+            column.setColumnType(rs.getString("COLUMN_TYPE"));
+            column.setColumnDefault(rs.getString("COLUMN_DEFAULT"));
+            column.setNullable(rs.getString("IS_NULLABLE").trim().equals("YES"));
+            column.setCharacterMaximumLength(rs.getInt("CHARACTER_MAXIMUM_LENGTH"));
+            column.setNumericPrecision(rs.getInt("NUMERIC_PRECISION"));
+            column.setNumericScale(rs.getInt("NUMERIC_SCALE"));
+            column.setColumnKey(rs.getString("COLUMN_KEY"));
+            column.setColumnComment(rs.getString("COLUMN_COMMENT"));
+            column.setOrdinalPosition(rs.getInt("ORDINAL_POSITION"));
+            /*
+                -   Si NumericPrecision es mayor que cero se trata de un campo numérico
+                -   Si CharacterMaximumLength es mayor que cero se trata de un campo String
+                -   Si ambos son cero se trata de un campo tipo date, datetime o timestamp
+             */
+            if (column.getNumericPrecision() > 0) {
+                column.setColumnLength((0.00 + column.getNumericPrecision()) + (column.getNumericScale() / 100));
+            } else if (column.getCharacterMaximumLength() > 0) {
+                column.setColumnLength(column.getCharacterMaximumLength());
+            } else {
+                column.setColumnLength(0.00);
+            } // end if-else
+
+            length = column.getColumnLength();
+        } // end if (rs != null)
+
+        ps.close();
+
+        return length;
+    } // end columnLength
+
+    /**
      * Determina si un índice existe o no.
      *
      * @author Bosco Garita, 18/07/2019 08:53 am
@@ -1701,22 +1776,22 @@ public class UtilBD {
     public static boolean indexInDB(
             Connection conn, String indexName) throws SQLException {
         boolean existe;
-        
+
         // Bosco agregado 20/07/2019.  Determinar el número de versión del motor de base de datos.
-        double versionNumber = 
-                Double.parseDouble(Ut.quitarCaracteres(Menu.dataBaseVersion, ".").toString());
+        double versionNumber
+                = Double.parseDouble(Ut.quitarCaracteres(Menu.dataBaseVersion, ".").toString());
         // Fin Bosco agregado 20/07/2019.
-        
+
         // Esta sería la forma para mysql server 8.0
         String tableA = "information_schema.INNODB_INDEXES";
         String tableB = "information_schema.innodb_tables";
-        
+
         // mysql server 5.7 y MariaDB
-        if (versionNumber >= 5.7 || Menu.engineVersion.contains("Maria")){
+        if (versionNumber >= 5.7 || Menu.engineVersion.contains("Maria")) {
             tableA = "information_schema.INNODB_SYS_INDEXES";
             tableB = "information_schema.INNODB_SYS_TABLES";
         } // end if
-        
+
         // Validar si existe el índice.
         String sqlSent
                 = "Select  "

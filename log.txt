@@ -536,3 +536,9 @@ interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
 Vaya al menú Registro y elija Tipo de cambio.
 Wed Aug 07 19:30:58 CST 2019
 logica.DocumentoElectronico--> C:\Java Programs\osais\xmls\29062028_C.log (Access is denied)
+Mon Aug 12 16:16:38 CST 2019
+interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.
+Wed Aug 14 20:28:50 CST 2019
+interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.

@@ -14,7 +14,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import logica.utilitarios.Ut;
 
 /**
@@ -168,7 +167,54 @@ public class UpdateVersion {
             ps2.close();
         } // end while
         // --------------------------------------------------------------
-        
-        
+
+        // Validar el ancho de las columnas de correo electrónico.
+        double columnLength = UtilBD.columnLength(conn, "correo", "faestadoDocElect");
+        if (columnLength > 0 && columnLength < 100) {
+            sqlSent
+                    = "ALTER TABLE `faestadoDocElect` "
+                    + "	CHANGE COLUMN `correo` `correo` VARCHAR(100) NOT NULL DEFAULT ' ' "
+                    + " COMMENT 'Dirección de correo electrónico a la que fue enviada la notificación.' AFTER `informado`, "
+                    + "	CHANGE COLUMN `emailDestino` `emailDestino` VARCHAR(100) NOT NULL DEFAULT ' ' "
+                    + " COMMENT 'Correo electrónico al que se envió el xml' AFTER `fechaEnviado`";
+            ps = conn.prepareStatement(sqlSent);
+            CMD.update(ps);
+            ps.close();
+
+            sqlSent
+                    = "ALTER TABLE `inclient` "
+                    + "	CHANGE COLUMN `cliemail` `cliemail` VARCHAR(100) NULL DEFAULT NULL COMMENT 'Correo electrónico' AFTER `clicelu`";
+            ps = conn.prepareStatement(sqlSent);
+            CMD.update(ps);
+            ps.close();
+
+            sqlSent
+                    = "ALTER TABLE `hinclient` "
+                    + "	CHANGE COLUMN `cliemail` `cliemail` VARCHAR(100) NULL DEFAULT NULL COMMENT 'Correo electrónico' AFTER `clicelu`";
+            ps = conn.prepareStatement(sqlSent);
+            CMD.update(ps);
+            ps.close();
+
+            sqlSent
+                    = "ALTER TABLE `inproved` "
+                    + "	CHANGE COLUMN `email` `email` VARCHAR(100) NOT NULL DEFAULT '' COMMENT 'Correo electrónico' AFTER `colect`";
+            ps = conn.prepareStatement(sqlSent);
+            CMD.update(ps);
+            ps.close();
+
+            sqlSent
+                    = "ALTER TABLE `hinproved` "
+                    + "	CHANGE COLUMN `email` `email` VARCHAR(100) NOT NULL DEFAULT '' COMMENT 'Correo electrónico' AFTER `colect`";
+            ps = conn.prepareStatement(sqlSent);
+            CMD.update(ps);
+            ps.close();
+
+            sqlSent
+                    = "ALTER TABLE `config` "
+                    + "	CHANGE COLUMN `correoE` `correoE` VARCHAR(100) NOT NULL DEFAULT '' COMMENT 'Correo electrónico' AFTER `docElectProv`";
+            ps = conn.prepareStatement(sqlSent);
+            CMD.update(ps);
+            ps.close();
+        } // end if
     } // end update
 } // end UpdateVersion
