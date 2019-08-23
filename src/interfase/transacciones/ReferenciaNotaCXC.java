@@ -104,7 +104,7 @@ public class ReferenciaNotaCXC extends javax.swing.JFrame {
         // Cargo la tabla con todas las notas pendientes de aplicar
         cargarNotasC();
 
-        DatFecha.setDate(fechaA.getTime());
+        datFecha.setDate(fechaA.getTime());
 
         // Cargo los parámetros de configuración
         String sqlSent
@@ -152,7 +152,7 @@ public class ReferenciaNotaCXC extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         txtClicode = new javax.swing.JFormattedTextField();
         btnSalir = new javax.swing.JButton();
-        DatFecha = new com.toedter.calendar.JDateChooser();
+        datFecha = new com.toedter.calendar.JDateChooser();
         txtClidesc = new javax.swing.JFormattedTextField();
         btnGuardar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
@@ -206,14 +206,14 @@ public class ReferenciaNotaCXC extends javax.swing.JFrame {
             }
         });
 
-        DatFecha.addFocusListener(new java.awt.event.FocusAdapter() {
+        datFecha.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                DatFechaFocusGained(evt);
+                datFechaFocusGained(evt);
             }
         });
-        DatFecha.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+        datFecha.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                DatFechaPropertyChange(evt);
+                datFechaPropertyChange(evt);
             }
         });
 
@@ -461,7 +461,7 @@ public class ReferenciaNotaCXC extends javax.swing.JFrame {
                     .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(13, 13, 13)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(DatFecha, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
+                    .addComponent(datFecha, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
                     .addComponent(txtVencido)
                     .addComponent(txtNotanume))
                 .addGap(41, 41, 41))
@@ -500,7 +500,7 @@ public class ReferenciaNotaCXC extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(txtClidesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
-                    .addComponent(DatFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(datFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(4, 4, 4)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(txtVencido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -631,7 +631,7 @@ public class ReferenciaNotaCXC extends javax.swing.JFrame {
                     "Verifique la fecha.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            this.DatFecha.requestFocusInWindow();
+            this.datFecha.requestFocusInWindow();
             return;
         } // end if
 
@@ -816,8 +816,12 @@ public class ReferenciaNotaCXC extends javax.swing.JFrame {
      *
      * @param evt
      */
-    private void DatFechaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_DatFechaPropertyChange
-        String facfech = Ut.fechaSQL(DatFecha.getDate());
+    private void datFechaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_datFechaPropertyChange
+        if (datFecha.getDate() == null){
+            return;
+        }
+        
+        String facfech = Ut.fechaSQL(datFecha.getDate());
 
         fechaCorrecta = true;
         try {
@@ -830,7 +834,7 @@ public class ReferenciaNotaCXC extends javax.swing.JFrame {
                 btnGuardar.setEnabled(false);
                 mnuGuardar.setEnabled(false);
                 fechaCorrecta = false;
-                DatFecha.setDate(fechaA.getTime());
+                datFecha.setDate(fechaA.getTime());
                 return;
             } // end if
         } catch (SQLException ex) {
@@ -843,14 +847,14 @@ public class ReferenciaNotaCXC extends javax.swing.JFrame {
             return;
         } // end try-catch
 
-        fechaA.setTime(DatFecha.getDate());
-    }//GEN-LAST:event_DatFechaPropertyChange
+        fechaA.setTime(datFecha.getDate());
+    }//GEN-LAST:event_datFechaPropertyChange
 
-    private void DatFechaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_DatFechaFocusGained
+    private void datFechaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_datFechaFocusGained
         // Uso esta variable para reestablecer el valor después de la
         // validación en caso de que la fecha no fuera aceptada.
-        fechaA.setTime(DatFecha.getDate());
-    }//GEN-LAST:event_DatFechaFocusGained
+        fechaA.setTime(datFecha.getDate());
+    }//GEN-LAST:event_datFechaFocusGained
 
     private void mnuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSalirActionPerformed
         btnSalirActionPerformed(evt);
@@ -966,9 +970,9 @@ public class ReferenciaNotaCXC extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.toedter.calendar.JDateChooser DatFecha;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnSalir;
+    private com.toedter.calendar.JDateChooser datFecha;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;

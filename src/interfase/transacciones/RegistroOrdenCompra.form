@@ -251,7 +251,7 @@
                                               <EmptySpace min="-2" pref="340" max="-2" attributes="0"/>
                                               <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                                              <Component id="DatMovfech" min="-2" pref="133" max="-2" attributes="0"/>
+                                              <Component id="datMovfech" min="-2" pref="133" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Component id="cboMoneda" max="32767" attributes="0"/>
                                           </Group>
@@ -364,7 +364,7 @@
                           <Component id="cboMoneda" alignment="2" min="-2" max="-2" attributes="0"/>
                           <Component id="txtMovorco" alignment="2" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel1" alignment="2" min="-2" max="-2" attributes="0"/>
-                          <Component id="DatMovfech" alignment="2" min="-2" max="-2" attributes="0"/>
+                          <Component id="datMovfech" alignment="2" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel3" alignment="2" min="-2" max="-2" attributes="0"/>
                           <Component id="txtTipoca" alignment="2" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -856,7 +856,7 @@
         <Property name="focusable" type="boolean" value="false"/>
       </Properties>
     </Component>
-    <Component class="com.toedter.calendar.JDateChooser" name="DatMovfech">
+    <Component class="com.toedter.calendar.JDateChooser" name="datMovfech">
     </Component>
     <Component class="javax.swing.JButton" name="btnImprimir">
       <Properties>

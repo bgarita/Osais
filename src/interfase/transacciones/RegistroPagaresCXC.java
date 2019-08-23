@@ -27,7 +27,6 @@ import logica.utilitarios.Ut;
  *
  * @author Bosco Garita
  */
-@SuppressWarnings("serial")
 public class RegistroPagaresCXC extends JFrame {
 
     public ResultSet rs, rs3;
@@ -48,13 +47,21 @@ public class RegistroPagaresCXC extends JFrame {
 
     /**
      * Creates new form Bodegas
+     * @param c
+     * @throws java.sql.SQLException
+     * @throws logica.utilitarios.SQLInjectionException
      */
     public RegistroPagaresCXC(Connection c) throws SQLException, SQLInjectionException {
-        initComponents();
+        try{
+            initComponents();
+        } catch(Exception ex){
+            JOptionPane.showMessageDialog(null, ex);
+        }
+        
 
         txtPagare.setText("");
-        DatEmision.setDate(fechaA.getTime());
-        DatVencimiento.setDate(fechaA.getTime());
+        datEmision.setDate(fechaA.getTime());
+        datVencimiento.setDate(fechaA.getTime());
         cmdBuscar.setVisible(false);
         tabla = "pagarescxc";
         nav = new Navegador();
@@ -129,8 +136,6 @@ public class RegistroPagaresCXC extends JFrame {
         txtClicode = new javax.swing.JFormattedTextField();
         txtClidesc = new javax.swing.JTextField();
         txtMonto = new javax.swing.JFormattedTextField();
-        DatEmision = new com.toedter.calendar.JDateChooser();
-        DatVencimiento = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         txaObservaciones = new javax.swing.JTextArea();
         jPanel1 = new javax.swing.JPanel();
@@ -143,6 +148,8 @@ public class RegistroPagaresCXC extends JFrame {
         jLabel11 = new javax.swing.JLabel();
         cboMoneda = new javax.swing.JComboBox();
         txtTipoca = new javax.swing.JFormattedTextField();
+        datEmision = new com.toedter.calendar.JDateChooser();
+        datVencimiento = new com.toedter.calendar.JDateChooser();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuArchivo = new javax.swing.JMenu();
         mnuGuardar = new javax.swing.JMenuItem();
@@ -222,17 +229,6 @@ public class RegistroPagaresCXC extends JFrame {
             }
         });
 
-        DatEmision.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                DatEmisionFocusGained(evt);
-            }
-        });
-        DatEmision.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                DatEmisionPropertyChange(evt);
-            }
-        });
-
         txaObservaciones.setColumns(20);
         txaObservaciones.setRows(5);
         jScrollPane1.setViewportView(txaObservaciones);
@@ -297,7 +293,7 @@ public class RegistroPagaresCXC extends JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(37, 37, 37)
+                .addGap(69, 69, 69)
                 .addComponent(cmdPrimero, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cmdAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -346,6 +342,17 @@ public class RegistroPagaresCXC extends JFrame {
         txtTipoca.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtTipoca.setToolTipText("Tipo de cambio");
         txtTipoca.setFocusable(false);
+
+        datEmision.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                datEmisionFocusGained(evt);
+            }
+        });
+        datEmision.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                datEmisionPropertyChange(evt);
+            }
+        });
 
         mnuArchivo.setText("Archivo");
 
@@ -416,15 +423,15 @@ public class RegistroPagaresCXC extends JFrame {
                                     .addComponent(txtPagare, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtClicode, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(6, 6, 6)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel3)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(DatEmision, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(10, 10, 10)
+                                        .addComponent(datEmision, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jLabel4)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(DatVencimiento, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
+                                        .addComponent(datVencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(txtClidesc))
                                 .addContainerGap())
                             .addGroup(layout.createSequentialGroup()
@@ -437,15 +444,18 @@ public class RegistroPagaresCXC extends JFrame {
                                 .addComponent(txtTipoca, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(cmdBuscar)
                                     .addComponent(jLabel5))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane1))
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jScrollPane1)))
                         .addContainerGap())))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {datEmision, datVencimiento});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -454,9 +464,9 @@ public class RegistroPagaresCXC extends JFrame {
                     .addComponent(lblFamilia)
                     .addComponent(txtPagare, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
-                    .addComponent(DatEmision, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
-                    .addComponent(DatVencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(datEmision, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(datVencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -480,12 +490,12 @@ public class RegistroPagaresCXC extends JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4))
         );
 
-        setSize(new java.awt.Dimension(553, 306));
+        setSize(new java.awt.Dimension(617, 306));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -689,16 +699,6 @@ public class RegistroPagaresCXC extends JFrame {
         } // end if
     }//GEN-LAST:event_txtClicodeActionPerformed
 
-    private void DatEmisionFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_DatEmisionFocusGained
-        // Uso esta variable para reestablecer el valor después de la
-        // validación en caso de que la fecha no fuera aceptada.
-        fechaA.setTime(DatEmision.getDate());
-}//GEN-LAST:event_DatEmisionFocusGained
-
-    private void DatEmisionPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_DatEmisionPropertyChange
-        fechaA.setTime(DatEmision.getDate());
-}//GEN-LAST:event_DatEmisionPropertyChange
-
     private void txtMontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMontoActionPerformed
         txtMonto.transferFocus();
     }//GEN-LAST:event_txtMontoActionPerformed
@@ -733,7 +733,7 @@ public class RegistroPagaresCXC extends JFrame {
             // Verifico si el tipo de cambio ya está configurado 
             // para la fecha de emisión del pagaré.
             txtTipoca.setText(String.valueOf(UtilBD.tipoCambio(
-                    codigoTC, this.DatEmision.getDate(), conn)));
+                    codigoTC, this.datEmision.getDate(), conn)));
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(
                     null,
@@ -754,13 +754,25 @@ public class RegistroPagaresCXC extends JFrame {
         } // end if
 }//GEN-LAST:event_cboMonedaActionPerformed
 
+    private void datEmisionFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_datEmisionFocusGained
+        // Uso esta variable para reestablecer el valor después de la
+        // validación en caso de que la fecha no fuera aceptada.
+        fechaA.setTime(datEmision.getDate());
+    }//GEN-LAST:event_datEmisionFocusGained
+
+    private void datEmisionPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_datEmisionPropertyChange
+        if (datEmision != null && datEmision.getDate() != null){
+            fechaA.setTime(datEmision.getDate());
+        }
+        
+    }//GEN-LAST:event_datEmisionPropertyChange
+
     /**
      * Este método hace una llamada al SP EliminarPagareCXC() y éste devuelve un
-     * ResultSet con dos campos: vError y vMensajeErr. Si vError = 1 no se pudo
+     * ResultSet con dos campos: vError y vMensajeErr.Si vError = 1 no se pudo 
      * eliminar el registro en cuyo caso hay que desplegar vMensajeErr.
      *
-     * @param pagare (código de familia)
-     * @throws java.sql.SQLException
+     * @param pPagare
      */
     public void eliminarRegistro(String pPagare) {
         if (pPagare == null) {
@@ -841,8 +853,6 @@ public class RegistroPagaresCXC extends JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.toedter.calendar.JDateChooser DatEmision;
-    private com.toedter.calendar.JDateChooser DatVencimiento;
     private javax.swing.JComboBox cboMoneda;
     private javax.swing.JButton cmdAnterior;
     private javax.swing.JButton cmdBorrar;
@@ -851,6 +861,8 @@ public class RegistroPagaresCXC extends JFrame {
     private javax.swing.JButton cmdPrimero;
     private javax.swing.JButton cmdSiguiente;
     private javax.swing.JButton cmdUltimo;
+    private com.toedter.calendar.JDateChooser datEmision;
+    private com.toedter.calendar.JDateChooser datVencimiento;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
@@ -944,21 +956,21 @@ public class RegistroPagaresCXC extends JFrame {
         } // end if
 
         // Fechas
-        if (DatEmision == null) {
+        if (datEmision == null) {
             JOptionPane.showMessageDialog(null,
                     "La fecha de emisión es incorrecta.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            DatEmision.requestFocusInWindow();
+            datEmision.requestFocusInWindow();
             return;
         } // end if
 
-        if (DatVencimiento == null) {
+        if (datVencimiento == null) {
             JOptionPane.showMessageDialog(null,
                     "La fecha de vencimiento es incorrecta.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            DatVencimiento.requestFocusInWindow();
+            datVencimiento.requestFocusInWindow();
             return;
         } // end if
 
@@ -973,8 +985,8 @@ public class RegistroPagaresCXC extends JFrame {
         // ******** Fin validaciones ********
 
         // Preparar las fechas y observaciones
-        emision = Ut.fechaSQL(DatEmision.getDate());
-        vencimiento = Ut.fechaSQL(DatVencimiento.getDate());
+        emision = Ut.fechaSQL(datEmision.getDate());
+        vencimiento = Ut.fechaSQL(datVencimiento.getDate());
         observaciones = txaObservaciones.getText();
 
         String sentSQL;
@@ -1036,8 +1048,8 @@ public class RegistroPagaresCXC extends JFrame {
                 txtClidesc.setText("");
                 txtClicode.setText("0");
                 fechaA = GregorianCalendar.getInstance();
-                DatEmision.setDate(fechaA.getTime());
-                DatVencimiento.setDate(fechaA.getTime());
+                datEmision.setDate(fechaA.getTime());
+                datVencimiento.setDate(fechaA.getTime());
                 txtMonto.setText("0.00");
                 txaObservaciones.setText("");
 
@@ -1059,8 +1071,8 @@ public class RegistroPagaresCXC extends JFrame {
                 return;
             } // end if
 
-            DatEmision.setDate(rs.getDate("Emision"));
-            DatVencimiento.setDate(rs.getDate("Vencimiento"));
+            datEmision.setDate(rs.getDate("Emision"));
+            datVencimiento.setDate(rs.getDate("Vencimiento"));
             txtClicode.setText(rs.getString("clicode"));
             txtMonto.setText(
                     Ut.fDecimal(

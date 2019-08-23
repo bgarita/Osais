@@ -73,7 +73,12 @@ public class FacturaXML extends javax.swing.JFrame {
      * @param conn
      */
     public FacturaXML(Connection conn) {
-        initComponents();
+        try {
+            initComponents();
+        } catch (Exception ex){
+            JOptionPane.showMessageDialog(null, ex);
+        }
+        
         this.conn = conn;
     }
 
@@ -433,7 +438,11 @@ public class FacturaXML extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new FacturaXML(c).setVisible(true);
+            try {
+                new FacturaXML(c).setVisible(true);
+            } catch (Exception ex) {
+                Logger.getLogger(FacturaXML.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
     }
 
@@ -749,6 +758,14 @@ public class FacturaXML extends javax.swing.JFrame {
 
             String dir = Menu.DIR.getXmls() + Ut.getProperty(Ut.FILE_SEPARATOR);
 
+            /*
+            Nota: esta línea está generando un error desconocido que hace que
+            el formulario no se muestre.  JAXBContext ctx = JAXBContext.newInstance(FacturaElectronica.class);
+            Solo funciona si el sistema se invoca desde la línea de comando o desde el fuente.
+            Hice múltiples pruebas incluyendo dejar el código sin uso y aún así se produce el problema.
+            No se muestra ningún error ni se puede capturar con un try. 
+            Bosco: 21/08/2019
+            */
             // JAXB
             JAXBContext ctx = JAXBContext.newInstance(FacturaElectronica.class);
             Marshaller ms = ctx.createMarshaller();
@@ -1361,7 +1378,7 @@ public class FacturaXML extends javax.swing.JFrame {
             CMD.transaction(conn, CMD.COMMIT);
         } catch (SQLException | JAXBException ex) {
             envio = -1;
-            Logger.getLogger(GeneraXML.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FacturaXML.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",

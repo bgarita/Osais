@@ -99,7 +99,7 @@
               </Group>
               <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="DatFecha" pref="133" max="32767" attributes="0"/>
+                  <Component id="datFecha" pref="133" max="32767" attributes="0"/>
                   <Component id="txtVencido" alignment="0" max="32767" attributes="0"/>
                   <Component id="txtNotanume" alignment="0" max="32767" attributes="0"/>
               </Group>
@@ -143,7 +143,7 @@
               <Group type="103" groupAlignment="2" attributes="0">
                   <Component id="txtClidesc" alignment="2" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel9" alignment="2" min="-2" max="-2" attributes="0"/>
-                  <Component id="DatFecha" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="datFecha" alignment="2" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="2" attributes="0">
@@ -207,10 +207,10 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalirActionPerformed"/>
       </Events>
     </Component>
-    <Component class="com.toedter.calendar.JDateChooser" name="DatFecha">
+    <Component class="com.toedter.calendar.JDateChooser" name="datFecha">
       <Events>
-        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="DatFechaFocusGained"/>
-        <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="DatFechaPropertyChange"/>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="datFechaFocusGained"/>
+        <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="datFechaPropertyChange"/>
       </Events>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="txtClidesc">

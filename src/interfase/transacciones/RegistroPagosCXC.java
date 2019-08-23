@@ -6,6 +6,7 @@
  * Modified on 22/12/2011 Bosco Garita
  * Modified on 01/09/2013 Bosco Garita
  * Modified on 02/08/2015 Bosco Garita
+ * Modified on 20/08/2019 Bosco Garita
  */
 
 package interfase.transacciones;
@@ -29,7 +30,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
@@ -84,7 +84,8 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
 
     /** Creates new form RegistroEntradas
      * @param c
-     * @throws java.sql.SQLException */
+     * @throws java.sql.SQLException 
+     */
     public RegistroPagosCXC(Connection c) throws SQLException {
         initComponents();
         // Defino el escuchador con una clase anónima para controlar la
@@ -1379,6 +1380,11 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
     }//GEN-LAST:event_txtRecnumeFocusGained
 
     private void DatFechaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_DatFechaPropertyChange
+        // Si este if no se ejecuta en tiempo de inicialización de los componenetes
+        // se produce un error que impide que se muestre el form.
+        if (DatFecha == null || DatFecha.getDate() == null){
+            return;
+        } // end if
         String facfech = Ut.fechaSQL(DatFecha.getDate());
 
         fechaCorrecta = true;

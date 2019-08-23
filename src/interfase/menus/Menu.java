@@ -2102,7 +2102,7 @@ public class Menu extends javax.swing.JFrame {
         new ImpresionFactura(
                 new java.awt.Frame(),
                 true, // Modal
-CONEXION.getConnection(), // Conexión
+                CONEXION.getConnection(), // Conexión
                 "0", // Número de factura, ND o NC
                 1) // 1 = Factura, 2 = ND, 3 = NC
                 .setVisible(true);
@@ -2147,7 +2147,7 @@ CONEXION.getConnection(), // Conexión
         new ImpresionReciboCXC(
                 new java.awt.Frame(),
                 true, // Modal
-CONEXION.getConnection(), // Conexión
+                CONEXION.getConnection(), // Conexión
                 "0") // Número de recibo
                 .setVisible(true);
     }//GEN-LAST:event_mnuImprimirRecibosCXCActionPerformed
@@ -2417,7 +2417,8 @@ CONEXION.getConnection(), // Conexión
     }//GEN-LAST:event_mnuDetalleCXCActionPerformed
 
     private void mnuPagaresCXCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPagaresCXCActionPerformed
-        RegistroPagaresCXC.main(CONEXION.getConnection());
+        //RegistroPagaresCXC1.main(CONEXION.getConnection());
+        RegistroPagaresCXC.main(CONEXION.getConnection()); // Se comprueba que son las fechas las que dan el problema
     }//GEN-LAST:event_mnuPagaresCXCActionPerformed
 
     private void mnuPagaresEmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPagaresEmActionPerformed
@@ -3636,12 +3637,30 @@ CONEXION.getConnection(), // Conexión
             MySQL 6 no arranca.  El problema es que no muestra ningún error.
             Si lo corro desde el prompt (java -jar osais.jar si corre) 03/07/2019
         */
-        FacturaXML fact = new FacturaXML(CONEXION.getConnection());
+        FacturaXML fact;
+        try {
+            fact = new FacturaXML(CONEXION.getConnection());
+            fact.setMode(FacturaXML.INTERACTIVE);
+            fact.setTipo(FacturaXML.FACTURA);
+            fact.setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex);
+        }
         
-        fact.setMode(FacturaXML.INTERACTIVE);
-        fact.setTipo(FacturaXML.FACTURA);
-        fact.setVisible(true);
-
+//        FacturaXML1 fact;
+//        try {
+//            fact = new FacturaXML1(CONEXION.getConnection());
+//            fact.setMode(FacturaXML1.INTERACTIVE);
+//            fact.setTipo(FacturaXML1.FACTURA);
+//            fact.setVisible(true);
+//            JOptionPane.showMessageDialog(null, "Fin llamado");
+//            JOptionPane.showMessageDialog(null, fact.getTitle());
+//        } catch (Exception ex) {
+//            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+//            JOptionPane.showMessageDialog(null, ex);
+//        }
+        
     }//GEN-LAST:event_mnuXmlActionPerformed
 
     private void mnuConsultaXMLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsultaXMLActionPerformed

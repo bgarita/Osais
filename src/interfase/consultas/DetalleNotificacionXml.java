@@ -755,18 +755,18 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
                 generó drante la ejecusión de EnviarFactura2.exe
                 El log que genera queda en la misma carpeta del xml, con el
                 mismo nombre de la factura pero con la extensión .log
-                */
+                 */
                 sufijo = ".log";
             } // end if
         } // end if
-        
+
         Path path;
-        if (sufijo.equals(".log")){
+        if (sufijo.equals(".log")) {
             path = Paths.get(dirXMLS + documento + sufijo);
         } else {
             path = Paths.get(dirLogs + documento + sufijo);
         } // end if-else
-        
+
         String texto = Ut.fileToString(path);
         if (texto.contains("Archivo no encontrado")) {
             texto = "Ocurrió un error. Falta el archivo " + path.toFile().getAbsolutePath();
@@ -800,51 +800,57 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
         int factura = Integer.parseInt(tblDocumentosXML.getValueAt(row, 0).toString());
         String tipoDoc = tblDocumentosXML.getValueAt(row, 1).toString();
 
-        FacturaXML fact = new FacturaXML(this.conn);
-        fact.setMode(FacturaXML.UNATTENDED);
-        switch (tipoDoc) {
-            case "FAC":
-                // Las facturas se dividen (para efectos de los xml) en
-                // facturas electrónicas y tiquetes electrónicos.
-                // Para que una factura se considere tiquete depende del cliente,
-                // si éste es genérico entonces la factura se considera tiquete.
-                int tipo = FacturaXML.FACTURA;
-                try {
-                    if (UtilBD.esClienteGenerico(conn, factura, 0)) {
-                        tipo = FacturaXML.TIQUETE;
-                    } // end if
-                } catch (SQLException ex) {
-                    Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                    JOptionPane.showMessageDialog(null,
-                            ex.getMessage(),
-                            "Impresión",
-                            JOptionPane.ERROR_MESSAGE);
-                    new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
-                } // end try-catch
-                fact.setTipo(tipo);
-                break;
-            case "NCR":
-                fact.setTipo(FacturaXML.NOTACR);
-                break;
-            default:
-                fact.setTipo(FacturaXML.NOTADB);
-                break;
-        } // end switch
+        FacturaXML fact;
+        String resp = "";
+        try {
+            fact = new FacturaXML(this.conn);
+            fact.setMode(FacturaXML.UNATTENDED);
 
-        fact.setRangoDocumentos(factura, factura);
-        fact.runApp();
+            switch (tipoDoc) {
+                case "FAC":
+                    // Las facturas se dividen (para efectos de los xml) en
+                    // facturas electrónicas y tiquetes electrónicos.
+                    // Para que una factura se considere tiquete depende del cliente,
+                    // si éste es genérico entonces la factura se considera tiquete.
+                    int tipo = FacturaXML.FACTURA;
+                    try {
+                        if (UtilBD.esClienteGenerico(conn, factura, 0)) {
+                            tipo = FacturaXML.TIQUETE;
+                        } // end if
+                    } catch (SQLException ex) {
+                        Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(null,
+                                ex.getMessage(),
+                                "Impresión",
+                                JOptionPane.ERROR_MESSAGE);
+                        new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    } // end try-catch
+                    fact.setTipo(tipo);
+                    break;
+                case "NCR":
+                    fact.setTipo(FacturaXML.NOTACR);
+                    break;
+                default:
+                    fact.setTipo(FacturaXML.NOTADB);
+                    break;
+            } // end switch
 
-        String resp = fact.getRespuestaHacienda();
+            fact.setRangoDocumentos(factura, factura);
+            fact.runApp();
 
-        if (resp == null || resp.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null,
-                    "El XML no se pudo enviar.\n"
-                    + "Vaya al menú Hacienda y trate con la opción Generar documentos XML.",
-                    "Error",
-                    JOptionPane.INFORMATION_MESSAGE);
-            return;
-        } // end if
+            resp = fact.getRespuestaHacienda();
 
+            if (resp == null || resp.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(null,
+                        "El XML no se pudo enviar.\n"
+                        + "Vaya al menú Hacienda y trate con la opción Generar documentos XML.",
+                        "Error",
+                        JOptionPane.INFORMATION_MESSAGE);
+                return;
+            } // end if
+        } catch (Exception ex) {
+            Logger.getLogger(DetalleNotificacionXml.class.getName()).log(Level.SEVERE, null, ex);
+        }
         // Si no hubo error informo al usuario
         JOptionPane.showMessageDialog(null,
                 "XML enviado exitosamente.",

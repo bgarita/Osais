@@ -28,7 +28,6 @@ import logica.DocumentoElectronico;
  *
  * @author Bosco
  */
-@SuppressWarnings("serial")
 public class ImpresionFactura extends java.awt.Dialog {
 
     private Connection conn;  // Conexión a la base de datos
@@ -877,36 +876,42 @@ public class ImpresionFactura extends java.awt.Dialog {
         if (this.chkXML.isSelected()) {
             int factura = Integer.parseInt(this.txtFacnume1.getText().trim());
 
-            FacturaXML fact = new FacturaXML(this.conn);
-            fact.setMode(FacturaXML.UNATTENDED);
-            if (this.radFactura.isSelected()) {
-                // Las facturas se dividen (para efectos de los xml) en
-                // facturas electrónicas y tiquetes electrónicos.
-                // Para que una factura se considere tiquete depende del cliente,
-                // si éste es genérico entonces la factura se considera tiquete.
-                int tipo = FacturaXML.FACTURA;
-                try {
-                    if (UtilBD.esClienteGenerico(conn, factura, 0)) {
-                        tipo = FacturaXML.TIQUETE;
-                    } // end if
-                } catch (SQLException ex) {
-                    Logger.getLogger(ImpresionFactura.class.getName()).log(Level.SEVERE, null, ex);
-                    JOptionPane.showMessageDialog(null,
-                            ex.getMessage(),
-                            "Impresión",
-                            JOptionPane.ERROR_MESSAGE);
-                    new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
-                } // end try-catch
+            FacturaXML fact;
+            try {
+                fact = new FacturaXML(this.conn);
 
-                fact.setTipo(tipo);
-            } else if (this.radNotaC.isSelected()) {
-                fact.setTipo(FacturaXML.NOTACR);
-            } else {
-                fact.setTipo(FacturaXML.NOTADB);
-            } // end if-else
+                fact.setMode(FacturaXML.UNATTENDED);
+                if (this.radFactura.isSelected()) {
+                    // Las facturas se dividen (para efectos de los xml) en
+                    // facturas electrónicas y tiquetes electrónicos.
+                    // Para que una factura se considere tiquete depende del cliente,
+                    // si éste es genérico entonces la factura se considera tiquete.
+                    int tipo = FacturaXML.FACTURA;
+                    try {
+                        if (UtilBD.esClienteGenerico(conn, factura, 0)) {
+                            tipo = FacturaXML.TIQUETE;
+                        } // end if
+                    } catch (SQLException ex) {
+                        Logger.getLogger(ImpresionFactura.class.getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(null,
+                                ex.getMessage(),
+                                "Impresión",
+                                JOptionPane.ERROR_MESSAGE);
+                        new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    } // end try-catch
 
-            fact.setRangoDocumentos(factura, factura);
-            fact.runApp();
+                    fact.setTipo(tipo);
+                } else if (this.radNotaC.isSelected()) {
+                    fact.setTipo(FacturaXML.NOTACR);
+                } else {
+                    fact.setTipo(FacturaXML.NOTADB);
+                } // end if-else
+
+                fact.setRangoDocumentos(factura, factura);
+                fact.runApp();
+            } catch (Exception ex) {
+                Logger.getLogger(ImpresionFactura.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } // end if
 
         this.setAlwaysOnTop(false);

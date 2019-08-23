@@ -118,7 +118,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                cmdSalirActionPerformed(null);
+                btnSalirActionPerformed(null);
             } // end windowClosing
         } // end class
         ); // end Listener
@@ -146,7 +146,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         // Cargo el combo de las monedas
         cargarComboMonedas();
 
-        DatFacfech.setDate(fechaA.getTime());
+        datFacfech.setDate(fechaA.getTime());
 
         // Cargo los parámetros de configuración
         String sqlSent
@@ -212,7 +212,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
 
         // Reviso el bloqueo de la fecha
         if (bloquearfechaF) {
-            this.DatFacfech.setEnabled(false);
+            this.datFacfech.setEnabled(false);
         } // end if
 
         // Establezo la lcBodega predeterminada
@@ -261,9 +261,9 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         txtFacimve = new javax.swing.JFormattedTextField();
         txtFacmont = new javax.swing.JFormattedTextField();
-        cmdSalir = new javax.swing.JButton();
-        DatFacfech = new com.toedter.calendar.JDateChooser();
-        cmdGuardar = new javax.swing.JButton();
+        btnSalir = new javax.swing.JButton();
+        datFacfech = new com.toedter.calendar.JDateChooser();
+        btnGuardar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         txtFacnume = new javax.swing.JFormattedTextField();
         chkAplicarIV = new javax.swing.JCheckBox();
@@ -569,32 +569,32 @@ public class RegistroNCCXC extends javax.swing.JFrame {
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {txtFacdesc, txtFacimve, txtFacmont, txtSubTotal});
 
-        cmdSalir.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        cmdSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZCLOSE.png"))); // NOI18N
-        cmdSalir.setToolTipText("Cerrar");
-        cmdSalir.addActionListener(new java.awt.event.ActionListener() {
+        btnSalir.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZCLOSE.png"))); // NOI18N
+        btnSalir.setToolTipText("Cerrar");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdSalirActionPerformed(evt);
+                btnSalirActionPerformed(evt);
             }
         });
 
-        DatFacfech.addFocusListener(new java.awt.event.FocusAdapter() {
+        datFacfech.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                DatFacfechFocusGained(evt);
+                datFacfechFocusGained(evt);
             }
         });
-        DatFacfech.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+        datFacfech.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                DatFacfechPropertyChange(evt);
+                datFacfechPropertyChange(evt);
             }
         });
 
-        cmdGuardar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        cmdGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZSAVE.png"))); // NOI18N
-        cmdGuardar.setToolTipText("Guardar la nota de crédito");
-        cmdGuardar.addActionListener(new java.awt.event.ActionListener() {
+        btnGuardar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZSAVE.png"))); // NOI18N
+        btnGuardar.setToolTipText("Guardar la nota de crédito");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdGuardarActionPerformed(evt);
+                btnGuardarActionPerformed(evt);
             }
         });
 
@@ -1150,9 +1150,9 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(cmdGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cmdSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(8, 8, 8))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(12, 12, 12)
@@ -1168,7 +1168,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtTipoca, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(DatFacfech, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(datFacfech, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane2)
                         .addContainerGap())))
@@ -1178,7 +1178,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmdGuardar, cmdSalir});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnGuardar, btnSalir});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1186,7 +1186,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(txtFacnume, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
-                    .addComponent(DatFacfech, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(datFacfech, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(chkCredidoSobreFacturasDeContado)
                     .addComponent(chkAplicarIV)
                     .addComponent(chkTrabajarConIVI)
@@ -1200,12 +1200,12 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(cmdGuardar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(cmdSalir)))
+                        .addComponent(btnGuardar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnSalir)))
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmdGuardar, cmdSalir});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnGuardar, btnSalir});
 
         setSize(new java.awt.Dimension(1033, 577));
         setLocationRelativeTo(null);
@@ -1275,7 +1275,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
 
         // Estos campos se incluyen aquí aunque se crean al crear el encabezado
         // de la NC porque el usuario podría cambiar esos datos.
-        facfech = Ut.fechaSQL(this.DatFacfech.getDate());
+        facfech = Ut.fechaSQL(this.datFacfech.getDate());
 
         // Vendedor y zona (Se usan más adelante para obtener el código)
         String nombre = cboVend.getSelectedItem().toString().trim();
@@ -1583,7 +1583,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         txtArtcode.requestFocusInWindow();
 }//GEN-LAST:event_btnBorrarActionPerformed
 
-    private void cmdSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdSalirActionPerformed
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         // Verifico si hay datos sin guardar
         // Si hay datos advierto al usuario
         if (Ut.countNotNull(tblDetalle, 0) > 0) {
@@ -1607,7 +1607,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
             new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         dispose();
-}//GEN-LAST:event_cmdSalirActionPerformed
+}//GEN-LAST:event_btnSalirActionPerformed
 
     private void txtArtcodeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtArtcodeFocusGained
         buscar = this.ARTICULO;
@@ -1843,7 +1843,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
 
         try {
             // Verificar la fecha de cierre de la bodega.
-            if (UtilBD.bodegaCerrada(conn, bodega, DatFacfech.getDate())) {
+            if (UtilBD.bodegaCerrada(conn, bodega, datFacfech.getDate())) {
                 JOptionPane.showMessageDialog(null,
                         "La bodega ya se encuentra cerrada para esta fecha.",
                         "Error",
@@ -1969,7 +1969,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         buscar = this.CLIENTE;
     }//GEN-LAST:event_txtClicodeFocusGained
 
-    private void cmdGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdGuardarActionPerformed
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // Si el formulario apenas está cargando o todavía no se tiene
         // el ID de la NC no hago nada.
         if (inicio || this.recordID == 0) {
@@ -2089,7 +2089,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                 vend = rsV.getString("vend");
                 Ut.seek(rsT, cboTerr.getSelectedItem().toString(), "descrip");
                 terr = rsT.getString("terr");
-                facfech = Ut.fechaSQL(this.DatFacfech.getDate());
+                facfech = Ut.fechaSQL(this.datFacfech.getDate());
                 // Uso el mismo SP que para las facturas porque en este momento
                 // el registro es idéntico al de una factura.  Más adelante se
                 // produce la diferencia.
@@ -2407,17 +2407,17 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         Ut.clearJTable(tblDetalle);
 
         this.txtFacnume.requestFocusInWindow();
-    }//GEN-LAST:event_cmdGuardarActionPerformed
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
-    private void DatFacfechPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_DatFacfechPropertyChange
-        if (this.fin) {
+    private void datFacfechPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_datFacfechPropertyChange
+        if (this.fin || datFacfech == null || datFacfech.getDate() == null) {
             return;
         }
 
-        String facfech = Ut.fechaSQL(DatFacfech.getDate());
+        String facfech = Ut.fechaSQL(datFacfech.getDate());
 
         btnAgregar.setEnabled(true);
-        cmdGuardar.setEnabled(true);
+        btnGuardar.setEnabled(true);
         try {
             if (!UtilBD.isValidDate(conn, facfech)) {
                 JOptionPane.showMessageDialog(null,
@@ -2426,8 +2426,8 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                         "Validar fecha..",
                         JOptionPane.ERROR_MESSAGE);
                 btnAgregar.setEnabled(false);
-                cmdGuardar.setEnabled(false);
-                DatFacfech.setDate(fechaA.getTime());
+                btnGuardar.setEnabled(false);
+                datFacfech.setDate(fechaA.getTime());
                 return;
             } // end if
         } catch (SQLException ex) {
@@ -2440,7 +2440,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
             new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
-        fechaA.setTime(DatFacfech.getDate());
+        fechaA.setTime(datFacfech.getDate());
 
         // Este código no debe correr cuando se está cargado el form
         if (!inicio) {
@@ -2454,16 +2454,16 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                         "Validar tipo de cambio..",
                         JOptionPane.ERROR_MESSAGE);
                 btnAgregar.setEnabled(false);
-                cmdGuardar.setEnabled(false);
+                btnGuardar.setEnabled(false);
             } // end if
         } // end if (!inicio)
-    }//GEN-LAST:event_DatFacfechPropertyChange
+    }//GEN-LAST:event_datFacfechPropertyChange
 
-    private void DatFacfechFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_DatFacfechFocusGained
+    private void datFacfechFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_datFacfechFocusGained
         // Uso esta variable para reestablecer el valor después de la
         // validación en caso de que la fecha no fuera aceptada.
-        fechaA.setTime(DatFacfech.getDate());
-    }//GEN-LAST:event_DatFacfechFocusGained
+        fechaA.setTime(datFacfech.getDate());
+    }//GEN-LAST:event_datFacfechFocusGained
 
     private void cboMonedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboMonedaActionPerformed
         if (inicio || fin) {
@@ -2477,7 +2477,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         try {
             // Verifico si el tipo de cambio ya está configurado para la fecha del doc.
             txtTipoca.setText(String.valueOf(UtilBD.tipoCambio(
-                    codigoTC, DatFacfech.getDate(), conn)));
+                    codigoTC, datFacfech.getDate(), conn)));
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
@@ -2831,10 +2831,11 @@ public class RegistroNCCXC extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.toedter.calendar.JDateChooser DatFacfech;
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBorrar;
     private javax.swing.JButton btnFatext;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnSalir;
     private javax.swing.JComboBox cboMoneda;
     private javax.swing.JComboBox<String> cboTerr;
     private javax.swing.JComboBox<String> cboTipoPago;
@@ -2842,8 +2843,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
     private javax.swing.JCheckBox chkAplicarIV;
     private javax.swing.JCheckBox chkCredidoSobreFacturasDeContado;
     private javax.swing.JCheckBox chkTrabajarConIVI;
-    private javax.swing.JButton cmdGuardar;
-    private javax.swing.JButton cmdSalir;
+    private com.toedter.calendar.JDateChooser datFacfech;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel13;
@@ -3183,12 +3183,12 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         clicode = this.txtClicode.getText().trim();
         vend = "0";
         terr = "0";
-        facfech = Ut.fechaSQL(this.DatFacfech.getDate());
+        facfech = Ut.fechaSQL(this.datFacfech.getDate());
         facplazo = "1";
         facpive = "0";
 
         Calendar cal = GregorianCalendar.getInstance();
-        cal.setTime(this.DatFacfech.getDate());
+        cal.setTime(this.datFacfech.getDate());
         cal.add(Calendar.DAY_OF_YEAR, Integer.parseInt(facplazo));
 
         facnpag = "1";
@@ -3197,7 +3197,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                                 Float.parseFloat(facplazo) / Float.parseFloat(facnpag)));
 
         // Calcular la fecha y el monto del próximo pago
-        cal.setTime(this.DatFacfech.getDate());
+        cal.setTime(this.datFacfech.getDate());
         cal.add(Calendar.DAY_OF_YEAR, Integer.parseInt(facdpago));
 
         precio = spnCliprec.getValue().toString();
@@ -3809,7 +3809,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
 
         facmont = rsE.getDouble("facmont");
 
-        fecha_comp = new Timestamp(this.DatFacfech.getDate().getTime());
+        fecha_comp = new Timestamp(this.datFacfech.getDate().getTime());
 
         // Agregar el encabezado del asiento
         encab = new CoasientoE(no_comprob, tipo_comp, conn);

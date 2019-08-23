@@ -106,7 +106,7 @@ public class RegistroOrdenCompra extends javax.swing.JFrame {
                 ResultSet.CONCUR_READ_ONLY);
 
         Calendar cal = GregorianCalendar.getInstance();
-        DatMovfech.setDate(cal.getTime());
+        datMovfech.setDate(cal.getTime());
         txtMovcant.setText("0.00");
         txtMovcoun.setText("0.00");
         txtArtcosfob.setText("0.00");
@@ -219,7 +219,7 @@ public class RegistroOrdenCompra extends javax.swing.JFrame {
         btnSalir = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
         txtTipoca = new javax.swing.JFormattedTextField();
-        DatMovfech = new com.toedter.calendar.JDateChooser();
+        datMovfech = new com.toedter.calendar.JDateChooser();
         btnImprimir = new javax.swing.JButton();
         btnBorrarOrden = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
@@ -975,7 +975,7 @@ public class RegistroOrdenCompra extends javax.swing.JFrame {
                                                 .addGap(340, 340, 340)
                                                 .addComponent(jLabel3)
                                                 .addGap(4, 4, 4)
-                                                .addComponent(DatMovfech, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(datMovfech, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(cboMoneda, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 769, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -1070,7 +1070,7 @@ public class RegistroOrdenCompra extends javax.swing.JFrame {
                             .addComponent(cboMoneda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtMovorco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1)
-                            .addComponent(DatMovfech, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(datMovfech, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3)
                             .addComponent(txtTipoca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1360,7 +1360,7 @@ public class RegistroOrdenCompra extends javax.swing.JFrame {
 
         String movorco, movdesc, procode, updateSql;
 
-        Timestamp movfech = new Timestamp(DatMovfech.getDate().getTime());
+        Timestamp movfech = new Timestamp(datMovfech.getDate().getTime());
 
         float tipoca;
         int movtido, regAfec;
@@ -1902,7 +1902,7 @@ public class RegistroOrdenCompra extends javax.swing.JFrame {
         try {
             // Verifico si el tipo de cambio ya está configurado para la fecha del doc.
             txtTipoca.setText(String.valueOf(UtilBD.tipoCambio(
-                    codigoTC, DatMovfech.getDate(), conn)));
+                    codigoTC, datMovfech.getDate(), conn)));
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(
                     null,
@@ -1930,7 +1930,7 @@ public class RegistroOrdenCompra extends javax.swing.JFrame {
 
         try {
             // Verificar la fecha de cierre de la bodega.
-            if (UtilBD.bodegaCerrada(conn, txtBodega.getText(), DatMovfech.getDate())) {
+            if (UtilBD.bodegaCerrada(conn, txtBodega.getText(), datMovfech.getDate())) {
                 JOptionPane.showMessageDialog(
                         null,
                         "La bodega ya se encuentra cerrada para esta fecha.",
@@ -2053,7 +2053,7 @@ public class RegistroOrdenCompra extends javax.swing.JFrame {
                 this.setProveedor(rsD.getString("procode"));
             } // end if
 
-            this.DatMovfech.setDate(rsD.getDate("movfech"));
+            this.datMovfech.setDate(rsD.getDate("movfech"));
             this.txaMovdesc.setText(rsD.getString("movdesc"));
             this.codigoTC = rsD.getString("codigoTC");
             Ut.seek(rsMoneda, codigoTC, "codigo");
@@ -2613,7 +2613,6 @@ public class RegistroOrdenCompra extends javax.swing.JFrame {
     } // end main
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.toedter.calendar.JDateChooser DatMovfech;
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBorrar;
     private javax.swing.JButton btnBorrarOrden;
@@ -2622,6 +2621,7 @@ public class RegistroOrdenCompra extends javax.swing.JFrame {
     private javax.swing.JButton btnImprimir;
     private javax.swing.JButton btnSalir;
     private javax.swing.JComboBox cboMoneda;
+    private com.toedter.calendar.JDateChooser datMovfech;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2767,7 +2767,7 @@ public class RegistroOrdenCompra extends javax.swing.JFrame {
         } // end if
 
         String fecha;
-        fecha = Ut.fechaSQL(this.DatMovfech.getDate());
+        fecha = Ut.fechaSQL(this.datMovfech.getDate());
         try {
             if (!UtilBD.isValidDate(conn, fecha)) {
                 JOptionPane.showMessageDialog(
@@ -2775,7 +2775,7 @@ public class RegistroOrdenCompra extends javax.swing.JFrame {
                         "La fecha corresponde a un período cerrado.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                DatMovfech.requestFocusInWindow();
+                datMovfech.requestFocusInWindow();
                 return false;
             } // end if
         } catch (SQLException ex) {
