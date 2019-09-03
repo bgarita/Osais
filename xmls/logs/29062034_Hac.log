@@ -1,0 +1,12 @@
+Estado: 5 RECHAZADO
+Respuesta_ext: Este comprobante fue aceptado en el ambiente de pruebas, por lo cual no tiene validez para fines tributarios
+
+El comprobante electrónico tiene los siguientes errores: 
+
+[
+codigo, mensaje, fila, columna
+-1, "cvc-complex-type.2.4.a: Invalid content was found starting with element 'TotalIVADevuelto'. One of '{"https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/facturaElectronicaCompra":TotalOtrosCargos, "https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/facturaElectronicaCompra":TotalComprobante}' is expected.", 1, 2480
+
+]
+Numero_consecutivo: 00100001080000000011
+claveHacienda: 50603091900030288056900100001080000000011186024348

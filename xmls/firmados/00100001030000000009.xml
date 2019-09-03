@@ -1,0 +1,189 @@
+<NotaCreditoElectronica xmlns="https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/notaCreditoElectronica" xmlns:xds="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Clave>50626081900030288056900100001030000000009181160209</Clave>
+  <CodigoActividad>155403</CodigoActividad>
+  <NumeroConsecutivo>00100001030000000009</NumeroConsecutivo>
+  <FechaEmision>2019-08-26T09:59:12</FechaEmision>
+  <Emisor>
+    <Nombre>Bosco Garita A.</Nombre>
+    <Identificacion>
+      <Tipo>01</Tipo>
+      <Numero>302880569</Numero>
+    </Identificacion>
+    <Ubicacion>
+      <Provincia>1</Provincia>
+      <Canton>01</Canton>
+      <Distrito>09</Distrito>
+      <Barrio>01</Barrio>
+      <OtrasSenas>Pavas</OtrasSenas>
+    </Ubicacion>
+    <Telefono>
+      <CodigoPais>506</CodigoPais>
+      <NumTelefono>22131992</NumTelefono>
+    </Telefono>
+    <CorreoElectronico>bgarita@hotmail.com</CorreoElectronico>
+  </Emisor>
+  <Receptor>
+    <Nombre>OLDEMAR ALBERTO GUEVARA PRENDAS</Nombre>
+    <Identificacion>
+      <Tipo>01</Tipo>
+      <Numero>111910553</Numero>
+    </Identificacion>
+    <CorreoElectronico>bgarita@hotmail.com</CorreoElectronico>
+  </Receptor>
+  <CondicionVenta>01</CondicionVenta>
+  <PlazoCredito>0</PlazoCredito>
+  <MedioPago>01</MedioPago>
+  <DetalleServicio>
+    <LineaDetalle>
+      <NumeroLinea>1</NumeroLinea>
+      <Codigo />
+      <CodigoComercial>
+        <Tipo>04</Tipo>
+        <Codigo>0012CH</Codigo>
+      </CodigoComercial>
+      <Cantidad>10.0</Cantidad>
+      <UnidadMedida>Unid</UnidadMedida>
+      <Detalle>SIROPE BOTELLA CHICLE</Detalle>
+      <PrecioUnitario>332.61</PrecioUnitario>
+      <MontoTotal>3326.1</MontoTotal>
+      <Descuento>
+        <MontoDescuento>0.0</MontoDescuento>
+        <NaturalezaDescuento>N/A</NaturalezaDescuento>
+      </Descuento>
+      <SubTotal>3326.1</SubTotal>
+      <BaseImponible>3326.1</BaseImponible>
+      <Impuesto>
+        <Codigo>01</Codigo>
+        <CodigoTarifa>08</CodigoTarifa>
+        <Tarifa>130.0</Tarifa>
+        <FactorIVA>0.0</FactorIVA>
+        <Monto>4323.93</Monto>
+      </Impuesto>
+      <MontoTotalLinea>7650.03</MontoTotalLinea>
+    </LineaDetalle>
+    <LineaDetalle>
+      <NumeroLinea>2</NumeroLinea>
+      <Codigo />
+      <CodigoComercial>
+        <Tipo>04</Tipo>
+        <Codigo>0012L</Codigo>
+      </CodigoComercial>
+      <Cantidad>5.0</Cantidad>
+      <UnidadMedida>Unid</UnidadMedida>
+      <Detalle>SIROPE BOTELLA LIMON</Detalle>
+      <PrecioUnitario>765.0</PrecioUnitario>
+      <MontoTotal>3825.0</MontoTotal>
+      <Descuento>
+        <MontoDescuento>0.0</MontoDescuento>
+        <NaturalezaDescuento>N/A</NaturalezaDescuento>
+      </Descuento>
+      <SubTotal>3825.0</SubTotal>
+      <BaseImponible>0.0</BaseImponible>
+      <MontoTotalLinea>3825.0</MontoTotalLinea>
+    </LineaDetalle>
+  </DetalleServicio>
+  <ResumenFactura>
+    <CodigoTipoMoneda>
+      <CodigoMoneda>CRC</CodigoMoneda>
+      <TipoCambio>1.0</TipoCambio>
+    </CodigoTipoMoneda>
+    <TotalServGravados>0.0</TotalServGravados>
+    <TotalServExentos>0.0</TotalServExentos>
+    <TotalServExonerado>0.0</TotalServExonerado>
+    <TotalMercanciasGravadas>3326.1</TotalMercanciasGravadas>
+    <TotalMercanciasExentas>3825.0</TotalMercanciasExentas>
+    <TotalMercExonerada>0.0</TotalMercExonerada>
+    <TotalGravado>3326.1</TotalGravado>
+    <TotalExento>3825.0</TotalExento>
+    <TotalExonerado>0.0</TotalExonerado>
+    <TotalVenta>7151.1</TotalVenta>
+    <TotalDescuentos>0.0</TotalDescuentos>
+    <TotalVentaNeta>7151.1</TotalVentaNeta>
+    <TotalImpuesto>4323.93</TotalImpuesto>
+    <TotalIVADevuelto>0.0</TotalIVADevuelto>
+    <TotalOtrosCargos>0.0</TotalOtrosCargos>
+    <TotalComprobante>11475.03</TotalComprobante>
+  </ResumenFactura>
+  <InformacionReferencia>
+    <TipoDoc>01</TipoDoc>
+    <Numero>50628101800310117850600100001010000000046148493292</Numero>
+    <FechaEmision>2018-09-28T00:00:00-06:00</FechaEmision>
+    <Codigo>04</Codigo>
+    <Razon>Nota de credito - varios</Razon>
+  </InformacionReferencia>
+  <Otros>
+    <OtroTexto codigo="OrdenCompra">0</OtroTexto>
+  </Otros>
+  <ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#" Id="Signature-cc345853-aff6-4d66-abd5-ed8d509f07d7">
+    <ds:SignedInfo>
+      <ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+      <ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256" />
+      <ds:Reference Id="Reference-a3158d5f-fb69-4023-b65f-7d466e57ca8a" URI="">
+        <ds:Transforms>
+          <ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+        </ds:Transforms>
+        <ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" />
+        <ds:DigestValue>net6gAFHepRJw6MbVCrzT99J6WrJrxOjiot6ORW9PPk=</ds:DigestValue>
+      </ds:Reference>
+      <ds:Reference Id="ReferenceKeyInfo" URI="#KeyInfoId-Signature-cc345853-aff6-4d66-abd5-ed8d509f07d7">
+        <ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" />
+        <ds:DigestValue>+B5DOv4+1KpA6oYJhS+Gv58hkQ63dzMMiRwejgFe4Z0=</ds:DigestValue>
+      </ds:Reference>
+      <ds:Reference Type="http://uri.etsi.org/01903#SignedProperties" URI="#SignedProperties-Signature-cc345853-aff6-4d66-abd5-ed8d509f07d7">
+        <ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" />
+        <ds:DigestValue>KjXa7AYmAAwv7Y93xCHRV+IdKo/59x7vDdNVxROCu58=</ds:DigestValue>
+      </ds:Reference>
+    </ds:SignedInfo>
+    <ds:SignatureValue Id="SignatureValue-cc345853-aff6-4d66-abd5-ed8d509f07d7">WaWzEjchyNnL6FkiecmocN+eihowVIwDsb2temQ+i214KKwF6808Q7+WyyQ6M5D6I4e+kdxsndGVH465eXhK7Sv/QflUniJXL2YpDvtwHgUAVmfVfLkql2zUFXFAT+Dm38EOce1R4Dt0KhQCc6Is1btabEkKPAjuFc7ClSlWmUfk7trLK4Z3HGaz9tuLsApWRl/KN6cyEqP5f4wSJqJ7u9ilQidsNnjQof1G48yP6fccTfqH0d2ERhJI5zC/8vW2JBWwMB8eW7ezIzp0VTltiVpwoi9wyIi675j2cBAuGX2QZ10lU/dzjjPotBfsUElim/Y8lB5U6/tyx9d1JjEddw==</ds:SignatureValue>
+    <ds:KeyInfo Id="KeyInfoId-Signature-cc345853-aff6-4d66-abd5-ed8d509f07d7">
+      <ds:X509Data>
+        <ds:X509Certificate>MIIFXzCCA0egAwIBAgIGAWuaQGDyMA0GCSqGSIb3DQEBCwUAMGwxCzAJBgNVBAYTAkNSMSkwJwYDVQQKDCBNSU5JU1RFUklPIERFIEhBQ0lFTkRBIC0gU0FOREJPWDEMMAoGA1UECwwDREdUMSQwIgYDVQQDDBtDQSBQRVJTT05BIEZJU0lDQSAtIFNBTkRCT1gwHhcNMTkwNjI3MTg0MzU4WhcNMjEwNjI2MTg0MzU4WjCBpzEZMBcGA1UEBRMQQ1BGLTAzLTAyODgtMDU2OTEYMBYGA1UEBAwPR0FSSVRBIEFaT0ZFSUZBMRUwEwYDVQQqDAxCT1NDTyBFVkVMSU8xCzAJBgNVBAYTAkNSMRcwFQYDVQQKDA5QRVJTT05BIEZJU0lDQTEMMAoGA1UECwwDQ1BGMSUwIwYDVQQDDBxCT1NDTyBFVkVMSU8gR0FSSVRBIEFaT0ZFSUZBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAi9gev54vH3/4yvDls62OPBEdzljlJMw9yFA+goCRRniAiC5c39gslVDYACpiTX1VoW4+1S45cvobfV7Fom8kPwZF4Yrswvfm2bclg7ByCXvg+E9ErKkONoFwNIgmO0UG2c6jhbbGjq9QkN9WAYZqLj73FpL7kcmbROtKT7zZg0mGq1u3GtGffIK7JOD6Rrwg6JBZw2dLY7jy7brQoM5A2kzhFe7jZkY7bVvbbOZVASUpHOEAAkDZshRTscbkSY9BIP7+CwVRdC5tMFMXyKWz7vI7DuwIQtkNjwXSQA0YwxNPUha/HvXl1/h9wJu1c+0xqqMEFu5PZmiOQiElE2A0rQIDAQABo4HKMIHHMB8GA1UdIwQYMBaAFEYj0kRPv1dZIeS/k9Uwm5VM4/eHMB0GA1UdDgQWBBToP+FESrLo83oSTjwWgoc+oH5ipzALBgNVHQ8EBAMCBsAwEwYDVR0lBAwwCgYIKwYBBQUHAwQwYwYIKwYBBQUHAQEEVzBVMFMGCCsGAQUFBzAChkdodHRwczovL3BraS5jb21wcm9iYW50ZXNlbGVjdHJvbmljb3MuZ28uY3Ivc3RhZy9pbnRlcm1lZGlhdGUtcGYtcGVtLmNydDANBgkqhkiG9w0BAQsFAAOCAgEAjjHSSKXEyg6HZY5ylzil+p2PxmhBkkIc17q17F9BUgNa8Od4YwYGT/z1fPaaUeUGtnh5jt2c4HLUw6zOn8gcBKx9qoAypkExvKHsdxlU4ksctaV5UiDcrA+fnXGMUY2XRoWlgi8bk8NvU9Cuf4A1R/L/UsGLZrfoWP+lR9jc/RLLZxXeNrrs0dLu4p/l8nFc36ZEQhGm3Jm4CIr8lisbdXGbMB02qJPS4E6Nr7DzCAn9Sz5hi7c9tXBrzAPiCXld09pn2rm2i4z2vv9lqrN/r7yvtmPdoB2sDCywV2VxBukBwKRD/Q2fLKKMchMDZQ0nd2o0ALH5RMIIhP+guOpdu5ebxYAf4IxwNwHGyyPI5ywIz6VReKuEWT3tNNxPr29geoW63NpCpla5fxyf/ar4xy3odZi70VBoQIgf5Fjbiz76jNCpI3/YZztoP3oni4S6teL1PBbS3Dt39j5jvpkKZTbCVpSzSVNz+V+GBvFX+Q8MK5VF9HltT5ww5aBpsO/fq/yk4ytFn8AYdT9C7GahaCnlCQga3rGToEqiXlQ8wvcy1JeEj3DdIt19zzmNppx7zBUUujYuLxPMfASoY2AO0tYWnrjm4JFg6N5rnsXgpKoqo7rV80TIE0bSDbJESICOfmYsKmc7l2SKNu+hVsh1zs3SEJ0Japtm7INYDGyF8Rg=</ds:X509Certificate>
+      </ds:X509Data>
+      <ds:KeyValue>
+        <ds:RSAKeyValue>
+          <ds:Modulus>i9gev54vH3/4yvDls62OPBEdzljlJMw9yFA+goCRRniAiC5c39gslVDYACpiTX1VoW4+1S45cvobfV7Fom8kPwZF4Yrswvfm2bclg7ByCXvg+E9ErKkONoFwNIgmO0UG2c6jhbbGjq9QkN9WAYZqLj73FpL7kcmbROtKT7zZg0mGq1u3GtGffIK7JOD6Rrwg6JBZw2dLY7jy7brQoM5A2kzhFe7jZkY7bVvbbOZVASUpHOEAAkDZshRTscbkSY9BIP7+CwVRdC5tMFMXyKWz7vI7DuwIQtkNjwXSQA0YwxNPUha/HvXl1/h9wJu1c+0xqqMEFu5PZmiOQiElE2A0rQ==</ds:Modulus>
+          <ds:Exponent>AQAB</ds:Exponent>
+        </ds:RSAKeyValue>
+      </ds:KeyValue>
+    </ds:KeyInfo>
+    <ds:Object Id="XadesObjectId-6f20c6d7-ef72-49db-bb2f-4ffdd2d3924f">
+      <xades:QualifyingProperties xmlns:xades="http://uri.etsi.org/01903/v1.3.2#" Id="QualifyingProperties-51e64996-8a60-4b44-a2ab-6070aca14987" Target="#Signature-cc345853-aff6-4d66-abd5-ed8d509f07d7">
+        <xades:SignedProperties Id="SignedProperties-Signature-cc345853-aff6-4d66-abd5-ed8d509f07d7">
+          <xades:SignedSignatureProperties>
+            <xades:SigningTime>2019-08-26T10:19:03-06:00</xades:SigningTime>
+            <xades:SigningCertificate>
+              <xades:Cert>
+                <xades:CertDigest>
+                  <ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" />
+                  <ds:DigestValue>9X16Xs/TTKqKefLtTdV1+oiXQ/qUVS67qCP/GMJqTP0=</ds:DigestValue>
+                </xades:CertDigest>
+                <xades:IssuerSerial>
+                  <ds:X509IssuerName>CN=CA PERSONA FISICA - SANDBOX, OU=DGT, O=MINISTERIO DE HACIENDA - SANDBOX, C=CR</ds:X509IssuerName>
+                  <ds:X509SerialNumber>1561661038834</ds:X509SerialNumber>
+                </xades:IssuerSerial>
+              </xades:Cert>
+            </xades:SigningCertificate>
+            <xades:SignaturePolicyIdentifier>
+              <xades:SignaturePolicyId>
+                <xades:SigPolicyId>
+                  <xades:Identifier>https://tribunet.hacienda.go.cr/docs/esquemas/2016/v4.1/Resolucion_Comprobantes_Electronicos_DGT-R-48-2016.pdf</xades:Identifier>
+                  <xades:Description />
+                </xades:SigPolicyId>
+                <xades:SigPolicyHash>
+                  <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+                  <ds:DigestValue>Ohixl6upD6av8N7pEvDABhEL6hM=</ds:DigestValue>
+                </xades:SigPolicyHash>
+              </xades:SignaturePolicyId>
+            </xades:SignaturePolicyIdentifier>
+          </xades:SignedSignatureProperties>
+          <xades:SignedDataObjectProperties>
+            <xades:DataObjectFormat ObjectReference="#Reference-a3158d5f-fb69-4023-b65f-7d466e57ca8a">
+              <xades:MimeType>text/xml</xades:MimeType>
+              <xades:Encoding>UTF-8</xades:Encoding>
+            </xades:DataObjectFormat>
+          </xades:SignedDataObjectProperties>
+        </xades:SignedProperties>
+      </xades:QualifyingProperties>
+    </ds:Object>
+  </ds:Signature>
+</NotaCreditoElectronica>

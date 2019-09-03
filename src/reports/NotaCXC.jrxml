@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Recibo" pageWidth="216" pageHeight="792" columnWidth="209" leftMargin="5" rightMargin="2" topMargin="2" bottomMargin="2" uuid="6ae40169-87dd-44a9-8a03-985e31f3e98a">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="121"/>
 	<parameter name="pNotanume" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[new Integer(1)]]></defaultValueExpression>
 	</parameter>
@@ -276,6 +276,20 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{clisald}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="1" y="56" width="178" height="12" uuid="b275c36a-0c8b-4d6d-8d32-253893d4573e"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Autorizada mediante resolución]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="68" width="178" height="12" uuid="7daaf199-59f7-4987-a62f-35377708f972"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[DGT-R-033-2019 del 20/06/2019]]></text>
+			</staticText>
 		</band>
 	</summary>
 </jasperReport>

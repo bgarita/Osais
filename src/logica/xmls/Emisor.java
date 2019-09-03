@@ -237,7 +237,7 @@ public class Emisor {
                 + "	inproved.provincia, "
                 + "	inproved.canton, "
                 + "	inproved.distrito, "
-                + "	0 as barrio, "
+                + "	01 as barrio, "
                 + "	inproved.prodir as direccion, "
                 + "	inproved.protel1 as telefono1, "
                 + "	IF(DATE_SUB(now(), INTERVAL 45 MINUTE) > cxpfacturas.fecha_fac, now(), cxpfacturas.fecha_fac) AS facfech,  "

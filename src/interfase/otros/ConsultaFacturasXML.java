@@ -3,7 +3,6 @@ package interfase.otros;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import interfase.menus.Menu;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -56,6 +55,9 @@ public class ConsultaFacturasXML extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         txaEstadoEnvio = new javax.swing.JTextArea();
         pgbAvance = new javax.swing.JProgressBar();
+        toolB = new javax.swing.JToolBar();
+        btnBuscar = new javax.swing.JButton();
+        btnSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Consultar documentos electrónicos");
@@ -91,6 +93,32 @@ public class ConsultaFacturasXML extends javax.swing.JFrame {
 
         pgbAvance.setStringPainted(true);
 
+        toolB.setRollover(true);
+
+        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/binocular.png"))); // NOI18N
+        btnBuscar.setToolTipText("Buscar documento");
+        btnBuscar.setFocusable(false);
+        btnBuscar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnBuscar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBuscarMouseClicked(evt);
+            }
+        });
+        toolB.add(btnBuscar);
+
+        btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/control-power.png"))); // NOI18N
+        btnSalir.setToolTipText("Buscar documento");
+        btnSalir.setFocusable(false);
+        btnSalir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnSalir.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
+        toolB.add(btnSalir);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -104,21 +132,23 @@ public class ConsultaFacturasXML extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
                             .addComponent(jScrollPane2)))
-                    .addComponent(pgbAvance, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(pgbAvance, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(toolB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(4, 4, 4)
-                .addComponent(pgbAvance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(toolB, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pgbAvance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
 
@@ -164,7 +194,7 @@ public class ConsultaFacturasXML extends javax.swing.JFrame {
         } // end if
 
         String dirXMLS = Menu.DIR.getXmls() + Ut.getProperty(Ut.FILE_SEPARATOR);
-        DocumentoElectronico doc = new DocumentoElectronico(0, 0, "", conn);
+        DocumentoElectronico docEl = new DocumentoElectronico(0, 0, "", conn);
         /*
         Tipos de documento:
             FAC=Factura
@@ -173,14 +203,31 @@ public class ConsultaFacturasXML extends javax.swing.JFrame {
             FCO=Factura de compra
             Vacío=No existe referencia aún
          */
-        String tipo = doc.getTipoDoc(Integer.parseInt(ref));
+        String tipo = docEl.getTipoDoc(Integer.parseInt(ref));
 
-        // Si el archivo que contiene la información existe, se muestran los
-        // datos; caso contrario continúo con la generación del archivo.
-        path = doc.getLogPath(documento);
+        /*
+        Nota: Cuando EnviarFactura2.exe no pudo actualizar la base de datos,
+        después de corregir el problema (generarlmente el login) se debe:
+        1. Correr el siguiente script (con los parámetros correspondientes):
+            UPDATE `laflor`.`faestadodocelect` 
+                    SET `estado`='1', `descrip`='Enviado', `referencia`='261069' 
+            WHERE  `facnume`=77503 AND `facnd`=0 AND `tipoxml`='V';
+        2.  Consultar de nuevo usando la versión 1 de consulta.
+        3.  Si el caso anterior no funcionó se debe anular la factura mediante
+            nota de crédito y hacer una nueva.
+        
+        Bosco 25/08/2019
+        */
+        // Si el archivo que contiene la información existe, y tiene alguno de los
+        // estados ACEPTADO o RECHAZADO, se muestran los datos; caso contrario 
+        // continúo con la generación del archivo.
+        path = docEl.getLogPath(documento);
         if (path != null && path.toFile().exists()) {
-            this.txaReporteHacienda.setText(Ut.fileToString(path));
-            return;
+            String contenido = Ut.fileToString(path);
+            if (contenido.contains("RECHAZADO") || contenido.contains("ACEPTADO")){
+                this.txaReporteHacienda.setText(contenido);
+                return;
+            } // end if
         } // end if
 
         String cmd = dirXMLS + "EnviarFactura2.exe " + ref + " " + documento + " 2 " + tipo;
@@ -201,36 +248,7 @@ public class ConsultaFacturasXML extends javax.swing.JFrame {
             return;
         } // end try-catch
 
-        path = doc.getLogPath(documento);
-        
-        //        String dirLogs = Menu.DIR.getLogs() + Ut.getProperty(Ut.FILE_SEPARATOR);
-        //        String sufijo = "_Hac.log";
-        //
-        //        // Como no hay forma de saber si la referencia es de ventas, compras o proveedores
-        //        // entonces busco los tres tipos.
-        //        File f = new File(dirLogs + documento + sufijo);
-        //        if (!f.exists()) { // ventas
-        //            sufijo = "_HacP.log";
-        //            f = new File(dirLogs + documento + sufijo);
-        //            if (!f.exists()) { // Proveedores
-        //                sufijo = "_HacCompras.log";
-        //            } // end if
-        //            if (!f.exists()) {
-        //                /*
-        //                Si tampoco existe este archivo es porque hay un error que se
-        //                generó drante la ejecusión de EnviarFactura2.exe
-        //                El log que genera queda en la misma carpeta del xml, con el
-        //                mismo nombre de la factura pero con la extensión .log
-        //                 */
-        //                sufijo = ".log";
-        //            } // end if
-        //        } // end if
-        //
-        //        if (sufijo.equals(".log")) {
-        //            path = Paths.get(dirXMLS + documento + sufijo);
-        //        } else {
-        //            path = Paths.get(dirLogs + documento + sufijo);
-        //        } // end if-else
+        path = docEl.getLogPath(documento);
         
         String texto = Ut.fileToString(path);
         if (texto.contains("Archivo no encontrado")) {
@@ -250,6 +268,22 @@ public class ConsultaFacturasXML extends javax.swing.JFrame {
             new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     }//GEN-LAST:event_formWindowClosed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void btnBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseClicked
+        String buscar = JOptionPane.showInputDialog("Documento a buscar:", 0);
+        for (int i = 0; i < this.lstDocumentos.getModel().getSize(); i++){
+            String item = this.lstDocumentos.getModel().getElementAt(i);
+            if (item.contains(buscar)){
+                this.lstDocumentos.setSelectedIndex(i);
+                this.lstDocumentosMouseClicked(evt);
+                break;
+            } // end if
+        } // end for
+    }//GEN-LAST:event_btnBuscarMouseClicked
 
     /**
      * @param conn
@@ -279,20 +313,20 @@ public class ConsultaFacturasXML extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new ConsultaFacturasXML(conn).setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new ConsultaFacturasXML(conn).setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnSalir;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JList<String> lstDocumentos;
     private javax.swing.JProgressBar pgbAvance;
+    private javax.swing.JToolBar toolB;
     private javax.swing.JTextArea txaEstadoEnvio;
     private javax.swing.JTextArea txaReporteHacienda;
     // End of variables declaration//GEN-END:variables

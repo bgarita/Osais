@@ -1,5 +1,6 @@
 package Mail;
 
+import interfase.menus.Menu;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -132,7 +133,7 @@ public class Bitacora {
         } // end if
         
         Date d = new Date();
-        text = d + "\n" + text + "\n";
+        text = d + "\n" + "Usuario: " + Menu.USUARIO + "\n" + text + "\n";
         FileOutputStream log;
         byte[] contentInBytes;
         contentInBytes = text.getBytes();

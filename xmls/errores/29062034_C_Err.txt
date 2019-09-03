@@ -1,0 +1,1 @@
+03-09-2019 --> Data too long for column 'descrip' at row 40

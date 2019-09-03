@@ -15,8 +15,6 @@ import javax.xml.bind.annotation.XmlType;
     })
 public class ResumenFactura {
     CodigoTipoMoneda codigoTipoMoneda;  // Ver documento Codigodemoneda_V4.2.pdf
-    //private String codigoMoneda;    
-    //private float  tipoCambio;
     private double totalServGravados;
     private double totalServExentos;
     private double totalServExonerado;  // Julio 2019
@@ -30,7 +28,7 @@ public class ResumenFactura {
     private double totalDescuentos;
     private double totalVentaNeta;
     private double totalImpuesto;
-    private double totalIVADevuelto;    // Julio 2019
+    private Double totalIVADevuelto;    // Julio 2019
     private double totalOtrosCargos;    // Julio 2019
     private double totalComprobante;
     
@@ -47,25 +45,6 @@ public class ResumenFactura {
     public void setCodigoTipoMoneda(CodigoTipoMoneda codigoTipoMoneda) {
         this.codigoTipoMoneda = codigoTipoMoneda;
     }
-    
-    
-//    public String getCodigoMoneda() {
-//        return codigoMoneda;
-//    }
-//
-//    @XmlElement(name = "CodigoMoneda")
-//    public void setCodigoMoneda(String codigoMoneda) {
-//        this.codigoMoneda = codigoMoneda;
-//    }
-//
-//    public float getTipoCambio() {
-//        return tipoCambio;
-//    }
-//
-//    @XmlElement(name = "TipoCambio")
-//    public void setTipoCambio(float tipoCambio) {
-//        this.tipoCambio = tipoCambio;
-//    }
 
     public double getTotalServGravados() {
         return totalServGravados;
@@ -187,12 +166,12 @@ public class ResumenFactura {
         this.totalImpuesto = totalImpuesto;
     }
 
-    public double getTotalIVADevuelto() {
+    public Double getTotalIVADevuelto() {
         return totalIVADevuelto;
     }
 
     @XmlElement(name = "TotalIVADevuelto")
-    public void setTotalIVADevuelto(double totalIVADevuelto) {
+    public void setTotalIVADevuelto(Double totalIVADevuelto) {
         this.totalIVADevuelto = totalIVADevuelto;
     }
 

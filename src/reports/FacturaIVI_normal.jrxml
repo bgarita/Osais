@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Factura" pageWidth="612" pageHeight="792" columnWidth="605" leftMargin="5" rightMargin="2" topMargin="6" bottomMargin="6" uuid="8a6871c2-9858-4e1b-b535-91cec5e8fa2b">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="400"/>
 	<parameter name="pFacnume" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[new Integer(1)]]></defaultValueExpression>
 	</parameter>
@@ -580,11 +580,17 @@
 			</staticText>
 			<staticText>
 				<reportElement x="1" y="228" width="180" height="12" uuid="486a8e35-98c1-40c6-80a8-79f2e9f9ea13"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
 				<text><![CDATA[Autorizada mediante resolución]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="1" y="240" width="180" height="12" uuid="da11446a-cbea-44c4-b49c-b81bf25d8c2d"/>
-				<text><![CDATA[DGT-R-2016 del 07/10/2016]]></text>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[DGT-R-033-2019 del 20/06/2019]]></text>
 			</staticText>
 		</band>
 	</summary>

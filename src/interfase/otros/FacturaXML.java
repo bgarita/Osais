@@ -512,7 +512,6 @@ public class FacturaXML extends javax.swing.JFrame {
 
         this.sucursal = "001";          // Solo existe un local.
         this.terminal = "00001";        // Servidor centralizado.
-        //this.tipoComprobante = "01";    // 01=Factura E., 02=ND, 03=NC, 04=Tiquete E.
         this.situacionComprobante = this.cboSituacionComprobante.getSelectedIndex() + 1; // 1=Normal,2=Contingencia,3=Sin internet
 
         int count = 0;
@@ -558,9 +557,9 @@ public class FacturaXML extends javax.swing.JFrame {
         // Si la bitácora contiene datos la muestro en pantalla.
         StringBuilder sb = new StringBuilder();
         if (this.bitacora != null && this.bitacora.size() > 0) {
-            for (String bit : bitacora) {
+            bitacora.forEach((bit) -> {
                 sb.append(bit).append("\n");
-            } // end for
+            }); // end for
             this.txaBitacora.setText(sb.toString());
         } // end if
     } // end generateByDocument
@@ -574,16 +573,15 @@ public class FacturaXML extends javax.swing.JFrame {
         boolean tran = false;
         int envio = 1;
         int facnd = 0;
-
+        String tipoXML = "V";
+        DocumentoElectronico docEl = new DocumentoElectronico(facnume, facnd, tipoXML, conn);
+        docEl.setSucursal(sucursal);
+        docEl.setTerminal(terminal);
+        docEl.setSituacionComprobante(situacionComprobante);
+        docEl.setTipoComprobante(tipoComprobante);
+        
         try {
-            /*
-             Con el cambio del 01/07/2019 de facturación electrónica ya no se puede
-             mandar facturas con clientes de contado, ahora solo se hace a través
-             de tiquete electrónico.
-             */
-
             // Validar si el cliente es de contado (genérico)
-            //boolean clienteGenerico = esClienteContado(facnume, facnd);
             boolean clienteGenerico = UtilBD.esClienteGenerico(conn, facnume, facnd);
 
             if (clienteGenerico) {
@@ -594,11 +592,12 @@ public class FacturaXML extends javax.swing.JFrame {
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
                 } // end if
-                return 0;
+                envio = 0;
+                return envio;
             } // end if
 
             // Determinar si el documento existe o no (para saber si se actualiza o no el consecutivo).
-            boolean existe = existeDoc(facnume, facnd);
+            boolean existe = docEl.existeDoc();
 
             // Si el usuario eligió omitir los documentos generados previamente
             // y éste ya existe...
@@ -637,18 +636,23 @@ public class FacturaXML extends javax.swing.JFrame {
             tran = true;
 
             // Obtener el siguiente consecutivo de factura electrónica
-            int documentoElectronico = getConsecutivoDocElectronico(facnume, facnd);
+            //int documentoElectronico = getConsecutivoDocElectronico(facnume, facnd);
+            int documentoElectronico = docEl.getConsecutivoDocElectronico("FAC");
 
-            clave.setSucursal(this.sucursal);
-            clave.setTerminal(this.terminal);
-            clave.setTipoComprobante(this.tipoComprobante);
+            //clave.setSucursal(this.sucursal);
+            //clave.setTerminal(this.terminal);
+            //clave.setTipoComprobante(this.tipoComprobante);
+            clave.setSucursal(docEl.getSucursal());
+            clave.setTerminal(docEl.getTerminal());
+            clave.setTipoComprobante(docEl.getTipoComprobante());
             clave.setDocumento(documentoElectronico);
             clave.generarConsecutivo();
 
             fac.setNumeroConsecutivo(clave.getConsecutivoDoc());
             fac.setFechaEmision(emisor.getFacfech());
 
-            clave.setSituacionComprobante(this.situacionComprobante);
+            //clave.setSituacionComprobante(this.situacionComprobante);
+            clave.setSituacionComprobante(docEl.getSituacionComprobante());
             clave.setFecha(emisor.getFacfech());
 
             clave.setCedulaEmisor(emisor.getIdentificacion().getNumero());
@@ -781,7 +785,7 @@ public class FacturaXML extends javax.swing.JFrame {
             CMD.transaction(conn, CMD.COMMIT);
         } catch (SQLException | JAXBException ex) {
             envio = -1;
-            Logger.getLogger(GeneraXML.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
 
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
@@ -796,7 +800,7 @@ public class FacturaXML extends javax.swing.JFrame {
             try {
                 CMD.transaction(conn, CMD.ROLLBACK);
             } catch (SQLException ex) {
-                Logger.getLogger(FacturaXML.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                 // No se hace nada con el error porque si este error se da
                 // es porque existe un problema a nivel del servidor y por
                 // tanto nada va a funcionar.
@@ -814,7 +818,6 @@ public class FacturaXML extends javax.swing.JFrame {
 
         try {
             // Validar si el cliente es de contado (genérico)
-            //boolean clienteGenerico = esClienteContado(facnume, facnd);
             boolean clienteGenerico = UtilBD.esClienteGenerico(conn, facnume, facnd);
 
             // Los tiquetes son exclusivos para clientes de contado.
@@ -826,7 +829,8 @@ public class FacturaXML extends javax.swing.JFrame {
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
                 } // end if
-                return 0;
+                envio = 0;
+                return envio;
             } // end if
 
             // Determinar si el documento existe o no (para saber si se actualiza o no el consecutivo).
@@ -1031,9 +1035,16 @@ public class FacturaXML extends javax.swing.JFrame {
         boolean tran = false;
         int envio = 1;
         int facnd = notanume * -1;
+        String tipoXML = "V";
+        DocumentoElectronico docEl = new DocumentoElectronico(notanume, facnd, tipoXML, conn);
+        docEl.setSucursal(sucursal);
+        docEl.setTerminal(terminal);
+        docEl.setSituacionComprobante(situacionComprobante);
+        docEl.setTipoComprobante(tipoComprobante);
+        
         try {
             // Determinar si el documento existe o no (para saber si se actualiza o no el consecutivo).
-            boolean existe = existeDoc(notanume, facnd);
+             boolean existe = docEl.existeDoc();
 
             // Determinar si el cliente es de contado (genérico)
             //boolean clienteGenerico = esClienteContado(notanume, facnd);
@@ -1085,18 +1096,23 @@ public class FacturaXML extends javax.swing.JFrame {
             tran = true;
 
             // Obtener el siguiente consecutivo de documento electrónico
-            int documentoElectronico = getConsecutivoDocElectronico(notanume, facnd);
-
-            clave.setSucursal(this.sucursal);
-            clave.setTerminal(this.terminal);
-            clave.setTipoComprobante(this.tipoComprobante);
+            //int documentoElectronico = getConsecutivoDocElectronico(notanume, facnd);
+            int documentoElectronico = docEl.getConsecutivoDocElectronico("NCR");
+            
+            //clave.setSucursal(this.sucursal);
+            //clave.setTerminal(this.terminal);
+            //clave.setTipoComprobante(this.tipoComprobante);
+            clave.setSucursal(docEl.getSucursal());
+            clave.setTerminal(docEl.getTerminal());
+            clave.setTipoComprobante(docEl.getTipoComprobante());
             clave.setDocumento(documentoElectronico);
             clave.generarConsecutivo();
 
             nota.setNumeroConsecutivo(clave.getConsecutivoDoc());
             nota.setFechaEmision(emisor.getFacfech());
 
-            clave.setSituacionComprobante(this.situacionComprobante);
+            //clave.setSituacionComprobante(this.situacionComprobante);
+            clave.setSituacionComprobante(docEl.getSituacionComprobante());
             clave.setFecha(emisor.getFacfech());
 
             clave.setCedulaEmisor(emisor.getIdentificacion().getNumero());
@@ -1171,7 +1187,6 @@ public class FacturaXML extends javax.swing.JFrame {
             clave.saveClave();
             nota.setClave(clave.getClave());
 
-            //String dir = Ut.getProperty(Ut.USER_DIR) + Ut.getProperty(Ut.FILE_SEPARATOR) + "xmls" + Ut.getProperty(Ut.FILE_SEPARATOR);
             String dir = Menu.DIR.getXmls() + Ut.getProperty(Ut.FILE_SEPARATOR);
 
             // JAXB
@@ -1189,7 +1204,7 @@ public class FacturaXML extends javax.swing.JFrame {
             CMD.transaction(conn, CMD.COMMIT);
         } catch (SQLException | JAXBException ex) {
             envio = -1;
-            Logger.getLogger(GeneraXML.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -1202,7 +1217,7 @@ public class FacturaXML extends javax.swing.JFrame {
             try {
                 CMD.transaction(conn, CMD.ROLLBACK);
             } catch (SQLException ex) {
-                Logger.getLogger(FacturaXML.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                 // No se hace nada con el error porque si este error se da
                 // es porque existe un problema a nivel del servidor y por
                 // tanto nada va a funcionar.
@@ -1217,10 +1232,16 @@ public class FacturaXML extends javax.swing.JFrame {
         boolean tran = false;
         int envio = 1;
         int facnd = facnume * -1;
+        String tipoXML = "V";
+        DocumentoElectronico docEl = new DocumentoElectronico(facnume, facnd, tipoXML, conn);
+        docEl.setSucursal(sucursal);
+        docEl.setTerminal(terminal);
+        docEl.setSituacionComprobante(situacionComprobante);
+        docEl.setTipoComprobante(tipoComprobante);
 
         try {
             // Determinar si el documento existe o no (para saber si se actualiza o no el consecutivo).
-            boolean existe = existeDoc(facnume, facnd);
+            boolean existe = docEl.existeDoc();
 
             // Si el usuario eligió omitir los documentos generados previamente
             // y éste ya existe...
@@ -1264,18 +1285,23 @@ public class FacturaXML extends javax.swing.JFrame {
             tran = true;
 
             // Obtener el siguiente consecutivo de factura electrónica
-            int documentoElectronico = getConsecutivoDocElectronico(facnume, facnd);
+            //int documentoElectronico = getConsecutivoDocElectronico(facnume, facnd);
+            int documentoElectronico = docEl.getConsecutivoDocElectronico("NDB");
 
-            clave.setSucursal(this.sucursal);
-            clave.setTerminal(this.terminal);
-            clave.setTipoComprobante(this.tipoComprobante);
+            //clave.setSucursal(this.sucursal);
+            //clave.setTerminal(this.terminal);
+            //clave.setTipoComprobante(this.tipoComprobante);
+            clave.setSucursal(docEl.getSucursal());
+            clave.setTerminal(docEl.getTerminal());
+            clave.setTipoComprobante(docEl.getTipoComprobante());
             clave.setDocumento(documentoElectronico);
             clave.generarConsecutivo();
 
             notaD.setNumeroConsecutivo(clave.getConsecutivoDoc());
             notaD.setFechaEmision(emisor.getFacfech());
 
-            clave.setSituacionComprobante(this.situacionComprobante);
+            //clave.setSituacionComprobante(this.situacionComprobante);
+            clave.setSituacionComprobante(docEl.getSituacionComprobante());
             clave.setFecha(emisor.getFacfech());
 
             clave.setCedulaEmisor(emisor.getIdentificacion().getNumero());
@@ -1378,7 +1404,7 @@ public class FacturaXML extends javax.swing.JFrame {
             CMD.transaction(conn, CMD.COMMIT);
         } catch (SQLException | JAXBException ex) {
             envio = -1;
-            Logger.getLogger(FacturaXML.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -1391,7 +1417,7 @@ public class FacturaXML extends javax.swing.JFrame {
             try {
                 CMD.transaction(conn, CMD.ROLLBACK);
             } catch (SQLException ex) {
-                Logger.getLogger(FacturaXML.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                 // No se hace nada con el error porque si este error se da
                 // es porque existe un problema a nivel del servidor y por
                 // tanto nada va a funcionar.
@@ -1591,73 +1617,38 @@ public class FacturaXML extends javax.swing.JFrame {
         btnSalirActionPerformed(null);
     } // end runApp
 
-    // Pasar este método a la clase DocumentoElectronico.java y utilizardo
-    // tanto desde esta pantalla como en la clase DetalleNotificacionXml.java
     private void enviarXML(int facnume) {
-        // Bosco modificado 25/06/2019.  Agrego la factura de compra.
-        //String tipo = (this.radFactura.isSelected() ? "FAC" : this.radNC.isSelected() ? "NCR" : "NDB");
-        String tipo;
-        if (this.radFactura.isSelected() || this.radTiquete.isSelected()) { // Los tiquetes van con el mismo tipo que la factura.
-            tipo = "FAC";
-        } else if (this.radNC.isSelected()) {
-            tipo = "NCR";
-        } else if (radFactCompra.isSelected()) {
-            tipo = "FCO";
-        } else {
-            tipo = "NDB";
-        } // end if
+        int facnd = 0; // Las facturas, los tiquetes y las facturas de compra deben llevar facnd en cero.
+        if (this.radNC.isSelected()
+                || this.radND.isSelected()) { // Notas de crédito y débito
+            // NCR=facnume < 0
+            // NDB=facnume > 0
+            facnd = facnume *-1;
+        }  // end if
+        
+        String tipoXML = radFactCompra.isSelected()? "C":"V";
         
         // Este proceso es únicamente windows por lo que no debe correr en Linux
         String os = Ut.getProperty(Ut.OS_NAME).toLowerCase();
         if (!os.contains("win") || !Menu.enviarDocumentosElectronicos) {
             return;
         } // end if
-        DocumentoElectronico doc = new DocumentoElectronico(facnume, 0, "", conn);
-        doc.enviarXML(facnume, tipo);
-        // La clase DocumentoElectronico tiene un método para saber si hubo error.  Más adelante hay que evaluar si se debe usar acá.
-        
-        // El código que está comentado se trasladó a la clase DocumentoElectronico para usarlo desde otros lugares.
-        /*
-
-        try {
-            String dir = Menu.DIR.getXmls() + Ut.getProperty(Ut.FILE_SEPARATOR);
-            String xmlFile = facnume + ".xml";      // Solo va el nombre del archivo, no la ruta.
-            String logFile = dir + facnume + ".log";
-
-            // Si el xml es el de compras entonces el nombre del archivo termina por _C.xml 25/06/2019
-            if (this.radFactCompra.isSelected()) {
-                xmlFile = facnume + "_C.xml";
-                logFile = dir + facnume + "_C.log";
+        DocumentoElectronico docEl = new DocumentoElectronico(facnume, facnd, tipoXML, conn);
+        docEl.setSituacionComprobante(situacionComprobante);
+        docEl.setSucursal(sucursal);
+        docEl.setTerminal(terminal);
+        docEl.setTipoComprobante(tipoComprobante);
+        //docEl.enviarXML(facnume, tipo);
+        docEl.enviarXML(facnume);
+        if (docEl.isError()){
+            if (mode == INTERACTIVE){
+                JOptionPane.showMessageDialog(null, 
+                        docEl.getError_msg(), 
+                        "Error", 
+                        JOptionPane.ERROR_MESSAGE);
             } // end if
-
-            String cmd = dir + "EnviarFactura2.exe " + xmlFile + " " + facnume + " 1 " + tipo;
-
-            Process p = Runtime.getRuntime().exec(cmd);
-
-            int size = 1000;
-            InputStream is = p.getInputStream();
-            byte[] buffer = new byte[size];
-            int len;
-            FileOutputStream fos = new FileOutputStream(logFile);
-            len = is.read(buffer);
-
-            while (len > 0) {
-                fos.write(buffer, 0, len);
-                len = is.read(buffer);
-            } // end while
-
-            fos.close();
-            is.close();
-
-        } catch (Exception ex) {
-            Logger.getLogger(FacturaXML.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null,
-                    ex.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
-        } // end try-catch
-        */
+            new Bitacora().writeToLog(this.getClass().getName() + "--> " + docEl.getError_msg());
+        } // end if
     } // end enviarXML
 
     /**
@@ -1752,32 +1743,6 @@ public class FacturaXML extends javax.swing.JFrame {
         lector.close();
     } // end processLog
 
-    // Se trasladó este código a la clase UtilBD con el nombre de esClienteGenerico.
-//    private boolean esClienteContado(int facnume, int facnd) throws SQLException {
-//        boolean contado = false;
-//        String sqlSent
-//                = "Select "
-//                + "	inclient.cligenerico  "
-//                + "from faencabe  "
-//                + "Inner join inclient on faencabe.clicode = inclient.clicode "
-//                + "where faencabe.facnume = ?  "
-//                + "and faencabe.facnd = ?";
-//
-//        try (PreparedStatement ps = conn.prepareStatement(sqlSent,
-//                ResultSet.TYPE_SCROLL_SENSITIVE,
-//                ResultSet.CONCUR_READ_ONLY)) {
-//            ps.setInt(1, facnume);
-//            ps.setInt(2, facnd);
-//            ResultSet rs = CMD.select(ps);
-//            if (rs != null && rs.first()) {
-//                int valor = rs.getInt(1);
-//                contado = (valor > 0);
-//            } // end if
-//            ps.close();
-//        } // end try
-//
-//        return contado;
-//    } // end clienteContado
     private boolean proveedorContado(int facnume, int facnd) throws SQLException {
         boolean contado = false;
         String sqlSent
@@ -2007,7 +1972,7 @@ public class FacturaXML extends javax.swing.JFrame {
             resumen.setTotalExento(0.00);
             resumen.setTotalMercExonerada(0.00);
             resumen.setTotalExonerado(0.00);
-            resumen.setTotalIVADevuelto(0.00);
+            resumen.setTotalIVADevuelto(null); // Con esto se elimina el campo a la hora de generar el xml
             resumen.setTotalOtrosCargos(0.00);
 
             resumen.setTotalMercanciasGravadas(detalle.getTotalMercanciasGravadas());
@@ -2018,7 +1983,7 @@ public class FacturaXML extends javax.swing.JFrame {
             resumen.setTotalDescuentos(detalle.getTotalDescuentos());
             resumen.setTotalVentaNeta(detalle.getTotalVentaNeta() - detalle.getTotalDescuentos());
             resumen.setTotalImpuesto(detalle.getTotalImpuestos());
-            resumen.setTotalComprobante(detalle.getTotalComprobante() + resumen.getTotalOtrosCargos() - resumen.getTotalIVADevuelto());
+            resumen.setTotalComprobante(detalle.getTotalComprobante() +  resumen.getTotalOtrosCargos());
             fac.setResumen(resumen);
 
             /* Con el cambio para Junio 2019 se eliminan estos tres campos

@@ -3673,7 +3673,7 @@ CONEXION.getConnection(), // Conexión
                 return;
             } // end if
         } catch (Exception ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
@@ -3704,55 +3704,6 @@ CONEXION.getConnection(), // Conexión
     }//GEN-LAST:event_mnuRefNCActionPerformed
 
     private void mnuConsXMLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsXMLActionPerformed
-        //        String sqlSent
-        //                = "Select     "
-        //                + "	a.facnume,  "
-        //                + "	a.facnd,    "
-        //                + "	a.xmlFile,  "
-        //                + "	a.estado,   "
-        //                + "	a.descrip,  "
-        //                + "	a.correo,   "
-        //                + "	a.fecha,    "
-        //                + "	CASE        "
-        //                + "		When a.facnd = 0 then 'FAC'    "
-        //                + "		When a.facnd > 0 then 'NCR'    "
-        //                + "		When a.facnd < 0 then 'NDB'    "
-        //                + "		Else 'N/A'    "
-        //                + "	END as tipo,  "
-        //                + "	If (c.clidesc is null, concat('* ', e.prodesc), c.clidesc) as clidesc,  "
-        //                + "	a.referencia,  "
-        //                + "	a.xmlEnviado,  "
-        //                + "	a.emailDestino, "
-        //                + "	a.fechaEnviado, "
-        //                + "     a.tipoxml "
-        //                + "from faestadoDocElect a  "
-        //                + "Left JOIN faencabe b on  "
-        //                + "	a.facnume = b.facnume and a.facnd = b.facnd  "
-        //                + "Left join inclient c ON  "
-        //                + "	b.clicode = c.clicode  "
-        //                + "Left join cxpfacturas d on  "
-        //                + "	a.facnume = d.factura and d.tipo = 'FAC' "
-        //                + "Left join inproved e ON "
-        //                + "	d.procode = e.procode "
-        //                + "order by fecha desc";
-        //
-        //        ResultSet rs;
-        //        try {
-        //            PreparedStatement ps = CONEXION.getConnection().prepareStatement(sqlSent,
-        //                    ResultSet.TYPE_SCROLL_SENSITIVE,
-        //                    ResultSet.CONCUR_READ_ONLY);
-        //            rs = CMD.select(ps);
-        //            if (rs == null || !rs.first()) {
-        //                ps.close();
-        //                return;
-        //            } // end if
-        //        } catch (SQLException ex) {
-        //            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-        //            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
-        //            return;
-        //        }
-        //
-        //        DetalleNotificacionXml.main(rs);
         DetalleNotificacionXml dnx = new DetalleNotificacionXml(new javax.swing.JFrame(), true,CONEXION.getConnection());
         dnx.setVisible(true);
     }//GEN-LAST:event_mnuConsXMLActionPerformed

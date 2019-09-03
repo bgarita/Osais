@@ -1,0 +1,13 @@
+Inicia proceso: 26-08-2019 10:45:12
+26-08-2019 10:45:12: Validaci¢n de par metros recibidos.
+Argumentos recibidos
+Argumento 0 = 62.xml
+Argumento 1 = 62
+Argumento 2 = 1
+Argumento 3 = NDB
+Inicia proceso: 26-08-2019 10:45:12
+26-08-2019 10:45:12: Validaci¢n de par metros recibidos.
+Factura recibida: 62
+26-08-2019 10:45:12: Enviando archivo [xmls\62.xml]
+26-08-2019 10:45:12: El estado del env¡o es: 1 y la referencia es: 261608
+Finaliza proceso: 26-08-2019 10:45:12

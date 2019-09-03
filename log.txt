@@ -551,3 +551,33 @@ accesoDatos.DataBaseConnection--> Could not create connection to database server
 Mon Aug 19 22:38:13 CST 2019
 interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
 Vaya al menú Registro y elija Tipo de cambio.
+Sun Aug 25 16:08:33 CST 2019
+Usuario: null
+interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.
+Mon Aug 26 09:58:16 CST 2019
+Usuario: null
+interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.
+Mon Aug 26 10:16:53 CST 2019
+Usuario: null
+accesoDatos.DataBaseConnection--> Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+Mon Aug 26 10:16:59 CST 2019
+Usuario: null
+accesoDatos.DataBaseConnection--> Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+Mon Aug 26 10:33:04 CST 2019
+Usuario: bgarita
+interfase.otros.FacturaXML--> [Emisor] Factura (Compra) no 20062031 encontrada.
+Mon Aug 26 10:41:45 CST 2019
+Usuario: bgarita
+interfase.transacciones.RegistroNDCXC--> For input string: ""
+Tue Sep 03 08:44:34 CST 2019
+Usuario: null
+interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.
+Tue Sep 03 10:53:38 CST 2019
+Usuario: bgarita
+interfase.transacciones.RegistroEntradas--> No operations allowed after connection closed.
+Tue Sep 03 11:47:58 CST 2019
+Usuario: bgarita
+interfase.transacciones.RegistroEntradas--> No operations allowed after connection closed.

@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "FacturaElectronicaCompra")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(propOrder = 
-        {"codigoActividad", "clave", "numeroConsecutivo","fechaEmision","emisor",
+        {"clave", "codigoActividad", "numeroConsecutivo","fechaEmision","emisor",
             "receptor","condicionVenta","plazoCredito","medioPago","detalle",
             "resumen","nota","normativa","otros"})
 public class FacturaElectronicaCompra {
@@ -31,11 +31,11 @@ public class FacturaElectronicaCompra {
     @XmlAttribute(name = "xmlns:xs")
     private String atributo4;
     
-    @XmlElement(name = "CodigoActividad")
-    private String codigoActividad;
-    
     @XmlElement(name = "Clave")
     private String clave;
+    
+    @XmlElement(name = "CodigoActividad")
+    private String codigoActividad;
     
     @XmlElement(name = "NumeroConsecutivo")
     private String numeroConsecutivo;
@@ -110,15 +110,7 @@ public class FacturaElectronicaCompra {
     public void setAtributo4(String atributo4) {
         this.atributo4 = atributo4;
     }
-    
-    public void setCodigoActividad(String codigoActividad){
-        this.codigoActividad = codigoActividad;
-    }
-    
-    public String getCodigoActividad(){
-        return this.codigoActividad;
-    }
-    
+        
     public String getClave() {
         return clave;
     }
@@ -127,6 +119,14 @@ public class FacturaElectronicaCompra {
         this.clave = clave;
     }
 
+    public void setCodigoActividad(String codigoActividad){
+        this.codigoActividad = codigoActividad;
+    }
+    
+    public String getCodigoActividad(){
+        return this.codigoActividad;
+    }
+    
     public String getNumeroConsecutivo() {
         return numeroConsecutivo;
     }

@@ -1,0 +1,13 @@
+Inicia proceso: 03-09-2019 08:49:21
+03-09-2019 08:49:21: Validaci¢n de par metros recibidos.
+Argumentos recibidos
+Argumento 0 = -504.xml
+Argumento 1 = -504
+Argumento 2 = 1
+Argumento 3 = NCR
+Inicia proceso: 03-09-2019 08:49:21
+03-09-2019 08:49:21: Validaci¢n de par metros recibidos.
+Factura recibida: -504
+03-09-2019 08:49:21: Enviando archivo [xmls\-504.xml]
+03-09-2019 08:49:21: El estado del env¡o es: 1 y la referencia es: 267729
+Finaliza proceso: 03-09-2019 08:49:21

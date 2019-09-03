@@ -592,11 +592,17 @@
 			</textField>
 			<staticText>
 				<reportElement x="1" y="232" width="180" height="12" uuid="5fff3b59-b589-491c-a866-432bf06da8b7"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
 				<text><![CDATA[Autorizada mediante resolución]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="1" y="244" width="180" height="12" uuid="2f53e862-a63e-40a8-9927-ccf2b24dadbd"/>
-				<text><![CDATA[DGT-R-2016 del 07/10/2016]]></text>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[DGT-R-033-2019 del 20/06/2019]]></text>
 			</staticText>
 		</band>
 	</summary>

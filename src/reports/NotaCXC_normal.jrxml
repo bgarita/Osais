@@ -2,12 +2,12 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="NotaCXC" pageWidth="612" pageHeight="792" columnWidth="605" leftMargin="5" rightMargin="2" topMargin="6" bottomMargin="6" uuid="8a6871c2-9858-4e1b-b535-91cec5e8fa2b">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="70"/>
 	<parameter name="pNotanume" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[new Integer(1)]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[Call ImprimirNotaCXC($P!{pNotanume}); ]]>
+		<![CDATA[Call ImprimirNotaCXC($P!{pNotanume});]]>
 	</queryString>
 	<field name="empresa" class="java.lang.String"/>
 	<field name="telefono" class="java.lang.String"/>
@@ -263,11 +263,17 @@
 			</line>
 			<staticText>
 				<reportElement x="10" y="47" width="180" height="12" uuid="486a8e35-98c1-40c6-80a8-79f2e9f9ea13"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
 				<text><![CDATA[Autorizada mediante resolución]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="10" y="59" width="180" height="12" uuid="da11446a-cbea-44c4-b49c-b81bf25d8c2d"/>
-				<text><![CDATA[DGT-R-2016 del 07/10/2016]]></text>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[DGT-R-033-2019 del 20/06/2019]]></text>
 			</staticText>
 			<textField pattern="#,##0.00;-#,##0.00">
 				<reportElement x="490" y="59" width="88" height="13" uuid="824d2683-92d5-47b5-82b1-bd95da2933f8"/>

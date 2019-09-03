@@ -1,0 +1,12 @@
+Estado: 5 RECHAZADO
+Respuesta_ext: Este comprobante fue aceptado en el ambiente de pruebas, por lo cual no tiene validez para fines tributarios
+
+El comprobante electrónico tiene los siguientes errores: 
+
+[
+codigo, mensaje, fila, columna
+-1, "cvc-minInclusive-valid: Value '00' is not facet-valid with respect to minInclusive '1' for type '#AnonType_BarrioUbicacionType'.", 1, 723
+
+]
+Numero_consecutivo: 00100001080000000010
+claveHacienda: 50603091900030288056900100001080000000010149209657

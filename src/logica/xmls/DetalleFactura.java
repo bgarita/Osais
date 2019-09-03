@@ -422,15 +422,18 @@ public class DetalleFactura {
             //lineaFac.setOtrosC(oc);
 
             lineaFac.setSubTotal(rs.getDouble("subtotal"));
-            Impuesto im = new Impuesto();
-            im.setCodigo(rs.getString("codImpuesto"));
-            im.setTarifa(rs.getFloat("facpive"));
-            im.setMonto(rs.getDouble("facimve"));
-            im.setFactorIVA(rs.getFloat("FactorIVA"));          // Julio 2019
-            im.setCodigoTarifa(rs.getString("codigoTarifa"));   // Julio 2019
-            //im.setMontoExportacion(0.00);                       // Julio 2019
-            lineaFac.setImpuesto(im);
-
+            
+            // Si hay impuesto lo agrego
+            if (rs.getDouble("facimve") > 0) {
+                Impuesto im = new Impuesto();
+                im.setCodigo(rs.getString("codImpuesto"));
+                im.setTarifa(rs.getFloat("facpive"));
+                im.setMonto(rs.getDouble("facimve"));
+                im.setFactorIVA(rs.getFloat("FactorIVA"));          // Julio 2019
+                im.setCodigoTarifa(rs.getString("codigoTarifa"));   // Julio 2019
+                lineaFac.setImpuesto(im);
+            } // end if
+            
             lineaFac.setMontoTotalLinea(rs.getDouble("MontoTotalLinea"));
 
             this.linea.add(lineaFac);

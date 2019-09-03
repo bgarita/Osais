@@ -1,0 +1,14 @@
+Estado: 5 RECHAZADO
+Respuesta_ext: Este comprobante fue aceptado en el ambiente de pruebas, por lo cual no tiene validez para fines tributarios
+
+El comprobante electrónico tiene los siguientes errores: 
+
+[
+codigo, mensaje, fila, columna
+-77, "El correo electrónico del emisor no posee la estructura establecida para el mismo", 0, 0
+-25, "El nodo denominado 'Otras Señas del emisor' es un campo obligatorio por lo cual debe de ingresar la información solicitada con el formato establecido", 0, 0
+-111, "El monto total de mercancias gravadas no coincide con la suma los mercancias que estan gravados (18480.000).", 0, 0
+
+]
+Numero_consecutivo: 00100001080000000012
+claveHacienda: 50603091900030288056900100001080000000012103521239
