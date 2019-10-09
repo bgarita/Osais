@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="vtasxclienteDetalle" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="772" leftMargin="18" rightMargin="2" topMargin="6" bottomMargin="6">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="vtasxclienteDetalle" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="772" leftMargin="18" rightMargin="2" topMargin="6" bottomMargin="6" uuid="2479a4c8-3fdc-48cb-9118-0677b6f304ee">
 	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="207"/>
+	<property name="ireport.x" value="164"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="pQuery" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["Call Rep_VentasxClientDetalle('2010-01-01','2010-12-31 23:59:59',2,0,'V')"]]></defaultValueExpression>
@@ -54,26 +54,25 @@
 	<pageHeader>
 		<band height="63" splitType="Stretch">
 			<textField>
-				<reportElement x="90" y="0" width="592" height="20" forecolor="#0033CC"/>
+				<reportElement x="90" y="0" width="592" height="20" forecolor="#0033CC" uuid="2d3e32c3-0646-43f7-b7d3-799152b998ce"/>
 				<textElement textAlignment="Center">
 					<font fontName="Tahoma" size="16" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Empresa}.trim()]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy h.mm a">
-				<reportElement x="0" y="20" width="100" height="20"/>
-				<textElement/>
+				<reportElement x="0" y="20" width="100" height="20" uuid="bd29410b-c1f3-4ee4-a9eb-4b16ebdce531"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="279" y="20" width="215" height="20"/>
+				<reportElement x="279" y="20" width="215" height="20" uuid="0b8cf0b4-98f8-4c20-a00d-0213d073ba7c"/>
 				<textElement textAlignment="Center">
 					<font size="14"/>
 				</textElement>
 				<text><![CDATA[Detalle de ventas por cliente]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="653" y="20" width="80" height="20"/>
+				<reportElement x="653" y="20" width="80" height="20" uuid="542f0665-1187-43b0-8efc-03d12d1a41ac"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Pág.: "+$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
@@ -82,70 +81,70 @@
 	<columnHeader>
 		<band height="26" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="11" width="191" height="15"/>
+				<reportElement x="0" y="11" width="191" height="15" uuid="79fd2640-47d5-4471-a97c-cb22ac844f0b"/>
 				<textElement>
 					<font fontName="Tahoma" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Cliente]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="233" y="11" width="50" height="15"/>
+				<reportElement x="233" y="11" width="50" height="15" uuid="d7d9fd24-89ff-430f-9820-49f354f981cc"/>
 				<textElement textAlignment="Right">
 					<font fontName="Tahoma" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Doc]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="375" y="11" width="56" height="15"/>
+				<reportElement x="375" y="11" width="56" height="15" uuid="f61f257d-be19-4758-bca7-817cb1ee9f0b"/>
 				<textElement textAlignment="Right">
 					<font fontName="Tahoma" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Subtotal]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="444" y="11" width="56" height="15"/>
+				<reportElement x="444" y="11" width="56" height="15" uuid="53b356ff-ff74-469a-8c21-7979c078a4a5"/>
 				<textElement textAlignment="Right">
 					<font fontName="Tahoma" size="11" isBold="true"/>
 				</textElement>
-				<text><![CDATA[I.V.]]></text>
+				<text><![CDATA[IVA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="510" y="11" width="59" height="15"/>
+				<reportElement x="510" y="11" width="59" height="15" uuid="a9347405-b211-4684-9151-d2269abff8df"/>
 				<textElement textAlignment="Right">
 					<font fontName="Tahoma" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Descuento]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="652" y="11" width="56" height="15"/>
+				<reportElement x="652" y="11" width="56" height="15" uuid="d65834bb-2d8f-4e3a-94cb-08b0954097ba"/>
 				<textElement textAlignment="Right">
 					<font fontName="Tahoma" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Venta]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="192" y="11" width="39" height="15"/>
+				<reportElement x="192" y="11" width="39" height="15" uuid="fea5ceef-17ff-4aa5-9a67-fc29efa58afd"/>
 				<textElement textAlignment="Right">
 					<font fontName="Tahoma" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Código]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="285" y="11" width="24" height="15"/>
+				<reportElement x="285" y="11" width="24" height="15" uuid="a21f8225-4e7c-4081-8de5-a7b72189e74c"/>
 				<textElement textAlignment="Center">
 					<font fontName="Tahoma" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Tipo]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="582" y="11" width="56" height="15"/>
+				<reportElement x="582" y="11" width="56" height="15" uuid="548d802a-d836-4dfd-bb79-ca266021d037"/>
 				<textElement textAlignment="Right">
 					<font fontName="Tahoma" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Express]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="309" y="11" width="56" height="15"/>
+				<reportElement x="309" y="11" width="56" height="15" uuid="313be97f-71d6-4efa-85aa-5be4e6d635dd"/>
 				<textElement textAlignment="Center">
 					<font fontName="Tahoma" size="11" isBold="true"/>
 				</textElement>
@@ -156,70 +155,70 @@
 	<detail>
 		<band height="13" splitType="Stretch">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement isPrintRepeatedValues="false" x="0" y="0" width="191" height="13"/>
+				<reportElement isPrintRepeatedValues="false" x="0" y="0" width="191" height="13" uuid="8c10edb3-75b7-4d62-bbb7-a27c589f1a87"/>
 				<textElement>
 					<font fontName="Times New Roman" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{clidesc}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="###0" isBlankWhenNull="true">
-				<reportElement isPrintRepeatedValues="false" x="233" y="0" width="50" height="13"/>
+				<reportElement isPrintRepeatedValues="false" x="233" y="0" width="50" height="13" uuid="c6973ad6-c0c6-4caa-ad24-7831a8d055b4"/>
 				<textElement textAlignment="Right">
 					<font fontName="Times New Roman"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{facnume}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-				<reportElement x="375" y="0" width="56" height="13"/>
+				<reportElement x="375" y="0" width="56" height="13" uuid="eb9fb5f6-2385-4e52-9aea-2e7ac3261daa"/>
 				<textElement textAlignment="Right">
 					<font fontName="Times New Roman" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{SubTotal}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-				<reportElement x="444" y="0" width="56" height="13"/>
+				<reportElement x="444" y="0" width="56" height="13" uuid="14b73572-a05b-498b-9bdf-2dd89579994b"/>
 				<textElement textAlignment="Right">
 					<font fontName="Times New Roman" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{facimve}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-				<reportElement x="513" y="0" width="56" height="13"/>
+				<reportElement x="513" y="0" width="56" height="13" uuid="31e25d7b-54dc-41a5-ab63-f5a14e2689e0"/>
 				<textElement textAlignment="Right">
 					<font fontName="Times New Roman" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{facdesc}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-				<reportElement x="652" y="0" width="56" height="13"/>
+				<reportElement x="652" y="0" width="56" height="13" uuid="84a9c69e-76c0-47be-a763-e56c52298feb"/>
 				<textElement textAlignment="Right">
 					<font fontName="Times New Roman" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{venta}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="###0" isBlankWhenNull="true">
-				<reportElement isPrintRepeatedValues="false" x="192" y="0" width="39" height="13"/>
+				<reportElement isPrintRepeatedValues="false" x="192" y="0" width="39" height="13" uuid="2f982e7e-838a-4676-858c-a891c2803fa7"/>
 				<textElement textAlignment="Right">
 					<font fontName="Times New Roman"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{clicode}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement isPrintRepeatedValues="false" x="285" y="0" width="24" height="13"/>
+				<reportElement isPrintRepeatedValues="false" x="285" y="0" width="24" height="13" uuid="948ac5cf-6acb-4697-8da9-b9e2d6ec1698"/>
 				<textElement textAlignment="Center">
 					<font fontName="Times New Roman"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Tipo}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-				<reportElement x="582" y="0" width="56" height="13"/>
+				<reportElement x="582" y="0" width="56" height="13" uuid="f8cd9bd6-4a98-4850-acc7-e388a17eeedd"/>
 				<textElement textAlignment="Right">
 					<font fontName="Times New Roman" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{facmonexp}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement isPrintRepeatedValues="false" x="309" y="0" width="56" height="13" isPrintInFirstWholeBand="true"/>
+				<reportElement isPrintRepeatedValues="false" x="309" y="0" width="56" height="13" isPrintInFirstWholeBand="true" uuid="807ff3df-3e61-4574-982a-2499d6d18835"/>
 				<textElement textAlignment="Center">
 					<font fontName="Times New Roman" size="10"/>
 				</textElement>
@@ -233,7 +232,7 @@
 	<pageFooter>
 		<band height="38" splitType="Stretch">
 			<textField isStretchWithOverflow="true">
-				<reportElement stretchType="RelativeToBandHeight" x="2" y="11" width="731" height="13" isRemoveLineWhenBlank="true"/>
+				<reportElement stretchType="RelativeToBandHeight" x="2" y="11" width="731" height="13" isRemoveLineWhenBlank="true" uuid="d34d0b0c-f158-4cba-b5fe-56ffd90502da"/>
 				<textElement>
 					<font fontName="Times New Roman"/>
 				</textElement>
@@ -244,35 +243,35 @@
 	<summary>
 		<band height="69" splitType="Stretch">
 			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-				<reportElement x="362" y="11" width="69" height="13" forecolor="#0000FF"/>
+				<reportElement x="362" y="11" width="69" height="13" forecolor="#0000FF" uuid="1d0f6c4f-be18-483e-8bf0-77bd65769166"/>
 				<textElement textAlignment="Right">
 					<font fontName="Times New Roman" size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{vSubtotal}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-				<reportElement x="431" y="11" width="69" height="13" forecolor="#0000FF"/>
+				<reportElement x="431" y="11" width="69" height="13" forecolor="#0000FF" uuid="e54266c0-b182-4b68-84a0-6e277148cb89"/>
 				<textElement textAlignment="Right">
 					<font fontName="Times New Roman" size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{vFacimve}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-				<reportElement x="500" y="11" width="69" height="13" forecolor="#0000FF"/>
+				<reportElement x="500" y="11" width="69" height="13" forecolor="#0000FF" uuid="49734242-f062-43b6-bcc9-a1258ffa88f8"/>
 				<textElement textAlignment="Right">
 					<font fontName="Times New Roman" size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{vFacdesc}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-				<reportElement x="639" y="11" width="69" height="13" forecolor="#0000FF"/>
+				<reportElement x="639" y="11" width="69" height="13" forecolor="#0000FF" uuid="3cde83f5-c5c7-4602-9a54-adc77f8029ef"/>
 				<textElement textAlignment="Right">
 					<font fontName="Times New Roman" size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{vVenta}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-				<reportElement x="569" y="11" width="69" height="13" forecolor="#0000FF"/>
+				<reportElement x="569" y="11" width="69" height="13" forecolor="#0000FF" uuid="b1455bd4-1a22-4879-a954-eaf85afb603b"/>
 				<textElement textAlignment="Right">
 					<font fontName="Times New Roman" size="10" isBold="true"/>
 				</textElement>

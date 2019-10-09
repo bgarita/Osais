@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MovCXP" pageWidth="612" pageHeight="792" columnWidth="598" leftMargin="12" rightMargin="2" topMargin="6" bottomMargin="6" uuid="706756e6-c281-4286-91a2-90da6fb9ac1a">
 	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="228"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="pQuery" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["Select            " +
@@ -27,7 +27,7 @@
 		<defaultValueExpression><![CDATA["Aquí se mostrarán los rangos del reporte"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[$P!{pQuery} ]]>
+		<![CDATA[$P!{pQuery}]]>
 	</queryString>
 	<field name="Empresa" class="java.lang.String">
 		<fieldDescription><![CDATA[Nombre de la empresa]]></fieldDescription>
@@ -161,7 +161,7 @@
 				<textElement textAlignment="Right">
 					<font fontName="Tahoma" size="11" isBold="true"/>
 				</textElement>
-				<text><![CDATA[I.V.]]></text>
+				<text><![CDATA[IVA]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="532" y="11" width="60" height="15" uuid="98082521-bc35-4ad2-bf52-1b769b1fc0cc"/>

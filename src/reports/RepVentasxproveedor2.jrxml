@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="vtasxproveedor" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="772" leftMargin="18" rightMargin="2" topMargin="6" bottomMargin="6" uuid="c68d1af4-0166-472f-ad53-4a1e01c532fe">
 	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="457"/>
+	<property name="ireport.x" value="164"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="pQuery" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["Call Rep_Ventasxproveedor(null,null,null,null,2)"]]></defaultValueExpression>
@@ -109,7 +109,7 @@
 				<textElement textAlignment="Right">
 					<font fontName="Tahoma" size="11" isBold="true"/>
 				</textElement>
-				<text><![CDATA[I.V.]]></text>
+				<text><![CDATA[IVA]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="557" y="11" width="69" height="15" uuid="37fd421d-6417-4dbc-ac83-372981b81a43"/>

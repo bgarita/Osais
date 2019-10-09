@@ -138,7 +138,7 @@ public class UpdateVersion {
         sqlSent
                 = "SELECT * FROM programa "
                 + "WHERE programa = ?";
-        HashMap<String, String> tareas = new HashMap<String, String>();
+        HashMap<String, String> tareas = new HashMap<>();
         tareas.put("ReferenciaNotaCXC", "Referenciar notas de crédito.");
         tareas.put("ConsultaMovCierre", "Movimientos auxiliares");
 

@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DocumentosInv" pageWidth="612" pageHeight="792" columnWidth="592" leftMargin="18" rightMargin="2" topMargin="6" bottomMargin="6" uuid="353571b5-b666-43e5-9d99-2a9b8dbafaac">
 	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="216"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="115"/>
 	<parameter name="pQuery" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["Call Rep_DocInv('20','S',8)"]]></defaultValueExpression>
 	</parameter>
@@ -201,7 +201,7 @@
 				<textElement textAlignment="Right">
 					<font fontName="Tahoma" size="11" isBold="true"/>
 				</textElement>
-				<text><![CDATA[IV]]></text>
+				<text><![CDATA[IVA]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="384" y="11" width="47" height="15" uuid="f46b69f4-f665-4824-8a41-05631f507ed4"/>
@@ -320,7 +320,7 @@
 				<textElement textAlignment="Right">
 					<font fontName="Tahoma" size="11" isBold="true"/>
 				</textElement>
-				<text><![CDATA[IV]]></text>
+				<text><![CDATA[IVA]]></text>
 			</staticText>
 			<textField pattern="#,##0.00;#,##0.00-">
 				<reportElement x="474" y="43" width="84" height="13" forecolor="#0033CC" uuid="f1a2f534-d267-4297-b022-3ebf801c6a44"/>

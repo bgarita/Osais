@@ -127,7 +127,7 @@
 				<textElement textAlignment="Right">
 					<font fontName="Tahoma" size="11" isBold="true"/>
 				</textElement>
-				<text><![CDATA[I.V.]]></text>
+				<text><![CDATA[IVA]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="557" y="11" width="69" height="15" uuid="37fd421d-6417-4dbc-ac83-372981b81a43"/>
