@@ -8,10 +8,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
+import logica.utilitarios.Ut;
 
 /**
  *
  * @author bosco
+ * Bosco modificado 25/01/2020. Todos los montos de punto flotante son devueltos
+ * con un redondeo dinámico a 5 posiciones decimales.
  */
 public class DetalleNotaCredito {
 
@@ -59,7 +62,7 @@ public class DetalleNotaCredito {
     }
 
     public double getTotalServiciosGravados() {
-        return totalServiciosGravados;
+        return Ut.redondear(totalServiciosGravados, 5, 3);
     }
 
     public double getTotalServiciosExentos() {
@@ -67,39 +70,39 @@ public class DetalleNotaCredito {
     }
 
     public double getTotalMercanciasGravadas() {
-        return totalMercanciasGravadas;
+        return Ut.redondear(totalMercanciasGravadas, 5, 3);
     }
 
     public double getTotalMercanciasExentas() {
-        return totalMercanciasExentas;
+        return Ut.redondear(totalMercanciasExentas, 5, 3);
     }
 
     public double getTotalGravado() {
-        return totalGravado;
+        return Ut.redondear(totalGravado, 5, 3);
     }
 
     public double getTotalExcento() {
-        return totalExcento;
+        return Ut.redondear(totalExcento, 5, 3);
     }
 
     public double getTotalVenta() {
-        return totalVenta;
+        return Ut.redondear(totalVenta, 5, 3);
     }
 
     public double getTotalDescuentos() {
-        return totalDescuentos;
+        return Ut.redondear(totalDescuentos, 5, 3);
     }
 
     public double getTotalVentaNeta() {
-        return totalVentaNeta;
+        return Ut.redondear(totalVentaNeta, 5, 3);
     }
 
     public double getTotalImpuestos() {
-        return totalImpuestos;
+        return Ut.redondear(totalImpuestos, 5, 3);
     }
 
     public double getTotalComprobante() {
-        return totalComprobante;
+        return Ut.redondear(totalComprobante, 5, 3);
     }
 
     

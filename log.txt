@@ -1,1 +1,8 @@
 
+Tue Oct 22 20:51:35 CST 2019
+Usuario: null
+accesoDatos.DataBaseConnection--> Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+Tue Oct 22 20:51:49 CST 2019
+Usuario: null
+interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.
