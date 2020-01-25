@@ -1,0 +1,5 @@
+01. Se corrige un error en la consulta de documentos de inventario.
+02. Se corrige un erro con la clave de la factura electrónica
+03. Se modifica el proceso de impresión de notas de crédito para incluir
+	las notas de crédito sobre facturas de contado.
+04. Se agrega una pantalla para referenciar las notas de crédito sobre F.C.

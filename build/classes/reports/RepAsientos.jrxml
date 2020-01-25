@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RepAsientos" pageWidth="612" pageHeight="792" columnWidth="596" leftMargin="14" rightMargin="2" topMargin="6" bottomMargin="6" uuid="07a34ec9-66fb-4b10-9e39-bc611f2d494a">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="pQuery" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["Select  " +
+                "                a.no_comprob, " +
+                "                c.descrip as tipo, " +
+                "                date(b.fecha_comp) as fecha_comp, " +
+                "                b.no_refer, " +
+                "                b.modulo,  " +
+                "                a.descrip, " +
+                "                d.nom_cta, " +
+                "                Concat(d.mayor,'-',d.sub_cta,'-',d.sub_sub,'-',d.colect) as cuenta, " +
+                "                If(a.db_cr = 0, a.monto, 0) as debe,  " +
+                "                If(a.db_cr = 1, a.monto, 0) as haber " +
+                "        from coasientod a " +
+                "        Inner join coasientoe b on a.no_comprob = b.no_comprob " +
+                "                and a.tipo_comp = b.tipo_comp " +
+                "        Inner join cotipasient c on a.tipo_comp = c.tipo_comp " +
+                "        Inner join cocatalogo d on a.mayor = d.mayor and a.sub_cta = d.sub_cta " +
+                "                and a.sub_sub = d.sub_sub and a.colect = d.colect "]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pWhere" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pOrderBy" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="pFiltro" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["Aquí se mostrarán los rangos del reporte"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pEmpresa" class="java.lang.String"/>
+	<parameter name="pSaldoAnterior" class="java.lang.Double" isForPrompting="false">
+		<defaultValueExpression><![CDATA[0.00]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pUtilidad" class="java.lang.Double" isForPrompting="false"/>
+	<parameter name="pUtilidadMes" class="java.lang.Double" isForPrompting="false"/>
+	<parameter name="pUtilidadMesA" class="java.lang.Double" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[$P!{pQuery}]]>
+	</queryString>
+	<field name="no_comprob" class="java.lang.String">
+		<fieldDescription><![CDATA[Número de comprobante]]></fieldDescription>
+	</field>
+	<field name="tipo" class="java.lang.String"/>
+	<field name="fecha_comp" class="java.sql.Date">
+		<fieldDescription><![CDATA[Fecha del comprobante]]></fieldDescription>
+	</field>
+	<field name="no_refer" class="java.lang.Integer">
+		<fieldDescription><![CDATA[Número de referencia]]></fieldDescription>
+	</field>
+	<field name="modulo" class="java.lang.String">
+		<fieldDescription><![CDATA[Código del módulo que genera el movimiento (origen).]]></fieldDescription>
+	</field>
+	<field name="descrip" class="java.lang.String">
+		<fieldDescription><![CDATA[Descripción de esta línea]]></fieldDescription>
+	</field>
+	<field name="nom_cta" class="java.lang.String">
+		<fieldDescription><![CDATA[Nombre de la cuenta]]></fieldDescription>
+	</field>
+	<field name="cuenta" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="debe" class="java.math.BigDecimal"/>
+	<field name="haber" class="java.math.BigDecimal"/>
+	<variable name="vRegistros" class="java.lang.String" calculation="Count">
+		<variableExpression><![CDATA[$F{no_comprob}]]></variableExpression>
+	</variable>
+	<variable name="vDebe" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{debe}]]></variableExpression>
+	</variable>
+	<variable name="vHaber" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{haber}]]></variableExpression>
+	</variable>
+	<variable name="vSubDebe" class="java.math.BigDecimal" resetType="Group" resetGroup="asiento" calculation="Sum">
+		<variableExpression><![CDATA[$F{debe}]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="vSubHaber" class="java.math.BigDecimal" resetType="Group" resetGroup="asiento" calculation="Sum">
+		<variableExpression><![CDATA[$F{haber}]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<group name="asiento">
+		<groupExpression><![CDATA[$F{no_comprob} + $F{fecha_comp}]]></groupExpression>
+		<groupHeader>
+			<band height="13">
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement isPrintRepeatedValues="false" x="2" y="0" width="54" height="13" uuid="47ebacc7-9ae2-4442-9199-c8755a643c14"/>
+					<textElement>
+						<font fontName="Times New Roman" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{no_comprob}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="61" y="0" width="158" height="13" isRemoveLineWhenBlank="true" uuid="6a2d721c-2f69-4b88-8643-791d6cc36025"/>
+					<textElement>
+						<font fontName="Times New Roman" size="9" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tipo}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+					<reportElement isPrintRepeatedValues="false" x="219" y="0" width="50" height="13" forecolor="#FF00FA" uuid="24e68491-0405-4f26-b69b-e3e24f14296d"/>
+					<textElement textAlignment="Center">
+						<font fontName="Times New Roman" size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{fecha_comp}]]></textFieldExpression>
+				</textField>
+				<textField pattern="###0" isBlankWhenNull="true">
+					<reportElement x="270" y="0" width="58" height="13" uuid="77648742-b2a9-4dbc-9612-7746a53c077a"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{no_refer}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToBandHeight" x="332" y="0" width="245" height="13" isRemoveLineWhenBlank="true" forecolor="#002AFF" uuid="66259c89-7d90-471b-8c5b-af4cf080f9be"/>
+					<textElement>
+						<font fontName="Times New Roman" size="9" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{descrip}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="23">
+				<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+					<reportElement x="500" y="6" width="77" height="13" forecolor="#2E8B42" uuid="2617881b-c85a-4d3a-85cf-16b6efc77253"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{vSubHaber}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+					<reportElement x="417" y="6" width="77" height="13" forecolor="#2E8B42" uuid="f379392f-a2ad-412e-9810-92ea9cea5712"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{vSubDebe}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="7" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="67" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="592" height="20" forecolor="#0033CC" uuid="97b52f28-55f5-4fbc-a892-4f4e0c21874f"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pEmpresa}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy h.mm a">
+				<reportElement x="0" y="20" width="100" height="20" uuid="e27dc3e1-aa84-443d-85e4-e0d3bc898851"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="156" y="20" width="280" height="18" uuid="94819c73-0dc3-40cf-90f8-779037b1787d"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Sistema de contabilidad general]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="500" y="36" width="80" height="20" uuid="48748a03-d3f2-4004-86e2-697983c91b68"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Pág.: "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="173" y="38" width="246" height="18" uuid="446533ac-b5e7-44ab-ad8f-7afd8d39839a"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Reporte de movimientos]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="26" splitType="Stretch">
+			<staticText>
+				<reportElement x="58" y="11" width="42" height="15" uuid="61bc91db-4067-4b39-b9be-dc29b80a91a7"/>
+				<textElement>
+					<font fontName="Tahoma" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="11" width="50" height="15" uuid="cffda232-7dfc-4300-a853-00ab63e0a01c"/>
+				<textElement>
+					<font fontName="Tahoma" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Docum]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="219" y="11" width="50" height="15" uuid="e2c454a4-c127-4b13-8f55-4e8ffeb22cf6"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="438" y="11" width="56" height="15" uuid="33c6281b-fe1c-4efd-abfb-af94bf0b4de7"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Debe]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="524" y="11" width="53" height="15" uuid="3743db03-554d-40e7-81ec-0708bb7df7f0"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Haber]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="270" y="11" width="45" height="15" uuid="02fb620b-680e-406e-8b8e-aa367cc18f58"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Refer]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="173" y="11" width="40" height="15" uuid="df87df1e-68fd-4782-b2be-ec7381c4a690"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cuenta]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement x="429" y="0" width="65" height="13" uuid="d0c122e9-b194-4b04-b8a0-5b33a94c265b"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{debe}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement x="512" y="0" width="65" height="13" uuid="54222c2b-573b-412a-8505-c504976f8f71"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{haber}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="2" y="0" width="161" height="13" isRemoveLineWhenBlank="true" uuid="2c8df903-7298-419c-ab80-8b878657ea22"/>
+				<textElement>
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nom_cta}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="173" y="0" width="90" height="13" isRemoveLineWhenBlank="true" uuid="4624caf3-0287-4235-b2df-7aebe11081cf"/>
+				<textElement>
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cuenta}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="10" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="29" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="2" y="8" width="579" height="13" uuid="4b459863-513e-4857-80c4-0aecd3f1ca33"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pFiltro}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="35" splitType="Stretch">
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement x="414" y="12" width="80" height="13" forecolor="#0000FF" uuid="1388f8e0-3428-469f-a9f8-1a0943ec7618"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{vDebe}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement x="497" y="12" width="80" height="13" forecolor="#0000FF" uuid="9766e8bb-7d1c-4f25-946d-a4129e6a07d4"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{vHaber}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="315" y="11" width="90" height="15" forecolor="#0000FF" uuid="e806a504-5588-4103-abfe-df8c76cddab1"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total final]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>
