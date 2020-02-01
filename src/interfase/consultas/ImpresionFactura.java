@@ -641,10 +641,13 @@ public class ImpresionFactura extends java.awt.Dialog {
         // opción de exportar a PDF ya que de lo contrario la prueba de que
         // terminó el proceso será la impresión física del documento.
         if (chkExportToPDF.isSelected()) {
+            boolean onTop = this.isAlwaysOnTop();
+            this.setAlwaysOnTop(false);
             JOptionPane.showMessageDialog(null,
                     "Se procesaron " + documentos.size() + " documentos.",
                     "Mensaje",
                     JOptionPane.INFORMATION_MESSAGE);
+            this.setAlwaysOnTop(onTop);
         } // end if
     }//GEN-LAST:event_btnImprimirMouseClicked
 

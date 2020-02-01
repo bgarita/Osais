@@ -1,9 +1,9 @@
 #Parámetros para el envío de correos
-#Tue Jul 23 11:40:13 CST 2019
+#Sat Feb 01 09:23:38 CST 2020
 mail.smtp.starttls.enable=true
-mail.smtp.ssl.trust=smtp.gmail.com
 mail.smtp.port=587
 mail.smtp.user=osais3112@gmail.com
+mail.smtp.ssl.trust=smtp.gmail.com
 mail.smtp.auth=true
 mail.smtp.host=smtp.gmail.com
 mail.smtp.clave=Bendicion3112$

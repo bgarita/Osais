@@ -121,8 +121,10 @@ public class Menu extends javax.swing.JFrame {
     //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Ago 2019"; // Mejoras en facturación electrónica
     //public static final String VERSIONN = "4.1r0";
     //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Set 2019";
-    public static final String VERSIONN = "4.1r1";
-    private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Ene 2020"; // Redondeo dinámico a 5 decimales de los montos de NC electrónica
+//    public static final String VERSIONN = "4.1r1";
+//    private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Ene 2020"; // Redondeo dinámico a 5 decimales de los montos de NC electrónica
+    public static final String VERSIONN = "4.1r2";
+    private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Feb 2020"; // Gravado y exento en F.E.
     public static String USUARIO;
     private static String SERVIDOR;
     public static String BASEDATOS;
