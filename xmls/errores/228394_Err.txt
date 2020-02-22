@@ -1,1 +1,0 @@
-23-07-2019 --> La referencia 228394 no existe en base de datos (estado=99), aún así se hará la consulta al Ministerio de Hacienda.
