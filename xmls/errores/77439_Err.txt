@@ -1,1 +1,1 @@
-22-10-2019 --> Unable to connect to any of the specified MySQL hosts.
+01-02-2020 --> Object reference not set to an instance of an object.
