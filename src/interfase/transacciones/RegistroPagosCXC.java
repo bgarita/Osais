@@ -882,13 +882,13 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
                 // Pero el error podría estar también en la conversión a String.
                 // Actualización: (20/08/2011) Al cancelar una factura en dólares
                 // quedó un saldo de 0.004. Al aumentar dos dígitos en la máscara
-                // que se presenta en la función fDecimal() se solucionó.
+                // que se presenta en la función setDecimalFormat() se solucionó.
                 facsald = rsFac.getString("facsald");
-                facsald = Ut.fDecimal(facsald, "#,##0.0000");
+                facsald = Ut.setDecimalFormat(facsald, "#,##0.0000");
                 tblDetalle.setValueAt(facsald, row, 3);
                 // Fin Advertencia: Bosco 20/03/2011
 
-                tblDetalle.setValueAt(Ut.fDecimal(rsFac.getString("tipoca"),"#0.00"), row, 5);
+                tblDetalle.setValueAt(Ut.setDecimalFormat(rsFac.getString("tipoca"),"#0.00"), row, 5);
                 tblDetalle.setValueAt(rsFac.getString("TipoDoc"), row, 6);
                 row++;
             } // end while
@@ -1544,7 +1544,7 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
                 continuar = false;
             } // end if
 
-            txtAplicar.setText(Ut.fDecimal(aplicar.toString(), "#,##0.0000"));
+            txtAplicar.setText(Ut.setDecimalFormat(aplicar.toString(), "#,##0.0000"));
             txtAplicado.setText("0.0000");
             txtRemanente.setText(txtAplicar.getText());
             
@@ -1857,8 +1857,8 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
             // Fin Bosco modificado 25/08/2011.
 
             // Formateo los datos numéricos
-            txtClisald.setText(Ut.fDecimal(txtClisald.getText().trim(), "#,##0.0000"));
-            txtVencido.setText(Ut.fDecimal(txtVencido.getText().trim(), "#,##0.0000"));
+            txtClisald.setText(Ut.setDecimalFormat(txtClisald.getText().trim(), "#,##0.0000"));
+            txtVencido.setText(Ut.setDecimalFormat(txtVencido.getText().trim(), "#,##0.0000"));
 
             // Si el cliente no tiene saldo entonces no permito
             // que el usuario ingrese el pago.
@@ -1977,8 +1977,8 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
                 row++;
             } // end while
 
-            txtAplicado.setText(Ut.fDecimal(aplicado.toString(),"#,##0.0000"));
-            txtRemanente.setText(Ut.fDecimal(remanente.toString(),"#,##0.0000"));
+            txtAplicado.setText(Ut.setDecimalFormat(aplicado.toString(),"#,##0.0000"));
+            txtRemanente.setText(Ut.setDecimalFormat(remanente.toString(),"#,##0.0000"));
         } // end distribuir
         catch (Exception ex) {
             Logger.getLogger(RegistroPagosCXC.class.getName()).log(Level.SEVERE, null, ex);
@@ -2033,9 +2033,9 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
             aplicado = Ut.redondear(aplicado, 4, 3);
 
             txtAplicado.setText(
-                    Ut.fDecimal(aplicado.toString(),"#,##0.0000"));
+                    Ut.setDecimalFormat(aplicado.toString(),"#,##0.0000"));
             txtRemanente.setText(
-                    Ut.fDecimal(
+                    Ut.setDecimalFormat(
                     String.valueOf(aplicar - aplicado),"#,##0.0000"));
         } catch (Exception ex) {
             Logger.getLogger(RegistroPagosCXC.class.getName()).log(Level.SEVERE, null, ex);

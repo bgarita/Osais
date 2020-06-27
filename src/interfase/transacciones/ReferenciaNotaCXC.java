@@ -587,7 +587,7 @@ public class ReferenciaNotaCXC extends javax.swing.JFrame {
                 tblDetalle1.setValueAt(rsFacturas.getObject("fecha"), row, 1);
                 tblDetalle1.setValueAt(rsFacturas.getObject("Moneda"), row, 2);
                 facsald = rsFacturas.getString("facsald");
-                facsald = Ut.fDecimal(facsald, "#,##0.00");
+                facsald = Ut.setDecimalFormat(facsald, "#,##0.00");
                 tblDetalle1.setValueAt(facsald, row, 3);
                 tblDetalle1.setValueAt(rsFacturas.getFloat("tipoca"), row, 5);
                 row++;
@@ -1020,8 +1020,8 @@ public class ReferenciaNotaCXC extends javax.swing.JFrame {
             txtClidesc.setText(rsCliente.getString("clidesc"));
             txtClisald.setText(rsCliente.getString("facsald"));
             txtVencido.setText(rsCliente.getString("Vencido"));
-            txtClisald.setText(Ut.fDecimal(txtClisald.getText().trim(), "#,##0.00"));
-            txtVencido.setText(Ut.fDecimal(txtVencido.getText().trim(), "#,##0.00"));
+            txtClisald.setText(Ut.setDecimalFormat(txtClisald.getText().trim(), "#,##0.00"));
+            txtVencido.setText(Ut.setDecimalFormat(txtVencido.getText().trim(), "#,##0.00"));
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
@@ -1078,7 +1078,7 @@ public class ReferenciaNotaCXC extends javax.swing.JFrame {
                     tblNotasC.setValueAt(rsNotasC.getObject("clidesc"), row, 1);
                     tblNotasC.setValueAt(rsNotasC.getObject("fecha"), row, 2);
                     facsald = rsNotasC.getString("facsald");
-                    facsald = Ut.fDecimal(facsald, "#,##0.00");
+                    facsald = Ut.setDecimalFormat(facsald, "#,##0.00");
                     tblNotasC.setValueAt(facsald, row, 3);
                     tblNotasC.setValueAt(rsNotasC.getObject("moneda"), row, 4);
                     tblNotasC.setValueAt(rsNotasC.getObject("clicode"), row, 5);

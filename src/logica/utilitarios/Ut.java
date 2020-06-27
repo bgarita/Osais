@@ -34,6 +34,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Properties;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
@@ -56,12 +57,10 @@ public class Ut {
      * @return String número de puerto
      */
     public static String getConnectionPort(String url) {
-        String port = "";
         int pos = getPosicion(url, ":");
         String temp = url.substring(pos + 1);
         pos = getPosicion(temp, "/");
-        port = temp.substring(0, pos);
-        return port;
+        return temp.substring(0, pos);
     } // end getConnectionPort
 
     public final int DIA = 1;
@@ -70,29 +69,29 @@ public class Ut {
 
     // Constantes para el método getProperty
     // Variables de entorno.
-    public static final int USER_NAME = 1;
-    public static final int USER_DIR = 2;
-    public static final int USER_HOME = 3;
-    public static final int TMPDIR = 4;
-    public static final int OS_NAME = 5;
-    public static final int OS_VERSION = 6;
+    public static final int USER_NAME   = 1;
+    public static final int USER_DIR    = 2;
+    public static final int USER_HOME   = 3;
+    public static final int TMPDIR      = 4;
+    public static final int OS_NAME     = 5;
+    public static final int OS_VERSION  = 6;
     public static final int FILE_SEPARATOR = 7;
     public static final int PATH_SEPARATOR = 8;
     public static final int LINE_SEPARATOR = 9;
-    public static final int WINDIR = 10;        // Solo para windows
-    public static final int SYSTEM32 = 11;      // Solo para windows
+    public static final int WINDIR      = 10;      // Solo para windows
+    public static final int SYSTEM32    = 11;      // Solo para windows
     public static final int COMPUTERNAME = 12;
     public static final int PROCESSOR_IDENTIFIER = 13;
     public static final int JAVA_VERSION = 14;
 
     // Constantes para navegar en un Result Set
-    public static final int BEFORE_FIRST = 1;
-    public static final int FIRST = 2;
-    public static final int NEXT = 3;
-    public static final int PREVIOUS = 4;
-    public static final int LAST = 5;
-    public static final int AFTER_LAST = 6;
-    public static final int ABSOLUTE = 7;
+    public static final int BEFORE_FIRST    = 1;
+    public static final int FIRST           = 2;
+    public static final int NEXT            = 3;
+    public static final int PREVIOUS        = 4;
+    public static final int LAST            = 5;
+    public static final int AFTER_LAST      = 6;
+    public static final int ABSOLUTE        = 7;
 
     /**
      * @author: Bosco Garita Azofeifa Este método recibe un objeto de tipo
@@ -122,8 +121,9 @@ public class Ut {
         Number valor;
         NumberFormat nf = NumberFormat.getNumberInstance();
         try {
-            valor = nf.parse(valortexto.trim());
-        } catch (Exception ex) {
+            valortexto = valortexto == null? "0":valortexto.trim();
+            valor = nf.parse(valortexto);
+        } catch (ParseException ex) {
             valor = nf.parse("0");
         }
         return valor.toString();
@@ -139,7 +139,7 @@ public class Ut {
      * @return número formateado y sin espacios. (Redondea).
      * @throws java.text.ParseException
      */
-    public static String fDecimal(String numero, String formato) throws Exception {
+    public static String setDecimalFormat(String numero, String formato) throws Exception {
         if (numero == null) {
             return "";
         } // end if
@@ -157,7 +157,7 @@ public class Ut {
         Double Dnumero = Double.parseDouble(quitarFormato(numero.trim()));
         devolver = new java.text.DecimalFormat(formato).format(Dnumero);
         return devolver.trim();
-    } // end fDecimal
+    } // end setDecimalFormat
 
     /**
      * Este método formatea un string y lo devuelve con separador de miles.
@@ -167,7 +167,7 @@ public class Ut {
      * @return número formateado y sin espacios.
      * @throws java.text.ParseException
      */
-    public static String fDecimal(String numero, int decimales) throws Exception {
+    public static String setDecimalFormat(String numero, int decimales) throws Exception {
         String formato;
         if (numero == null) {
             return "";
@@ -184,7 +184,7 @@ public class Ut {
         Double Dnumero = Double.parseDouble(quitarFormato(numero.trim()));
         devolver = String.format(formato, Dnumero);
         return devolver.trim();
-    } // end fDecimal
+    } // end setDecimalFormat
 
     /**
      * Este método calcula la eda en años meses y días
@@ -689,20 +689,20 @@ public class Ut {
      */
     public static int getMonths(Date fecha1, Date fecha2) {
         int meses;
-        Calendar c1 = GregorianCalendar.getInstance();
-        Calendar c2 = GregorianCalendar.getInstance();
-        c1.setTime(fecha1);
-        c2.setTime(fecha2);
+        Calendar calA = GregorianCalendar.getInstance();
+        Calendar calB = GregorianCalendar.getInstance();
+        calA.setTime(fecha1);
+        calB.setTime(fecha2);
 
         String sFecha1, sFecha2;
         sFecha1
-                = c1.get(Calendar.YEAR) + "/"
-                + (c1.get(Calendar.MONTH) + 1) + "/"
-                + c1.get(Calendar.DAY_OF_MONTH);
+                = calA.get(Calendar.YEAR) + "/"
+                + (calA.get(Calendar.MONTH) + 1) + "/"
+                + calA.get(Calendar.DAY_OF_MONTH);
         sFecha2
-                = c2.get(Calendar.YEAR) + "/"
-                + (c2.get(Calendar.MONTH) + 1) + "/"
-                + c2.get(Calendar.DAY_OF_MONTH);
+                = calB.get(Calendar.YEAR) + "/"
+                + (calB.get(Calendar.MONTH) + 1) + "/"
+                + calB.get(Calendar.DAY_OF_MONTH);
         meses = getMonths(sFecha1, sFecha2);
         return meses;
     } // end getMonths
@@ -1126,8 +1126,7 @@ public class Ut {
 
             try {
                 valor = Integer.parseInt(celda);
-            } catch (Exception ex) {
-                valor = 0;
+            } catch (NumberFormatException ex) {
                 continue;
             } // end try-catch
 
@@ -2003,12 +2002,12 @@ public class Ut {
     } // end getAlias
 
     /**
-     * Este método revisa algunas características sobre inyección de código.
-     * Está diseñado para trabajar sobre MySQL únicamente pero responde a la
-     * mayoría de SQL stándar.
+     * Este método revisa algunas características sobre inyección de código. Está diseñado para trabajar sobre MySQL únicamente pero responde a la
+ mayoría de SQL stándar.
      *
      * @param sqlSent
      * @return true=Hay inyección, false=no hay
+     * @throws logica.utilitarios.SQLInjectionException
      */
     public static boolean isSQLInjection(String sqlSent) throws SQLInjectionException {
         boolean inyectado;
@@ -3153,5 +3152,23 @@ public class Ut {
         } // end if
         return props;
     } // end getMailConfig
+    
+    /**
+     * Retorna un nombre único ideal para nombres de archivo (type=1), nombres
+     * de transacción, nombres de sesión web (type=2).
+     * @param type int 1=Nombre único ideal para archivos, 2=Nombre único universal (128 bits)
+     * @return String unique name
+     */
+    public static String getUniqueName(int type){
+        String uniqueName;
+        if (type == 1){
+            String fecha = Ut.dtoc(new Date());
+            uniqueName = fecha.replaceAll("/", "-") + " " + Ut.getCurrentTime().replaceAll(":", " ");
+        } else {
+            uniqueName = UUID.randomUUID().toString();
+        }
+        
+        return uniqueName;
+    } // end uniqueName
 
 } // end utlitarios

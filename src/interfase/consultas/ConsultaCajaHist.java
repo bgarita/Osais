@@ -27,7 +27,8 @@ import java.util.GregorianCalendar;
 import logica.utilitarios.SQLInjectionException;
 import logica.STRcaja;
 import logica.utilitarios.Ut;
-import static logica.utilitarios.Ut.fDecimal;
+import static logica.utilitarios.Ut.setDecimalFormat;
+import static logica.utilitarios.Ut.setDecimalFormat;
 
 /**
  *
@@ -839,7 +840,7 @@ public class ConsultaCajaHist extends JFrame {
         } // end if
         
         try {
-            txtFisico.setText(Ut.fDecimal(txtFisico.getText().trim(), "#,##0.00"));
+            txtFisico.setText(Ut.setDecimalFormat(txtFisico.getText().trim(), "#,##0.00"));
         } catch (Exception ex) {
             Logger.getLogger(ConsultaCajaHist.class.getName()).log(Level.SEVERE, null, ex);
             new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
@@ -879,13 +880,13 @@ public class ConsultaCajaHist extends JFrame {
         try{
             this.txtDescripcion.setText(aCaja[index].getDescripcion());
             txtUser.setText(aCaja[index].getUser());
-            txtEfectivo.setText(fDecimal(aCaja[index].getEfectivo()+"", "#,##0.00"));
-            txtSaldoInicial.setText(Ut.fDecimal(aCaja[index].getSaldoinicial()+"", "#,##0.00"));
-            txtDepositos.setText(Ut.fDecimal(aCaja[index].getDepositos()+"", "#,##0.00"));
-            txtRetiros.setText(Ut.fDecimal(aCaja[index].getRetiros()+"", "#,##0.00"));
-            txtSaldoFinal.setText(Ut.fDecimal(aCaja[index].getSaldoactual()+"", "#,##0.00"));
-            txtFisico.setText(Ut.fDecimal(aCaja[index].getFisico()+"", "#,##0.00"));
-            txtDif.setText(Ut.fDecimal(
+            txtEfectivo.setText(setDecimalFormat(aCaja[index].getEfectivo()+"", "#,##0.00"));
+            txtSaldoInicial.setText(Ut.setDecimalFormat(aCaja[index].getSaldoinicial()+"", "#,##0.00"));
+            txtDepositos.setText(Ut.setDecimalFormat(aCaja[index].getDepositos()+"", "#,##0.00"));
+            txtRetiros.setText(Ut.setDecimalFormat(aCaja[index].getRetiros()+"", "#,##0.00"));
+            txtSaldoFinal.setText(Ut.setDecimalFormat(aCaja[index].getSaldoactual()+"", "#,##0.00"));
+            txtFisico.setText(Ut.setDecimalFormat(aCaja[index].getFisico()+"", "#,##0.00"));
+            txtDif.setText(Ut.setDecimalFormat(
                     (aCaja[index].getFisico() - aCaja[index].getSaldoactual()) + "", "#,##0.00"));
             loadRecord();
         } catch (Exception ex){
@@ -1421,7 +1422,7 @@ public class ConsultaCajaHist extends JFrame {
         fisico = Double.parseDouble(
                 Ut.quitarFormato(this.txtFisico.getText().trim()));
         dif = fisico - saldo;
-        this.txtDif.setText(Ut.fDecimal(dif+"", "#,##0.00"));
+        this.txtDif.setText(Ut.setDecimalFormat(dif+"", "#,##0.00"));
     } // end calcularDiferencia
     
     public void refresh(){
@@ -1486,7 +1487,7 @@ public class ConsultaCajaHist extends JFrame {
                 this.txt10.setText(rs.getString("m10"));
                 this.txt5.setText(rs.getString("m5"));
                 this.txaFormula.setText(rs.getString("formula"));
-                this.lblResultadoFormula.setText(Ut.fDecimal(rs.getString("total"), "#,##0.00"));
+                this.lblResultadoFormula.setText(Ut.setDecimalFormat(rs.getString("total"), "#,##0.00"));
             } // end while
             
             ps.close();
@@ -1562,7 +1563,7 @@ public class ConsultaCajaHist extends JFrame {
             resultado += Double.parseDouble(number);
         } // end for
         
-        this.lblResultadoFormula.setText(Ut.fDecimal(resultado + "", "#,##0.00"));
+        this.lblResultadoFormula.setText(Ut.setDecimalFormat(resultado + "", "#,##0.00"));
         
     } // end calcular
 } // end class

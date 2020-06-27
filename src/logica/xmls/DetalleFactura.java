@@ -401,7 +401,7 @@ public class DetalleFactura {
             d.setMontoDescuento(rs.getDouble("facdesc"));
             d.setNaturalezaDescuento(rs.getString("NatDescuento"));
 
-            lineaFac.setBaseImponible(0.0);
+            lineaFac.setBaseImponible(0.0); // Esto hay que revisarlo 15/03/2020.  La NC si lo establece.
 
             lineaFac.setMontoTotal(rs.getDouble("monto"));
 
@@ -449,30 +449,30 @@ public class DetalleFactura {
                 this.totalMercanciasExentas += esGravado ? 0 : rs.getDouble("MontoTotalLinea");
             } // end if-else
 
-            this.totalGravado += esGravado ? rs.getDouble("MontoTotalLinea") : 0;
-            this.totalExcento += esGravado ? 0 : rs.getDouble("MontoTotalLinea");
-            this.totalVenta += rs.getDouble("MontoTotalLinea");
-            this.totalDescuentos += rs.getDouble("facdesc");
-            this.totalImpuestos += rs.getDouble("facimve");
+            this.totalGravado       += esGravado ? rs.getDouble("MontoTotalLinea") : 0;
+            this.totalExcento       += esGravado ? 0 : rs.getDouble("MontoTotalLinea");
+            this.totalVenta         += rs.getDouble("MontoTotalLinea");
+            this.totalDescuentos    += rs.getDouble("facdesc");
+            this.totalImpuestos     += rs.getDouble("facimve");
         } // end while
 
         //this.totalVentaNeta = this.totalVenta - this.totalDescuentos;
         //this.totalComprobante = this.totalVentaNeta + this.totalImpuestos;
-        this.totalVentaNeta = this.totalVenta;
-        this.totalComprobante = this.totalVentaNeta;
+        this.totalVentaNeta     = this.totalVenta;
+        this.totalComprobante   = this.totalVentaNeta;
 
         // Redondear todos los montos para cumplir con el máximo de decimales
         // que exige Hacienda.
-        this.totalDescuentos = Ut.redondear(totalDescuentos, 5, 3);
-        this.totalComprobante = Ut.redondear(totalComprobante, 5, 3);
-        this.totalExcento = Ut.redondear(totalExcento, 5, 3);
-        this.totalGravado = Ut.redondear(totalGravado, 5, 3);
-        this.totalImpuestos = Ut.redondear(totalImpuestos, 5, 3);
-        this.totalMercanciasExentas = Ut.redondear(totalMercanciasExentas, 5, 3);
-        this.totalMercanciasGravadas = Ut.redondear(totalMercanciasGravadas, 5, 3);
-        this.totalServiciosExentos = Ut.redondear(totalServiciosExentos, 5, 3);
-        this.totalVenta = Ut.redondear(totalVenta, 5, 3);
-        this.totalVentaNeta = Ut.redondear(totalVentaNeta, 5, 3);
+        this.totalDescuentos    = Ut.redondear(totalDescuentos, 5, 3);
+        this.totalComprobante   = Ut.redondear(totalComprobante, 5, 3);
+        this.totalExcento       = Ut.redondear(totalExcento, 5, 3);
+        this.totalGravado       = Ut.redondear(totalGravado, 5, 3);
+        this.totalImpuestos     = Ut.redondear(totalImpuestos, 5, 3);
+        this.totalMercanciasExentas     = Ut.redondear(totalMercanciasExentas, 5, 3);
+        this.totalMercanciasGravadas    = Ut.redondear(totalMercanciasGravadas, 5, 3);
+        this.totalServiciosExentos      = Ut.redondear(totalServiciosExentos, 5, 3);
+        this.totalVenta         = Ut.redondear(totalVenta, 5, 3);
+        this.totalVentaNeta     = Ut.redondear(totalVentaNeta, 5, 3);
     } // end setData
 
 } // end class

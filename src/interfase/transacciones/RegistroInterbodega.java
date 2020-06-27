@@ -994,9 +994,9 @@ public class RegistroInterbodega extends javax.swing.JFrame {
 
         try {
             // Establezco el formato para el despliegue de datos
-            movcant = Ut.fDecimal(movcant, "#,##0.00");
-            movcoun = Ut.fDecimal(movcoun, "#,##0.00");
-            artcosfob = Ut.fDecimal(artcosfob, "#,##0.00");
+            movcant = Ut.setDecimalFormat(movcant, "#,##0.00");
+            movcoun = Ut.setDecimalFormat(movcoun, "#,##0.00");
+            artcosfob = Ut.setDecimalFormat(artcosfob, "#,##0.00");
         } catch (Exception ex) {
             Logger.getLogger(RegistroInterbodega.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
@@ -1588,12 +1588,12 @@ public class RegistroInterbodega extends javax.swing.JFrame {
                         = rs.getDouble("artcosp") / Float.valueOf(txtTipoca.getText());
                 txtMovcoun.setText(String.valueOf(costo));
                 txtMovcoun.setText(
-                        Ut.fDecimal(txtMovcoun.getText(), "#,##0.00"));
+                        Ut.setDecimalFormat(txtMovcoun.getText(), "#,##0.00"));
                 // El costo FOB siempre será en moneda local
                 costo = rs.getDouble("artcosfob") / Float.valueOf(txtTipoca.getText());
                 txtArtcosfob.setText(String.valueOf(costo));
                 txtArtcosfob.setText(
-                        Ut.fDecimal(txtArtcosfob.getText(), "#,##0.00"));
+                        Ut.setDecimalFormat(txtArtcosfob.getText(), "#,##0.00"));
                 if (txtArtcode.isFocusOwner()) {
                     txtArtcode.transferFocus();
                 } // end if
@@ -1866,10 +1866,10 @@ public class RegistroInterbodega extends javax.swing.JFrame {
                                         tblDetalle.getValueAt(row, 4).toString().trim())) * cantidad2;
             } // end for
             txtTotalCantidad.setText(
-                    Ut.fDecimal(
+                    Ut.setDecimalFormat(
                             String.valueOf(cantidad), "#,##0.00"));
             txtTotalCosto.setText(
-                    Ut.fDecimal(
+                    Ut.setDecimalFormat(
                             String.valueOf(costo), "#,##0.00"));
         } catch (Exception ex) {
             Logger.getLogger(RegistroInterbodega.class.getName()).log(Level.SEVERE, null, ex);

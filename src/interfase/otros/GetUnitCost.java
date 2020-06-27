@@ -318,8 +318,8 @@ public class GetUnitCost extends javax.swing.JFrame {
             totalUnidades = paquetes * unidadesPaquete;
             costoUnidad = costoPaquete * paquetes / totalUnidades;
             
-            this.txtTotalUnidades.setText(Ut.fDecimal(totalUnidades + "", formatoCant));
-            this.txtCostoxUnidad.setText(Ut.fDecimal(costoUnidad + "", formatoPrecio));
+            this.txtTotalUnidades.setText(Ut.setDecimalFormat(totalUnidades + "", formatoCant));
+            this.txtCostoxUnidad.setText(Ut.setDecimalFormat(costoUnidad + "", formatoPrecio));
         } catch (Exception ex) {
             Logger.getLogger(GetUnitCost.class.getName()).log(Level.SEVERE, null, ex);
             new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());

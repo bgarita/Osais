@@ -85,10 +85,10 @@ public class TarifasExpress extends JFrame {
             } // end if
             txtCodExpress.setText(rs.getString("CodExpress"));
             txtMinimo.setText(
-                    Ut.fDecimal(
+                    Ut.setDecimalFormat(
                             rs.getString("Minimo"), "#,##0.00"));
             txtTarifa.setText(
-                    Ut.fDecimal(
+                    Ut.setDecimalFormat(
                             rs.getString("Tarifa"), "#,##0.00"));
             spnPorcentaje.setValue(rs.getFloat("Porcentaje"));
 
@@ -664,10 +664,10 @@ public class TarifasExpress extends JFrame {
                 txtCodExpress.setText(
                         rs.getString("CodExpress"));
                 txtMinimo.setText(
-                        Ut.fDecimal(
+                        Ut.setDecimalFormat(
                                 rs.getString("Minimo"), "#,##0.00"));
                 txtTarifa.setText(
-                        Ut.fDecimal(
+                        Ut.setDecimalFormat(
                                 rs.getString("Tarifa"), "#,##0.00"));
                 spnPorcentaje.setValue(
                         rs.getFloat("Porcentaje"));

@@ -182,15 +182,15 @@ public class DetalleNotaCredito {
             lineaNC.setPrecioUnitario(rs.getDouble("artprec"));
             
             Descuento d = new Descuento();
-            d.setMontoDescuento(rs.getDouble("facdesc"));
+            d.setMontoDescuento(Ut.redondear(rs.getDouble("facdesc"), 5, 3));
             d.setNaturalezaDescuento(rs.getString("NatDescuento"));
             
             lineaNC.setBaseImponible(0.0);
             if (rs.getDouble("facimve") > 0){
-                lineaNC.setBaseImponible(rs.getDouble("facmont") - rs.getDouble("facdesc"));
+                lineaNC.setBaseImponible(Ut.redondear(rs.getDouble("facmont") - rs.getDouble("facdesc"), 5, 3));
             } // end if
             
-            lineaNC.setMontoTotal(rs.getDouble("facmont"));
+            lineaNC.setMontoTotal(Ut.redondear(rs.getDouble("facmont"), 5, 3));
             
             if (d.getMontoDescuento() == 0.0) {
                 d.setNaturalezaDescuento("N/A");
@@ -209,7 +209,7 @@ public class DetalleNotaCredito {
             oc.setMontoCargo(0.00);
             //lineaNC.setOtrosC(oc);
             
-            lineaNC.setSubTotal(rs.getDouble("subtotal"));
+            lineaNC.setSubTotal(Ut.redondear(rs.getDouble("subtotal"), 5, 3));
             
             // Si hay impuesto lo agrego
             if (rs.getDouble("facimve") > 0) {
@@ -224,7 +224,7 @@ public class DetalleNotaCredito {
             } // end if
             
             
-            lineaNC.setMontoTotalLinea(rs.getDouble("MontoTotalLinea"));
+            lineaNC.setMontoTotalLinea(Ut.redondear(rs.getDouble("MontoTotalLinea"), 5, 3));
             
             this.linea.add(lineaNC);
             
@@ -243,6 +243,16 @@ public class DetalleNotaCredito {
             this.totalDescuentos += rs.getDouble("facdesc");
             this.totalImpuestos += rs.getDouble("facimve");
         } // end while
+        
+        // Redondeos para Hacienda
+        this.totalServiciosGravados = 
+                Ut.redondear(this.totalServiciosGravados, 5, 3);
+        this.totalServiciosExentos = 
+                Ut.redondear(this.totalServiciosExentos, 5, 3);
+        this.totalMercanciasGravadas = 
+                Ut.redondear(this.totalMercanciasGravadas, 5, 3);
+        this.totalMercanciasExentas = 
+                Ut.redondear(this.totalMercanciasExentas, 5, 3);
         
         this.totalGravado = totalServiciosGravados + totalMercanciasGravadas;
         this.totalExcento = totalServiciosExentos + totalMercanciasExentas;

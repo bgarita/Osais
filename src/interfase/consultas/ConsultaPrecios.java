@@ -443,19 +443,19 @@ public class ConsultaPrecios extends JFrame {
             } // end if
             lblArtdesc.setText(rs.getString("artdesc").trim());
             lblArtpre1.setText(
-                    Ut.fDecimal(
+                    Ut.setDecimalFormat(
                     rs.getString("artpre1").trim(), "#,##0.00"));
             lblArtpre2.setText(
-                    Ut.fDecimal(
+                    Ut.setDecimalFormat(
                     rs.getString("artpre2").trim(), "#,##0.00"));
             lblArtpre3.setText(
-                    Ut.fDecimal(
+                    Ut.setDecimalFormat(
                     rs.getString("artpre3").trim(), "#,##0.00"));
             lblArtpre4.setText(
-                    Ut.fDecimal(
+                    Ut.setDecimalFormat(
                     rs.getString("artpre4").trim(), "#,##0.00"));
             lblArtpre5.setText(
-                    Ut.fDecimal(
+                    Ut.setDecimalFormat(
                     rs.getString("artpre5").trim(), "#,##0.00"));
 
             // Cargar la tabla de existencias

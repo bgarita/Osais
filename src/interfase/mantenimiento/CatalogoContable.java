@@ -1446,13 +1446,13 @@ public class CatalogoContable extends JFrame {
         txtSub_sub.setText(catalogo.getSub_sub());
         txtColect.setText(catalogo.getColect());
         txtNom_cta.setText(catalogo.getNom_cta());
-        lblAno_anter.setText(Ut.fDecimal(catalogo.getAno_anter() + "", "#,##0.00"));
-        lblCr_fecha.setText(Ut.fDecimal(catalogo.getCr_fecha() + "", "#,##0.00"));
-        lblDb_fecha.setText(Ut.fDecimal(catalogo.getDb_fecha() + "", "#,##0.00"));
-        lblSaldoMesAnterior.setText(Ut.fDecimal(catalogo.getSaldoMesAnterior() + "", "#,##0.00"));
-        lblCr_mes.setText(Ut.fDecimal(catalogo.getCr_mes() + "", "#,##0.00"));
-        lblDb_mes.setText(Ut.fDecimal(catalogo.getDb_mes() + "", "#,##0.00"));
-        lblSaldoActual.setText(Ut.fDecimal(catalogo.getSaldoActual() + "", "#,##0.00"));
+        lblAno_anter.setText(Ut.setDecimalFormat(catalogo.getAno_anter() + "", "#,##0.00"));
+        lblCr_fecha.setText(Ut.setDecimalFormat(catalogo.getCr_fecha() + "", "#,##0.00"));
+        lblDb_fecha.setText(Ut.setDecimalFormat(catalogo.getDb_fecha() + "", "#,##0.00"));
+        lblSaldoMesAnterior.setText(Ut.setDecimalFormat(catalogo.getSaldoMesAnterior() + "", "#,##0.00"));
+        lblCr_mes.setText(Ut.setDecimalFormat(catalogo.getCr_mes() + "", "#,##0.00"));
+        lblDb_mes.setText(Ut.setDecimalFormat(catalogo.getDb_mes() + "", "#,##0.00"));
+        lblSaldoActual.setText(Ut.setDecimalFormat(catalogo.getSaldoActual() + "", "#,##0.00"));
         //lblFecha_c.setText(catalogo.getFecha_c().toString());
         lblFecha_c.setText(Ut.dtoc(catalogo.getFecha_c()));
 

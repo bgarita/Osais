@@ -898,7 +898,7 @@ public class Caja extends JFrame {
         } // end if
         
         try {
-            txtFisico.setText(Ut.fDecimal(txtFisico.getText().trim(), "#,##0.00"));
+            txtFisico.setText(Ut.setDecimalFormat(txtFisico.getText().trim(), "#,##0.00"));
         } catch (Exception ex) {
             Logger.getLogger(Caja.class.getName()).log(Level.SEVERE, null, ex);
             new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
@@ -1139,14 +1139,14 @@ public class Caja extends JFrame {
         txtEfectivo.setText("0.00");
         
         try {
-            txtSaldoInicial.setText(Ut.fDecimal(caja.getSaldoinicial()+"", "#,##0.00"));
-            txtDepositos.setText(Ut.fDecimal(caja.getDepositos()+"", "#,##0.00"));
-            txtRetiros.setText(Ut.fDecimal(caja.getRetiros()+"", "#,##0.00"));
-            txtSaldoFinal.setText(Ut.fDecimal(caja.getSaldoactual()+"", "#,##0.00"));
-            txtFisico.setText(Ut.fDecimal(caja.getFisico()+"", "#,##0.00"));
-            txtDif.setText(Ut.fDecimal(
+            txtSaldoInicial.setText(Ut.setDecimalFormat(caja.getSaldoinicial()+"", "#,##0.00"));
+            txtDepositos.setText(Ut.setDecimalFormat(caja.getDepositos()+"", "#,##0.00"));
+            txtRetiros.setText(Ut.setDecimalFormat(caja.getRetiros()+"", "#,##0.00"));
+            txtSaldoFinal.setText(Ut.setDecimalFormat(caja.getSaldoactual()+"", "#,##0.00"));
+            txtFisico.setText(Ut.setDecimalFormat(caja.getFisico()+"", "#,##0.00"));
+            txtDif.setText(Ut.setDecimalFormat(
                     (caja.getFisico() - caja.getSaldoactual()) + "", "#,##0.00"));
-            txtEfectivo.setText(Ut.fDecimal(caja.getEfectivo()+"", "#,##0.00"));
+            txtEfectivo.setText(Ut.setDecimalFormat(caja.getEfectivo()+"", "#,##0.00"));
         } catch (Exception ex) {
             Logger.getLogger(Caja.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
@@ -1172,7 +1172,7 @@ public class Caja extends JFrame {
         fisico = Double.parseDouble(
                 Ut.quitarFormato(this.txtFisico.getText().trim()));
         dif = fisico - saldo;
-        this.txtDif.setText(Ut.fDecimal(dif+"", "#,##0.00"));
+        this.txtDif.setText(Ut.setDecimalFormat(dif+"", "#,##0.00"));
     } // end calcularDiferencia
     
     public void refresh(){

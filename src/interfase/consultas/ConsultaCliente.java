@@ -382,7 +382,7 @@ public class ConsultaCliente extends javax.swing.JFrame {
             txtCliemail.setText(rs.getString("cliemail"));
             txaClidir.setText(rs.getString("clidir"));
             txaDirencom.setText(rs.getString("direncom"));
-            txtClisald.setText(Ut.fDecimal(rs.getString("clisald"), "#,##0.00"));
+            txtClisald.setText(Ut.setDecimalFormat(rs.getString("clisald"), "#,##0.00"));
             rs.close();
         } catch(Exception ex){
             JOptionPane.showMessageDialog(null,

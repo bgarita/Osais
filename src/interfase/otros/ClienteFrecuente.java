@@ -587,8 +587,8 @@ public class ClienteFrecuente extends javax.swing.JFrame {
                 rs.absolute(i);
                 this.tblClientes.setValueAt(rs.getObject("clicode"), (i-1), 0);
                 this.tblClientes.setValueAt(rs.getObject("clidesc"), (i-1), 1);
-                this.tblClientes.setValueAt(Ut.fDecimal(rs.getString("venta"), "#,##0.00"), (i-1), 2);
-                this.tblClientes.setValueAt(Ut.fDecimal(
+                this.tblClientes.setValueAt(Ut.setDecimalFormat(rs.getString("venta"), "#,##0.00"), (i-1), 2);
+                this.tblClientes.setValueAt(Ut.setDecimalFormat(
                         (rs.getDouble("venta") * (porcentaje / 100)) + "", "#,##0.00"), (i-1), 3);
             } // end for
             ps.close();

@@ -4,6 +4,7 @@ import logica.backup.BackupJob;
 import Exceptions.EmptyDataSourceException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
+import interfase.menus.Menu;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -454,6 +455,14 @@ public class BackupInterface extends javax.swing.JFrame {
             return;
         } // end if
         
+        /*
+        Se elimina esta parte del código pues se considera que si ya el usuario
+        ingresó al sistema, no es necesario que le pida de nuevo sus credenciales.
+        Sin embargo, el código no se elimina, se deja comentado por si en un
+        futuro algún cliente considera que si es importante.  Para entonces, la
+        decisión de si pide clave o no deberá parametrizarse en la configuración
+        y luego descomentar y ajustar este código. Bosco 15/03/2020.
+        
         // Esta es una ventana modal que pide la clave el usuario conectado (por seguridad).
         BackupPassw dialog = new BackupPassw(new javax.swing.JFrame(), true, this.txtPassword);
         dialog.setVisible(true);
@@ -468,6 +477,7 @@ public class BackupInterface extends javax.swing.JFrame {
         if (password.isEmpty()){
             return;
         } // end if
+        */
         
         List<String> dataBases = new ArrayList<>();
         for (int i = 0; i < this.tblConfig.getModel().getRowCount(); i++){
@@ -478,7 +488,8 @@ public class BackupInterface extends javax.swing.JFrame {
         } // end for
 
         BackupJob bk = new BackupJob();
-        bk.setPassw(password);
+        //bk.setPassw(password);
+        bk.setPassw(Menu.PASS);
         bk.setDataBases(dataBases);
         bk.setTargetFolder(this.txtDestino.getText().trim());
         bk.setLabel(this.lblBytes);

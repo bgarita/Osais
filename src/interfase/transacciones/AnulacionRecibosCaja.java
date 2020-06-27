@@ -309,7 +309,7 @@ public class AnulacionRecibosCaja extends java.awt.Dialog {
             lblModulo.setText(rs.getString("modulo"));
 
             txtMonto.setText(
-                        Ut.fDecimal(
+                        Ut.setDecimalFormat(
                         rs.getString("Monto"), "#,##0.00"));
             ps.close();
         } catch (Exception ex) {

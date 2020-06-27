@@ -1184,11 +1184,11 @@ public class RegistroEntradas extends javax.swing.JFrame {
 
         try {
             // Establezco el formato para el despliegue de datos
-            movcant = Ut.fDecimal(movcant, this.formatoCant);
-            movcoun = Ut.fDecimal(movcoun, this.formatoPrecio);
-            artcosfob = Ut.fDecimal(artcosfob, this.formatoPrecio);
-            impuesto = Ut.fDecimal(impuesto, this.formatoPrecio);
-            descuento = Ut.fDecimal(descuento, this.formatoPrecio);
+            movcant = Ut.setDecimalFormat(movcant, this.formatoCant);
+            movcoun = Ut.setDecimalFormat(movcoun, this.formatoPrecio);
+            artcosfob = Ut.setDecimalFormat(artcosfob, this.formatoPrecio);
+            impuesto = Ut.setDecimalFormat(impuesto, this.formatoPrecio);
+            descuento = Ut.setDecimalFormat(descuento, this.formatoPrecio);
         } catch (Exception ex) {
             Logger.getLogger(RegistroEntradas.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
@@ -2077,12 +2077,12 @@ public class RegistroEntradas extends javax.swing.JFrame {
                         = rs.getDouble("artcost") / Float.valueOf(txtTipoca.getText());
                 txtMovcoun.setText(String.valueOf(costo));
                 txtMovcoun.setText(
-                        Ut.fDecimal(txtMovcoun.getText(), this.formatoPrecio));
+                        Ut.setDecimalFormat(txtMovcoun.getText(), this.formatoPrecio));
                 // El costo FOB siempre será en moneda local
                 costo = rs.getDouble("artcosfob") / Float.valueOf(txtTipoca.getText());
                 txtArtcosfob.setText(String.valueOf(costo));
                 txtArtcosfob.setText(
-                        Ut.fDecimal(txtArtcosfob.getText(), this.formatoPrecio));
+                        Ut.setDecimalFormat(txtArtcosfob.getText(), this.formatoPrecio));
                 if (txtArtcode.isFocusOwner()) {
                     txtArtcode.transferFocus();
                 } // end if
@@ -3163,16 +3163,16 @@ public class RegistroEntradas extends javax.swing.JFrame {
             impv = Ut.sum(tblDetalle, 7);
             desc = Ut.sum(tblDetalle, 8);
 
-            txtTotalCantidad.setText(Ut.fDecimal(
+            txtTotalCantidad.setText(Ut.setDecimalFormat(
                     String.valueOf(cant.floatValue()), this.formatoCant));
-            txtTotalCosto.setText(Ut.fDecimal(
+            txtTotalCosto.setText(Ut.setDecimalFormat(
                     String.valueOf(cost.floatValue()), this.formatoPrecio));
-            txtTotalDescuento.setText(Ut.fDecimal(
+            txtTotalDescuento.setText(Ut.setDecimalFormat(
                     String.valueOf(desc.floatValue()), this.formatoPrecio));
-            txtTotaIimpuesto.setText(Ut.fDecimal(
+            txtTotaIimpuesto.setText(Ut.setDecimalFormat(
                     String.valueOf(impv.floatValue()), this.formatoPrecio));
             total = (cost.doubleValue() + impv.doubleValue() - desc.doubleValue());
-            txtTotalDoc.setText(Ut.fDecimal(
+            txtTotalDoc.setText(Ut.setDecimalFormat(
                     String.valueOf(total.floatValue()), this.formatoPrecio));
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,
@@ -3404,8 +3404,8 @@ public class RegistroEntradas extends javax.swing.JFrame {
 
             double total = cantidad * costoU - descuento + IV;
 
-            this.txtIV.setText(Ut.fDecimal(IV + "", formatoPrecio));
-            this.txtTotal.setText(Ut.fDecimal(total + "", formatoPrecio));
+            this.txtIV.setText(Ut.setDecimalFormat(IV + "", formatoPrecio));
+            this.txtTotal.setText(Ut.setDecimalFormat(total + "", formatoPrecio));
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),

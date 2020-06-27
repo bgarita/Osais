@@ -1541,9 +1541,9 @@ public class Inproved extends javax.swing.JFrame implements IMantenimiento {
             } // end if
 
             txtPromouc.setText(
-                    Ut.fDecimal(rs.getString("promouc"), "#,##0.00"));
+                    Ut.setDecimalFormat(rs.getString("promouc"), "#,##0.00"));
             txtProsald.setText(
-                    Ut.fDecimal(rs.getString("prosald"), "#,##0.00"));
+                    Ut.setDecimalFormat(rs.getString("prosald"), "#,##0.00"));
             txtProplaz.setText(rs.getString("proplaz"));
 
             // Bosco agregado 22/06/2019

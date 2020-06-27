@@ -282,7 +282,7 @@ public class AnulacionRecibosCXC extends java.awt.Dialog {
                 txtFecha.setText(rs.getString("Fecha"));
                 
                     txtMonto.setText(
-                                Ut.fDecimal(
+                                Ut.setDecimalFormat(
                                 rs.getString("Monto"), "#,##0.00"));
                 lblMoneda.setText(rs.getString("descrip"));
             }else{

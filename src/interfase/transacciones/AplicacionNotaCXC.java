@@ -689,7 +689,7 @@ public class AplicacionNotaCXC extends javax.swing.JFrame {
 //                tblDetalle.setValueAt(rsFacturas.getObject("fecha"  ), row, 1);
 //                tblDetalle.setValueAt(rsFacturas.getObject("Moneda" ), row, 2);
 //                facsald = rsFacturas.getString("facsald");
-//                facsald = Ut.fDecimal(facsald, "#,##0.00");
+//                facsald = Ut.setDecimalFormat(facsald, "#,##0.00");
 //                tblDetalle.setValueAt(facsald, row, 3);
 //                tblDetalle.setValueAt(rsFacturas.getFloat("tipoca"), row, 5);
 //                tblDetalle.setValueAt(rsFacturas.getString("TipoDoc"), row, 6);
@@ -703,7 +703,7 @@ public class AplicacionNotaCXC extends javax.swing.JFrame {
                 tblDetalle1.setValueAt(rsFacturas.getObject("fecha"), row, 1);
                 tblDetalle1.setValueAt(rsFacturas.getObject("Moneda"), row, 2);
                 facsald = rsFacturas.getString("facsald");
-                facsald = Ut.fDecimal(facsald, "#,##0.00");
+                facsald = Ut.setDecimalFormat(facsald, "#,##0.00");
                 tblDetalle1.setValueAt(facsald, row, 3);
                 tblDetalle1.setValueAt(rsFacturas.getFloat("tipoca"), row, 5);
                 tblDetalle1.setValueAt(rsFacturas.getString("TipoDoc"), row, 6);
@@ -1048,7 +1048,7 @@ public class AplicacionNotaCXC extends javax.swing.JFrame {
                 continuar = false;
             } // end if
 
-            txtAplicar.setText(Ut.fDecimal(aplicar.toString(), "#,##0.00#"));
+            txtAplicar.setText(Ut.setDecimalFormat(aplicar.toString(), "#,##0.00#"));
             txtAplicado.setText("0.00");
             txtRemanente.setText(txtAplicar.getText());
 
@@ -1296,8 +1296,8 @@ public class AplicacionNotaCXC extends javax.swing.JFrame {
             txtVencido.setText(rsCliente.getString("Vencido"));
 
             // Formateo los datos numéricos
-            txtClisald.setText(Ut.fDecimal(txtClisald.getText().trim(), "#,##0.00"));
-            txtVencido.setText(Ut.fDecimal(txtVencido.getText().trim(), "#,##0.00"));
+            txtClisald.setText(Ut.setDecimalFormat(txtClisald.getText().trim(), "#,##0.00"));
+            txtVencido.setText(Ut.setDecimalFormat(txtVencido.getText().trim(), "#,##0.00"));
 
             // Bosco modificado 13/05/2011.
             // Ahora no se usa clisald sino facsald.
@@ -1388,8 +1388,8 @@ public class AplicacionNotaCXC extends javax.swing.JFrame {
                 row++;
             } // end while
 
-            txtAplicado.setText(Ut.fDecimal(aplicado.toString(), "#,##0.00"));
-            txtRemanente.setText(Ut.fDecimal(remanente.toString(), "#,##0.00"));
+            txtAplicado.setText(Ut.setDecimalFormat(aplicado.toString(), "#,##0.00"));
+            txtRemanente.setText(Ut.setDecimalFormat(remanente.toString(), "#,##0.00"));
         } // end distribuir
         catch (Exception ex) {
             Logger.getLogger(AplicacionNotaCXC.class.getName()).log(Level.SEVERE, null, ex);
@@ -1434,9 +1434,9 @@ public class AplicacionNotaCXC extends javax.swing.JFrame {
             aplicar = Double.parseDouble(
                     Ut.quitarFormato(txtAplicar.getText()));
             txtAplicado.setText(
-                    Ut.fDecimal(aplicado.toString(), "#,##0.00"));
+                    Ut.setDecimalFormat(aplicado.toString(), "#,##0.00"));
             txtRemanente.setText(
-                    Ut.fDecimal(
+                    Ut.setDecimalFormat(
                             String.valueOf(aplicar - aplicado), "#,##0.00"));
         } catch (Exception ex) {
             Logger.getLogger(AplicacionNotaCXC.class.getName()).log(Level.SEVERE, null, ex);
@@ -1492,7 +1492,7 @@ public class AplicacionNotaCXC extends javax.swing.JFrame {
                     tblNotasC.setValueAt(rsNotasC.getObject("clidesc"), row, 1);
                     tblNotasC.setValueAt(rsNotasC.getObject("fecha"), row, 2);
                     facsald = rsNotasC.getString("facsald");
-                    facsald = Ut.fDecimal(facsald, "#,##0.00");
+                    facsald = Ut.setDecimalFormat(facsald, "#,##0.00");
                     tblNotasC.setValueAt(facsald, row, 3);
                     tblNotasC.setValueAt(rsNotasC.getObject("moneda"), row, 4);
                     tblNotasC.setValueAt(rsNotasC.getObject("clicode"), row, 5);

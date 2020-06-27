@@ -1062,9 +1062,9 @@ public class RegistroSalidas extends javax.swing.JFrame {
         
         try {
             // Establezco el formato para el despliegue de datos
-            movcant   = Ut.fDecimal(movcant,   formatoCant);
-            movcoun   = Ut.fDecimal(movcoun,   formatoPrecio);
-            artcosfob = Ut.fDecimal(artcosfob, formatoPrecio);
+            movcant   = Ut.setDecimalFormat(movcant,   formatoCant);
+            movcoun   = Ut.setDecimalFormat(movcoun,   formatoPrecio);
+            artcosfob = Ut.setDecimalFormat(artcosfob, formatoPrecio);
         } catch (Exception ex) {
             Logger.getLogger(RegistroSalidas.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
@@ -1741,13 +1741,13 @@ public class RegistroSalidas extends javax.swing.JFrame {
             
             txtMovcoun.setText(String.valueOf(costo));
             txtMovcoun.setText(
-                    Ut.fDecimal(txtMovcoun.getText(), formatoPrecio));
+                    Ut.setDecimalFormat(txtMovcoun.getText(), formatoPrecio));
 
             // El costo FOB siempre será en moneda local
             costo = rs.getDouble("artcosfob") / Float.valueOf(txtTipoca.getText());
             txtArtcosfob.setText(String.valueOf(costo));
             txtArtcosfob.setText(
-                    Ut.fDecimal(txtArtcosfob.getText(), formatoPrecio));
+                    Ut.setDecimalFormat(txtArtcosfob.getText(), formatoPrecio));
             
             ps.close();
 
@@ -2210,10 +2210,10 @@ public class RegistroSalidas extends javax.swing.JFrame {
                         tblDetalle.getValueAt(row, 4).toString().trim())) * cantidad2;
             } // end for
             txtTotalCantidad.setText(
-                    Ut.fDecimal(
+                    Ut.setDecimalFormat(
                     String.valueOf(cantidad), this.formatoCant));
             txtTotalCosto.setText(
-                    Ut.fDecimal(
+                    Ut.setDecimalFormat(
                     String.valueOf(costo), this.formatoPrecio));
         } catch (Exception ex){
             Logger.getLogger(RegistroSalidas.class.getName()).log(Level.SEVERE, null, ex);

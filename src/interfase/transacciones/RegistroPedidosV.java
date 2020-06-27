@@ -1647,10 +1647,10 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                 } // end if (artimpv > 0)
 
                 txtFacpive.setText(String.valueOf(artimpv));
-                txtFacpive.setText(Ut.fDecimal(txtFacpive.getText(), "#,##0.00"));
+                txtFacpive.setText(Ut.setDecimalFormat(txtFacpive.getText(), "#,##0.00"));
 
                 txtArtprec.setText(String.valueOf(precio));
-                txtArtprec.setText(Ut.fDecimal(txtArtprec.getText(), "#,##0.00"));
+                txtArtprec.setText(Ut.setDecimalFormat(txtArtprec.getText(), "#,##0.00"));
 
                 // Si el campo bodega tiene algún valor entonces ejecuto
                 // el ActionPerformed de ese campo.
@@ -1724,8 +1724,8 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                 artexis = String.valueOf(rs.getDouble(1));
                 disponible = String.valueOf(rs.getDouble(2));
             } // end if
-            artexis = Ut.fDecimal(artexis, "#,##0.00");
-            disponible = Ut.fDecimal(disponible, "#,##0.00");
+            artexis = Ut.setDecimalFormat(artexis, "#,##0.00");
+            disponible = Ut.setDecimalFormat(disponible, "#,##0.00");
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
@@ -2364,10 +2364,10 @@ public class RegistroPedidosV extends javax.swing.JFrame {
             txtMontoUC.setText(rs.getString("MontoUC"));
 
             // Formateo los datos numéricos
-            txtClilimit.setText(Ut.fDecimal(txtClilimit.getText().trim(), "#,##0.00"));
-            txtClisald.setText(Ut.fDecimal(txtClisald.getText().trim(), "#,##0.00"));
-            txtVencido.setText(Ut.fDecimal(txtVencido.getText().trim(), "#,##0.00"));
-            txtMontoUC.setText(Ut.fDecimal(txtMontoUC.getText().trim(), "#,##0.00"));
+            txtClilimit.setText(Ut.setDecimalFormat(txtClilimit.getText().trim(), "#,##0.00"));
+            txtClisald.setText(Ut.setDecimalFormat(txtClisald.getText().trim(), "#,##0.00"));
+            txtVencido.setText(Ut.setDecimalFormat(txtVencido.getText().trim(), "#,##0.00"));
+            txtMontoUC.setText(Ut.setDecimalFormat(txtMontoUC.getText().trim(), "#,##0.00"));
 
             chkIve.setSelected(!rs.getBoolean("exento"));
             rs.close();
@@ -2520,38 +2520,38 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                 tblDetalle.setValueAt(rs.getString("artdesc"), row, col);
                 col++;
                 valor = String.valueOf(rs.getDouble("faccant")).trim();
-                valor = Ut.fDecimal(valor, "#,##0.00");
+                valor = Ut.setDecimalFormat(valor, "#,##0.00");
                 tblDetalle.setValueAt(valor, row, col);
                 col++;
                 valor = String.valueOf(rs.getDouble("reservado")).trim();
-                valor = Ut.fDecimal(valor, "#,##0.00");
+                valor = Ut.setDecimalFormat(valor, "#,##0.00");
                 tblDetalle.setValueAt(valor, row, col);
                 col++;
                 valor = String.valueOf(rs.getDouble("artprec")).trim();
-                valor = Ut.fDecimal(valor, "#,##0.00");
+                valor = Ut.setDecimalFormat(valor, "#,##0.00");
                 tblDetalle.setValueAt(valor, row, col);
                 col++;
                 valor = String.valueOf(rs.getDouble("facmont")).trim();
-                valor = Ut.fDecimal(valor, "#,##0.00");
+                valor = Ut.setDecimalFormat(valor, "#,##0.00");
                 tblDetalle.setValueAt(valor, row, col);
                 col++;
                 valor = String.valueOf(rs.getDouble("artexis")).trim();
-                valor = Ut.fDecimal(valor, "#,##0.00");
+                valor = Ut.setDecimalFormat(valor, "#,##0.00");
                 tblDetalle.setValueAt(valor, row, col);
                 col++;
                 valor = String.valueOf(rs.getDouble("disponible")).trim();
-                valor = Ut.fDecimal(valor, "#,##0.00");
+                valor = Ut.setDecimalFormat(valor, "#,##0.00");
                 tblDetalle.setValueAt(valor, row, col);
                 col++;
                 valor = Ut.dtoc(rs.getDate("fechares"));
                 tblDetalle.setValueAt(valor, row, col);
                 col++;
                 valor = String.valueOf(rs.getFloat("facpive"));
-                valor = Ut.fDecimal(valor, "#,##0.00");
+                valor = Ut.setDecimalFormat(valor, "#,##0.00");
                 tblDetalle.setValueAt(valor, row, col);
                 col++;
                 valor = String.valueOf(rs.getFloat("facpdesc"));
-                valor = Ut.fDecimal(valor, "#,##0.00");
+                valor = Ut.setDecimalFormat(valor, "#,##0.00");
                 tblDetalle.setValueAt(valor, row, col);
                 col = 0;
                 row++;
@@ -2575,10 +2575,10 @@ public class RegistroPedidosV extends javax.swing.JFrame {
             IV = String.valueOf(rs.getDouble("facimve"));
             total = String.valueOf(rs.getDouble("facmont"));
 
-            subtotal = Ut.fDecimal(subtotal, "#,##0.00");
-            descuento = Ut.fDecimal(descuento, "#,##0.00");
-            IV = Ut.fDecimal(IV, "#,##0.00");
-            total = Ut.fDecimal(total, "#,##0.00");
+            subtotal = Ut.setDecimalFormat(subtotal, "#,##0.00");
+            descuento = Ut.setDecimalFormat(descuento, "#,##0.00");
+            IV = Ut.setDecimalFormat(IV, "#,##0.00");
+            total = Ut.setDecimalFormat(total, "#,##0.00");
 
             this.txtTotalCantidad.setText(subtotal);
             this.txtTotalCosto.setText(descuento);

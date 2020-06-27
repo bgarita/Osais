@@ -1102,19 +1102,19 @@ public class PendienteCXC extends javax.swing.JFrame {
                 this.tblDetalle.setValueAt(rs.getObject("cliente"), (row-1), 2);
                 this.tblDetalle.setValueAt(rs.getObject("user"), (row-1), 3);
                 this.tblDetalle.setValueAt(
-                        Ut.fDecimal(rs.getString("montocxc"),"#,##0.00"), (row-1), 4);
+                        Ut.setDecimalFormat(rs.getString("montocxc"),"#,##0.00"), (row-1), 4);
                 this.tblDetalle.setValueAt(rs.getObject("fechapago"), (row-1), 5);
                 this.tblDetalle.setValueAt(rs.getObject("recibidopor"), (row-1), 6);
                 this.tblDetalle.setValueAt(
-                        Ut.fDecimal(rs.getString("montorecibido"),"#,##0.00"), (row-1), 7);
+                        Ut.setDecimalFormat(rs.getString("montorecibido"),"#,##0.00"), (row-1), 7);
                 this.tblDetalle.setValueAt(
-                        Ut.fDecimal(rs.getString("saldo"),"#,##0.00"), (row-1), 8);
+                        Ut.setDecimalFormat(rs.getString("saldo"),"#,##0.00"), (row-1), 8);
                 this.tblDetalle.setValueAt(rs.getObject("facnume"), (row-1), 9);
             } // end for
             ps.close();
             
-            this.txtSaldocxc.setText(Ut.fDecimal(saldocxc + "","#,##0.00"));
-            this.txtBalanceD.setText(Ut.fDecimal((pagoHoy - montoHoy) + "","#,##0.00"));
+            this.txtSaldocxc.setText(Ut.setDecimalFormat(saldocxc + "","#,##0.00"));
+            this.txtBalanceD.setText(Ut.setDecimalFormat((pagoHoy - montoHoy) + "","#,##0.00"));
             
         } catch (Exception ex) {
             Logger.getLogger(PendienteCXC.class.getName()).log(Level.SEVERE, null, ex);
@@ -1164,7 +1164,7 @@ public class PendienteCXC extends javax.swing.JFrame {
         
         try {
             this.lblSumaSaldo.setText(
-                    "SUMA(Saldo) = " + Ut.fDecimal(saldo+"", "#,##0.00"));
+                    "SUMA(Saldo) = " + Ut.setDecimalFormat(saldo+"", "#,##0.00"));
         } catch (Exception ex) {
             Logger.getLogger(PendienteCXC.class.getName()).log(Level.SEVERE, null, ex);
             Logger.getLogger(PendienteCXC.class.getName()).log(Level.SEVERE, null, ex);

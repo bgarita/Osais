@@ -2843,10 +2843,10 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             } // end if (artimpv > 0)
 
             this.txtFacpive.setText(String.valueOf(artimpv));
-            this.txtFacpive.setText(Ut.fDecimal(this.txtFacpive.getText(), formatoPrecio));
+            this.txtFacpive.setText(Ut.setDecimalFormat(this.txtFacpive.getText(), formatoPrecio));
 
             this.txtArtprec.setText(String.valueOf(precio));
-            this.txtArtprec.setText(Ut.fDecimal(this.txtArtprec.getText(), formatoPrecio));
+            this.txtArtprec.setText(Ut.setDecimalFormat(this.txtArtprec.getText(), formatoPrecio));
 
             // Si el campo txtBodega tiene algún valor entonces ejecuto
             // el ActionPerformed de ese campo.
@@ -2967,8 +2967,8 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     this.lblLocalizacion.setText(rs.getString("localizacion"));
                     rs.close();
                 } // end if
-                artexis = Ut.fDecimal(artexis, formatoCant);
-                disponible = Ut.fDecimal(disponible, formatoCant);
+                artexis = Ut.setDecimalFormat(artexis, formatoCant);
+                disponible = Ut.setDecimalFormat(disponible, formatoCant);
                 this.txtArtexis.setText(artexis);
                 this.txtDisponible.setText(disponible);
             } catch (Exception ex) {
@@ -4378,7 +4378,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
                     lcPrecio = String.valueOf(precio);
-                    lcPrecio = Ut.fDecimal(lcPrecio, formatoPrecio);
+                    lcPrecio = Ut.setDecimalFormat(lcPrecio, formatoPrecio);
                     txtArtprec.setText(lcPrecio);
                 } // end if
 
@@ -4890,10 +4890,10 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             // end if
 
             // Formateo los datos numéricos
-            txtClilimit.setText(Ut.fDecimal(txtClilimit.getText().trim(), "#,##0.00"));
-            txtClisald.setText(Ut.fDecimal(txtClisald.getText().trim(), "#,##0.00"));
-            txtVencido.setText(Ut.fDecimal(txtVencido.getText().trim(), "#,##0.00"));
-            txtMontoDisponible.setText(Ut.fDecimal(txtMontoDisponible.getText().trim(), "#,##0.00"));
+            txtClilimit.setText(Ut.setDecimalFormat(txtClilimit.getText().trim(), "#,##0.00"));
+            txtClisald.setText(Ut.setDecimalFormat(txtClisald.getText().trim(), "#,##0.00"));
+            txtVencido.setText(Ut.setDecimalFormat(txtVencido.getText().trim(), "#,##0.00"));
+            txtMontoDisponible.setText(Ut.setDecimalFormat(txtMontoDisponible.getText().trim(), "#,##0.00"));
 
             // Esto evita que, al dispararse el evento propertyChange del
             // spinner spnCliprec, se ejecute todo el código ya que, aparte de
@@ -5124,11 +5124,11 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 tblDetalle.setValueAt(rsF.getString("artdesc"), row, col);
                 col++;
                 valor = String.valueOf(rsF.getDouble("faccant")).trim();
-                valor = Ut.fDecimal(valor, formatoCant);
+                valor = Ut.setDecimalFormat(valor, formatoCant);
                 tblDetalle.setValueAt(valor, row, col);
                 col++;
                 valor = String.valueOf(rsF.getDouble("artprec")).trim();
-                valor = Ut.fDecimal(valor, formatoPrecio);
+                valor = Ut.setDecimalFormat(valor, formatoPrecio);
                 tblDetalle.setValueAt(valor, row, col);
                 col++;
                 // Redondeo a entero (solo para tc predeterminado)
@@ -5137,23 +5137,23 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 } else {
                     valor = String.valueOf(rsF.getDouble("facmont")).trim();
                 } // end if
-                valor = Ut.fDecimal(valor, formatoPrecio);
+                valor = Ut.setDecimalFormat(valor, formatoPrecio);
                 tblDetalle.setValueAt(valor, row, col);
                 col++;
                 valor = String.valueOf(rsF.getDouble("artexis")).trim();
-                valor = Ut.fDecimal(valor, formatoCant);
+                valor = Ut.setDecimalFormat(valor, formatoCant);
                 tblDetalle.setValueAt(valor, row, col);
                 col++;
                 valor = String.valueOf(rsF.getDouble("disponible")).trim();
-                valor = Ut.fDecimal(valor, formatoCant);
+                valor = Ut.setDecimalFormat(valor, formatoCant);
                 tblDetalle.setValueAt(valor, row, col);
                 col++;
                 valor = String.valueOf(rsF.getFloat("facpive"));
-                valor = Ut.fDecimal(valor, "#,##0.00");
+                valor = Ut.setDecimalFormat(valor, "#,##0.00");
                 tblDetalle.setValueAt(valor, row, col);
                 col++;
                 valor = String.valueOf(rsF.getFloat("facpdesc"));
-                valor = Ut.fDecimal(valor, "#,##0.00");
+                valor = Ut.setDecimalFormat(valor, "#,##0.00");
                 tblDetalle.setValueAt(valor, row, col);
                 col = 0;
                 row++;
@@ -5190,10 +5190,10 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             // que a su vez se encarga de refrescar el total de la factura.
             totalSinExpress = rsF.getDouble("facmont");
 
-            subtotal = Ut.fDecimal(subtotal, "#,##0.00");
-            descuento = Ut.fDecimal(descuento, "#,##0.00");
-            IV = Ut.fDecimal(IV, "#,##0.00");
-            total = Ut.fDecimal(total, "#,##0.00");
+            subtotal = Ut.setDecimalFormat(subtotal, "#,##0.00");
+            descuento = Ut.setDecimalFormat(descuento, "#,##0.00");
+            IV = Ut.setDecimalFormat(IV, "#,##0.00");
+            total = Ut.setDecimalFormat(total, "#,##0.00");
 
             this.txtSubTotal.setText(subtotal);
             this.txtFacdesc.setText(descuento);
@@ -5613,13 +5613,13 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 } // end if
             } // end if (rsExp != null && rsExp.first())
             txtMonExpress.setText(
-                    Ut.fDecimal(
+                    Ut.setDecimalFormat(
                             montoExpress, "#,##0.00"));
             txtFacmont.setText(
                     Double.toString(
                             monto + Double.parseDouble(montoExpress)));
             txtFacmont.setText(
-                    Ut.fDecimal(
+                    Ut.setDecimalFormat(
                             txtFacmont.getText(), "#,##0.00"));
             ps.close();
 

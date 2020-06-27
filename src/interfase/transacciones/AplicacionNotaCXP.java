@@ -711,7 +711,7 @@ public class AplicacionNotaCXP extends javax.swing.JFrame {
                 tblDetalle.setValueAt(rsFacturas.getObject("fecha"  ), row, 1);
                 tblDetalle.setValueAt(rsFacturas.getObject("Moneda" ), row, 2);
                 saldo = rsFacturas.getString("saldo");
-                saldo = Ut.fDecimal(saldo, "#,##0.0000");
+                saldo = Ut.setDecimalFormat(saldo, "#,##0.0000");
                 tblDetalle.setValueAt(saldo, row, 3);
                 tblDetalle.setValueAt(rsFacturas.getFloat("tipoca"), row, 5);
                 tblDetalle.setValueAt(rsFacturas.getString("TipoDoc"), row, 6);
@@ -1097,7 +1097,7 @@ public class AplicacionNotaCXP extends javax.swing.JFrame {
                 continuar = false;
             } // end if
 
-            txtAplicar.setText(Ut.fDecimal(aplicar.toString(), "#,##0.00#"));
+            txtAplicar.setText(Ut.setDecimalFormat(aplicar.toString(), "#,##0.00#"));
             txtAplicado.setText("0.00");
             txtRemanente.setText(txtAplicar.getText());
             
@@ -1356,8 +1356,8 @@ public class AplicacionNotaCXP extends javax.swing.JFrame {
             txtVencido.setText(rsProveedor.getString("Vencido"));
 
             // Formateo los datos numéricos
-            txtProsald.setText(Ut.fDecimal(txtProsald.getText().trim(), "#,##0.0000"));
-            txtVencido.setText(Ut.fDecimal(txtVencido.getText().trim(), "#,##0.0000"));
+            txtProsald.setText(Ut.setDecimalFormat(txtProsald.getText().trim(), "#,##0.0000"));
+            txtVencido.setText(Ut.setDecimalFormat(txtVencido.getText().trim(), "#,##0.0000"));
 
            
             // Si no hay facturas con saldo entonces no permito el pago.
@@ -1445,8 +1445,8 @@ public class AplicacionNotaCXP extends javax.swing.JFrame {
                 row++;
             } // end while
 
-            txtAplicado.setText(Ut.fDecimal(aplicado.toString(),"#,##0.00"));
-            txtRemanente.setText(Ut.fDecimal(remanente.toString(),"#,##0.00"));
+            txtAplicado.setText(Ut.setDecimalFormat(aplicado.toString(),"#,##0.00"));
+            txtRemanente.setText(Ut.setDecimalFormat(remanente.toString(),"#,##0.00"));
         } // end distribuir
         catch (Exception ex) {
             Logger.getLogger(AplicacionNotaCXP.class.getName()).log(Level.SEVERE, null, ex);
@@ -1492,9 +1492,9 @@ public class AplicacionNotaCXP extends javax.swing.JFrame {
             aplicar = Double.parseDouble(
                     Ut.quitarFormato(txtAplicar.getText()));
             txtAplicado.setText(
-                    Ut.fDecimal(aplicado.toString(),"#,##0.00"));
+                    Ut.setDecimalFormat(aplicado.toString(),"#,##0.00"));
             txtRemanente.setText(
-                    Ut.fDecimal(
+                    Ut.setDecimalFormat(
                     String.valueOf(aplicar - aplicado),"#,##0.00"));
 
             guardar = (aplicar - aplicado == 0);
@@ -1551,7 +1551,7 @@ public class AplicacionNotaCXP extends javax.swing.JFrame {
                 tblNotasD.setValueAt(rsNotasD.getObject("prodesc"), row, 1);
                 tblNotasD.setValueAt(rsNotasD.getObject("fecha" ), row, 2);
                 facsald = rsNotasD.getString("saldo");
-                facsald = Ut.fDecimal(facsald, "#,##0.00");
+                facsald = Ut.setDecimalFormat(facsald, "#,##0.00");
                 tblNotasD.setValueAt(facsald, row, 3);
                 tblNotasD.setValueAt(rsNotasD.getObject("moneda"), row, 4);
                 tblNotasD.setValueAt(rsNotasD.getObject("procode"), row, 5);

@@ -2139,7 +2139,7 @@ public class Inclient extends javax.swing.JFrame implements IMantenimiento {
             txtVencido.setText(String.valueOf(
                     UtilBD.getSaldoVencido(conn, rs.getInt("clicode"))));
             txtVencido.setText(
-                    Ut.fDecimal(
+                    Ut.setDecimalFormat(
                             txtVencido.getText(), "#,##0.00"));
 
             // Otros

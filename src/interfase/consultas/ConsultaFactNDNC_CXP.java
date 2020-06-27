@@ -621,13 +621,13 @@ public class ConsultaFactNDNC_CXP extends JFrame {
 
             // Cargar los totales de la factura (ND-NC) con formato
             this.txtIV.setText(
-                    Ut.fDecimal(rs.getString("impuesto"),"#,##0.00"));
+                    Ut.setDecimalFormat(rs.getString("impuesto"),"#,##0.00"));
             this.txtFacdesc.setText(
-                    Ut.fDecimal(rs.getString("descuento"),"#,##0.00"));
+                    Ut.setDecimalFormat(rs.getString("descuento"),"#,##0.00"));
             this.txtFacmont.setText(
-                    Ut.fDecimal(rs.getString("monto"),"#,##0.00"));
+                    Ut.setDecimalFormat(rs.getString("monto"),"#,##0.00"));
             this.txtFacsald.setText(
-                    Ut.fDecimal(rs.getString("saldo"),"#,##0.00"));
+                    Ut.setDecimalFormat(rs.getString("saldo"),"#,##0.00"));
 
             ps.close();
         } catch (Exception ex) {

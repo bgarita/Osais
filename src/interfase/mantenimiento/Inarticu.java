@@ -1958,8 +1958,8 @@ public class Inarticu extends JFrame {
         /*
          Agregado Bosco Garita 16/08/2016
          El proceso que sigue no se incluyó dentro de una transacción porque es
-         secundario y no importa si concluye bien o no ya que es solo para evitar
-         que los usuarios del sistema que reciba la sincronización tengan que
+         secundario y no importa si concluye bien o no, ya que, es solo para evitar
+         que los usuarios del sistema, que reciban la sincronización, tengan que
          digitar.
          */
         if (this.sincronizarTablas) {
@@ -2958,7 +2958,7 @@ public class Inarticu extends JFrame {
             Artcode = txtArtcode.getText().trim();
             Artdesc = txtArtdesc.getText().trim();
             Barcode = txtBarcode.getText().trim();
-            Artfam = txtArtfam.getText().trim();
+            Artfam  = txtArtfam.getText().trim();
 
             Artcosd = Ut.quitarFormato(txtArtcosd.getText().trim());
             Artcost = Ut.quitarFormato(txtArtcost.getText().trim());
@@ -2981,7 +2981,7 @@ public class Inarticu extends JFrame {
 
             Artdurp = txtArtdurp.getText().trim();
             Artimpv = txtArtimpv.getText().trim();
-            Otroc = txtOtroC.getText().trim();
+            Otroc   = txtOtroC.getText().trim();
             Altarot = (chkAltarot.isSelected() ? "1" : "0");
             Vinternet = (chkVinternet.isSelected() ? "1" : "0");
             ArtusaIVG = (chkArtusaIVG.isSelected() ? "1" : "0");
@@ -3268,13 +3268,7 @@ public class Inarticu extends JFrame {
             } // end for
 
             // Cejilla Fechas
-            // Bosco modificado 24/10/2011
             txtArtfech.setText(Ut.dtoc(new Date()));
-
-            //Date hoy       = new Date(); // Fecha actual con formato local
-            //DateFormat df  = DateFormat.getDateInstance();
-            //txtArtfech.setText(df.format(hoy).toString());
-            // Fin Bosco modificado 24/10/2011
             txtArtfeuc.setText("");
             txtArtfeus.setText("");
 
@@ -3350,37 +3344,37 @@ public class Inarticu extends JFrame {
             txtArtcosa.setText(rs.getString("artcosa"));
 
             // Utilidades
-            txtArtgan1.setText(Ut.fDecimal(
+            txtArtgan1.setText(Ut.setDecimalFormat(
                     rs.getString("artgan1"), "#,##0.0000000"));
-            txtArtgan2.setText(Ut.fDecimal(
+            txtArtgan2.setText(Ut.setDecimalFormat(
                     rs.getString("artgan2"), "#,##0.0000000"));
-            txtArtgan3.setText(Ut.fDecimal(
+            txtArtgan3.setText(Ut.setDecimalFormat(
                     rs.getString("artgan3"), "#,##0.0000000"));
-            txtArtgan4.setText(Ut.fDecimal(
+            txtArtgan4.setText(Ut.setDecimalFormat(
                     rs.getString("artgan4"), "#,##0.0000000"));
-            txtArtgan5.setText(Ut.fDecimal(
+            txtArtgan5.setText(Ut.setDecimalFormat(
                     rs.getString("artgan5"), "#,##0.0000000"));
 
             // Precios
-            txtArtpre1.setText(Ut.fDecimal(
+            txtArtpre1.setText(Ut.setDecimalFormat(
                     rs.getString("artpre1"), "#,##0.0000"));
-            txtArtpre2.setText(Ut.fDecimal(
+            txtArtpre2.setText(Ut.setDecimalFormat(
                     rs.getString("artpre2"), "#,##0.0000"));
-            txtArtpre3.setText(Ut.fDecimal(
+            txtArtpre3.setText(Ut.setDecimalFormat(
                     rs.getString("artpre3"), "#,##0.0000"));
-            txtArtpre4.setText(Ut.fDecimal(
+            txtArtpre4.setText(Ut.setDecimalFormat(
                     rs.getString("artpre4"), "#,##0.0000"));
-            txtArtpre5.setText(Ut.fDecimal(
+            txtArtpre5.setText(Ut.setDecimalFormat(
                     rs.getString("artpre5"), "#,##0.0000"));
 
             txtArtmaxi.setText(
-                    Ut.fDecimal(rs.getString("artmaxi"), "#,##0.00"));
+                    Ut.setDecimalFormat(rs.getString("artmaxi"), "#,##0.00"));
             txtArtmini.setText(
-                    Ut.fDecimal(rs.getString("artmini"), "#,##0.00"));
+                    Ut.setDecimalFormat(rs.getString("artmini"), "#,##0.00"));
             txtArtiseg.setText(
-                    Ut.fDecimal(rs.getString("artiseg"), "#,##0.00"));
+                    Ut.setDecimalFormat(rs.getString("artiseg"), "#,##0.00"));
             txtArtdurp.setText(
-                    Ut.fDecimal(rs.getString("artdurp"), "#,##0.00"));
+                    Ut.setDecimalFormat(rs.getString("artdurp"), "#,##0.00"));
             txtArtimpv.setText(rs.getString("artimpv"));
             chkArtusaIVG.setSelected(rs.getBoolean("artusaIVG"));
 
@@ -3397,15 +3391,15 @@ public class Inarticu extends JFrame {
             Float disp = exis - rese;
 
             txtArtexis.setText(
-                    Ut.fDecimal(rs.getString("artexis"), "#,##0.00"));
+                    Ut.setDecimalFormat(rs.getString("artexis"), "#,##0.00"));
             txtArtreserv.setText(
-                    Ut.fDecimal(rs.getString("artreserv"), "#,##0.00"));
+                    Ut.setDecimalFormat(rs.getString("artreserv"), "#,##0.00"));
 
             txtDisponible.setText(
-                    Ut.fDecimal(disp.toString(), "#,##0.00"));
+                    Ut.setDecimalFormat(disp.toString(), "#,##0.00"));
 
             txtTransito.setText(
-                    Ut.fDecimal(rs.getString("transito"), "#,##0.00"));
+                    Ut.setDecimalFormat(rs.getString("transito"), "#,##0.00"));
 
             txtArtfech.setText(" ");
             txtArtfeuc.setText(" ");
@@ -3425,19 +3419,6 @@ public class Inarticu extends JFrame {
             } // end if
 
             this.lblAviso.setText("");
-
-            // Bosco modificado 26/12/2013
-            //            if (Float.parseFloat(Ut.quitarFormato(
-            //                    txtArtexis.getText())) ==
-            //                    Float.parseFloat(
-            //                    Ut.quitarFormato(txtArtmini.getText()))){
-            //                this.lblAviso.setText("Este artículo ya se encuentra en el mínimo");
-            //            } else if (Float.parseFloat(
-            //                    Ut.quitarFormato(txtArtexis.getText())) <
-            //                    Float.parseFloat(
-            //                    Ut.quitarFormato(txtArtmini.getText()))){
-            //                this.lblAviso.setText("Este artículo se encuentra bajo el mínimo");
-            //            } // end if
             double existencia, minimo;
             minimo = Double.parseDouble(Ut.quitarFormato(txtArtmini.getText().trim()));
             existencia = Double.parseDouble(Ut.quitarFormato(txtArtexis.getText().trim()));
@@ -3467,15 +3448,9 @@ public class Inarticu extends JFrame {
             } // end if
             // Fin Bosco agregado 07/11/2010.
 
-            // Bosco agregado 08/11/2010.
             // Cargar las observaciones
             txaArtObse.setText(rs.getString("artObse"));
-
-            // Bosco modificado 08/08/2011.
-            // Cargar las existencias por bodega
-            //cargarExistencias();
             UtilBD.cargarExistencias(conn, txtArtcode, tblExistencias);
-            // Fin Bosco modificado 08/08/2011.
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
@@ -3722,8 +3697,8 @@ public class Inarticu extends JFrame {
             } // end if
             gan = (Double.parseDouble(tmpPrecio) - Double.parseDouble(costo))
                     / Double.parseDouble(costo) * 100;
-            gananciax.setText(Ut.fDecimal(String.valueOf(gan), "#,##0.0000000"));
-            preciox.setText(Ut.fDecimal(tmpPrecio, "#,##0.0000"));
+            gananciax.setText(Ut.setDecimalFormat(String.valueOf(gan), "#,##0.0000000"));
+            preciox.setText(Ut.setDecimalFormat(tmpPrecio, "#,##0.0000"));
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,
                     "[setUtilidad] " + ex.getMessage(),
@@ -3760,7 +3735,7 @@ public class Inarticu extends JFrame {
 
             preciox.setText(fpreciox + "");
 
-            preciox.setText(Ut.fDecimal(preciox.getText(), "#,##0.0000"));
+            preciox.setText(Ut.setDecimalFormat(preciox.getText(), "#,##0.0000"));
 
             // Esta parte del código se ejecuta para que el porcentaje sea
             // congruente con el precio.
@@ -3772,7 +3747,7 @@ public class Inarticu extends JFrame {
                 gan = 0d;
             } // end if
 
-            gananciax.setText(Ut.fDecimal(String.valueOf(gan), "#,##0.0000000"));
+            gananciax.setText(Ut.setDecimalFormat(String.valueOf(gan), "#,##0.0000000"));
 
             // Agrego revisión del margen de utilidad 14/09/2010.
             revisarUtilidad(gan);
@@ -3874,7 +3849,7 @@ public class Inarticu extends JFrame {
         String SQLSent, SQLInsert, SQLDelete;
         boolean existe, borrar;
 
-        SQLSent = " Select artcode from inservice where artcode = ?";
+        SQLSent   = " Select artcode from inservice where artcode = ?";
         SQLInsert = " Insert into inservice (artcode) values(?)";
         SQLDelete = " Delete from inservice where artcode = ?";
 

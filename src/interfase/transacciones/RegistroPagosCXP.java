@@ -848,7 +848,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
                 tblDetalle.setValueAt(rsFac.getObject("fecha"  ), row, 1);
                 tblDetalle.setValueAt(rsFac.getObject("Moneda" ), row, 2);
                 saldo = rsFac.getString("saldo");
-                saldo = Ut.fDecimal(saldo, "#,##0.0000");
+                saldo = Ut.setDecimalFormat(saldo, "#,##0.0000");
                 tblDetalle.setValueAt(saldo, row, 3);
                 tblDetalle.setValueAt(rsFac.getFloat("tipoca"), row, 5);
                 tblDetalle.setValueAt(rsFac.getString("TipoDoc"), row, 6);
@@ -1465,7 +1465,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
             } // end if
 
             txtAplicar.setText(
-                    Ut.fDecimal(aplicar.toString(), "#,##0.0000"));
+                    Ut.setDecimalFormat(aplicar.toString(), "#,##0.0000"));
             txtAplicado.setText("0.0000");
             txtRemanente.setText(txtAplicar.getText());
             
@@ -1797,8 +1797,8 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
             txtVencido.setText(monto + "");
 
             // Formateo los datos numéricos
-            txtProsald.setText(Ut.fDecimal(txtProsald.getText().trim(), "#,##0.0000"));
-            txtVencido.setText(Ut.fDecimal(txtVencido.getText().trim(), "#,##0.0000"));
+            txtProsald.setText(Ut.setDecimalFormat(txtProsald.getText().trim(), "#,##0.0000"));
+            txtVencido.setText(Ut.setDecimalFormat(txtVencido.getText().trim(), "#,##0.0000"));
 
             // Si el proveedor no tiene saldo entonces no permito
             // que el usuario ingrese el pago.
@@ -1919,8 +1919,8 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
                 row++;
             } // end while
 
-            txtAplicado.setText(Ut.fDecimal(aplicado.toString(),"#,##0.0000"));
-            txtRemanente.setText(Ut.fDecimal(remanente.toString(),"#,##0.0000"));
+            txtAplicado.setText(Ut.setDecimalFormat(aplicado.toString(),"#,##0.0000"));
+            txtRemanente.setText(Ut.setDecimalFormat(remanente.toString(),"#,##0.0000"));
         } // end distribuir
         catch (Exception ex) {
             Logger.getLogger(RegistroPagosCXP.class.getName()).log(Level.SEVERE, null, ex);
@@ -1973,9 +1973,9 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
             aplicado = Ut.redondear(aplicado, 4, 3);
 
             txtAplicado.setText(
-                    Ut.fDecimal(aplicado.toString(),"#,##0.0000"));
+                    Ut.setDecimalFormat(aplicado.toString(),"#,##0.0000"));
             txtRemanente.setText(
-                    Ut.fDecimal(
+                    Ut.setDecimalFormat(
                     String.valueOf(aplicar - aplicado),"#,##0.0000"));
         } catch (Exception ex) {
             Logger.getLogger(RegistroPagosCXP.class.getName()).log(Level.SEVERE, null, ex);
