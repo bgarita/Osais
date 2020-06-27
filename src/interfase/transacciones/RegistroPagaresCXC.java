@@ -1075,7 +1075,7 @@ public class RegistroPagaresCXC extends JFrame {
             datVencimiento.setDate(rs.getDate("Vencimiento"));
             txtClicode.setText(rs.getString("clicode"));
             txtMonto.setText(
-                    Ut.fDecimal(
+                    Ut.setDecimalFormat(
                             rs.getString("Monto"), "#,##0.00"));
 
             codigoTC = rs.getString("codigoTC");

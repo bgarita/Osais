@@ -23,8 +23,8 @@ public class TestFormatNumbers {
         System.out.println(s);
         // Estos dos métodos funcionan exactamente igual.  Solo hay dos diferencias
         // El segundo es más moderno pero el primero acepta otros formatos.
-        System.out.println(Ut.fDecimal(d+"", "¢#,##0.000"));
-        System.out.println(Ut.fDecimal(d+"", 3));
+        System.out.println(Ut.setDecimalFormat(d+"", "¢#,##0.000"));
+        System.out.println(Ut.setDecimalFormat(d+"", 3));
 
         int i = 123;
         // Esta forma solo fuciona para enteros y solo se puede rellenar con ceros.

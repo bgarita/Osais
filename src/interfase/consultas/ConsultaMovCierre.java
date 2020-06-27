@@ -592,9 +592,9 @@ public class ConsultaMovCierre extends javax.swing.JFrame {
         } // end if
         ps.close();
         conn.close();
-        this.txtCosto.setText(Ut.fDecimal(costo + "", "#,##0.00"));
-        this.txtVentas.setText(Ut.fDecimal(venta + "", "#,##0.00"));
-        this.txtImpuesto.setText(Ut.fDecimal(impuesto + "", "#,##0.00"));
+        this.txtCosto.setText(Ut.setDecimalFormat(costo + "", "#,##0.00"));
+        this.txtVentas.setText(Ut.setDecimalFormat(venta + "", "#,##0.00"));
+        this.txtImpuesto.setText(Ut.setDecimalFormat(impuesto + "", "#,##0.00"));
     } // end consultarVentas
 
     private void consltarServicios() throws Exception {
@@ -630,7 +630,7 @@ public class ConsultaMovCierre extends javax.swing.JFrame {
         } // end if
         ps.close();
         conn.close();
-        this.txtServicios.setText(Ut.fDecimal(utilidad + "", "#,##0.00"));
+        this.txtServicios.setText(Ut.setDecimalFormat(utilidad + "", "#,##0.00"));
     } // end consltarServicios
 
     private void consultarBonificaciones() throws Exception {
@@ -671,7 +671,7 @@ public class ConsultaMovCierre extends javax.swing.JFrame {
             while (rs.next()) {
                 this.tblBonificaciones.setValueAt(Ut.dtoc(rs.getDate("fecha")), row, 0);
                 this.tblBonificaciones.setValueAt(rs.getString("factura"), row, 1);
-                this.tblBonificaciones.setValueAt(Ut.fDecimal(rs.getDouble("monto") + "", "#,##0.00"), row, 2);
+                this.tblBonificaciones.setValueAt(Ut.setDecimalFormat(rs.getDouble("monto") + "", "#,##0.00"), row, 2);
                 total += rs.getDouble("monto");
                 this.tblBonificaciones.setValueAt(rs.getString("observaciones"), row, 3);
                 row++;
@@ -679,7 +679,7 @@ public class ConsultaMovCierre extends javax.swing.JFrame {
         } // end if
         ps.close();
         conn.close();
-        this.txtBonificaciones.setText(Ut.fDecimal(total + "", "#,##0.00"));
+        this.txtBonificaciones.setText(Ut.setDecimalFormat(total + "", "#,##0.00"));
     } // end consultarBonificaciones
 
     /**
@@ -729,12 +729,12 @@ public class ConsultaMovCierre extends javax.swing.JFrame {
                 } // end if
                 this.tblEntradas.setValueAt(Ut.dtoc(rs.getDate("movfech")), row, 0);
                 this.tblEntradas.setValueAt(rs.getString("movdocu"), row, 1);
-                this.tblEntradas.setValueAt(Ut.fDecimal(rs.getDouble("costo") + "", "#,##0.00"), row, 2);
+                this.tblEntradas.setValueAt(Ut.setDecimalFormat(rs.getDouble("costo") + "", "#,##0.00"), row, 2);
                 total += rs.getDouble("costo");
                 this.tblEntradas.setValueAt(rs.getString("descrip"), row, 3);
                 row++;
             } // end while
-            this.txtEntradas.setText(Ut.fDecimal(total + "", "#,##0.00"));
+            this.txtEntradas.setText(Ut.setDecimalFormat(total + "", "#,##0.00"));
 
             // Cargo las salidas
             total = 0.0;
@@ -750,7 +750,7 @@ public class ConsultaMovCierre extends javax.swing.JFrame {
                 } // end if
                 this.tblSalidas.setValueAt(Ut.dtoc(rs.getDate("movfech")), row, 0);
                 this.tblSalidas.setValueAt(rs.getString("movdocu"), row, 1);
-                this.tblSalidas.setValueAt(Ut.fDecimal(rs.getDouble("costo") + "", "#,##0.00"), row, 2);
+                this.tblSalidas.setValueAt(Ut.setDecimalFormat(rs.getDouble("costo") + "", "#,##0.00"), row, 2);
                 total += rs.getDouble("costo");
                 this.tblSalidas.setValueAt(rs.getString("descrip"), row, 3);
                 row++;
@@ -758,7 +758,7 @@ public class ConsultaMovCierre extends javax.swing.JFrame {
         } // end if
         ps.close();
         conn.close();
-        this.txtSalidas.setText(Ut.fDecimal(total + "", "#,##0.00"));
+        this.txtSalidas.setText(Ut.setDecimalFormat(total + "", "#,##0.00"));
     } // end consultarAjustes
 
     private void consultarCajas() throws Exception {
@@ -795,14 +795,14 @@ public class ConsultaMovCierre extends javax.swing.JFrame {
             while (rs.next()) {
                 this.tblCaja.setValueAt(rs.getString("idcaja"), row, 0);
                 this.tblCaja.setValueAt(rs.getString("descripcion"), row, 1);
-                this.tblCaja.setValueAt(Ut.fDecimal(rs.getDouble("diferencia") + "", "#,##0.00"), row, 2);
+                this.tblCaja.setValueAt(Ut.setDecimalFormat(rs.getDouble("diferencia") + "", "#,##0.00"), row, 2);
                 total += rs.getDouble("diferencia");
                 row++;
             } // end while
         } // end if
         ps.close();
         conn.close();
-        this.txtCajas.setText(Ut.fDecimal(total + "", "#,##0.00"));
+        this.txtCajas.setText(Ut.setDecimalFormat(total + "", "#,##0.00"));
     } // end consultarCajas
 
     private void setDates() {

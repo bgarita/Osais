@@ -562,14 +562,14 @@ public class CierreCaja extends javax.swing.JFrame {
                 return;
             } // end if
             
-            this.txtnVentasCo.setText(Ut.fDecimal(rs.getString("ventas"), "#,##0.00"));
-            this.txtnVentasCr.setText(Ut.fDecimal(rs.getString("credito"), "#,##0.00"));
-            this.txtnRecibosCXC.setText(Ut.fDecimal(rs.getString("recibosCXC"), "#,##0.00"));
-            this.txtnDevoluc.setText(Ut.fDecimal(rs.getString("NC"), "#,##0.00"));
-            this.txtnComprasCo.setText(Ut.fDecimal(rs.getString("compras"), "#,##0.00"));
-            this.txtnComprasCr.setText(Ut.fDecimal(rs.getString("comprasCR"), "#,##0.00"));
-            this.txtnPagosProv.setText(Ut.fDecimal(rs.getString("pagosCXP"), "#,##0.00"));
-            this.txtnNDcxp.setText(Ut.fDecimal(rs.getString("NDB_sc"), "#,##0.00"));
+            this.txtnVentasCo.setText(Ut.setDecimalFormat(rs.getString("ventas"), "#,##0.00"));
+            this.txtnVentasCr.setText(Ut.setDecimalFormat(rs.getString("credito"), "#,##0.00"));
+            this.txtnRecibosCXC.setText(Ut.setDecimalFormat(rs.getString("recibosCXC"), "#,##0.00"));
+            this.txtnDevoluc.setText(Ut.setDecimalFormat(rs.getString("NC"), "#,##0.00"));
+            this.txtnComprasCo.setText(Ut.setDecimalFormat(rs.getString("compras"), "#,##0.00"));
+            this.txtnComprasCr.setText(Ut.setDecimalFormat(rs.getString("comprasCR"), "#,##0.00"));
+            this.txtnPagosProv.setText(Ut.setDecimalFormat(rs.getString("pagosCXP"), "#,##0.00"));
+            this.txtnNDcxp.setText(Ut.setDecimalFormat(rs.getString("NDB_sc"), "#,##0.00"));
             
             double saldoIn = 
                     Double.parseDouble(Ut.quitarFormato(this.txtnSaldoIn.getText().trim()));
@@ -580,7 +580,7 @@ public class CierreCaja extends javax.swing.JFrame {
                     + rs.getDouble("compras") 
                     + rs.getDouble("pagosCXP")
                     + rs.getDouble("NDB_sc");
-            this.txtnSaldoFin.setText(Ut.fDecimal(saldoFi + "", "#,##0.00"));
+            this.txtnSaldoFin.setText(Ut.setDecimalFormat(saldoFi + "", "#,##0.00"));
             ps.close();
             txtnSaldoIn.transferFocus();
         } catch (Exception ex) {
@@ -599,7 +599,7 @@ public class CierreCaja extends javax.swing.JFrame {
             saldoFin = Double.parseDouble(Ut.quitarFormato(txtnSaldoFin.getText().trim()));
             saldoFisico = Double.parseDouble(Ut.quitarFormato(txtnSaldoFis.getText().trim()));
             dif = saldoFisico - saldoFin;
-            txtnDiferencia.setText(Ut.fDecimal(dif + "", "#,##0.00"));
+            txtnDiferencia.setText(Ut.setDecimalFormat(dif + "", "#,##0.00"));
         } catch (Exception ex) {
             Logger.getLogger(CierreCaja.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
@@ -784,18 +784,18 @@ public class CierreCaja extends javax.swing.JFrame {
                 return;
             } // end if
             
-            txtnSaldoIn.setText(Ut.fDecimal(rs.getString("nSaldoIn"), "#,##0.00"));
-            txtnVentasCr.setText(Ut.fDecimal(rs.getString("nVentasCr"), "#,##0.00"));
-            txtnVentasCo.setText(Ut.fDecimal(rs.getString("nVentasCo"), "#,##0.00"));
-            txtnDevoluc.setText(Ut.fDecimal(rs.getString("nDevoluc"), "#,##0.00"));
-            txtnRecibosCXC.setText(Ut.fDecimal(rs.getString("nRecibosCXC"), "#,##0.00"));
-            txtnComprasCr.setText(Ut.fDecimal(rs.getString("nComprasCr"), "#,##0.00"));
-            txtnComprasCo.setText(Ut.fDecimal(rs.getString("nComprasCo"), "#,##0.00"));
-            txtnPagosProv.setText(Ut.fDecimal(rs.getString("nPagosProv"), "#,##0.00"));
-            txtnSaldoFin.setText(Ut.fDecimal(rs.getString("nSaldoFin"), "#,##0.00"));
-            txtnSaldoFis.setText(Ut.fDecimal(rs.getString("nSaldoFis"), "#,##0.00"));
-            txtnDiferencia.setText(Ut.fDecimal(rs.getString("nDiferencia"), "#,##0.00"));
-            this.txtnNDcxp.setText(Ut.fDecimal(rs.getString("nNotasDsc"), "#,##0.00"));
+            txtnSaldoIn.setText(Ut.setDecimalFormat(rs.getString("nSaldoIn"), "#,##0.00"));
+            txtnVentasCr.setText(Ut.setDecimalFormat(rs.getString("nVentasCr"), "#,##0.00"));
+            txtnVentasCo.setText(Ut.setDecimalFormat(rs.getString("nVentasCo"), "#,##0.00"));
+            txtnDevoluc.setText(Ut.setDecimalFormat(rs.getString("nDevoluc"), "#,##0.00"));
+            txtnRecibosCXC.setText(Ut.setDecimalFormat(rs.getString("nRecibosCXC"), "#,##0.00"));
+            txtnComprasCr.setText(Ut.setDecimalFormat(rs.getString("nComprasCr"), "#,##0.00"));
+            txtnComprasCo.setText(Ut.setDecimalFormat(rs.getString("nComprasCo"), "#,##0.00"));
+            txtnPagosProv.setText(Ut.setDecimalFormat(rs.getString("nPagosProv"), "#,##0.00"));
+            txtnSaldoFin.setText(Ut.setDecimalFormat(rs.getString("nSaldoFin"), "#,##0.00"));
+            txtnSaldoFis.setText(Ut.setDecimalFormat(rs.getString("nSaldoFis"), "#,##0.00"));
+            txtnDiferencia.setText(Ut.setDecimalFormat(rs.getString("nDiferencia"), "#,##0.00"));
+            this.txtnNDcxp.setText(Ut.setDecimalFormat(rs.getString("nNotasDsc"), "#,##0.00"));
             
             ps.close();
         } catch (Exception ex) {
@@ -867,7 +867,7 @@ public class CierreCaja extends javax.swing.JFrame {
                 return;
             } // end if
             
-            txtnSaldoIn.setText(Ut.fDecimal(rs.getString("nSaldoFis"), "#,##0.00"));
+            txtnSaldoIn.setText(Ut.setDecimalFormat(rs.getString("nSaldoFis"), "#,##0.00"));
             
             ps.close();
         } catch (Exception ex) {

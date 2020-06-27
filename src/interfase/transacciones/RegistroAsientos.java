@@ -1049,11 +1049,11 @@ public class RegistroAsientos extends javax.swing.JFrame {
         // Cargar los totales
         try {
             txtTotalDebitos.setText(
-                    Ut.fDecimal(asientoD.getTotalDebito() + "", "#,##0.00"));
+                    Ut.setDecimalFormat(asientoD.getTotalDebito() + "", "#,##0.00"));
             txtTotalCreditos.setText(
-                    Ut.fDecimal(asientoD.getTotalCredito() + "", "#,##0.00"));
+                    Ut.setDecimalFormat(asientoD.getTotalCredito() + "", "#,##0.00"));
             this.txtBalance.setText(
-                    Ut.fDecimal(asientoD.getTotalDebito() - asientoD.getTotalCredito() + "", "#,##0.00"));
+                    Ut.setDecimalFormat(asientoD.getTotalDebito() - asientoD.getTotalCredito() + "", "#,##0.00"));
 
         } catch (Exception ex) {
             Logger.getLogger(RegistroAsientos.class.getName()).log(Level.SEVERE, null, ex);
@@ -1830,9 +1830,9 @@ public class RegistroAsientos extends javax.swing.JFrame {
             debitos = (double) Ut.sum(tblDetalle, 3);
             creditos = (double) Ut.sum(tblDetalle, 4);
             balance = debitos - creditos;
-            this.txtTotalDebitos.setText(Ut.fDecimal(debitos + "", "#,##0.00"));
-            this.txtTotalCreditos.setText(Ut.fDecimal(creditos + "", "#,##0.00"));
-            this.txtBalance.setText(Ut.fDecimal(balance + "", "#,##0.00"));
+            this.txtTotalDebitos.setText(Ut.setDecimalFormat(debitos + "", "#,##0.00"));
+            this.txtTotalCreditos.setText(Ut.setDecimalFormat(creditos + "", "#,##0.00"));
+            this.txtBalance.setText(Ut.setDecimalFormat(balance + "", "#,##0.00"));
 
             // Cambio los colores para dar una alerta visual al usuario cuando
             // el asiento está descuadrado.

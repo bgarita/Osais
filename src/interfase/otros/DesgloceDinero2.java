@@ -63,7 +63,7 @@ public class DesgloceDinero2 extends javax.swing.JFrame {
                 this.txt10.setText(rs.getString("m10"));
                 this.txt5.setText(rs.getString("m5"));
                 this.txaFormula.setText(rs.getString("formula"));
-                this.lblResultadoFormula.setText(Ut.fDecimal(rs.getString("total"), "#,##0.00"));
+                this.lblResultadoFormula.setText(Ut.setDecimalFormat(rs.getString("total"), "#,##0.00"));
             } // end while
             
             ps.close();
@@ -127,7 +127,7 @@ public class DesgloceDinero2 extends javax.swing.JFrame {
                     Ut.quitarFormato(this.lblResultadoFormula.getText().trim()));
             
             this.txtTotal.setText(
-                    Ut.fDecimal(
+                    Ut.setDecimalFormat(
                     (b50000*50000 + b20000*20000 + b10000*10000 + b5000*5000 + b2000*2000 + b1000*1000 
                     +m500*500 + m100*100 + m50*50 + m25*25 + m10*10 + m5*5)
                     +formula + "", "#,##0.00"));
@@ -1014,7 +1014,7 @@ public class DesgloceDinero2 extends javax.swing.JFrame {
             resultado += Double.parseDouble(number);
         } // end for
         try {
-            this.lblResultadoFormula.setText(Ut.fDecimal(resultado + "", "#,##0.00"));
+            this.lblResultadoFormula.setText(Ut.setDecimalFormat(resultado + "", "#,##0.00"));
         } catch (Exception ex) {
             Logger.getLogger(DesgloceDinero2.class.getName()).log(Level.SEVERE, null, ex);
             new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());

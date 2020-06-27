@@ -94,21 +94,21 @@ public class LiquidacionDiaria extends JFrame {
             } // end if
             
             this.txtFcontadoef.setText(
-                    Ut.fDecimal(rs.getString("Fcontadoef"),"#,##0.00"));
+                    Ut.setDecimalFormat(rs.getString("Fcontadoef"),"#,##0.00"));
             this.txtRecibosef.setText(
-                    Ut.fDecimal(rs.getString("Recibosef"),"#,##0.00"));
+                    Ut.setDecimalFormat(rs.getString("Recibosef"),"#,##0.00"));
             this.txtFcontadoch.setText(
-                    Ut.fDecimal(rs.getString("Fcontadoch"),"#,##0.00"));
+                    Ut.setDecimalFormat(rs.getString("Fcontadoch"),"#,##0.00"));
             this.txtRecibosch.setText(
-                    Ut.fDecimal(rs.getString("Recibosch"),"#,##0.00"));
+                    Ut.setDecimalFormat(rs.getString("Recibosch"),"#,##0.00"));
             this.txtFcredito.setText(
-                    Ut.fDecimal(rs.getString("fcredito"),"#,##0.00"));
+                    Ut.setDecimalFormat(rs.getString("fcredito"),"#,##0.00"));
             this.txtCompfacon.setText(
-                    Ut.fDecimal(rs.getString("compfacon"),"#,##0.00"));
+                    Ut.setDecimalFormat(rs.getString("compfacon"),"#,##0.00"));
             this.txtComprecib.setText(
-                    Ut.fDecimal(rs.getString("comprecib"),"#,##0.00"));
+                    Ut.setDecimalFormat(rs.getString("comprecib"),"#,##0.00"));
             this.txtCompfcredi.setText(
-                    Ut.fDecimal(rs.getString("compfcredi"),"#,##0.00"));
+                    Ut.setDecimalFormat(rs.getString("compfcredi"),"#,##0.00"));
             this.txaObservaciones.setText(rs.getString("Observaciones"));
             totalizar();
         } catch (Exception ex) {
@@ -140,7 +140,7 @@ public class LiquidacionDiaria extends JFrame {
                     Double.parseDouble(
                     Ut.quitarFormato(this.txtRecibosef.getText()));
             this.txtTotalEfectivo.setText(
-                        Ut.fDecimal(totalEfectivo + "","#,##0.00"));
+                        Ut.setDecimalFormat(totalEfectivo + "","#,##0.00"));
             
             // Calcular los cheques
             totalCheques = 
@@ -150,7 +150,7 @@ public class LiquidacionDiaria extends JFrame {
                     Double.parseDouble(
                     Ut.quitarFormato(this.txtRecibosch.getText()));
             this.txtTotalCheques.setText(
-                        Ut.fDecimal(totalCheques + "","#,##0.00"));
+                        Ut.setDecimalFormat(totalCheques + "","#,##0.00"));
             
             // Totalizar las facturas pagadas en efectivo
             totalFcontado =
@@ -160,7 +160,7 @@ public class LiquidacionDiaria extends JFrame {
                     Double.parseDouble(
                     Ut.quitarFormato(this.txtFcontadoch.getText()));
             this.txtTotalFcontado.setText(
-                    Ut.fDecimal(totalFcontado + "","#,##0.00"));
+                    Ut.setDecimalFormat(totalFcontado + "","#,##0.00"));
             
             // Totalizar los recibos
             totalRecibos =
@@ -170,18 +170,18 @@ public class LiquidacionDiaria extends JFrame {
                     Double.parseDouble(
                     Ut.quitarFormato(this.txtRecibosch.getText()));
             this.txtTotalRecibos.setText(
-                    Ut.fDecimal(totalRecibos + "","#,##0.00"));
+                    Ut.setDecimalFormat(totalRecibos + "","#,##0.00"));
             
             // Totalizar los totales
             this.txtTotalTotal.setText(
-                    Ut.fDecimal(totalEfectivo + totalCheques + "","#,##0.00"));
+                    Ut.setDecimalFormat(totalEfectivo + totalCheques + "","#,##0.00"));
             
             // Totalizar los registros del sistema
             compfacon =
                     Double.parseDouble(
                     Ut.quitarFormato(this.txtCompfacon.getText()));
             this.txtTotalSistema.setText(
-                    Ut.fDecimal(compfacon + "","#,##0.00"));
+                    Ut.setDecimalFormat(compfacon + "","#,##0.00"));
             comprecib = 
                     Double.parseDouble(
                     Ut.quitarFormato(this.txtComprecib.getText()));
@@ -189,21 +189,21 @@ public class LiquidacionDiaria extends JFrame {
             // Calcular diferencia entre las facturas de contado reportadas por
             // el agente vendedor y las que están registradas en el sistema.
             this.txtDiferFacturas.setText(
-                    Ut.fDecimal(totalFcontado - compfacon + "","#,##0.00"));
+                    Ut.setDecimalFormat(totalFcontado - compfacon + "","#,##0.00"));
             
             // Calcular diferencia entre los recibos reportadas por
             // el agente vendedor y los que están registrados en el sistema.
             this.txtDiferRecibos.setText(
-                    Ut.fDecimal(totalRecibos - comprecib + "","#,##0.00"));
+                    Ut.setDecimalFormat(totalRecibos - comprecib + "","#,##0.00"));
             
             // Totalizar los registros del sistema
             this.txtTotalSistema.setText(
-                    Ut.fDecimal(compfacon + comprecib + "","#,##0.00"));
+                    Ut.setDecimalFormat(compfacon + comprecib + "","#,##0.00"));
             
             // Totalizar la diferencia
             totalDiferCon = totalEfectivo + totalCheques - compfacon - comprecib;
             this.txtTotalDiferCon.setText(
-                    Ut.fDecimal(totalDiferCon + "","#,##0.00"));
+                    Ut.setDecimalFormat(totalDiferCon + "","#,##0.00"));
             
             totalDiferCre =
                     Double.parseDouble(
@@ -215,7 +215,7 @@ public class LiquidacionDiaria extends JFrame {
                     this.txtCompfcredi.getText()));
             
             this.txtDiferCredito.setText(
-                    Ut.fDecimal(totalDiferCre + "","#,##0.00"));
+                    Ut.setDecimalFormat(totalDiferCre + "","#,##0.00"));
         } // end totalizar
         catch (Exception ex) {
             Logger.getLogger(LiquidacionDiaria.class.getName()).log(Level.SEVERE, null, ex);

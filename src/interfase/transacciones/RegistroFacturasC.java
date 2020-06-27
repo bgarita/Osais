@@ -1459,7 +1459,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
             monto = Ut.quitarFormato(
                     txtTotal_fac.getText().trim());
             monto = Ut.redondearA5(monto);
-            txtTotal_fac.setText(Ut.fDecimal(monto, "##0.00"));
+            txtTotal_fac.setText(Ut.setDecimalFormat(monto, "##0.00"));
         } catch (Exception ex) {
             Logger.getLogger(RegistroFacturasC.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,

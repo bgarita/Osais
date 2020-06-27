@@ -1054,10 +1054,10 @@ public class RegistroIntercodigo extends javax.swing.JFrame {
 
         try {
             // Establezco el formato para el despliegue de datos
-            movcantO = Ut.fDecimal(movcantO, this.formatoCant);
-            movcounO = Ut.fDecimal(movcounO, this.formatoPrecio);
-            movcantD = Ut.fDecimal(movcantD, this.formatoCant);
-            movcounD = Ut.fDecimal(movcounD, this.formatoPrecio);
+            movcantO = Ut.setDecimalFormat(movcantO, this.formatoCant);
+            movcounO = Ut.setDecimalFormat(movcounO, this.formatoPrecio);
+            movcantD = Ut.setDecimalFormat(movcantD, this.formatoCant);
+            movcounD = Ut.setDecimalFormat(movcounD, this.formatoPrecio);
         } catch (Exception ex) {
             Logger.getLogger(RegistroIntercodigo.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
@@ -1799,7 +1799,7 @@ public class RegistroIntercodigo extends javax.swing.JFrame {
                         = rs.getDouble("artcost") / Float.valueOf(txtTipoca.getText());
                 txtMovcounO.setText(String.valueOf(costo));
                 txtMovcounO.setText(
-                        Ut.fDecimal(txtMovcounO.getText(), this.formatoPrecio));
+                        Ut.setDecimalFormat(txtMovcounO.getText(), this.formatoPrecio));
 
                 ps.close();
 
@@ -2024,7 +2024,7 @@ public class RegistroIntercodigo extends javax.swing.JFrame {
                         = rs.getDouble("artcost") / Float.valueOf(txtTipoca.getText());
                 txtMovcounD.setText(String.valueOf(costo));
                 txtMovcounD.setText(
-                        Ut.fDecimal(txtMovcounD.getText(), this.formatoPrecio));
+                        Ut.setDecimalFormat(txtMovcounD.getText(), this.formatoPrecio));
 
                 ps.close();
 
@@ -2255,10 +2255,10 @@ public class RegistroIntercodigo extends javax.swing.JFrame {
             } // end for
 
             txtTotalCantidadS.setText(
-                    Ut.fDecimal(
+                    Ut.setDecimalFormat(
                             String.valueOf(cantidad), this.formatoCant));
             txtTotalCostoS.setText(
-                    Ut.fDecimal(
+                    Ut.setDecimalFormat(
                             String.valueOf(costo), this.formatoPrecio));
 
             // Totalizar la entrada
@@ -2282,10 +2282,10 @@ public class RegistroIntercodigo extends javax.swing.JFrame {
             } // end for
 
             txtTotalCantidadE.setText(
-                    Ut.fDecimal(
+                    Ut.setDecimalFormat(
                             String.valueOf(cantidad), this.formatoCant));
             txtTotalCostoE.setText(
-                    Ut.fDecimal(
+                    Ut.setDecimalFormat(
                             String.valueOf(costo), this.formatoPrecio));
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,

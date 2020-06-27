@@ -86,7 +86,7 @@ public class RegistroTransaccionesCaja extends javax.swing.JFrame {
         
         try {
             UtilBD.loadBancos(conn, cboBanco);
-            this.txtEfectivo.setText(Ut.fDecimal(caja.getEfectivo() + "", this.formatoPrecio));
+            this.txtEfectivo.setText(Ut.setDecimalFormat(caja.getEfectivo() + "", this.formatoPrecio));
         } catch (Exception ex) {
             Logger.getLogger(RegistroTransaccionesCaja.class.getName()).log(Level.SEVERE, null, ex);
             new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
@@ -1035,7 +1035,7 @@ public class RegistroTransaccionesCaja extends javax.swing.JFrame {
             } // end if
         } // end try-catch
         try {
-            this.txtEfectivo.setText(Ut.fDecimal(caja.getEfectivo() + "", this.formatoPrecio));
+            this.txtEfectivo.setText(Ut.setDecimalFormat(caja.getEfectivo() + "", this.formatoPrecio));
         } catch (Exception ex) {
             Logger.getLogger(RegistroTransaccionesCaja.class.getName()).log(Level.SEVERE, null, ex);
             new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
@@ -1242,7 +1242,7 @@ public class RegistroTransaccionesCaja extends javax.swing.JFrame {
                 this.tblGirosCXC.setValueAt(rsDepCXC.getObject("facnume"), i, 0);
                 this.tblGirosCXC.setValueAt(rsDepCXC.getObject("tipo"), i, 1);
                 this.tblGirosCXC.setValueAt(rsDepCXC.getObject("clidesc"), i, 2);
-                this.tblGirosCXC.setValueAt(Ut.fDecimal(rsDepCXC.getString("facmont"), formatoPrecio), i, 3);
+                this.tblGirosCXC.setValueAt(Ut.setDecimalFormat(rsDepCXC.getString("facmont"), formatoPrecio), i, 3);
                 this.tblGirosCXC.setValueAt(Ut.dtoc(rsDepCXC.getDate("facfech")), i, 4);
                 this.tblGirosCXC.setValueAt(rsDepCXC.getObject("clicode"), i, 5);
                 this.tblGirosCXC.setValueAt(rsDepCXC.getObject("modulo"), i, 6);
@@ -1282,7 +1282,7 @@ public class RegistroTransaccionesCaja extends javax.swing.JFrame {
                 this.tblGirosCXC.setValueAt(rsRetCXC.getObject("tipo"), i, 1);
                 this.tblGirosCXC.setValueAt(rsRetCXC.getObject("clidesc"), i, 2);
                 this.tblGirosCXC.setValueAt(
-                        Ut.fDecimal(rsRetCXC.getString("facmont"), formatoPrecio), i, 3);
+                        Ut.setDecimalFormat(rsRetCXC.getString("facmont"), formatoPrecio), i, 3);
                 this.tblGirosCXC.setValueAt(Ut.dtoc(rsRetCXC.getDate("facfech")), i, 4);
                 this.tblGirosCXC.setValueAt(rsRetCXC.getObject("clicode"), i, 5);
                 this.tblGirosCXC.setValueAt(rsRetCXC.getObject("modulo"), i, 6);
@@ -1323,7 +1323,7 @@ public class RegistroTransaccionesCaja extends javax.swing.JFrame {
                 this.tblGirosCXP.setValueAt(rsRetCXP.getObject("tipo"), i, 1);
                 this.tblGirosCXP.setValueAt(rsRetCXP.getObject("prodesc"), i, 2);
                 this.tblGirosCXP.setValueAt(
-                        Ut.fDecimal(rsRetCXP.getString("facmont"), formatoPrecio), i, 3);
+                        Ut.setDecimalFormat(rsRetCXP.getString("facmont"), formatoPrecio), i, 3);
                 this.tblGirosCXP.setValueAt(Ut.dtoc(rsRetCXP.getDate("facfech")), i, 4);
                 this.tblGirosCXP.setValueAt(rsRetCXP.getObject("procode"), i, 5);
                 this.tblGirosCXP.setValueAt(rsRetCXP.getObject("modulo"), i, 6);

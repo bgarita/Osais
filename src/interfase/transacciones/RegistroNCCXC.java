@@ -1901,8 +1901,8 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                 artexis = String.valueOf(rs.getDouble(1));
                 disponible = String.valueOf(rs.getDouble(2));
             } // end if
-            artexis = Ut.fDecimal(artexis, "#,##0.00");
-            disponible = Ut.fDecimal(disponible, "#,##0.00");
+            artexis = Ut.setDecimalFormat(artexis, "#,##0.00");
+            disponible = Ut.setDecimalFormat(disponible, "#,##0.00");
             ps.close();
         } catch (Exception ex) {
             Logger.getLogger(RegistroNCCXC.class.getName()).log(Level.SEVERE, null, ex);
@@ -2677,7 +2677,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
                     lcPrecio = String.valueOf(precio);
-                    lcPrecio = Ut.fDecimal(lcPrecio, "#,##0.00");
+                    lcPrecio = Ut.setDecimalFormat(lcPrecio, "#,##0.00");
                     txtArtprec.setText(lcPrecio);
                 } // end if
 
@@ -2954,10 +2954,10 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                     rsCliente.getDouble("clilimit") - rsCliente.getDouble("clisald")));
 
             // Formateo los datos numéricos
-            txtClilimit.setText(Ut.fDecimal(txtClilimit.getText().trim(), "#,##0.00"));
-            txtClisald.setText(Ut.fDecimal(txtClisald.getText().trim(), "#,##0.00"));
-            txtVencido.setText(Ut.fDecimal(txtVencido.getText().trim(), "#,##0.00"));
-            txtMontoDisponible.setText(Ut.fDecimal(txtMontoDisponible.getText().trim(), "#,##0.00"));
+            txtClilimit.setText(Ut.setDecimalFormat(txtClilimit.getText().trim(), "#,##0.00"));
+            txtClisald.setText(Ut.setDecimalFormat(txtClisald.getText().trim(), "#,##0.00"));
+            txtVencido.setText(Ut.setDecimalFormat(txtVencido.getText().trim(), "#,##0.00"));
+            txtMontoDisponible.setText(Ut.setDecimalFormat(txtMontoDisponible.getText().trim(), "#,##0.00"));
 
             // Esto evita que, al dispararse el evento propertyChange del
             // spinner spnCliprec, se ejecute todo el código ya que, aparte de
@@ -3073,11 +3073,11 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                 tblDetalle.setValueAt(rs.getString("artdesc"), row, col);
                 col++;
                 valor = String.valueOf(rs.getDouble("faccant")).trim();
-                valor = Ut.fDecimal(valor, "#,##0.00");
+                valor = Ut.setDecimalFormat(valor, "#,##0.00");
                 tblDetalle.setValueAt(valor, row, col);
                 col++;
                 valor = String.valueOf(rs.getDouble("artprec")).trim();
-                valor = Ut.fDecimal(valor, "#,##0.00");
+                valor = Ut.setDecimalFormat(valor, "#,##0.00");
                 tblDetalle.setValueAt(valor, row, col);
                 col++;
                 // Redondeo a entero
@@ -3090,23 +3090,23 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                  */
                 valor = String.valueOf(rs.getDouble("facmont")).trim();
 
-                valor = Ut.fDecimal(valor, "#,##0.00");
+                valor = Ut.setDecimalFormat(valor, "#,##0.00");
                 tblDetalle.setValueAt(valor, row, col);
                 col++;
                 valor = String.valueOf(rs.getDouble("artexis")).trim();
-                valor = Ut.fDecimal(valor, "#,##0.00");
+                valor = Ut.setDecimalFormat(valor, "#,##0.00");
                 tblDetalle.setValueAt(valor, row, col);
                 col++;
                 valor = String.valueOf(rs.getDouble("disponible")).trim();
-                valor = Ut.fDecimal(valor, "#,##0.00");
+                valor = Ut.setDecimalFormat(valor, "#,##0.00");
                 tblDetalle.setValueAt(valor, row, col);
                 col++;
                 valor = String.valueOf(rs.getFloat("facpive"));
-                valor = Ut.fDecimal(valor, "#,##0.00");
+                valor = Ut.setDecimalFormat(valor, "#,##0.00");
                 tblDetalle.setValueAt(valor, row, col);
                 col++;
                 valor = String.valueOf(rs.getFloat("facpdesc"));
-                valor = Ut.fDecimal(valor, "#,##0.00");
+                valor = Ut.setDecimalFormat(valor, "#,##0.00");
                 tblDetalle.setValueAt(valor, row, col);
                 col = 0;
                 row++;
@@ -3130,10 +3130,10 @@ public class RegistroNCCXC extends javax.swing.JFrame {
             IV = String.valueOf(rs.getDouble("facimve"));
             total = String.valueOf(rs.getDouble("facmont"));
 
-            subtotal = Ut.fDecimal(subtotal, "#,##0.00");
-            descuento = Ut.fDecimal(descuento, "#,##0.00");
-            IV = Ut.fDecimal(IV, "#,##0.00");
-            total = Ut.fDecimal(total, "#,##0.00");
+            subtotal = Ut.setDecimalFormat(subtotal, "#,##0.00");
+            descuento = Ut.setDecimalFormat(descuento, "#,##0.00");
+            IV = Ut.setDecimalFormat(IV, "#,##0.00");
+            total = Ut.setDecimalFormat(total, "#,##0.00");
 
             this.txtSubTotal.setText(subtotal);
             this.txtFacdesc.setText(descuento);
@@ -3646,11 +3646,11 @@ public class RegistroNCCXC extends javax.swing.JFrame {
             } // end if (artimpv > 0)
 
             txtFacpive.setText(String.valueOf(facpive));
-            txtFacpive.setText(Ut.fDecimal(txtFacpive.getText(), "#,##0.00"));
+            txtFacpive.setText(Ut.setDecimalFormat(txtFacpive.getText(), "#,##0.00"));
 
             txtArtprec.setText(String.valueOf(precio));
             txtArtprec.setText(
-                    Ut.fDecimal(txtArtprec.getText(), "#,##0.00"));
+                    Ut.setDecimalFormat(txtArtprec.getText(), "#,##0.00"));
 
             // Establecer el descuento (si lo hay)
             txtFacpdesc.setText(String.valueOf(facpdesc));

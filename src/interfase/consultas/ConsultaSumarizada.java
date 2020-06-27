@@ -341,7 +341,7 @@ public class ConsultaSumarizada extends java.awt.Dialog {
         lstFacturas.setModel(dlm);
         total = totalizarLista();
         try {
-            txtTotal.setText(Ut.fDecimal(String.valueOf(total), "#,##0.00"));
+            txtTotal.setText(Ut.setDecimalFormat(String.valueOf(total), "#,##0.00"));
         } catch (Exception ex) {
             Logger.getLogger(ConsultaSumarizada.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
@@ -385,7 +385,7 @@ public class ConsultaSumarizada extends java.awt.Dialog {
         lstFacturas.setModel(dlm);
         
         try {
-            txtTotal.setText(Ut.fDecimal(String.valueOf(totalizarLista()), "#,##0.00"));
+            txtTotal.setText(Ut.setDecimalFormat(String.valueOf(totalizarLista()), "#,##0.00"));
         } catch (Exception ex) {
             Logger.getLogger(ConsultaSumarizada.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,

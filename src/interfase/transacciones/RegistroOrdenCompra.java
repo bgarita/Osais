@@ -1270,11 +1270,11 @@ public class RegistroOrdenCompra extends javax.swing.JFrame {
 
         try {
             // Establezco el formato para el despliegue de datos
-            movcant = Ut.fDecimal(movcant, this.formatoCant);
-            movcoun = Ut.fDecimal(movcoun, this.formatoPrecio);
-            artcosfob = Ut.fDecimal(artcosfob, this.formatoPrecio);
-            descuento = Ut.fDecimal(descuento, this.formatoPrecio);
-            IV = Ut.fDecimal(IV, this.formatoPrecio);
+            movcant = Ut.setDecimalFormat(movcant, this.formatoCant);
+            movcoun = Ut.setDecimalFormat(movcoun, this.formatoPrecio);
+            artcosfob = Ut.setDecimalFormat(artcosfob, this.formatoPrecio);
+            descuento = Ut.setDecimalFormat(descuento, this.formatoPrecio);
+            IV = Ut.setDecimalFormat(IV, this.formatoPrecio);
         } catch (Exception ex) {
             Logger.getLogger(RegistroOrdenCompra.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
@@ -1781,12 +1781,12 @@ public class RegistroOrdenCompra extends javax.swing.JFrame {
                         = rs.getDouble("artcost") / Float.valueOf(txtTipoca.getText());
                 txtMovcoun.setText(String.valueOf(costo));
                 txtMovcoun.setText(
-                        Ut.fDecimal(txtMovcoun.getText(), this.formatoPrecio));
+                        Ut.setDecimalFormat(txtMovcoun.getText(), this.formatoPrecio));
                 // El costo FOB siempre será en moneda local
                 costo = rs.getDouble("artcosfob") / Float.valueOf(txtTipoca.getText());
                 txtArtcosfob.setText(String.valueOf(costo));
                 txtArtcosfob.setText(
-                        Ut.fDecimal(txtArtcosfob.getText(), this.formatoPrecio));
+                        Ut.setDecimalFormat(txtArtcosfob.getText(), this.formatoPrecio));
                 if (txtArtcode.isFocusOwner()) {
                     txtArtcode.transferFocus();
                 } // end if
@@ -2542,7 +2542,7 @@ public class RegistroOrdenCompra extends javax.swing.JFrame {
             double montoDesc
                     = Double.parseDouble(Ut.quitarFormato(txtDescuento.getText().trim()));
             double porcentDesc = montoDesc / subt * 100;
-            txtPorcDesc.setText(Ut.fDecimal(porcentDesc + "", this.formatoPrecio));
+            txtPorcDesc.setText(Ut.setDecimalFormat(porcentDesc + "", this.formatoPrecio));
             calcularTotalLinea(false);
         } catch (Exception ex) {
             // No se hace nada con la excepciòn
@@ -2726,13 +2726,13 @@ public class RegistroOrdenCompra extends javax.swing.JFrame {
             } // end for
 
             txtTotalCantidad.setText(
-                    Ut.fDecimal(sumaCantidad + "", this.formatoCant));
+                    Ut.setDecimalFormat(sumaCantidad + "", this.formatoCant));
             txtTotalCosto.setText(
-                    Ut.fDecimal(sumaCosto + "", this.formatoPrecio));
+                    Ut.setDecimalFormat(sumaCosto + "", this.formatoPrecio));
             txtTotalDescuento.setText(
-                    Ut.fDecimal(sumaDescuento + "", this.formatoPrecio));
+                    Ut.setDecimalFormat(sumaDescuento + "", this.formatoPrecio));
             txtTotalIV.setText(
-                    Ut.fDecimal(sumaIV + "", this.formatoPrecio));
+                    Ut.setDecimalFormat(sumaIV + "", this.formatoPrecio));
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
@@ -3013,20 +3013,20 @@ public class RegistroOrdenCompra extends javax.swing.JFrame {
                 descuento = cantidad * costoU * (porcDesc / 100);
             } // end if
 
-            this.txtDescuento.setText(Ut.fDecimal(descuento + "", formatoPrecio));
+            this.txtDescuento.setText(Ut.setDecimalFormat(descuento + "", formatoPrecio));
         } // end if
 
         if (porcIV > 0) {
             IV = ((cantidad * costoU) - descuento) * (porcIV / 100);
         } // end if
 
-        this.txtIV.setText(Ut.fDecimal(IV + "", formatoPrecio));
+        this.txtIV.setText(Ut.setDecimalFormat(IV + "", formatoPrecio));
 
         totalLinea = cantidad * costoU - descuento + IV;
-        this.txtTotalLinea.setText(Ut.fDecimal(totalLinea + "", formatoPrecio));
+        this.txtTotalLinea.setText(Ut.setDecimalFormat(totalLinea + "", formatoPrecio));
 
         if (cantidad > 0) {
-            this.txtCostoNeto.setText(Ut.fDecimal((totalLinea / cantidad) + "", formatoPrecio));
+            this.txtCostoNeto.setText(Ut.setDecimalFormat((totalLinea / cantidad) + "", formatoPrecio));
         }
 
     } // end calcularTotalLinea

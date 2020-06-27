@@ -1047,7 +1047,6 @@ public class FacturaXML extends javax.swing.JFrame {
              boolean existe = docEl.existeDoc();
 
             // Determinar si el cliente es de contado (genérico)
-            //boolean clienteGenerico = esClienteContado(notanume, facnd);
             boolean clienteGenerico = UtilBD.esClienteGenerico(conn, notanume, facnd);
 
             // Si el usuario eligió omitir los documentos generados previamente
@@ -1059,8 +1058,6 @@ public class FacturaXML extends javax.swing.JFrame {
 
             NotaCreditoElectronica nota = new NotaCreditoElectronica();
 
-            //nota.setAtributo1("https://tribunet.hacienda.go.cr/docs/esquemas/2017/v4.2/notaCreditoElectronica");
-            //nota.setAtributo1("https://tribunet.hacienda.go.cr/docs/esquemas/2019/v4.2/notaCreditoElectronica"); // Julio 2019
             nota.setAtributo1("https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/notaCreditoElectronica"); // Julio 2019
             nota.setAtributo2("http://www.w3.org/2001/XMLSchema");
             nota.setAtributo3("http://www.w3.org/2001/XMLSchema-instance");
@@ -1096,12 +1093,8 @@ public class FacturaXML extends javax.swing.JFrame {
             tran = true;
 
             // Obtener el siguiente consecutivo de documento electrónico
-            //int documentoElectronico = getConsecutivoDocElectronico(notanume, facnd);
             int documentoElectronico = docEl.getConsecutivoDocElectronico("NCR");
             
-            //clave.setSucursal(this.sucursal);
-            //clave.setTerminal(this.terminal);
-            //clave.setTipoComprobante(this.tipoComprobante);
             clave.setSucursal(docEl.getSucursal());
             clave.setTerminal(docEl.getTerminal());
             clave.setTipoComprobante(docEl.getTipoComprobante());
@@ -1111,16 +1104,13 @@ public class FacturaXML extends javax.swing.JFrame {
             nota.setNumeroConsecutivo(clave.getConsecutivoDoc());
             nota.setFechaEmision(emisor.getFacfech());
 
-            //clave.setSituacionComprobante(this.situacionComprobante);
             clave.setSituacionComprobante(docEl.getSituacionComprobante());
             clave.setFecha(emisor.getFacfech());
 
             clave.setCedulaEmisor(emisor.getIdentificacion().getNumero());
             nota.setEmisor(emisor);
 
-            //nota.setCondicionVenta(emisor.getTipoVenta()); // 01=Contado, 02=Crédito
             nota.setCondicionVenta("01"); // 01=Contado, 02=Crédito
-            //nota.setPlazoCredito(emisor.getFacplazo());
             nota.setPlazoCredito(0);
             nota.setMedioPago(emisor.getTipoPago()); // 01=Efectivo, 02=Tarjeta, 03=Cheque, 04=Transferencia, 05=Recaudado por terceros, 99=Otros
 
@@ -1141,7 +1131,6 @@ public class FacturaXML extends javax.swing.JFrame {
 
             ResumenNotaCredito resumen = new ResumenNotaCredito();
 
-            //resumen.setCodigoMoneda(emisor.getCodigoMonedaHacienda());
             CodigoTipoMoneda tipoMoneda = new CodigoTipoMoneda();
             tipoMoneda.setCodigoTipoMoneda(emisor.getCodigoMonedaHacienda());
             tipoMoneda.setTipoCambio(emisor.getTipoCambio());
@@ -1155,19 +1144,19 @@ public class FacturaXML extends javax.swing.JFrame {
             resumen.setTotalIVADevuelto(0.00);
             resumen.setTotalOtrosCargos(0.00);
 
-            resumen.setTotalMercanciasGravadas(detalle.getTotalMercanciasGravadas());
-            resumen.setTotalMercanciasExentas(detalle.getTotalMercanciasExentas());
-            resumen.setTotalGravado(detalle.getTotalGravado());
-            resumen.setTotalExento(detalle.getTotalExcento());
-            resumen.setTotalVenta(detalle.getTotalVenta());
-            resumen.setTotalDescuentos(detalle.getTotalDescuentos());
-            resumen.setTotalVentaNeta(detalle.getTotalVentaNeta());
-            resumen.setTotalImpuesto(detalle.getTotalImpuestos());
-            resumen.setTotalComprobante(detalle.getTotalComprobante());
+            resumen.setTotalMercanciasGravadas(Ut.redondear(detalle.getTotalMercanciasGravadas(),5,3));
+            resumen.setTotalMercanciasExentas(Ut.redondear(detalle.getTotalMercanciasExentas(),5,3));
+            resumen.setTotalGravado(Ut.redondear(detalle.getTotalGravado(),5,3));
+            resumen.setTotalExento(Ut.redondear(detalle.getTotalExcento(),5,3));
+            resumen.setTotalVenta(Ut.redondear(detalle.getTotalVenta(),5,3));
+            resumen.setTotalDescuentos(Ut.redondear(detalle.getTotalDescuentos(),5,3));
+            resumen.setTotalVentaNeta(Ut.redondear(detalle.getTotalVentaNeta(),5,3));
+            resumen.setTotalImpuesto(Ut.redondear(detalle.getTotalImpuestos(),5,3));
+            resumen.setTotalComprobante(Ut.redondear(detalle.getTotalComprobante(),5,3));
 
             nota.setResumen(resumen);
 
-            nota.setNota(setInformacionReferenciaNC(notanume));
+            nota.setNota(getInformacionReferenciaNC(notanume));
 
             /*
              Con el cambio de julio 2019 se eliminan estos campos
@@ -1770,14 +1759,14 @@ public class FacturaXML extends javax.swing.JFrame {
     } // end proveedorContado
 
     /**
-     * Este método asigna como referencia todas aquellas facturas o ND afectadas
+     * Este método retorna una lista con todas aquellas facturas o ND afectadas 
      * por la nota de crédito (no funciona para notas de crédito sobre contado).
      *
      * @param notanume
      * @return
      * @throws SQLException
      */
-    private List<InformacionReferencia> setInformacionReferenciaNC(int notanume) throws SQLException {
+    private List<InformacionReferencia> getInformacionReferenciaNC(int notanume) throws SQLException {
         List<InformacionReferencia> ref = new ArrayList<>();
 
         String sqlSent
@@ -1802,6 +1791,19 @@ public class FacturaXML extends javax.swing.JFrame {
         rs.beforeFirst();
 
         while (rs.next()) {
+            // Si la factura o ND no ha sido enviada a Hacienda no se puede
+            // usar como referencia.
+            if (rs.getString("claveHacienda").trim().isEmpty()){
+                int facnume = rs.getInt("facnume");
+                ps.close();
+                throw new SQLException("[InformacionReferencia] Esta nota de crédito\n" 
+                        + "hace referencia a la factura/ND # " + facnume + " pero\n"
+                        + "parece que ese documento aún no ha sido enviado a Hacienda.\n\n"
+                        + "Recomendación: Si la factura o ND no ha sido enviada a\n"
+                        + "Hacienda, puede anularla sin necesidad de hacer NC. Pero"
+                        + "como ya creó esta NC, debe anular ambas (primero la NC).");
+            } // end if
+            
             InformacionReferencia r = new InformacionReferencia();
             r.setCodigo("04"); // Referencia a otro documento
             r.setFechaEmision(rs.getDate("facfech"));
@@ -1813,7 +1815,7 @@ public class FacturaXML extends javax.swing.JFrame {
         } // end while
 
         return ref;
-    } // end setInformacionReferenciaNC
+    } // end getInformacionReferenciaNC
 
     /**
      * Este método asigna como referencia una nota de crédito.

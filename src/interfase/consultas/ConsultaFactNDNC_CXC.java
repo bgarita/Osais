@@ -635,15 +635,15 @@ public class ConsultaFactNDNC_CXC extends JFrame {
             // Cargar los totales de la factura (ND-NC) con formato
             rs.first();
             this.txtIV.setText(
-                    Ut.fDecimal(rs.getString("facimve"), "#,##0.00"));
+                    Ut.setDecimalFormat(rs.getString("facimve"), "#,##0.00"));
             this.txtFacdesc.setText(
-                    Ut.fDecimal(rs.getString("facdesc"), "#,##0.00"));
+                    Ut.setDecimalFormat(rs.getString("facdesc"), "#,##0.00"));
             this.txtFacmont.setText(
-                    Ut.fDecimal(rs.getString("Total"), "#,##0.00"));
+                    Ut.setDecimalFormat(rs.getString("Total"), "#,##0.00"));
             this.txtFacmonexp.setText(
-                    Ut.fDecimal(rs.getString("facmonexp"), "#,##0.00"));
+                    Ut.setDecimalFormat(rs.getString("facmonexp"), "#,##0.00"));
             this.txtFacsald.setText(
-                    Ut.fDecimal(rs.getString("facsald"), "#,##0.00"));
+                    Ut.setDecimalFormat(rs.getString("facsald"), "#,##0.00"));
 
             rs.close();
             ps.close();

@@ -111,7 +111,7 @@ public class Ingreso extends javax.swing.JFrame {
         });
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Login.jpeg"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Security_key.png"))); // NOI18N
         jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         cmdAceptar.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
@@ -137,12 +137,15 @@ public class Ingreso extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(cmdAceptar, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
                 .addGap(10, 10, 10)
-                .addComponent(cmdCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(24, 24, 24))
+                .addComponent(cmdAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(cmdCancelar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmdAceptar, cmdCancelar});
+
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -195,7 +198,7 @@ public class Ingreso extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 35, Short.MAX_VALUE)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4))
         );
@@ -209,10 +212,6 @@ public class Ingreso extends javax.swing.JFrame {
     }//GEN-LAST:event_cmdCancelarActionPerformed
 
     private void cmdAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdAceptarActionPerformed
-        // Bosco modificado 01/05/2011
-        //        CONEXION = new DataBaseConnection(
-        //                txtUser.getText().trim(),
-        //                txtPassword.getText().trim());
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
         String usuario = txtUser.getText().trim();
         char[] pass = txtPassword.getPassword();
@@ -247,12 +246,12 @@ public class Ingreso extends javax.swing.JFrame {
 //            } else {
 //                retryConnection(usuario,pass2,url);
 //            } // end if
-            conexion = new DataBaseConnection(usuario,pass2,url);
+            conexion = new DataBaseConnection(usuario, pass2, url);
             // Si el error persiste intento nuevamente.  Pero solo si se trata de 
             // un problema con la IP.
             if (!conexion.isConnected() &&
                     conexion.getErrorMessage().contains("Communications link failure")){
-                retryConnection(usuario,pass2,url);
+                retryConnection(usuario, pass2, url);
             } // end if (!CONEXION.isConnected()) && ...
         } // end if (url.contains("localhost")) else ...
         
@@ -294,8 +293,6 @@ public class Ingreso extends javax.swing.JFrame {
         }
         
         String mensaje;
-        
-        
         if (!continuar){
             disponible = false;
             mensaje = "El sistema no está disponible en este momento.";
@@ -319,7 +316,6 @@ public class Ingreso extends javax.swing.JFrame {
 
         rs = null;
         setVisible(false);
-        dispose();
 
         // Bosco agregado 06/11/2011
         // Valido el intervalo de cambio de claves.
@@ -453,7 +449,7 @@ public class Ingreso extends javax.swing.JFrame {
         // Bosco agregado 23/02/2013
         // Hago una revisión del TC y si el usuario está autorizado a cambiar
         // este parámetro le presento la pantalla para que lo haga.
-        Tipocambio Tipoc;
+        Tipocambio tipoC;
         float tc;
         
         try {
@@ -479,9 +475,9 @@ public class Ingreso extends javax.swing.JFrame {
         try {
             if (tc == 0 && UtilBD.tienePermiso(conexion.getConnection(),"Tipocambio")){
                 try{
-                    Tipoc = new Tipocambio(conexion.getConnection());
-                    Tipoc.setVisible(true);
-                    Tipoc.setAlwaysOnTop(true);
+                    tipoC = new Tipocambio(conexion.getConnection());
+                    tipoC.setVisible(true);
+                    tipoC.setAlwaysOnTop(true);
                 } catch(SQLException ex){
                     JOptionPane.showMessageDialog(null, 
                             ex.getMessage(), 
@@ -508,6 +504,8 @@ public class Ingreso extends javax.swing.JFrame {
             return;
         } // end if
         
+        dispose();
+        Menu.PASS = pass2;
         Menu.main(conexion, disponible, url);
     }//GEN-LAST:event_cmdAceptarActionPerformed
 

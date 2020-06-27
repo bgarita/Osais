@@ -426,7 +426,7 @@ public class AnulacionFacturasCXP extends java.awt.Dialog {
             txtFecha.setText(rs.getString("Fecha"));
             try {
                 txtMonto.setText(
-                        Ut.fDecimal(
+                        Ut.setDecimalFormat(
                         rs.getString("Monto"), "#,##0.00"));
             } catch (Exception ex) {
                 Logger.getLogger(AnulacionFacturasCXP.class.getName()).log(Level.SEVERE, null, ex);

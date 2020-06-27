@@ -45,6 +45,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import logica.Fondo;
 import logica.Usuario;
+import logica.backup.BackupFiles;
 import logica.contabilidad.CoactualizCat;
 import logica.utilitarios.DirectoryStructure;
 import logica.utilitarios.Ut;
@@ -56,7 +57,7 @@ import logica.utilitarios.Ut;
 @SuppressWarnings("serial")
 public class Menu extends javax.swing.JFrame {
 
-    // Creo la propiedad que contendrá la conexión compartida
+    // Propiedad que contendrá la conexión compartida
     private final Connection sConn;
     
     private final Fondo FONDO;
@@ -65,19 +66,6 @@ public class Menu extends javax.swing.JFrame {
     public static String url;
     public static boolean enviarDocumentosElectronicos;
 
-    //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Abr 2014";
-    //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Jun 2014";
-    //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Jul 2014";
-    //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Nov 2014";
-    //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Dic 2014"; // 2.6r4
-    //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Dic 2014"; // 2.6r5
-    //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Ene 2015"; // 2.6r6
-    //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Ene 2015"; // 2.6r7
-    //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Mar 2015"; // 2.6r8
-    //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Abr 2015"; // 2.6r9
-    //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Jul 2015"; // 2.7r0
-    //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Ago 2015"; // 2.7r1
-    //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Oct 2015"; // 2.7r2
     /*
      Bosco 01/11/2015.
      La versión 2.7r3 cuenta con un mecanismo de búsqueda de IPs que se utiliza como
@@ -91,41 +79,12 @@ public class Menu extends javax.swing.JFrame {
      con las direcciones desde la 9 hasta la 3.
      Todo este proceso es transparente para el usuario.
      */
-    //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Nov 2015"; // 2.7r3
-    //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Nov 2015"; // 2.7r4
-    //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Nov 2015"; // 2.7r5
-    //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Dic 2015"; // 2.7r6
-    //private final String VERSIONN = "2.7r7";
-    //public static final String VERSIONN = "2.7r9";
-    //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Ene 2016"; // 2.7r7
-    //public static final String VERSIONN = "2.8r0";
-    //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Jul 2016";
-    //public static final String VERSIONN = "3.0r0";
-    //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Nov 2016";
-    //public static final String VERSIONN = "3.0r1";
-    //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Dic 2016";
-    //public static final String VERSIONN = "3.0r2";
-    //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Jul 2017";
-    //public static final String VERSIONN = "3.0r3";
-    //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Mar 2018";
-    //public static final String VERSIONN = "3.0r4";
-    //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Jul 2018";
-    //public static final String VERSIONN = "4.0r5";
-    //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Oct 2018"; // Factura electrónica
-    //public static final String VERSIONN = "4.0r6";
-    //public static final String VERSIONN = "4.0r7";
-    //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Enero 2019";
-    //public static final String VERSIONN = "4.0r8";
-    //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Jun 2019"; // Cambios en factura electrónica para Julio 2019
-    //public static final String VERSIONN = "4.0r9";
-    //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Ago 2019"; // Mejoras en facturación electrónica
-    //public static final String VERSIONN = "4.1r0";
-    //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Set 2019";
-//    public static final String VERSIONN = "4.1r1";
-//    private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Ene 2020"; // Redondeo dinámico a 5 decimales de los montos de NC electrónica
+    //public static final String VERSIONN = "4.1r1";
+    //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Ene 2020"; // Redondeo dinámico a 5 decimales de los montos de NC electrónica
     public static final String VERSIONN = "4.1r2";
     private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Feb 2020"; // Gravado y exento en F.E.
     public static String USUARIO;
+    public static String PASS;
     private static String SERVIDOR;
     public static String BASEDATOS;
     public static String USUARIOBD;
@@ -518,6 +477,7 @@ public class Menu extends javax.swing.JFrame {
         mnuClave = new javax.swing.JMenuItem();
         mnuSeguridad = new javax.swing.JMenuItem();
         mnuBackup = new javax.swing.JMenuItem();
+        mnuRespArchivos = new javax.swing.JMenuItem();
         mnuHacienda = new javax.swing.JMenu();
         mnuXml = new javax.swing.JMenuItem();
         mnuConsXML = new javax.swing.JMenuItem();
@@ -537,7 +497,7 @@ public class Menu extends javax.swing.JFrame {
 
         mnuInarticu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
         mnuInarticu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/database_lightning.png"))); // NOI18N
-        mnuInarticu.setText("Artículos de inventario");
+        mnuInarticu.setText("Catálogo de productos");
         mnuInarticu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuInarticuActionPerformed(evt);
@@ -557,7 +517,7 @@ public class Menu extends javax.swing.JFrame {
 
         mnuInfamily.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
         mnuInfamily.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Familias3.jpg"))); // NOI18N
-        mnuInfamily.setText("Familias");
+        mnuInfamily.setText("Catálogo de familias");
         mnuInfamily.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuInfamilyActionPerformed(evt);
@@ -567,7 +527,7 @@ public class Menu extends javax.swing.JFrame {
 
         mnuBodegas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
         mnuBodegas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/database.png"))); // NOI18N
-        mnuBodegas.setText("Bodegas");
+        mnuBodegas.setText("Catálogo de bodegas");
         mnuBodegas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuBodegasActionPerformed(evt);
@@ -588,7 +548,7 @@ public class Menu extends javax.swing.JFrame {
 
         mnuInproved.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         mnuInproved.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/shopcartapply_16x16.png"))); // NOI18N
-        mnuInproved.setText("Proveedores");
+        mnuInproved.setText("Catálogo de proveedores");
         mnuInproved.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuInprovedActionPerformed(evt);
@@ -597,7 +557,7 @@ public class Menu extends javax.swing.JFrame {
         mnuArchivo.add(mnuInproved);
 
         mnuClientes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        mnuClientes.setText("Clientes");
+        mnuClientes.setText("Catálogo de clientes");
         mnuClientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuClientesActionPerformed(evt);
@@ -607,7 +567,7 @@ public class Menu extends javax.swing.JFrame {
 
         mnuVendedores.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         mnuVendedores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Vendedor.jpg"))); // NOI18N
-        mnuVendedores.setText("Vendedores");
+        mnuVendedores.setText("Catálogo de vendedores");
         mnuVendedores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuVendedoresActionPerformed(evt);
@@ -616,7 +576,7 @@ public class Menu extends javax.swing.JFrame {
         mnuArchivo.add(mnuVendedores);
 
         mnuTerritorios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        mnuTerritorios.setText("Zonas");
+        mnuTerritorios.setText("Catálogo de zonas");
         mnuTerritorios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuTerritoriosActionPerformed(evt);
@@ -636,7 +596,7 @@ public class Menu extends javax.swing.JFrame {
 
         mnuMonedas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_MASK));
         mnuMonedas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/currency.png"))); // NOI18N
-        mnuMonedas.setText("Monedas");
+        mnuMonedas.setText("Catálogo de monedas");
         mnuMonedas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuMonedasActionPerformed(evt);
@@ -1904,6 +1864,14 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuAdmin.add(mnuBackup);
 
+        mnuRespArchivos.setText("Respaldar archivos del sistema");
+        mnuRespArchivos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuRespArchivosActionPerformed(evt);
+            }
+        });
+        mnuAdmin.add(mnuRespArchivos);
+
         mnuPrincipal.add(mnuAdmin);
 
         mnuHacienda.setText("Hacienda");
@@ -2421,7 +2389,6 @@ CONEXION.getConnection(), // Conexión
     }//GEN-LAST:event_mnuDetalleCXCActionPerformed
 
     private void mnuPagaresCXCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPagaresCXCActionPerformed
-        //RegistroPagaresCXC1.main(CONEXION.getConnection());
         RegistroPagaresCXC.main(CONEXION.getConnection()); // Se comprueba que son las fechas las que dan el problema
     }//GEN-LAST:event_mnuPagaresCXCActionPerformed
 
@@ -2775,7 +2742,7 @@ CONEXION.getConnection(), // Conexión
         CambioClave cambioClave
                 = new CambioClave(
                         new javax.swing.JFrame(),
-                        true, CONEXION.getConnection(), this.USUARIO, false);
+                        true, CONEXION.getConnection(), Menu.USUARIO, false);
     }//GEN-LAST:event_mnuClaveActionPerformed
 
     private void mnuSeguridadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSeguridadActionPerformed
@@ -2878,9 +2845,9 @@ CONEXION.getConnection(), // Conexión
 
         new AnulacionRecibosCXP(
                 new java.awt.Frame(),
-                true, // Modal
-CONEXION.getConnection(), // Conexión
-                "0") // Número de recibo
+                true,                       // Modal
+                CONEXION.getConnection(),   // Conexión
+                "0")                        // Número de recibo
                 .setVisible(true);
     }//GEN-LAST:event_mnuAnulaRCXPActionPerformed
 
@@ -2910,9 +2877,9 @@ CONEXION.getConnection(), // Conexión
 
         new AnulacionFacturasCXP(
                 new java.awt.Frame(),
-                true, // Modal
-CONEXION.getConnection(), // Conexión
-                "0") // Número de documento
+                true,                       // Modal
+                CONEXION.getConnection(),   // Conexión
+                "0")                        // Número de documento
                 .setVisible(true);
     }//GEN-LAST:event_mnuEliminarCXPActionPerformed
 
@@ -2965,9 +2932,8 @@ CONEXION.getConnection(), // Conexión
 
         new ConsultaSumarizada(
                 new java.awt.Frame(),
-                true, // Modal
-CONEXION.getConnection()) // Conexión
-
+                true,                       // Modal
+                CONEXION.getConnection())   // Conexión
                 .setVisible(true);
     }//GEN-LAST:event_mnuConsultaSumarizadaActionPerformed
 
@@ -3180,9 +3146,9 @@ CONEXION.getConnection()) // Conexión
 
         new AnulacionRecibosCaja(
                 new java.awt.Frame(),
-                true, // Modal
-CONEXION.getConnection(), // Conexión
-                "0") // Número de recibo
+                true,                       // Modal
+                CONEXION.getConnection(),   // Conexión
+                "0")                        // Número de recibo
                 .setVisible(true);
     }//GEN-LAST:event_mnuAnularCajaActionPerformed
 
@@ -3211,10 +3177,10 @@ CONEXION.getConnection(), // Conexión
         // Fin Bosco agregado 23/07/2011
         new ImpresionReciboCaja(
                 new java.awt.Frame(),
-                true, // Modal
-CONEXION.getConnection(), // Conexión
-                "0", // Número de recibo
-                true) // (true = Caja)
+                true,                       // Modal
+                CONEXION.getConnection(),   // Conexión
+                "0",                        // Número de recibo
+                true)                       // (true = Caja)
                 .setVisible(true);
     }//GEN-LAST:event_mnuImprimirRecibosCajaActionPerformed
 
@@ -3651,20 +3617,6 @@ CONEXION.getConnection(), // Conexión
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, ex);
         }
-        
-//        FacturaXML1 fact;
-//        try {
-//            fact = new FacturaXML1(CONEXION.getConnection());
-//            fact.setMode(FacturaXML1.INTERACTIVE);
-//            fact.setTipo(FacturaXML1.FACTURA);
-//            fact.setVisible(true);
-//            JOptionPane.showMessageDialog(null, "Fin llamado");
-//            JOptionPane.showMessageDialog(null, fact.getTitle());
-//        } catch (Exception ex) {
-//            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-//            JOptionPane.showMessageDialog(null, ex);
-//        }
-        
     }//GEN-LAST:event_mnuXmlActionPerformed
 
     private void mnuConsultaXMLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsultaXMLActionPerformed
@@ -3715,6 +3667,25 @@ CONEXION.getConnection(), // Conexión
     private void mnuMovAuxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMovAuxActionPerformed
         ConsultaMovCierre.main(new String[1]);
     }//GEN-LAST:event_mnuMovAuxActionPerformed
+
+    private void mnuRespArchivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRespArchivosActionPerformed
+        try {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "RespaldoArchivosSistema")) {
+                JOptionPane.showMessageDialog(null,
+                        "Usted no está autorizado para ejecutar este proceso",
+                        "Error - Permisos",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            } // end if
+        } catch (Exception ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            return;
+        } // end try-catch
+        
+        BackupFiles bk = new BackupFiles();
+        bk.start();
+    }//GEN-LAST:event_mnuRespArchivosActionPerformed
 
     public static void main(final DataBaseConnection c, final boolean disponible, final String url) {
 
@@ -3913,6 +3884,7 @@ CONEXION.getConnection(), // Conexión
     private javax.swing.JMenu mnuRepFact;
     private javax.swing.JMenu mnuRepInv;
     private javax.swing.JMenu mnuReportes;
+    private javax.swing.JMenuItem mnuRespArchivos;
     private javax.swing.JMenuItem mnuSalidas;
     private javax.swing.JMenu mnuSalir;
     private javax.swing.JMenuItem mnuSeguridad;
@@ -4064,7 +4036,8 @@ CONEXION.getConnection(), // Conexión
     } // end close
 
     public Connection getConn() {
-        return this.CONEXION.getConnection();
+        return Menu.CONEXION.getConnection();
     }
 
+    
 }

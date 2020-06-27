@@ -222,8 +222,8 @@ public class Cambio extends java.awt.Dialog {
             
             String cambio =
                     String.valueOf(Double.parseDouble(pago) - Double.parseDouble(facmont));
-            pago   = Ut.fDecimal(pago,   "#,##0.00");
-            cambio = Ut.fDecimal(cambio, "#,##0.00");
+            pago   = Ut.setDecimalFormat(pago,   "#,##0.00");
+            cambio = Ut.setDecimalFormat(cambio, "#,##0.00");
             txtCambio.setText(cambio);
             this.mPago.setText(pago);
             this.mCambio.setText(cambio);

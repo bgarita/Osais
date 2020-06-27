@@ -371,7 +371,7 @@ public class AnulacionFacturasCXC extends java.awt.Dialog {
                 lblClidesc.setText(rs.getString("clidesc"));
                 txtFecha.setText(rs.getString("Fecha"));
                 txtMonto.setText(
-                        Ut.fDecimal(
+                        Ut.setDecimalFormat(
                                 rs.getString("Monto"), "#,##0.00"));
                 lblMoneda.setText(rs.getString("descrip"));
                 this.reccaja = rs.getInt("reccaja");

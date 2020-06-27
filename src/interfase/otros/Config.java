@@ -1353,7 +1353,7 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
             codigoDolar = rs.getString("codigoDolar").trim();
             cargarMonedas();
             cboMascaratel.setSelectedItem(rs.getObject("Mascaratel"));
-            txtFacimpu.setText(Ut.fDecimal(Float.toString(
+            txtFacimpu.setText(Ut.setDecimalFormat(Float.toString(
                     rs.getFloat("Facimpu")), "#,##0.00"));
             spnNotifComInt.setValue(rs.getObject("NotifComInt"));
             txtWallPaper.setText((String) rs.getObject("WallPaper"));
@@ -1424,7 +1424,7 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
             this.chkasignarprovaut.setSelected(rs.getBoolean("asignarprovaut")); // Bosco agregado 30/12/2013
 
             // Cejilla Facturación
-            this.txtDescAutom.setText(Ut.fDecimal(Float.toString(
+            this.txtDescAutom.setText(Ut.setDecimalFormat(Float.toString(
                     rs.getFloat("DescAutom")), "#,##0.00"));
             this.txtBloqDias.setText(Integer.toString(rs.getInt("BloqDias")));
             this.chkExist0.setSelected(rs.getBoolean("Exist0"));
@@ -1460,10 +1460,10 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
 
             // Cejilla Cuentas por cobrar
             this.txtDiasDevol.setText(Integer.toString(rs.getInt("DiasDevol")));
-            this.txtMora.setText(Ut.fDecimal(Float.toString(
+            this.txtMora.setText(Ut.setDecimalFormat(Float.toString(
                     rs.getFloat("Mora")), "#,##0.00"));
             this.txtIntervalo.setText(Integer.toString(rs.getInt("Intervalo")));
-            this.txtIncrementoM.setText(Ut.fDecimal(Float.toString(
+            this.txtIncrementoM.setText(Ut.setDecimalFormat(Float.toString(
                     rs.getFloat("IncrementoM")), "#,##0.00"));
             this.txtDiasG.setText(Integer.toString(rs.getInt("DiasG")));
             this.chkCreditoaf.setSelected(rs.getBoolean("Creditoaf"));

@@ -1010,7 +1010,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
                     = Ut.quitarFormato(
                             txtFacmont.getText().trim());
             monto = Ut.redondearA5(monto);
-            txtFacmont.setText(Ut.fDecimal(monto, "##0.00"));
+            txtFacmont.setText(Ut.setDecimalFormat(monto, "##0.00"));
         } // end redondear
         catch (Exception ex) {
             Logger.getLogger(RegistroNDCXC.class.getName()).log(Level.SEVERE, null, ex);

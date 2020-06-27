@@ -14,3 +14,19 @@ Sat Feb 01 09:55:38 CST 2020
 Usuario: bgarita
 interfase.consultas.ImpresionFactura--> Documento # 77508.
 Cliente no tiene una dirección de correo electrónica asociada.
+Sun Mar 22 12:53:27 CST 2020
+Usuario: null
+accesoDatos.DataBaseConnection--> Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+Sun Mar 22 12:56:45 CST 2020
+Usuario: null
+accesoDatos.DataBaseConnection--> Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+Sun Mar 22 13:03:18 CST 2020
+Usuario: bgarita
+interfase.menus.Menu--> C:\Backups\C:\Java Programs\osais\xmls-22-03-2020 12 58 21 PM.zip (The filename, directory name, or volume label syntax is incorrect)
+Fri Apr 03 17:40:14 CST 2020
+Usuario: null
+accesoDatos.DataBaseConnection--> Could not create connection to database server. Attempted reconnect 3 times. Giving up.
+Fri Apr 03 17:41:22 CST 2020
+Usuario: null
+interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.

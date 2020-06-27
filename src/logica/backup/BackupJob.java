@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -53,8 +52,9 @@ public class BackupJob extends Thread {
     }
 
     private void procesar() {
-        String fecha = Ut.dtoc(new Date());
-        fecha = fecha.replaceAll("/", "-") + " " + Ut.getCurrentTime().replaceAll(":", " ");
+        //        String fecha = Ut.dtoc(new Date());
+        //        fecha = fecha.replaceAll("/", "-") + " " + Ut.getCurrentTime().replaceAll(":", " ");
+        String unique = Ut.getUniqueName(1);
         String DB;
         Boolean error = false;
         /*
@@ -62,12 +62,12 @@ public class BackupJob extends Thread {
          */
 
         // Crear el archivo con los defaults
-        String defaultsFile = Menu.USUARIO.trim() + ".txt";
-        File f = new File(defaultsFile);
+        String defaultsFileName = Menu.USUARIO.trim() + ".txt";
+        File defaultsF = new File(defaultsFileName);
+        Archivos archivo = new Archivos();
         try {
-            Archivos archivo = new Archivos();
-            archivo.stringToFile("[client]", defaultsFile, false); // Texto, nombre del archivo, agregar
-            archivo.stringToFile("password=" + "\"" + passw.trim() + "\"", defaultsFile, true);
+            archivo.stringToFile("[client]", defaultsFileName, false); // Texto, nombre del archivo, agregar
+            archivo.stringToFile("password=" + "\"" + passw.trim() + "\"", defaultsFileName, true);
         } catch (IOException ex) {
             Logger.getLogger(BackupJob.class.getName()).log(Level.SEVERE, null, ex);
             new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
@@ -76,9 +76,11 @@ public class BackupJob extends Thread {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             label.setText(ex.getMessage());
-            f.delete();
+            defaultsF.delete();
             return;
         } // end try-catch
+        
+        
         
         for (String dataBase : dataBases) {
             DB = dataBase.trim();
@@ -96,27 +98,28 @@ public class BackupJob extends Thread {
             */
             String tool = "mysqldump ";
             String cmd = tool +
-                    "--defaults-file=" + defaultsFile + " --user=" + Menu.USUARIO.trim() + " --port=" + Menu.PORT +
+                    "--defaults-file=" + defaultsFileName + " --user=" + Menu.USUARIO.trim() + " --port=" + Menu.PORT +
                     " --default-character-set=utf8 --single-transaction=TRUE --routines --events " + DB;
-            String fileName = targetFolder + "/" + fecha + "_" + DB + ".osais";
+            String fileName     = targetFolder + "/" + unique + "_" + DB + ".osais";
+            String zipFileName  = targetFolder + "/" + unique + "_" + DB; // No debe llevar extensión
             try {
                 label.setText("Conectando...");
                 lblProceso.setVisible(true);
                 pb.setValue(0);
 
-                Process p = Runtime.getRuntime().exec(cmd);
+                Process process   = Runtime.getRuntime().exec(cmd);
                 Process calculate = Runtime.getRuntime().exec(cmd);
 
-                new BackupErrorMessages(p.getErrorStream(), error).start();
+                new BackupErrorMessages(process.getErrorStream(), error).start();
 
-                InputStream is = p.getInputStream();
+                InputStream is  = process.getInputStream();
                 InputStream is2 = calculate.getInputStream();
 
                 label.setText("Calculando " + DB + "...");
                 
                 Ut.seek(tblConfig, DB, 1);
 
-                FileOutputStream fos = new FileOutputStream(fileName);
+                FileOutputStream      fos = new FileOutputStream(fileName);
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
                 int size = 1000;
                 int len;
@@ -136,7 +139,7 @@ public class BackupJob extends Thread {
                 } // end if
 
                 pb.setMaximum(buf.length);
-                label.setText("Respaldando " + Ut.fDecimal(buf.length + "", "#,##0") + " bytes...");
+                label.setText("Respaldando " + Ut.setDecimalFormat(buf.length + "", "#,##0") + " bytes...");
 
                 int suma = 0;
 
@@ -145,16 +148,23 @@ public class BackupJob extends Thread {
                 while (len > 0) {
                     suma += len;
                     pb.setValue(suma);
-                    tblConfig.setValueAt("Grabando " + Ut.fDecimal(suma + "", "#,##0") + " bytes..", tblConfig.getSelectedRow(), 2);
+                    tblConfig.setValueAt("Grabando " + Ut.setDecimalFormat(suma + "", "#,##0") + " bytes..", tblConfig.getSelectedRow(), 2);
                     fos.write(buffer, 0, len);
                     len = is.read(buffer);
                 } // end while
 
-                tblConfig.setValueAt("Completado. " + Ut.fDecimal(suma + "", "#,##0") + " bytes.", tblConfig.getSelectedRow(), 2);
+                tblConfig.setValueAt("Completado. " + Ut.setDecimalFormat(suma + "", "#,##0") + " bytes.", tblConfig.getSelectedRow(), 2);
 
                 fos.close();
                 is.close();
-
+                
+                // Comprimir el archivo
+                label.setText("Comprimiendo datos...");
+                archivo.zipFile(new File(fileName), new File(zipFileName), null);
+                
+                label.setText("Borrando archivos temporales...");
+                new File(fileName).delete();
+                
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null,
                         ex.getMessage(),
@@ -165,9 +175,10 @@ public class BackupJob extends Thread {
                 new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             } // end try-catch
         } // end for
+        
         lblProceso.setVisible(false);
         
-        f.delete(); // Eliminar el archivo utilizado por mysqldump
+        defaultsF.delete(); // Eliminar el archivo utilizado por mysqldump
 
         if (error) {
             return;

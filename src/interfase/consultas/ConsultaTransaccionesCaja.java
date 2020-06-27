@@ -584,7 +584,7 @@ public class ConsultaTransaccionesCaja extends javax.swing.JFrame {
                 for (int column = 0; column < tblTrans.getModel().getColumnCount(); column++){
                     value = rs.getObject(column+1).toString();
                     if (column == 3){
-                        value = Ut.fDecimal(value, "#,##0.00");
+                        value = Ut.setDecimalFormat(value, "#,##0.00");
                     } // end if
                     tblTrans.setValueAt(value, row, column);
                 } // end for
@@ -595,11 +595,11 @@ public class ConsultaTransaccionesCaja extends javax.swing.JFrame {
             double dep, ret;
             Number val = Ut.sum(tblTrans, 3, "Depósito", 1);
             dep = Double.parseDouble(val + "");
-            this.lblTotalDep.setText(Ut.fDecimal(val + "","#,##0.00"));
+            this.lblTotalDep.setText(Ut.setDecimalFormat(val + "","#,##0.00"));
             val = Ut.sum(tblTrans, 3, "Retiro", 1);
             ret = Double.parseDouble(val + "");
-            this.lblTotalRet.setText(Ut.fDecimal(val + "","#,##0.00"));
-            this.lblBalance.setText(Ut.fDecimal((dep-ret) + "","#,##0.00"));
+            this.lblTotalRet.setText(Ut.setDecimalFormat(val + "","#,##0.00"));
+            this.lblBalance.setText(Ut.setDecimalFormat((dep-ret) + "","#,##0.00"));
         } catch (Exception ex) {
             Logger.getLogger(ConsultaTransaccionesCaja.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 

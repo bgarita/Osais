@@ -1,18 +1,24 @@
 package logica.utilitarios;
 
 import Mail.Bitacora;
+import interfase.otros.ProgressMonitor;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * @author: Crysfel Villa Created: Friday, June 03, 2005 4:54:59 PM Modified:
@@ -209,17 +215,89 @@ public class Archivos {
 
     /**
      * Guardar texto en un archivo ASCII
+     *
      * @param text String - texto a almacenar
-     * @param path String - nombre del archivo a guardar (incluye la ruta completa)
-     * @param append boolean - true=Agrega el texto, false=Reemplaza el texto existente
-     * @throws IOException 
+     * @param path String - nombre del archivo a guardar (incluye la ruta
+     * completa)
+     * @param append boolean - true=Agrega el texto, false=Reemplaza el texto
+     * existente
+     * @throws IOException
      * @author Bosco Garita Azofeifa, 13/07/2019
      */
-    public void stringToFile(String text, String path, boolean append) throws IOException{
+    public void stringToFile(String text, String path, boolean append) throws IOException {
         FileWriter write = new FileWriter(path, append);
         try (PrintWriter pw = new PrintWriter(write)) {
             pw.printf("%s" + "%n", text);
             pw.close();
         } // end try
     } // end stringToFile
+
+    /**
+     * Comprime un archivo o una carpeta con todos sus archivos.No comprime
+     * subcarpetas. Esa funcionalidad aún no se le ha agregado.
+     *
+     * @author Bosco Garita Azofeifa
+     * @since 20/03/2020
+     * @param sourceFile File puede ser un archivo o una carpeta.
+     * @param targetFile File debe ser el nombre de un archivo que es donde se
+     * guardarán los archivos comprimidos. Si viene nulo el sistema asumirá el
+     * mismo nombre que el origen.
+     * @param monitor ProgressMonitor muestra el avance y los mensajes como en
+     * consola
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    public void zipFile(File sourceFile, File targetFile, ProgressMonitor monitor) throws FileNotFoundException, IOException {
+        FileOutputStream fos;
+        String targetFileName;
+        if (targetFile == null) {
+            targetFileName = sourceFile.getAbsolutePath() + ".zip";
+        } else {
+            targetFileName = targetFile.getAbsolutePath() + ".zip";
+        } // end if-else
+
+        fos = new FileOutputStream(targetFileName);
+
+        ZipOutputStream zos = new ZipOutputStream(fos);
+
+        addZipFile(sourceFile, zos, monitor);
+
+        zos.closeEntry();
+        zos.close();
+        System.out.println("\nZipped file: " + targetFileName);
+    } // end zipFile
+
+    private void addZipFile(File sourceFile, ZipOutputStream zos, ProgressMonitor monitor) throws IOException {
+        /*
+        Este mensaje aparecerá solo una vez por cada carpeta que se respalde.
+        Y si fuera solo un archivo lo que recibe como sourceFile sería ese
+        nombre el que se muestre.
+         */
+        System.out.println("Compressing " + sourceFile.getAbsolutePath());
+        // Si el origen es una carpeta, agrego cada uno de los archivos.
+        if (sourceFile.isDirectory()) {
+            File[] files = sourceFile.listFiles();
+            for (File f : files) {
+                if (monitor != null) {
+                    monitor.setValue(monitor.getValue() + 1);
+                } // end if
+
+                // Llamado recursivo
+                if (f.isDirectory()) {
+                    addZipFile(f, zos, monitor);
+                    continue;
+                }
+                zos.putNextEntry(new ZipEntry(f.getCanonicalPath()));
+                byte[] bytes = Files.readAllBytes(Paths.get(f.getAbsolutePath()));
+                zos.write(bytes, 0, bytes.length);
+            } // end for
+        } else {
+            if (monitor != null) {
+                monitor.setValue(monitor.getValue() + 1);
+            } // end if
+            zos.putNextEntry(new ZipEntry(sourceFile.getCanonicalPath()));
+            byte[] bytes = Files.readAllBytes(Paths.get(sourceFile.getAbsolutePath()));
+            zos.write(bytes, 0, bytes.length);
+        } // end if
+    } // end addZipFile
 } // end class
