@@ -8,8 +8,8 @@ package interfase.mantenimiento;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
-import interfase.otros.Buscador;
 import interfase.menus.MenuPopupArticulos;
+import interfase.otros.Buscador;
 import interfase.otros.Navegador;
 import java.awt.Color;
 import java.awt.event.WindowAdapter;
@@ -30,8 +30,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import logica.utilitarios.Archivos;
 import logica.Bodexis;
+import logica.utilitarios.Archivos;
 import logica.utilitarios.FiltrodeArchivos;
 import logica.utilitarios.SQLInjectionException;
 import logica.utilitarios.Ut;
@@ -52,6 +52,7 @@ public class Inarticu extends JFrame {
     private Buscador bd = null;
     private ResultSet rs2 = null;
     private boolean usarivi;    // true=el sistema trabaja con impuesto incluido
+    private float IVAGlobal;    // Impuesto de ventas global
     private int buscar = 0;     // 0=Artículos, 1=Familias, 2=Proveedores
     private final int ARTICULOS = 0;
     private final int FAMLIAS = 1;
@@ -126,7 +127,7 @@ public class Inarticu extends JFrame {
         nav = new Navegador();
         conn = c;
         nav.setConexion(conn);
-        usarivi = false;
+        this.usarivi = false;
         sincronizarTablas = false;
 
         try {
@@ -137,14 +138,22 @@ public class Inarticu extends JFrame {
              2) Proveedor automático
              3) Bodega predeterminada
              4) Sincronización de tablas
+             5) Porcentaje de IVA global
              */
             rs = nav.ejecutarQuery(
-                    "Select usarivi, asignarprovaut, bodega, sincronizarTablas from config");
+                    "Select "
+                    + "usarivi, "
+                    + "asignarprovaut, "
+                    + "bodega, "
+                    + "sincronizarTablas, "
+                    + "facimpu "
+                    + "from config");
             if (rs != null && rs.first()) {
-                usarivi = rs.getBoolean("usarivi");
-                asignarprovaut = rs.getBoolean("asignarprovaut"); // Bosco agregado 30/12/2013
-                bodegaDefault = rs.getString("bodega");          // Bosco agregado 30/12/2013
+                this.usarivi = rs.getBoolean("usarivi");
+                asignarprovaut = rs.getBoolean("asignarprovaut");       // Bosco agregado 30/12/2013
+                bodegaDefault = rs.getString("bodega");                 // Bosco agregado 30/12/2013
                 sincronizarTablas = rs.getBoolean("sincronizarTablas"); // Bosco agregado 16/08/2016
+                this.IVAGlobal = rs.getFloat("facimpu");                // Bosco agregado 03/07/2020
             } // end if
             rs.close();
 
@@ -2958,7 +2967,7 @@ public class Inarticu extends JFrame {
             Artcode = txtArtcode.getText().trim();
             Artdesc = txtArtdesc.getText().trim();
             Barcode = txtBarcode.getText().trim();
-            Artfam  = txtArtfam.getText().trim();
+            Artfam = txtArtfam.getText().trim();
 
             Artcosd = Ut.quitarFormato(txtArtcosd.getText().trim());
             Artcost = Ut.quitarFormato(txtArtcost.getText().trim());
@@ -2981,7 +2990,7 @@ public class Inarticu extends JFrame {
 
             Artdurp = txtArtdurp.getText().trim();
             Artimpv = txtArtimpv.getText().trim();
-            Otroc   = txtOtroC.getText().trim();
+            Otroc = txtOtroC.getText().trim();
             Altarot = (chkAltarot.isSelected() ? "1" : "0");
             Vinternet = (chkVinternet.isSelected() ? "1" : "0");
             ArtusaIVG = (chkArtusaIVG.isSelected() ? "1" : "0");
@@ -3068,7 +3077,8 @@ public class Inarticu extends JFrame {
                         + Artimpv + ","
                         + "'" + Otroc + "'" + ","
                         + Altarot + ","
-                        + aplicaOferta + "," + // Bosco agregado 08/03/2014
+                        + aplicaOferta + ","
+                        + // Bosco agregado 08/03/2014
                         Vinternet + ","
                         + ArtusaIVG + ","
                         + "'" + ArtObse + "'" + ","
@@ -3094,7 +3104,8 @@ public class Inarticu extends JFrame {
                         + "artimpv = " + Artimpv + ","
                         + "otroc   = " + "'" + Otroc + "'" + ","
                         + "altarot = " + Altarot + ","
-                        + "aplicaOferta = " + aplicaOferta + "," + // Bosco agregado 08/03/2014
+                        + "aplicaOferta = " + aplicaOferta + ","
+                        + // Bosco agregado 08/03/2014
                         "vinternet = " + Vinternet + ","
                         + "artusaIVG = " + ArtusaIVG + ","
                         + "ArtObse = " + "'" + ArtObse + "'" + ","
@@ -3673,8 +3684,12 @@ public class Inarticu extends JFrame {
      * @param gananciax Objeto de utilidad que será modificado
      */
     private void setUtilidad(JTextField preciox, JTextField gananciax) {
-        String tmpPrecio, costo;
-        double gan;
+        String precioOriginal, precioSinIVA, costo;
+        double utilidad;
+
+        // Obtener el porcentaje de impuesto que usa este artículo
+        float IVA = this.chkArtusaIVG.isSelected() ? this.IVAGlobal : Float.parseFloat(this.txtArtimpv.getText().trim());
+        precioSinIVA = "0";
 
         if (preciox.getText().trim().isEmpty()) {
             return;
@@ -3683,22 +3698,33 @@ public class Inarticu extends JFrame {
         try {
             // Validar si hay redondeo de decimales
             boolean redondear = UtilBD.redondearPrecios(conn);
-            tmpPrecio = Ut.quitarFormato(preciox.getText().trim());
+            precioOriginal = Ut.quitarFormato(preciox.getText().trim());
             costo = Ut.quitarFormato(txtArtcost.getText().trim());
 
             // Si la configuración indica redondeo, se redondea al entero mayor
             if (redondear) {
-                if (Float.parseFloat(tmpPrecio)
-                        > (int) Float.parseFloat(tmpPrecio)) {
-                    int precio = (int) Float.parseFloat(tmpPrecio) + 1;
-                    preciox.setText(precio + "");
-                    tmpPrecio = precio + "";
+                if (Float.parseFloat(precioOriginal)
+                        > (int) Float.parseFloat(precioOriginal)) {
+                    int precio = (int) Float.parseFloat(precioOriginal) + 1;
+                    //preciox.setText(precio + "");
+                    preciox.setText(Ut.setDecimalFormat(precio + "", "#,##0.0000"));
+                    precioOriginal = precio + "";
                 } // end if
             } // end if
-            gan = (Double.parseDouble(tmpPrecio) - Double.parseDouble(costo))
+
+            // Si el artículo está grabado y viene con el IVI se debe separar
+            // para calcular correctamente la utilidad.
+            if (IVA > 0 && this.usarivi) {
+                double dPrecio = Double.parseDouble(precioOriginal);
+                dPrecio = dPrecio / (1 + IVA / 100);
+                precioSinIVA = dPrecio + "";
+            }
+
+            // Calcular la utilidad
+            utilidad = (Double.parseDouble(precioSinIVA) - Double.parseDouble(costo))
                     / Double.parseDouble(costo) * 100;
-            gananciax.setText(Ut.setDecimalFormat(String.valueOf(gan), "#,##0.0000000"));
-            preciox.setText(Ut.setDecimalFormat(tmpPrecio, "#,##0.0000"));
+            gananciax.setText(Ut.setDecimalFormat(String.valueOf(utilidad), "#,##0.0000000"));
+
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,
                     "[setUtilidad] " + ex.getMessage(),
@@ -3709,7 +3735,7 @@ public class Inarticu extends JFrame {
         } // end try-catch
 
         // Agrego revisión del margen de utilidad 14/09/2010.
-        revisarUtilidad(gan);
+        revisarUtilidad(utilidad);
     } // end setUtilidad
 
     /**
@@ -3722,24 +3748,20 @@ public class Inarticu extends JFrame {
      */
     private void setPrecio(JTextField preciox, JTextField gananciax) {
         double costo, utilidad, fpreciox;
-        //String depur = "Precios";
+
+        // Obtener el porcentaje de impuesto que usa este artículo
+        float IVA = this.chkArtusaIVG.isSelected() ? this.IVAGlobal : Float.parseFloat(this.txtArtimpv.getText().trim());
+
         try {
             costo = Double.parseDouble(
                     Ut.quitarFormato(txtArtcost.getText().trim()));
             utilidad = Double.parseDouble(
                     Ut.quitarFormato(gananciax.getText().trim()));
 
-            // El método getPrecio valida y ejecuta todos los redondeos
-            // que estén programados.
-            fpreciox = Ut.getPrecio(costo, utilidad, conn);
-
-            preciox.setText(fpreciox + "");
-
-            preciox.setText(Ut.setDecimalFormat(preciox.getText(), "#,##0.0000"));
+            fpreciox = costo + (costo * utilidad / 100);
 
             // Esta parte del código se ejecuta para que el porcentaje sea
             // congruente con el precio.
-            //fpreciox = Float.parseFloat(Ut.quitarFormato(preciox.getText().trim()));
             Double gan = (fpreciox - costo) / costo * 100;
 
             // Bosco agregado 26/04/2011
@@ -3747,7 +3769,20 @@ public class Inarticu extends JFrame {
                 gan = 0d;
             } // end if
 
-            gananciax.setText(Ut.setDecimalFormat(String.valueOf(gan), "#,##0.0000000"));
+            // Si la empresa trabaja con impuesto incluido se debe agregar
+            // como al cálculo.
+            if (IVA > 0 && this.usarivi) {
+                fpreciox += (fpreciox * (IVA / 100));
+            } // end if
+
+            // Si la configuración indica redondeo, se redondea al entero mayor
+            if (UtilBD.redondearPrecios(conn)) {
+                fpreciox = (int) fpreciox + 1;
+            } // end if
+
+            preciox.setText(Ut.setDecimalFormat(fpreciox + "", "#,##0.0000"));
+
+            gananciax.setText(Ut.setDecimalFormat(gan + "", "#,##0.0000000"));
 
             // Agrego revisión del margen de utilidad 14/09/2010.
             revisarUtilidad(gan);
@@ -3770,15 +3805,20 @@ public class Inarticu extends JFrame {
      * @param utilidad double
      */
     private void revisarUtilidad(double utilidad) {
-        double utmin = 0d;
+        double utilidadMinima = 0d;
         String depur = "Utilidad";
+
+        // Obtener el porcentaje de impuesto que usa este artículo
+        float IVA = this.chkArtusaIVG.isSelected() ? this.IVAGlobal : Float.parseFloat(this.txtArtimpv.getText().trim());
+
         try {
-            try (ResultSet rsIVI = nav.ejecutarQuery("Select usarivi from config")) {
-                if (rsIVI != null && rsIVI.first()) {
-                    usarivi = rsIVI.getBoolean("usarivi");
-                    rsIVI.close();
-                } // end if
-            }
+            // Esto no es necesario ya que cuando se carga el formulario se setea esta variable (Bosco 03/07/2020).
+            //            try (ResultSet rsIVI = nav.ejecutarQuery("Select usarivi from config")) {
+            //                if (rsIVI != null && rsIVI.first()) {
+            //                    usarivi = rsIVI.getBoolean("usarivi");
+            //                    rsIVI.close();
+            //                } // end if
+            //            }
 
             // Agrego revisión del margen de utilidad 14/09/2010.
             if (utilidad < 0) {
@@ -3792,13 +3832,13 @@ public class Inarticu extends JFrame {
 
             // Si la empresa trabaja con IVI entonces la utilidad
             // mínima debe ser igual al impuesto de ventas (IV).
-            if (usarivi) {
-                utmin = 0;
-                if (!txtArtimpv.getText().trim().isEmpty()) {
-                    utmin = Double.parseDouble(
-                            Ut.quitarFormato(
-                                    txtArtimpv.getText().trim()));
-                } // end if
+            if (this.usarivi) {
+                utilidadMinima = IVA;
+                //                if (!txtArtimpv.getText().trim().isEmpty()) {
+                //                    utmin = Double.parseDouble(
+                //                            Ut.quitarFormato(
+                //                                    txtArtimpv.getText().trim()));
+                //                } // end if
             } // end if
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,
@@ -3809,9 +3849,9 @@ public class Inarticu extends JFrame {
             return;
         } // end try-catch
 
-        if (utilidad < utmin) {
+        if (utilidad < utilidadMinima) {
             JOptionPane.showMessageDialog(null,
-                    "La utilidad mínima debe ser " + utmin
+                    "La utilidad mínima debe ser " + utilidadMinima
                     + "\nCon esta utilidad la empresa pierde.",
                     "Advertencia!",
                     JOptionPane.WARNING_MESSAGE);
@@ -3849,7 +3889,7 @@ public class Inarticu extends JFrame {
         String SQLSent, SQLInsert, SQLDelete;
         boolean existe, borrar;
 
-        SQLSent   = " Select artcode from inservice where artcode = ?";
+        SQLSent = " Select artcode from inservice where artcode = ?";
         SQLInsert = " Insert into inservice (artcode) values(?)";
         SQLDelete = " Delete from inservice where artcode = ?";
 
