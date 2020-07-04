@@ -2,3 +2,5 @@
 *.pdf
 *.jar
 dist/
+log.txt
+build/
