@@ -39,6 +39,7 @@ public class Empresa extends JFrame {
     private List<ProvinciaM> provincias;
     private List<CantonM> cantones;
     private List<DistritoM> distritos;
+    private final Bitacora b = new Bitacora();
 
     private int codigoP;    // Código de provincia
     private int codigoC;    // Código de cantón
@@ -117,7 +118,7 @@ public class Empresa extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         inicio = false;
     } // end constructor
@@ -620,7 +621,7 @@ public class Empresa extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try catch
 
         if (regAfectados == 0) {

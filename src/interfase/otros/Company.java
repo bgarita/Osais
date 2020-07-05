@@ -19,6 +19,9 @@ import logica.utilitarios.Ut;
 public class Company extends javax.swing.JFrame {
     private final String[][] companies; // Capacidad para 20 compañías.
     private String url;
+    private final Bitacora b = new Bitacora();
+    
+    
     /** Creates new form Company */
     public Company() {
         this.url = "";
@@ -179,7 +182,7 @@ public class Company extends javax.swing.JFrame {
                         msg,
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + msg);
+                b.writeToLog(this.getClass().getName() + "--> " + msg);
                 System.exit(0);
                 return;
             } // end if
@@ -205,7 +208,7 @@ public class Company extends javax.swing.JFrame {
                             msg,
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
-                    new Bitacora().writeToLog(this.getClass().getName() + "--> " + msg);
+                    b.writeToLog(this.getClass().getName() + "--> " + msg);
                     System.exit(0);
                 } // end if-else
             } // try with resources
@@ -215,7 +218,7 @@ public class Company extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             System.exit(0);
         }
     } // end cargarComboCompany

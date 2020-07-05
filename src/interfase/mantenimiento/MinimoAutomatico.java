@@ -1,6 +1,8 @@
 
 package interfase.mantenimiento;
 
+import Exceptions.EmptyDataSourceException;
+import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
 import java.awt.event.WindowAdapter;
@@ -12,8 +14,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import Exceptions.EmptyDataSourceException;
-import Mail.Bitacora;
 import logica.utilitarios.Ut;
 
 /**
@@ -23,6 +23,7 @@ import logica.utilitarios.Ut;
 public class MinimoAutomatico extends javax.swing.JFrame {
     private static final long serialVersionUID = 3L;
     private Connection conn;
+    private final Bitacora b = new Bitacora();
 
     /**
      * Creates new form MinimoAutomatico
@@ -62,7 +63,7 @@ public class MinimoAutomatico extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }
 
@@ -264,7 +265,7 @@ public class MinimoAutomatico extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
     }//GEN-LAST:event_btnProcesarActionPerformed
@@ -274,7 +275,7 @@ public class MinimoAutomatico extends javax.swing.JFrame {
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(MinimoAutomatico.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed

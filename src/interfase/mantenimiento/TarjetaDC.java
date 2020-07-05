@@ -6,6 +6,8 @@
  */
 package interfase.mantenimiento;
 
+import Exceptions.EmptyDataSourceException;
+import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
 import interfase.otros.Buscador;
@@ -19,10 +21,8 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import Exceptions.EmptyDataSourceException;
-import Mail.Bitacora;
-import logica.utilitarios.SQLInjectionException;
 import logica.Tarjeta;
+import logica.utilitarios.SQLInjectionException;
 import logica.utilitarios.Ut;
 
 /**
@@ -41,6 +41,7 @@ public class TarjetaDC extends JFrame {
     private JTextField codigo, numero;
 
     private final Tarjeta tarjeta;
+    private final Bitacora b = new Bitacora();
 
     /**
      * Creates new form TarjetaDC
@@ -438,7 +439,7 @@ public class TarjetaDC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_cboSeleccionarActionPerformed
 
@@ -465,7 +466,7 @@ public class TarjetaDC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_btnPrimeroActionPerformed
 
@@ -492,7 +493,7 @@ public class TarjetaDC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_btnAnteriorActionPerformed
 
@@ -518,7 +519,7 @@ public class TarjetaDC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_btnSiguienteActionPerformed
 
@@ -544,7 +545,7 @@ public class TarjetaDC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_btnUltimoActionPerformed
 
@@ -583,7 +584,7 @@ public class TarjetaDC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_btnGuardarActionPerformed
 
@@ -627,7 +628,7 @@ public class TarjetaDC extends JFrame {
                     ex.getMessage(),
                     "Mensaje",
                     JOptionPane.INFORMATION_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
 
@@ -659,7 +660,7 @@ public class TarjetaDC extends JFrame {
                         ex.getMessage(),
                         "Mensaje",
                         JOptionPane.INFORMATION_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 return;
             } // end try-catch
         } // end if
@@ -680,7 +681,7 @@ public class TarjetaDC extends JFrame {
                             ex.getMessage(),
                             "Mensaje",
                             JOptionPane.INFORMATION_MESSAGE);
-                    new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 } // end try-catch
             } // end if transaccion
         } // end if
@@ -851,7 +852,7 @@ public class TarjetaDC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // end showData
 
@@ -880,7 +881,7 @@ public class TarjetaDC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         return existe;
     } // end consultarRegistro

@@ -6,7 +6,10 @@
 
 package interfase.transacciones;
 
+import Exceptions.EmptyDataSourceException;
+import Mail.Bitacora;
 import accesoDatos.UtilBD;
+import interfase.otros.Buscador;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.Connection;
@@ -17,11 +20,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
-import Exceptions.EmptyDataSourceException;
-import Mail.Bitacora;
-import interfase.otros.Buscador;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 import logica.utilitarios.Ut;
 
 /**
@@ -38,6 +38,7 @@ public class DigitacionConteo extends JFrame {
     private String bodega;
     private boolean inicio = true;
     private boolean busquedaAut = false;
+    private final Bitacora b = new Bitacora();
     
     
     /** Creates new form
@@ -427,7 +428,7 @@ public class DigitacionConteo extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end catch
         
@@ -486,7 +487,7 @@ public class DigitacionConteo extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     }//GEN-LAST:event_cboBodegasActionPerformed
 
@@ -689,7 +690,7 @@ public class DigitacionConteo extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
         // Vuelvo a cargar los datos

@@ -19,8 +19,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import logica.Cacaja;
 import logica.Catransa;
-import logica.utilitarios.FormatoTabla;
 import logica.Usuario;
+import logica.utilitarios.FormatoTabla;
 import logica.utilitarios.Ut;
 
 /**
@@ -38,6 +38,7 @@ public class RegistroTransaccionesCaja extends javax.swing.JFrame {
     private String formatoPrecio; // Máscara para montos
     
     private JTextField txtIdtarjeta;
+    private final Bitacora b = new Bitacora();
     
 
     /**
@@ -69,7 +70,7 @@ public class RegistroTransaccionesCaja extends javax.swing.JFrame {
             formatoPrecio = UtilBD.getFormatoMonto(c);
         } catch (Exception ex) {
             Logger.getLogger(RegistroTransaccionesCaja.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
         
@@ -89,7 +90,7 @@ public class RegistroTransaccionesCaja extends javax.swing.JFrame {
             this.txtEfectivo.setText(Ut.setDecimalFormat(caja.getEfectivo() + "", this.formatoPrecio));
         } catch (Exception ex) {
             Logger.getLogger(RegistroTransaccionesCaja.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         
         tabGiros.setBorder(
@@ -804,7 +805,7 @@ public class RegistroTransaccionesCaja extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
         
@@ -1018,7 +1019,7 @@ public class RegistroTransaccionesCaja extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             if (transac){
                 try {
                     CMD.transaction(conn, CMD.ROLLBACK);
@@ -1029,7 +1030,7 @@ public class RegistroTransaccionesCaja extends javax.swing.JFrame {
                             "El sistema se cerrará para proteger la integridad.",
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
-                    new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex1.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex1.getMessage());
                     System.exit(1);
                 } // end try-catch interno
             } // end if
@@ -1038,7 +1039,7 @@ public class RegistroTransaccionesCaja extends javax.swing.JFrame {
             this.txtEfectivo.setText(Ut.setDecimalFormat(caja.getEfectivo() + "", this.formatoPrecio));
         } catch (Exception ex) {
             Logger.getLogger(RegistroTransaccionesCaja.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         
     }//GEN-LAST:event_btnGuardarActionPerformed
@@ -1252,7 +1253,7 @@ public class RegistroTransaccionesCaja extends javax.swing.JFrame {
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             } // end try-catch
         } // end for
     } // end loadDep
@@ -1292,7 +1293,7 @@ public class RegistroTransaccionesCaja extends javax.swing.JFrame {
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             } // end try-catch
         } // end for
     } // end loadRetCXC
@@ -1333,7 +1334,7 @@ public class RegistroTransaccionesCaja extends javax.swing.JFrame {
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             } // end try-catch
         } // end for
     } // end loadRet

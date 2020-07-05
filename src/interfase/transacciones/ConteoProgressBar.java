@@ -38,6 +38,7 @@ public class ConteoProgressBar extends Thread {
     public final static int VERIFICARDATOS = 2;
     private String bodega;
     private final DigitacionConteo dc;
+    private final Bitacora b = new Bitacora();
     
     public ConteoProgressBar(JTable tabla, ResultSet rs, Statement stat, DigitacionConteo d) {
         this.tabla = tabla;
@@ -123,7 +124,7 @@ public class ConteoProgressBar extends Thread {
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 // Si se produjo un error paso al siguiente registro.
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 continue;
             } // end try-catch
             
@@ -162,7 +163,7 @@ public class ConteoProgressBar extends Thread {
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 break;
             } // catch
         } // end for
@@ -206,7 +207,7 @@ public class ConteoProgressBar extends Thread {
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 huboError = true;
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             } // end catch
             finally{
                 if (!guardado){
@@ -248,7 +249,7 @@ public class ConteoProgressBar extends Thread {
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             } // end try-catch
             dc.dispose();
         } // end if

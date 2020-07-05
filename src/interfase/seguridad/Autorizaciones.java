@@ -6,6 +6,8 @@
 
 package interfase.seguridad;
 
+import Exceptions.EmptyDataSourceException;
+import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
 import java.sql.Connection;
@@ -18,8 +20,6 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
-import Exceptions.EmptyDataSourceException;
-import Mail.Bitacora;
 import logica.utilitarios.Ut;
 
 /**
@@ -33,6 +33,8 @@ public class Autorizaciones extends javax.swing.JFrame {
     private String[] users;
     private String[][] tareas;
     private boolean inicio = true;
+    private final Bitacora b = new Bitacora();
+    
     /** Creates new form Autorizaciones */
     public Autorizaciones(Connection c) {
         initComponents();
@@ -90,7 +92,7 @@ public class Autorizaciones extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 
         llenarListas();
@@ -368,7 +370,7 @@ public class Autorizaciones extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             try {
                 CMD.transaction(conn, CMD.ROLLBACK);
             } catch (SQLException ex1){
@@ -385,7 +387,7 @@ public class Autorizaciones extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             } // catch
         } // finally
     }//GEN-LAST:event_cmdGuardarActionPerformed
@@ -495,7 +497,7 @@ public class Autorizaciones extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 
     } // end llenarListas

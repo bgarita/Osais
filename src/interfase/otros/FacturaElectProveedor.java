@@ -42,6 +42,7 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
     private static final long serialVersionUID = 501L;
     private final Connection conn;
     private ArrayList<String> validFiles;
+    private final Bitacora b = new Bitacora();
 
     /**
      * Creates new form FacturaElectProveedor
@@ -329,7 +330,7 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
                     msg,
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + msg);
+            b.writeToLog(this.getClass().getName() + "--> " + msg);
             return;
         } // end if
         
@@ -369,7 +370,7 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -446,7 +447,7 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
 
@@ -686,7 +687,7 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
         return fileName;
@@ -780,7 +781,7 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
         return tipoCedulaEmisor;

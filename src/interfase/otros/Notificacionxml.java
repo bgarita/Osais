@@ -33,6 +33,7 @@ public class Notificacionxml extends Thread {
 
     private long espera;
     private boolean detenido;
+    private final Bitacora b = new Bitacora();
 
     public Notificacionxml(Connection c, boolean notificacion) {
         this.conn = c;
@@ -78,7 +79,7 @@ public class Notificacionxml extends Thread {
                     "[Notificaciones automáticas] " + ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // end cargarIntervalo
 
@@ -184,7 +185,7 @@ public class Notificacionxml extends Thread {
 //                    ex.getMessage(),
 //                    "Error",
 //                    JOptionPane.ERROR_MESSAGE);
-//            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+//            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
 //        } // end try-catch
 //        
     } // end notificar
@@ -263,7 +264,7 @@ public class Notificacionxml extends Thread {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(Notificacionxml.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -284,7 +285,7 @@ public class Notificacionxml extends Thread {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // end actualizarEstados
 } // end Notificacionxml

@@ -36,6 +36,8 @@ public class Cacaja implements IEstructuraBD{
     private String cerrada;       // Indica si la caja está cerrada o no.
     private double efectivo;      // Saldo en efectivo
     
+    private final Bitacora b = new Bitacora();
+    
     private final Connection conn;
     private boolean error;
     private String mensaje_error;
@@ -181,7 +183,7 @@ public class Cacaja implements IEstructuraBD{
             Logger.getLogger(Cacaja.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
         
@@ -307,7 +309,7 @@ public class Cacaja implements IEstructuraBD{
             this.error = true;
             this.mensaje_error = ex.getMessage();
             this.descripcion = "";
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch 
     } // end cargar
     
@@ -357,7 +359,7 @@ public class Cacaja implements IEstructuraBD{
             this.error = true;
             this.mensaje_error = ex.getMessage();
             this.descripcion = "";
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // end cargarTodo
     
@@ -432,7 +434,7 @@ public class Cacaja implements IEstructuraBD{
             Logger.getLogger(Cacaja.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         return !this.error;
         
@@ -472,7 +474,7 @@ public class Cacaja implements IEstructuraBD{
             Logger.getLogger(Cacaja.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // try-catch
         return registros;
     } // end update
@@ -504,7 +506,7 @@ public class Cacaja implements IEstructuraBD{
             Logger.getLogger(Cacaja.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // try-catch
         return registros;
     } // end delete
@@ -543,7 +545,7 @@ public class Cacaja implements IEstructuraBD{
             this.error = true;
             this.mensaje_error = ex.getMessage();
             this.bloqueada = (bloquear ? "N": "S"); // Efecto contrario
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return false;
         } // end try-catch
         
@@ -573,7 +575,7 @@ public class Cacaja implements IEstructuraBD{
             this.error = true;
             this.mensaje_error = ex.getMessage();
             this.descripcion = "";
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
     } // end cargarUltimo
@@ -661,7 +663,7 @@ public class Cacaja implements IEstructuraBD{
             Logger.getLogger(Cacaja.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
         
@@ -685,7 +687,7 @@ public class Cacaja implements IEstructuraBD{
             Logger.getLogger(Cacaja.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // end calculateBalance
     
@@ -870,7 +872,7 @@ public class Cacaja implements IEstructuraBD{
             CMD.transaction(conn, CMD.COMMIT);
         } catch (SQLException ex) {
             Logger.getLogger(Cacaja.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             
             if (hayTran){
                 try {
@@ -883,7 +885,7 @@ public class Cacaja implements IEstructuraBD{
                     this.mensaje_error = 
                             "Ocurrió un error grave a nivel de base de datos.\n" +
                             "Debe cerrar el sistema e intentarlo nuevamente.";
-                    new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex1.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex1.getMessage());
                     System.exit(1);
                 } // end try-interno
             } // end if
@@ -968,7 +970,7 @@ public class Cacaja implements IEstructuraBD{
             Logger.getLogger(Cacaja.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
         // Si llega hasta aquí y no hay error...
@@ -1010,7 +1012,7 @@ public class Cacaja implements IEstructuraBD{
             Logger.getLogger(Cacaja.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
     } // end actualizarTransacciones
@@ -1050,7 +1052,7 @@ public class Cacaja implements IEstructuraBD{
                 Logger.getLogger(Cacaja.class.getName()).log(Level.SEVERE, null, ex);
                 this.mensaje_error = ex.getMessage();
                 pendientes = true;
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             } // end try-catch
         } // end if
         

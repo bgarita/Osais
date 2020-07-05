@@ -194,12 +194,14 @@ public class DetalleNotificacion extends javax.swing.JDialog {
                 row++;
             } // end while
         } catch (SQLException ex) {
-            Logger.getLogger(DetalleNotificacion.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(), 
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            Bitacora b = new Bitacora();
+            b.setLogLevel(Bitacora.ERROR);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // end cargarTabla
 }

@@ -29,9 +29,9 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
 
     private static final long serialVersionUID = 41L;
     private final Connection conn;
-    //private final ResultSet rs;
     private String query;
     private String where;
+    private Bitacora b = new Bitacora();
 
     /**
      * Creates new form DetalleNotificacion
@@ -47,6 +47,7 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
         setWhere();
         setQuery();
         cargarTabla();
+        b.setLogLevel(Bitacora.ERROR);
     } // end constructor
 
     /**
@@ -341,7 +342,7 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
             //conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     }//GEN-LAST:event_formWindowClosing
 
@@ -468,12 +469,12 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
             } // end while
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(DetalleNotificacionXml.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // end cargarTabla
 
@@ -598,7 +599,7 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
                     ex.getMessage(),
                     "Enviar correo",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -700,7 +701,7 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -791,7 +792,7 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
                                 ex.getMessage(),
                                 "Impresión",
                                 JOptionPane.ERROR_MESSAGE);
-                        new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                        b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                     } // end try-catch
                     fact.setTipo(tipo);
                     break;

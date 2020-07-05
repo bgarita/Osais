@@ -27,6 +27,7 @@ public class DiasVisitaProveedores extends javax.swing.JFrame {
 
     private Connection conn;
     private String  procode;
+    private Bitacora b = new Bitacora();
 
 
     /** Creates new form ProveedoresAsignados
@@ -67,7 +68,7 @@ public class DiasVisitaProveedores extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             dispose();
         } // end try-catch
 
@@ -308,7 +309,7 @@ public class DiasVisitaProveedores extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }//GEN-LAST:event_cmdAgregarActionPerformed
 
@@ -420,7 +421,7 @@ public class DiasVisitaProveedores extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
         if (sqlResult == 0){

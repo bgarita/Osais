@@ -22,6 +22,7 @@ public class Existenciasxproveedor extends javax.swing.JFrame {
     private String procode;
     private String bodega; // bodega predeterminada
     private final Connection conn;
+    private final Bitacora b = new Bitacora();
 
     /**
      * Creates new form Existenciasxproveedor
@@ -45,7 +46,7 @@ public class Existenciasxproveedor extends javax.swing.JFrame {
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
             setVisible(false);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             dispose();
             return;
         } // end try-catch
@@ -210,7 +211,7 @@ public class Existenciasxproveedor extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
         setVisible(false);
@@ -365,7 +366,7 @@ public class Existenciasxproveedor extends javax.swing.JFrame {
                     ex.getMessage(), 
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
     } // end cargarDatos

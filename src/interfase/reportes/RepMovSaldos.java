@@ -42,6 +42,7 @@ public class RepMovSaldos extends JFrame {
     private final int ARTFAM2  = 6;
 
     private int objetoBusqueda = ARTCODE1;
+    private final Bitacora b = new Bitacora();
     
     /** Creates new form */
     public RepMovSaldos(Connection c) throws SQLException {
@@ -630,7 +631,7 @@ public class RepMovSaldos extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 

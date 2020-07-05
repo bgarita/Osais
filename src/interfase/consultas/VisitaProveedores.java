@@ -23,12 +23,14 @@ import logica.utilitarios.Ut;
 public class VisitaProveedores extends javax.swing.JFrame {
     private static final long serialVersionUID = 5L;
     Connection conn;
+    private Bitacora b = new Bitacora();
     /**
      * Creates new form VisitaProveedores
      * @param conn
      */
     public VisitaProveedores(Connection conn) {
         initComponents();
+        b.setLogLevel(Bitacora.ERROR);
         this.conn = conn;
         cargarProveedores();
     }
@@ -131,12 +133,12 @@ public class VisitaProveedores extends javax.swing.JFrame {
             ra = new RepArticulosXProveedor();
             ra.crearOrden(conn, procode);
         } catch (SQLException ex) {
-            Logger.getLogger(VisitaProveedores.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     }//GEN-LAST:event_btnOrdenActionPerformed
 
@@ -207,7 +209,7 @@ public class VisitaProveedores extends javax.swing.JFrame {
         String hoy = Ut.hoy(cal.getTime());
         PreparedStatement ps;
         ResultSet rs;
-        DefaultListModel modelo = new DefaultListModel();
+        DefaultListModel<String> modelo = new DefaultListModel<>();
         
         try {
             ps = conn.prepareStatement(sqlSent,
@@ -221,7 +223,7 @@ public class VisitaProveedores extends javax.swing.JFrame {
             this.lstProveedoresDeHoy.setModel(modelo);
         } catch (SQLException ex) {
             Logger.getLogger(VisitaProveedores.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end cargarProveedores
 }

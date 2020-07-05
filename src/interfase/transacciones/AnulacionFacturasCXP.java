@@ -29,6 +29,7 @@ public class AnulacionFacturasCXP extends java.awt.Dialog {
     private String procode;         // Código de proveedor
     private ResultSet rs  = null;   // Uso general
     private int reccaja;            // Referencia de caja
+    private final Bitacora b = new Bitacora();
 
     public AnulacionFacturasCXP(
             java.awt.Frame parent,
@@ -434,7 +435,7 @@ public class AnulacionFacturasCXP extends java.awt.Dialog {
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 return;
             } // end try-catch
             
@@ -495,7 +496,7 @@ public class AnulacionFacturasCXP extends java.awt.Dialog {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }//GEN-LAST:event_txtFacturaFocusLost
 
@@ -603,7 +604,7 @@ public class AnulacionFacturasCXP extends java.awt.Dialog {
             lblProdesc.setText("");
             txtFecha.setText("");
             txtMonto.setText("0.00");
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
 
             if (hayTransaccion){
                 try {
@@ -614,7 +615,7 @@ public class AnulacionFacturasCXP extends java.awt.Dialog {
                             "El sistema se cerrará.",
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
-                        new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                        b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                         System.exit(1);
                 } // end catch
             } // end if
@@ -742,7 +743,7 @@ public class AnulacionFacturasCXP extends java.awt.Dialog {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
                 todoCorrecto = false;
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             } // end try-catch
             
         } // end if

@@ -16,7 +16,10 @@ import logica.utilitarios.Ut;
  *
  * @author bgarita, 22/03/2020
  */
-public class BackupFiles extends Thread{
+public class BackupFiles extends Thread {
+    private final Bitacora b = new Bitacora();
+    
+    
     @Override
     public void run(){
         ProgressMonitor progress = new ProgressMonitor();
@@ -70,7 +73,7 @@ public class BackupFiles extends Thread{
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             progress.setVisible(false);
             progress.dispose();
             return;

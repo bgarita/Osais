@@ -9,7 +9,6 @@ package interfase.reportes;
 
 import Mail.Bitacora;
 import accesoDatos.CMD;
-import logica.contabilidad.PeriodoContable;
 import accesoDatos.UtilBD;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import logica.contabilidad.PeriodoContable;
 import logica.utilitarios.Ut;
 
 /**
@@ -32,6 +32,7 @@ import logica.utilitarios.Ut;
 public class RepBalanceSituacion extends JFrame {
 
     private Connection conn;
+    private final Bitacora b = new Bitacora();
     
     /** Creates new form
      * @param c
@@ -278,7 +279,7 @@ public class RepBalanceSituacion extends JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(RepBalanceSituacion.class.getName()).log(Level.SEVERE, null, ex);
             // No es necesario darle tratamiento al error.
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         dispose();
     }//GEN-LAST:event_btnCerrarActionPerformed
@@ -372,7 +373,7 @@ public class RepBalanceSituacion extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
         
@@ -500,7 +501,7 @@ public class RepBalanceSituacion extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
         
@@ -549,7 +550,7 @@ public class RepBalanceSituacion extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
             
     }//GEN-LAST:event_btnImprimirActionPerformed
@@ -691,7 +692,7 @@ public class RepBalanceSituacion extends JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             correcto = false;
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
         return correcto;

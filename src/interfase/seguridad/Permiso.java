@@ -25,6 +25,7 @@ public class Permiso extends javax.swing.JDialog {
     private static final long serialVersionUID = 11L;
     public static String autorizaUsr = "";
     private final String permiso;
+    private final Bitacora b = new Bitacora();
 
     /** Creates new form Permiso
      * @param parent
@@ -224,7 +225,7 @@ public class Permiso extends javax.swing.JDialog {
             c.close();
         } catch (Exception ex) {
             Logger.getLogger(Permiso.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         btnSalirActionPerformed(evt);
 }//GEN-LAST:event_btnAceptarActionPerformed

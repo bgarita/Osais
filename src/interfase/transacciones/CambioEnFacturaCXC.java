@@ -6,6 +6,8 @@
 
 package interfase.transacciones;
 
+import Exceptions.NotUniqueValueException;
+import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
 import interfase.otros.Buscador;
@@ -26,9 +28,6 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import Exceptions.NotUniqueValueException;
-import Mail.Bitacora;
-import logica.Cacaja;
 import logica.utilitarios.Ut;
 
 /**
@@ -41,6 +40,8 @@ public class CambioEnFacturaCXC extends JFrame {
     private final int FACTURAS   = 1;
     private final int CLIENTES   = 2;
     private final int VENDEDORES = 3;
+    
+    private final Bitacora b = new Bitacora();
     
     private ResultSet  rs;
     private final Statement  stat;
@@ -688,7 +689,7 @@ public class CambioEnFacturaCXC extends JFrame {
         } catch (Exception ex){
             huboError = true;
             errorMessage = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
         if (huboError){
@@ -745,7 +746,7 @@ public class CambioEnFacturaCXC extends JFrame {
         } catch (Exception ex){
             huboError = true;
             errorMessage = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
         // Si ocurrió algún error realizo el rollback..
@@ -765,7 +766,7 @@ public class CambioEnFacturaCXC extends JFrame {
                     "\nEl sistema se cerrará para proteger la integridad.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             System.exit(1);
             return;
         } // end try-catch
@@ -836,7 +837,7 @@ public class CambioEnFacturaCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end catch
 }//GEN-LAST:event_btnGuardarActionPerformed
 
@@ -931,7 +932,7 @@ public class CambioEnFacturaCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 
         if (facturaModificable()) {txtFacnumeOrigen.transferFocus();}
@@ -1115,7 +1116,7 @@ public class CambioEnFacturaCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return true;
         } // end try-catch
         
@@ -1153,7 +1154,7 @@ public class CambioEnFacturaCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return false;
         }
 
@@ -1178,7 +1179,7 @@ public class CambioEnFacturaCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return false;
         }
         if (lblVendedorDestino.getText().equals("")){
@@ -1213,7 +1214,7 @@ public class CambioEnFacturaCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return false;
         } // end try-catch
         
@@ -1246,7 +1247,7 @@ public class CambioEnFacturaCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 return false;
             } // end try-catch
             
@@ -1272,7 +1273,7 @@ public class CambioEnFacturaCXC extends JFrame {
                             ex.getMessage(),
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
-                    new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                     return false;
                 } // end try-catch
                 
@@ -1315,7 +1316,7 @@ public class CambioEnFacturaCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             esModificable = false;
         } // end try - catch
         
@@ -1389,7 +1390,7 @@ public class CambioEnFacturaCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             esModificable = false;
         } // try-catch
         // Fin Bosco Agregado 22/11/2015
@@ -1441,7 +1442,7 @@ public class CambioEnFacturaCXC extends JFrame {
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return false;
         } // end try-catch
 

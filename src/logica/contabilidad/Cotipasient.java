@@ -25,6 +25,8 @@ public class Cotipasient implements IEstructuraBD {
     
     private Cotipasient[] cotipasient;
     
+    private final Bitacora b = new Bitacora();
+    
     // <editor-fold defaultstate="collapsed" desc="Constructores"> 
     public Cotipasient(Connection conn) {
         this.conn = conn;
@@ -103,7 +105,7 @@ public class Cotipasient implements IEstructuraBD {
             Logger.getLogger(Cotipasient.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // end cargarTipo_comp
     
@@ -140,7 +142,7 @@ public class Cotipasient implements IEstructuraBD {
             Logger.getLogger(Cotipasient.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // end cargarTodo
     
@@ -198,7 +200,7 @@ public class Cotipasient implements IEstructuraBD {
             Logger.getLogger(Cotipasient.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         return !this.error;
         
@@ -232,7 +234,7 @@ public class Cotipasient implements IEstructuraBD {
             Logger.getLogger(Cotipasient.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // try-catch
         return registros;
     } // end update
@@ -262,7 +264,7 @@ public class Cotipasient implements IEstructuraBD {
             Logger.getLogger(Cotipasient.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // try-catch
         return registros;
     } // end delete

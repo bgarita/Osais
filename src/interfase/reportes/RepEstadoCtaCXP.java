@@ -26,6 +26,7 @@ public class RepEstadoCtaCXP extends JFrame {
 
     private Connection conn = null;
     Navegador          Nav = null;
+    private final Bitacora b = new Bitacora();
     
     /** Creates new form */
     public RepEstadoCtaCXP(Connection c, String procode) {
@@ -318,7 +319,7 @@ public class RepEstadoCtaCXP extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
         

@@ -33,6 +33,7 @@ public class CentroCosto extends javax.swing.JFrame implements IMantenimiento {
     private Buscador bus;
     private ResultSet rs,rs3;
     private final String tabla;
+    private Bitacora b = new Bitacora();
 
     /** Creates new form CentroCosto
      * @param c
@@ -343,7 +344,7 @@ public class CentroCosto extends javax.swing.JFrame implements IMantenimiento {
                     ex.getCause(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_cboSeleccionarActionPerformed
 
@@ -378,7 +379,7 @@ public class CentroCosto extends javax.swing.JFrame implements IMantenimiento {
                     ex.getCause(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_cmdPrimeroActionPerformed
 
@@ -400,7 +401,7 @@ public class CentroCosto extends javax.swing.JFrame implements IMantenimiento {
                     ex.getCause(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_cmdAnteriorActionPerformed
 
@@ -421,7 +422,7 @@ public class CentroCosto extends javax.swing.JFrame implements IMantenimiento {
                     ex.getCause(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_cmdSiguienteActionPerformed
 
@@ -444,7 +445,7 @@ public class CentroCosto extends javax.swing.JFrame implements IMantenimiento {
                     ex.getCause(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_cmdUltimoActionPerformed
 
@@ -580,7 +581,7 @@ public class CentroCosto extends javax.swing.JFrame implements IMantenimiento {
                 "Error al consultar la base de datos",
                 "Error", 
                 JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         return existe;
     } // end consultarRegistro
@@ -613,7 +614,7 @@ public class CentroCosto extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 
         if (sqlresult <= 0){
@@ -631,7 +632,7 @@ public class CentroCosto extends javax.swing.JFrame implements IMantenimiento {
                     ex.getCause(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         registroCargado = (rs != null);
 
@@ -669,7 +670,7 @@ public class CentroCosto extends javax.swing.JFrame implements IMantenimiento {
                     ex.getCause(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end guardarRegistro
 
@@ -704,7 +705,7 @@ public class CentroCosto extends javax.swing.JFrame implements IMantenimiento {
                     ex.getCause(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end refrescartxtCentroco
 
@@ -730,7 +731,7 @@ public class CentroCosto extends javax.swing.JFrame implements IMantenimiento {
                     ex.getCause(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 
         if (sqlResult > 0){

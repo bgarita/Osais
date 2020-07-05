@@ -34,6 +34,7 @@ public class Territorios extends JFrame {
     Navegador hacer = null;
     private Buscador bd = null;
     private ResultSet rs2 = null;
+    private final Bitacora b = new Bitacora();
 
     /** Creates new form */
     public Territorios(Connection c) throws SQLException, SQLInjectionException {
@@ -341,7 +342,7 @@ public class Territorios extends JFrame {
                     ex.getMessage(),
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_cmdPrimeroActionPerformed
 
@@ -362,7 +363,7 @@ public class Territorios extends JFrame {
                     ex.getMessage(),
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_cmdAnteriorActionPerformed
 
@@ -382,7 +383,7 @@ public class Territorios extends JFrame {
                     ex.getMessage(),
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_cmdSiguienteActionPerformed
 
@@ -404,7 +405,7 @@ public class Territorios extends JFrame {
                     ex.getMessage(),
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_cmdUltimoActionPerformed
 
@@ -442,7 +443,7 @@ public class Territorios extends JFrame {
                     ex.getMessage(),
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         
         if (sqlResult > 0){
@@ -549,7 +550,7 @@ public class Territorios extends JFrame {
             JOptionPane.showMessageDialog(null, ex.getMessage(),
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 
         if (sqlresult <= 0){
@@ -568,7 +569,7 @@ public class Territorios extends JFrame {
                     ex.getMessage(),
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
 
@@ -601,7 +602,7 @@ public class Territorios extends JFrame {
                      ex.getMessage(),
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-             new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end refrescartxtTerritorio
 
@@ -628,7 +629,7 @@ public class Territorios extends JFrame {
                      ex.getMessage(),
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-             new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         return existe;
     } // end consultarRegistro

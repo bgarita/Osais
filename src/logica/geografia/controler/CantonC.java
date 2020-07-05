@@ -25,6 +25,7 @@ public class CantonC {
     private final Connection conn;
     private boolean error;
     private String errorMessage;
+    private final Bitacora b = new Bitacora();
 
     public CantonC(Connection conn, ProvinciaM provincia) {
         this.conn = conn;
@@ -92,7 +93,7 @@ public class CantonC {
             ps.close();
         } catch (SQLException ex) {
             Logger.getLogger(CantonC.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
     } // end setId
@@ -142,7 +143,7 @@ public class CantonC {
             this.error = true;
             this.errorMessage = ex.getMessage();
             Logger.getLogger(CantonC.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // end loadCantones
 

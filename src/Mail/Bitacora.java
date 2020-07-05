@@ -10,34 +10,39 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import logica.utilitarios.Ut;
 
-
 /**
  *
- * @author bgarita, Agosto 2014
- * Crear y/o actualizar un archivo de texto que servirá como bitácora.  Esta
- * bitácora puede ser usada para reportar errores de ejecución de algún proceso
- * y/o para escribir datos de la corrida como hora de inicio, hora de finalización
- * y código de finalización (exitoso, fallido).
+ * @author bgarita, Agosto 2014 Crear y/o actualizar un archivo de texto que
+ * servirá como bitácora. Esta bitácora puede ser usada para reportar errores de
+ * ejecución de algún proceso y/o para escribir datos de la corrida como hora de
+ * inicio, hora de finalización y código de finalización (exitoso, fallido).
  */
 public class Bitacora {
+
     private File logFile;
     private String error_message;
-    
-    public Bitacora(){
+    private int logLevel;
+
+    // Niveles de loggeo
+    public static final int INFO = 1;
+    public static final int WARN = 2;
+    public static final int ERROR = 3;
+
+    public Bitacora() {
         this.error_message = "";
         this.logFile = new File("log.txt");
-        
-        if (!logFile.exists()){
+        this.logLevel = Bitacora.ERROR; // Nivel default
+
+        if (!logFile.exists()) {
             try {
                 logFile.createNewFile();
             } catch (IOException ex) {
-                Logger.getLogger(Bitacora.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                 this.error_message = ex.getMessage();
             } // end try-catch
         } // end if
     } // end constructor
 
-    
     public void setLog(File logFile) {
         this.logFile = logFile;
     }
@@ -49,34 +54,50 @@ public class Bitacora {
     public String getError_message() {
         return error_message;
     }
-    
+
     public String getRuta() {
         return Ut.getProperty(Ut.USER_DIR);
     } // end getRuta
-    
-    
+
+    public File getLogFile() {
+        return logFile;
+    }
+
+    public void setLogFile(File logFile) {
+        this.logFile = logFile;
+    }
+
+    public int getLogLevel() {
+        return logLevel;
+    }
+
+    public void setLogLevel(int logLevel) {
+        this.logLevel = logLevel;
+    }
+
     /**
-     * Guarda la información de los distintos eventos ocurridos
-     * en una bitácora de texto y también en una bitácora de base de datos.
-     * Si el parámetro nIdenvio es negativo solo se guardará en la bitácora de texto.
+     * Guarda la información de los distintos eventos ocurridos en una bitácora
+     * de texto y también en una bitácora de base de datos. Si el parámetro
+     * nIdenvio es negativo solo se guardará en la bitácora de texto.
+     *
      * @author Bosco Garita Azofeifa
      * @param text String mensaje del evento
      * @param nIdenvio int número de envío
      */
-    public void writeToLog(String text, int nIdenvio){
+    public void writeToLog(String text, int nIdenvio) {
         // Si existe error no continúo
-        if (!this.error_message.isEmpty()){
+        if (!this.error_message.isEmpty()) {
             return;
         } // end if
-        
+
         text += " --> Delivery: " + nIdenvio;
-        
+
         FileOutputStream log;
         byte[] contentInBytes;
         contentInBytes = text.getBytes();
-        
+
         try {
-            log = new FileOutputStream(this.logFile,true);
+            log = new FileOutputStream(this.logFile, true);
             log.write(contentInBytes);
             log.flush();
             log.close();
@@ -84,11 +105,11 @@ public class Bitacora {
             Logger.getLogger(Bitacora.class.getName()).log(Level.SEVERE, null, ex);
             this.error_message = ex.getMessage();
         } // end try-catch
-        
+
         // Si el tipo de envío es -1 es porque se trata de un envío que no
         // logró guardarse en la tabla de control de envíos y por lo tanto
         // este código no debe ejecutarse.
-        if (nIdenvio < 0){
+        if (nIdenvio < 0) {
             return;
         } // end if
         /*
@@ -116,30 +137,49 @@ public class Bitacora {
             this.writeToLog(this.error_message, nIdenvio);
             this.error_message = "";
         } // end try-catch
-        */
-        
+         */
+
     } // end writeToLog
-    
+
     /**
-     * Guarda la información de los distintos eventos ocurridos en una
-     * bitácora de texto.
+     * Guarda la información de los distintos eventos ocurridos en una bitácora
+     * de texto.
+     *
      * @author Bosco Garita Azofeifa
      * @param text String mensaje del evento
      */
-    public void writeToLog(String text){
+    public void writeToLog(String text) {
         // Si existe error no continúo
-        if (!this.error_message.isEmpty()){
+        if (!this.error_message.isEmpty()) {
+            System.err.println("No se puede escribir en disco: " + this.error_message);
             return;
         } // end if
-        
+
+        String nivel;
+        switch (this.logLevel) {
+            case Bitacora.INFO : {
+                nivel = "INFO";
+                break;
+            }
+            case Bitacora.WARN : {
+                nivel = "WARN";
+                break;
+            }
+            case Bitacora.ERROR : {
+                nivel = "ERROR";
+                break;
+            }
+            default:nivel = "INFO"; break;
+        } // end switch
+
         Date d = new Date();
-        text = d + "\n" + "Usuario: " + Menu.USUARIO + "\n" + text + "\n";
+        text = "[" + d + "][" + nivel + "]" + "[Usuario: " + Menu.USUARIO + "][" + text + "]\n";
         FileOutputStream log;
         byte[] contentInBytes;
         contentInBytes = text.getBytes();
-        
+
         try {
-            log = new FileOutputStream(this.logFile,true);
+            log = new FileOutputStream(this.logFile, true);
             log.write(contentInBytes);
             log.flush();
             log.close();
@@ -148,23 +188,23 @@ public class Bitacora {
             this.error_message = ex.getMessage();
         } // end try-catch
     } // end writeToLog
-    
-    
+
     /**
      * Carga todo el texto contenido en el archivo Log.txt
-     * @return 
+     *
+     * @return
      */
-    public String readFromLog(){
+    public String readFromLog() {
         // Si existe error no continúo
-        if (!this.error_message.isEmpty()){
+        if (!this.error_message.isEmpty()) {
             return "";
         } // end if
-        
+
         FileInputStream log;
         int content;
-        
+
         StringBuilder text = new StringBuilder();
-        
+
         try {
             log = new FileInputStream(this.logFile);
             while ((content = log.read()) != -1) {
@@ -175,7 +215,7 @@ public class Bitacora {
             Logger.getLogger(Bitacora.class.getName()).log(Level.SEVERE, null, ex);
             this.error_message = ex.getMessage();
         } // end try-catch
-        
+
         return text.toString();
     } // end readFromLog
 } // end class

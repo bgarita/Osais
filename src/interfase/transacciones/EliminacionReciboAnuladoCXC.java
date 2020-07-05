@@ -24,6 +24,9 @@ import javax.swing.JOptionPane;
 @SuppressWarnings("serial")
 public class EliminacionReciboAnuladoCXC extends javax.swing.JFrame {
     Connection conn;
+    private final Bitacora b = new Bitacora();
+    
+    
     /** Creates new form EliminacionReciboAnuladoCXC
      * @param c */
     public EliminacionReciboAnuladoCXC(Connection c) {
@@ -165,7 +168,7 @@ public class EliminacionReciboAnuladoCXC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
         // Consulto el registro.  Este recibo tiene que estar anulado ya que es
@@ -200,7 +203,7 @@ public class EliminacionReciboAnuladoCXC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_txtRecnumeActionPerformed
 
@@ -230,7 +233,7 @@ public class EliminacionReciboAnuladoCXC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
         // Confirmar la acción del usuario.
@@ -317,7 +320,7 @@ public class EliminacionReciboAnuladoCXC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             if (hayTransaccion){
                 //UtilBD.SQLTransaction(conn, UtilBD.ROLLBACK);
                 try {
@@ -327,7 +330,7 @@ public class EliminacionReciboAnuladoCXC extends javax.swing.JFrame {
                         ex1.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                    new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 }
             }
         } // end try-catch

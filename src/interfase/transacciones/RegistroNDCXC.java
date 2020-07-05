@@ -5,14 +5,18 @@
  */
 package interfase.transacciones;
 
+import Exceptions.CurrencyExchangeException;
+import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
 import interfase.otros.Buscador;
 import interfase.otros.Navegador;
+import interfase.otros.OrdendeCompra;
 import java.awt.HeadlessException;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -20,10 +24,6 @@ import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import Exceptions.CurrencyExchangeException;
-import Mail.Bitacora;
-import interfase.otros.OrdendeCompra;
-import java.sql.PreparedStatement;
 import logica.OrdenCompra;
 import logica.utilitarios.SQLInjectionException;
 import logica.utilitarios.Ut;
@@ -47,6 +47,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
     private boolean fin;                // Se usa para evitar que corran agunos eventos
     private OrdenCompra orden;          // Bosco agregado 26/09/2018
     private boolean buscando;
+    private final Bitacora b = new Bitacora();
 
     public RegistroNDCXC(Connection c) throws SQLException {
         initComponents();
@@ -401,7 +402,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(RegistroNDCXC.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         dispose();
 }//GEN-LAST:event_cmdSalirActionPerformed
@@ -461,7 +462,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
 
@@ -475,7 +476,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -618,7 +619,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             if (hayTransaccion) {
                 try {
                     CMD.transaction(conn, CMD.ROLLBACK);
@@ -627,7 +628,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
                             ex1.getMessage(),
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
-                    new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex1.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex1.getMessage());
                     // Si a este nivel ocurre un error hay que cerrar el sistema
                     System.exit(-1);
                 }
@@ -675,7 +676,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_DatFacfechPropertyChange
 
@@ -719,7 +720,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
         if (!existe) {
@@ -771,7 +772,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
         txtFacmontFocusLost(null);
@@ -814,7 +815,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             this.txtReferencia.setText(""); // Al guardar se debe validar que este campo no esté vacío.
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -853,7 +854,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
             ps.close();
         } catch (SQLException ex) {
             Logger.getLogger(RegistroNDCXC.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     }//GEN-LAST:event_txtReferenciaFocusLost
 
@@ -949,7 +950,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end setConsecutivo
 
@@ -972,7 +973,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end ubicarCodigo
 
@@ -993,7 +994,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end cargarComboMonedas
 
@@ -1018,7 +1019,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // end redondear
 } // end class

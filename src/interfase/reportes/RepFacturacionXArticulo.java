@@ -30,6 +30,7 @@ public class RepFacturacionXArticulo extends JFrame {
     private Connection conn;
     private boolean inicio;
     private final boolean fin;
+    private final Bitacora b = new Bitacora();
     
     /** Creates new form
      * @param c
@@ -422,7 +423,7 @@ public class RepFacturacionXArticulo extends JFrame {
                     ex.getMessage(), 
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 

@@ -6,6 +6,8 @@
  */
 package interfase.mantenimiento;
 
+import Exceptions.NotUniqueValueException;
+import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
 import interfase.otros.Buscador;
@@ -19,8 +21,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import logica.IMantenimiento;
-import Exceptions.NotUniqueValueException;
-import Mail.Bitacora;
 import logica.utilitarios.SQLInjectionException;
 import logica.utilitarios.Ut;
 
@@ -39,6 +39,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
     private final String tabla;
     private final String BASEDATOS;
     private ResultSet rsPermisosSQL = null;
+    private final Bitacora b = new Bitacora();
 
     public Usuarios(Connection c, String BASEDATOS) {
         initComponents();
@@ -67,7 +68,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
             cargarObjetos();
         } catch (SQLException | SQLInjectionException ex) {
             Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 
     } // end constructor
@@ -632,7 +633,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_btnPrimeroActionPerformed
 
@@ -652,7 +653,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_btnAnteriorActionPerformed
 
@@ -672,7 +673,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_btnSiguienteActionPerformed
 
@@ -697,7 +698,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_btnUltimoActionPerformed
 
@@ -922,7 +923,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end cargarObjetos
 
@@ -952,7 +953,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -971,7 +972,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 return;
             } // end try-catch
         } // end if
@@ -1039,7 +1040,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
         // Fin Bosco agregado 27/11/2011
@@ -1189,7 +1190,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
         // Bosco agregado 19/04/2015 (Cajero)
@@ -1217,7 +1218,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         registroCargado = (rs != null);
 
@@ -1267,7 +1268,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         return existe;
     } // end consultarRegistro
@@ -1303,7 +1304,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -1326,7 +1327,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
         // Fin Bosco agregado 27/11/2011.
@@ -1358,7 +1359,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // end refrescarObjetos
 
@@ -1460,7 +1461,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         return registrosAfectados;
     } // end

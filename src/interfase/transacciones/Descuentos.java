@@ -20,6 +20,7 @@ import logica.utilitarios.Ut;
 @SuppressWarnings("serial")
 public class Descuentos extends java.awt.Dialog {
     private final JTextField JTCampo;
+    private final Bitacora b = new Bitacora();
 
     /** Creates new form Descuentos
      * @param parent
@@ -167,7 +168,7 @@ public class Descuentos extends java.awt.Dialog {
                     ex.getMessage(), 
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
         this.JTCampo.setText("1" + desc);
@@ -184,7 +185,7 @@ public class Descuentos extends java.awt.Dialog {
                     ex.getMessage(), 
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
         this.JTCampo.setText("2" + desc);

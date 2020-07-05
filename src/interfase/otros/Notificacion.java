@@ -22,6 +22,7 @@ public class Notificacion extends Thread {
     private NotificacionMinimos nm;
     private NotificacionFactCXC cxc;
     private Notificacionxml nXml;
+    private final Bitacora b = new Bitacora();
     
     // Constructor
     public Notificacion(Connection c) {
@@ -69,7 +70,7 @@ public class Notificacion extends Thread {
                     "[Notificaciones automáticas] " + ex.getMessage(), 
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // end cargarNotificaciones
     

@@ -29,6 +29,7 @@ public class AnulacionDocInv extends java.awt.Dialog {
     private int movtido;            // Tipo de documento
     private ResultSet rs  = null;   // Uso general
     private Navegador nav = null;
+    private final Bitacora b = new Bitacora();
 
     public AnulacionDocInv(
             java.awt.Frame parent,
@@ -62,7 +63,7 @@ public class AnulacionDocInv extends java.awt.Dialog {
             // número entonces lo tomo como cero para que se pueda continuar.
             txtMovdocu.setEnabled(true);
             documento = "0";
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } finally {
             txtMovdocu.setText(documento);
 
@@ -317,7 +318,7 @@ public class AnulacionDocInv extends java.awt.Dialog {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }//GEN-LAST:event_txtMovdocuFocusLost
 
@@ -421,7 +422,7 @@ public class AnulacionDocInv extends java.awt.Dialog {
                     JOptionPane.ERROR_MESSAGE);
             txaMovdesc.setText("");
             txtMovfech.setText("");
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
 
             if (hayTransaccion){
                 try{
@@ -431,7 +432,7 @@ public class AnulacionDocInv extends java.awt.Dialog {
                             ex1.getMessage(),
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
-                    new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 } // end try interno
             } // end if
         } // end catch externo
@@ -502,7 +503,7 @@ public class AnulacionDocInv extends java.awt.Dialog {
                     ex.getMessage(), 
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end cargarComboTiposDoc
     

@@ -29,6 +29,7 @@ public class Archivos {
 
     private boolean error;
     private String mensaje_error;
+    private final Bitacora b = new Bitacora();
 
     public boolean isError() {
         return error;
@@ -103,7 +104,7 @@ public class Archivos {
         } catch (Exception ex) {
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }  // end copyFilex
 
@@ -179,7 +180,7 @@ public class Archivos {
             Logger.getLogger(Archivos.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 
         return same;

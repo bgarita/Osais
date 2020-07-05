@@ -6,6 +6,8 @@
 
 package interfase.mantenimiento;
 
+import Exceptions.EmptyDataSourceException;
+import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
 import interfase.otros.Buscador;
@@ -18,8 +20,6 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import logica.Babanco;
-import Exceptions.EmptyDataSourceException;
-import Mail.Bitacora;
 import logica.utilitarios.SQLInjectionException;
 
 /**
@@ -32,6 +32,7 @@ public class Banco extends JFrame {
     private Connection conn = null;
     private Navegador  nav = null;
     private Buscador   bd = null;
+    private Bitacora b = new Bitacora();
     
     private final Babanco banco;
 
@@ -43,6 +44,7 @@ public class Banco extends JFrame {
     public Banco(Connection c) 
             throws SQLException, SQLInjectionException, EmptyDataSourceException {
         initComponents();
+        b.setLogLevel(Bitacora.ERROR);
         nav = new Navegador();
                 
         conn = c;
@@ -54,12 +56,12 @@ public class Banco extends JFrame {
         try {
             banco.setIdbanco(nav.first("babanco", "idbanco"));
         } catch (Exception ex) {
-            Logger.getLogger(Banco.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
         
@@ -341,12 +343,12 @@ public class Banco extends JFrame {
             } // end if
             showData();
         } catch (Exception ex) {
-            Logger.getLogger(Banco.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
 }//GEN-LAST:event_btnPrimeroActionPerformed
@@ -369,12 +371,12 @@ public class Banco extends JFrame {
             } // end if
             showData();
         } catch (Exception ex) {
-            Logger.getLogger(Banco.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 }//GEN-LAST:event_btnAnteriorActionPerformed
 
@@ -396,12 +398,12 @@ public class Banco extends JFrame {
             } // end if
             showData();
         } catch (Exception ex) {
-            Logger.getLogger(Banco.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 }//GEN-LAST:event_btnSiguienteActionPerformed
 
@@ -418,12 +420,12 @@ public class Banco extends JFrame {
             } // end if
             showData();
         } catch (Exception ex) {
-            Logger.getLogger(Banco.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 }//GEN-LAST:event_btnUltimoActionPerformed
 
@@ -462,13 +464,13 @@ public class Banco extends JFrame {
                 CMD.transaction(conn, CMD.COMMIT);
             } // end if-else
         } catch (NumberFormatException | SQLException | HeadlessException ex) {
-            Logger.getLogger(Banco.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
         

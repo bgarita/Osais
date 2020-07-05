@@ -6,6 +6,8 @@
 
 package interfase.otros;
 
+import Exceptions.CurrencyExchangeException;
+import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.DataBaseConnection;
 import accesoDatos.UtilBD;
@@ -27,8 +29,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import Exceptions.CurrencyExchangeException;
-import Mail.Bitacora;
 import logica.utilitarios.SQLInjectionException;
 import logica.utilitarios.Ut;
 
@@ -49,6 +49,7 @@ public class Ingreso extends javax.swing.JFrame {
     private static Graphics2D splashGraphics;
     private Font font;
     private final String url;
+    private final Bitacora b = new Bitacora();
     
     /** Creates new form Ingreso
      * @param url */
@@ -288,7 +289,7 @@ public class Ingreso extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
         
@@ -353,7 +354,7 @@ public class Ingreso extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             continuar = false;
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
         // Si la variable continuar es false es porque no se ha asignado el
@@ -391,7 +392,7 @@ public class Ingreso extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             continuar = false;
             dispose();
             System.exit(0);
@@ -433,7 +434,7 @@ public class Ingreso extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 continuar = false;
             }
             
@@ -470,7 +471,7 @@ public class Ingreso extends javax.swing.JFrame {
                     ex.getMessage(), 
                     tituloM, 
                     tipoM);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         try {
             if (tc == 0 && UtilBD.tienePermiso(conexion.getConnection(),"Tipocambio")){
@@ -484,7 +485,7 @@ public class Ingreso extends javax.swing.JFrame {
                             "Error", 
                             JOptionPane.ERROR_MESSAGE);
                     continuar = false;
-                    new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 } // end try-catch
             } // end if
             // Fin Bosco agregado 23/02/2013
@@ -495,7 +496,7 @@ public class Ingreso extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             continuar = false;
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         
         if (!continuar){

@@ -29,6 +29,7 @@ public class AnulacionFacturasCXC extends java.awt.Dialog {
     private String facnume;         // Aquí estará el facnume pasado por parámetro
     private ResultSet rs = null;   // Uso general
     private int reccaja;            // Referencia de caja
+    private final Bitacora b = new Bitacora();
 
     public AnulacionFacturasCXC(
             java.awt.Frame parent,
@@ -398,7 +399,7 @@ public class AnulacionFacturasCXC extends java.awt.Dialog {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }//GEN-LAST:event_txtFacnumeFocusLost
 
@@ -559,7 +560,7 @@ public class AnulacionFacturasCXC extends java.awt.Dialog {
             lblClidesc.setText("");
             txtFecha.setText("");
             txtMonto.setText("0.00");
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
 
             if (hayTransaccion) {
                 try {
@@ -569,7 +570,7 @@ public class AnulacionFacturasCXC extends java.awt.Dialog {
                             ex1.getMessage(),
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
-                    new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 } // end try-catch
             } // end if
             this.setVisible(true);
@@ -675,7 +676,7 @@ public class AnulacionFacturasCXC extends java.awt.Dialog {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             continuar = false;
         } // end try-catch
 

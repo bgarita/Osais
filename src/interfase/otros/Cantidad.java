@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 public class Cantidad extends javax.swing.JDialog {
     private static final long serialVersionUID = 1000L;
     private final JFormattedTextField cantidad;
+    private final Bitacora b = new Bitacora();
 
     /**
      * Creates new form Cantidad
@@ -97,7 +98,7 @@ public class Cantidad extends javax.swing.JDialog {
                     "Debe digitar una cantidad válida.", 
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-cacth
         

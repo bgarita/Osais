@@ -8,7 +8,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.sql.Date;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,6 +26,7 @@ public class CierreCaja extends javax.swing.JFrame {
     private static final long serialVersionUID = 100L;
     public Connection conn; // Se comparte la conexión con DesgloceDinero.java
     private boolean inicio, fin;
+    private final Bitacora b = new Bitacora();
 
     /**
      * Creates new form CierreCaja
@@ -589,7 +589,7 @@ public class CierreCaja extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }//GEN-LAST:event_txtnSaldoInActionPerformed
 
@@ -606,7 +606,7 @@ public class CierreCaja extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         txtnDiferencia.transferFocus();
     }//GEN-LAST:event_txtnSaldoFisActionPerformed
@@ -621,7 +621,7 @@ public class CierreCaja extends javax.swing.JFrame {
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(CierreCaja.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
@@ -736,7 +736,7 @@ public class CierreCaja extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
         
@@ -804,7 +804,7 @@ public class CierreCaja extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
         
@@ -876,7 +876,7 @@ public class CierreCaja extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }//GEN-LAST:event_datFecha1PropertyChange
 
@@ -1019,7 +1019,7 @@ public class CierreCaja extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
         return !huboError;

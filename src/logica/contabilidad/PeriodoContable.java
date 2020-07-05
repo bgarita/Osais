@@ -26,6 +26,8 @@ public class PeriodoContable {
     private boolean error;
     private String error_msg;
     
+    private final Bitacora b = new Bitacora();
+    
     public PeriodoContable(Connection c){
         this.conn = c;
         setData();
@@ -66,7 +68,7 @@ public class PeriodoContable {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
     } // end setData

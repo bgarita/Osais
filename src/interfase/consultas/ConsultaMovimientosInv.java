@@ -33,6 +33,7 @@ public class ConsultaMovimientosInv extends JFrame {
 
     private Connection conn = null;
     private FormatoTabla formato;
+    private Bitacora b = new Bitacora();
 
     /**
      * Creates new form Bodegas
@@ -42,6 +43,7 @@ public class ConsultaMovimientosInv extends JFrame {
      * @param mov
      */
     public ConsultaMovimientosInv(Connection c, String artcode, int mov) {
+        b.setLogLevel(Bitacora.ERROR);
         try {
             initComponents();
             conn = c;
@@ -57,20 +59,11 @@ public class ConsultaMovimientosInv extends JFrame {
             } // end if-else
 
             formato = new FormatoTabla();
-            //            formato.setFloatColor(Color.BLUE);
-            //            formato.setFloatHorizontalAlignment(SwingConstants.CENTER);
-            //            formato.getTableCellRendererComponent(tblMovimientos,
-            //                    tblMovimientos.getValueAt(0, 5),
-            //                    tblMovimientos.isCellSelected(0, 5),
-            //                    tblMovimientos.isFocusOwner(), 0, 5);
-            //
-            //            this.tblMovimientos.setDefaultRenderer(Double.class, formato);
-
             formato.formatColumn(tblMovimientos, 5, FormatoTabla.H_RIGHT, Color.BLUE);
             formato.formatColumn(tblMovimientos, 4, FormatoTabla.H_CENTER, Color.RED);
         } catch (Exception ex) {
-            Logger.getLogger(ConsultaMovimientosInv.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end constructor
 
@@ -412,7 +405,7 @@ public class ConsultaMovimientosInv extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }//GEN-LAST:event_txtArtcodeActionPerformed
 

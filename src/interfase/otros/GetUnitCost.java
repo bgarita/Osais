@@ -14,6 +14,7 @@ public class GetUnitCost extends javax.swing.JFrame {
     private final String formatoPrecio;
     private final String formatoCant;
     private final javax.swing.JFormattedTextField cantidad, costo;
+    private final Bitacora b = new Bitacora();
 
     /**
      * Creates new form GetUnitCost
@@ -322,7 +323,7 @@ public class GetUnitCost extends javax.swing.JFrame {
             this.txtCostoxUnidad.setText(Ut.setDecimalFormat(costoUnidad + "", formatoPrecio));
         } catch (Exception ex) {
             Logger.getLogger(GetUnitCost.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end calcular
 

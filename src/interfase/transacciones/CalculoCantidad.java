@@ -20,6 +20,7 @@ import logica.utilitarios.Ut;
 public class CalculoCantidad extends java.awt.Dialog {
     private final JTextField cantidadx;
     private final JTextField precio;
+    private final Bitacora b = new Bitacora();
 
     /** Creates new form Descuentos
      * @param parent
@@ -205,7 +206,7 @@ public class CalculoCantidad extends java.awt.Dialog {
             this.txtCantidad.setText(cantidad + "");
         } catch (Exception ex) {
             Logger.getLogger(CalculoCantidad.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         
     }//GEN-LAST:event_txtVentaFocusLost

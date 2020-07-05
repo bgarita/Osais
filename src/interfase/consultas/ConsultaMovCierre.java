@@ -476,7 +476,9 @@ public class ConsultaMovCierre extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            Bitacora b = new Bitacora();
+            b.setLogLevel(Bitacora.ERROR);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }//GEN-LAST:event_btnConsultarActionPerformed
 

@@ -6,6 +6,8 @@
 
 package interfase.mantenimiento;
 
+import Exceptions.EmptyDataSourceException;
+import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
 import java.awt.HeadlessException;
@@ -17,8 +19,6 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import logica.contabilidad.Coperiodoco;
-import Exceptions.EmptyDataSourceException;
-import Mail.Bitacora;
 import logica.utilitarios.SQLInjectionException;
 
 /**
@@ -32,6 +32,7 @@ public class PeriodoContable extends JFrame {
     private Connection conn = null;
     
     private final Coperiodoco periodo;
+    private final Bitacora b = new Bitacora();
 
     /** Creates new form PeriodoContable
      * @param c
@@ -317,7 +318,7 @@ public class PeriodoContable extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 }//GEN-LAST:event_cmdGuardarActionPerformed
 
@@ -381,7 +382,7 @@ public class PeriodoContable extends JFrame {
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
         
@@ -401,7 +402,7 @@ public class PeriodoContable extends JFrame {
                     ex.getMessage(),
                     "Mensaje",
                     JOptionPane.INFORMATION_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -422,7 +423,7 @@ public class PeriodoContable extends JFrame {
                         ex.getMessage(),
                         "Mensaje",
                         JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 // Cierro el sistema para proteger la integridad
                 System.exit(0);
             } // end try-catch
@@ -447,7 +448,7 @@ public class PeriodoContable extends JFrame {
                     ex.getMessage(),
                     "Mensaje",
                     JOptionPane.INFORMATION_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             // Cierro el sistema para proteger la integridad
             System.exit(0);
         } // end try-catch
@@ -458,7 +459,7 @@ public class PeriodoContable extends JFrame {
 
     /**        "Mensaje",
                     JOptionPane.INFORMATION_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             // Cierro el sistema para proteger la integridad
             System.exit(0);
         } // end try-catch

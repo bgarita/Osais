@@ -22,6 +22,7 @@ public class DesgloceDinero extends javax.swing.JFrame {
     private JFormattedTextField total;
     private java.sql.Date dFecha1, dFecha2;
     private final CierreCaja cj;
+    private final Bitacora b = new Bitacora();
 
     
 
@@ -46,7 +47,7 @@ public class DesgloceDinero extends javax.swing.JFrame {
                     ex.getMessage(), 
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // end setMontoAnterior()
     
@@ -100,7 +101,7 @@ public class DesgloceDinero extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
         
@@ -156,7 +157,7 @@ public class DesgloceDinero extends javax.swing.JFrame {
                     ex.getMessage(), 
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // end calcular
     /**
@@ -806,7 +807,7 @@ public class DesgloceDinero extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
         
@@ -1039,7 +1040,7 @@ public class DesgloceDinero extends javax.swing.JFrame {
             this.lblResultadoFormula.setText(Ut.setDecimalFormat(resultado + "", "#,##0.00"));
         } catch (Exception ex) {
             Logger.getLogger(DesgloceDinero.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     }//GEN-LAST:event_txaFormulaKeyPressed
 

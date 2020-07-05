@@ -33,6 +33,8 @@ public class Coperiodoco implements IEstructuraBD {
     
     private Coperiodoco[] periodoco;
     
+    private final Bitacora b = new Bitacora();
+    
     // <editor-fold defaultstate="collapsed" desc="Constructores"> 
     public Coperiodoco(Connection conn) {
         this.conn = conn;
@@ -156,7 +158,7 @@ public class Coperiodoco implements IEstructuraBD {
             this.error = true;
             this.mensaje_error = ex.getMessage();
             this.descrip = "";
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // end cargarTipo_comp
     
@@ -199,7 +201,7 @@ public class Coperiodoco implements IEstructuraBD {
             this.error = true;
             this.mensaje_error = ex.getMessage();
             this.descrip = "";
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // end cargarTodo
     
@@ -268,7 +270,7 @@ public class Coperiodoco implements IEstructuraBD {
             Logger.getLogger(Coperiodoco.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         return !this.error;
         
@@ -309,7 +311,7 @@ public class Coperiodoco implements IEstructuraBD {
             Logger.getLogger(Coperiodoco.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // try-catch
         return registros;
     } // end update
@@ -341,7 +343,7 @@ public class Coperiodoco implements IEstructuraBD {
             Logger.getLogger(Coperiodoco.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // try-catch
         return registros;
     } // end delete
@@ -391,7 +393,7 @@ public class Coperiodoco implements IEstructuraBD {
             this.error = true;
             this.mensaje_error = ex.getMessage();
             this.descrip = "";
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
     } // end cargarUltimo

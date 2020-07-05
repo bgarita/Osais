@@ -6,6 +6,8 @@
 
 package interfase.mantenimiento;
 
+import Exceptions.EmptyDataSourceException;
+import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
 import interfase.consultas.ConsultaTransaccionesCaja;
@@ -21,10 +23,8 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import logica.Cacaja;
-import Exceptions.EmptyDataSourceException;
-import Mail.Bitacora;
-import logica.utilitarios.SQLInjectionException;
 import logica.Usuario;
+import logica.utilitarios.SQLInjectionException;
 import logica.utilitarios.Ut;
 
 /**
@@ -39,6 +39,7 @@ public class Caja extends JFrame {
     private Buscador   bd = null;
     
     private final Cacaja caja;
+    private Bitacora b = new Bitacora();
 
     /** Creates new form Caja
      * @param c
@@ -64,7 +65,7 @@ public class Caja extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
         
@@ -88,7 +89,7 @@ public class Caja extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // end setFisico
 
@@ -668,7 +669,7 @@ public class Caja extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
 }//GEN-LAST:event_btnPrimeroActionPerformed
@@ -696,7 +697,7 @@ public class Caja extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 }//GEN-LAST:event_btnAnteriorActionPerformed
 
@@ -723,7 +724,7 @@ public class Caja extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 }//GEN-LAST:event_btnSiguienteActionPerformed
 
@@ -745,7 +746,7 @@ public class Caja extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 }//GEN-LAST:event_btnUltimoActionPerformed
 
@@ -804,7 +805,7 @@ public class Caja extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
         
@@ -888,7 +889,7 @@ public class Caja extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }//GEN-LAST:event_txtFisicoFocusLost
 
@@ -901,7 +902,7 @@ public class Caja extends JFrame {
             txtFisico.setText(Ut.setDecimalFormat(txtFisico.getText().trim(), "#,##0.00"));
         } catch (Exception ex) {
             Logger.getLogger(Caja.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         
         txtFisico.transferFocus();
@@ -949,7 +950,7 @@ public class Caja extends JFrame {
                             "El sistema se cerrará para proteger la integridad.",
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
-                    new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                     System.exit(1);
                     return;
                 } // end try-catch interno
@@ -983,7 +984,7 @@ public class Caja extends JFrame {
                     "El valor digitado en el monto físico es incorrecto.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
         
@@ -1153,7 +1154,7 @@ public class Caja extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }
 

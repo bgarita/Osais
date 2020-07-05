@@ -8,17 +8,19 @@
  */
 package interfase.mantenimiento;
 
+import Exceptions.EmptyDataSourceException;
+import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
-import interfase.otros.Buscador;
 import interfase.consultas.ConsultaFacturas;
 import interfase.menus.MenuPopupClientes;
+import interfase.otros.Buscador;
 import interfase.otros.Navegador;
-import interfase.transacciones.RegistroFacturasV;
-import interfase.transacciones.RegistroPagosCXC;
 import interfase.reportes.RepAntigSaldosCXC;
 import interfase.reportes.RepEstadoCtaCXC;
 import interfase.reportes.RepPagosCXC;
+import interfase.transacciones.RegistroFacturasV;
+import interfase.transacciones.RegistroPagosCXC;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,14 +31,10 @@ import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import logica.contabilidad.Cuenta;
-import Exceptions.EmptyDataSourceException;
-import Mail.Bitacora;
 import logica.IMantenimiento;
+import logica.contabilidad.Cuenta;
 import logica.utilitarios.SQLInjectionException;
 import logica.utilitarios.Ut;
-//import javax.swing.JPopupMenu;
-
 /**
  *
  * @author Bosco Garita
@@ -52,6 +50,7 @@ public class Inclient extends javax.swing.JFrame implements IMantenimiento {
     private final String tabla;
     private final String join;
     private final String otrosCampos;
+    private Bitacora b = new Bitacora();
 
     private MenuPopupClientes menuClientes; // Bosco agregado 17/07/2011
     // Definición de un menú popup
@@ -1436,7 +1435,7 @@ public class Inclient extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end tyr-catch
 }//GEN-LAST:event_btnPrimeroActionPerformed
 
@@ -1455,7 +1454,7 @@ public class Inclient extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 }//GEN-LAST:event_btnAnteriorActionPerformed
 
@@ -1474,7 +1473,7 @@ public class Inclient extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 }//GEN-LAST:event_btnSiguienteActionPerformed
 
@@ -1493,7 +1492,7 @@ public class Inclient extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 }//GEN-LAST:event_btnUltimoActionPerformed
 
@@ -1523,7 +1522,7 @@ public class Inclient extends javax.swing.JFrame implements IMantenimiento {
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(Inclient.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         dispose();
 }//GEN-LAST:event_mnuSalirActionPerformed
@@ -1580,7 +1579,7 @@ public class Inclient extends javax.swing.JFrame implements IMantenimiento {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             txtNombre.setText("");
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         if (txtNombre.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(null,
@@ -1604,7 +1603,7 @@ public class Inclient extends javax.swing.JFrame implements IMantenimiento {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             txtDescrip.setText("");
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         if (txtDescrip.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(null,
@@ -1703,7 +1702,7 @@ public class Inclient extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     }//GEN-LAST:event_mnuFacturasActionPerformed
 
@@ -1719,7 +1718,7 @@ public class Inclient extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }//GEN-LAST:event_btnVerdetalleActionPerformed
 
@@ -1739,7 +1738,7 @@ public class Inclient extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
     }//GEN-LAST:event_mnuAntigSaldosActionPerformed
@@ -1757,7 +1756,7 @@ public class Inclient extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }//GEN-LAST:event_mnuFacturarActionPerformed
 
@@ -1772,7 +1771,7 @@ public class Inclient extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }//GEN-LAST:event_mnuRegitrarPagoActionPerformed
 
@@ -2214,7 +2213,7 @@ public class Inclient extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // end cargarObjetos
 
@@ -2285,7 +2284,7 @@ public class Inclient extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
         terr = txtTerr.getText().trim();
@@ -2388,7 +2387,7 @@ public class Inclient extends javax.swing.JFrame implements IMantenimiento {
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 return;
             } // end try-catch
         } else {
@@ -2485,7 +2484,7 @@ public class Inclient extends javax.swing.JFrame implements IMantenimiento {
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 return;
             } // end try-catch
 
@@ -2499,7 +2498,7 @@ public class Inclient extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -2520,7 +2519,7 @@ public class Inclient extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
         registroCargado = (rs != null);
@@ -2618,7 +2617,7 @@ public class Inclient extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         return existe;
     } // end consultarRegistro
@@ -2641,7 +2640,7 @@ public class Inclient extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -2670,7 +2669,7 @@ public class Inclient extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 
         if (sqlResult > 0) {
@@ -2751,13 +2750,13 @@ public class Inclient extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(null,
                     "[No es un número] " + ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end refrescarObjetos
 

@@ -35,6 +35,7 @@ public class ProveedoresAsignados extends javax.swing.JFrame implements IManteni
     private final Navegador   nav;
     private ResultSet    rs;
     private final String  artcode;
+    private final Bitacora b = new Bitacora();
 
 
     /** Creates new form ProveedoresAsignados
@@ -334,7 +335,7 @@ public class ProveedoresAsignados extends javax.swing.JFrame implements IManteni
                     ex.getMessage(), 
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
         
@@ -410,7 +411,7 @@ public class ProveedoresAsignados extends javax.swing.JFrame implements IManteni
                     ex.getMessage(),
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
@@ -450,7 +451,7 @@ public class ProveedoresAsignados extends javax.swing.JFrame implements IManteni
                     ex.getMessage(),
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }//GEN-LAST:event_btnEliminarActionPerformed
 
@@ -594,7 +595,7 @@ public class ProveedoresAsignados extends javax.swing.JFrame implements IManteni
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
         if (sqlResult > 0){

@@ -48,6 +48,7 @@ public class ReferenciaNotaCXC extends javax.swing.JFrame {
     private Calendar fechaA = GregorianCalendar.getInstance();
     private boolean fechaCorrecta = false;
     private int notaRecibida = 0;   // Parámetro recibido para aplicar
+    private final Bitacora b = new Bitacora();
 
     // Constantes de la configuración
     private final String codigoTC; // Código del tipo de cambio
@@ -599,7 +600,7 @@ public class ReferenciaNotaCXC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
 
@@ -764,7 +765,7 @@ public class ReferenciaNotaCXC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             if (this.hayTransaccion) {
                 this.hayTransaccion = false;
                 try {
@@ -774,7 +775,7 @@ public class ReferenciaNotaCXC extends javax.swing.JFrame {
                             ex1.getMessage(),
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
-                    new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 }
             } // end if
             return;
@@ -843,7 +844,7 @@ public class ReferenciaNotaCXC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -1027,7 +1028,7 @@ public class ReferenciaNotaCXC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
     } // end datosdelCliente
@@ -1044,7 +1045,7 @@ public class ReferenciaNotaCXC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end cargarMonedas
 
@@ -1091,7 +1092,7 @@ public class ReferenciaNotaCXC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     }
 } // end class ReferenciaNotaCXC

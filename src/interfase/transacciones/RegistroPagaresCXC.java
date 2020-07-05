@@ -5,6 +5,8 @@
  */
 package interfase.transacciones;
 
+import Exceptions.CurrencyExchangeException;
+import Mail.Bitacora;
 import accesoDatos.UtilBD;
 import interfase.otros.Buscador;
 import interfase.otros.Navegador;
@@ -18,8 +20,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import Exceptions.CurrencyExchangeException;
-import Mail.Bitacora;
 import logica.utilitarios.SQLInjectionException;
 import logica.utilitarios.Ut;
 
@@ -30,8 +30,8 @@ import logica.utilitarios.Ut;
 public class RegistroPagaresCXC extends JFrame {
 
     public ResultSet rs, rs3;
-    private String tabla;
-    private Statement stat;
+    private final String tabla;
+    private final Statement stat;
     private Connection conn = null;
     Navegador nav = null;
     private Buscador bd = null;
@@ -44,6 +44,7 @@ public class RegistroPagaresCXC extends JFrame {
     private String codigoTC;       // Código de moneda.
     private int CLIENTES = 1;
     private int buscar = CLIENTES; // Valor default
+    private final Bitacora b = new Bitacora();
 
     /**
      * Creates new form Bodegas
@@ -567,7 +568,7 @@ public class RegistroPagaresCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_txtPagareActionPerformed
 
@@ -588,7 +589,7 @@ public class RegistroPagaresCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_cmdPrimeroActionPerformed
 
@@ -609,7 +610,7 @@ public class RegistroPagaresCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_cmdAnteriorActionPerformed
 
@@ -630,7 +631,7 @@ public class RegistroPagaresCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_cmdSiguienteActionPerformed
 
@@ -651,7 +652,7 @@ public class RegistroPagaresCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_cmdUltimoActionPerformed
 
@@ -664,7 +665,7 @@ public class RegistroPagaresCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_cmdGuardarActionPerformed
 
@@ -688,7 +689,7 @@ public class RegistroPagaresCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         txtClicode.transferFocus();
         if (txtClidesc.getText().trim().equals("")) {
@@ -740,7 +741,7 @@ public class RegistroPagaresCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
 
@@ -810,7 +811,7 @@ public class RegistroPagaresCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end eliminar
 
@@ -942,7 +943,7 @@ public class RegistroPagaresCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
 
@@ -1105,7 +1106,7 @@ public class RegistroPagaresCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end refrescarDatos
 
@@ -1135,7 +1136,7 @@ public class RegistroPagaresCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         return existe;
     } // end consultarRegistro
@@ -1160,7 +1161,7 @@ public class RegistroPagaresCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end cargarComboMonedas
 
@@ -1184,7 +1185,7 @@ public class RegistroPagaresCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end ubicarCodigo
 
@@ -1211,7 +1212,7 @@ public class RegistroPagaresCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         // end if
     } // end setDefaultCurrency

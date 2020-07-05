@@ -6,30 +6,30 @@
 package interfase.transacciones;
 
 import Catalogos.Intiposdoc;
+import Exceptions.CurrencyExchangeException;
+import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
 import interfase.otros.Buscador;
 import interfase.otros.Cantidad;
+import interfase.otros.GetUnitCost;
 import java.awt.Color;
 import java.awt.HeadlessException;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.*;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import Exceptions.CurrencyExchangeException;
-import Mail.Bitacora;
-import interfase.otros.GetUnitCost;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import javax.swing.JFileChooser;
 import logica.utilitarios.FormatoTabla;
 import logica.utilitarios.Ut;
 
@@ -48,6 +48,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
     private ResultSet rsMoneda = null;
     private String codigoTC;
     private boolean inicio = true;
+    private final Bitacora b = new Bitacora();
 
     // Constantes para las búsquedas
     private final int PROVEEDOR = 1;
@@ -98,7 +99,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
             formato.formatColumn(tblDetalle, 8, FormatoTabla.H_RIGHT, Color.MAGENTA);
         } catch (Exception ex) {
             Logger.getLogger(RegistroEntradas.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         conn = c;
         stat = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
@@ -182,7 +183,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                     JOptionPane.WARNING_MESSAGE);
             this.txtMovdocu.setEditable(true);
             this.txtMovdocu.setEnabled(true);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // try-catch
 
         txtMovdocu.setText(String.valueOf(doc).trim());
@@ -1178,7 +1179,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -1196,7 +1197,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -1720,7 +1721,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             try {
                 CMD.transaction(conn, CMD.ROLLBACK);
             } catch (SQLException ex1) {
@@ -1731,7 +1732,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                         + "El movimiento no será registrado.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex1.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex1.getMessage());
                 System.exit(1);
             }
         } // catch externo
@@ -1754,7 +1755,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(RegistroEntradas.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         dispose();
 }//GEN-LAST:event_btnSalirActionPerformed
@@ -1896,7 +1897,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 btnGuardar.setEnabled(false);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 return;
             } // end try-catch
         } // end if
@@ -1993,7 +1994,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
     }//GEN-LAST:event_txtProcodeFocusLost
@@ -2104,7 +2105,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }//GEN-LAST:event_txtArtcodeFocusLost
 
@@ -2132,7 +2133,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }//GEN-LAST:event_tblDetalleMouseClicked
 
@@ -2155,7 +2156,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }//GEN-LAST:event_cboMonedaActionPerformed
 
@@ -2206,7 +2207,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
         //                    "Error",
         //                    JOptionPane.ERROR_MESSAGE);
         //            this.btnAgregar.setEnabled(false);
-        //            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+        //            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         //            return;
         //        } // end try-catch
 
@@ -2228,7 +2229,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             this.btnAgregar.setEnabled(false);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -2308,7 +2309,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -2383,7 +2384,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -2485,7 +2486,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                         JOptionPane.WARNING_MESSAGE);
                 this.txtMovdocu.setEditable(true);
                 this.txtMovdocu.setEnabled(true);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 return;
             } // try-catch
 
@@ -2528,7 +2529,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -2579,7 +2580,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }//GEN-LAST:event_mnuAbrirActionPerformed
 
@@ -2634,7 +2635,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -2685,7 +2686,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end if
         // Fin agregado 31/03/2015
 
@@ -2702,7 +2703,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                     + "El sistema se cerrará para proteger la integridad de los datos.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             System.exit(1);
             return;
         } // end try-catch
@@ -2744,7 +2745,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -2761,7 +2762,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
         // Trasladar los registros del detalle de la orden de compra a la tabla de
@@ -2806,7 +2807,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
         // Si se cargaron los registros confirmo la transación y actualizó 
@@ -2828,7 +2829,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                     + "El sistema se cerrará para proteger la integridad de los datos.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             System.exit(1);
             dispose();
         } // end try-catch
@@ -2901,7 +2902,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -3014,7 +3015,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
     }//GEN-LAST:event_mnuCargatxtActionPerformed
@@ -3179,7 +3180,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // totalizarDocumento
 
@@ -3230,7 +3231,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                         + "Debe digitar manualmente el número de documento.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 return false;
             } // end try-catch
         } // end if
@@ -3254,7 +3255,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return false;
         }
 
@@ -3326,7 +3327,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return false;
         } // end try-catch
         return true;
@@ -3353,7 +3354,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end cargarComboMonedas
 
@@ -3377,7 +3378,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end ubicarCodigo
 
@@ -3411,7 +3412,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
     } // end calcularLinea
@@ -3449,7 +3450,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
             Logger.getLogger(RegistroEntradas.class.getName()).log(Level.SEVERE, null, ex);
             mensajeError = ex.getMessage();
             todoCorrecto = false;
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
         // Valido el proveedor y el artículo
@@ -3501,7 +3502,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
             Logger.getLogger(RegistroEntradas.class.getName()).log(Level.SEVERE, null, ex);
             mensajeError = ex.getMessage();
             todoCorrecto = false;
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
         // Valido la cantidad y el costo

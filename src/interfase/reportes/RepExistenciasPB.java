@@ -6,6 +6,8 @@
 
 package interfase.reportes;
 
+import Exceptions.NotUniqueValueException;
+import Mail.Bitacora;
 import accesoDatos.UtilBD;
 import interfase.otros.Buscador;
 import interfase.otros.Navegador;
@@ -16,8 +18,6 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import Exceptions.NotUniqueValueException;
-import Mail.Bitacora;
 import logica.utilitarios.SQLInjectionException;
 import logica.utilitarios.Ut;
 
@@ -37,6 +37,7 @@ public class RepExistenciasPB extends JFrame {
     private final int BODEGA2  = 4;
 
     private int objetoBusqueda = ARTCODE1;
+    private final Bitacora b = new Bitacora();
     
     /** Creates new form */
     public RepExistenciasPB(Connection c) throws SQLException {
@@ -690,7 +691,7 @@ public class RepExistenciasPB extends JFrame {
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 return;
             } // end try-catch
         } // end if
@@ -735,7 +736,7 @@ public class RepExistenciasPB extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 

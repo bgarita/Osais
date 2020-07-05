@@ -25,6 +25,7 @@ public class Clave {
     private String codigoSeguridad;
     
     private String clave;
+    private final Bitacora b = new Bitacora();
     
     // Los siguientes 4 campos se usan para generar el numero consecutivo
     // de los documentos electronicos.
@@ -276,7 +277,7 @@ public class Clave {
             ps.close();
         } catch (SQLException ex) {
             Logger.getLogger(Clave.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         
     } // end saveClave
@@ -304,7 +305,7 @@ public class Clave {
             ps.close();
         } catch (SQLException ex) {
             Logger.getLogger(Clave.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         
         //if (reg = 0)

@@ -1,6 +1,5 @@
 package interfase.otros;
 
-import logica.backup.BackupJob;
 import Exceptions.EmptyDataSourceException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
@@ -18,11 +17,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-import javax.swing.JFileChooser; 
-import javax.swing.JOptionPane;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import logica.backup.BackupJob;
 import logica.utilitarios.Ut;
 
 /**
@@ -38,6 +38,7 @@ public class BackupInterface extends javax.swing.JFrame {
     private String sourceFile, targetFile;
     private Connection conn;
     private javax.swing.JPasswordField txtPassword;
+    private final Bitacora b = new Bitacora();
 
     /**
      * Creates new form StartJob
@@ -66,7 +67,7 @@ public class BackupInterface extends javax.swing.JFrame {
             System.out.println(f.getAbsolutePath());
             f = new File(targetFile);
             System.out.println(f.getAbsolutePath());
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             dispose();
         } // end try-catch 
         
@@ -82,7 +83,7 @@ public class BackupInterface extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             dispose();
         } // end try-catch
 
@@ -404,7 +405,7 @@ public class BackupInterface extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -623,14 +624,14 @@ public class BackupInterface extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } catch (EmptyDataSourceException ex) {
             Logger.getLogger(BackupInterface.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // end loadDatabaseNames
 

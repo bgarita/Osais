@@ -29,6 +29,7 @@ import logica.utilitarios.ProcessProgressBar;
 public class CierreMensual extends JFrame {
 
     private Connection conn = null;
+    private final Bitacora b = new Bitacora();
 
     /**
      * Creates new form
@@ -275,7 +276,7 @@ public class CierreMensual extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end catch
         this.setCursor(null);
         this.dispose();
@@ -400,7 +401,7 @@ public class CierreMensual extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end catch
         return existe;
     } // ExisteDocumento

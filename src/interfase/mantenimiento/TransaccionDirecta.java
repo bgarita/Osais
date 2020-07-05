@@ -26,6 +26,7 @@ public class TransaccionDirecta extends javax.swing.JFrame {
     private final Cacaja caja;
     private final Caja icaj;
     private final Connection conn;
+    private final Bitacora b = new Bitacora();
     /**
      * Creates new form DepositoEfectivo
      * @param c
@@ -228,7 +229,7 @@ public class TransaccionDirecta extends javax.swing.JFrame {
                 ex.getMessage(),
                 "Error",
                 JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch 
 
@@ -316,7 +317,7 @@ public class TransaccionDirecta extends javax.swing.JFrame {
                 ex.getMessage(),
                 "Error",
                 JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             if (transac){
                 try {
                     CMD.transaction(conn, CMD.ROLLBACK);
@@ -327,7 +328,7 @@ public class TransaccionDirecta extends javax.swing.JFrame {
                         "El sistema se cerrará para proteger la integridad.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                    new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                     System.exit(1);
                 } // end try-catch interno // end try-catch interno
             } // end if

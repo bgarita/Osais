@@ -23,6 +23,7 @@ public class ProvinciaC {
     private final Connection conn;
     private boolean error;
     private String errorMessage;
+    private final Bitacora b = new Bitacora();
 
     public ProvinciaC(Connection conn) {
         this.conn = conn;
@@ -89,7 +90,7 @@ public class ProvinciaC {
             this.error = true;
             this.errorMessage = ex.getMessage();
             Logger.getLogger(ProvinciaC.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end loadProvincia
 
@@ -128,7 +129,7 @@ public class ProvinciaC {
             this.error = true;
             this.errorMessage = ex.getMessage();
             Logger.getLogger(ProvinciaC.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 
         return l;

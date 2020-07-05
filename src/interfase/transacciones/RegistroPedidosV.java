@@ -6,13 +6,16 @@
  */
 package interfase.transacciones;
 
-import interfase.reportes.RepPedidosyAp;
-import interfase.menus.MenuPopupClientes;
-import interfase.menus.MenuPopupArticulos;
+import Exceptions.CurrencyExchangeException;
+import Exceptions.NotUniqueValueException;
+import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
+import interfase.menus.MenuPopupArticulos;
+import interfase.menus.MenuPopupClientes;
 import interfase.otros.Buscador;
 import interfase.otros.Navegador;
+import interfase.reportes.RepPedidosyAp;
 import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -25,10 +28,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
-import Exceptions.CurrencyExchangeException;
 import logica.utilitarios.FormatoTabla;
-import Exceptions.NotUniqueValueException;
-import Mail.Bitacora;
 import logica.utilitarios.Ut;
 
 /**
@@ -47,6 +47,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
     private int clicodeActual = 0;  // Se usa para saber cuando cambia de cliente
 
     boolean busquedaAut = false;
+    private final Bitacora b = new Bitacora();
 
     // Variable para aplicar descuentos.
     // La posición cero indica: 
@@ -165,7 +166,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 return;
             }
         } // end if
@@ -1183,7 +1184,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -1221,7 +1222,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -1296,7 +1297,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             try {
                 //stat.executeUpdate("RollBack");
                 //conn.setAutoCommit(true);
@@ -1306,7 +1307,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                         ex1.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex1.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex1.getMessage());
             } // end try interno
             txtFaccant.requestFocusInWindow();
             return;
@@ -1400,7 +1401,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
 
@@ -1426,7 +1427,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             } // end try-catch
         } // end if
         try {
@@ -1434,7 +1435,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(RegistroPedidosV.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         dispose();
 }//GEN-LAST:event_cmdSalirActionPerformed
@@ -1600,7 +1601,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -1668,7 +1669,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } finally {
             this.busquedaAut = false;
         }
@@ -1704,7 +1705,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -1732,7 +1733,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             cmdAgregar.setEnabled(false);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -1782,7 +1783,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             } // end try-catch
         } // end if
         // Fin Bosco agregado 26/10/2011.
@@ -1919,7 +1920,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
         try {
@@ -1935,7 +1936,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
 
@@ -2022,7 +2023,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             UtilBD.authomaticSQLTransaction(conn, UtilBD.ROLLBACK);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } finally {
             txtClicodeActionPerformed(null);
         }
@@ -2094,7 +2095,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             txtFaccant.requestFocusInWindow();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     }//GEN-LAST:event_txtFaccantFocusLost
 
@@ -2200,7 +2201,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             UtilBD.authomaticSQLTransaction(conn, UtilBD.ROLLBACK);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } finally {
             txtClicodeActionPerformed(null);
         }
@@ -2376,7 +2377,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
     } // end datosdelCliente
@@ -2443,7 +2444,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             continuar = false;
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 
         if (!existe && reg == 0) {
@@ -2590,7 +2591,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 
     } // cargarPedido

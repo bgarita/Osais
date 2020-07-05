@@ -56,6 +56,7 @@ public class CoactualizCat {
     private String mensaje_err;
     private boolean mayorizar;
     private final PeriodoContable pc;
+    private final Bitacora b = new Bitacora();
     
     public CoactualizCat(Connection c){
         this.conn = c;
@@ -192,7 +193,7 @@ public class CoactualizCat {
             Logger.getLogger(CoactualizCat.class.getName()).log(Level.SEVERE, null, ex);
             exito = false;
             this.mensaje_err = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
         return exito;
@@ -349,7 +350,7 @@ public class CoactualizCat {
             Logger.getLogger(CoactualizCat.class.getName()).log(Level.SEVERE, null, ex);
             exito = false;
             this.mensaje_err = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
         return exito;
@@ -420,7 +421,7 @@ public class CoactualizCat {
             Logger.getLogger(CoactualizCat.class.getName()).log(Level.SEVERE, null, ex);
             this.mensaje_err = ex.getMessage();
             exito = false;
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
         try {
@@ -432,7 +433,7 @@ public class CoactualizCat {
         } catch (SQLException ex) {
             Logger.getLogger(CoactualizCat.class.getName()).log(Level.SEVERE, null, ex);
             this.mensaje_err = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
         return exito;
@@ -525,7 +526,7 @@ public class CoactualizCat {
             Logger.getLogger(CoactualizCat.class.getName()).log(Level.SEVERE, null, ex);
             this.mensaje_err = ex.getMessage();
             exito = false;
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
         if (!exito){
@@ -536,7 +537,7 @@ public class CoactualizCat {
                 // Si aquí se produce un error es mejor advertir al usuario para que
                 // cierre el sistema.
                 this.mensaje_err = "Se produjo un error inesperado, debe cerrar el sistema";
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             }
         } // end if
         
@@ -554,7 +555,7 @@ public class CoactualizCat {
         } catch (SQLException ex) {
             // No proceso el error porque no es necesario
             Logger.getLogger(CoactualizCat.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end close
 } // end class

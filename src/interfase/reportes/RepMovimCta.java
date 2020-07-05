@@ -34,6 +34,7 @@ public class RepMovimCta extends JFrame {
 
     private Connection conn = null;
     Navegador          Nav = null;
+    private final Bitacora b = new Bitacora();
     
     /** Creates new form
      * @param c
@@ -42,6 +43,7 @@ public class RepMovimCta extends JFrame {
         initComponents();
 
         conn = c;
+        
 
         Calendar cal = GregorianCalendar.getInstance();
         DatFacfech1.setDate(cal.getTime());
@@ -431,7 +433,7 @@ public class RepMovimCta extends JFrame {
                     ex.getMessage(), 
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
         
@@ -491,7 +493,7 @@ public class RepMovimCta extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }//GEN-LAST:event_txtCuentaFocusLost
 

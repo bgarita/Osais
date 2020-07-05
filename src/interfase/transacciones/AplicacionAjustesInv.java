@@ -6,9 +6,12 @@
 
 package interfase.transacciones;
 
+import Exceptions.EmptyDataSourceException;
+import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -18,9 +21,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import Exceptions.EmptyDataSourceException;
-import Mail.Bitacora;
-import java.sql.PreparedStatement;
 import logica.utilitarios.Ut;
 
 /**
@@ -35,6 +35,7 @@ public class AplicacionAjustesInv extends JFrame {
     private Connection conn = null;
     private String bodega;
     private boolean inicio = true;
+    private final Bitacora b = new Bitacora();
     
     /** Creates new form
      * @param c
@@ -271,7 +272,7 @@ public class AplicacionAjustesInv extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
         
@@ -371,7 +372,7 @@ public class AplicacionAjustesInv extends JFrame {
                         "El sistema se cerrará para proteger la integridad.\n" +
                         "El ajuste no quedará aplicado.",
                         JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 System.exit(0);
             }
             Logger.getLogger(AplicacionAjustesInv.class.getName()).log(Level.SEVERE, null, ex);
@@ -379,7 +380,7 @@ public class AplicacionAjustesInv extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
         
@@ -437,7 +438,7 @@ public class AplicacionAjustesInv extends JFrame {
                     ex.getMessage(),
                     "Validar fecha..",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
 
@@ -548,7 +549,7 @@ public class AplicacionAjustesInv extends JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             existe = true;
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end catch
         
         return existe;

@@ -2,12 +2,12 @@ package interfase.otros;
 
 import Mail.Bitacora;
 import accesoDatos.CMD;
-import logica.utilitarios.Ut;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import logica.utilitarios.SQLInjectionException;
+import logica.utilitarios.Ut;
 
 /**
  * Esta clase tiene los métodos necesarios para realizar consultas
@@ -27,6 +27,8 @@ public class Navegador {
     public static final int SIGUIENTE   = 3;   // Siguiente registro
     public static final int ULTIMO     = 4;   // Último registro
     public static final int ESPECIFICO  = 5;   // Registro específico
+    
+    private final Bitacora b = new Bitacora();
     
     public void setConexion(Connection c){
         conn = c;
@@ -633,7 +635,7 @@ public class Navegador {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return null;
         } // end try-catch
         

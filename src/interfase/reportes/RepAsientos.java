@@ -40,6 +40,7 @@ public class RepAsientos extends JFrame {
     private static final short ASIENTO = 1;
     private static final short CUENTA = 2;
     private String[] aTipo_comp; // Arreglo de tipos de asiento
+    private final Bitacora b = new Bitacora();
     
     /** Creates new form
      * @param c
@@ -622,7 +623,7 @@ public class RepAsientos extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }//GEN-LAST:event_txtCuentaFocusLost
 
@@ -719,7 +720,7 @@ public class RepAsientos extends JFrame {
                     ex.getMessage(), 
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
     } // end cargarTipos

@@ -6,6 +6,8 @@
 
 package interfase.mantenimiento;
 
+import Exceptions.EmptyDataSourceException;
+import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
 import interfase.otros.Buscador;
@@ -21,10 +23,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import Exceptions.EmptyDataSourceException;
-import Mail.Bitacora;
-import logica.utilitarios.SQLInjectionException;
 import logica.contabilidad.Cuenta;
+import logica.utilitarios.SQLInjectionException;
 import logica.utilitarios.Ut;
 
 /**
@@ -36,8 +36,9 @@ public class Configconta extends JFrame {
 
     private Connection conn;
     private Buscador   bd;
-    private Cuenta     cta;
+    private final Cuenta     cta;
     private JTextField campo;
+    private Bitacora b = new Bitacora();
 
     /** Creates new form Bodegas
      * @param c
@@ -1056,7 +1057,7 @@ public class Configconta extends JFrame {
                 }
             } catch (SQLException ex1) {
                 Logger.getLogger(Configconta.class.getName()).log(Level.SEVERE, null, ex1);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             }
         }
 }//GEN-LAST:event_cmdGuardarActionPerformed
@@ -1586,7 +1587,7 @@ public class Configconta extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
     } // end cargarRegistro
