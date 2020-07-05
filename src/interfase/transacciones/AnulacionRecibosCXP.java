@@ -28,6 +28,7 @@ public class AnulacionRecibosCXP extends java.awt.Dialog {
     String recibo;                  // Aquí estará el recibo pasado por parámetro
     private ResultSet rs  = null;   // Uso general
     private int reccaja;            // Referencia de caja
+    private final Bitacora b = new Bitacora();
 
     public AnulacionRecibosCXP(
             java.awt.Frame parent,
@@ -300,7 +301,7 @@ public class AnulacionRecibosCXP extends java.awt.Dialog {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
     }//GEN-LAST:event_txtRecnumeFocusLost
@@ -395,7 +396,7 @@ public class AnulacionRecibosCXP extends java.awt.Dialog {
             lblProdesc.setText("");
             txtFecha.setText("");
             txtMonto.setText("0.00");
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
 
             if (hayTransaccion){
                 try{
@@ -405,7 +406,7 @@ public class AnulacionRecibosCXP extends java.awt.Dialog {
                             ex1.getMessage(),
                             "Error", 
                             JOptionPane.ERROR_MESSAGE);
-                    new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 } // end try-catch
             } // end if
         } // end try-catch

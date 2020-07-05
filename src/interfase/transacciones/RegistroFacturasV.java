@@ -70,6 +70,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
     private Calendar fechaA = GregorianCalendar.getInstance();
     private boolean validarCliprec = true;
     private JTextArea fatext = new JTextArea("");  // Texto para la factura
+    private final Bitacora b = new Bitacora();
 
     // Esta variable se usa para validar si se puede facturar o no.
     // Se carga en las validaciones y se evalúa en el método cmdAgregarActionPerformed()
@@ -207,7 +208,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             formato.formatColumn(tblDetalle, 9, FormatoTabla.H_RIGHT, Color.BLACK);
         } catch (Exception ex) {
             Logger.getLogger(RegistroFacturasV.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
         conn = c;
@@ -395,7 +396,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             } // end if
         } // end if
 
@@ -1946,7 +1947,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // try-catch
 
@@ -2010,7 +2011,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -2069,7 +2070,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     ex.getMessage() + extraMessage,
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -2221,13 +2222,13 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                             + "El sistema se cerrará para proteger la integridad de los datos.",
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
-                    new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex1.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex1.getMessage());
                     System.exit(0);
                 } // end try interno
                 this.hayTransaccion = false;
             } // end if
             txtFaccant.requestFocusInWindow();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end catch
 
@@ -2278,10 +2279,10 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                             ex1.getMessage(),
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
-                    new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex1.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex1.getMessage());
                 }
                 this.hayTransaccion = false;
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             } // catch
         } // end if
 
@@ -2318,7 +2319,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 Thread.sleep(100);
             } catch (MalformedURLException | InterruptedException ex) {
                 Logger.getLogger(RegistroFacturasV.class.getName()).log(Level.SEVERE, null, ex);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             }
             this.txtArtcode.requestFocusInWindow();
         } // end if
@@ -2404,7 +2405,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             } // end try-catch
 
             if (borrarEnPedidos) {
@@ -2499,7 +2500,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -2540,7 +2541,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(RegistroFacturasV.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         dispose();
 }//GEN-LAST:event_btnSalirActionPerformed
@@ -2659,7 +2660,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 return;
             } // end try-catch
             // Fin Bosco modificado 22/02/2013
@@ -2701,7 +2702,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -2863,7 +2864,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -2873,7 +2874,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 cant = Ut.quitarFormato(cant);
             } catch (Exception ex) {
                 Logger.getLogger(RegistroFacturasV.class.getName()).log(Level.SEVERE, null, ex);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             }
 
             if (Double.parseDouble(cant) == 0) {
@@ -2924,7 +2925,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             this.btnAgregar.setEnabled(false);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -2945,7 +2946,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -2978,7 +2979,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                         JOptionPane.ERROR_MESSAGE);
                 this.btnAgregar.setEnabled(false);
                 this.mnuAgregar.setEnabled(false);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 return;
             } // end try-catch
         } // end if (artcode.equalsIgnoreCase("_NOINV"))
@@ -3161,7 +3162,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -3183,7 +3184,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
 
@@ -3813,10 +3814,10 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                             + "La factura no será registrada.",
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
-                    new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex1.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex1.getMessage());
                 }
             } // end if
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -3895,7 +3896,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             } // try-catch
             this.paneCliente.requestFocusInWindow();
             this.txtClicode.requestFocusInWindow();
@@ -3952,7 +3953,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -4016,7 +4017,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Validar fecha..",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -4092,7 +4093,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     null, ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
 
@@ -4138,7 +4139,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } finally { // Bosco agregado 23/10/2011
             // Se pasa directamente al código de artículo dejanto
             // los demás campos con el default
@@ -4194,7 +4195,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
         cargarFactura();
@@ -4267,7 +4268,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -4391,7 +4392,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }//GEN-LAST:event_txtArtprecFocusLost
 
@@ -4489,7 +4490,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             } // end try-catch
         } // end if
 
@@ -5065,7 +5066,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
     } // end datosdelCliente
@@ -5211,7 +5212,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
     } // cargarFactura
@@ -5401,7 +5402,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // end createTempInvoice
 
@@ -5457,11 +5458,11 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                             ex1.getMessage(),
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
-                    new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex1.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex1.getMessage());
                 }
                 this.hayTransaccion = false;
             } // end if
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // try-catch
     } // end deleteTempInvoice
 
@@ -5489,7 +5490,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -5517,7 +5518,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -5550,7 +5551,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // try-catch
 
@@ -5630,7 +5631,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // end calcularTarifaExpress
 
@@ -6115,7 +6116,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             continuar = false;
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
         if (continuar && tc <= 0) {
@@ -6147,7 +6148,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             continuar = false;
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
         // Validar la tarjeta
@@ -6163,7 +6164,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 continuar = false;
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             } // end try-catch
         } // end if
 
@@ -6219,7 +6220,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 facnume = -1;
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             } // try-catch
         } else {
             sqlSelect
@@ -6248,7 +6249,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 facnume = -1;
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             } // end try-catch
         } // end if validación del consecutivo
 
@@ -6283,7 +6284,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
             errorMsg = ex.getMessage();
             cajaN = -1;
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
         // Crear el objeto caja con el número correspondiente al usuario
@@ -6346,7 +6347,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(RegistroFacturasV.class.getName()).log(Level.SEVERE, null, ex);
             errorMsg = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
         if (!errorMsg.isEmpty()) {
@@ -6424,7 +6425,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(RegistroFacturasV.class.getName()).log(Level.SEVERE, null, ex);
             errorMsg = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
         if (!errorMsg.isEmpty()) {
@@ -6442,7 +6443,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(RegistroFacturasV.class.getName()).log(Level.SEVERE, null, ex);
             errorMsg = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
         return errorMsg;
@@ -6536,7 +6537,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(), 
                     "Error", JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
     } // end cargarBodegas

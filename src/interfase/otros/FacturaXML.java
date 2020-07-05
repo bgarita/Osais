@@ -52,6 +52,7 @@ public class FacturaXML extends javax.swing.JFrame {
     private String terminal;
     private String tipoComprobante;
     private int situacionComprobante;
+    private final Bitacora b = new Bitacora();
 
     // Forma de ejecusión 
     public static final int INTERACTIVE = 1;
@@ -328,7 +329,7 @@ public class FacturaXML extends javax.swing.JFrame {
 
         } catch (SQLException ex) {
             Logger.getLogger(FacturaXML.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
@@ -506,7 +507,7 @@ public class FacturaXML extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             this.txtFacnume1.requestFocusInWindow();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -540,7 +541,7 @@ public class FacturaXML extends javax.swing.JFrame {
                             ex.getMessage(),
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
-                    new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 } // end try-catch
 
             } // end if
@@ -792,7 +793,7 @@ public class FacturaXML extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
 
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
         // Si hubo un error y se dio dentro de una transacción se debe hacer rollback
@@ -804,7 +805,7 @@ public class FacturaXML extends javax.swing.JFrame {
                 // No se hace nada con el error porque si este error se da
                 // es porque existe un problema a nivel del servidor y por
                 // tanto nada va a funcionar.
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             } // end try-catch
         } // end if
 
@@ -1012,7 +1013,7 @@ public class FacturaXML extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
         // Si hubo un error y se dio dentro de una transacción se debe hacer rollback
@@ -1024,7 +1025,7 @@ public class FacturaXML extends javax.swing.JFrame {
                 // No se hace nada con el error porque si este error se da
                 // es porque existe un problema a nivel del servidor y por
                 // tanto nada va a funcionar.
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             } // end try-catch
         } // end if
 
@@ -1198,7 +1199,7 @@ public class FacturaXML extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
         // Si hubo un error y se dio dentro de una transacción se debe hacer rollback
@@ -1210,7 +1211,7 @@ public class FacturaXML extends javax.swing.JFrame {
                 // No se hace nada con el error porque si este error se da
                 // es porque existe un problema a nivel del servidor y por
                 // tanto nada va a funcionar.
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             } // end try-catch
         } // end if
 
@@ -1398,7 +1399,7 @@ public class FacturaXML extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
         // Si hubo un error y se dio dentro de una transacción se debe hacer rollback
@@ -1410,7 +1411,7 @@ public class FacturaXML extends javax.swing.JFrame {
                 // No se hace nada con el error porque si este error se da
                 // es porque existe un problema a nivel del servidor y por
                 // tanto nada va a funcionar.
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             } // end try-catch
         } // end if
 
@@ -1636,7 +1637,7 @@ public class FacturaXML extends javax.swing.JFrame {
                         "Error", 
                         JOptionPane.ERROR_MESSAGE);
             } // end if
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + docEl.getError_msg());
+            b.writeToLog(this.getClass().getName() + "--> " + docEl.getError_msg());
         } // end if
     } // end enviarXML
 
@@ -2023,7 +2024,7 @@ public class FacturaXML extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
         // Si hubo un error y se dio dentro de una transacción se debe hacer rollback
@@ -2035,7 +2036,7 @@ public class FacturaXML extends javax.swing.JFrame {
                 // No se hace nada con el error porque si este error se da
                 // es porque existe un problema a nivel del servidor y por
                 // tanto nada va a funcionar.
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             } // end try-catch
         } // end if
 

@@ -6,6 +6,8 @@
 
 package interfase.reportes;
 
+import Exceptions.EmptyDataSourceException;
+import Mail.Bitacora;
 import accesoDatos.UtilBD;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -15,8 +17,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import Exceptions.EmptyDataSourceException;
-import Mail.Bitacora;
 import logica.utilitarios.Ut;
 
 /**
@@ -31,6 +31,7 @@ public class RepListaparaConteo extends JFrame {
     private Connection conn = null;
     private String bodega;
     private boolean inicio = true;
+    private final Bitacora b = new Bitacora();
     
     /** Creates new form
      * @param c
@@ -285,7 +286,7 @@ public class RepListaparaConteo extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         // La llamada a este método con el parámetro null indica que
         // se invocará al SP solo para traer los rangos de las líneas.
@@ -354,7 +355,7 @@ public class RepListaparaConteo extends JFrame {
                 JOptionPane.showMessageDialog(null, ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             }
         } // end if
 }//GEN-LAST:event_cmdImprimirActionPerformed

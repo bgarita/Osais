@@ -7,25 +7,25 @@
 
 package interfase.reportes;
 
-import accesoDatos.UtilBD;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import Exceptions.EmptyDataSourceException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
+import accesoDatos.UtilBD;
 import java.awt.HeadlessException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import logica.utilitarios.Ut;
 
 /**
@@ -38,6 +38,7 @@ public class RepDocInv extends JFrame {
     private final ResultSet rs;
     private final Statement stat;
     private Connection conn;
+    private final Bitacora b = new Bitacora();
 
     // Constantes para el formato de impresión del documento
     private final short FORMATO_NORMAL  = 1;
@@ -425,7 +426,7 @@ public class RepDocInv extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -495,7 +496,7 @@ public class RepDocInv extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }//GEN-LAST:event_cboMovtidoActionPerformed
 
@@ -575,7 +576,7 @@ public class RepDocInv extends JFrame {
                     "No hay datos para este reporte.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }//GEN-LAST:event_btnSaveAsTextActionPerformed
 

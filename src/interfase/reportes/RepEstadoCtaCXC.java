@@ -32,6 +32,7 @@ public class RepEstadoCtaCXC extends JFrame {
     private Connection conn = null;
     Navegador          Nav = null;
     private Buscador   bd = null;
+    private final Bitacora b = new Bitacora();
     
     /** Creates new form
      * @param c
@@ -55,7 +56,7 @@ public class RepEstadoCtaCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 
         // Cuando clicode es mayor que cero es xq fue llamado desde otro form
@@ -352,7 +353,7 @@ public class RepEstadoCtaCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
 

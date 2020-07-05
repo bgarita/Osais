@@ -5,6 +5,8 @@
  */
 package interfase.transacciones;
 
+import Exceptions.CurrencyExchangeException;
+import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
 import interfase.otros.Buscador;
@@ -23,8 +25,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import Exceptions.CurrencyExchangeException;
-import Mail.Bitacora;
 import logica.utilitarios.FormatoTabla;
 import logica.utilitarios.SQLInjectionException;
 import logica.utilitarios.Ut;
@@ -47,6 +47,7 @@ public class RegistroInterbodega extends javax.swing.JFrame {
     private boolean inicio = true;
     FormatoTabla formato;           // Se usa para cmabiar el formato de la tabla
     private boolean busquedaAut = false;
+    private final Bitacora b = new Bitacora();
 
     /**
      * Creates new form RegistroEntradas
@@ -68,7 +69,7 @@ public class RegistroInterbodega extends javax.swing.JFrame {
             formato.formatColumn(tblDetalle, 5, FormatoTabla.H_RIGHT, Color.BLUE);
         } catch (Exception ex) {
             Logger.getLogger(RegistroInterbodega.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 
         conn = c;
@@ -115,7 +116,7 @@ public class RegistroInterbodega extends javax.swing.JFrame {
                     JOptionPane.WARNING_MESSAGE);
             this.txtMovdocu.setEditable(true);
             this.txtMovdocu.setEnabled(true);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // try-catch
 
         txtMovdocu.setText(String.valueOf(doc).trim());
@@ -185,7 +186,7 @@ public class RegistroInterbodega extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
             // Si ocurriera un error no se debe permitir el ingreso del
             // documento ya que no se ha podido verificar.
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         return existe;
     } // existeDocumento
@@ -859,7 +860,7 @@ public class RegistroInterbodega extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             this.cmdAgregar.setEnabled(false);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
         try {
@@ -889,7 +890,7 @@ public class RegistroInterbodega extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -907,7 +908,7 @@ public class RegistroInterbodega extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -965,7 +966,7 @@ public class RegistroInterbodega extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end catch
 
@@ -1004,7 +1005,7 @@ public class RegistroInterbodega extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -1404,7 +1405,7 @@ public class RegistroInterbodega extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             try {
                 //stat.executeUpdate("rollback");
                 CMD.transaction(conn, CMD.ROLLBACK);
@@ -1416,7 +1417,7 @@ public class RegistroInterbodega extends javax.swing.JFrame {
                         + "El movimiento no será registrado.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex1.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex1.getMessage());
                 System.exit(0);
             } // catch interno
         } // end try- catch       
@@ -1556,7 +1557,7 @@ public class RegistroInterbodega extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -1606,7 +1607,7 @@ public class RegistroInterbodega extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     }//GEN-LAST:event_txtArtcodeActionPerformed
 
@@ -1647,7 +1648,7 @@ public class RegistroInterbodega extends javax.swing.JFrame {
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 cmdGuardar.setEnabled(false);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 return;
             } // end try-catch
         } // end if
@@ -1689,7 +1690,7 @@ public class RegistroInterbodega extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     }//GEN-LAST:event_cboMonedaActionPerformed
 
@@ -1717,7 +1718,7 @@ public class RegistroInterbodega extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     }//GEN-LAST:event_cboBodegaOrigenActionPerformed
 
@@ -1745,7 +1746,7 @@ public class RegistroInterbodega extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     }//GEN-LAST:event_cboBodegaDestinoActionPerformed
 
@@ -1877,7 +1878,7 @@ public class RegistroInterbodega extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // totalizarDocumento
 
@@ -1901,7 +1902,7 @@ public class RegistroInterbodega extends javax.swing.JFrame {
                         + "Debe digitar manualmente el número de documento.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 return false;
             } // end try-catch
         } // end if
@@ -1925,7 +1926,7 @@ public class RegistroInterbodega extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return false;
         } // end try-catch
 
@@ -1977,7 +1978,7 @@ public class RegistroInterbodega extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end cargarComboMonedas
 
@@ -2001,7 +2002,7 @@ public class RegistroInterbodega extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end ubicarCodigo
 
@@ -2023,7 +2024,7 @@ public class RegistroInterbodega extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end cargarCombosBodegas
 }

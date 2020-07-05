@@ -105,7 +105,9 @@ public class MailSender {
         } catch (MessagingException ex) {
             error = true;
             errorMessage = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            Bitacora b = new Bitacora();
+            b.setLogLevel(Bitacora.ERROR);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return false;
         } // end try-catch
         return true;

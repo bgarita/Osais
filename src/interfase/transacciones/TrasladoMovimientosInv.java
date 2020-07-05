@@ -6,6 +6,8 @@
 
 package interfase.transacciones;
 
+import Exceptions.NotUniqueValueException;
+import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
 import interfase.otros.Buscador;
@@ -20,8 +22,6 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import Exceptions.NotUniqueValueException;
-import Mail.Bitacora;
 
 /**
  *
@@ -31,6 +31,7 @@ import Mail.Bitacora;
 public class TrasladoMovimientosInv extends JFrame {
 
     private Connection conn = null;
+    private final Bitacora b = new Bitacora();
     
     /** Creates new form */
     public TrasladoMovimientosInv(Connection c) throws SQLException {
@@ -396,7 +397,7 @@ public class TrasladoMovimientosInv extends JFrame {
                      ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             try {
                 CMD.transaction(conn, CMD.ROLLBACK);
             } catch (SQLException ex1) {
@@ -406,7 +407,7 @@ public class TrasladoMovimientosInv extends JFrame {
                      ex1.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex1.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex1.getMessage());
             } // end try-catch interno
             
         } // end try-catch externo
@@ -450,7 +451,7 @@ public class TrasladoMovimientosInv extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
         txtArtcodeOrigen.transferFocus();
@@ -478,7 +479,7 @@ public class TrasladoMovimientosInv extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
         txtArtcodeDestino.transferFocus();

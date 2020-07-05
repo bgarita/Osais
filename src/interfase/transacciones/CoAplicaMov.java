@@ -2,7 +2,6 @@ package interfase.transacciones;
 
 import Mail.Bitacora;
 import accesoDatos.CMD;
-import logica.contabilidad.PeriodoContable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -10,6 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import logica.contabilidad.CoactualizCat;
+import logica.contabilidad.PeriodoContable;
 
 /**
  *
@@ -21,6 +21,7 @@ public class CoAplicaMov extends javax.swing.JFrame {
     private final Connection conn;
     
     private final PeriodoContable pc;
+    private final Bitacora b = new Bitacora();
 
     /**
      * Creates new form CoAplicaMov
@@ -147,7 +148,7 @@ public class CoAplicaMov extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
         
@@ -165,7 +166,7 @@ public class CoAplicaMov extends javax.swing.JFrame {
                     ex.getMessage(), 
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
         if (huboError){
@@ -180,7 +181,7 @@ public class CoAplicaMov extends javax.swing.JFrame {
                         "El sistema se cerrará para proteger su integridad.", 
                         "Error", 
                         JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 System.exit(1);
             } // end try-catch
             return;
@@ -205,7 +206,7 @@ public class CoAplicaMov extends javax.swing.JFrame {
                         "El sistema se cerrará para proteger su integridad.", 
                         "Error", 
                         JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 System.exit(1);
             } // end try-catch
         } // end if

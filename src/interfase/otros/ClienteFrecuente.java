@@ -24,6 +24,7 @@ public class ClienteFrecuente extends javax.swing.JFrame {
     private static final long serialVersionUID = 11L;
     private final Connection conn;
     FormatoTabla formato;
+    private final Bitacora b = new Bitacora();
 
     /**
      * Creates new form ClienteFrecuente
@@ -39,7 +40,7 @@ public class ClienteFrecuente extends javax.swing.JFrame {
             formato.formatColumn(this.tblClientes, 3, FormatoTabla.H_RIGHT, Color.BLUE);
         } catch (Exception ex) {
             Logger.getLogger(ClienteFrecuente.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     }
 
@@ -419,7 +420,7 @@ public class ClienteFrecuente extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
         
@@ -481,7 +482,7 @@ public class ClienteFrecuente extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
     }//GEN-LAST:event_txtArtcodeActionPerformed
@@ -536,7 +537,7 @@ public class ClienteFrecuente extends javax.swing.JFrame {
                     ex.getMessage(), 
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
         
@@ -598,7 +599,7 @@ public class ClienteFrecuente extends javax.swing.JFrame {
                     ex.getMessage(), 
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }//GEN-LAST:event_btnCalcularActionPerformed
 
@@ -748,7 +749,7 @@ public class ClienteFrecuente extends javax.swing.JFrame {
                     ex.getMessage(), 
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // end cargarArticulosExcluidos
 }

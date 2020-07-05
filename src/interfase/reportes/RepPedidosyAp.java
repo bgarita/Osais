@@ -7,6 +7,8 @@
 
 package interfase.reportes;
 
+import Exceptions.EmptyDataSourceException;
+import Mail.Bitacora;
 import accesoDatos.UtilBD;
 import interfase.otros.Buscador;
 import interfase.otros.Navegador;
@@ -18,8 +20,6 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import Exceptions.EmptyDataSourceException;
-import Mail.Bitacora;
 import logica.utilitarios.SQLInjectionException;
 import logica.utilitarios.Ut;
 
@@ -36,6 +36,7 @@ public class RepPedidosyAp extends JFrame {
     private Buscador   bd = null;
     private String bodega = "";
     private short objetoBusqueda = 1; // 1=txtArtcode1,2=txtArtcode2
+    private final Bitacora b = new Bitacora();
     
     /** Creates new form
      * @param c
@@ -442,7 +443,7 @@ public class RepPedidosyAp extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end catch
         //JOptionPane.showMessageDialog(null, this.bodega);
     }//GEN-LAST:event_cboBodegaActionPerformed

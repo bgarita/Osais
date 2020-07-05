@@ -1,14 +1,16 @@
 
 package interfase.menus;
 
+import Exceptions.EmptyDataSourceException;
+import Mail.Bitacora;
 import interfase.consultas.ConsultaFacturas;
-import interfase.transacciones.RegistroFacturasV;
-import interfase.transacciones.RegistroPagosCXC;
-import interfase.transacciones.RegistroPedidosV;
+import interfase.mantenimiento.Inclient;
 import interfase.reportes.RepAntigSaldosCXC;
 import interfase.reportes.RepEstadoCtaCXC;
 import interfase.reportes.RepPagosCXC;
-import interfase.mantenimiento.Inclient;
+import interfase.transacciones.RegistroFacturasV;
+import interfase.transacciones.RegistroPagosCXC;
+import interfase.transacciones.RegistroPedidosV;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
@@ -17,8 +19,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
-import Exceptions.EmptyDataSourceException;
-import Mail.Bitacora;
 
 /**
  * Esta clase presenta un menú contextual con las acciones más comunes a
@@ -44,6 +44,7 @@ public class MenuPopupClientes extends JPopupMenu {
     private final JMenuItem mnuFacturar;
     private final JMenuItem mnuRegitrarPago;
     private final JMenuItem mnuRegitrarPedido;
+    private final Bitacora b = new Bitacora();
 
     /**
      *
@@ -223,7 +224,7 @@ public class MenuPopupClientes extends JPopupMenu {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     }
 
@@ -247,7 +248,7 @@ public class MenuPopupClientes extends JPopupMenu {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     }
 
@@ -263,7 +264,7 @@ public class MenuPopupClientes extends JPopupMenu {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }
 
@@ -278,7 +279,7 @@ public class MenuPopupClientes extends JPopupMenu {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     }
 

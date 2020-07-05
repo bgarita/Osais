@@ -28,6 +28,7 @@ import logica.utilitarios.Ut;
 public class LiquidacionDiaria extends JFrame {
     private String[][] vendedor;
     private Connection conn = null;
+    private final Bitacora b = new Bitacora();
     
 
     /** Creates new form */
@@ -116,7 +117,7 @@ public class LiquidacionDiaria extends JFrame {
                     ex.getMessage(), 
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // cargarLiquidacion
     
@@ -223,7 +224,7 @@ public class LiquidacionDiaria extends JFrame {
                     ex.getMessage(), 
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end totalizar
 
@@ -258,7 +259,7 @@ public class LiquidacionDiaria extends JFrame {
                     ex.getMessage(), 
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end cargarVendedores
 
@@ -843,7 +844,7 @@ public class LiquidacionDiaria extends JFrame {
                     ex.getMessage(), 
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
         
@@ -975,7 +976,7 @@ public class LiquidacionDiaria extends JFrame {
                      ex.getMessage(),
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }//GEN-LAST:event_btnGuardarActionPerformed
 

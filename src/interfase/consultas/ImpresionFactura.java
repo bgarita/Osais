@@ -7,10 +7,10 @@ package interfase.consultas;
 
 import Mail.Bitacora;
 import accesoDatos.CMD;
-import interfase.reportes.Reportes;
 import accesoDatos.UtilBD;
 import interfase.otros.Buscador;
 import interfase.otros.FacturaXML;
+import interfase.reportes.Reportes;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -37,12 +37,14 @@ public class ImpresionFactura extends java.awt.Dialog {
     private Statement stat;
     private ResultSet rs = null;  // Uso general
     private boolean facConIV; // true = Impuesto separado
+    private Bitacora b = new Bitacora();
 
     public ImpresionFactura(java.awt.Frame parent, boolean modal,
             Connection c, String facnume, int tipo) {
         super(parent, modal);
         initComponents();
 
+        b.setLogLevel(Bitacora.ERROR);
         conn = c;
         documento = facnume.trim();
         tipodoc = tipo;
@@ -58,7 +60,7 @@ public class ImpresionFactura extends java.awt.Dialog {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
         // Si el número de documento recibido es un cero entonces habilito
@@ -504,7 +506,7 @@ public class ImpresionFactura extends java.awt.Dialog {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             lblClidesc.setText("");
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } finally {
             this.setAlwaysOnTop(true);
         }
@@ -562,7 +564,7 @@ public class ImpresionFactura extends java.awt.Dialog {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } finally {
             this.setAlwaysOnTop(true);
         }
@@ -607,12 +609,12 @@ public class ImpresionFactura extends java.awt.Dialog {
                 } // end while
                 ps.close();
             } catch (SQLException ex) {
-                Logger.getLogger(ImpresionFactura.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(null,
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             } // end try-catch
         } else {
             documentos.add(Integer.parseInt(this.txtFacnume1.getText().trim()));
@@ -628,12 +630,12 @@ public class ImpresionFactura extends java.awt.Dialog {
             } // end for
             this.setCursor(null);
         } catch (Exception ex) {
-            Logger.getLogger(ImpresionFactura.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -801,7 +803,7 @@ public class ImpresionFactura extends java.awt.Dialog {
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 this.setAlwaysOnTop(true);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 return false;
             } // end try-catch
         } // end if
@@ -862,7 +864,7 @@ public class ImpresionFactura extends java.awt.Dialog {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
         this.setAlwaysOnTop(true);
@@ -895,12 +897,12 @@ public class ImpresionFactura extends java.awt.Dialog {
                             tipo = FacturaXML.TIQUETE;
                         } // end if
                     } catch (SQLException ex) {
-                        Logger.getLogger(ImpresionFactura.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                         JOptionPane.showMessageDialog(null,
                                 ex.getMessage(),
                                 "Impresión",
                                 JOptionPane.ERROR_MESSAGE);
-                        new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                        b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                     } // end try-catch
 
                     fact.setTipo(tipo);
@@ -940,22 +942,12 @@ public class ImpresionFactura extends java.awt.Dialog {
                         ex.getMessage(),
                         "Impresión",
                         JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 continuarEnvio = false;
             } // end try-catch
 
             // Validar que el xml haya sido aceptado
             if (continuarEnvio) {
-                //                if (!documentoAceptado(Integer.parseInt(documento), Integer.parseInt(facnd))) {
-                //                    continuarEnvio = false;
-                //                    JOptionPane.showMessageDialog(null,
-                //                            "El documento electrónico # " + documento + " aún no ha sido\n"
-                //                            + "aceptado por el Ministerio de Hacienda.\n\n"
-                //                            + "Correo no enviado al cliente.",
-                //                            "Error",
-                //                            JOptionPane.ERROR_MESSAGE);
-                //                } // end if
-
                 try {
                     DocumentoElectronico doc
                             = new DocumentoElectronico(Integer.parseInt(documento), Integer.parseInt(facnd), "V", conn);
@@ -974,28 +966,12 @@ public class ImpresionFactura extends java.awt.Dialog {
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
                     Logger.getLogger(ImpresionFactura.class.getName()).log(Level.SEVERE, null, ex);
-                    new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                     continuarEnvio = false;
                 } // end try-catch
             } // end if
 
             if (continuarEnvio) {
-                //                EnviarCorreoFE correo = new EnviarCorreoFE();
-                //                correo.setDestinatario(mailAddress);
-                //                correo.setFacnd(Integer.parseInt(facnd));
-                //                correo.setFacnume(Integer.parseInt(documento));
-                //                correo.setTitulo("Factura electrónica - " + Menu.EMPRESA);
-                //                correo.setTexto("Envío automático.");
-                //
-                //                boolean enviado = correo.sendMail("", conn); // Si se pone algo en el primer parámetro es para cambiar el remitente (funciona como una máscara)
-                //                if (!enviado) {
-                //                    JOptionPane.showMessageDialog(null,
-                //                            correo.getError_msg(),
-                //                            "Error",
-                //                            JOptionPane.ERROR_MESSAGE);
-                //                } else {
-                //                    actualizarDocumentoElectronico(mailAddress);
-                //                } // end if-else
                 DocumentoElectronico doc
                         = new DocumentoElectronico(Integer.parseInt(documento), Integer.parseInt(facnd), "V", conn);
                 doc.enviarDocumentoCliente(mailAddress);
@@ -1043,55 +1019,9 @@ public class ImpresionFactura extends java.awt.Dialog {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         this.setAlwaysOnTop(true);
     } // end printDocument
 
-    private void actualizarDocumentoElectronico(String mail) {
-        String sqlSent
-                = "Update faestadoDocElect "
-                + "   Set xmlEnviado = 'S', fechaEnviado = now(), emailDestino = ? "
-                + "Where facnume = ? and facnd = ?";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sqlSent);
-            ps.setString(1, mail);
-            ps.setInt(2, Integer.parseInt(this.documento));
-            ps.setInt(3, Integer.parseInt(this.facnd));
-            CMD.update(ps);
-            ps.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(ImpresionFactura.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
-        } // end try-catch
-
-    } // end actualizarDocumentoElectronico
-
-    /**
-     * Determinar si un documento electrónico ya fue aceptado por Hacienda o no.
-     *
-     * @param facnume
-     * @param facnd
-     * @return
-     */
-    private boolean documentoAceptado(int facnume, int facnd) {
-        boolean aceptado = false;
-        String sqlSent
-                = "Select estado from faestadoDocElect "
-                + "Where facnume = ? and facnd = ?";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sqlSent);
-            ps.setInt(1, facnume);
-            ps.setInt(2, facnd);
-            ResultSet rs = CMD.select(ps);
-            rs.first();
-            aceptado = rs.getInt(1) == 4;
-            ps.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(ImpresionFactura.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
-        } // end try-catch
-
-        return aceptado;
-    } // end documentoAceptado
 }

@@ -22,6 +22,7 @@ public class Cambio extends java.awt.Dialog {
     JTextField mPago   = new JTextField();
     JTextField mCambio = new JTextField();
     JTextField continuar;
+    private final Bitacora b = new Bitacora();
 
     /** Creates new form Factext
      * @param parent
@@ -234,7 +235,7 @@ public class Cambio extends java.awt.Dialog {
                     ex.getMessage(), 
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }//GEN-LAST:event_txtPagoActionPerformed
 

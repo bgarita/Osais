@@ -18,6 +18,7 @@ import logica.utilitarios.Ut;
 public class DesgloceDinero2 extends javax.swing.JFrame {
     private static final long serialVersionUID = 26L;
     private final Caja cj;
+    private final Bitacora b = new Bitacora();
 
     
 
@@ -73,7 +74,7 @@ public class DesgloceDinero2 extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
         
@@ -137,7 +138,7 @@ public class DesgloceDinero2 extends javax.swing.JFrame {
                     ex.getMessage(), 
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // end calcular
     /**
@@ -785,7 +786,7 @@ public class DesgloceDinero2 extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
         
@@ -1017,7 +1018,7 @@ public class DesgloceDinero2 extends javax.swing.JFrame {
             this.lblResultadoFormula.setText(Ut.setDecimalFormat(resultado + "", "#,##0.00"));
         } catch (Exception ex) {
             Logger.getLogger(DesgloceDinero2.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     }//GEN-LAST:event_txaFormulaKeyPressed
 

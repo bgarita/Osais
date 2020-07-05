@@ -5,28 +5,29 @@
  */
 package interfase.otros;
 
+import Exceptions.NotUniqueValueException;
+import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import logica.Fondo;
 import logica.IMantenimiento;
-import Exceptions.NotUniqueValueException;
-import Mail.Bitacora;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Properties;
 import logica.utilitarios.SQLInjectionException;
 import logica.utilitarios.Ut;
+
 
 /**
  *
@@ -49,6 +50,7 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
     //private boolean genasienfac;    // Generar asientos contables de facturación
     private boolean inicio = true;
     private Properties props;       // Configuración de correo electrónico
+    private final Bitacora b = new Bitacora();
 
     /**
      * Creates new form Config
@@ -80,7 +82,7 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -1040,7 +1042,7 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(Config.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         this.setVisible(false);
         this.dispose();
@@ -1062,7 +1064,7 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }//GEN-LAST:event_txtClicodeFocusLost
 
@@ -1496,7 +1498,7 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
     } // end cargarObjetos
@@ -1525,7 +1527,7 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end if
 
@@ -1556,7 +1558,7 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -1616,7 +1618,7 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -1666,7 +1668,7 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -1804,7 +1806,7 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -1821,7 +1823,7 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
             fw.close();
         } catch (IOException ex) {
             Logger.getLogger(Config.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
 
@@ -1866,7 +1868,7 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end cargarMonedas
 
@@ -1892,7 +1894,7 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
                     null, ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // end ubicarCodigo
 

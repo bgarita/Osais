@@ -29,6 +29,7 @@ public class NotificacionFactCXC extends Thread{
     
     private long espera;
     private boolean detenido;
+    private final Bitacora b = new Bitacora();
     
     public NotificacionFactCXC(Connection c, boolean n){
         this.conn = c;
@@ -75,7 +76,7 @@ public class NotificacionFactCXC extends Thread{
                     "[Notificaciones automáticas] " + ex.getMessage(), 
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // end cargarIntervalo
     
@@ -142,7 +143,7 @@ public class NotificacionFactCXC extends Thread{
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // end notificar
     

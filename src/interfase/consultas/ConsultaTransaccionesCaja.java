@@ -1,7 +1,12 @@
 package interfase.consultas;
 
+import Exceptions.EmptyDataSourceException;
+import Exceptions.NotUniqueValueException;
+import Mail.Bitacora;
 import accesoDatos.CMD;
+import accesoDatos.UtilBD;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -10,11 +15,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import Exceptions.EmptyDataSourceException;
-import Exceptions.NotUniqueValueException;
-import Mail.Bitacora;
-import accesoDatos.UtilBD;
-import java.awt.Cursor;
 import logica.utilitarios.FormatoTabla;
 import logica.utilitarios.Ut;
 
@@ -31,6 +31,7 @@ public class ConsultaTransaccionesCaja extends javax.swing.JFrame {
     private String tabla;
     private Date fecha1;
     private Date fecha2;
+    private Bitacora b = new Bitacora();
     
     /**
      * Creates new form ConsultaTransaccionesCaja
@@ -41,6 +42,7 @@ public class ConsultaTransaccionesCaja extends javax.swing.JFrame {
      * @param fecha2
      */
     public ConsultaTransaccionesCaja(int nIdcaja, Connection c, boolean hist, Date fecha1, Date fecha2) {
+        b.setLogLevel(Bitacora.ERROR);
         inicio = true;
         initComponents();
         this.conn = c;
@@ -55,7 +57,7 @@ public class ConsultaTransaccionesCaja extends javax.swing.JFrame {
         
         if (nIdcaja != 0){
             for (int i = 0; i < this.cboCaja.getItemCount(); i++){
-                if (Ut.getNumericCode(this.cboCaja.getItemAt(i).toString(), "-") == nIdcaja){
+                if (Ut.getNumericCode(this.cboCaja.getItemAt(i), "-") == nIdcaja){
                     this.cboCaja.setSelectedIndex(i);
                     break;
                 } // end if
@@ -68,8 +70,8 @@ public class ConsultaTransaccionesCaja extends javax.swing.JFrame {
         try {
             formato.formatColumn(tblTrans, 3, FormatoTabla.H_RIGHT, Color.BLUE);
         } catch (Exception ex) {
-            Logger.getLogger(ConsultaTransaccionesCaja.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         this.cboCajaActionPerformed(null);
         
@@ -342,7 +344,7 @@ public class ConsultaTransaccionesCaja extends javax.swing.JFrame {
             documento = Integer.parseInt(tblTrans.getValueAt(row, 7).toString());
         } catch(Exception ex){
             // No se requiere hacer nada cuando esto ocurra
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         modulo    = tblTrans.getValueAt(row, 8).toString();
         tipoD     = tblTrans.getValueAt(row, 9).toString();
@@ -356,12 +358,12 @@ public class ConsultaTransaccionesCaja extends javax.swing.JFrame {
             // El valor de cedula hay que traerlo de la tabla
             cedula = UtilBD.getDBString(conn, tabla, "recnume = " + recibo, "cedula");
         } catch (NotUniqueValueException | SQLException ex) {
-            Logger.getLogger(ConsultaTransaccionesCaja.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(), 
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
         
@@ -388,7 +390,7 @@ public class ConsultaTransaccionesCaja extends javax.swing.JFrame {
                          ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                 new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                 b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             } // end try-catch
             return;
         } // end if
@@ -408,12 +410,12 @@ public class ConsultaTransaccionesCaja extends javax.swing.JFrame {
                         new ConsultaFactNDNC_CXC(this.conn, documento+"", tipoDoc);
                 cxc.setVisible(true);
             } catch (SQLException ex) {
-                Logger.getLogger(ConsultaTransaccionesCaja.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(null, 
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 return;
             }
         } // end if (modulo.equals("CXC"))
@@ -426,12 +428,12 @@ public class ConsultaTransaccionesCaja extends javax.swing.JFrame {
                         new ConsultaFactNDNC_CXP(this.conn, documento+"", tipoDoc);
                 xcp.setVisible(true);
             } catch (SQLException ex) {
-                Logger.getLogger(ConsultaTransaccionesCaja.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(null, 
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             } // end try-catch
             
         } // end if (modulo.equals("CXP"))
@@ -601,12 +603,12 @@ public class ConsultaTransaccionesCaja extends javax.swing.JFrame {
             this.lblTotalRet.setText(Ut.setDecimalFormat(val + "","#,##0.00"));
             this.lblBalance.setText(Ut.setDecimalFormat((dep-ret) + "","#,##0.00"));
         } catch (Exception ex) {
-            Logger.getLogger(ConsultaTransaccionesCaja.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(), 
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
     } // end loadData
@@ -630,12 +632,12 @@ public class ConsultaTransaccionesCaja extends javax.swing.JFrame {
             
             ps.close();
         } catch (SQLException | EmptyDataSourceException ex) {
-            Logger.getLogger(ConsultaTransaccionesCaja.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // end loadTil
 }

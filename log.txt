@@ -30,3 +30,6 @@ Fri Apr 03 17:41:22 CST 2020
 Usuario: null
 interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
 Vaya al menú Registro y elija Tipo de cambio.
+[Sat Jul 04 11:17:22 CST 2020][INFO][Usuario: bgarita][interfase.mantenimiento.Caja--> La tabla no contiene datos.]
+[Sun Jul 05 12:31:40 CST 2020][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.]

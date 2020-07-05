@@ -6,6 +6,8 @@
  */
 package interfase.transacciones;
 
+import Exceptions.CurrencyExchangeException;
+import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
 import interfase.consultas.ImpresionFactura;
@@ -22,8 +24,6 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
-import Exceptions.CurrencyExchangeException;
-import Mail.Bitacora;
 import logica.utilitarios.FormatoTabla;
 import logica.utilitarios.SQLInjectionException;
 import logica.utilitarios.Ut;
@@ -44,6 +44,7 @@ public class AplicacionNotaCXC extends javax.swing.JFrame {
     private Calendar fechaA = GregorianCalendar.getInstance();
     private boolean fechaCorrecta = false;
     private int notaRecibida = 0;   // Parámetro recibido para aplicar
+    private final Bitacora b = new Bitacora();
 
     // Constantes de la configuración
     private final String codigoTC; // Código del tipo de cambio
@@ -717,7 +718,7 @@ public class AplicacionNotaCXC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
 
@@ -908,7 +909,7 @@ public class AplicacionNotaCXC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             if (this.hayTransaccion) {
                 this.hayTransaccion = false;
                 try {
@@ -918,7 +919,7 @@ public class AplicacionNotaCXC extends javax.swing.JFrame {
                             ex1.getMessage(),
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
-                    new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 }
             } // end if
             return;
@@ -990,7 +991,7 @@ public class AplicacionNotaCXC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -1075,7 +1076,7 @@ public class AplicacionNotaCXC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Mensaje",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     }//GEN-LAST:event_txtMontoFocusLost
 
@@ -1164,7 +1165,7 @@ public class AplicacionNotaCXC extends javax.swing.JFrame {
                     "Debe digitar un número válido " + ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
 
@@ -1318,7 +1319,7 @@ public class AplicacionNotaCXC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
     } // end datosdelCliente
@@ -1335,7 +1336,7 @@ public class AplicacionNotaCXC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end cargarMonedas
 
@@ -1397,7 +1398,7 @@ public class AplicacionNotaCXC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end distribuir
 
@@ -1423,7 +1424,7 @@ public class AplicacionNotaCXC extends javax.swing.JFrame {
                         tblDetalle1.getValueAt(row, 4).toString());
             } catch (NumberFormatException ex) {
                 row++;
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 continue;
             }
             montoAp *= tipocaReg;
@@ -1445,7 +1446,7 @@ public class AplicacionNotaCXC extends javax.swing.JFrame {
                     + "\nObserve el remanente.",
                     "Advertencia",
                     JOptionPane.WARNING_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return false;
         } // end try-catch
 
@@ -1505,7 +1506,7 @@ public class AplicacionNotaCXC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     }
 } // end class AplicacionNotaCXC

@@ -25,6 +25,7 @@ public class Cuenta {
     
     private boolean error;
     private String mensaje_error;
+    private final Bitacora b = new Bitacora();
     
     Connection conn;
 
@@ -74,7 +75,7 @@ public class Cuenta {
             Logger.getLogger(Cuenta.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // end Cuenta
     
@@ -136,7 +137,7 @@ public class Cuenta {
                 } // end for
             } catch (Exception ex){
                 valid = false;
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             } // end try-catch
         } // end if-else
         
@@ -350,7 +351,7 @@ public class Cuenta {
             Logger.getLogger(Cuenta.class.getName()).log(Level.SEVERE, null, ex);
             error = true;
             mensaje_error = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end cargarRegistro
 

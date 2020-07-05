@@ -23,8 +23,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import logica.contabilidad.Cuenta;
 import logica.IMantenimiento;
+import logica.contabilidad.Cuenta;
 import logica.geografia.controler.CantonC;
 import logica.geografia.controler.DistritoC;
 import logica.geografia.controler.ProvinciaC;
@@ -61,6 +61,7 @@ public class Inproved extends javax.swing.JFrame implements IMantenimiento {
     private List<DistritoM> distritos;
 
     private boolean inicio;
+    private Bitacora b = new Bitacora();
 
     public Inproved(Connection c) throws SQLException, SQLInjectionException {
         initComponents();
@@ -1024,7 +1025,7 @@ public class Inproved extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_btnPrimeroActionPerformed
 
@@ -1044,7 +1045,7 @@ public class Inproved extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_btnAnteriorActionPerformed
 
@@ -1064,7 +1065,7 @@ public class Inproved extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_btnSiguienteActionPerformed
 
@@ -1085,7 +1086,7 @@ public class Inproved extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_btnUltimoActionPerformed
 
@@ -1277,7 +1278,7 @@ public class Inproved extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }//GEN-LAST:event_cmdVerdetalleActionPerformed
 
@@ -1290,7 +1291,7 @@ public class Inproved extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     }//GEN-LAST:event_mnuFacturasActionPerformed
 
@@ -1610,7 +1611,7 @@ public class Inproved extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end cargarObjetos
 
@@ -1745,7 +1746,7 @@ public class Inproved extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
         if (sqlresult <= 0) {
@@ -1763,7 +1764,7 @@ public class Inproved extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         registroCargado = (rs != null);
 
@@ -1826,7 +1827,7 @@ public class Inproved extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
         return existe;
@@ -1859,7 +1860,7 @@ public class Inproved extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 
         if (sqlResult > 0) {
@@ -1924,7 +1925,7 @@ public class Inproved extends javax.swing.JFrame implements IMantenimiento {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end refrescarObjetos
 

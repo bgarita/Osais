@@ -4,3 +4,4 @@
 dist/
 log.txt
 build/
+xmls/errores/*.txt

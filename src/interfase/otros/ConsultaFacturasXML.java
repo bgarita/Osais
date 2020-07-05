@@ -27,6 +27,7 @@ public class ConsultaFacturasXML extends javax.swing.JFrame {
     private static final long serialVersionUID = 400L;
     private ArrayList<String> validFiles;
     private final Connection conn;
+    private final Bitacora b = new Bitacora();
 
     /**
      * Creates new form ConsultaFacturasXML
@@ -189,7 +190,7 @@ public class ConsultaFacturasXML extends javax.swing.JFrame {
                     msg,
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + msg);
+            b.writeToLog(this.getClass().getName() + "--> " + msg);
             return;
         } // end if
 
@@ -244,7 +245,7 @@ public class ConsultaFacturasXML extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -265,7 +266,7 @@ public class ConsultaFacturasXML extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     }//GEN-LAST:event_formWindowClosed
 
@@ -374,7 +375,7 @@ public class ConsultaFacturasXML extends javax.swing.JFrame {
             ps.close();
         } catch (SQLException ex) {
             Logger.getLogger(ConsultaFacturasXML.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         return tipo;
     } // end getTipo

@@ -263,17 +263,11 @@
         <Component class="com.toedter.calendar.JDateChooser" name="DatFacfech1">
           <Properties>
             <Property name="toolTipText" type="java.lang.String" value="Fecha del movimiento - Blanco = todas"/>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tahoma" size="11" style="0"/>
-            </Property>
           </Properties>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="DatFacfech2">
           <Properties>
             <Property name="toolTipText" type="java.lang.String" value="Fecha del movimiento - Blanco = todas"/>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tahoma" size="11" style="0"/>
-            </Property>
           </Properties>
           <Events>
             <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="DatFacfech2PropertyChange"/>
@@ -386,9 +380,6 @@
     </Component>
     <Component class="javax.swing.JTextField" name="txtNo_comprob">
       <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Tahoma" size="11" style="0"/>
-        </Property>
         <Property name="toolTipText" type="java.lang.String" value="Blanco=Todos los asientos"/>
       </Properties>
       <Events>
@@ -397,9 +388,6 @@
     </Component>
     <Component class="javax.swing.JTextField" name="txtNo_refer">
       <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Tahoma" size="11" style="0"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="0"/>
         <Property name="toolTipText" type="java.lang.String" value="0=Todas las referencias"/>
       </Properties>
@@ -409,9 +397,6 @@
     </Component>
     <Component class="javax.swing.JTextField" name="txtCuenta">
       <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Tahoma" size="11" style="0"/>
-        </Property>
         <Property name="toolTipText" type="java.lang.String" value="Blanco=Todas la cuentas"/>
       </Properties>
       <Events>

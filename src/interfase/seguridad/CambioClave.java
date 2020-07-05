@@ -26,6 +26,7 @@ public class CambioClave extends javax.swing.JDialog {
     private final String USUARIO;
     private final Connection conn;
     private boolean mensajeActivo = false;
+    private final Bitacora b = new Bitacora();
 
     /** Creates new form CambioClave
      * @param parent
@@ -245,14 +246,14 @@ public class CambioClave extends javax.swing.JDialog {
                         ex1.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 return;
             }
             JOptionPane.showMessageDialog(this,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 }//GEN-LAST:event_cmdGuardarActionPerformed
 
@@ -307,7 +308,7 @@ public class CambioClave extends javax.swing.JDialog {
                 UtilBD.getDBString(conn, "paramUsuario", "1=1", "longitudClave"));
         } catch (Exception ex){
             // No es necesario hacer nada
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 
         char[] clave = this.txtNuevaClave.getPassword();

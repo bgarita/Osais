@@ -31,6 +31,7 @@ public class RepVentasxclienteDetalle extends JFrame {
 
     private Connection conn = null;
     private boolean inicio, fin;
+    private final Bitacora b = new Bitacora();
     
     /** Creates new form
      * @param c
@@ -488,7 +489,7 @@ public class RepVentasxclienteDetalle extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }finally{txtClicode.transferFocus();}
 }//GEN-LAST:event_txtClicodeActionPerformed
 

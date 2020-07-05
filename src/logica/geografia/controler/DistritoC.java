@@ -27,6 +27,7 @@ public class DistritoC {
     private final Connection conn;
     private boolean error;
     private String errorMessage;
+    private final Bitacora b = new Bitacora();
 
     
     public DistritoC(Connection conn, CantonM canton) {
@@ -111,7 +112,7 @@ public class DistritoC {
             this.error = true;
             this.errorMessage = ex.getMessage();
             Logger.getLogger(DistritoC.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch 
     } // end loadDistrito
     
@@ -143,7 +144,7 @@ public class DistritoC {
             this.error = true;
             this.errorMessage = ex.getMessage();
             Logger.getLogger(DistritoC.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end loadDistritos
 

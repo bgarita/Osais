@@ -28,6 +28,7 @@ public class AnulacionRecibosCXC extends java.awt.Dialog {
     private Statement stat;
     String recibo;         // Aquí estará el recibo pasado por parámetro
     private ResultSet rs  = null;  // Uso general
+    private final Bitacora b = new Bitacora();
 
     public AnulacionRecibosCXC(
             java.awt.Frame parent,
@@ -51,7 +52,7 @@ public class AnulacionRecibosCXC extends java.awt.Dialog {
                     ex.getMessage(),
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 
         // Si el número de recibo recibido es un cero entonces habilito
@@ -308,7 +309,7 @@ public class AnulacionRecibosCXC extends java.awt.Dialog {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }//GEN-LAST:event_txtRecnumeFocusLost
 
@@ -379,7 +380,7 @@ public class AnulacionRecibosCXC extends java.awt.Dialog {
             lblClidesc.setText("");
             txtFecha.setText("");
             txtMonto.setText("0.00");
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
 
             if (hayTransaccion){
                 try{
@@ -389,7 +390,7 @@ public class AnulacionRecibosCXC extends java.awt.Dialog {
                             ex1.getMessage(),
                             "Error", 
                             JOptionPane.ERROR_MESSAGE);
-                    new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 }
             } // end if
         }

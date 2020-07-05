@@ -9,7 +9,6 @@ package interfase.reportes;
 
 import Mail.Bitacora;
 import accesoDatos.CMD;
-import logica.contabilidad.PeriodoContable;
 import accesoDatos.UtilBD;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import logica.contabilidad.PeriodoContable;
 import logica.utilitarios.Ut;
 
 /**
@@ -31,6 +31,7 @@ import logica.utilitarios.Ut;
 public class RepBalances extends JFrame {
 
     private Connection conn;
+    private final Bitacora b = new Bitacora();
     
     /** Creates new form
      * @param c
@@ -39,6 +40,7 @@ public class RepBalances extends JFrame {
         initComponents();
 
         conn = c;
+        
         
         setCurrentPeriod();
     } // end constructor
@@ -283,7 +285,7 @@ public class RepBalances extends JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(RepBalances.class.getName()).log(Level.SEVERE, null, ex);
             // No es necesario darle tratamiento al error.
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         dispose();
     }//GEN-LAST:event_btnCerrarActionPerformed
@@ -533,7 +535,7 @@ public class RepBalances extends JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             correcto = false;
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
         // Si el reporte solicitado es del periodo actual se hace otra
@@ -553,7 +555,7 @@ public class RepBalances extends JFrame {
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 correcto = false;
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             } // end try-catch
             
             // Esto es una advertencia y por esa razón la ejecusión debe continuar

@@ -6,6 +6,8 @@
 
 package interfase.consultas;
 
+import Exceptions.NotUniqueValueException;
+import Mail.Bitacora;
 import accesoDatos.UtilBD;
 import interfase.otros.Buscador;
 import java.sql.Connection;
@@ -15,8 +17,6 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
-import Exceptions.NotUniqueValueException;
-import Mail.Bitacora;
 import logica.utilitarios.Ut;
 
 /**
@@ -26,6 +26,7 @@ import logica.utilitarios.Ut;
 @SuppressWarnings("serial")
 public class ConsultaSumarizada extends java.awt.Dialog {
     private final Connection conn;  // Conexión a la base de datos
+    private Bitacora b = new Bitacora();
 
     public ConsultaSumarizada(
             java.awt.Frame parent,
@@ -38,6 +39,7 @@ public class ConsultaSumarizada extends java.awt.Dialog {
         this.setAlwaysOnTop(true);
 
         conn = c;
+        b.setLogLevel(Bitacora.ERROR);
     } // end constructor
 
     /** This method is called from within the constructor to
@@ -276,7 +278,7 @@ public class ConsultaSumarizada extends java.awt.Dialog {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
         txtFacnume.requestFocusInWindow();
@@ -284,8 +286,8 @@ public class ConsultaSumarizada extends java.awt.Dialog {
 
     @SuppressWarnings("unchecked")
     private void txtFacnumeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFacnumeActionPerformed
-        DefaultListModel dlm = new DefaultListModel();
-        ListModel lm = lstFacturas.getModel();
+        DefaultListModel<String> dlm = new DefaultListModel<>();
+        ListModel<String> lm = lstFacturas.getModel();
         String elemento, temp;
         double total;
         int pos;
@@ -293,7 +295,7 @@ public class ConsultaSumarizada extends java.awt.Dialog {
         // usar esto en un métodoque se llame calcularTotal
         for (int i = 0; i < lm.getSize(); i++){            
             // Validar si el número de factura ya existe en la lista.
-            elemento = lm.getElementAt(i).toString();
+            elemento = lm.getElementAt(i);
             pos = Ut.AT(elemento, " ");
             temp = elemento.substring(pos).trim();
             pos = Ut.AT(temp, " ");
@@ -315,14 +317,14 @@ public class ConsultaSumarizada extends java.awt.Dialog {
                     "facnume = " + txtFacnume.getText() + " and facnd = 0 and facestado = '' and " +
                     "clicode = " + txtClicode.getText(), 
                     "Concat('Fact ', Lpad(facnume,10,'0'), '   Saldo ', facsald) as factura");
-        } catch (    NotUniqueValueException | SQLException ex) {
-            Logger.getLogger(ConsultaSumarizada.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NotUniqueValueException | SQLException ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
         
@@ -348,7 +350,7 @@ public class ConsultaSumarizada extends java.awt.Dialog {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             this.setAlwaysOnTop(true);
         }
         
@@ -392,7 +394,7 @@ public class ConsultaSumarizada extends java.awt.Dialog {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         btnEliminar.setEnabled(false);
     }//GEN-LAST:event_btnEliminarActionPerformed

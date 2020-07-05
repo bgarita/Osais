@@ -11,18 +11,18 @@
 
 package interfase.otros;
 
+import Exceptions.NotUniqueValueException;
+import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
-import java.sql.SQLException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import Exceptions.NotUniqueValueException;
-import Mail.Bitacora;
 import logica.utilitarios.Ut;
 
 /**
@@ -43,6 +43,7 @@ public class Consecutivos extends javax.swing.JFrame {
             recnumeca;  // Recibos de caja
     
     private String docinv, ultordec;
+    private final Bitacora b = new Bitacora();
     
     // Bosco agregado 28/09/2013
     private String no_comprobv;     // Asiento de ventas
@@ -1054,7 +1055,7 @@ public class Consecutivos extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             if (hayTran){
                 try {
                     CMD.transaction(conn, CMD.ROLLBACK);
@@ -1189,7 +1190,7 @@ public class Consecutivos extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             lblTipo_compv.setText("");
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }//GEN-LAST:event_txtTipo_compvFocusLost
 
@@ -1206,7 +1207,7 @@ public class Consecutivos extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             lblTipo_compc.setText("");
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }//GEN-LAST:event_txtTipo_compcFocusLost
 
@@ -1262,7 +1263,7 @@ public class Consecutivos extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             lblTipo_comprv.setText("");
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }//GEN-LAST:event_txtTipo_comprvFocusLost
 
@@ -1457,7 +1458,7 @@ public class Consecutivos extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
         

@@ -29,6 +29,7 @@ public class NotificacionMinimos extends Thread{
     private long espera;
     
     private boolean detenido;
+    private final Bitacora b = new Bitacora();
     
     public NotificacionMinimos(Connection c, boolean n){
         this.conn = c;
@@ -74,7 +75,7 @@ public class NotificacionMinimos extends Thread{
                     "[Notificaciones automáticas] " + ex.getMessage(), 
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // end cargarIntervalo
     
@@ -137,7 +138,7 @@ public class NotificacionMinimos extends Thread{
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // end notificar
     

@@ -41,6 +41,8 @@ public class BackupJob extends Thread {
     private JTable tblConfig;
     private JLabel label;
     private JLabel lblProceso;
+    
+    private final Bitacora b = new Bitacora();
 
     public BackupJob() {
 
@@ -70,7 +72,7 @@ public class BackupJob extends Thread {
             archivo.stringToFile("password=" + "\"" + passw.trim() + "\"", defaultsFileName, true);
         } catch (IOException ex) {
             Logger.getLogger(BackupJob.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -172,7 +174,7 @@ public class BackupJob extends Thread {
                         JOptionPane.ERROR_MESSAGE);
                 label.setText(ex.getMessage());
                 error = true;
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             } // end try-catch
         } // end for
         

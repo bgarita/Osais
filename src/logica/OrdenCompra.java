@@ -90,7 +90,7 @@ public class OrdenCompra {
         this.WMFechaReclamo = WMFechaReclamo;
     }
 
-    public void setDefault() {
+    public final void setDefault() {
         this.facnume = 0;
         this.facnd = 0;
         this.WMNumeroVendedor = "";

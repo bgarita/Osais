@@ -32,6 +32,7 @@ public class RepAntigSaldosCXC extends JFrame {
     private final int CLICODE2 = 2;    
 
     private int objetoBusqueda = CLICODE1;
+    private final Bitacora b = new Bitacora();
     
     /** Creates new form
      * @param c
@@ -492,7 +493,7 @@ public class RepAntigSaldosCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
         

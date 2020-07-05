@@ -27,6 +27,7 @@ public class EnviarCorreoFE {
     private String destinatario;
     private boolean error;
     private String error_msg;
+    Bitacora b = new Bitacora();
     
     public EnviarCorreoFE() {
         this.facnume = 0;
@@ -177,10 +178,10 @@ public class EnviarCorreoFE {
         archivos[2] = signedXmlFile;
 
         int nIdenvio = 1; // Esto debe parametrizarse
-        Bitacora b = new Bitacora();
         MailSender envioCorreo = new MailSender();
 
         if (Correo.malformado(destinatario)) {
+            b.setLogLevel(Bitacora.ERROR);
             b.writeToLog(
                     "\nCorreo mal formado " + destinatario + ". No fue enviado. "
                     + GregorianCalendar.getInstance().getTime(), nIdenvio);
@@ -204,6 +205,7 @@ public class EnviarCorreoFE {
                 return false;
             } // end if
         } catch (Exception ex) {
+            b.setLogLevel(Bitacora.ERROR);
             b.writeToLog(
                     "ERROR: " + ex.getMessage() + " " + destinatario + ". "
                     + "Documento electrónico no enviado.", nIdenvio);
@@ -240,8 +242,9 @@ public class EnviarCorreoFE {
             ps.close();
             
         } catch (SQLException ex) {
-            Logger.getLogger(EnviarCorreoFE.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> "
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            b.setLogLevel(Bitacora.ERROR);
+            b.writeToLog(this.getClass().getName() + "--> "
                     + "ERROR: " + ex.getMessage() + "\n " + destinatario + ". "
                     + "Documento electrónico no enviado.", 1);
             this.error = true;

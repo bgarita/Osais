@@ -40,6 +40,7 @@ public class Buscador extends java.awt.Dialog {
     private String additionalWhere = ""; // Condiciones adicionales del Where
     private String builtInQuery = "";    // Consulta de propósito general
     private boolean convertirANumero;    // Se usa para convertir a double todos los datos numéricos.
+    private final Bitacora b = new Bitacora();
 
     
     /** Creates new form Buscador
@@ -642,7 +643,7 @@ public class Buscador extends java.awt.Dialog {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }        
 }//GEN-LAST:event_btnBuscarActionPerformed
 

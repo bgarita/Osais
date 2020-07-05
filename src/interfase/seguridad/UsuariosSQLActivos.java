@@ -26,6 +26,7 @@ import logica.utilitarios.Ut;
 public class UsuariosSQLActivos extends java.awt.Dialog {
     Connection conn;
     String usuario;
+    private final Bitacora b = new Bitacora();
 
     /** Creates new form UsuariosSQLActivos
      * @param parent
@@ -164,7 +165,7 @@ public class UsuariosSQLActivos extends java.awt.Dialog {
                         ex.getMessage(),
                         "Error", 
                         JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         cargarProcesos();
     }//GEN-LAST:event_cmdDesconectarActionPerformed
@@ -218,7 +219,7 @@ public class UsuariosSQLActivos extends java.awt.Dialog {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
         

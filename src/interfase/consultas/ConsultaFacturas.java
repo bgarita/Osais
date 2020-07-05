@@ -13,9 +13,9 @@ import Mail.Bitacora;
 import interfase.reportes.RepVentasxclienteDetalle;
 import java.awt.Color;
 import java.sql.CallableStatement;
-import java.sql.SQLException;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
@@ -35,7 +35,8 @@ import logica.utilitarios.Ut;
 public class ConsultaFacturas extends javax.swing.JFrame {
     Connection conn = null;
     private ResultSet rs = null;
-    int clicode;
+    private final int clicode;
+    private Bitacora b = new Bitacora();
 
     /** Creates new form JFrame1
      * @param c
@@ -371,7 +372,8 @@ public class ConsultaFacturas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.setLogLevel(Bitacora.ERROR);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
     }//GEN-LAST:event_tblFacturasMouseClicked
@@ -403,7 +405,8 @@ public class ConsultaFacturas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.setLogLevel(Bitacora.ERROR);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     }//GEN-LAST:event_mnuImprimirActionPerformed
     /**

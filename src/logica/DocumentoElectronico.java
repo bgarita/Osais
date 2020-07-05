@@ -43,6 +43,8 @@ public class DocumentoElectronico {
 
     // Conexión a la base de datos (no se debe cerrar en esta clase).
     private final Connection conn;
+    
+    private final Bitacora b = new Bitacora();
 
     public DocumentoElectronico(int facnume, int facnd, String tipoXML, Connection conn) {
         this.facnume = facnume;
@@ -183,7 +185,7 @@ public class DocumentoElectronico {
             }
         } catch (SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             error = true;
             error_msg = this.getClass().getName() + "--> " + ex.getMessage();
         } // end try-catch
@@ -222,7 +224,7 @@ public class DocumentoElectronico {
             ps.close();
         } catch (SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         return tipoDoc;
     } // end getTipo
@@ -289,7 +291,7 @@ public class DocumentoElectronico {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.error_msg = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // end enviarXML
 

@@ -46,6 +46,8 @@ public class CoasientoE {
     private final String tabla = "coasientoe";
     private String asientodeanulacion; // Número de asiento que se generó al anular otro asiento
     
+    private final Bitacora b = new Bitacora();
+    
     // <editor-fold defaultstate="collapsed" desc="Constructores"> 
     public CoasientoE(Connection conn) {
         this.conn = conn;
@@ -290,7 +292,7 @@ public class CoasientoE {
             this.error = true;
             this.mensaje_error = ex.getMessage();
             this.descrip = "";
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     } // end cargarRegistro
     
@@ -423,7 +425,7 @@ public class CoasientoE {
             Logger.getLogger(CoasientoE.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return false;
         } // end try-catch
                 
@@ -491,7 +493,7 @@ public class CoasientoE {
             Logger.getLogger(CoasientoE.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return exitoso;
         } // end try-catch
         
@@ -533,7 +535,7 @@ public class CoasientoE {
             Logger.getLogger(CoasientoE.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
         return no_comprobA;
@@ -579,7 +581,7 @@ public class CoasientoE {
             Logger.getLogger(CoasientoE.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         return !this.error;
         
@@ -629,7 +631,7 @@ public class CoasientoE {
             Logger.getLogger(CoasientoE.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // try-catch
         return registros;
     } // end update
@@ -660,7 +662,7 @@ public class CoasientoE {
             Logger.getLogger(CoasientoE.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // try-catch
         return registros;
     } // end delete()

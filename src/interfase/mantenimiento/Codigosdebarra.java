@@ -38,6 +38,7 @@ public class Codigosdebarra extends JFrame {
     private Connection conn;
     private final Navegador Nav;
     private Buscador bd;
+    private Bitacora b = new Bitacora();
 
     /** Creates new form
      * @param c
@@ -351,7 +352,7 @@ public class Codigosdebarra extends JFrame {
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(Codigosdebarra.class.getName()).log(Level.SEVERE, null, ex);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         dispose();
 }//GEN-LAST:event_mnuSalirActionPerformed
@@ -385,7 +386,7 @@ public class Codigosdebarra extends JFrame {
                     ex.getMessage(),
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_btnPrimeroActionPerformed
 
@@ -403,7 +404,7 @@ public class Codigosdebarra extends JFrame {
                     ex.getMessage(),
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 }//GEN-LAST:event_btnAnteriorActionPerformed
 
@@ -421,7 +422,7 @@ public class Codigosdebarra extends JFrame {
                     ex.getMessage(),
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_btnSiguienteActionPerformed
 
@@ -440,7 +441,7 @@ public class Codigosdebarra extends JFrame {
                     ex.getMessage(),
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_btnUltimoActionPerformed
 
@@ -470,7 +471,7 @@ public class Codigosdebarra extends JFrame {
                     ex.getMessage(),
                         "Error", 
                         JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_txtArtcodeActionPerformed
 
@@ -601,7 +602,7 @@ public class Codigosdebarra extends JFrame {
                     ex.getMessage(),
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -627,7 +628,7 @@ public class Codigosdebarra extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
 
@@ -665,7 +666,7 @@ public class Codigosdebarra extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }
 } // end class

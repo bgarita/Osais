@@ -6,6 +6,8 @@
 
 package interfase.transacciones;
 
+import Exceptions.NotUniqueValueException;
+import Mail.Bitacora;
 import accesoDatos.UtilBD;
 import interfase.otros.Buscador;
 import java.awt.event.WindowAdapter;
@@ -19,8 +21,6 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import Exceptions.NotUniqueValueException;
-import Mail.Bitacora;
 
 /**
  *
@@ -30,6 +30,7 @@ import Mail.Bitacora;
 public class RecodificacionArticulos extends JFrame {
 
     private Connection conn = null;
+    private final Bitacora b = new Bitacora();
     
     /** Creates new form */
     public RecodificacionArticulos(Connection c) throws SQLException {
@@ -331,7 +332,7 @@ public class RecodificacionArticulos extends JFrame {
                      ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
 }//GEN-LAST:event_cmdGuardarActionPerformed
 
@@ -384,7 +385,7 @@ public class RecodificacionArticulos extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
         txtArtcodeOriginal.transferFocus();

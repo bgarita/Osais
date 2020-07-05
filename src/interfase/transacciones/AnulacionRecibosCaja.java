@@ -27,6 +27,7 @@ import logica.utilitarios.Ut;
 public class AnulacionRecibosCaja extends java.awt.Dialog {
     private final Connection conn;  // Conexión a la base de datos
     String recibo;         // Aquí estará el recibo pasado por parámetro
+    private final Bitacora b = new Bitacora();
 
     public AnulacionRecibosCaja(
             java.awt.Frame parent,
@@ -318,7 +319,7 @@ public class AnulacionRecibosCaja extends java.awt.Dialog {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch 
     }//GEN-LAST:event_txtRecnumeFocusLost
 
@@ -449,7 +450,7 @@ public class AnulacionRecibosCaja extends java.awt.Dialog {
                         ex.getMessage(),
                         "Error", 
                         JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
         if (!todoCorrecto){
@@ -495,7 +496,7 @@ public class AnulacionRecibosCaja extends java.awt.Dialog {
                         ex.getMessage(),
                         "Error", 
                         JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
         if (!todoCorrecto){
@@ -539,7 +540,7 @@ public class AnulacionRecibosCaja extends java.awt.Dialog {
                         ex.getMessage(),
                         "Error", 
                         JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
         if (!todoCorrecto){
@@ -583,7 +584,7 @@ public class AnulacionRecibosCaja extends java.awt.Dialog {
                         ex.getMessage(),
                         "Error", 
                         JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
         if (!todoCorrecto){

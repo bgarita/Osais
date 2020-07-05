@@ -21,6 +21,7 @@ public class PedObserva extends java.awt.Dialog {
     private static final long serialVersionUID = 22L;
     private final String clicode;
     private final Connection conn;
+    private final Bitacora b = new Bitacora();
 
     /** Creates new form Factext
      * @param parent
@@ -222,7 +223,7 @@ public class PedObserva extends java.awt.Dialog {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end setObservaciones
 }

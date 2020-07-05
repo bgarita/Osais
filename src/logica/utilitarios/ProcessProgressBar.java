@@ -36,6 +36,7 @@ public class ProcessProgressBar extends Thread {
     private int ano;
     
     private final String windowTitle;
+    private final Bitacora b = new Bitacora();
     
     public ProcessProgressBar(
             Connection c, 
@@ -221,10 +222,10 @@ public class ProcessProgressBar extends Thread {
                             ex1.getMessage(),
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
-                    new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex1.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex1.getMessage());
                 }
             } // end if
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             JOptionPane.showMessageDialog(
                      null,
                      ex.getMessage(),

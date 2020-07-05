@@ -11,11 +11,11 @@ import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
 import interfase.otros.Navegador;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -28,14 +28,19 @@ import javax.swing.JTextField;
 public class InarticuMinimos extends javax.swing.JFrame {
     private static final long serialVersionUID = 100L;
 
-    private Statement  stat;
-    private Navegador   nav;
+    private final Statement  stat;
+    private final Navegador   nav;
     private String  sqlSent;
-    private String  artcode;
-    private ResultSet    rs;
+    private final String  artcode;
+    private final ResultSet    rs;
     private JTextField tminimo = new JTextField();
+    private Bitacora b = new Bitacora();
 
-    /** Creates new form Minimos */
+    /** Creates new form Minimos
+     * @param c
+     * @param pArtcode
+     * @param pMinimo
+     * @throws java.sql.SQLException */
     public InarticuMinimos(
             Connection c, String pArtcode, JTextField pMinimo) throws SQLException {
         initComponents();
@@ -231,7 +236,7 @@ public class InarticuMinimos extends javax.swing.JFrame {
                         "Error", 
                         JOptionPane.ERROR_MESSAGE);
                 sqlresult = 0;
-                new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 break;
             } // end try-catch
             

@@ -91,11 +91,12 @@ public class DataBaseConnection {
         try{
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             conn = DriverManager.getConnection(url,user,password);
-        } // end try
-        catch(Exception ex){
+        } catch(Exception ex){
             errorMessage = "[Conexión] " + ex.getMessage();
             conn = null;
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            Bitacora b = new Bitacora();
+            b.setLogLevel(Bitacora.ERROR);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end catch
         if (conn != null){
             connected = true;

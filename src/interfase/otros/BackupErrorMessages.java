@@ -14,6 +14,7 @@ public class BackupErrorMessages extends Thread {
 
     private final InputStream is;
     private Boolean error;
+    private final Bitacora b = new Bitacora();
 
     public BackupErrorMessages(InputStream is, Boolean error) {
         this.is = is;
@@ -46,7 +47,7 @@ public class BackupErrorMessages extends Thread {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             error = true;
         } // end try-catch
     } // end run

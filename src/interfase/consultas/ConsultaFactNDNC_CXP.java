@@ -555,6 +555,7 @@ public class ConsultaFactNDNC_CXP extends JFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void txtFacnumeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFacnumeActionPerformed
+        Bitacora b = new Bitacora();
         String sqlSent = 
                 "Select " +
                 "	a.factura," +
@@ -635,7 +636,8 @@ public class ConsultaFactNDNC_CXP extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.setLogLevel(Bitacora.ERROR);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
         
@@ -687,18 +689,7 @@ public class ConsultaFactNDNC_CXP extends JFrame {
                 tableRows = dataRows;
             } // end if
 
-            // Bosco modificado 18/12/2016
-            // Este for ya no es necesario porque arriba se limpia toda la tabla
-            // Inicializo todas las celdas para evitar datos sucios
             int r;
-            //            for (r = 0; r < tableRows; r++){
-            //                this.tabDetalle.setValueAt(null, r, 0);
-            //                this.tabDetalle.setValueAt(null, r, 1);
-            //                this.tabDetalle.setValueAt(null, r, 2);
-            //                this.tabDetalle.setValueAt(null, r, 3);
-            //                this.tabDetalle.setValueAt(null, r, 4);
-            //                this.tabDetalle.setValueAt(null, r, 5);
-            //            } // end for
             
             // Cargar el detalle de la factura en inventarios
             rs.beforeFirst();
@@ -719,7 +710,8 @@ public class ConsultaFactNDNC_CXP extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.setLogLevel(Bitacora.ERROR);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 }//GEN-LAST:event_txtFacnumeActionPerformed
 

@@ -37,10 +37,15 @@ public class AsignacionArticuloaBodega extends javax.swing.JFrame {
     Bodexis bd      = null;
     String artcode  = null;
     Inarticu in = null;
+    private Bitacora b = new Bitacora();
 
-    /** Creates new form AsignacionArticuloaBodega */
+    /** Creates new form AsignacionArticuloaBodega
+     * @param c
+     * @param pArtcode
+     * @param pArtdesc */
     public AsignacionArticuloaBodega(Connection c, String pArtcode, String pArtdesc) {
         initComponents();
+        b.setLogLevel(Bitacora.ERROR);
         artcode = pArtcode;
         lblArtdesc.setText(pArtdesc.trim());
         conn = c;
@@ -82,7 +87,7 @@ public class AsignacionArticuloaBodega extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         // end while
     }
@@ -183,7 +188,7 @@ public class AsignacionArticuloaBodega extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         in.refrescarObjetos();
     }//GEN-LAST:event_cmdAceptarActionPerformed

@@ -29,6 +29,7 @@ import logica.utilitarios.Ut;
 public class ConsultaPrecios extends JFrame {
     private Connection conn = null;
     private boolean busquedaAut = false;
+    private Bitacora b = new Bitacora();
     
 
     /** Creates new form Bodegas
@@ -36,6 +37,9 @@ public class ConsultaPrecios extends JFrame {
      * @param artcode */
     public ConsultaPrecios(Connection c, String artcode) {
         initComponents();
+        
+        b.setLogLevel(Bitacora.ERROR);
+        
         conn = c;
         lblArtdesc.setText("");
 
@@ -466,7 +470,7 @@ public class ConsultaPrecios extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         this.txtArtcode.setText(artcode);
     }//GEN-LAST:event_txtArtcodeActionPerformed
@@ -485,7 +489,7 @@ public class ConsultaPrecios extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
         
