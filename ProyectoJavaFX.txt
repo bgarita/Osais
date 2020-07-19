@@ -1,0 +1,14 @@
+
+Transformar todo el proyecto Swing en JavaFX.
+Se hará un intento por usar todo en forma manual evitando el uso de Scene Builder.
+Esto con el fin de tener el control completo del código.
+
+1.  Crear el la pantalla principal con todas las opciones del menu que hay en Menu.java
+2.  Hacer que la pantalla Ingreso.java llama a este nuevo menu.
+3.  Ver la posibilidad de cambiar Ingreso.java por una pantalla JavaFX y hacer que sea la principal
+4.  Empezar a cambiar todas las pantallas de mantenimiento:
+    1.  Mantenimientos pequeños
+    2.  Resitros pequeños
+5.  Empezar a cambiar las pantallas de movimientos de inventario
+6.  Cambiar la pantalla de facturación
+7.  Cambiar todas las demás

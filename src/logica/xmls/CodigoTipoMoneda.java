@@ -1,7 +1,11 @@
 package logica.xmls;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+//import javax.xml.bind.annotation.XmlElement;
+
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlType;
+
+//import javax.xml.bind.annotation.XmlType;
 
 /**
  *

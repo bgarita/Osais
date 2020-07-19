@@ -1,5 +1,9 @@
 package logica.xmls;
 
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.Unmarshaller;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -7,10 +11,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
+//import javax.xml.bind.JAXBContext;
+//import javax.xml.bind.JAXBException;
+//import javax.xml.bind.Marshaller;
+//import javax.xml.bind.Unmarshaller;
 import logica.utilitarios.Ut;
 
 /**

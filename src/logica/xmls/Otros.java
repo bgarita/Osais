@@ -1,14 +1,15 @@
 package logica.xmls;
 
 import accesoDatos.CMD;
+import jakarta.xml.bind.annotation.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+//import javax.xml.bind.annotation.XmlElement;
+//import javax.xml.bind.annotation.XmlType;
 
 /**
  *

@@ -23,8 +23,19 @@ import logica.utilitarios.Ut;
 public class UpdateVersion {
 
     public static String INITIAL_VERSION = "2.8r0";
+    
+    
 
     public static void update(Connection conn) throws SQLException {
+        firstUpdate(conn);
+
+        if (Menu.VERSIONN.equals("4.5r2")) {
+            update45r2(conn);
+        } // end if
+    } // end update
+
+    
+    private static void firstUpdate(Connection conn) throws SQLException {
         String sqlSent;
         PreparedStatement ps;
 
@@ -59,10 +70,10 @@ public class UpdateVersion {
         } // end if (!UtilBD.fieldInTable(conn, "enviarFacturaE", "config"))
 
         // Bosco agregado 18/07/2019.  Elimino varios índices y agrego uno.
-        double versionNumber
+        double DBVersionNumber
                 = Double.parseDouble(Ut.quitarCaracteres(Menu.dataBaseVersion, ".").toString());
 
-        if (versionNumber >= 5.7 && UtilBD.indexInDB(conn, "FK_Hinmovimd_bodexis")) {
+        if (DBVersionNumber >= 5.7 && UtilBD.indexInDB(conn, "FK_Hinmovimd_bodexis")) {
             sqlSent
                     = "ALTER TABLE `inmovimd`  "
                     + "        DROP INDEX `FK_Hinmovimd_bodexis`";
@@ -72,7 +83,7 @@ public class UpdateVersion {
             ps.close();
         } // end if
 
-        if (versionNumber >= 5.7 && UtilBD.indexInDB(conn, "Index_Movdocu_H")) {
+        if (DBVersionNumber >= 5.7 && UtilBD.indexInDB(conn, "Index_Movdocu_H")) {
             sqlSent
                     = "ALTER TABLE `inmovimd`  "
                     + "        DROP INDEX `Index_Movdocu_H`";
@@ -82,7 +93,7 @@ public class UpdateVersion {
             ps.close();
         } // end if
 
-        if (versionNumber >= 5.7 && UtilBD.indexInDB(conn, "FK_Hinmovimd_inmovime")) {
+        if (DBVersionNumber >= 5.7 && UtilBD.indexInDB(conn, "FK_Hinmovimd_inmovime")) {
             sqlSent
                     = "ALTER TABLE `inmovimd`  "
                     + "        DROP INDEX `FK_Hinmovimd_inmovime`";
@@ -92,7 +103,7 @@ public class UpdateVersion {
             ps.close();
         } // end if
 
-        if (versionNumber >= 5.7 && UtilBD.indexInDB(conn, "FK_Hinmovim_Tipocambio")) {
+        if (DBVersionNumber >= 5.7 && UtilBD.indexInDB(conn, "FK_Hinmovim_Tipocambio")) {
             sqlSent
                     = "ALTER TABLE `inmovime`  "
                     + "        DROP INDEX `FK_Hinmovim_Tipocambio`";
@@ -102,7 +113,7 @@ public class UpdateVersion {
             ps.close();
         } // end if
 
-        if (versionNumber >= 5.7 && !UtilBD.indexInDB(conn, "Index_recalcular_inv")) {
+        if (DBVersionNumber >= 5.7 && !UtilBD.indexInDB(conn, "Index_recalcular_inv")) {
             sqlSent
                     = "ALTER TABLE `inmovime`  "
                     + "        ADD INDEX `Index_recalcular_inv` (`movfech` ASC, `estado` ASC)";
@@ -112,7 +123,7 @@ public class UpdateVersion {
             ps.close();
         } // end if
 
-        if (versionNumber >= 5.7 && UtilBD.indexInDB(conn, "fk_hbodexis_hintarticu")) {
+        if (DBVersionNumber >= 5.7 && UtilBD.indexInDB(conn, "fk_hbodexis_hintarticu")) {
             sqlSent
                     = "ALTER TABLE `hbodexis`  "
                     + "        DROP FOREIGN KEY `fk_hbodexis_hintarticu`";
@@ -122,7 +133,7 @@ public class UpdateVersion {
             ps.close();
         } // end if
 
-        if (versionNumber >= 5.7 && UtilBD.indexInDB(conn, "FK_hbodexis_bodexis")) {
+        if (DBVersionNumber >= 5.7 && UtilBD.indexInDB(conn, "FK_hbodexis_bodexis")) {
             sqlSent
                     = "ALTER TABLE `hbodexis`  "
                     + "        DROP INDEX `FK_hbodexis_bodexis`";
@@ -216,5 +227,161 @@ public class UpdateVersion {
             CMD.update(ps);
             ps.close();
         } // end if
-    } // end update
+    } // firstUpdate
+    
+    private static void update45r2(Connection conn) throws SQLException {
+        // Hago una prueba simple para determinar si existe un campo propio
+        // de esta actualización.  So existe no se debe ejecutar.
+        if (UtilBD.fieldInTable(conn, "codigoTarifa", "inarticu")) {
+            return;
+        } // end if
+        
+        String sqlSent;
+        PreparedStatement ps;
+
+        // Agrear la opción para respaldos de archivos
+        sqlSent = "INSERT INTO `programa`(`programa`, `descrip`)"
+                + "	VALUES('RespaldoArchivosSistema', 'Respaldar archivos del sistema (xml, pdf, etc)')";
+        ps = conn.prepareStatement(sqlSent);
+        CMD.update(ps);
+
+        // Mover el campo usarivi para que tenga más sentido al desplegarlo
+        sqlSent = "ALTER TABLE `config` "
+                + "	CHANGE COLUMN `usarivi` `usarivi` TINYINT(1) UNSIGNED NOT NULL DEFAULT '1'  "
+                + "     COMMENT 'Usar precios con impuesto incluido (0=No, 1=Si)' AFTER `ndeb`";
+        ps = conn.prepareStatement(sqlSent);
+        CMD.update(ps);
+
+        // Crear la tabla de tarifas según el Ministerio de Hacienda.
+        sqlSent = "CREATE TABLE `tarifa_iva` ( "
+                + "	`codigoTarifa` VARCHAR(3) NOT NULL COMMENT 'Código de tarifa', "
+                + "	`descrip` VARCHAR(30) NOT NULL COMMENT 'Descripción de la tarifa', "
+                + "	`porcentaje` FLOAT(12) NOT NULL DEFAULT '0' COMMENT 'Porcentaje de la tarifa', "
+                + "	PRIMARY KEY (`codigoTarifa`) USING BTREE "
+                + ") "
+                + "COMMENT='Catálogo de impuestos según el Ministerio de Hacienda' "
+                + "COLLATE='latin1_swedish_ci' "
+                + "ENGINE=InnoDB";
+        ps = conn.prepareStatement(sqlSent);
+        CMD.update(ps);
+
+        // Agrear los datos
+        sqlSent = "INSERT INTO `tarifa_iva` (`codigoTarifa`, `descrip`) VALUES ('01', 'Tarifa 0% (Exento)')";
+        ps = conn.prepareStatement(sqlSent);
+        CMD.update(ps);
+
+        sqlSent = "INSERT INTO `tarifa_iva` (`codigoTarifa`, `descrip`, `porcentaje`) VALUES ('02', 'Tarifa reducida 1%', '1')";
+        ps = conn.prepareStatement(sqlSent);
+        CMD.update(ps);
+
+        sqlSent = "INSERT INTO `tarifa_iva` (`codigoTarifa`, `descrip`, `porcentaje`) VALUES ('03', 'Tarifa reducida 2%', '2')";
+        ps = conn.prepareStatement(sqlSent);
+        CMD.update(ps);
+
+        sqlSent = "INSERT INTO `tarifa_iva` (`codigoTarifa`, `descrip`, `porcentaje`) VALUES ('04', 'Tarifa reducida 4%', '4')";
+        ps = conn.prepareStatement(sqlSent);
+        CMD.update(ps);
+
+        sqlSent = "INSERT INTO `tarifa_iva` (`codigoTarifa`, `descrip`) VALUES ('05', 'Transitorio 0%')";
+        ps = conn.prepareStatement(sqlSent);
+        CMD.update(ps);
+
+        sqlSent = "INSERT INTO `tarifa_iva` (`codigoTarifa`, `descrip`, `porcentaje`) VALUES ('06', 'Transitorio 4% ', '4')";
+        ps = conn.prepareStatement(sqlSent);
+        CMD.update(ps);
+
+        sqlSent = "INSERT INTO `tarifa_iva` (`codigoTarifa`, `descrip`, `porcentaje`) VALUES ('07', 'Transitorio 8%', '8')";
+        ps = conn.prepareStatement(sqlSent);
+        CMD.update(ps);
+
+        sqlSent = "INSERT INTO `tarifa_iva` (`codigoTarifa`, `descrip`, `porcentaje`) VALUES ('08', 'Tarifa general 13%', '13')";
+        ps = conn.prepareStatement(sqlSent);
+        CMD.update(ps);
+
+        // Agregar el nuevo campo en el catálogo de artículos y otras tablas y relacionarlas con el catálogo de tarifas
+        sqlSent = "ALTER TABLE inarticu "
+                + "	ADD codigoTarifa VARCHAR(3) NOT NULL DEFAULT '01' comment 'Código de tarifa según Hacienda'";
+        ps = conn.prepareStatement(sqlSent);
+        CMD.update(ps);
+
+        sqlSent = "ALTER TABLE `inarticu` "
+                + "	ADD CONSTRAINT `FK_inarticu_tarifa_iva` FOREIGN KEY (`codigoTarifa`) REFERENCES `tarifa_iva` (`codigoTarifa`) ON UPDATE CASCADE";
+        ps = conn.prepareStatement(sqlSent);
+        CMD.update(ps);
+
+        sqlSent = "ALTER TABLE hinarticu "
+                + "	ADD codigoTarifa VARCHAR(3) NOT NULL DEFAULT '01' comment 'Código de tarifa según Hacienda'";
+        ps = conn.prepareStatement(sqlSent);
+        CMD.update(ps);
+
+        sqlSent = "ALTER TABLE `hinarticu` "
+                + "	ADD CONSTRAINT `FK_hinarticu_tarifa_iva` FOREIGN KEY (`codigoTarifa`) REFERENCES `tarifa_iva` (`codigoTarifa`) ON UPDATE CASCADE";
+        ps = conn.prepareStatement(sqlSent);
+        CMD.update(ps);
+
+        sqlSent = "ALTER TABLE inarticu_sinc "
+                + "	ADD codigoTarifa VARCHAR(3) NOT NULL DEFAULT '01' comment 'Código de tarifa según Hacienda'";
+        ps = conn.prepareStatement(sqlSent);
+        CMD.update(ps);
+
+        sqlSent = "ALTER TABLE `inarticu_sinc` "
+                + "	ADD CONSTRAINT `FK_inarticu_sinc_tarifa_iva` FOREIGN KEY (`codigoTarifa`) REFERENCES `tarifa_iva` (`codigoTarifa`) ON UPDATE CASCADE";
+        ps = conn.prepareStatement(sqlSent);
+        CMD.update(ps);
+
+        sqlSent = "ALTER TABLE fadetall "
+                + "	ADD codigoTarifa VARCHAR(3) NOT NULL DEFAULT '01' comment 'Código de tarifa según Hacienda'";
+        ps = conn.prepareStatement(sqlSent);
+        CMD.update(ps);
+
+        sqlSent = "ALTER TABLE `fadetall` "
+                + "	ADD CONSTRAINT `FK_fadetall_tarifa_iva` FOREIGN KEY (`codigoTarifa`) REFERENCES `tarifa_iva` (`codigoTarifa`) ON UPDATE CASCADE";
+        ps = conn.prepareStatement(sqlSent);
+        CMD.update(ps);
+
+        sqlSent = "ALTER TABLE wrk_fadetall "
+                + "	ADD codigoTarifa VARCHAR(3) NOT NULL DEFAULT '01' comment 'Código de tarifa según Hacienda'";
+        ps = conn.prepareStatement(sqlSent);
+        CMD.update(ps);
+
+        sqlSent = "ALTER TABLE `wrk_fadetall` "
+                + "	ADD CONSTRAINT `FK_wrk_fadetall_tarifa_iva` FOREIGN KEY (`codigoTarifa`) REFERENCES `tarifa_iva` (`codigoTarifa`) ON UPDATE CASCADE";
+        ps = conn.prepareStatement(sqlSent);
+        CMD.update(ps);
+
+        sqlSent = "ALTER TABLE pedidod "
+                + "	ADD codigoTarifa VARCHAR(3) NOT NULL DEFAULT '01' comment 'Código de tarifa según Hacienda'";
+        ps = conn.prepareStatement(sqlSent);
+        CMD.update(ps);
+
+        sqlSent = "ALTER TABLE `pedidod` "
+                + "	ADD CONSTRAINT `FK_pedidod_tarifa_iva` FOREIGN KEY (`codigoTarifa`) REFERENCES `tarifa_iva` (`codigoTarifa`) ON UPDATE CASCADE";
+        ps = conn.prepareStatement(sqlSent);
+        CMD.update(ps);
+
+        sqlSent = "ALTER TABLE pedidofd "
+                + "	ADD codigoTarifa VARCHAR(3) NOT NULL DEFAULT '01' comment 'Código de tarifa según Hacienda'";
+        ps = conn.prepareStatement(sqlSent);
+        CMD.update(ps);
+
+        sqlSent = "ALTER TABLE `pedidofd` "
+                + "	ADD CONSTRAINT `FK_pedidofd_tarifa_iva` FOREIGN KEY (`codigoTarifa`) REFERENCES `tarifa_iva` (`codigoTarifa`) ON UPDATE CASCADE";
+        ps = conn.prepareStatement(sqlSent);
+        CMD.update(ps);
+
+        sqlSent = "ALTER TABLE salida "
+                + "	ADD codigoTarifa VARCHAR(3) NOT NULL DEFAULT '01' comment 'Código de tarifa según Hacienda'";
+        ps = conn.prepareStatement(sqlSent);
+        CMD.update(ps);
+
+        sqlSent = "ALTER TABLE `salida` "
+                + "	ADD CONSTRAINT `FK_salida_tarifa_iva` FOREIGN KEY (`codigoTarifa`) REFERENCES `tarifa_iva` (`codigoTarifa`) ON UPDATE CASCADE";
+        ps = conn.prepareStatement(sqlSent);
+        CMD.update(ps);
+        
+        // Agregar la opción de impuestos
+        sqlSent = "INSERT INTO `programa` (`programa`, `descrip`) VALUES ('Impuestos', 'Mantenimiento de impuestos')";
+        ps = conn.prepareStatement(sqlSent);
+        CMD.update(ps);
+    } // end update45r2
 } // end UpdateVersion

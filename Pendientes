@@ -1,3 +1,10 @@
+
+Compilar y correr en pruebas La Flor.  Es necesario validar que se generan los
+xml de facturación electrónica.  Si no funcionara, se puede deshacer el cambio
+con git restore.  Probado, todo funciona perfectamente 08/07/2020, excepto jasper reports
+
+NOTA: Jasper Reports (el plugin) no funciona con java14. Solo funciona con java 8
+
 Factura electrónica (V4.3): (VERSIÓN = "4.0r7")
 Buscar la forma de relacionar la respueta de Hacienda con el proveedor para que se puedan hacer búsquedas en la pantalla de consulta.
 

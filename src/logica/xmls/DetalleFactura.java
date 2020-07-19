@@ -1,13 +1,13 @@
 package logica.xmls;
 
 import accesoDatos.CMD;
+import jakarta.xml.bind.annotation.XmlElement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
 import logica.utilitarios.Ut;
 
 /**
@@ -129,7 +129,12 @@ public class DetalleFactura {
                 + "	If(fadetall.facdesc > 0,'Buen cliente','') as NatDescuento, "
                 + "	(fadetall.facmont - fadetall.facdesc) as subtotal, "
                 + "	'01' as codImpuesto, " // 01=IVA, 02=Selectivo de consumo... ver nota 8 del archivo Anexos y estructuras_V4.3.pdf
-                + "	If(fadetall.facpive > 0, '08', '01') as codigoTarifa, " // 01=Excento, 08=Tarifa general 13%... ver nota 8.1 del archivo Anexos y estructuras_V4.3.pdf
+                + "     case fadetall.facpive "
+                + "		When 0 then '01' "
+                + "		When 1 then '02' "
+                + "		ELSE '08' "
+                + "	END AS codigoTarifa," // 01=Excento, 08=Tarifa general 13%... ver nota 8.1 del archivo Anexos y estructuras_V4.3.pdf
+                // + "	If(fadetall.facpive > 0, '08', '01') as codigoTarifa, " // 01=Excento, 08=Tarifa general 13%... ver nota 8.1 del archivo Anexos y estructuras_V4.3.pdf
                 + "	fadetall.facpive, "
                 + "	fadetall.facimve, "
                 + "	0.00 as FactorIVA, " // Esperar forma de cálculo (Julio 2019)
@@ -187,18 +192,17 @@ public class DetalleFactura {
             lineaFac.setUnidadMedida(rs.getString("unidadMedida"));
             lineaFac.setDetalle(rs.getString("artdesc"));
             lineaFac.setPrecioUnitario(rs.getDouble("artprec"));
-            
+
             Descuento d = new Descuento();
             d.setMontoDescuento(rs.getDouble("facdesc"));
             d.setNaturalezaDescuento(rs.getString("NatDescuento"));
-            
+
             lineaFac.setBaseImponible(0.0);
-            if (rs.getDouble("facimve") > 0){
+            if (rs.getDouble("facimve") > 0) {
                 //lineaFac.setBaseImponible(rs.getDouble("facmont") - rs.getDouble("facdesc"));
                 // Redondeo para cumplir con Hacienda.
-                lineaFac.setBaseImponible(Ut.redondear(rs.getDouble("facmont") - rs.getDouble("facdesc"),5,3));
+                lineaFac.setBaseImponible(Ut.redondear(rs.getDouble("facmont") - rs.getDouble("facdesc"), 5, 3));
             } // end if
-            
 
             lineaFac.setMontoTotal(rs.getDouble("facmont"));
             //lineaFac.setNaturalezaDescuento(rs.getString("NatDescuento"));
@@ -422,7 +426,7 @@ public class DetalleFactura {
             //lineaFac.setOtrosC(oc);
 
             lineaFac.setSubTotal(rs.getDouble("subtotal"));
-            
+
             // Si hay impuesto lo agrego
             if (rs.getDouble("facimve") > 0) {
                 Impuesto im = new Impuesto();
@@ -433,7 +437,7 @@ public class DetalleFactura {
                 im.setCodigoTarifa(rs.getString("codigoTarifa"));   // Julio 2019
                 lineaFac.setImpuesto(im);
             } // end if
-            
+
             lineaFac.setMontoTotalLinea(rs.getDouble("MontoTotalLinea"));
 
             this.linea.add(lineaFac);
@@ -449,30 +453,30 @@ public class DetalleFactura {
                 this.totalMercanciasExentas += esGravado ? 0 : rs.getDouble("MontoTotalLinea");
             } // end if-else
 
-            this.totalGravado       += esGravado ? rs.getDouble("MontoTotalLinea") : 0;
-            this.totalExcento       += esGravado ? 0 : rs.getDouble("MontoTotalLinea");
-            this.totalVenta         += rs.getDouble("MontoTotalLinea");
-            this.totalDescuentos    += rs.getDouble("facdesc");
-            this.totalImpuestos     += rs.getDouble("facimve");
+            this.totalGravado += esGravado ? rs.getDouble("MontoTotalLinea") : 0;
+            this.totalExcento += esGravado ? 0 : rs.getDouble("MontoTotalLinea");
+            this.totalVenta += rs.getDouble("MontoTotalLinea");
+            this.totalDescuentos += rs.getDouble("facdesc");
+            this.totalImpuestos += rs.getDouble("facimve");
         } // end while
 
         //this.totalVentaNeta = this.totalVenta - this.totalDescuentos;
         //this.totalComprobante = this.totalVentaNeta + this.totalImpuestos;
-        this.totalVentaNeta     = this.totalVenta;
-        this.totalComprobante   = this.totalVentaNeta;
+        this.totalVentaNeta = this.totalVenta;
+        this.totalComprobante = this.totalVentaNeta;
 
         // Redondear todos los montos para cumplir con el máximo de decimales
         // que exige Hacienda.
-        this.totalDescuentos    = Ut.redondear(totalDescuentos, 5, 3);
-        this.totalComprobante   = Ut.redondear(totalComprobante, 5, 3);
-        this.totalExcento       = Ut.redondear(totalExcento, 5, 3);
-        this.totalGravado       = Ut.redondear(totalGravado, 5, 3);
-        this.totalImpuestos     = Ut.redondear(totalImpuestos, 5, 3);
-        this.totalMercanciasExentas     = Ut.redondear(totalMercanciasExentas, 5, 3);
-        this.totalMercanciasGravadas    = Ut.redondear(totalMercanciasGravadas, 5, 3);
-        this.totalServiciosExentos      = Ut.redondear(totalServiciosExentos, 5, 3);
-        this.totalVenta         = Ut.redondear(totalVenta, 5, 3);
-        this.totalVentaNeta     = Ut.redondear(totalVentaNeta, 5, 3);
+        this.totalDescuentos = Ut.redondear(totalDescuentos, 5, 3);
+        this.totalComprobante = Ut.redondear(totalComprobante, 5, 3);
+        this.totalExcento = Ut.redondear(totalExcento, 5, 3);
+        this.totalGravado = Ut.redondear(totalGravado, 5, 3);
+        this.totalImpuestos = Ut.redondear(totalImpuestos, 5, 3);
+        this.totalMercanciasExentas = Ut.redondear(totalMercanciasExentas, 5, 3);
+        this.totalMercanciasGravadas = Ut.redondear(totalMercanciasGravadas, 5, 3);
+        this.totalServiciosExentos = Ut.redondear(totalServiciosExentos, 5, 3);
+        this.totalVenta = Ut.redondear(totalVenta, 5, 3);
+        this.totalVentaNeta = Ut.redondear(totalVentaNeta, 5, 3);
     } // end setData
 
 } // end class

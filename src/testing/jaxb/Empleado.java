@@ -1,6 +1,9 @@
 package testing.jaxb;
 
-import javax.xml.bind.annotation.XmlType;
+//import javax.xml.bind.annotation.XmlType;
+
+import jakarta.xml.bind.annotation.XmlType;
+
 
 /**
  *

@@ -508,6 +508,11 @@ public class Ingreso extends javax.swing.JFrame {
         dispose();
         Menu.PASS = pass2;
         Menu.main(conexion, disponible, url);
+        
+        // Just to test
+        String[] args = {};
+        //MainFX.main(args); 
+        //FXSwingMain.main(args);
     }//GEN-LAST:event_cmdAceptarActionPerformed
 
     private void txtUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserActionPerformed

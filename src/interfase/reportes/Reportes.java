@@ -92,6 +92,9 @@ public class Reportes {
             lblDocum = "NC #";
         } // end if
 
+        // Testing Jasper Studio
+        //masterFileName = "C:\\Users\\bgari\\JaspersoftWorkspace\\OsaisReports\\";
+        
         // Bosco agregado 11/02/2012.
         // El formulario de impresión para notas de crédito es diferente.
         if (lblDocum.equals("NC #")) {
@@ -113,7 +116,7 @@ public class Reportes {
         } // end if
         masterFileName += ".jasper";
         // Fin Bosco agregado 02/10/2018
-
+        
         File f = new File(masterFileName);
 
         if (!f.exists() || f.isDirectory()) {

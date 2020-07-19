@@ -1,7 +1,9 @@
+log.txt
 *.class
 *.pdf
 *.jar
 dist/
-log.txt
-build/
 xmls/errores/*.txt
+Backups/
+OsaisReports/
+build/classes/

@@ -6,6 +6,7 @@
 package interfase.menus;
 
 import Catalogos.CathalogDriver;
+import MVC.view.Impuestos_v;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.DataBaseConnection;
@@ -82,8 +83,10 @@ public class Menu extends javax.swing.JFrame {
      */
     //public static final String VERSIONN = "4.1r1";
     //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Ene 2020"; // Redondeo dinámico a 5 decimales de los montos de NC electrónica
-    public static final String VERSIONN = "4.1r2";
-    private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Feb 2020"; // Gravado y exento en F.E.
+    //public static final String VERSIONN = "4.1r2";
+    //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Feb 2020"; // Gravado y exento en F.E.
+    public static final String VERSIONN = "4.5r2";
+    private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Jul 2020"; // Separación de impuestos para Hacienda
     public static String USUARIO;
     public static String PASS;
     private static String SERVIDOR;
@@ -102,11 +105,6 @@ public class Menu extends javax.swing.JFrame {
      */
     Menu(DataBaseConnection c, boolean disponible, String url) {
         initComponents();
-        // Defino el escuchador con una clase anónima para controlar la
-        // salida de esta pantalla.  Esto funciona simpre que se haya
-        // establecido el siguiente parámetro:
-        // setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE)
-        // Esta pantalla lo hace en initComponents().
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -293,6 +291,7 @@ public class Menu extends javax.swing.JFrame {
         mnuPrincipal = new javax.swing.JMenuBar();
         mnuArchivo = new javax.swing.JMenu();
         mnuInarticu = new javax.swing.JMenuItem();
+        mnuIVA = new javax.swing.JMenuItem();
         mnuBarcode = new javax.swing.JMenuItem();
         mnuInfamily = new javax.swing.JMenuItem();
         mnuBodegas = new javax.swing.JMenuItem();
@@ -505,6 +504,15 @@ public class Menu extends javax.swing.JFrame {
             }
         });
         mnuArchivo.add(mnuInarticu);
+
+        mnuIVA.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
+        mnuIVA.setText("Catálogo de impuestos");
+        mnuIVA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuIVAActionPerformed(evt);
+            }
+        });
+        mnuArchivo.add(mnuIVA);
 
         mnuBarcode.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_MASK));
         mnuBarcode.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/application-text.png"))); // NOI18N
@@ -3617,6 +3625,7 @@ CONEXION.getConnection(), // Conexión
         } catch (Exception ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, ex);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     }//GEN-LAST:event_mnuXmlActionPerformed
 
@@ -3687,6 +3696,10 @@ CONEXION.getConnection(), // Conexión
         BackupFiles bk = new BackupFiles();
         bk.start();
     }//GEN-LAST:event_mnuRespArchivosActionPerformed
+
+    private void mnuIVAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuIVAActionPerformed
+        Impuestos_v.main(CONEXION.getConnection());
+    }//GEN-LAST:event_mnuIVAActionPerformed
 
     public static void main(final DataBaseConnection c, final boolean disponible, final String url) {
 
@@ -3826,6 +3839,7 @@ CONEXION.getConnection(), // Conexión
     private javax.swing.JMenu mnuHacienda;
     private javax.swing.JMenu mnuHerramConta;
     private javax.swing.JMenu mnuHerramientas;
+    private javax.swing.JMenuItem mnuIVA;
     private javax.swing.JMenuItem mnuImpAsientos;
     private javax.swing.JMenuItem mnuImpPag;
     private javax.swing.JMenuItem mnuImportCatalogo;

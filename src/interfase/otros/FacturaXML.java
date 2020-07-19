@@ -4,6 +4,10 @@ import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
 import interfase.menus.Menu;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
+import java.awt.HeadlessException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,9 +22,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import logica.DocumentoElectronico;
 import logica.utilitarios.Ut;
 import logica.xmls.Clave;
@@ -621,6 +622,7 @@ public class FacturaXML extends javax.swing.JFrame {
             clave.setFacnume(facnume);
             clave.setFacnd(facnd);
 
+            // La Flor
             fac.setCodigoActividad("155403"); // Julio 2019
 
             // Datos del emisor
@@ -784,7 +786,7 @@ public class FacturaXML extends javax.swing.JFrame {
 
             // Confirmar la transacción
             CMD.transaction(conn, CMD.COMMIT);
-        } catch (SQLException | JAXBException ex) {
+        } catch (JAXBException | HeadlessException | SQLException ex) {
             envio = -1;
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
 
