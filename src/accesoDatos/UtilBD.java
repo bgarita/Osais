@@ -1175,7 +1175,8 @@ public class UtilBD {
      * @param conn
      * @throws SQLException
      */
-    public static void actualizarLocalizacion(String artcode, JTable tblExistencias, Connection conn) throws SQLException {
+    public static void actualizarLocalizacion(
+            String artcode, JTable tblExistencias, Connection conn) throws SQLException {
         // Recorrer la tabla de existencias por bodega para actualizar el campo
         // localiz en la tabla bodexis.
         String sqlUpdate, bodega, localiz;
@@ -1184,7 +1185,7 @@ public class UtilBD {
         //Connection conn = DataBaseConnection.getConnection();
 
         // Si la tabla viene vacía no continúo
-        if (tblExistencias.getValueAt(0, 0) == null) {
+        if (tblExistencias.getRowCount() == 0 || tblExistencias.getValueAt(0, 0) == null) {
             return;
         } // end if
 
@@ -1326,7 +1327,7 @@ public class UtilBD {
                 errorMsg
                         = "[ERROR] el margen de utilidad y/o el precio\n"
                         + "no es correcto para este artículo.\n\n"
-                        + "Debe ir a mantenimiento de artículos y corregir\n"
+                        + "Debe ir al catálogo de artículos y corregir\n"
                         + "el error para poder continuar.";
             } // end if
             ps.close();

@@ -218,6 +218,21 @@ public class ConsultaFacturasXML extends javax.swing.JFrame {
             nota de crédito y hacer una nueva.
         
         Bosco 25/08/2019
+        
+        RECUPERAR UN XML FIRMADO Bosco 22/07/2020
+        Si por alguna razón el XML firmado no se guardó en la carpeta correspondiente
+        se debe hacer lo siguiente:
+        1.  Buscar el archivo correspondiente en la carpeta de logs 
+            por ejemplo C:\InfoT\OSAIS\System\xmls\logs\1179669_Hac.log
+        2.  Abrir el archivo y modificar el estado y el texto de la siguiente
+            manera: 
+            Estado: 4 ACEPTADO
+            Cambiar a: Estado: 1 Enviado
+        3.  Ejecutar la consulta de estado de documentos con la versión 1
+            Hacienda/Consultar documentos enviados V1
+            Con esto se habrá recuperado el XML perdido y ya se puede realizar
+            el envío del correo.
+            Ya para este momento el log tendrá de nuevo el estado de ACEPTADO.
         */
         // Si el archivo que contiene la información existe, y tiene alguno de los
         // estados ACEPTADO o RECHAZADO, se muestran los datos; caso contrario 

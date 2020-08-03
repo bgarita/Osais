@@ -1,4 +1,4 @@
-package logica.geografia.controler;
+package MVC.controller.geofrafia;
 
 import Mail.Bitacora;
 import accesoDatos.CMD;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import logica.geografia.model.ProvinciaM;
+import MVC.model.geografia.ProvinciaM;
 
 /**
  *

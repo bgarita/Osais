@@ -6,4 +6,4 @@ dist/
 xmls/errores/*.txt
 Backups/
 OsaisReports/
-build/classes/
+build/
