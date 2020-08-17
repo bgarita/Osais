@@ -2,6 +2,7 @@
  * Inarticu.java 
  *
  * Created on 31/03/2009, 07:36:28 PM
+ * Modificado: 25/07/2020, Bosco.  Agrego el join con tarifa_iva
  */
 package interfase.mantenimiento;
 
@@ -12,6 +13,7 @@ import interfase.menus.MenuPopupArticulos;
 import interfase.otros.Buscador;
 import interfase.otros.Navegador;
 import java.awt.Color;
+import java.awt.HeadlessException;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -26,11 +28,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.JFileChooser;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import logica.Bodexis;
+import logica.Formato;
 import logica.utilitarios.Archivos;
 import logica.utilitarios.FiltrodeArchivos;
 import logica.utilitarios.SQLInjectionException;
@@ -45,18 +49,22 @@ public class Inarticu extends JFrame {
     private static final long serialVersionUID = 1L;
 
     public ResultSet rs, rs3;
+
     private String tabla;
+    private String join;
+
     private Statement sqlquery;
     private Connection conn = null;
-    Navegador nav = null;
+    private Navegador nav = null;
     private Buscador bd = null;
     private ResultSet rs2 = null;
     private boolean usarivi;    // true=el sistema trabaja con impuesto incluido
-    private float IVAGlobal;    // Impuesto de ventas global
+
     private int buscar = 0;     // 0=Artículos, 1=Familias, 2=Proveedores
     private final int ARTICULOS = 0;
     private final int FAMLIAS = 1;
     private final int PROVEEDORES = 2;
+
     // Bosco agregado 07/11/2010.
     // Control de la acción para las fotografías.
     private int accionFoto = 0;
@@ -68,6 +76,8 @@ public class Inarticu extends JFrame {
     // Fin Bosco agregado 07/11/2010.
     private boolean inicio = true;
 
+    private String formatoCantidad, formatoPrecio, formatoImpuesto, formatoUtilidad;
+
     private MenuPopupArticulos menuArticulos; // Bosco agregado 15/08/2011
     private boolean asignarprovaut;           // Bosco agregado 30/12/2013
     private String bodegaDefault;             // Bosco agregado 30/12/2013
@@ -78,7 +88,7 @@ public class Inarticu extends JFrame {
     // Estos dos campos se usan cuando la clase no se encuentra en forma internactiva.
     private boolean error;
     private String errorMsg;
-    
+
     private Bitacora b = new Bitacora();
 
     /**
@@ -104,17 +114,55 @@ public class Inarticu extends JFrame {
         // Verificación de permisos especiales (modificar artículos de inv.)
         if (!UtilBD.tienePermisoEspecial(c, "n5")) { // Modif. artículos
             this.btnGuardar.setEnabled(false);
-            this.cmdBorrar.setEnabled(false);
-            this.cmdAgregarFoto.setEnabled(false);
-            this.cmdQuitarFoto.setEnabled(false);
+            this.btnBorrar.setEnabled(false);
+            this.btnAgregarFoto.setEnabled(false);
+            this.btnQuitarFoto.setEnabled(false);
             this.btnGuardar.setToolTipText("No tiene permisos.");
-            this.cmdBorrar.setToolTipText("No tiene permisos.");
-            this.cmdAgregarFoto.setToolTipText("No tiene permisos.");
-            this.cmdQuitarFoto.setToolTipText("No tiene permisos.");
+            this.btnBorrar.setToolTipText("No tiene permisos.");
+            this.btnAgregarFoto.setToolTipText("No tiene permisos.");
+            this.btnQuitarFoto.setToolTipText("No tiene permisos.");
         } // end if
 
         asignarprovaut = false; // Bosco agregado 30/12/2013
         bodegaDefault = "";    // Bosco agregado 30/12/2013
+
+        // Cargar los formatos de precios, cantidades, etc.
+        Formato formato = new Formato();
+        try {
+            formato.loadConfiguration();
+            this.formatoCantidad = formato.getFormatoCantidad();
+            this.formatoPrecio   = formato.getFormatoPrecio();
+            this.formatoImpuesto = formato.getFormatoImpuesto();
+            this.formatoUtilidad = formato.getFormatoUtilidad();
+        } catch (SQLException ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+        }
+
+        if (formatoCantidad != null && !formatoCantidad.trim().isEmpty()) {
+            setTextBoxFormat(this.txtArtexis, this.formatoCantidad);
+            setTextBoxFormat(this.txtDisponible, this.formatoCantidad);
+            setTextBoxFormat(this.txtTransito, this.formatoCantidad);
+            setTextBoxFormat(this.txtArtmaxi, this.formatoCantidad);
+            setTextBoxFormat(this.txtArtmini, this.formatoCantidad);
+            setTextBoxFormat(this.txtArtiseg, this.formatoCantidad);
+        } // end if
+
+        if (formatoPrecio != null && !formatoPrecio.trim().isEmpty()) {
+            setTextBoxFormat(this.txtArtpre1, this.formatoPrecio);
+            setTextBoxFormat(this.txtArtpre2, this.formatoPrecio);
+            setTextBoxFormat(this.txtArtpre3, this.formatoPrecio);
+            setTextBoxFormat(this.txtArtpre4, this.formatoPrecio);
+            setTextBoxFormat(this.txtArtpre5, this.formatoPrecio);
+        } // end if
+        
+        if (formatoUtilidad != null && !formatoUtilidad.trim().isEmpty()) {
+            setTextBoxFormat(this.txtArtgan1, this.formatoUtilidad);
+            setTextBoxFormat(this.txtArtgan2, this.formatoUtilidad);
+            setTextBoxFormat(this.txtArtgan3, this.formatoUtilidad);
+            setTextBoxFormat(this.txtArtgan4, this.formatoUtilidad);
+            setTextBoxFormat(this.txtArtgan5, this.formatoUtilidad);
+        } // end if
 
         // Verificación de permisos especiales (precios costos y márgenes)
         if (!UtilBD.tienePermisoEspecial(c, "precios")) {
@@ -126,6 +174,7 @@ public class Inarticu extends JFrame {
 
         cmdBuscar.setVisible(false);
         tabla = "inarticu";
+        join = " INNER JOIN tarifa_iva ON inarticu.codigoTarifa = tarifa_iva.codigoTarifa ";
         nav = new Navegador();
         conn = c;
         nav.setConexion(conn);
@@ -140,28 +189,28 @@ public class Inarticu extends JFrame {
              2) Proveedor automático
              3) Bodega predeterminada
              4) Sincronización de tablas
-             5) Porcentaje de IVA global
              */
             rs = nav.ejecutarQuery(
                     "Select "
                     + "usarivi, "
                     + "asignarprovaut, "
                     + "bodega, "
-                    + "sincronizarTablas, "
-                    + "facimpu "
+                    + "sincronizarTablas "
                     + "from config");
             if (rs != null && rs.first()) {
                 this.usarivi = rs.getBoolean("usarivi");
-                asignarprovaut = rs.getBoolean("asignarprovaut");       // Bosco agregado 30/12/2013
-                bodegaDefault = rs.getString("bodega");                 // Bosco agregado 30/12/2013
-                sincronizarTablas = rs.getBoolean("sincronizarTablas"); // Bosco agregado 16/08/2016
-                this.IVAGlobal = rs.getFloat("facimpu");                // Bosco agregado 03/07/2020
+                this.asignarprovaut = rs.getBoolean("asignarprovaut");       // Bosco agregado 30/12/2013
+                this.bodegaDefault = rs.getString("bodega");                 // Bosco agregado 30/12/2013
+                this.sincronizarTablas = rs.getBoolean("sincronizarTablas"); // Bosco agregado 16/08/2016
             } // end if
             rs.close();
 
-            rs = nav.cargarRegistro(
-                    artcode.isEmpty() ? Navegador.PRIMERO : Navegador.ESPECIFICO,
-                    artcode, tabla, "artcode");
+            rs = nav.cargarRegistroJoin(
+                    (artcode.isEmpty() ? Navegador.PRIMERO : Navegador.ESPECIFICO),
+                    artcode,
+                    tabla,
+                    join,
+                    "inarticu.artcode");
 
             if (rs == null || !rs.first() || rs.getRow() < 1) {
                 return;
@@ -214,17 +263,18 @@ public class Inarticu extends JFrame {
         jLabel19 = new javax.swing.JLabel();
         txtProcode = new javax.swing.JFormattedTextField();
         txtProdesc = new javax.swing.JTextField();
-        chkArtusaIVG = new javax.swing.JCheckBox();
         jLabel18 = new javax.swing.JLabel();
-        txtArtimpv = new javax.swing.JFormattedTextField();
+        txtPorcentaje = new javax.swing.JFormattedTextField();
         chkVinternet = new javax.swing.JCheckBox();
         chkAltarot = new javax.swing.JCheckBox();
         lblFoto = new javax.swing.JLabel();
-        cmdAgregarFoto = new javax.swing.JButton();
-        cmdQuitarFoto = new javax.swing.JButton();
+        btnAgregarFoto = new javax.swing.JButton();
+        btnQuitarFoto = new javax.swing.JButton();
         chkAplicaOferta = new javax.swing.JCheckBox();
         chkEsServicio = new javax.swing.JCheckBox();
         jSeparator1 = new javax.swing.JSeparator();
+        txtCodigoTarifa = new javax.swing.JFormattedTextField();
+        txtDescripTarifa = new javax.swing.JTextField();
         panelCostosyUtilidades = new javax.swing.JPanel();
         txtArtcosd = new javax.swing.JFormattedTextField();
         jLabel1 = new javax.swing.JLabel();
@@ -292,12 +342,12 @@ public class Inarticu extends JFrame {
         jPanel6 = new javax.swing.JPanel();
         lblAviso = new javax.swing.JLabel();
         cmdBuscar = new javax.swing.JButton();
-        cmdPrimero = new javax.swing.JButton();
-        cmdAnterior = new javax.swing.JButton();
-        cmdSiguiente = new javax.swing.JButton();
-        cmdUltimo = new javax.swing.JButton();
+        btnPrimero = new javax.swing.JButton();
+        btnAnterior = new javax.swing.JButton();
+        btnSiguiente = new javax.swing.JButton();
+        btnUltimo = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
-        cmdBorrar = new javax.swing.JButton();
+        btnBorrar = new javax.swing.JButton();
         txtArtdesc = new javax.swing.JFormattedTextField();
         lblArtcode = new javax.swing.JLabel();
         txtArtcode = new javax.swing.JFormattedTextField();
@@ -394,9 +444,9 @@ public class Inarticu extends JFrame {
         });
 
         txtFamilia.setEditable(false);
+        txtFamilia.setForeground(java.awt.Color.blue);
         txtFamilia.setToolTipText("Familia a la que pertenece");
         txtFamilia.setDisabledTextColor(new java.awt.Color(0, 0, 255));
-        txtFamilia.setEnabled(false);
         txtFamilia.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtFamiliaFocusGained(evt);
@@ -441,33 +491,24 @@ public class Inarticu extends JFrame {
             }
         });
 
-        chkArtusaIVG.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        chkArtusaIVG.setForeground(new java.awt.Color(0, 102, 0));
-        chkArtusaIVG.setSelected(true);
-        chkArtusaIVG.setText("Usa IVA global");
-        chkArtusaIVG.setToolTipText("Marque esta casilla si el producto toma el impuesto de la configuración");
-        chkArtusaIVG.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chkArtusaIVGActionPerformed(evt);
-            }
-        });
-
         jLabel18.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel18.setText("IVA");
 
-        txtArtimpv.setColumns(10);
-        txtArtimpv.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.0000"))));
-        txtArtimpv.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txtArtimpv.setText("0.00");
-        txtArtimpv.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtArtimpvActionPerformed(evt);
+        txtPorcentaje.setEditable(false);
+        txtPorcentaje.setColumns(6);
+        txtPorcentaje.setForeground(java.awt.Color.blue);
+        txtPorcentaje.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
+        txtPorcentaje.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtPorcentaje.setToolTipText("Porcentaje impuesto");
+        txtPorcentaje.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtPorcentajeFocusGained(evt);
             }
         });
-        txtArtimpv.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtArtimpvFocusGained(evt);
+        txtPorcentaje.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPorcentajeActionPerformed(evt);
             }
         });
 
@@ -489,21 +530,21 @@ public class Inarticu extends JFrame {
         lblFoto.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblFoto.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        cmdAgregarFoto.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        cmdAgregarFoto.setText("Agregar foto");
-        cmdAgregarFoto.setToolTipText("Agregar o cambiar la foto");
-        cmdAgregarFoto.addActionListener(new java.awt.event.ActionListener() {
+        btnAgregarFoto.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnAgregarFoto.setText("Agregar foto");
+        btnAgregarFoto.setToolTipText("Agregar o cambiar la foto");
+        btnAgregarFoto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdAgregarFotoActionPerformed(evt);
+                btnAgregarFotoActionPerformed(evt);
             }
         });
 
-        cmdQuitarFoto.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        cmdQuitarFoto.setText("Quitar foto");
-        cmdQuitarFoto.setToolTipText("Eliminar la foto");
-        cmdQuitarFoto.addActionListener(new java.awt.event.ActionListener() {
+        btnQuitarFoto.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnQuitarFoto.setText("Quitar foto");
+        btnQuitarFoto.setToolTipText("Eliminar la foto");
+        btnQuitarFoto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdQuitarFotoActionPerformed(evt);
+                btnQuitarFotoActionPerformed(evt);
             }
         });
 
@@ -516,6 +557,35 @@ public class Inarticu extends JFrame {
         chkEsServicio.setText("Es un servicio");
         chkEsServicio.setToolTipText("Marque esta casilla si el artículo se considera un servicio y no un producto");
 
+        txtCodigoTarifa.setColumns(3);
+        try {
+            txtCodigoTarifa.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("***************")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        txtCodigoTarifa.setToolTipText("Codigo de tarifa");
+        txtCodigoTarifa.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtCodigoTarifaFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtCodigoTarifaFocusLost(evt);
+            }
+        });
+        txtCodigoTarifa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCodigoTarifaActionPerformed(evt);
+            }
+        });
+
+        txtDescripTarifa.setEditable(false);
+        txtDescripTarifa.setForeground(java.awt.Color.blue);
+        txtDescripTarifa.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtDescripTarifaFocusGained(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelGeneralLayout = new javax.swing.GroupLayout(panelGeneral);
         panelGeneral.setLayout(panelGeneralLayout);
         panelGeneralLayout.setHorizontalGroup(
@@ -525,7 +595,8 @@ public class Inarticu extends JFrame {
                 .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblArtcode3, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblArtcode1)
-                    .addComponent(jLabel19))
+                    .addComponent(jLabel19)
+                    .addComponent(jLabel18))
                 .addGap(8, 8, 8)
                 .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -536,8 +607,14 @@ public class Inarticu extends JFrame {
                     .addGroup(panelGeneralLayout.createSequentialGroup()
                         .addComponent(txtArtfam, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtFamilia, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(77, 77, 77)
+                        .addComponent(txtFamilia, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelGeneralLayout.createSequentialGroup()
+                        .addComponent(txtCodigoTarifa, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtDescripTarifa, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtPorcentaje, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(76, 76, 76)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelGeneralLayout.createSequentialGroup()
@@ -550,27 +627,21 @@ public class Inarticu extends JFrame {
                             .addComponent(lblFoto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(panelGeneralLayout.createSequentialGroup()
                         .addGap(31, 31, 31)
-                        .addComponent(cmdAgregarFoto)
+                        .addComponent(btnAgregarFoto)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmdQuitarFoto)))
+                        .addComponent(btnQuitarFoto)))
                 .addGap(4, 4, 4))
             .addGroup(panelGeneralLayout.createSequentialGroup()
                 .addGap(83, 83, 83)
                 .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelGeneralLayout.createSequentialGroup()
-                        .addComponent(chkArtusaIVG)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel18)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtArtimpv, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(chkAltarot)
                     .addComponent(chkVinternet)
                     .addComponent(chkAplicaOferta)
                     .addComponent(chkEsServicio))
-                .addGap(424, 424, 424))
+                .addGap(95, 95, 95))
         );
 
-        panelGeneralLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmdAgregarFoto, cmdQuitarFoto});
+        panelGeneralLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAgregarFoto, btnQuitarFoto});
 
         panelGeneralLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtArtfam, txtProcode});
 
@@ -600,12 +671,13 @@ public class Inarticu extends JFrame {
                             .addComponent(txtProcode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel19)
                             .addComponent(txtProdesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(50, 50, 50)
-                        .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(chkArtusaIVG)
-                            .addComponent(jLabel18)
-                            .addComponent(txtArtimpv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(4, 4, 4)
+                        .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel18)
+                            .addComponent(txtCodigoTarifa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtDescripTarifa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPorcentaje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(54, 54, 54)
                         .addComponent(chkVinternet)
                         .addGap(4, 4, 4)
                         .addComponent(chkAltarot)
@@ -616,13 +688,13 @@ public class Inarticu extends JFrame {
                     .addGroup(panelGeneralLayout.createSequentialGroup()
                         .addGap(45, 45, 45)
                         .addComponent(lblFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cmdQuitarFoto)
-                    .addComponent(cmdAgregarFoto)))
+                    .addComponent(btnQuitarFoto)
+                    .addComponent(btnAgregarFoto)))
         );
 
-        panelGeneralLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmdAgregarFoto, cmdQuitarFoto});
+        panelGeneralLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAgregarFoto, btnQuitarFoto});
 
         panelPrincipal.addTab("General", panelGeneral);
 
@@ -893,17 +965,17 @@ public class Inarticu extends JFrame {
         txtArtpre1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.0000"))));
         txtArtpre1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtArtpre1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        txtArtpre1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtArtpre1ActionPerformed(evt);
-            }
-        });
         txtArtpre1.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtArtpre1FocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtArtpre1FocusLost(evt);
+            }
+        });
+        txtArtpre1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtArtpre1ActionPerformed(evt);
             }
         });
 
@@ -1458,7 +1530,7 @@ public class Inarticu extends JFrame {
         });
         jScrollPane3.setViewportView(tblVentas);
 
-        spnPeriodos.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(90), Integer.valueOf(1), null, Integer.valueOf(1)));
+        spnPeriodos.setModel(new javax.swing.SpinnerNumberModel(90, 1, null, 1));
 
         cboTipoPeriodo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Meses", "Días" }));
         cboTipoPeriodo.setSelectedIndex(1);
@@ -1517,40 +1589,40 @@ public class Inarticu extends JFrame {
             }
         });
 
-        cmdPrimero.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZTOP.png"))); // NOI18N
-        cmdPrimero.setToolTipText("Ir al primer registro");
-        cmdPrimero.setFocusCycleRoot(true);
-        cmdPrimero.addActionListener(new java.awt.event.ActionListener() {
+        btnPrimero.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZTOP.png"))); // NOI18N
+        btnPrimero.setToolTipText("Ir al primer registro");
+        btnPrimero.setFocusCycleRoot(true);
+        btnPrimero.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdPrimeroActionPerformed(evt);
+                btnPrimeroActionPerformed(evt);
             }
         });
 
-        cmdAnterior.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZBACK.png"))); // NOI18N
-        cmdAnterior.setToolTipText("Ir al registro anterior");
-        cmdAnterior.setFocusCycleRoot(true);
-        cmdAnterior.setMaximumSize(new java.awt.Dimension(93, 29));
-        cmdAnterior.addActionListener(new java.awt.event.ActionListener() {
+        btnAnterior.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZBACK.png"))); // NOI18N
+        btnAnterior.setToolTipText("Ir al registro anterior");
+        btnAnterior.setFocusCycleRoot(true);
+        btnAnterior.setMaximumSize(new java.awt.Dimension(93, 29));
+        btnAnterior.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdAnteriorActionPerformed(evt);
+                btnAnteriorActionPerformed(evt);
             }
         });
 
-        cmdSiguiente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZNEXT.png"))); // NOI18N
-        cmdSiguiente.setToolTipText("Ir al siguiente registro");
-        cmdSiguiente.setMaximumSize(new java.awt.Dimension(93, 29));
-        cmdSiguiente.addActionListener(new java.awt.event.ActionListener() {
+        btnSiguiente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZNEXT.png"))); // NOI18N
+        btnSiguiente.setToolTipText("Ir al siguiente registro");
+        btnSiguiente.setMaximumSize(new java.awt.Dimension(93, 29));
+        btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdSiguienteActionPerformed(evt);
+                btnSiguienteActionPerformed(evt);
             }
         });
 
-        cmdUltimo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZEND.png"))); // NOI18N
-        cmdUltimo.setToolTipText("Ir al último registro");
-        cmdUltimo.setFocusCycleRoot(true);
-        cmdUltimo.addActionListener(new java.awt.event.ActionListener() {
+        btnUltimo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZEND.png"))); // NOI18N
+        btnUltimo.setToolTipText("Ir al último registro");
+        btnUltimo.setFocusCycleRoot(true);
+        btnUltimo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdUltimoActionPerformed(evt);
+                btnUltimoActionPerformed(evt);
             }
         });
 
@@ -1563,12 +1635,12 @@ public class Inarticu extends JFrame {
             }
         });
 
-        cmdBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZDELETE.png"))); // NOI18N
-        cmdBorrar.setToolTipText("Borrar registro");
-        cmdBorrar.setMaximumSize(new java.awt.Dimension(93, 29));
-        cmdBorrar.addActionListener(new java.awt.event.ActionListener() {
+        btnBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZDELETE.png"))); // NOI18N
+        btnBorrar.setToolTipText("Borrar registro");
+        btnBorrar.setMaximumSize(new java.awt.Dimension(93, 29));
+        btnBorrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdBorrarActionPerformed(evt);
+                btnBorrarActionPerformed(evt);
             }
         });
 
@@ -1578,17 +1650,17 @@ public class Inarticu extends JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(cmdPrimero, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnPrimero, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cmdAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cmdSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cmdUltimo, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnUltimo, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cmdBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(174, 174, 174))
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addComponent(cmdBuscar)
@@ -1599,7 +1671,7 @@ public class Inarticu extends JFrame {
                 .addContainerGap())
         );
 
-        jPanel6Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnGuardar, cmdAnterior, cmdBorrar, cmdPrimero, cmdSiguiente, cmdUltimo});
+        jPanel6Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAnterior, btnBorrar, btnGuardar, btnPrimero, btnSiguiente, btnUltimo});
 
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1608,19 +1680,19 @@ public class Inarticu extends JFrame {
                 .addComponent(lblAviso, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
                 .addGap(4, 4, 4)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cmdBorrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBorrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addComponent(cmdBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(cmdAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cmdPrimero)
-                            .addComponent(cmdSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cmdUltimo)
+                            .addComponent(btnAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnPrimero)
+                            .addComponent(btnSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnUltimo)
                             .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
         );
 
-        jPanel6Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnGuardar, cmdAnterior, cmdBorrar, cmdPrimero, cmdSiguiente, cmdUltimo});
+        jPanel6Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAnterior, btnBorrar, btnGuardar, btnPrimero, btnSiguiente, btnUltimo});
 
         txtArtdesc.setColumns(50);
         try {
@@ -1875,12 +1947,14 @@ public class Inarticu extends JFrame {
         bd.dispose();
 }//GEN-LAST:event_cmdBuscarActionPerformed
 
-    private void cmdPrimeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdPrimeroActionPerformed
+    private void btnPrimeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrimeroActionPerformed
         try {
-            rs = nav.cargarRegistro(
+            rs = nav.cargarRegistroJoin(
                     Navegador.PRIMERO,
                     txtArtcode.getText().trim(),
-                    tabla, "artcode");
+                    tabla,
+                    join,
+                    "inarticu.artcode");
             if (rs == null) {
                 return;
             } // end if
@@ -1894,14 +1968,16 @@ public class Inarticu extends JFrame {
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
-}//GEN-LAST:event_cmdPrimeroActionPerformed
+}//GEN-LAST:event_btnPrimeroActionPerformed
 
-    private void cmdAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdAnteriorActionPerformed
+    private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
         try {
-            rs = nav.cargarRegistro(
+            rs = nav.cargarRegistroJoin(
                     Navegador.ANTERIOR,
                     txtArtcode.getText().trim(),
-                    tabla, "artcode");
+                    tabla,
+                    join,
+                    "inarticu.artcode");
             if (rs == null) {
                 return;
             } // end if
@@ -1915,14 +1991,16 @@ public class Inarticu extends JFrame {
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
-}//GEN-LAST:event_cmdAnteriorActionPerformed
+}//GEN-LAST:event_btnAnteriorActionPerformed
 
-    private void cmdSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdSiguienteActionPerformed
+    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
         try {
-            rs = nav.cargarRegistro(
+            rs = nav.cargarRegistroJoin(
                     Navegador.SIGUIENTE,
                     txtArtcode.getText().trim(),
-                    tabla, "artcode");
+                    tabla,
+                    join,
+                    "inarticu.artcode");
             if (rs == null) {
                 return;
             } // end if
@@ -1936,15 +2014,17 @@ public class Inarticu extends JFrame {
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
-}//GEN-LAST:event_cmdSiguienteActionPerformed
+}//GEN-LAST:event_btnSiguienteActionPerformed
 
-    private void cmdUltimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdUltimoActionPerformed
+    private void btnUltimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUltimoActionPerformed
 
         try {
-            rs = nav.cargarRegistro(
+            rs = nav.cargarRegistroJoin(
                     Navegador.ULTIMO,
                     txtArtcode.getText().trim(),
-                    tabla, "artcode");
+                    tabla,
+                    join,
+                    "inarticu.artcode");
             if (rs == null) {
                 return;
             } // end if
@@ -1958,7 +2038,7 @@ public class Inarticu extends JFrame {
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
-}//GEN-LAST:event_cmdUltimoActionPerformed
+}//GEN-LAST:event_btnUltimoActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         if (!guardarRegistro()) {
@@ -2039,9 +2119,9 @@ public class Inarticu extends JFrame {
 
 }//GEN-LAST:event_btnGuardarActionPerformed
 
-    private void cmdBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdBorrarActionPerformed
+    private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
         eliminarRegistro(txtArtcode.getText().trim());
-}//GEN-LAST:event_cmdBorrarActionPerformed
+}//GEN-LAST:event_btnBorrarActionPerformed
 
     private void txtArtdescActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtArtdescActionPerformed
         txtArtdesc.transferFocus();
@@ -2273,7 +2353,7 @@ public class Inarticu extends JFrame {
         txtArtmaxi.transferFocus();
 }//GEN-LAST:event_txtArtmaxiActionPerformed
 
-    private void cmdQuitarFotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdQuitarFotoActionPerformed
+    private void btnQuitarFotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarFotoActionPerformed
         int confirmar
                 = JOptionPane.showConfirmDialog(null,
                         "Se dispone a eliminar la foto de este producto."
@@ -2288,12 +2368,12 @@ public class Inarticu extends JFrame {
         this.accionFoto = this.BORRARFOTOANTERIOR;
         this.lblFoto.setIcon(null);
         this.archivoFotoActual = null;
-        cmdQuitarFoto.setEnabled(false);
-        cmdAgregarFoto.setText("Agregar foto");
-        cmdAgregarFoto.setEnabled(true);
-}//GEN-LAST:event_cmdQuitarFotoActionPerformed
+        btnQuitarFoto.setEnabled(false);
+        btnAgregarFoto.setText("Agregar foto");
+        btnAgregarFoto.setEnabled(true);
+}//GEN-LAST:event_btnQuitarFotoActionPerformed
 
-    private void cmdAgregarFotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdAgregarFotoActionPerformed
+    private void btnAgregarFotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarFotoActionPerformed
         // Obtengo el estado anterior.
         // Si está nulo es porque no se ha asignado la foto,
         // de lo contrario significa que el usuario decidió cambiar
@@ -2389,41 +2469,19 @@ public class Inarticu extends JFrame {
                 this.accionFoto = this.BORRARFOTOANTERIOR;
             } // end if
         } // end if
-}//GEN-LAST:event_cmdAgregarFotoActionPerformed
+}//GEN-LAST:event_btnAgregarFotoActionPerformed
 
     private void chkAltarotFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_chkAltarotFocusGained
         buscar = -1;
 }//GEN-LAST:event_chkAltarotFocusGained
 
-    private void txtArtimpvFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtArtimpvFocusGained
-        txtArtimpv.selectAll();
-}//GEN-LAST:event_txtArtimpvFocusGained
+    private void txtPorcentajeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPorcentajeFocusGained
+        txtPorcentaje.selectAll();
+}//GEN-LAST:event_txtPorcentajeFocusGained
 
-    private void txtArtimpvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtArtimpvActionPerformed
-        txtArtimpv.transferFocus();
-}//GEN-LAST:event_txtArtimpvActionPerformed
-
-    private void chkArtusaIVGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkArtusaIVGActionPerformed
-        if (!chkArtusaIVG.isSelected()) {
-            txtArtimpv.setEditable(true);
-            return;
-        } // end if
-
-        try {
-            try (ResultSet rsIV = sqlquery.executeQuery(
-                    "Select ifnull(facimpu,0) from config")) {
-                if (rsIV != null && rsIV.first()) {
-                    txtArtimpv.setEditable(false);
-                    txtArtimpv.setText(rsIV.getString(1));
-                }
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
-        } // end try-catch
-}//GEN-LAST:event_chkArtusaIVGActionPerformed
+    private void txtPorcentajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPorcentajeActionPerformed
+        txtPorcentaje.transferFocus();
+}//GEN-LAST:event_txtPorcentajeActionPerformed
 
     private void txtProdescFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtProdescFocusGained
         buscar = -1;
@@ -2729,6 +2787,30 @@ public class Inarticu extends JFrame {
         } // end try-catch
     }//GEN-LAST:event_txtBarcodeFocusLost
 
+    private void txtCodigoTarifaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCodigoTarifaFocusGained
+        txtCodigoTarifa.selectAll();
+    }//GEN-LAST:event_txtCodigoTarifaFocusGained
+
+    private void txtCodigoTarifaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCodigoTarifaFocusLost
+        try {
+            cargarTarifa();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,
+                    ex.getMessage(),
+                    "Mensaje",
+                    JOptionPane.ERROR_MESSAGE);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+        } // end try-catch
+    }//GEN-LAST:event_txtCodigoTarifaFocusLost
+
+    private void txtCodigoTarifaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoTarifaActionPerformed
+        txtCodigoTarifa.transferFocus();
+    }//GEN-LAST:event_txtCodigoTarifaActionPerformed
+
+    private void txtDescripTarifaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDescripTarifaFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDescripTarifaFocusGained
+
     /**
      * Este método hace una llamada al SP EliminarArticulo() y deposita en la
      * variable sqlResult la cantidad de registros eliminados.
@@ -2753,7 +2835,7 @@ public class Inarticu extends JFrame {
             ps.setString(1, pArtcode);
             sqlResult = ps.executeUpdate();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(cmdBorrar,
+            JOptionPane.showMessageDialog(btnBorrar,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
@@ -2761,7 +2843,7 @@ public class Inarticu extends JFrame {
         } // end try-catch
 
         if (sqlResult > 0) {
-            JOptionPane.showMessageDialog(cmdBorrar,
+            JOptionPane.showMessageDialog(btnBorrar,
                     sqlResult
                     + " registros eliminados",
                     "Mensaje",
@@ -2804,22 +2886,21 @@ public class Inarticu extends JFrame {
     } // end main
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregarFoto;
+    private javax.swing.JButton btnAnterior;
+    private javax.swing.JButton btnBorrar;
     private javax.swing.JButton btnFiltro;
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnPrimero;
+    private javax.swing.JButton btnQuitarFoto;
+    private javax.swing.JButton btnSiguiente;
+    private javax.swing.JButton btnUltimo;
     private javax.swing.JComboBox cboTipoPeriodo;
     private javax.swing.JCheckBox chkAltarot;
     private javax.swing.JCheckBox chkAplicaOferta;
-    private javax.swing.JCheckBox chkArtusaIVG;
     private javax.swing.JCheckBox chkEsServicio;
     private javax.swing.JCheckBox chkVinternet;
-    private javax.swing.JButton cmdAgregarFoto;
-    private javax.swing.JButton cmdAnterior;
-    private javax.swing.JButton cmdBorrar;
     private javax.swing.JButton cmdBuscar;
-    private javax.swing.JButton cmdPrimero;
-    private javax.swing.JButton cmdQuitarFoto;
-    private javax.swing.JButton cmdSiguiente;
-    private javax.swing.JButton cmdUltimo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -2897,7 +2978,6 @@ public class Inarticu extends JFrame {
     private javax.swing.JFormattedTextField txtArtgan3;
     private javax.swing.JFormattedTextField txtArtgan4;
     private javax.swing.JFormattedTextField txtArtgan5;
-    private javax.swing.JFormattedTextField txtArtimpv;
     private javax.swing.JFormattedTextField txtArtiseg;
     private javax.swing.JFormattedTextField txtArtmaxi;
     private javax.swing.JFormattedTextField txtArtmini;
@@ -2908,9 +2988,12 @@ public class Inarticu extends JFrame {
     private javax.swing.JFormattedTextField txtArtpre5;
     private javax.swing.JFormattedTextField txtArtreserv;
     private javax.swing.JFormattedTextField txtBarcode;
+    private javax.swing.JFormattedTextField txtCodigoTarifa;
+    private javax.swing.JTextField txtDescripTarifa;
     private javax.swing.JFormattedTextField txtDisponible;
     private javax.swing.JTextField txtFamilia;
     private javax.swing.JFormattedTextField txtOtroC;
+    private javax.swing.JFormattedTextField txtPorcentaje;
     private javax.swing.JFormattedTextField txtProcode;
     private javax.swing.JTextField txtProdesc;
     private javax.swing.JFormattedTextField txtTransito;
@@ -2957,11 +3040,10 @@ public class Inarticu extends JFrame {
                     Artmaxi,
                     Artiseg,
                     Artdurp,
-                    Artimpv,
+                    codigoTarifa,
                     Otroc,
                     Altarot,
                     Vinternet,
-                    ArtusaIVG,
                     ArtObse,
                     ArtFoto,
                     aplicaOferta; // Bosco agregado 08/03/2014
@@ -2991,11 +3073,10 @@ public class Inarticu extends JFrame {
             Artiseg = Ut.quitarFormato(txtArtiseg.getText().trim());
 
             Artdurp = txtArtdurp.getText().trim();
-            Artimpv = txtArtimpv.getText().trim();
+            codigoTarifa = txtCodigoTarifa.getText().trim();
             Otroc = txtOtroC.getText().trim();
             Altarot = (chkAltarot.isSelected() ? "1" : "0");
             Vinternet = (chkVinternet.isSelected() ? "1" : "0");
-            ArtusaIVG = (chkArtusaIVG.isSelected() ? "1" : "0");
             aplicaOferta = (chkAplicaOferta.isSelected() ? "1" : "0"); // Bosco agregado 08/03/2014
             // Bosco agregado 07/11/2010.
             ArtObse = txaArtObse.getText().trim();
@@ -3076,13 +3157,11 @@ public class Inarticu extends JFrame {
                         + Artiseg + ","
                         + Artdurp + ","
                         + "now()" + ","
-                        + Artimpv + ","
+                        + "'" + codigoTarifa + "'" + ","
                         + "'" + Otroc + "'" + ","
                         + Altarot + ","
                         + aplicaOferta + ","
-                        + // Bosco agregado 08/03/2014
-                        Vinternet + ","
-                        + ArtusaIVG + ","
+                        + Vinternet + ","
                         + "'" + ArtObse + "'" + ","
                         + "'" + ArtFoto + "'" + ")";
 
@@ -3103,13 +3182,12 @@ public class Inarticu extends JFrame {
                         + "artmaxi = " + Artmaxi + ","
                         + "artiseg = " + Artiseg + ","
                         + "artdurp = " + Artdurp + ","
-                        + "artimpv = " + Artimpv + ","
+                        + "codigoTarifa = " + "'" + codigoTarifa + "'" + ","
                         + "otroc   = " + "'" + Otroc + "'" + ","
                         + "altarot = " + Altarot + ","
                         + "aplicaOferta = " + aplicaOferta + ","
                         + // Bosco agregado 08/03/2014
                         "vinternet = " + Vinternet + ","
-                        + "artusaIVG = " + ArtusaIVG + ","
                         + "ArtObse = " + "'" + ArtObse + "'" + ","
                         + "ArtFoto = " + "'" + ArtFoto + "'";
 
@@ -3155,8 +3233,14 @@ public class Inarticu extends JFrame {
 
             CMD.transaction(conn, CMD.COMMIT);
 
-            rs = nav.cargarRegistro(
-                    Navegador.ESPECIFICO, Artcode, tabla, "artcode");
+//            rs = nav.cargarRegistro(
+//                    Navegador.ESPECIFICO, Artcode, tabla, "artcode");
+            rs = nav.cargarRegistroJoin(
+                    Navegador.ESPECIFICO,
+                    Artcode,
+                    tabla,
+                    join,
+                    "inarticu.artcode");
 
             registroCargado = (rs != null);
 
@@ -3213,10 +3297,16 @@ public class Inarticu extends JFrame {
             // a saber ARTCODE, BARCODE y OTROC.
             cargarArtcode();
 
-            rs = nav.cargarRegistro(
+//            rs = nav.cargarRegistro(
+//                    Navegador.ESPECIFICO,
+//                    txtArtcode.getText().trim(),
+//                    tabla, "artcode");
+            rs = nav.cargarRegistroJoin(
                     Navegador.ESPECIFICO,
                     txtArtcode.getText().trim(),
-                    tabla, "artcode");
+                    tabla,
+                    join,
+                    "inarticu.artcode");
             rs.first();
 
             if (rs.getRow() > 0) {
@@ -3241,8 +3331,7 @@ public class Inarticu extends JFrame {
             txtFamilia.setText("");
             txtProcode.setText("");
             txtProdesc.setText("");
-            chkArtusaIVG.setSelected(true);
-            txtArtimpv.setText("");
+            txtPorcentaje.setText("");
             chkVinternet.setSelected(false);
             chkAltarot.setSelected(false);
 
@@ -3340,6 +3429,9 @@ public class Inarticu extends JFrame {
             txtOtroC.setText(rs.getString("otroc").trim());
             txtArtfam.setText(rs.getString("artfam").trim());
             txtFamilia.setText(" ");
+            txtCodigoTarifa.setText(rs.getString("codigoTarifa"));
+            txtDescripTarifa.setText(rs.getString("descrip"));
+            txtPorcentaje.setText(Ut.setDecimalFormat(rs.getString("porcentaje"), this.formatoImpuesto));
 
             cargarFamilia();
 
@@ -3358,38 +3450,36 @@ public class Inarticu extends JFrame {
 
             // Utilidades
             txtArtgan1.setText(Ut.setDecimalFormat(
-                    rs.getString("artgan1"), "#,##0.0000000"));
+                    rs.getString("artgan1"), this.formatoUtilidad));
             txtArtgan2.setText(Ut.setDecimalFormat(
-                    rs.getString("artgan2"), "#,##0.0000000"));
+                    rs.getString("artgan2"), this.formatoUtilidad));
             txtArtgan3.setText(Ut.setDecimalFormat(
-                    rs.getString("artgan3"), "#,##0.0000000"));
+                    rs.getString("artgan3"), this.formatoUtilidad));
             txtArtgan4.setText(Ut.setDecimalFormat(
-                    rs.getString("artgan4"), "#,##0.0000000"));
+                    rs.getString("artgan4"), this.formatoUtilidad));
             txtArtgan5.setText(Ut.setDecimalFormat(
-                    rs.getString("artgan5"), "#,##0.0000000"));
+                    rs.getString("artgan5"), this.formatoUtilidad));
 
             // Precios
             txtArtpre1.setText(Ut.setDecimalFormat(
-                    rs.getString("artpre1"), "#,##0.0000"));
+                    rs.getString("artpre1"), this.formatoPrecio));
             txtArtpre2.setText(Ut.setDecimalFormat(
-                    rs.getString("artpre2"), "#,##0.0000"));
+                    rs.getString("artpre2"), this.formatoPrecio));
             txtArtpre3.setText(Ut.setDecimalFormat(
-                    rs.getString("artpre3"), "#,##0.0000"));
+                    rs.getString("artpre3"), this.formatoPrecio));
             txtArtpre4.setText(Ut.setDecimalFormat(
-                    rs.getString("artpre4"), "#,##0.0000"));
+                    rs.getString("artpre4"), this.formatoPrecio));
             txtArtpre5.setText(Ut.setDecimalFormat(
-                    rs.getString("artpre5"), "#,##0.0000"));
+                    rs.getString("artpre5"), this.formatoPrecio));
 
             txtArtmaxi.setText(
-                    Ut.setDecimalFormat(rs.getString("artmaxi"), "#,##0.00"));
+                    Ut.setDecimalFormat(rs.getString("artmaxi"), this.formatoCantidad));
             txtArtmini.setText(
-                    Ut.setDecimalFormat(rs.getString("artmini"), "#,##0.00"));
+                    Ut.setDecimalFormat(rs.getString("artmini"), this.formatoCantidad));
             txtArtiseg.setText(
-                    Ut.setDecimalFormat(rs.getString("artiseg"), "#,##0.00"));
+                    Ut.setDecimalFormat(rs.getString("artiseg"), this.formatoCantidad));
             txtArtdurp.setText(
-                    Ut.setDecimalFormat(rs.getString("artdurp"), "#,##0.00"));
-            txtArtimpv.setText(rs.getString("artimpv"));
-            chkArtusaIVG.setSelected(rs.getBoolean("artusaIVG"));
+                    Ut.setDecimalFormat(rs.getString("artdurp"), this.formatoCantidad));
 
             txtProcode.setText(rs.getString("procode").trim());
             txtProdesc.setText(" ");
@@ -3404,15 +3494,15 @@ public class Inarticu extends JFrame {
             Float disp = exis - rese;
 
             txtArtexis.setText(
-                    Ut.setDecimalFormat(rs.getString("artexis"), "#,##0.00"));
+                    Ut.setDecimalFormat(rs.getString("artexis"), this.formatoCantidad));
             txtArtreserv.setText(
-                    Ut.setDecimalFormat(rs.getString("artreserv"), "#,##0.00"));
+                    Ut.setDecimalFormat(rs.getString("artreserv"), this.formatoCantidad));
 
             txtDisponible.setText(
-                    Ut.setDecimalFormat(disp.toString(), "#,##0.00"));
+                    Ut.setDecimalFormat(disp.toString(), this.formatoCantidad));
 
             txtTransito.setText(
-                    Ut.setDecimalFormat(rs.getString("transito"), "#,##0.00"));
+                    Ut.setDecimalFormat(rs.getString("transito"), this.formatoCantidad));
 
             txtArtfech.setText(" ");
             txtArtfeuc.setText(" ");
@@ -3635,8 +3725,8 @@ public class Inarticu extends JFrame {
             txtArtdurp.setText("0");
         }
 
-        if (txtArtimpv.getText().trim().equals("")) {
-            txtArtimpv.setText("0");
+        if (txtPorcentaje.getText().trim().equals("")) {
+            txtPorcentaje.setText("0");
         }
 
         this.txaArtObseFocusLost(null);
@@ -3658,20 +3748,16 @@ public class Inarticu extends JFrame {
         txtArtpre3.setEditable(true);
         txtArtpre4.setEditable(true);
         txtArtpre5.setEditable(true);
-        // Incluyo el estado del campo txtArtimpv Bosco 14/09/2010
-        txtArtimpv.setEditable(!chkArtusaIVG.isSelected());
-
-        // Bosco agregado 07/11/2010.
+        txtPorcentaje.setEditable(false);
         Icon foto = lblFoto.getIcon();
-        //File f = (File) foto;
 
-        this.cmdAgregarFoto.setText("Agregar foto");
-        this.cmdQuitarFoto.setEnabled(false);
+        this.btnAgregarFoto.setText("Agregar foto");
+        this.btnQuitarFoto.setEnabled(false);
         String s = foto == null ? "" : foto.toString();
         if (foto != null && !s.isEmpty()) {
-            this.cmdAgregarFoto.setText("Cambiar foto");
-            if (!this.cmdQuitarFoto.getToolTipText().trim().equalsIgnoreCase("No tiene permisos.")) {
-                this.cmdQuitarFoto.setEnabled(true);
+            this.btnAgregarFoto.setText("Cambiar foto");
+            if (!this.btnQuitarFoto.getToolTipText().trim().equalsIgnoreCase("No tiene permisos.")) {
+                this.btnQuitarFoto.setEnabled(true);
             } // end if
         } // end if
         // Fin Bosco agregado 07/11/2010.
@@ -3690,7 +3776,7 @@ public class Inarticu extends JFrame {
         double utilidad;
 
         // Obtener el porcentaje de impuesto que usa este artículo
-        float IVA = this.chkArtusaIVG.isSelected() ? this.IVAGlobal : Float.parseFloat(this.txtArtimpv.getText().trim());
+        float IVA = Float.parseFloat(this.txtPorcentaje.getText().trim());
         precioSinIVA = "0";
 
         if (preciox.getText().trim().isEmpty()) {
@@ -3708,8 +3794,7 @@ public class Inarticu extends JFrame {
                 if (Float.parseFloat(precioOriginal)
                         > (int) Float.parseFloat(precioOriginal)) {
                     int precio = (int) Float.parseFloat(precioOriginal) + 1;
-                    //preciox.setText(precio + "");
-                    preciox.setText(Ut.setDecimalFormat(precio + "", "#,##0.0000"));
+                    preciox.setText(Ut.setDecimalFormat(precio + "", this.formatoPrecio));
                     precioOriginal = precio + "";
                 } // end if
             } // end if
@@ -3725,7 +3810,7 @@ public class Inarticu extends JFrame {
             // Calcular la utilidad
             utilidad = (Double.parseDouble(precioSinIVA) - Double.parseDouble(costo))
                     / Double.parseDouble(costo) * 100;
-            gananciax.setText(Ut.setDecimalFormat(String.valueOf(utilidad), "#,##0.0000000"));
+            gananciax.setText(Ut.setDecimalFormat(String.valueOf(utilidad), this.formatoUtilidad));
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,
@@ -3752,7 +3837,7 @@ public class Inarticu extends JFrame {
         double costo, utilidad, fpreciox;
 
         // Obtener el porcentaje de impuesto que usa este artículo
-        float IVA = this.chkArtusaIVG.isSelected() ? this.IVAGlobal : Float.parseFloat(this.txtArtimpv.getText().trim());
+        float IVA = Float.parseFloat(this.txtPorcentaje.getText().trim());
 
         try {
             costo = Double.parseDouble(
@@ -3782,9 +3867,9 @@ public class Inarticu extends JFrame {
                 fpreciox = (int) fpreciox + 1;
             } // end if
 
-            preciox.setText(Ut.setDecimalFormat(fpreciox + "", "#,##0.0000"));
+            preciox.setText(Ut.setDecimalFormat(fpreciox + "", this.formatoPrecio));
 
-            gananciax.setText(Ut.setDecimalFormat(gan + "", "#,##0.0000000"));
+            gananciax.setText(Ut.setDecimalFormat(gan + "", this.formatoUtilidad));
 
             // Agrego revisión del margen de utilidad 14/09/2010.
             revisarUtilidad(gan);
@@ -3811,17 +3896,9 @@ public class Inarticu extends JFrame {
         String depur = "Utilidad";
 
         // Obtener el porcentaje de impuesto que usa este artículo
-        float IVA = this.chkArtusaIVG.isSelected() ? this.IVAGlobal : Float.parseFloat(this.txtArtimpv.getText().trim());
+        float IVA = Float.parseFloat(this.txtPorcentaje.getText().trim());
 
         try {
-            // Esto no es necesario ya que cuando se carga el formulario se setea esta variable (Bosco 03/07/2020).
-            //            try (ResultSet rsIVI = nav.ejecutarQuery("Select usarivi from config")) {
-            //                if (rsIVI != null && rsIVI.first()) {
-            //                    usarivi = rsIVI.getBoolean("usarivi");
-            //                    rsIVI.close();
-            //                } // end if
-            //            }
-
             // Agrego revisión del margen de utilidad 14/09/2010.
             if (utilidad < 0) {
                 JOptionPane.showMessageDialog(null,
@@ -3836,13 +3913,8 @@ public class Inarticu extends JFrame {
             // mínima debe ser igual al impuesto de ventas (IV).
             if (this.usarivi) {
                 utilidadMinima = IVA;
-                //                if (!txtArtimpv.getText().trim().isEmpty()) {
-                //                    utmin = Double.parseDouble(
-                //                            Ut.quitarFormato(
-                //                                    txtArtimpv.getText().trim()));
-                //                } // end if
             } // end if
-        } catch (Exception ex) {
+        } catch (HeadlessException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage() + depur,
                     "Error",
@@ -4057,14 +4129,13 @@ public class Inarticu extends JFrame {
         this.txtArtdurp.setText("0");
         this.chkAltarot.setSelected(false);
         this.chkAplicaOferta.setSelected(false);
-        this.chkArtusaIVG.setSelected(false);
         this.chkEsServicio.setSelected(false);
         this.chkVinternet.setSelected(false);
         this.txaArtObse.setText("Creado automáticamente.");
     }
 
     public void setArtinpv(String artinpv) {
-        this.txtArtimpv.setText(artinpv);
+        this.txtPorcentaje.setText(artinpv);
     }
 
     public boolean isError() {
@@ -4074,5 +4145,33 @@ public class Inarticu extends JFrame {
     public String getErrorMsg() {
         return errorMsg;
     }
+
+    private void cargarTarifa() throws Exception {
+        txtDescripTarifa.setText("");
+        txtPorcentaje.setText("0.00");
+
+        String sqlSent
+                = "SELECT  "
+                + "	descrip, "
+                + "	porcentaje "
+                + "FROM tarifa_iva "
+                + "WHERE codigoTarifa = ?";
+        PreparedStatement ps = conn.prepareStatement(sqlSent);
+        ps.setString(1, txtCodigoTarifa.getText().trim());
+        ResultSet rsx = CMD.select(ps);
+        rsx.first();
+        if (rsx.getRow() == 1 && rsx.getString(1) != null) {
+            txtDescripTarifa.setText(rsx.getString("descrip"));
+            txtPorcentaje.setText(Ut.setDecimalFormat(rsx.getString("porcentaje"), this.formatoImpuesto));
+        } // end if
+        ps.close();
+    } // end cargarTarifa
+
+    private void setTextBoxFormat(JFormattedTextField textBox, String formatoCantidad) {
+        textBox.setFormatterFactory(
+                new javax.swing.text.DefaultFormatterFactory(
+                        new javax.swing.text.NumberFormatter(
+                                new java.text.DecimalFormat(formatoCantidad))));
+    } // end setTextBoxFormat
 
 } // end class

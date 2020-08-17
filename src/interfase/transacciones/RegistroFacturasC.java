@@ -2031,7 +2031,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
             } // end if
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroFacturasV.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             errorMsg = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
@@ -2049,7 +2049,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
             ps.setInt(1, tran.getRecnume());
             CMD.update(ps);
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroFacturasV.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             errorMsg = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch

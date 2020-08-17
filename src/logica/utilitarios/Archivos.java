@@ -13,12 +13,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+import org.apache.commons.io.FileUtils;
 
 /**
  * @author: Crysfel Villa Created: Friday, June 03, 2005 4:54:59 PM Modified:
@@ -234,8 +238,7 @@ public class Archivos {
     } // end stringToFile
 
     /**
-     * Comprime un archivo o una carpeta con todos sus archivos.No comprime
-     * subcarpetas. Esa funcionalidad aún no se le ha agregado.
+     * Comprime un archivo o una carpeta con todos sus archivos y subcarpeta.
      *
      * @author Bosco Garita Azofeifa
      * @since 20/03/2020
@@ -301,4 +304,15 @@ public class Archivos {
             zos.write(bytes, 0, bytes.length);
         } // end if
     } // end addZipFile
+    
+    public void downloadFile(URL url, File target) throws IOException{
+        FileUtils.copyURLToFile(url, target);
+    } // end downloadFile
+    
+    public void downloadFile(URL url, String file) throws IOException{
+        ReadableByteChannel rbc = Channels.newChannel(url.openStream());
+        FileOutputStream fos = new FileOutputStream(file);
+        fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+        fos.close();
+    }
 } // end class

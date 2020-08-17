@@ -39,11 +39,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JApplet;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import logica.Cacaja;
 import logica.Catransa;
+import logica.Formato;
 import logica.OrdenCompra;
 import logica.Usuario;
 import logica.contabilidad.CoasientoD;
@@ -89,16 +91,12 @@ public class RegistroFacturasV extends javax.swing.JFrame {
     private final String bodega;          // Bodega predeterminada
     private final boolean usarivi;        // Usar impuesto incluido
     private final int variarprecios;      // Variar los precios *
-    //private final boolean multibodega;  // Permitir el uso de documentos multi-lcBodega
     private final boolean bloquearconsf;  // Bloquear consecutivo de lbFacturas
-    //private final boolean exist0;       // Permitir factura sin existencia
     private final boolean precio0;        // Permitir precios en cero
     private final boolean redondear;      // Redondear al entero mayor
-    private final boolean redond5;        // Redondear los precios a 5 ó 10
     private final boolean bloquearfechaF; // Bloquear la fechaSQL de la factura
     private final boolean bloquearNpag;   // Bloquear número de pagos
     private final boolean bloquearcatp;   // Bloquear categoría de precios y descuentos
-    //private final boolean posbehav;     // Usar comportamiento de punto de ventas
     private final String codigoTCP;       // Código de maneda predeterminado
     private final boolean genasienfac;    // Generar los asientos de facturas
     private final boolean genmovcaja;     // Generar los movimientos de caja
@@ -124,7 +122,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
     // Variable que define el tipo de búsqueda
     private int buscar = 2; // Default
 
-    private FormatoTabla formato;
+    private FormatoTabla formatoTabla;
     private boolean hayTransaccion;
     private ResultSet rsPedido; // Se usa para cargar el pedido del cliente.
 
@@ -150,7 +148,8 @@ public class RegistroFacturasV extends javax.swing.JFrame {
     private boolean factcomoPOS;
     private int clicode;
     private boolean editar; // Se activa cuando se hace click en el JTable o en la etiqueta del artículo
-    private String formatoCant, formatoPrecio; // Bosco agregado 24/12/2013
+    private String formatoCantidad, formatoPrecio; // Bosco agregado 24/12/2013
+    private String formatoImpuesto;
     private boolean imprimirFactura; // Bosco agregado 26/12/2013
     private short precioOferta;      // Bosco agregado 01/03/2014
     private short diaOferta;         // Bosco agregado 01/03/2014
@@ -196,18 +195,18 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         this.jCodExpress = new JTextField("");
 
         this.txtFaccant.setText("0");
-        formato = new FormatoTabla();
+        formatoTabla = new FormatoTabla();
 
         try {
-            formato.formatColumn(tblDetalle, 3, FormatoTabla.H_RIGHT, Color.BLUE);
-            formato.formatColumn(tblDetalle, 4, FormatoTabla.H_RIGHT, Color.BLACK);
-            formato.formatColumn(tblDetalle, 5, FormatoTabla.H_CENTER, Color.BLUE);
-            formato.formatColumn(tblDetalle, 6, FormatoTabla.H_RIGHT, Color.BLACK);
-            formato.formatColumn(tblDetalle, 7, FormatoTabla.H_RIGHT, Color.BLACK);
-            formato.formatColumn(tblDetalle, 8, FormatoTabla.H_RIGHT, Color.BLACK);
-            formato.formatColumn(tblDetalle, 9, FormatoTabla.H_RIGHT, Color.BLACK);
+            formatoTabla.formatColumn(tblDetalle, 3, FormatoTabla.H_RIGHT, Color.BLUE);
+            formatoTabla.formatColumn(tblDetalle, 4, FormatoTabla.H_RIGHT, Color.BLACK);
+            formatoTabla.formatColumn(tblDetalle, 5, FormatoTabla.H_CENTER, Color.BLUE);
+            formatoTabla.formatColumn(tblDetalle, 6, FormatoTabla.H_RIGHT, Color.BLACK);
+            formatoTabla.formatColumn(tblDetalle, 7, FormatoTabla.H_RIGHT, Color.BLACK);
+            formatoTabla.formatColumn(tblDetalle, 8, FormatoTabla.H_RIGHT, Color.BLACK);
+            formatoTabla.formatColumn(tblDetalle, 9, FormatoTabla.H_RIGHT, Color.BLACK);
         } catch (Exception ex) {
-            Logger.getLogger(RegistroFacturasV.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
@@ -229,32 +228,56 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         // Cargo los parámetros de configuración
         String sqlSent
                 = "Select         "
-                + "   descautom,     " + // Descuento automático
-                "   bloqdias,      " + // Días para bloqueo automático
-                "   bodega,        " + // Bodega predeterminada
-                "   usarivi,       " + // Usar impuesto incluido
-                "   variarprecios, " + // Variar los precios
-                "   multibodega,   " + // Permitir el uso de documentos multi-lcBodega
-                "   bloquearconsf, " + // Bloquear consecutivo de lbFacturas
-                "   exist0,        " + // Permitir factura sin existencia
-                "   precio0,       " + // Permitir precios en cero
-                "   redondear,     " + // Redondear al entero mayor
-                "   redond5,       " + // Redondear los precios a 5 ó 10
-                "   bloquearfechaF," + // Bloquear la fechaSQL de la factura
-                "   bloquearNpag,  " + // Bloquear número de pagos
-                "   bloquearcatp,  " + // Bloquear categoría de precios y descuentos
-                "   posbehav,      " + // Usar comportamiento de punto de ventas
-                "   codigoTC,      " + // Moneda predeterminada
-                "   facnume,       " + // Ultima factura
-                "   genasienfac,   " + // Generar los asientos de facturas
-                "   genmovcaja,    " + // Generar los movimientos de caja  Bosco agregado 08/07/2015
-                "   factcomoPOS,   " + // Facturar como punto de ventas
-                "   clicode,       " + // Cliente predeterminado
-                "   formatoCant,   " + // Formato numérico para cantidades Bosco agregado 24/12/2013
-                "   formatoPrecio, " + // Formato numérico para precios    Bosco agregado 24/12/2013
-                "   imprimirFactura," + // Decide si se imprimen las fact   Bosco agregado 26/12/2013
-                "   precioOferta,  " + // Número de precio para ofertas    Bosco agregado 01/03/2014
-                "   diaOferta      " + // Día de ofertas                   Bosco agregado 01/03/2014
+                + "   descautom,     "
+                + // Descuento automático
+                "   bloqdias,      "
+                + // Días para bloqueo automático
+                "   bodega,        "
+                + // Bodega predeterminada
+                "   usarivi,       "
+                + // Usar impuesto incluido
+                "   variarprecios, "
+                + // Variar los precios
+                "   multibodega,   "
+                + // Permitir el uso de documentos multi-lcBodega
+                "   bloquearconsf, "
+                + // Bloquear consecutivo de lbFacturas
+                "   exist0,        "
+                + // Permitir factura sin existencia
+                "   precio0,       "
+                + // Permitir precios en cero
+                "   redondear,     "
+                + // Redondear al entero mayor
+                "   bloquearfechaF,"
+                + // Bloquear la fechaSQL de la factura
+                "   bloquearNpag,  "
+                + // Bloquear número de pagos
+                "   bloquearcatp,  "
+                + // Bloquear categoría de precios y descuentos
+                "   posbehav,      "
+                + // Usar comportamiento de punto de ventas
+                "   codigoTC,      "
+                + // Moneda predeterminada
+                "   facnume,       "
+                + // Ultima factura
+                "   genasienfac,   "
+                + // Generar los asientos de facturas
+                "   genmovcaja,    "
+                + // Generar los movimientos de caja  Bosco agregado 08/07/2015
+                "   factcomoPOS,   "
+                + // Facturar como punto de ventas
+                "   clicode,       "
+                + // Cliente predeterminado
+                "   formatoCant,   "
+                + // Formato numérico para cantidades Bosco agregado 24/12/2013
+                "   formatoPrecio, "
+                + // Formato numérico para precios    Bosco agregado 24/12/2013
+                "   imprimirFactura,"
+                + // Decide si se imprimen las fact   Bosco agregado 26/12/2013
+                "   precioOferta,  "
+                + // Número de precio para ofertas    Bosco agregado 01/03/2014
+                "   diaOferta      "
+                + // Día de ofertas                   Bosco agregado 01/03/2014
                 "From config";
 
         ps = conn.prepareStatement(sqlSent,
@@ -272,12 +295,9 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         bodega = rs.getString("bodega");
         usarivi = rs.getBoolean("usarivi");
         variarprecios = rs.getInt("variarprecios");
-        //multibodega   = rs.getBoolean("multibodega");
         bloquearconsf = rs.getBoolean("bloquearconsf");
-        //exist0        = rs.getBoolean("exist0");
         precio0 = rs.getBoolean("precio0");
         redondear = rs.getBoolean("redondear");
-        redond5 = rs.getBoolean("redond5");
         bloquearfechaF = rs.getBoolean("bloquearfechaF");
         bloquearNpag = rs.getBoolean("bloquearNpag");
         bloquearcatp = rs.getBoolean("bloquearcatp");
@@ -294,28 +314,19 @@ public class RegistroFacturasV extends javax.swing.JFrame {
 
         // Bosco agregado 24/12/2013
         // Formato personalizado para las cantidades y los precios
-        formatoCant = rs.getString("formatoCant");
-        formatoPrecio = rs.getString("formatoPrecio");
-        if (formatoCant != null && !formatoCant.trim().isEmpty()) {
-            txtFaccant.setFormatterFactory(
-                    new javax.swing.text.DefaultFormatterFactory(
-                            new javax.swing.text.NumberFormatter(
-                                    new java.text.DecimalFormat(formatoCant))));
-            txtArtexis.setFormatterFactory(
-                    new javax.swing.text.DefaultFormatterFactory(
-                            new javax.swing.text.NumberFormatter(
-                                    new java.text.DecimalFormat(formatoCant))));
-            txtDisponible.setFormatterFactory(
-                    new javax.swing.text.DefaultFormatterFactory(
-                            new javax.swing.text.NumberFormatter(
-                                    new java.text.DecimalFormat(formatoCant))));
+        Formato formato = new Formato();
+        formato.loadConfiguration();
+        this.formatoCantidad = formato.getFormatoCantidad();
+        this.formatoPrecio = formato.getFormatoPrecio();
+        this.formatoImpuesto = formato.getFormatoImpuesto();
+        if (formatoCantidad != null && !formatoCantidad.trim().isEmpty()) {
+            setTextBoxFormat(this.txtFaccant, this.formatoCantidad);
+            setTextBoxFormat(this.txtArtexis, this.formatoCantidad);
+            setTextBoxFormat(this.txtDisponible, this.formatoCantidad);
         } // end if
 
         if (formatoPrecio != null && !formatoPrecio.trim().isEmpty()) {
-            txtArtprec.setFormatterFactory(
-                    new javax.swing.text.DefaultFormatterFactory(
-                            new javax.swing.text.NumberFormatter(
-                                    new java.text.DecimalFormat(formatoPrecio))));
+            setTextBoxFormat(this.txtArtprec, this.formatoPrecio);
         } // end if
 
         // Fin Bosco agregado 24/12/2013
@@ -469,15 +480,15 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         txtFacplaz = new javax.swing.JFormattedTextField();
         txtFacnpag = new javax.swing.JFormattedTextField();
         jLabel12 = new javax.swing.JLabel();
-        cboTerr = new javax.swing.JComboBox<String>();
+        cboTerr = new javax.swing.JComboBox<>();
         jLabel27 = new javax.swing.JLabel();
         cboVend = new javax.swing.JComboBox<String>();
         jLabel28 = new javax.swing.JLabel();
         paneFormaPago = new javax.swing.JPanel();
-        cboTipoPago = new javax.swing.JComboBox<String>();
+        cboTipoPago = new javax.swing.JComboBox<>();
         txtChequeoTarjeta = new javax.swing.JTextField();
         lblBanco = new javax.swing.JLabel();
-        cboBanco = new javax.swing.JComboBox<String>();
+        cboBanco = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         paneDetalle = new javax.swing.JPanel();
         lblArticulo = new javax.swing.JLabel();
@@ -499,14 +510,16 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         txtDisponible = new javax.swing.JFormattedTextField();
         lblLocalizacion = new javax.swing.JLabel();
         btnAgregar = new javax.swing.JButton();
-        cmdBorrar = new javax.swing.JButton();
+        btnBorrar = new javax.swing.JButton();
         cmdDescuentos = new javax.swing.JButton();
         cmdFatext = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         txtLines = new javax.swing.JTextField();
+        lblCodigoTarifa = new javax.swing.JLabel();
+        lblDescripTarifa = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        cboMoneda = new javax.swing.JComboBox<String>();
+        cboMoneda = new javax.swing.JComboBox<>();
         txtTipoca = new javax.swing.JFormattedTextField();
         jLabel10 = new javax.swing.JLabel();
         txtClidesc = new javax.swing.JFormattedTextField();
@@ -536,96 +549,96 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         tblDetalle.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         tblDetalle.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Código", "Bodega", "Descripción", "Cantidad", "Precio Unit", "Total", "Existencia", "Disponible", "IVA", "Desc"
+                "Código", "Bodega", "Descripción", "Cantidad", "Precio Unit", "Total", "Existencia", "Disponible", "IVA", "Desc", "Tarifa"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -645,11 +658,11 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblDetalleMouseClicked(evt);
             }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                tblDetalleMouseExited(evt);
-            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 tblDetalleMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                tblDetalleMouseExited(evt);
             }
         });
         jScrollPane2.setViewportView(tblDetalle);
@@ -658,9 +671,9 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             tblDetalle.getColumnModel().getColumn(0).setMinWidth(50);
             tblDetalle.getColumnModel().getColumn(0).setPreferredWidth(70);
             tblDetalle.getColumnModel().getColumn(0).setMaxWidth(90);
-            tblDetalle.getColumnModel().getColumn(1).setMinWidth(40);
-            tblDetalle.getColumnModel().getColumn(1).setPreferredWidth(55);
-            tblDetalle.getColumnModel().getColumn(1).setMaxWidth(60);
+            tblDetalle.getColumnModel().getColumn(1).setMinWidth(35);
+            tblDetalle.getColumnModel().getColumn(1).setPreferredWidth(50);
+            tblDetalle.getColumnModel().getColumn(1).setMaxWidth(55);
             tblDetalle.getColumnModel().getColumn(2).setMinWidth(200);
             tblDetalle.getColumnModel().getColumn(2).setPreferredWidth(300);
             tblDetalle.getColumnModel().getColumn(2).setMaxWidth(400);
@@ -685,6 +698,9 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             tblDetalle.getColumnModel().getColumn(9).setMinWidth(60);
             tblDetalle.getColumnModel().getColumn(9).setPreferredWidth(70);
             tblDetalle.getColumnModel().getColumn(9).setMaxWidth(100);
+            tblDetalle.getColumnModel().getColumn(10).setMinWidth(35);
+            tblDetalle.getColumnModel().getColumn(10).setPreferredWidth(50);
+            tblDetalle.getColumnModel().getColumn(10).setMaxWidth(55);
         }
 
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -895,10 +911,9 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel25)
                     .addComponent(txtMontoDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
-        jPanel3.setBorder(null);
         jPanel3.setPreferredSize(new java.awt.Dimension(308, 149));
 
         cmdGuardar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -1052,7 +1067,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel16)
                     .addComponent(txtFacmont, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1218,7 +1233,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
 
         jTabbedPane.addTab("Cliente (F5)", paneCliente);
 
-        cboTipoPago.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Desconocido", "Efectivo", "Cheque", "Tarjeta", "Transferencia" }));
+        cboTipoPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Desconocido", "Efectivo", "Cheque", "Tarjeta", "Transferencia" }));
         cboTipoPago.setToolTipText("Elija el tipo de pago");
         cboTipoPago.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1451,6 +1466,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         lblLocalizacion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblLocalizacion.setText("*Localización*");
         lblLocalizacion.setToolTipText("Ubicación física");
+        lblLocalizacion.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         lblLocalizacion.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         btnAgregar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -1467,12 +1483,12 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             }
         });
 
-        cmdBorrar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        cmdBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/cross.png"))); // NOI18N
-        cmdBorrar.setText("Borrar línea");
-        cmdBorrar.addActionListener(new java.awt.event.ActionListener() {
+        btnBorrar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/cross.png"))); // NOI18N
+        btnBorrar.setText("Borrar línea");
+        btnBorrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdBorrarActionPerformed(evt);
+                btnBorrarActionPerformed(evt);
             }
         });
 
@@ -1508,6 +1524,16 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         txtLines.setDisabledTextColor(java.awt.Color.blue);
         txtLines.setEnabled(false);
 
+        lblCodigoTarifa.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblCodigoTarifa.setForeground(java.awt.Color.blue);
+        lblCodigoTarifa.setText("   ");
+        lblCodigoTarifa.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        lblDescripTarifa.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblDescripTarifa.setForeground(java.awt.Color.blue);
+        lblDescripTarifa.setText("   ");
+        lblDescripTarifa.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
         javax.swing.GroupLayout paneDetalleLayout = new javax.swing.GroupLayout(paneDetalle);
         paneDetalle.setLayout(paneDetalleLayout);
         paneDetalleLayout.setHorizontalGroup(
@@ -1541,35 +1567,40 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtFacpive, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel24)
-                                .addGap(4, 4, 4)
-                                .addComponent(txtFacpdesc, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel21)
+                                .addComponent(lblCodigoTarifa, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblDescripTarifa, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(paneDetalleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel21)
+                            .addGroup(paneDetalleLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel24)))
                         .addGap(4, 4, 4)
-                        .addComponent(txtArtexis, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(paneDetalleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtArtexis, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                            .addComponent(txtFacpdesc))
+                        .addGap(2, 2, 2)
                         .addComponent(jLabel22))
                     .addGroup(paneDetalleLayout.createSequentialGroup()
                         .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmdBorrar)
+                        .addComponent(btnBorrar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cmdDescuentos)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cmdFatext)))
-                .addGap(4, 4, 4)
+                .addGap(10, 10, 10)
                 .addGroup(paneDetalleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(paneDetalleLayout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtLines))
-                    .addComponent(lblLocalizacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblLocalizacion, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                     .addComponent(txtDisponible))
                 .addContainerGap())
         );
 
-        paneDetalleLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAgregar, cmdBorrar, cmdDescuentos, cmdFatext});
+        paneDetalleLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAgregar, btnBorrar, cmdDescuentos, cmdFatext});
 
         paneDetalleLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtArtcode, txtFaccant});
 
@@ -1586,7 +1617,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     .addComponent(txtArtexis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel22)
                     .addComponent(txtDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(4, 4, 4)
                 .addGroup(paneDetalleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(lblCantidad)
                     .addComponent(txtFaccant, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1594,22 +1625,23 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     .addComponent(txtArtprec, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel23)
                     .addComponent(txtFacpive, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel24)
-                    .addComponent(txtFacpdesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblLocalizacion))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                .addGroup(paneDetalleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblLocalizacion)
                     .addGroup(paneDetalleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtLines, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel3))
-                    .addGroup(paneDetalleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(cmdBorrar)
-                        .addComponent(cmdDescuentos)
-                        .addComponent(cmdFatext)
-                        .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(lblCodigoTarifa)
+                        .addComponent(lblDescripTarifa)
+                        .addComponent(jLabel24)
+                        .addComponent(txtFacpdesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(14, 14, 14)
+                .addGroup(paneDetalleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(txtLines, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(cmdFatext)
+                    .addComponent(cmdDescuentos)
+                    .addComponent(btnBorrar)
+                    .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
-        paneDetalleLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAgregar, cmdBorrar, cmdDescuentos, cmdFatext});
+        paneDetalleLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAgregar, btnBorrar, cmdDescuentos, cmdFatext});
 
         jTabbedPane.addTab("Detalle (F7)", paneDetalle);
 
@@ -1719,7 +1751,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         });
         mnuEdicion.add(mnuAgregar);
 
-        mnuBorrar.setIcon(cmdBorrar.getIcon());
+        mnuBorrar.setIcon(btnBorrar.getIcon());
         mnuBorrar.setText("Borrar línea");
         mnuBorrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1846,10 +1878,10 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                         .addGap(40, 40, 40)
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(123, 123, 123)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jTabbedPane, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTabbedPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(8, 8, 8)
                         .addComponent(jScrollPane2)))
@@ -1916,8 +1948,8 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         } // end if
 
         String artcode, lcBodega, faccant, artprec, facpive, id, sqlSent;
-        String facplazo, facfech, vend, terr, factipo, chequeotar, facnpag;
-        String cliprec, tipoca;
+        String facplazo, vend, terr, factipo, chequeotar, facnpag;
+        String cliprec, tipoca, codigoTarifa;
 
         ResultSet rsExito;
         Double precioSIV;   // Se usa para calcular el precioSIV sin IV
@@ -1952,15 +1984,14 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         } // try-catch
 
         facpive = txtFacpive.getText().trim();
+        codigoTarifa = lblCodigoTarifa.getText().trim();
 
-        // Estos campos se incluyen aquí aunque se crean al crear el encabezado
-        // de la factura porque el usuario podría cambiar esos datos.
-        facfech = Ut.fechaSQL(this.DatFacfech.getDate());
+        // Estos campos se incluyen aquí (aunque se crean al crear el encabezado
+        // de la factura) porque el usuario podría cambiar esos datos.
+        java.sql.Date facfech = new Date(this.DatFacfech.getDate().getTime());
         facplazo = this.txtFacplaz.getText().trim();
-        // Vendedor y zona (Se usan más adelante para obtener el código)
-        //String nombre = cboVend.getSelectedItem().toString().trim();
-        //String descrip = cboTerr.getSelectedItem().toString().trim();
 
+        // Vendedor y zona (Se usan más adelante para obtener el código)
         // Inicio validaciones
         //----------------------------------------------------------------------
         // Verifico que el cliente sea válido
@@ -1974,16 +2005,6 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             return;
         } // end if
 
-        // Nuevamente valido la Bodega y el artículo
-//        if (!UtilBD.existeBodega(conn, lcBodega)) {
-//            JOptionPane.showMessageDialog(
-//                    null,
-//                    "Bodega no existe.",
-//                    "Error",
-//                    JOptionPane.ERROR_MESSAGE);
-//            txtBodega.requestFocusInWindow();
-//            return;
-//        } // end if
         try {
             if (!this.existeBodega(lcBodega)) {
                 JOptionPane.showMessageDialog(
@@ -2046,6 +2067,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
 
         try {
             extraMessage = "[Formateo de números]";
+
             // Quito el formato para poder realizar cálculos y comparaciones
             faccant = Ut.quitarFormato(faccant);
             facpive = Ut.quitarFormato(facpive);
@@ -2057,13 +2079,8 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 artprec = String.valueOf(precioSIV).trim();
             } // end if
 
-            //Ut.seek(rsV, nombre, "nombre");
-            //vend = rsV.getString("vend");
-            vend = Ut.getCode(this.cboVend.getSelectedItem().toString(), "-", 0); // Debug
-
-            //Ut.seek(rsT, descrip, "descrip");
-            //terr = rsT.getString("terr");
-            terr = Ut.getCode(this.cboTerr.getSelectedItem().toString(), "-", 0); // Debug
+            vend = Ut.getCode(this.cboVend.getSelectedItem().toString(), "-", 0);
+            terr = Ut.getCode(this.cboTerr.getSelectedItem().toString(), "-", 0);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(
                     null,
@@ -2124,25 +2141,9 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             }// end if
         }// end if
 
-        sqlSent = "Call ReservarFactura("
-                + id + "," + // ID de la factura
-                "'" + lcBodega + "'" + "," + // Bodega
-                "'" + artcode + "'" + "," + // Artículo
-                faccant + "," + // Cantidad
-                artprec + "," + // Precio
-                facpive + "," + // Porcentaje impuesto de ventas
-                facfech + "," + // Fecha de la factura
-                facplazo + "," + // Plazo en días
-                vend + "," + // Vendedor
-                terr + "," + // Zona
-                factipo + "," + // Tipo de pago
-                "'" + chequeotar + "'" + "," + // Número de cheque o tarjeta
-                facnpag + "," + // Número de pagos
-                cliprec + "," + // Categoría de precio
-                "'" + codigoTC + "'" + "," + // Código del tipo de cambio
-                tipoca + "," + // Tipo de cambio
-                "'" + afectarRes + "'" + ")";  // Cuando se carga un pedido
-        // no se afecta el reservado
+        sqlSent = "Call ReservarFactura(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+        // No se afecta el reservado
         // porque el programa de pedidos
         // ya lo hizo.
         PreparedStatement ps;
@@ -2150,18 +2151,36 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             ps = conn.prepareStatement(sqlSent,
                     ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
+            ps.setInt(1, this.recordID);
+            ps.setString(2, lcBodega);
+            ps.setString(3, artcode);
+            ps.setString(4, faccant);
+            ps.setString(5, artprec);
+            ps.setString(6, facpive);
+            ps.setDate(7, facfech);
+            ps.setString(8, facplazo);
+            ps.setString(9, vend);
+            ps.setString(10, terr);
+            ps.setString(11, factipo);
+            ps.setString(12, chequeotar);
+            ps.setString(13, facnpag);
+            ps.setString(14, cliprec);
+            ps.setString(15, codigoTC);
+            ps.setString(16, tipoca);
+            ps.setString(17, afectarRes);
+            ps.setString(18, codigoTarifa);
 
             extraMessage = "[Reservar factura]";
 
             // Inicia la transacción
             hayTransaccion = CMD.transaction(conn, CMD.START_TRANSACTION);
-            //rsExito = stat.executeQuery(sqlSent); // Utilizo executeQuery porque devuelve un RS
 
             rsExito = CMD.select(ps);
             if (rsExito == null || !rsExito.first() || !rsExito.getBoolean(1)) {
                 this.mensajeEr
                         = "No se pudo guardar esta línea.  Comuníquese con"
                         + "el administrador del sistema.";
+
                 // Transmito al usuario el error que viene de la BD.
                 if (rsExito.first()) {
                     this.mensajeEr = rsExito.getString(2);
@@ -2182,7 +2201,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 rsPermisos.first();
                 int messageType
                         = rsPermisos.getBoolean(1) ? JOptionPane.WARNING_MESSAGE
-                                : JOptionPane.ERROR_MESSAGE;
+                        : JOptionPane.ERROR_MESSAGE;
                 String messageTitle
                         = rsPermisos.getBoolean(1) ? "Advertencia" : "Error";
 
@@ -2234,20 +2253,21 @@ public class RegistroFacturasV extends javax.swing.JFrame {
 
         // Si hay descuento automático se aplica a las Facturas de contado
         if (Integer.parseInt(facplazo) == 0 && this.descautom > 0) {
+
             String facpdes = String.valueOf(this.descautom);
-            sqlSent
-                    = "Call AplicarDescuentoAFactura("
-                    + id + ","
-                    + "'" + artcode + "'" + ","
-                    + "'" + lcBodega + "'" + ","
-                    + facpdes + ")";
+            sqlSent = "Call AplicarDescuentoAFactura(?,?,?,?)";
 
             try {
                 ps = conn.prepareStatement(sqlSent,
                         ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+                ps.setInt(1, Integer.parseInt(id));
+                ps.setString(2, artcode);
+                ps.setString(3, lcBodega);
+                ps.setFloat(4, Float.parseFloat(facpdes));
 
                 hayTransaccion = CMD.transaction(conn, CMD.START_TRANSACTION);
                 ResultSet rs = CMD.select(ps);
+
                 // Si ocurriera un error en la línea anterior
                 // estas instrucciones no se ejecutarían.
                 rs.first();
@@ -2331,7 +2351,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         } // end if
 }//GEN-LAST:event_btnAgregarActionPerformed
 
-    private void cmdBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdBorrarActionPerformed
+    private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
         if (this.recordID == 0) {
             JOptionPane.showMessageDialog(null,
                     "No hay líneas que eliminar.",
@@ -2392,8 +2412,8 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 ps = conn.prepareStatement(sqlSent);
                 ps.setString(1, artcode);
                 ps.setString(2, lcBodega);
-                //rsPedidox = ps.executeQuery();
                 rsPedidox = CMD.select(ps);
+
                 // Si hay registros es porque la línea a eliminar si venía de pedidos.
                 if (rsPedidox != null && rsPedidox.first()) {
                     borrarEnPedidos = true;
@@ -2419,16 +2439,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         } // end if(pedidoCargado)
         // Fin Bosco agregado 23/10/2011.
 
-        // Este sp elimina la línea de la factura y libera el reservado.
-        // Bosco modificado 23/10/2011.
-        //        sqlSent =
-        //                "CALL EliminarLineaFaccantFact(" +
-        //                      id +       "," +
-        //                "'" + lcBodega  + "'" + "," +
-        //                "'" + artcode   + "'" + "," +
-        //                      "1" + ")"; // Este parámetro indica que si es una factura.
         sqlSent = "CALL EliminarLineaFaccantFact(" + id + ", ?, ?, 1)";
-        // Fin Bosco modificado 23/10/2011.
 
         try {
             CMD.transaction(conn, CMD.START_TRANSACTION);
@@ -2487,7 +2498,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                         rs.getString(2),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                //stat.executeUpdate("RollBack");
+
                 CMD.transaction(conn, CMD.ROLLBACK);
                 txtFaccant.requestFocusInWindow();
                 return;
@@ -2517,7 +2528,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         } // end if
 
         txtArtcode.requestFocusInWindow();
-}//GEN-LAST:event_cmdBorrarActionPerformed
+}//GEN-LAST:event_btnBorrarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         // Verifico si hay datos sin guardar
@@ -2684,6 +2695,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     "artcode",
                     "artcode",
                     artcode) == null) {
+
                 artcode = UtilBD.getArtcode(conn, artcode);
                 lineError = false;
                 if (artcode != null && !artcode.trim().equals(tempArtcode.trim())) {
@@ -2695,6 +2707,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     txtArtcode.transferFocus();
                     return;
                 } // end if
+
             } // end if
         } catch (SQLException ex) {
             Logger.getLogger(RegistroFacturasV.class.getName()).log(Level.SEVERE, null, ex);
@@ -2768,33 +2781,15 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         Double precio;
         Double artimpv;
 
-        // Traer los datos del artículo.  Los precios vienen convertidos a la
-        // moneda que el usuario haya elegido.
-        String sqlQuery
-                = "Select  "
-                + "artdesc,"
-                + "artpre1 / ? as artpre1,"
-                + "artpre2 / ? as artpre2,"
-                + "artpre3 / ? as artpre3,"
-                + "artpre4 / ? as artpre4,"
-                + "artpre5 / ? as artpre5,"
-                + "artimpv,  "
-                + "aplicaOferta  "
-                + "from inarticu "
-                + "Where artcode = ?";
+        
         try {
-            PreparedStatement psPrecios = conn.prepareStatement(sqlQuery);
-            psPrecios.setFloat(1, tipoca);
-            psPrecios.setFloat(2, tipoca);
-            psPrecios.setFloat(3, tipoca);
-            psPrecios.setFloat(4, tipoca);
-            psPrecios.setFloat(5, tipoca);
-            psPrecios.setString(6, artcode);
-
             if (rsArtcode != null) {
                 rsArtcode.close();
             } // end if
-            rsArtcode = psPrecios.executeQuery();
+            
+            // Traer los datos del artículo.  Los precios vienen convertidos a la
+            // moneda que el usuario haya elegido.
+            rsArtcode = UtilBD.getArtcode(conn, artcode, tipoca);
 
             if (rsArtcode != null) {
                 rsArtcode.first();
@@ -2811,8 +2806,8 @@ public class RegistroFacturasV extends javax.swing.JFrame {
 
             lblArtdesc.setText(rsArtcode.getString("artdesc"));
 
-            // Establecer el precioSIV acorde a la categoría del cliente
-            campoPrecio = "artpre" + this.spnCliprec.getValue().toString();
+            // Establecer el número de precio acorde a la categoría del cliente
+            campoPrecio = "artpre" + this.spnCliprec.getValue();
 
             // Bosco agregado 01/03/2014
             // Si hoy es día de oferta se cambia el número de precio.
@@ -2839,15 +2834,14 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 // verificar si el cliente es exento para rebajar el IV.
                 if (usarivi && !chkAplicarIV.isSelected()) {
                     precio = precio / (1 + artimpv / 100);
-                    artimpv = 0.00;
+                    //artimpv = 0.00;
                 } // end if
             } // end if (artimpv > 0)
 
-            this.txtFacpive.setText(String.valueOf(artimpv));
-            this.txtFacpive.setText(Ut.setDecimalFormat(this.txtFacpive.getText(), formatoPrecio));
-
-            this.txtArtprec.setText(String.valueOf(precio));
-            this.txtArtprec.setText(Ut.setDecimalFormat(this.txtArtprec.getText(), formatoPrecio));
+            this.txtFacpive.setText(Ut.setDecimalFormat(String.valueOf(artimpv), formatoImpuesto));
+            this.txtArtprec.setText(Ut.setDecimalFormat(String.valueOf(precio), formatoPrecio));
+            this.lblCodigoTarifa.setText(rsArtcode.getString("codigoTarifa"));
+            this.lblDescripTarifa.setText(rsArtcode.getString("descripTarifa"));
 
             // Si el campo txtBodega tiene algún valor entonces ejecuto
             // el ActionPerformed de ese campo.
@@ -2908,6 +2902,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 this.mnuAgregar.setEnabled(false);
                 return;
             } // end if
+            
             // Verificar la fecha de cierre de la bodega.
             if (UtilBD.bodegaCerrada(conn, lcBodega, DatFacfech.getDate())) {
                 JOptionPane.showMessageDialog(null,
@@ -2968,8 +2963,8 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     this.lblLocalizacion.setText(rs.getString("localizacion"));
                     rs.close();
                 } // end if
-                artexis = Ut.setDecimalFormat(artexis, formatoCant);
-                disponible = Ut.setDecimalFormat(disponible, formatoCant);
+                artexis = Ut.setDecimalFormat(artexis, formatoCantidad);
+                disponible = Ut.setDecimalFormat(disponible, formatoCantidad);
                 this.txtArtexis.setText(artexis);
                 this.txtDisponible.setText(disponible);
             } catch (Exception ex) {
@@ -3086,8 +3081,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         } // end if
 
         String id, artcode, lcBodega, facpdes, tipoDesc, sqlSent = null;
-        int affected, // Registros afectados
-                facplazo; // Plazo en días
+        int affected; // Registros afectados
 
         id = String.valueOf(this.recordID);
         artcode = this.txtArtcode.getText().trim();
@@ -3238,7 +3232,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 sqlSent, // Sentencia SQL (general)
                 facfech, // Fecha de la factura
                 ordenc, // Orden de compra
-                codExpress;  // Código del Express
+                codExpress; // Código del Express
 
         id = this.recordID;
 
@@ -3386,13 +3380,8 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             // Fin Bosco agregado 13/02/2012.
 
             if (errorMsg.equals("")) {
-                //Ut.seek(rsV, cboVend.getSelectedItem().toString(), "nombre");
-                //vend = rsV.getInt("vend");
-                vend = Integer.parseInt(Ut.getCode(this.cboVend.getSelectedItem().toString(), "-", 0)); // Debug
-
-//                Ut.seek(rsT, cboTerr.getSelectedItem().toString(), "descrip");
-//                terr = rsT.getInt("terr");
-                terr = Integer.parseInt(Ut.getCode(this.cboTerr.getSelectedItem().toString(), "-", 0)); // Debug
+                vend = Integer.parseInt(Ut.getCode(this.cboVend.getSelectedItem().toString(), "-", 0));
+                terr = Integer.parseInt(Ut.getCode(this.cboTerr.getSelectedItem().toString(), "-", 0));
 
                 facfech = Ut.fechaSQL2(DatFacfech.getDate());
                 codExpress = this.jCodExpress.getText();
@@ -3403,14 +3392,22 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 facmonexp = Double.parseDouble(temp);
                 sqlUpdate
                         = "Call ModificarEncabezadoFactura("
-                        + "?," + // id
-                        "?," + // Número de factura
-                        "?," + // Vendedor
-                        "?," + // Zona
-                        "?," + // Fecha
-                        "?," + // Plazo
-                        "?," + // Código de express
-                        "?," + // Monto express
+                        + "?,"
+                        + // id
+                        "?,"
+                        + // Número de factura
+                        "?,"
+                        + // Vendedor
+                        "?,"
+                        + // Zona
+                        "?,"
+                        + // Fecha
+                        "?,"
+                        + // Plazo
+                        "?,"
+                        + // Código de express
+                        "?,"
+                        + // Monto express
                         "?)";  // Número de orden de compra
                 PreparedStatement psEncabezado = conn.prepareStatement(sqlUpdate);
                 psEncabezado.setInt(1, id);
@@ -3513,9 +3510,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 } // end if
             } // end if
 
-            // Trasladar la factura.  Cuando se agrega el registro en la
-            // tabla FAENCABE se dispara un trigger que actualiza el saldo
-            // del cliente.
+            // Trasladar la factura. El saldo del cliente se actualiza más abajo.
             if (errorMsg.equals("")) {
                 sqlUpdate = "Call AgregarFactura(?)";
                 PreparedStatement psAgregarF = conn.prepareStatement(sqlUpdate);
@@ -3852,15 +3847,15 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         // Limpio la tabla para evitar que quede alguna línea del
         // despliegue anterior.
         Ut.clearJTable(tblDetalle);
-        
+
         // Bosco agregado 28/01/2019
         // Agrega este código para facilitar el trabajo cuando se trabaja
         // con cliente genérico de contado.
-        if (!this.txtClicode.getText().trim().isEmpty()){
+        if (!this.txtClicode.getText().trim().isEmpty()) {
             txtClicodeActionPerformed(null);
         }
         // Fin Bosco agregado 28/01/2019
-        
+
         this.txtFacnume.requestFocusInWindow();
 
         // Bosco agregado 11/12/2013
@@ -4087,7 +4082,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             // Verifico si el tipo de cambio ya está configurado para la fecha del doc.
             txtTipoca.setText(
                     String.valueOf(UtilBD.tipoCambio(
-                                    codigoTC, DatFacfech.getDate(), conn)));
+                            codigoTC, DatFacfech.getDate(), conn)));
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(
                     null, ex.getMessage(),
@@ -4231,7 +4226,6 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         try {
             ps = conn.prepareStatement(sqlSelect,
                     ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            //rsPedido = stat.executeQuery(sqlSelect);
             rsPedido = CMD.select(ps);
 
             if (rsPedido == null || !rsPedido.first()) {
@@ -4429,7 +4423,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuAgregarActionPerformed
 
     private void mnuBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBorrarActionPerformed
-        this.cmdBorrarActionPerformed(evt);
+        this.btnBorrarActionPerformed(evt);
     }//GEN-LAST:event_mnuBorrarActionPerformed
 
     private void mnuAgregarTextoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAgregarTextoActionPerformed
@@ -4556,7 +4550,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuSalirActionPerformed
 
     private void mnuCantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCantidadActionPerformed
-        Cantidad c = new Cantidad(new javax.swing.JFrame(), true, this.txtFaccant, formatoCant);
+        Cantidad c = new Cantidad(new javax.swing.JFrame(), true, this.txtFaccant, formatoCantidad);
         c.setVisible(true);
     }//GEN-LAST:event_mnuCantidadActionPerformed
 
@@ -4637,6 +4631,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.calendar.JDateChooser DatFacfech;
     private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnBorrar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JComboBox<String> cboBanco;
     private javax.swing.JComboBox<String> cboMoneda;
@@ -4646,7 +4641,6 @@ public class RegistroFacturasV extends javax.swing.JFrame {
     private javax.swing.JCheckBox chkAplicarIV;
     private javax.swing.JCheckBox chkExpress;
     private javax.swing.JCheckBox chkTrabajarConIVI;
-    private javax.swing.JButton cmdBorrar;
     private javax.swing.JButton cmdDescuentos;
     private javax.swing.JButton cmdFatext;
     private javax.swing.JButton cmdGuardar;
@@ -4692,6 +4686,8 @@ public class RegistroFacturasV extends javax.swing.JFrame {
     private javax.swing.JLabel lblArticulo;
     private javax.swing.JLabel lblBanco;
     private javax.swing.JLabel lblCantidad;
+    private javax.swing.JLabel lblCodigoTarifa;
+    private javax.swing.JLabel lblDescripTarifa;
     private javax.swing.JLabel lblLocalizacion;
     private javax.swing.JMenuItem mnuActivarCliente;
     private javax.swing.JMenuItem mnuActivarDetalleFactura;
@@ -4780,7 +4776,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             } // end if
 
             txtClidesc.setText(rsCliente.getString("clidesc"));
-            
+
             // El tipo de pago default es Efectivo
             this.cboTipoPago.setSelectedIndex(1);
 
@@ -4891,10 +4887,10 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             // end if
 
             // Formateo los datos numéricos
-            txtClilimit.setText(Ut.setDecimalFormat(txtClilimit.getText().trim(), "#,##0.00"));
-            txtClisald.setText(Ut.setDecimalFormat(txtClisald.getText().trim(), "#,##0.00"));
-            txtVencido.setText(Ut.setDecimalFormat(txtVencido.getText().trim(), "#,##0.00"));
-            txtMontoDisponible.setText(Ut.setDecimalFormat(txtMontoDisponible.getText().trim(), "#,##0.00"));
+            txtClilimit.setText(Ut.setDecimalFormat(txtClilimit.getText().trim(), this.formatoPrecio));
+            txtClisald.setText(Ut.setDecimalFormat(txtClisald.getText().trim(), this.formatoPrecio));
+            txtVencido.setText(Ut.setDecimalFormat(txtVencido.getText().trim(), this.formatoPrecio));
+            txtMontoDisponible.setText(Ut.setDecimalFormat(txtMontoDisponible.getText().trim(), this.formatoPrecio));
 
             // Esto evita que, al dispararse el evento propertyChange del
             // spinner spnCliprec, se ejecute todo el código ya que, aparte de
@@ -4982,7 +4978,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             // Informo sobre pedidos pendientes
             if (rsCliente.getInt("pedidos") > 0) {
                 JOptionPane.showMessageDialog(null,
-                        "Este cliente tiene pedidos pendientes",
+                        "Este cliente tiene " + rsCliente.getInt("pedidos") + " artículos en pedidos pendientes",
                         "Aviso",
                         JOptionPane.INFORMATION_MESSAGE);
             } // end if
@@ -5030,7 +5026,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 this.mnuCargarPedido.setEnabled(true);
                 JOptionPane.showMessageDialog(null,
                         "Existen registros de pedidos para facturar."
-                        + "\nSi desea cargarlos presione la tecla F8 ó"
+                        + "\nSi desea cargarlos presione la tecla F3 ó"
                         + "\nutlice la opción Edición/Cargar pedido.",
                         "Mensaje",
                         JOptionPane.INFORMATION_MESSAGE);
@@ -5077,18 +5073,19 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         String id = String.valueOf(this.recordID);
         String sqlSent
                 = "Select "
-                + "wrk_fadetall.facnume,  "
-                + "wrk_fadetall.bodega,   "
-                + "wrk_fadetall.artcode,  "
-                + "wrk_fadetall.faccant,  "
-                + "inarticu.artdesc,      "
-                + "bodexis.artexis,       "
-                + "bodexis.artexis - bodexis.artreserv as disponible,"
-                + "wrk_fadetall.facpive,  "
-                + "wrk_fadetall.artprec  + wrk_fadetall.artprec * (wrk_fadetall.facpive/100) as artprec,"
-                + "(wrk_fadetall.artprec + wrk_fadetall.artprec * (wrk_fadetall.facpive/100)) * faccant as facmont,"
-                + "wrk_fadetall.facpdesc  "
-                + "from wrk_fadetall          "
+                + " wrk_fadetall.facnume,  "
+                + " wrk_fadetall.bodega,   "
+                + " wrk_fadetall.artcode,  "
+                + " wrk_fadetall.faccant,  "
+                + " inarticu.artdesc,      "
+                + " bodexis.artexis,       "
+                + " bodexis.artexis - bodexis.artreserv as disponible,"
+                + " wrk_fadetall.facpive,  "
+                + " wrk_fadetall.codigoTarifa,  "
+                + " wrk_fadetall.artprec  + wrk_fadetall.artprec * (wrk_fadetall.facpive/100) as artprec,"
+                + " (wrk_fadetall.artprec + wrk_fadetall.artprec * (wrk_fadetall.facpive/100)) * faccant as facmont,"
+                + " wrk_fadetall.facpdesc "
+                + "from wrk_fadetall      "
                 + "Inner join inarticu on wrk_fadetall.artcode = inarticu.artcode "
                 + "Inner join bodexis  on wrk_fadetall.artcode = bodexis.artcode  "
                 + "      and wrk_fadetall.bodega  = bodexis.bodega "
@@ -5125,7 +5122,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 tblDetalle.setValueAt(rsF.getString("artdesc"), row, col);
                 col++;
                 valor = String.valueOf(rsF.getDouble("faccant")).trim();
-                valor = Ut.setDecimalFormat(valor, formatoCant);
+                valor = Ut.setDecimalFormat(valor, formatoCantidad);
                 tblDetalle.setValueAt(valor, row, col);
                 col++;
                 valor = String.valueOf(rsF.getDouble("artprec")).trim();
@@ -5142,19 +5139,22 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 tblDetalle.setValueAt(valor, row, col);
                 col++;
                 valor = String.valueOf(rsF.getDouble("artexis")).trim();
-                valor = Ut.setDecimalFormat(valor, formatoCant);
+                valor = Ut.setDecimalFormat(valor, formatoCantidad);
                 tblDetalle.setValueAt(valor, row, col);
                 col++;
                 valor = String.valueOf(rsF.getDouble("disponible")).trim();
-                valor = Ut.setDecimalFormat(valor, formatoCant);
+                valor = Ut.setDecimalFormat(valor, formatoCantidad);
                 tblDetalle.setValueAt(valor, row, col);
                 col++;
                 valor = String.valueOf(rsF.getFloat("facpive"));
-                valor = Ut.setDecimalFormat(valor, "#,##0.00");
+                valor = Ut.setDecimalFormat(valor, this.formatoImpuesto);
                 tblDetalle.setValueAt(valor, row, col);
                 col++;
                 valor = String.valueOf(rsF.getFloat("facpdesc"));
-                valor = Ut.setDecimalFormat(valor, "#,##0.00");
+                valor = Ut.setDecimalFormat(valor, this.formatoImpuesto);
+                tblDetalle.setValueAt(valor, row, col);
+                col++;
+                valor = rsF.getString("codigoTarifa");
                 tblDetalle.setValueAt(valor, row, col);
                 col = 0;
                 row++;
@@ -5191,10 +5191,10 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             // que a su vez se encarga de refrescar el total de la factura.
             totalSinExpress = rsF.getDouble("facmont");
 
-            subtotal = Ut.setDecimalFormat(subtotal, "#,##0.00");
-            descuento = Ut.setDecimalFormat(descuento, "#,##0.00");
-            IV = Ut.setDecimalFormat(IV, "#,##0.00");
-            total = Ut.setDecimalFormat(total, "#,##0.00");
+            subtotal = Ut.setDecimalFormat(subtotal, this.formatoPrecio);
+            descuento = Ut.setDecimalFormat(descuento, this.formatoPrecio);
+            IV = Ut.setDecimalFormat(IV, this.formatoPrecio);
+            total = Ut.setDecimalFormat(total, this.formatoPrecio);
 
             this.txtSubTotal.setText(subtotal);
             this.txtFacdesc.setText(descuento);
@@ -5203,7 +5203,6 @@ public class RegistroFacturasV extends javax.swing.JFrame {
 
             this.txtLines.setText((row) + "");
 
-            //stat.close();
             ps.close();
 
         } catch (Exception ex) {
@@ -5224,11 +5223,11 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         txtArtexis.setText("0");
         txtArtprec.setText("0");
         txtDisponible.setText("0");
-        txtFacpive.setText("0");
-        txtFacpdesc.setText("0");
-        // Se quita la insturcción ya que el número de orden se carga
-        // desde el inicio y depende del objeto this.orden
-        //txtOrdenC.setText("[orden compra]"); // Bosco agregado 23/09/2018
+        txtFacpive.setText("0.00");
+        txtFacpdesc.setText("0.00");
+        lblCodigoTarifa.setText("?");
+        lblDescripTarifa.setText("?");
+        lblLocalizacion.setText("?");
     } // end limpiarObjetos
 
     private void createTempInvoice() {
@@ -5243,7 +5242,6 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 terr, // Territorio
                 facfech, // Fecha de la factura
                 facplazo, // Plazo en días
-                facpive, // Porcentaje del IV
                 facnpag, // Número de pagos
                 facdpago, // Días entre pago y pago
                 precio, // Categoría de precioSIV
@@ -5254,12 +5252,9 @@ public class RegistroFacturasV extends javax.swing.JFrame {
 
         facnume = this.txtFacnume.getText().trim();
         Clicode = this.txtClicode.getText().trim();
-        vend = "0";
-        terr = "0";
         facfech = Ut.fechaSQL(this.DatFacfech.getDate());
         facplazo = txtFacplaz.getText().trim();
         facplazo = facplazo.equals("") ? "0" : facplazo;
-        facpive = "0";
 
         Calendar cal = GregorianCalendar.getInstance();
         cal.setTime(this.DatFacfech.getDate());
@@ -5270,10 +5265,10 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             if (Integer.parseInt(facnpag) <= 0) {
                 facdpago = "1";
             } else {
-                facdpago
-                        = String.valueOf(Math.round(
-                                        Float.parseFloat(facplazo) / Float.parseFloat(facnpag)));
+                facdpago = String.valueOf(Math.round(
+                        Float.parseFloat(facplazo) / Float.parseFloat(facnpag)));
             } // end if
+
             // Calcular la fecha y el monto del próximo pago
             cal.setTime(this.DatFacfech.getDate());
             cal.add(Calendar.DAY_OF_YEAR, Integer.parseInt(facdpago));
@@ -5296,8 +5291,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     + terr + ","
                     + facfech + ","
                     + facplazo + ","
-                    + precio + ","
-                    + facpive + ")";
+                    + precio + ")";
 
             ps = conn.prepareStatement(sqlInsert);
 
@@ -5314,15 +5308,8 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             CMD.transaction(conn, CMD.COMMIT);
             ps.close();
 
-            //            sqlSent = 
-            //                    "SELECT facnume FROM wrk_faencabe WHERE ID = " + recordID;
-            //            stat.executeQuery(sqlSent);
             // ============= Recuperación de facturas ======================
             // Bosco 15/02/2010. Verifico si hay detalle de facturas inconclusas
-            //            rs = stat.executeQuery( // Determinar el último ID para este cliente
-            //                    "Select ID from wrk_faencabe Where clicode = " + Clicode +
-            //                    " and ID <> " + recordID +
-            //                    " and facnd = 0");
             ps = conn.prepareStatement( // Determinar el último ID para este cliente
                     "Select ID from wrk_faencabe Where clicode = " + Clicode
                     + " and ID <> " + recordID
@@ -5344,10 +5331,6 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                         + "Where ID = " + IDAnt;
                 ps = conn.prepareStatement(sqlSent);
                 CMD.transaction(conn, CMD.START_TRANSACTION);
-//                int affected = stat.executeUpdate(
-//                        "Update wrk_fadetall set " +
-//                        "ID = " + recordID + " " +
-//                        "Where ID = " + IDAnt);
                 int affected = CMD.update(ps);
                 ps.close();
 
@@ -5362,12 +5345,9 @@ public class RegistroFacturasV extends javax.swing.JFrame {
 
                         // Actualizar el detalle de la factura y recalcular
                         // el encabezado
-                        sqlSent
-                                = "Call RecalcularFactura("
-                                + recordID + ","
-                                + aplicarIV + ")";
+                        sqlSent = "Call RecalcularFactura(" + recordID + "," + aplicarIV + ")";
                         ps = conn.prepareStatement(sqlSent);
-                        //stat.executeUpdate(sqlSent);
+
                         CMD.update(ps);
                         ps.close();
 
@@ -5395,7 +5375,6 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 } // end if (affected > 0)
 
             } // end if (IDAnt > 0)
-            //stat.close();
             // ==============================================================
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,
@@ -5427,7 +5406,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                         + "and bodexis.artcode = wrk_fadetall.artcode "
                         + "and bodexis.bodega = wrk_fadetall.bodega";
                 ps = conn.prepareStatement(sqlSent);
-                //stat.executeUpdate(sqlUpdate);
+
                 CMD.update(ps);
                 ps.close();
 
@@ -5436,7 +5415,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 sqlSent
                         = "Delete from wrk_faencabe "
                         + "Where id = " + id;
-                //stat.executeUpdate(sqlDelete);
+
                 ps = conn.prepareStatement(sqlSent);
                 CMD.update(ps);
                 ps.close();
@@ -5465,7 +5444,6 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // try-catch
     } // end deleteTempInvoice
-
 
     private void recalcularTC() {
         if (this.recordID == 0) {
@@ -5510,7 +5488,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
 
         try {
             ps = conn.prepareStatement(sqlSent);
-            //affected = stat.executeUpdate(sqlSent);
+
             affected = CMD.update(ps);
             ps.close();
         } catch (SQLException ex) {
@@ -5543,7 +5521,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
 
         try {
             ps = conn.prepareStatement(sqlSent);
-            //affected = stat.executeUpdate(sqlSent);
+
             affected = CMD.update(ps);
             ps.close();
         } catch (SQLException ex) {
@@ -5582,46 +5560,45 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 + "From faexpress "
                 + "Where CodExpress = " + codigoExp;
         String montoExpress = "0.00";
-        double minimo = 0.00;
+        double minimo;
         double tc = Double.parseDouble(txtTipoca.getText().trim());
+
         try {
             PreparedStatement ps;
             ps = conn.prepareStatement(sqlSelect,
                     ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             txtMonExpress.setText("0.00");
-            //ResultSet rsExp = stat.executeQuery(sqlSelect);
+
             ResultSet rsExp = CMD.select(ps);
 
             if (rsExp != null && rsExp.first()) {
                 minimo = rsExp.getDouble("minimo") / tc;
-                // Si el monto de la factura es mayor o igual
-                // al mínimo establecido entoces se usa el
-                // monto fijo, de lo contrario se calcula en
-                // base al porcentaje.
+                // Si el monto de la factura es mayor o igual al mínimo 
+                // establecido entoces se usa el monto fijo, de lo contrario se 
+                // calcula en base al porcentaje.
                 if (monto >= minimo) {
                     montoExpress
                             = String.valueOf(rsExp.getDouble("tarifa") / tc);
                 } else {
-                    montoExpress
-                            = Double.toString(
-                                    monto * (rsExp.getFloat("porcentaje") / 100));
+                    montoExpress = Double.toString(
+                            monto * (rsExp.getFloat("porcentaje") / 100));
                 } // end if
                 if (redondear) {
-                    montoExpress
-                            = String.valueOf(
-                                    Math.round(
-                                            Double.parseDouble(montoExpress)));
+                    montoExpress = String.valueOf(
+                            Math.round(
+                                    Double.parseDouble(montoExpress)));
                 } // end if
             } // end if (rsExp != null && rsExp.first())
+            
             txtMonExpress.setText(
                     Ut.setDecimalFormat(
-                            montoExpress, "#,##0.00"));
+                            montoExpress, this.formatoPrecio));
             txtFacmont.setText(
                     Double.toString(
                             monto + Double.parseDouble(montoExpress)));
             txtFacmont.setText(
                     Ut.setDecimalFormat(
-                            txtFacmont.getText(), "#,##0.00"));
+                            txtFacmont.getText(), this.formatoPrecio));
             ps.close();
 
         } catch (Exception ex) {
@@ -5671,22 +5648,21 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         try (PreparedStatement ps
                 = conn.prepareStatement(
                         sqlSent, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
-                    ResultSet rsF;
-                    while (true) {
-                        ps.setInt(1, factura);
-                        rsF = CMD.select(ps);
-                        if (rsF != null && rsF.first()) {
-                            rsF.getInt(1);
-                            factura++;
-                            //rsGeneral.close();
-                            continue;
-                        } // end if
+            ResultSet rsF;
+            while (true) {
+                ps.setInt(1, factura);
+                rsF = CMD.select(ps);
+                if (rsF != null && rsF.first()) {
+                    rsF.getInt(1);
+                    factura++;
+                    continue;
+                } // end if
 
-                        break;
-                    } // end while
-                    ps.close();
-                } // end try with resources
-                return factura;
+                break;
+            } // end while
+            ps.close();
+        } // end try with resources
+        return factura;
     } // end findNextUnusedInvoice
 
     /**
@@ -5854,13 +5830,16 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         sqlSent
                 = "Select "
                 + "	If(config.redond5 = 1, "
-                + "		RedondearA5(sum(facimve)), sum(facimve)) as facimve, " + // Impuesto
+                + "		RedondearA5(sum(facimve)), sum(facimve)) as facimve, "
+                + // Impuesto
                 "	If(config.redond5 = 1, "
                 + "		RedondearA5(sum(If(facimve = 0,facdesc,0))), "
-                + "				    sum(If(facimve = 0,facdesc,0))) as DescVEX," + // Descuento de ventas exentas
+                + "				    sum(If(facimve = 0,facdesc,0))) as DescVEX,"
+                + // Descuento de ventas exentas
                 "	If(config.redond5 = 1, "
                 + "		RedondearA5(sum(If(facimve > 0,facdesc,0))), "
-                + "				    sum(If(facimve > 0,facdesc,0))) as DescVGR," + // Descuento de ventas grabadas
+                + "				    sum(If(facimve > 0,facdesc,0))) as DescVGR,"
+                + // Descuento de ventas grabadas
                 "	If(config.redond5 = 1, "
                 + "		RedondearA5(sum(If(facimve = 0, facmont, 0))), "
                 + "					sum(If(facimve = 0, facmont, 0))) as VtasExentas,"
@@ -6535,11 +6514,18 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(RegistroFacturasV.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
-                    ex.getMessage(), 
+                    ex.getMessage(),
                     "Error", JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
 
     } // end cargarBodegas
+
+    private void setTextBoxFormat(JFormattedTextField textBox, String formatoCantidad) {
+        textBox.setFormatterFactory(
+                new javax.swing.text.DefaultFormatterFactory(
+                        new javax.swing.text.NumberFormatter(
+                                new java.text.DecimalFormat(formatoCantidad))));
+    } // end setTextBoxFormat
 
 } // end class RegistroFacturasV

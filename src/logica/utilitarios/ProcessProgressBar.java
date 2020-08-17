@@ -1,10 +1,10 @@
 package logica.utilitarios;
 
 import Mail.Bitacora;
-import accesoDatos.CMD;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.HeadlessException;
 import java.awt.Window.Type;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -125,11 +125,14 @@ public class ProcessProgressBar extends Thread {
             return;
         }
         
-        boolean hayTransaccion = false;
+        //boolean hayTransaccion = false;
         try {
+            // Bosco 25/07/2020, elimino el control de transacciones desde acá
+            // ya que ahora se hace desde el stored procedure y va con control
+            // de etapas.
             // Iniciar la transacción
-            CMD.transaction(conn, CMD.START_TRANSACTION);
-            hayTransaccion = true;
+            //CMD.transaction(conn, CMD.START_TRANSACTION);
+            //hayTransaccion = true;
             
             // Registrar los parámetros de entrada
             cs.setInt(1, mes);
@@ -185,7 +188,7 @@ public class ProcessProgressBar extends Thread {
                     error = true;
                     // Ejecutar un rollback
                     setLblInfoText("Se produjo un error..");
-                    CMD.transaction(conn, CMD.ROLLBACK);
+                    //CMD.transaction(conn, CMD.ROLLBACK);
                     JOptionPane.showMessageDialog(
                             null,
                             cs.getString(4),
@@ -203,7 +206,7 @@ public class ProcessProgressBar extends Thread {
             // Si no hay error confirmo todo el proceso
             if (!error){
                 // Confirmar la transacción
-                CMD.transaction(conn, CMD.COMMIT);
+                //CMD.transaction(conn, CMD.COMMIT);
                 setLblInfoText("¡Cierre terminado exitosamente!");
                 JOptionPane.showMessageDialog(
                         null,
@@ -211,20 +214,21 @@ public class ProcessProgressBar extends Thread {
                         "Mensaje",
                         JOptionPane.INFORMATION_MESSAGE);
             } // end if
-        } catch (SQLException ex) {
-            if (hayTransaccion){
-                // Ejecutar el rollback
-                try {
-                    CMD.transaction(conn, CMD.ROLLBACK);
-                    setLblInfoText("Se produjo un error..");
-                } catch (SQLException ex1){
-                    JOptionPane.showMessageDialog(null, 
-                            ex1.getMessage(),
-                            "Error",
-                            JOptionPane.ERROR_MESSAGE);
-                    b.writeToLog(this.getClass().getName() + "--> " + ex1.getMessage());
-                }
-            } // end if
+        } catch (HeadlessException | SQLException ex) {
+            // El control de transacciones se hace por etapas y va dentro de SP. Bosco 25/07/2020
+            //            if (hayTransaccion){
+            //                // Ejecutar el rollback
+            //                try {
+            //                    CMD.transaction(conn, CMD.ROLLBACK);
+            //                    setLblInfoText("Se produjo un error..");
+            //                } catch (SQLException ex1){
+            //                    JOptionPane.showMessageDialog(null, 
+            //                            ex1.getMessage(),
+            //                            "Error",
+            //                            JOptionPane.ERROR_MESSAGE);
+            //                    b.writeToLog(this.getClass().getName() + "--> " + ex1.getMessage());
+            //                }
+            //            } // end if
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             JOptionPane.showMessageDialog(
                      null,

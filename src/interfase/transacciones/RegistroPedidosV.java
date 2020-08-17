@@ -247,6 +247,8 @@ public class RegistroPedidosV extends javax.swing.JFrame {
         jLabel24 = new javax.swing.JLabel();
         txtFacpdesc = new javax.swing.JTextField();
         txtFaccant = new javax.swing.JTextField();
+        lblCodigoTarifa = new javax.swing.JLabel();
+        lblDescripTarifa = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuArchivo = new javax.swing.JMenu();
         mnuSalir = new javax.swing.JMenuItem();
@@ -298,17 +300,17 @@ public class RegistroPedidosV extends javax.swing.JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        txtArtcode.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtArtcodeActionPerformed(evt);
-            }
-        });
         txtArtcode.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtArtcodeFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtArtcodeFocusLost(evt);
+            }
+        });
+        txtArtcode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtArtcodeActionPerformed(evt);
             }
         });
 
@@ -351,6 +353,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
         cmdAgregar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         cmdAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/arrow-turn-270-left.png"))); // NOI18N
         cmdAgregar.setText("Agregar línea");
+        cmdAgregar.setPreferredSize(new java.awt.Dimension(129, 27));
         cmdAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmdAgregarActionPerformed(evt);
@@ -374,96 +377,96 @@ public class RegistroPedidosV extends javax.swing.JFrame {
         tblDetalle.setAutoCreateRowSorter(true);
         tblDetalle.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Código", "Bodega", "Descripción", "Pedido", "Aptdo", "Precio", "Total", "Existencia", "Disponible", "Apartado", "IV", "Desc"
+                "Código", "Bodega", "Descripción", "Pedido", "Aptdo", "Precio", "Total", "Existencia", "Disponible", "Apartado", "IVA", "Desc", "Tarifa"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -477,7 +480,6 @@ public class RegistroPedidosV extends javax.swing.JFrame {
         tblDetalle.setToolTipText("Haga click para sumar o restar al pedido o al reservado");
         tblDetalle.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         tblDetalle.setColumnSelectionAllowed(true);
-        tblDetalle.setPreferredSize(new java.awt.Dimension(900, 1280));
         tblDetalle.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblDetalle.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -486,42 +488,47 @@ public class RegistroPedidosV extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tblDetalle);
         tblDetalle.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tblDetalle.getColumnModel().getColumn(0).setMinWidth(20);
-        tblDetalle.getColumnModel().getColumn(0).setPreferredWidth(70);
-        tblDetalle.getColumnModel().getColumn(0).setMaxWidth(80);
-        tblDetalle.getColumnModel().getColumn(1).setMinWidth(20);
-        tblDetalle.getColumnModel().getColumn(1).setPreferredWidth(65);
-        tblDetalle.getColumnModel().getColumn(1).setMaxWidth(70);
-        tblDetalle.getColumnModel().getColumn(2).setMinWidth(80);
-        tblDetalle.getColumnModel().getColumn(2).setPreferredWidth(200);
-        tblDetalle.getColumnModel().getColumn(2).setMaxWidth(280);
-        tblDetalle.getColumnModel().getColumn(3).setMinWidth(20);
-        tblDetalle.getColumnModel().getColumn(3).setPreferredWidth(55);
-        tblDetalle.getColumnModel().getColumn(3).setMaxWidth(100);
-        tblDetalle.getColumnModel().getColumn(4).setMinWidth(20);
-        tblDetalle.getColumnModel().getColumn(4).setPreferredWidth(55);
-        tblDetalle.getColumnModel().getColumn(4).setMaxWidth(100);
-        tblDetalle.getColumnModel().getColumn(5).setMinWidth(20);
-        tblDetalle.getColumnModel().getColumn(5).setPreferredWidth(60);
-        tblDetalle.getColumnModel().getColumn(5).setMaxWidth(100);
-        tblDetalle.getColumnModel().getColumn(6).setMinWidth(20);
-        tblDetalle.getColumnModel().getColumn(6).setPreferredWidth(60);
-        tblDetalle.getColumnModel().getColumn(6).setMaxWidth(100);
-        tblDetalle.getColumnModel().getColumn(7).setMinWidth(20);
-        tblDetalle.getColumnModel().getColumn(7).setPreferredWidth(60);
-        tblDetalle.getColumnModel().getColumn(7).setMaxWidth(100);
-        tblDetalle.getColumnModel().getColumn(8).setMinWidth(20);
-        tblDetalle.getColumnModel().getColumn(8).setPreferredWidth(60);
-        tblDetalle.getColumnModel().getColumn(8).setMaxWidth(100);
-        tblDetalle.getColumnModel().getColumn(9).setMinWidth(20);
-        tblDetalle.getColumnModel().getColumn(9).setPreferredWidth(80);
-        tblDetalle.getColumnModel().getColumn(9).setMaxWidth(100);
-        tblDetalle.getColumnModel().getColumn(10).setMinWidth(20);
-        tblDetalle.getColumnModel().getColumn(10).setPreferredWidth(32);
-        tblDetalle.getColumnModel().getColumn(10).setMaxWidth(80);
-        tblDetalle.getColumnModel().getColumn(11).setMinWidth(20);
-        tblDetalle.getColumnModel().getColumn(11).setPreferredWidth(32);
-        tblDetalle.getColumnModel().getColumn(11).setMaxWidth(80);
+        if (tblDetalle.getColumnModel().getColumnCount() > 0) {
+            tblDetalle.getColumnModel().getColumn(0).setMinWidth(20);
+            tblDetalle.getColumnModel().getColumn(0).setPreferredWidth(70);
+            tblDetalle.getColumnModel().getColumn(0).setMaxWidth(80);
+            tblDetalle.getColumnModel().getColumn(1).setMinWidth(20);
+            tblDetalle.getColumnModel().getColumn(1).setPreferredWidth(65);
+            tblDetalle.getColumnModel().getColumn(1).setMaxWidth(70);
+            tblDetalle.getColumnModel().getColumn(2).setMinWidth(80);
+            tblDetalle.getColumnModel().getColumn(2).setPreferredWidth(200);
+            tblDetalle.getColumnModel().getColumn(2).setMaxWidth(280);
+            tblDetalle.getColumnModel().getColumn(3).setMinWidth(20);
+            tblDetalle.getColumnModel().getColumn(3).setPreferredWidth(55);
+            tblDetalle.getColumnModel().getColumn(3).setMaxWidth(100);
+            tblDetalle.getColumnModel().getColumn(4).setMinWidth(20);
+            tblDetalle.getColumnModel().getColumn(4).setPreferredWidth(55);
+            tblDetalle.getColumnModel().getColumn(4).setMaxWidth(100);
+            tblDetalle.getColumnModel().getColumn(5).setMinWidth(20);
+            tblDetalle.getColumnModel().getColumn(5).setPreferredWidth(60);
+            tblDetalle.getColumnModel().getColumn(5).setMaxWidth(100);
+            tblDetalle.getColumnModel().getColumn(6).setMinWidth(20);
+            tblDetalle.getColumnModel().getColumn(6).setPreferredWidth(60);
+            tblDetalle.getColumnModel().getColumn(6).setMaxWidth(100);
+            tblDetalle.getColumnModel().getColumn(7).setMinWidth(20);
+            tblDetalle.getColumnModel().getColumn(7).setPreferredWidth(60);
+            tblDetalle.getColumnModel().getColumn(7).setMaxWidth(100);
+            tblDetalle.getColumnModel().getColumn(8).setMinWidth(20);
+            tblDetalle.getColumnModel().getColumn(8).setPreferredWidth(60);
+            tblDetalle.getColumnModel().getColumn(8).setMaxWidth(100);
+            tblDetalle.getColumnModel().getColumn(9).setMinWidth(20);
+            tblDetalle.getColumnModel().getColumn(9).setPreferredWidth(80);
+            tblDetalle.getColumnModel().getColumn(9).setMaxWidth(100);
+            tblDetalle.getColumnModel().getColumn(10).setMinWidth(20);
+            tblDetalle.getColumnModel().getColumn(10).setPreferredWidth(32);
+            tblDetalle.getColumnModel().getColumn(10).setMaxWidth(80);
+            tblDetalle.getColumnModel().getColumn(11).setMinWidth(20);
+            tblDetalle.getColumnModel().getColumn(11).setPreferredWidth(32);
+            tblDetalle.getColumnModel().getColumn(11).setMaxWidth(80);
+            tblDetalle.getColumnModel().getColumn(12).setMinWidth(35);
+            tblDetalle.getColumnModel().getColumn(12).setPreferredWidth(50);
+            tblDetalle.getColumnModel().getColumn(12).setMaxWidth(55);
+        }
 
         cmdSalir.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         cmdSalir.setForeground(java.awt.Color.red);
@@ -558,7 +565,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
 
         chkIve.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         chkIve.setForeground(new java.awt.Color(0, 153, 0));
-        chkIve.setText("Aplicar I.V.");
+        chkIve.setText("Aplicar IVA");
         chkIve.setEnabled(false);
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -686,7 +693,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel15.setForeground(java.awt.Color.blue);
-        jLabel15.setText("I.V.");
+        jLabel15.setText("IVA");
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel16.setForeground(java.awt.Color.blue);
@@ -860,7 +867,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
         txtFacpive.setFocusable(false);
 
         jLabel23.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel23.setText("I.V.%");
+        jLabel23.setText("IVA%");
 
         cmdDescuentos.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         cmdDescuentos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/calculator.png"))); // NOI18N
@@ -901,6 +908,16 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                 txtFaccantKeyPressed(evt);
             }
         });
+
+        lblCodigoTarifa.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblCodigoTarifa.setForeground(java.awt.Color.blue);
+        lblCodigoTarifa.setText("   ");
+        lblCodigoTarifa.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        lblDescripTarifa.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblDescripTarifa.setForeground(java.awt.Color.blue);
+        lblDescripTarifa.setText("   ");
+        lblDescripTarifa.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         mnuArchivo.setMnemonic('A');
         mnuArchivo.setText("Archivo");
@@ -1011,6 +1028,34 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGap(48, 48, 48)
+                                .addComponent(cmdAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cmdBorrar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cmdDescuentos)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cmdObservaciones)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cmdSalir))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtClicode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtClidesc, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(chkIve)
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel5)
+                                .addGap(5, 5, 5)
+                                .addComponent(spnCliprec, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel3)
+                                .addGap(5, 5, 5)
+                                .addComponent(DatFacfech, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel7)
@@ -1052,40 +1097,16 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel24)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(txtFacpdesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(51, 51, 51)
-                                .addComponent(cmdAgregar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cmdBorrar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cmdDescuentos)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cmdObservaciones)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cmdSalir))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtClicode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtClidesc, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(chkIve)
-                                .addGap(10, 10, 10)
-                                .addComponent(jLabel5)
-                                .addGap(5, 5, 5)
-                                .addComponent(spnCliprec, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel3)
-                                .addGap(5, 5, 5)
-                                .addComponent(DatFacfech, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 46, Short.MAX_VALUE)))
+                                        .addComponent(txtFacpdesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblCodigoTarifa, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblDescripTarifa, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 59, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmdAgregar, cmdBorrar, cmdDescuentos, cmdSalir});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmdAgregar, cmdBorrar, cmdDescuentos, cmdObservaciones, cmdSalir});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1102,14 +1123,16 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                 .addGap(4, 4, 4)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel7)
                     .addComponent(txtArtcode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtArtdesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtFacpdesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel24)
+                    .addComponent(jLabel23)
                     .addComponent(txtFacpive, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel23))
+                    .addComponent(jLabel24)
+                    .addComponent(txtFacpdesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCodigoTarifa)
+                    .addComponent(lblDescripTarifa))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
@@ -1129,40 +1152,37 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cmdBorrar)
-                    .addComponent(cmdAgregar)
+                    .addComponent(cmdAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmdDescuentos)
                     .addComponent(cmdObservaciones)
                     .addComponent(cmdSalir))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
                 .addGap(8, 8, 8)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmdAgregar, cmdBorrar, cmdSalir});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmdAgregar, cmdBorrar, cmdDescuentos, cmdObservaciones, cmdSalir});
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void cmdAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdAgregarActionPerformed
-        String artcode, bodega, sqlSent;
+        String artcode, bodega, codigoTarifa, sqlSent;
         int facnume, clicode;
         double faccant, artprec, reservado;
         float facpive;
         String temp; // Se usa para conversiones.
-        /*
-         * psSQL - Este objeto será el encargado de ejecutar el SP en la BD
-         * psTR - Este objeto se usa para controlar las transacciones
-         */
         PreparedStatement ps;
         ResultSet rsExito;
-        Double precio;   // Se usa para calcular el precio sin IV
+        Double precio;   // Se usa para calcular el precio sin IVA
 
         facnume = Integer.parseInt(txtClicode.getText().trim());
         clicode = facnume;
         artcode = txtArtcode.getText().trim();
         bodega = txtBodega.getText().trim();
+        codigoTarifa = this.lblCodigoTarifa.getText().trim();
 
         try {
             temp = Ut.quitarFormato(txtFaccant.getText().trim());
@@ -1254,7 +1274,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
         // aquí el sistema debe garantizar que la cantidad pudo ser reservada
         // con éxito.  Caso contrario se envía mensaje de error y se establece
         // el focus en el txtFaccant y se pone en cero txtReservado.
-        sqlSent = "Call ReservarPedido(?,?,?,?,?,?,?,?)";
+        sqlSent = "Call ReservarPedido(?,?,?,?,?,?,?,?,?)";
         try {
             // Inicia la transacción
             conn.setAutoCommit(false);
@@ -1267,8 +1287,10 @@ public class RegistroPedidosV extends javax.swing.JFrame {
             ps.setDouble(6, reservado);
             ps.setDouble(7, artprec);
             ps.setFloat(8, facpive);
-            //stat.executeUpdate("Start transaction");
+            ps.setString(9, codigoTarifa);
+            
             rsExito = ps.executeQuery(); // Utilizo executeQuery porque devuelve un RS
+            
             if (rsExito == null || !rsExito.first() || !rsExito.getBoolean(1)) {
                 String error
                         = "No se pudo guardar esta línea.  Comuníquese con"
@@ -1276,11 +1298,12 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                 if (rsExito.first()) {
                     error = rsExito.getString(2);
                 } // end if
+                
                 JOptionPane.showMessageDialog(null,
                         error,
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                //stat.executeUpdate("RollBack");
+                
                 CMD.transaction(conn, CMD.ROLLBACK);
                 conn.setAutoCommit(true);
                 txtFaccant.requestFocusInWindow();
@@ -1289,7 +1312,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
 
             rsExito.close();
             // Fin de la transacción.
-            //stat.executeUpdate("commit");
+            
             conn.setAutoCommit(true);
 
         } catch (SQLException ex) {
@@ -1299,8 +1322,6 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             try {
-                //stat.executeUpdate("RollBack");
-                //conn.setAutoCommit(true);
                 CMD.transaction(conn, CMD.ROLLBACK);
             } catch (SQLException ex1) {
                 JOptionPane.showMessageDialog(null,
@@ -1333,7 +1354,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
         } // end if
 
         String artcode, bodega, facnume, sqlSent;
-        ResultSet rsExito = null;
+        ResultSet rsExito;
 
         facnume = txtClicode.getText().trim();
         artcode = txtArtcode.getText().trim();
@@ -1374,7 +1395,6 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                 + "'" + bodega + "'" + ","
                 + "'" + artcode + "')";
         try {
-            //stat.executeUpdate("Start transaction");
             CMD.transaction(conn, CMD.START_TRANSACTION);
             rsExito = stat.executeQuery(sqlSent); // Utilizo executeQuery por devuelve un RS
             if (rsExito == null || !rsExito.first() || !rsExito.getBoolean(1)) {
@@ -1388,13 +1408,12 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                         error,
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                //stat.executeUpdate("RollBack");
+                
                 CMD.transaction(conn, CMD.ROLLBACK);
                 txtFaccant.requestFocusInWindow();
                 return;
             } // end if
 
-            //stat.executeUpdate("commit");
             CMD.transaction(conn, CMD.COMMIT);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,
@@ -1498,21 +1517,6 @@ public class RegistroPedidosV extends javax.swing.JFrame {
 
         bd.setVisible(true);
 
-        /*
-         * Bosco modificado 31/03/2013.
-         * Utilizo el switch en vez de if-else
-         */
-        //        if (buscar == this.ARTICULO){
-        //            txtArtcodeActionPerformed(null);
-        //            txtFaccant.setText("0");
-        //            txtReservado.setText("0");
-        //            txtFaccant.requestFocusInWindow();
-        //            //txtFaccant.selectAll();
-        //        } else if (buscar == this.BODEGA){
-        //            txtBodegaActionPerformed(null);
-        //        } else if (buscar == this.CLIENTE){
-        //            txtClicodeActionPerformed(null);
-        //        }
         switch (buscar) {
             case ARTICULO:
                 txtArtcodeActionPerformed(null);
@@ -1526,10 +1530,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
             default: // buscar == this.CLIENTE
                 txtClicodeActionPerformed(null);
         } // end switch
-        /*
-         * Fin Bosco modificado 31/03/2013.
-         */
-
+        
         bd.dispose();
 }//GEN-LAST:event_mnuBuscarActionPerformed
 
@@ -1608,16 +1609,24 @@ public class RegistroPedidosV extends javax.swing.JFrame {
         String campoPrecio;
         Double precio, artimpv;
 
-        // Traer los datos del artículo
-        String sqlQuery
-                = "Select "
-                + "   artdesc, artpre1, artpre2, "
-                + "   artpre3, artpre4, artpre5, "
-                + "   artimpv "
-                + "from inarticu "
-                + "Where artcode = " + "'" + artcode + "'";
+//        // Traer los datos del artículo
+//        String sqlQuery
+//                = "Select "
+//                + "   artdesc, artpre1, artpre2, "
+//                + "   artpre3, artpre4, artpre5, "
+//                + "   artimpv "
+//                + "from inarticu "
+//                + "Where artcode = " + "'" + artcode + "'";
         try {
-            rs = nav.ejecutarQuery(sqlQuery);
+            if (rs != null) {
+                rs.close();
+            } // end if
+            
+            // Traer los datos del artículo.  Los precios vienen convertidos a la
+            // moneda que el usuario haya elegido.
+            rs = UtilBD.getArtcode(conn, artcode, 1);
+            //rs = nav.ejecutarQuery(sqlQuery);
+            
             if (rs != null) {
                 rs.first();
             } // end if
@@ -1652,6 +1661,8 @@ public class RegistroPedidosV extends javax.swing.JFrame {
 
                 txtArtprec.setText(String.valueOf(precio));
                 txtArtprec.setText(Ut.setDecimalFormat(txtArtprec.getText(), "#,##0.00"));
+                this.lblCodigoTarifa.setText(rs.getString("codigoTarifa"));
+                this.lblDescripTarifa.setText(rs.getString("descripTarifa"));
 
                 // Si el campo bodega tiene algún valor entonces ejecuto
                 // el ActionPerformed de ese campo.
@@ -1719,7 +1730,6 @@ public class RegistroPedidosV extends javax.swing.JFrame {
             PreparedStatement psExist = conn.prepareStatement(sqlSent);
             psExist.setString(1, artcode);
             psExist.setString(2, bodega);
-            //rs = stat.executeQuery(sqlSent);
             rs = psExist.executeQuery();
             if (rs.first()) {
                 artexis = String.valueOf(rs.getDouble(1));
@@ -1742,7 +1752,6 @@ public class RegistroPedidosV extends javax.swing.JFrame {
 
         cmdAgregar.setEnabled(true);
         mnuAgregarLinea.setEnabled(true);
-        //txtBodega.transferFocus();
         txtFaccant.requestFocusInWindow();
     }//GEN-LAST:event_txtBodegaActionPerformed
 
@@ -2286,6 +2295,8 @@ public class RegistroPedidosV extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
+    private javax.swing.JLabel lblCodigoTarifa;
+    private javax.swing.JLabel lblDescripTarifa;
     private javax.swing.JMenuItem mnuAgregarLinea;
     private javax.swing.JMenu mnuArchivo;
     private javax.swing.JMenu mnuAyuda;
@@ -2475,6 +2486,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                 + "   pedidod.fechares,"
                 + "   pedidod.artprec + pedidod.artprec * (pedidod.facpive/100) as artprec,"
                 + "   (pedidod.artprec + pedidod.artprec * (pedidod.facpive/100)) * reservado as facmont,"
+                + "   pedidod.codigoTarifa,  "
                 + "   pedidod.facpdesc "
                 + "from pedidod  "
                 + "Inner join inarticu on pedidod.artcode = inarticu.artcode "
@@ -2553,6 +2565,9 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                 col++;
                 valor = String.valueOf(rs.getFloat("facpdesc"));
                 valor = Ut.setDecimalFormat(valor, "#,##0.00");
+                tblDetalle.setValueAt(valor, row, col);
+                col++;
+                valor = rs.getString("codigoTarifa");
                 tblDetalle.setValueAt(valor, row, col);
                 col = 0;
                 row++;

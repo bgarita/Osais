@@ -25,12 +25,12 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import logica.IMantenimiento;
 import logica.contabilidad.Cuenta;
-import logica.geografia.controler.CantonC;
-import logica.geografia.controler.DistritoC;
-import logica.geografia.controler.ProvinciaC;
-import logica.geografia.model.CantonM;
-import logica.geografia.model.DistritoM;
-import logica.geografia.model.ProvinciaM;
+import MVC.controller.geofrafia.CantonC;
+import MVC.controller.geofrafia.DistritoC;
+import MVC.controller.geofrafia.ProvinciaC;
+import MVC.model.geografia.CantonM;
+import MVC.model.geografia.DistritoM;
+import MVC.model.geografia.ProvinciaM;
 import logica.utilitarios.SQLInjectionException;
 import logica.utilitarios.Ut;
 

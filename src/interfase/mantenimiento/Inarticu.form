@@ -224,6 +224,7 @@
                           <Component id="lblArtcode3" alignment="0" min="-2" pref="49" max="-2" attributes="0"/>
                           <Component id="lblArtcode1" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel18" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -238,8 +239,15 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="txtFamilia" linkSize="9" min="-2" pref="288" max="-2" attributes="0"/>
                           </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="txtCodigoTarifa" min="-2" pref="99" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="txtDescripTarifa" min="-2" pref="228" max="-2" attributes="1"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="txtPorcentaje" min="-2" pref="55" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="76" max="-2" attributes="0"/>
                       <Component id="jSeparator1" min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
@@ -255,9 +263,9 @@
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                              <Component id="cmdAgregarFoto" linkSize="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnAgregarFoto" linkSize="3" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="cmdQuitarFoto" linkSize="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnQuitarFoto" linkSize="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
@@ -265,19 +273,12 @@
                   <Group type="102" attributes="0">
                       <EmptySpace min="83" pref="83" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="chkArtusaIVG" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="txtArtimpv" min="-2" pref="99" max="-2" attributes="0"/>
-                          </Group>
                           <Component id="chkAltarot" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="chkVinternet" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="chkAplicaOferta" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="chkEsServicio" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="424" pref="424" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="95" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -309,13 +310,14 @@
                                   <Component id="jLabel19" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="txtProdesc" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="2" attributes="0">
-                                  <Component id="chkArtusaIVG" alignment="2" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel18" alignment="2" min="-2" max="-2" attributes="0"/>
-                                  <Component id="txtArtimpv" alignment="2" min="-2" max="-2" attributes="0"/>
-                              </Group>
                               <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLabel18" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtCodigoTarifa" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtDescripTarifa" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtPorcentaje" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
                               <Component id="chkVinternet" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                               <Component id="chkAltarot" min="-2" max="-2" attributes="0"/>
@@ -329,10 +331,10 @@
                               <Component id="lblFoto" min="-2" pref="273" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="9" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="cmdQuitarFoto" linkSize="4" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="cmdAgregarFoto" linkSize="4" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnQuitarFoto" linkSize="4" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnAgregarFoto" linkSize="4" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -411,11 +413,13 @@
             <Component class="javax.swing.JTextField" name="txtFamilia">
               <Properties>
                 <Property name="editable" type="boolean" value="false"/>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="0" id="blue" palette="1" red="0" type="palette"/>
+                </Property>
                 <Property name="toolTipText" type="java.lang.String" value="Familia a la que pertenece"/>
                 <Property name="disabledTextColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="0" red="0" type="rgb"/>
                 </Property>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtFamiliaFocusGained"/>
@@ -456,22 +460,6 @@
                 <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtProdescFocusGained"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="chkArtusaIVG">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Tahoma" size="11" style="1"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="0" green="66" red="0" type="rgb"/>
-                </Property>
-                <Property name="selected" type="boolean" value="true"/>
-                <Property name="text" type="java.lang.String" value="Usa IVA global"/>
-                <Property name="toolTipText" type="java.lang.String" value="Marque esta casilla si el producto toma el impuesto de la configuraci&#xf3;n"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkArtusaIVGActionPerformed"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JLabel" name="jLabel18">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -481,18 +469,22 @@
                 <Property name="text" type="java.lang.String" value="IVA"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JFormattedTextField" name="txtArtimpv">
+            <Component class="javax.swing.JFormattedTextField" name="txtPorcentaje">
               <Properties>
-                <Property name="columns" type="int" value="10"/>
+                <Property name="editable" type="boolean" value="false"/>
+                <Property name="columns" type="int" value="6"/>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="0" id="blue" palette="1" red="0" type="palette"/>
+                </Property>
                 <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-                  <Format format="#,##0.0000" subtype="-1" type="0"/>
+                  <Format format="#,##0.00" subtype="-1" type="0"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="4"/>
-                <Property name="text" type="java.lang.String" value="0.00"/>
+                <Property name="toolTipText" type="java.lang.String" value="Porcentaje impuesto"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtArtimpvActionPerformed"/>
-                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtArtimpvFocusGained"/>
+                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtPorcentajeFocusGained"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtPorcentajeActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JCheckBox" name="chkVinternet">
@@ -528,7 +520,7 @@
                 <Property name="horizontalTextPosition" type="int" value="0"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="cmdAgregarFoto">
+            <Component class="javax.swing.JButton" name="btnAgregarFoto">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="11" style="1"/>
@@ -537,10 +529,10 @@
                 <Property name="toolTipText" type="java.lang.String" value="Agregar o cambiar la foto"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmdAgregarFotoActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAgregarFotoActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="cmdQuitarFoto">
+            <Component class="javax.swing.JButton" name="btnQuitarFoto">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="11" style="1"/>
@@ -549,7 +541,7 @@
                 <Property name="toolTipText" type="java.lang.String" value="Eliminar la foto"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmdQuitarFotoActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnQuitarFotoActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JCheckBox" name="chkAplicaOferta">
@@ -574,6 +566,31 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JSeparator" name="jSeparator1">
+            </Component>
+            <Component class="javax.swing.JFormattedTextField" name="txtCodigoTarifa">
+              <Properties>
+                <Property name="columns" type="int" value="3"/>
+                <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
+                  <Format format="***************" subtype="-1" type="5"/>
+                </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Codigo de tarifa"/>
+              </Properties>
+              <Events>
+                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtCodigoTarifaFocusGained"/>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtCodigoTarifaFocusLost"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtCodigoTarifaActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JTextField" name="txtDescripTarifa">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="0" id="blue" palette="1" red="0" type="palette"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtDescripTarifaFocusGained"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -1776,17 +1793,17 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="32767" attributes="0"/>
-                  <Component id="cmdPrimero" linkSize="5" min="-2" pref="70" max="-2" attributes="0"/>
+                  <Component id="btnPrimero" linkSize="5" min="-2" pref="70" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="cmdAnterior" linkSize="5" min="-2" pref="70" max="-2" attributes="0"/>
+                  <Component id="btnAnterior" linkSize="5" min="-2" pref="70" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="cmdSiguiente" linkSize="5" min="-2" pref="70" max="-2" attributes="0"/>
+                  <Component id="btnSiguiente" linkSize="5" min="-2" pref="70" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="cmdUltimo" linkSize="5" min="-2" pref="70" max="-2" attributes="0"/>
+                  <Component id="btnUltimo" linkSize="5" min="-2" pref="70" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="btnGuardar" linkSize="5" min="-2" pref="70" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="cmdBorrar" linkSize="5" min="-2" pref="70" max="-2" attributes="0"/>
+                  <Component id="btnBorrar" linkSize="5" min="-2" pref="70" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="174" max="-2" attributes="0"/>
               </Group>
               <Group type="102" attributes="0">
@@ -1807,15 +1824,15 @@
                   <Component id="lblAviso" pref="27" max="32767" attributes="1"/>
                   <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="cmdBorrar" linkSize="6" alignment="1" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnBorrar" linkSize="6" alignment="1" min="-2" max="-2" attributes="0"/>
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="cmdBuscar" min="-2" pref="0" max="-2" attributes="1"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="cmdAnterior" linkSize="6" min="-2" max="-2" attributes="0"/>
-                              <Component id="cmdPrimero" linkSize="6" min="-2" max="-2" attributes="0"/>
-                              <Component id="cmdSiguiente" linkSize="6" min="-2" max="-2" attributes="0"/>
-                              <Component id="cmdUltimo" linkSize="6" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnAnterior" linkSize="6" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnPrimero" linkSize="6" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnSiguiente" linkSize="6" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnUltimo" linkSize="6" min="-2" max="-2" attributes="0"/>
                               <Component id="btnGuardar" linkSize="6" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -1847,7 +1864,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmdBuscarActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="cmdPrimero">
+        <Component class="javax.swing.JButton" name="btnPrimero">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Icons/WZTOP.png"/>
@@ -1856,10 +1873,10 @@
             <Property name="focusCycleRoot" type="boolean" value="true"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmdPrimeroActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPrimeroActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="cmdAnterior">
+        <Component class="javax.swing.JButton" name="btnAnterior">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Icons/WZBACK.png"/>
@@ -1871,10 +1888,10 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmdAnteriorActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAnteriorActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="cmdSiguiente">
+        <Component class="javax.swing.JButton" name="btnSiguiente">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Icons/WZNEXT.png"/>
@@ -1885,10 +1902,10 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmdSiguienteActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSiguienteActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="cmdUltimo">
+        <Component class="javax.swing.JButton" name="btnUltimo">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Icons/WZEND.png"/>
@@ -1897,7 +1914,7 @@
             <Property name="focusCycleRoot" type="boolean" value="true"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmdUltimoActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUltimoActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnGuardar">
@@ -1914,7 +1931,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGuardarActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="cmdBorrar">
+        <Component class="javax.swing.JButton" name="btnBorrar">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Icons/WZDELETE.png"/>
@@ -1925,7 +1942,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmdBorrarActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBorrarActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

@@ -85,8 +85,10 @@ public class Menu extends javax.swing.JFrame {
     //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Ene 2020"; // Redondeo dinámico a 5 decimales de los montos de NC electrónica
     //public static final String VERSIONN = "4.1r2";
     //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Feb 2020"; // Gravado y exento en F.E.
-    public static final String VERSIONN = "4.5r2";
-    private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Jul 2020"; // Separación de impuestos para Hacienda
+    //public static final String VERSIONN = "4.5r2";
+    //private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Jul 2020"; // Separación de impuestos para Hacienda
+    public static final String VERSIONN = "5.0r0";
+    private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Ago 2020"; // Separación de impuestos para Hacienda
     public static String USUARIO;
     public static String PASS;
     private static String SERVIDOR;
@@ -3340,14 +3342,13 @@ CONEXION.getConnection(), // Conexión
                 + "    `artfech`,"
                 + "    `artfeuc`,"
                 + "    `artfeus`,"
-                + "    `artimpv`,"
+                + "    `codigoTarifa`,"
                 + "    `artexis`,"
                 + "    `artreserv`,"
                 + "    `transito`,"
                 + "    `otroc`,"
                 + "    `altarot`,"
                 + "    `vinternet`,"
-                + "    `artusaIVG`,"
                 + "    `artObse`,"
                 + "    `artFoto`,"
                 + "    `aplicaOferta`"
