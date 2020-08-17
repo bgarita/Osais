@@ -393,9 +393,9 @@ public class UtilBD {
     public static String getFieldValue(
             Connection c,
             String table,
-            String fieldName, // Campo que se consultará
-            String fieldKeyName, // Llave para el Where
-            String keyValue) // Valor para el Where
+            String fieldName,       // Campo que se consultará
+            String fieldKeyName,    // Llave para el Where
+            String keyValue)        // Valor para el Where
             throws SQLException {
 
         String returnValue = null;
@@ -404,7 +404,8 @@ public class UtilBD {
                 + "From   " + table + " "
                 + "Where  " + fieldKeyName + " = ? ";
 
-        PreparedStatement ps = c.prepareStatement(sqlSent, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        PreparedStatement ps = c.prepareStatement(sqlSent, 
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
         ps.setString(1, keyValue);
         ResultSet rs = CMD.select(ps);
         if (rs != null && rs.first()) {
@@ -1988,5 +1989,48 @@ public class UtilBD {
 
         return contado;
     } // end esClienteGenerico
+    
+    /**
+     * Trae los datos más relevantes de un artículo de inventario para ser 
+     * usados en los procesos de facturación, notas de crédito y pedidos.
+     * @param conn Connection Conexión activa a la base de datos.
+     * @param artcode String Código del producto
+     * @param tipoca float Tipo de cambio para la conversión de moneda
+     * @return ResultSet que contiene todos los datos recuperados de la BD.
+     * @throws java.sql.SQLException
+     */
+    public static ResultSet getArtcode(Connection conn, String artcode, float tipoca) throws SQLException{
+        ResultSet rs;
+        PreparedStatement ps;
+        String sqlSent 
+                = "Select  "
+                + " inarticu.artdesc,"
+                + " inarticu.artpre1 / ? as artpre1,"
+                + " inarticu.artpre2 / ? as artpre2,"
+                + " inarticu.artpre3 / ? as artpre3,"
+                + " inarticu.artpre4 / ? as artpre4,"
+                + " inarticu.artpre5 / ? as artpre5,"
+                + " tarifa_iva.codigoTarifa,  "
+                + " tarifa_iva.descrip as descripTarifa, "
+                + " tarifa_iva.porcentaje as artimpv, "
+                + " inarticu.aplicaOferta  "
+                + "from inarticu "
+                + "INNER JOIN tarifa_iva ON inarticu.codigoTarifa = tarifa_iva.codigoTarifa "
+                + "Where inarticu.artcode = ?";
+        
+        ps = conn.prepareStatement(sqlSent, 
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        
+        ps.setFloat(1, tipoca);
+        ps.setFloat(2, tipoca);
+        ps.setFloat(3, tipoca);
+        ps.setFloat(4, tipoca);
+        ps.setFloat(5, tipoca);
+        ps.setString(6, artcode);
+        
+        rs = CMD.select(ps);
+        
+        return rs;
+    } // end getArtcode
 
 } // end class UtilBD

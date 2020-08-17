@@ -8,7 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-//import javax.xml.bind.annotation.XmlElement;
 import logica.utilitarios.Ut;
 
 /**
@@ -123,7 +122,8 @@ public class DetalleNotaCredito {
                 + "	If(Abs(fadetall.facdesc) > 0,'Buen cliente','') as NatDescuento, "
                 + "	(Abs(fadetall.facmont) - Abs(fadetall.facdesc)) as subtotal, "
                 + "	'01' as codImpuesto, "  // 01=IVA, 02=Selectivo de consumo... ver nota 8 del archivo Anexos y estructuras_V4.3.pdf
-                + "	If(fadetall.facpive > 0, '08', '01') as codigoTarifa, " // 01=Excento, 08=Tarifa general 13%... ver nota 8.1 del archivo Anexos y estructuras_V4.3.pdf
+                //+ "	If(fadetall.facpive > 0, '08', '01') as codigoTarifa, " // 01=Excento, 08=Tarifa general 13%... ver nota 8.1 del archivo Anexos y estructuras_V4.3.pdf
+                + "	fadetall.codigoTarifa, " // 01=Excento, 08=Tarifa general 13%... ver nota 8.1 del archivo Anexos y estructuras_V4.3.pdf
                 + "	fadetall.facpive, "
                 + "	0.00 as FactorIVA, "    // Esperar forma de cálculo (Julio 2019)
                 + "	Abs(fadetall.facimve) as facimve, "

@@ -16,8 +16,13 @@ Select * from hinarticu
 where artperi > '2018-10-31'
 order by artcode;
 
+ALTER TABLE `hbodexis`
+	DROP FOREIGN KEY `fk_hbodexis_hintarticu`;
 Delete from hinarticu
 where artperi > '2018-10-31';
+ALTER TABLE `hbodexis`
+	ADD CONSTRAINT `fk_hbodexis_hintarticu` FOREIGN KEY (`artcode`) 
+	REFERENCES `hinarticu` (`artcode`) ON UPDATE CASCADE ON DELETE NO ACTION;
 
 Select * from hinclient
 where cliperi > '2018-10-31'

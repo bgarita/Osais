@@ -1,10 +1,15 @@
+Drop procedure if EXISTS `AgregarFactura`;
 
-drop procedure if exists AgregarFactura;
+Delimiter $$
 
-DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `AgregarFactura`(
 	IN `pId` int
 )
+LANGUAGE SQL
+NOT DETERMINISTIC
+CONTAINS SQL
+SQL SECURITY DEFINER
+COMMENT ''
 BEGIN
   
   INSERT INTO faencabe
@@ -12,7 +17,6 @@ BEGIN
     factipo,   chequeotar,
     vend,      terr,
     facfech,   facplazo,
-    facimve,   facpive,
     facdesc,   facmont,
     facfepa,   facpago,
     facsald,   facnpag,
@@ -29,7 +33,6 @@ BEGIN
     factipo,  IfNull(chequeotar,''),
     vend,     terr,
     facfech,  facplazo,
-    facimve,  facpive,
     facdesc,  facmont,
     facfepa,  facpago,
     facsald,  facnpag,
@@ -60,5 +63,4 @@ BEGIN
 	From wrk_fadetall
 	Where id = pid;
 END$$
-DELIMITER ;
-
+delimiter ;

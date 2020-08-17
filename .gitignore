@@ -1,9 +1,11 @@
+UserConfig.txt
+build/
+build/classes/reports/*.*
 log.txt
 *.class
 *.pdf
 *.jar
 dist/
-xmls/errores/*.txt
 Backups/
 OsaisReports/
-build/
+xmls/

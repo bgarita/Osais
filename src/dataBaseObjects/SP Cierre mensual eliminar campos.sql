@@ -1,6 +1,8 @@
-drop procedure if exists EjecutarCierreMensual;
 
-DELIMITER $$
+DROP PROCEDURE if EXISTS EjecutarCierreMensual;
+
+Delimiter $$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `EjecutarCierreMensual`(
 	IN `pMes` tinyint(2),
 	IN `pAno` SMALLINT(4),
@@ -8,6 +10,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `EjecutarCierreMensual`(
 	OUT `pMensajeErr` VARCHAR(1000),
 	IN `pEtapa` INT
 )
+LANGUAGE SQL
+NOT DETERMINISTIC
+CONTAINS SQL
+SQL SECURITY DEFINER
+COMMENT ''
 BEGIN
 	/*
     	Autor:    Bosco Garita 23/02/2011.
@@ -46,13 +53,17 @@ BEGIN
 	
 	DECLARE EXIT HANDLER FOR SQLEXCEPTION
 	BEGIN
-	    ROLLBACK;
-	    SET pError = 1;
-	    SET pMensajeErr = CONCAT('Ocurrió un error en la etapa ', pEtapa, ' del cierre. La etapa fue revertida.');
+		GET DIAGNOSTICS CONDITION 1 @sqlstate = RETURNED_SQLSTATE, @errno = MYSQL_ERRNO, @text = MESSAGE_TEXT;
+		SET @full_error = CONCAT("ERROR ", @errno, " (", @sqlstate, "): ", @text);
+	    	ROLLBACK;
+		SET pError = 1;
+		SET pMensajeErr = 
+		    		CONCAT('[BD] Ocurrió un error en la etapa ', pEtapa, ' del cierre. La etapa fue revertida. ' , @full_error);
 	END;
 	
 	-- Determino cuál fue la última etapa confirmada para este cierre
 	SELECT etapaconfirmada FROM etapascierre WHERE mes = pMes AND ano = pAno INTO vEtapaConfirmada;
+	
 	
 	-- Si la etapa no existe...
 	if vEtapaConfirmada IS NULL then
@@ -84,10 +95,11 @@ BEGIN
     	# 2) Entre el período cerrado y el que se va a cerrar no puede haber más de 360 días.
     	If not pError then
     	
-		Select IfNull(mescerrado,1), IfNull(anocerrado,1900) from config into vMesCerrado, vAnoCerrado;
+    		Select IfNull(mescerrado,1), IfNull(anocerrado,1900) from config into vMesCerrado, vAnoCerrado;
+		
 		
 		If vAnoCerrado = 1900 then
-			Select min(year(movfech)) from inmovime into vAnoCerrado;
+			Select vAnoCerrado = min(year(movfech)) from inmovime;
 		End if;
          
         	Set vPrimerDiaCerrado = Concat(Cast(vAnoCerrado as char(4)),'-',Cast(vMesCerrado as char(2)),'-01 00:00:00');
@@ -202,7 +214,7 @@ BEGIN
 			# a la fecha que se le indique.  En este caso la fecha de cierre.
 			Call CalcularCXC(vUltimoDiaMes);
 				UPDATE etapascierre
-				SET etapaconfirmada = vEtapaConfirmada + 1, usuario = USER(), fecha = SYSDATE()
+				SET etapaconfirmada = vEtapaConfirmada + 1, usuario = USER(), fecha = NOW()
 			WHERE mes = pMes AND ano = pAno;
 			COMMIT;
 			
@@ -263,9 +275,9 @@ BEGIN
             `artgan5`, `procode`, `artmaxi`,
             `artmini`, `artiseg`, `artdurp`,
             `artfech`, `artfeuc`, `artfeus`,
-            `artimpv`, `artexis`, `artreserv`,
+            `artexis`, `artreserv`,
             `transito`,`otroc`,   `altarot`,
-            `vinternet`,`artusaIVG`,`artObse`,
+            `vinternet`,`artObse`,
             `artFoto`,`artperi`,`codigoTarifa`)
         SELECT
             artcode,   artdesc,   barcode,   
@@ -277,9 +289,9 @@ BEGIN
             artgan5,   procode,   artmaxi,
             artmini,   artiseg,   artdurp,
             artfech,   artfeuc,   artfeus,
-            artimpv,   artexis,   artreserv,
+            artexis,   artreserv,
             transito,  otroc,     altarot,
-            vinternet, artusaIVG, artObse,
+            vinternet, artObse,
             artFoto,   vUltimoDiaMes, codigoTarifa
         FROM inarticu;
         
@@ -393,7 +405,7 @@ BEGIN
         		FROM tarifa_iva;
         	
 	   UPDATE etapascierre
-			SET etapaconfirmada = vEtapaConfirmada + 1, usuario = USER(), fecha = SYSDATE()
+			SET etapaconfirmada = vEtapaConfirmada + 1, usuario = USER(), fecha = NOW()
 	   WHERE mes = pMes AND ano = pAno;
 	   COMMIT;
         	
@@ -576,4 +588,5 @@ BEGIN
     END if;
     
 END$$
-DELIMITER ;
+
+delimiter ;

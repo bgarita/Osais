@@ -77,7 +77,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="mnuBorrar">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection component="cmdBorrar" name="icon" type="property"/>
+                  <Connection component="btnBorrar" name="icon" type="property"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Borrar l&#xed;nea"/>
               </Properties>
@@ -1478,7 +1478,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="btnAgregar" linkSize="1" min="-2" pref="140" max="-2" attributes="1"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="cmdBorrar" linkSize="1" min="-2" max="-2" attributes="1"/>
+                              <Component id="btnBorrar" linkSize="1" min="-2" max="-2" attributes="1"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="cmdDescuentos" linkSize="1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -1535,7 +1535,7 @@
                           <Component id="jLabel3" alignment="2" min="-2" max="-2" attributes="0"/>
                           <Component id="cmdFatext" linkSize="11" alignment="2" min="-2" max="-2" attributes="0"/>
                           <Component id="cmdDescuentos" linkSize="11" alignment="2" min="-2" max="-2" attributes="0"/>
-                          <Component id="cmdBorrar" linkSize="11" alignment="2" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnBorrar" linkSize="11" alignment="2" min="-2" max="-2" attributes="0"/>
                           <Component id="btnAgregar" linkSize="11" alignment="2" min="-2" pref="36" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -1786,7 +1786,7 @@
                 <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="btnAgregarKeyPressed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="cmdBorrar">
+            <Component class="javax.swing.JButton" name="btnBorrar">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="12" style="1"/>
@@ -1797,7 +1797,7 @@
                 <Property name="text" type="java.lang.String" value="Borrar l&#xed;nea"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmdBorrarActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBorrarActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="cmdDescuentos">

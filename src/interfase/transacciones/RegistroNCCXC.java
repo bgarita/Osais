@@ -152,19 +152,32 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         // Cargo los parámetros de configuración
         String sqlSent
                 = "Select         "
-                + "bodega,        " + // Bodega predeterminada
-                "usarivi,       " + // Usar impuesto incluido
-                "variarprecios, " + // Variar los precios
-                "bloquearconsf, " + // Bloquear consecutivo de lbFacturas
-                "precio0,       " + // Permitir precios en cero
-                "redondear,     " + // Redondear al entero mayor
-                "bloquearfechaF," + // Bloquear la fechaSQL de la NC
-                "codigoTC,      " + // Moneda predeterminada (local)
-                "creditoaf,     " + // Aceptar crédito a favor
-                "aplicarnotac,  " + // Aplicar notas de crédito
-                "genmovcaja,    " + // Generar los movimientos de caja
-                "imprimirFactura," + // Decide si se imprimen las fact o NC   Bosco agregado 23/09/2018
-                "genasienfac    " + // Generar los asientos de facturas
+                + "bodega,        "
+                + // Bodega predeterminada
+                "usarivi,       "
+                + // Usar impuesto incluido
+                "variarprecios, "
+                + // Variar los precios
+                "bloquearconsf, "
+                + // Bloquear consecutivo de lbFacturas
+                "precio0,       "
+                + // Permitir precios en cero
+                "redondear,     "
+                + // Redondear al entero mayor
+                "bloquearfechaF,"
+                + // Bloquear la fechaSQL de la NC
+                "codigoTC,      "
+                + // Moneda predeterminada (local)
+                "creditoaf,     "
+                + // Aceptar crédito a favor
+                "aplicarnotac,  "
+                + // Aplicar notas de crédito
+                "genmovcaja,    "
+                + // Generar los movimientos de caja
+                "imprimirFactura,"
+                + // Decide si se imprimen las fact o NC   Bosco agregado 23/09/2018
+                "genasienfac    "
+                + // Generar los asientos de facturas
                 "From config";
 
         rs = stat.executeQuery(sqlSent);
@@ -310,6 +323,8 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         btnAgregar = new javax.swing.JButton();
         btnBorrar = new javax.swing.JButton();
         btnFatext = new javax.swing.JButton();
+        lblCodigoTarifa = new javax.swing.JLabel();
+        lblDescripTarifa = new javax.swing.JLabel();
         cboMoneda = new javax.swing.JComboBox();
         txtTipoca = new javax.swing.JFormattedTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -326,96 +341,96 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         tblDetalle.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         tblDetalle.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Código", "Bodega", "Descripción", "Cantidad", "Precio Unit", "Total", "Existencia", "Disponible", "IVA", "Desc"
+                "Código", "Bodega", "Descripción", "Cantidad", "Precio Unit", "Total", "Existencia", "Disponible", "IVA", "Desc", "Tarifa"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -468,6 +483,9 @@ public class RegistroNCCXC extends javax.swing.JFrame {
             tblDetalle.getColumnModel().getColumn(9).setMinWidth(40);
             tblDetalle.getColumnModel().getColumn(9).setPreferredWidth(60);
             tblDetalle.getColumnModel().getColumn(9).setMaxWidth(100);
+            tblDetalle.getColumnModel().getColumn(10).setMinWidth(35);
+            tblDetalle.getColumnModel().getColumn(10).setPreferredWidth(50);
+            tblDetalle.getColumnModel().getColumn(10).setMaxWidth(55);
         }
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -761,18 +779,18 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                         .addComponent(txtClidesc, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(txtOrdenC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 214, Short.MAX_VALUE)
                         .addComponent(jLabel5)
                         .addGap(2, 2, 2)
                         .addComponent(spnCliprec, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel19)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtClisald, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
+                        .addComponent(txtClisald, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel20)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtVencido, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
+                        .addComponent(txtVencido, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -782,7 +800,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel25)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtMontoDisponible, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
+                                .addComponent(txtMontoDisponible, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
                                 .addGap(72, 72, 72)
                                 .addComponent(cboVend, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
@@ -996,12 +1014,22 @@ public class RegistroNCCXC extends javax.swing.JFrame {
             }
         });
 
+        lblCodigoTarifa.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblCodigoTarifa.setForeground(java.awt.Color.blue);
+        lblCodigoTarifa.setText("   ");
+        lblCodigoTarifa.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        lblDescripTarifa.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblDescripTarifa.setForeground(java.awt.Color.blue);
+        lblDescripTarifa.setText("   ");
+        lblDescripTarifa.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(8, 8, 8)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7)
                     .addComponent(jLabel8))
@@ -1009,45 +1037,50 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtArtcode, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtBodega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(12, 12, 12)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(txtBodega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtFaccant, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel17)
+                                .addGap(4, 4, 4)
+                                .addComponent(txtArtprec, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel21)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtArtexis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(txtArtcode, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtArtdesc, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel23)))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel10)
+                                .addGap(3, 3, 3)
+                                .addComponent(jLabel22)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtFaccant, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtFacpive, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(4, 4, 4)
+                                .addComponent(lblCodigoTarifa, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(4, 4, 4)
+                                .addComponent(lblDescripTarifa, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel17)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtArtprec, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtArtdesc, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jLabel24)
+                                .addGap(4, 4, 4)
+                                .addComponent(txtFacpdesc, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnFatext, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel21))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(jLabel23)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtFacpive)
-                    .addComponent(txtArtexis))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel24)
-                    .addComponent(jLabel22))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtFacpdesc, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(126, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAgregar, btnBorrar, btnFatext});
@@ -1063,19 +1096,23 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                     .addComponent(jLabel23)
                     .addComponent(txtFacpive, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel24)
-                    .addComponent(txtFacpdesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtFacpdesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCodigoTarifa)
+                    .addComponent(lblDescripTarifa))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel8)
-                    .addComponent(txtBodega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10)
-                    .addComponent(txtFaccant, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel17)
-                    .addComponent(jLabel21)
-                    .addComponent(txtArtexis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel22)
-                    .addComponent(txtDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtArtprec, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                        .addComponent(jLabel8)
+                        .addComponent(txtBodega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel10)
+                        .addComponent(txtFaccant, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel17)
+                        .addComponent(txtArtprec, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel21)
+                        .addComponent(txtArtexis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel22)
+                        .addComponent(txtDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1194,9 +1231,9 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                     .addComponent(cboMoneda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtTipoca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1)
                 .addGap(2, 2, 2)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1208,7 +1245,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnGuardar, btnSalir});
 
-        setSize(new java.awt.Dimension(1033, 577));
+        setSize(new java.awt.Dimension(1072, 577));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -1239,7 +1276,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
             return;
         } // end if
 
-        String artcode, bodega, facfech, sqlSent;
+        String artcode, bodega, facfech, sqlSent, codigoTarifa;
         double faccant, artprec;
         float facpive, tipoca, facpdesc;
         short vend, terr, cliprec;
@@ -1253,15 +1290,15 @@ public class RegistroNCCXC extends javax.swing.JFrame {
             faccant
                     = Double.parseDouble(
                             txtFaccant.getText().trim().isEmpty() ? "0"
-                                    : Ut.quitarFormato(txtFaccant.getText().trim()));
+                            : Ut.quitarFormato(txtFaccant.getText().trim()));
             artprec
                     = Double.parseDouble(
                             txtArtprec.getText().trim().isEmpty() ? "0"
-                                    : Ut.quitarFormato(txtArtprec.getText().trim()));
+                            : Ut.quitarFormato(txtArtprec.getText().trim()));
             facpive
                     = Float.parseFloat(
                             txtFacpive.getText().trim().isEmpty() ? "0"
-                                    : Ut.quitarFormato(txtFacpive.getText().trim()));
+                            : Ut.quitarFormato(txtFacpive.getText().trim()));
         } catch (Exception ex) {
             Logger.getLogger(RegistroNCCXC.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
@@ -1272,6 +1309,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
             return;
         } // end try-catch
 
+        codigoTarifa = lblCodigoTarifa.getText().trim();
         facpdesc = Float.parseFloat(txtFacpdesc.getText().trim());
 
         // Estos campos se incluyen aquí aunque se crean al crear el encabezado
@@ -1382,19 +1420,33 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         // cidad o no.  Por todo lo anterior este sp debe correr dentro de una
         // TRANSACCIÓN.
         sqlSent = "Call ReservarNC_CXC("
-                + "   ?," + // 1 ID del registro
-                "   ?," + // 2 Bodega
-                "   ?," + // 3 Artículo
-                "   ?," + // 4 Cantidad
-                "   ?," + // 5 Precio
-                "   ?," + // 6 Porcentaje impuesto de ventas
-                facfech + "," + // Fecha
-                "   ?," + // 7 Vendedor
-                "   ?," + // 8 Zona
-                "   ?," + // 9 Categoría de precio
-                "   ?," + // 10 Código del tipo de cambio
-                "   ?," + // 11 Tipo de cambio
-                "   ?)";  // 12 Porcentaje de descuento
+                + "   ?,"
+                + // 1 ID del registro
+                "   ?,"
+                + // 2 Bodega
+                "   ?,"
+                + // 3 Artículo
+                "   ?,"
+                + // 4 Cantidad
+                "   ?,"
+                + // 5 Precio
+                "   ?,"
+                + // 6 Porcentaje impuesto de ventas
+                facfech + ","
+                + // Fecha
+                "   ?,"
+                + // 7 Vendedor
+                "   ?,"
+                + // 8 Zona
+                "   ?,"
+                + // 9 Categoría de precio
+                "   ?,"
+                + // 10 Código del tipo de cambio
+                "   ?,"
+                + // 11 Tipo de cambio
+                "   ?,"
+                + // 12 Porcentaje de descuento
+                "   ?)";        // 13 Código de Tarifa
         try {
             PreparedStatement ps;
             ps = conn.prepareStatement(sqlSent,
@@ -1411,6 +1463,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
             ps.setString(10, codigoTC);
             ps.setFloat(11, tipoca);
             ps.setFloat(12, facpdesc);
+            ps.setString(13, codigoTarifa);
 
             // Inicia la transacción
             this.hayTransaccion = CMD.transaction(conn, CMD.START_TRANSACTION);
@@ -1725,7 +1778,9 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                     "artcode",
                     "artcode",
                     artcode) == null) {
-                artcode = UtilBD.getArtcode(conn, artcode);
+                
+                artcode = UtilBD.getArtcode(conn, artcode); // Buscar en los tres campos principales del catálogo de artículos
+                
                 if (artcode != null && !artcode.trim().equals(tempArtcode.trim())) {
                     txtArtcode.setText(artcode);
                     txtArtdesc.setText("");
@@ -1753,6 +1808,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                 bd.lblBuscar.setText("Descripción:");
                 bd.buscar(txtArtcode.getText().trim());
                 bd.setVisible(true);
+                
                 // Aún cuando aquí se cambie el valor, éste no cambiará hasta que
                 // corra por segunda vez.
                 txtArtcode.setText(tmp.getText());
@@ -1772,19 +1828,8 @@ public class RegistroNCCXC extends javax.swing.JFrame {
 
             // Traer los datos del artículo.  Los precios vienen convertidos a la
             // moneda que el usuario haya elegido.
-            String sqlSent
-                    = "Select  "
-                    + "artdesc,"
-                    + "artpre1 / " + tipoca + "as artpre1,"
-                    + "artpre2 / " + tipoca + "as artpre2,"
-                    + "artpre3 / " + tipoca + "as artpre3,"
-                    + "artpre4 / " + tipoca + "as artpre4,"
-                    + "artpre5 / " + tipoca + "as artpre5,"
-                    + "artimpv "
-                    + "from inarticu "
-                    + "Where artcode = " + "'" + artcode + "'";
-
-            rsArtcode = nav.ejecutarQuery(sqlSent);
+            rsArtcode = UtilBD.getArtcode(conn, artcode, Float.parseFloat(tipoca));
+            
             if (rsArtcode != null) {
                 rsArtcode.first();
             } // end if
@@ -1799,6 +1844,16 @@ public class RegistroNCCXC extends javax.swing.JFrame {
             } // end if
 
             txtArtdesc.setText(rsArtcode.getString("artdesc"));
+
+            /*
+            Tener pendiente:
+            En las dos líneas de código siguientes se carga el código de tarifa 
+            actual mientras que en el método que sigue, aunque se trae el código
+            de tarifa con el que fue facturado el artículo, no se está usando
+            pero si el porcentaje que se usó en ese momento.
+            */
+            this.lblCodigoTarifa.setText(rsArtcode.getString("codigoTarifa"));
+            this.lblDescripTarifa.setText(rsArtcode.getString("descripTarifa"));
 
             // Verificar si el artículo fue o no comprado por este cliente.
             // Este método realiza también sus propias validaciones.
@@ -1896,7 +1951,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                             ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ps.setString(1, artcode);
             ps.setString(2, bodega);
-            
+
             rs = CMD.select(ps);
             if (rs.first()) {
                 artexis = String.valueOf(rs.getDouble(1));
@@ -2102,9 +2157,11 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                         + terr + ","
                         + facfech + ","
                         + facplazo + ","
-                        + "0" + "," + // Código express
-                        "0" + "," + // Monto express
-                        "'')";           // Orden de compra
+                        + "0" + ","
+                        + // Código express
+                        "0" + ","
+                        + // Monto express
+                        "'')";          // Orden de compra
                 affected = stat.executeUpdate(sqlUpdate);
                 // Esta validación no es necesaria pero en caso de que le quiten
                 // la llave a esta tabla entonces si será necesaria.
@@ -2553,11 +2610,13 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         String aplicarIV = this.chkAplicarIV.isSelected() ? "1" : "0";
         String sqlSent;
         // Actualizar el detalle de la NC y recalcular el encabezado
+        // Se usa el mismo SP que para las facturas.
         sqlSent
                 = "Call RecalcularFactura("
                 + id + "," + aplicarIV + ")";
         try {
             rs = stat.executeQuery(sqlSent);
+
             // El sp devuelve un 0 cuando ocurre un error controlado.
             if (rs.first() && rs.getInt(1) == 0) {
                 JOptionPane.showMessageDialog(null,
@@ -2871,6 +2930,8 @@ public class RegistroNCCXC extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel lblCodigoTarifa;
+    private javax.swing.JLabel lblDescripTarifa;
     private javax.swing.JMenu mnuArchivo;
     private javax.swing.JMenuItem mnuBuscar;
     private javax.swing.JMenu mnuEdicion;
@@ -3039,6 +3100,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                 + "bodexis.artexis,       "
                 + "bodexis.artexis - bodexis.artreserv as disponible,"
                 + "wrk_fadetall.facpive,  "
+                + "wrk_fadetall.codigoTarifa,  "
                 + "wrk_fadetall.artprec  + wrk_fadetall.artprec * (wrk_fadetall.facpive/100) as artprec,"
                 + "(wrk_fadetall.artprec + wrk_fadetall.artprec * (wrk_fadetall.facpive/100)) * faccant as facmont,"
                 + "wrk_fadetall.facpdesc  "
@@ -3109,6 +3171,9 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                 valor = String.valueOf(rs.getFloat("facpdesc"));
                 valor = Ut.setDecimalFormat(valor, "#,##0.00");
                 tblDetalle.setValueAt(valor, row, col);
+                col++;
+                valor = rs.getString("codigoTarifa");
+                tblDetalle.setValueAt(valor, row, col);
                 col = 0;
                 row++;
             } // end while
@@ -3161,6 +3226,8 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         txtDisponible.setText("0.00");
         txtFacpive.setText("0.00");
         txtFacpdesc.setText("0.00");
+        lblCodigoTarifa.setText("?");
+        lblDescripTarifa.setText("?");
     } // end limpiarObjetos
 
     private void createTempCreditNote() {
@@ -3175,7 +3242,6 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                 terr, // Territorio
                 facfech, // Fecha de la NC
                 facplazo, // Plazo en días
-                facpive, // Porcentaje del IV
                 facnpag, // Número de pagos
                 facdpago, // Días entre pago y pago
                 precio;     // Categoría de precioSIV
@@ -3186,7 +3252,6 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         terr = "0";
         facfech = Ut.fechaSQL(this.datFacfech.getDate());
         facplazo = "1";
-        facpive = "0";
 
         Calendar cal = GregorianCalendar.getInstance();
         cal.setTime(this.datFacfech.getDate());
@@ -3195,7 +3260,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         facnpag = "1";
         facdpago
                 = String.valueOf(Math.round(
-                                Float.parseFloat(facplazo) / Float.parseFloat(facnpag)));
+                        Float.parseFloat(facplazo) / Float.parseFloat(facnpag)));
 
         // Calcular la fecha y el monto del próximo pago
         cal.setTime(this.datFacfech.getDate());
@@ -3224,8 +3289,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                     + terr + ","
                     + facfech + ","
                     + facplazo + ","
-                    + precio + ","
-                    + facpive + ")";
+                    + precio + ")";
 
             // Agrego un registro en el encabezado temporal y obtengo el ID
             stat.executeUpdate(sqlInsert);
@@ -3540,6 +3604,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         faccant = "1";
         try {
             rsComprado = stat.executeQuery(sqlSent);
+            
             // Este ResultSet siempre tendrá un registro
             rsComprado.first();
             if (!rsComprado.getString("MensajeEr").equals("")) {
@@ -3563,10 +3628,10 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                 rsDev.first();
                 int messageType
                         = rsDev.getBoolean(1) ? JOptionPane.WARNING_MESSAGE
-                                : JOptionPane.ERROR_MESSAGE;
+                        : JOptionPane.ERROR_MESSAGE;
                 String messageTitle
                         = rsDev.getBoolean(1) ? "Advertencia"
-                                : "Error";
+                        : "Error";
 
                 // El mensaje de error viene como parte del ResultSet
                 JOptionPane.showMessageDialog(null,
@@ -3592,12 +3657,14 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                             + "      When 3 then artpre3 "
                             + "      When 4 then artpre4 "
                             + "      Else artpre5 End as Artprec, "
-                            + "  artimpv, "
+                            + "  tarifa_iva.porcentaje as artimpv, "
+                            + "  tarifa_iva.codigoTarifa, "
                             + "  0.0 as facpdesc, "
                             + "  0.0 as facpive,  "
                             + "  (Select codigoTC from config) as codigoTC, "
                             + "  1.0 as Tipoca "
                             + "From inarticu   "
+                            + "INNER JOIN tarifa_iva ON inarticu.codigoTarifa = tarifa_iva.codigoTarifa "
                             + "Where artcode = ?";
                     PreparedStatement ps = conn.prepareStatement(sqlSent);
                     ps.setInt(1, Integer.parseInt(clicode));
@@ -3831,13 +3898,16 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         sqlSent
                 = "Select "
                 + "	If(config.redond5 = 1, "
-                + "		RedondearA5(Abs(sum(facimve))), Abs(sum(facimve))) as facimve, " + // Impuesto
+                + "		RedondearA5(Abs(sum(facimve))), Abs(sum(facimve))) as facimve, "
+                + // Impuesto
                 "	If(config.redond5 = 1, "
                 + "		RedondearA5(Abs(sum(If(facimve = 0,facdesc,0)))), "
-                + "				    Abs(sum(If(facimve = 0,facdesc,0)))) as DescVEX," + // Descuento de ventas exentas
+                + "				    Abs(sum(If(facimve = 0,facdesc,0)))) as DescVEX,"
+                + // Descuento de ventas exentas
                 "	If(config.redond5 = 1, "
                 + "		RedondearA5(Abs(sum(If(facimve > 0,facdesc,0)))), "
-                + "				    Abs(sum(If(facimve > 0,facdesc,0)))) as DescVGR," + // Descuento de ventas grabadas
+                + "				    Abs(sum(If(facimve > 0,facdesc,0)))) as DescVGR,"
+                + // Descuento de ventas grabadas
                 "	If(config.redond5 = 1, "
                 + "		RedondearA5(Abs(sum(If(facimve = 0, facmont, 0)))), "
                 + "				    Abs(sum(If(facimve = 0, facmont, 0)))) as VtasExentas,"

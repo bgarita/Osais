@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Factura" pageWidth="612" pageHeight="792" columnWidth="605" leftMargin="5" rightMargin="2" topMargin="6" bottomMargin="6" uuid="8a6871c2-9858-4e1b-b535-91cec5e8fa2b">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="276"/>
+	<property name="ireport.y" value="283"/>
 	<parameter name="pFacnume" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[new Integer(1)]]></defaultValueExpression>
 	</parameter>
@@ -46,7 +46,7 @@
 		<fieldDescription><![CDATA[Número de factura, ND, NC]]></fieldDescription>
 	</field>
 	<field name="faccant" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[Cantidad ]]></fieldDescription>
+		<fieldDescription><![CDATA[Cantidad]]></fieldDescription>
 	</field>
 	<field name="codigo" class="java.lang.String"/>
 	<field name="artdesc" class="java.lang.String"/>
@@ -317,7 +317,7 @@
 				<textFieldExpression><![CDATA[$F{artprec}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00;-#,##0.00">
-				<reportElement x="422" y="0" width="60" height="13" uuid="526fab39-b971-4050-b60d-8d4c9f804aea"/>
+				<reportElement x="422" y="1" width="60" height="13" uuid="526fab39-b971-4050-b60d-8d4c9f804aea"/>
 				<textElement textAlignment="Right">
 					<font fontName="Tahoma" size="10"/>
 				</textElement>

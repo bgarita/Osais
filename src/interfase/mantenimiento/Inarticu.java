@@ -3182,7 +3182,7 @@ public class Inarticu extends JFrame {
                         + "artmaxi = " + Artmaxi + ","
                         + "artiseg = " + Artiseg + ","
                         + "artdurp = " + Artdurp + ","
-                        + "artimpv = " + codigoTarifa + ","
+                        + "codigoTarifa = " + "'" + codigoTarifa + "'" + ","
                         + "otroc   = " + "'" + Otroc + "'" + ","
                         + "altarot = " + Altarot + ","
                         + "aplicaOferta = " + aplicaOferta + ","
