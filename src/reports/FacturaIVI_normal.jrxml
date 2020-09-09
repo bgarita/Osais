@@ -146,7 +146,7 @@
 				<textFieldExpression><![CDATA[$F{Direccion}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="371" y="11" width="57" height="15" uuid="de7dd02e-f331-43d3-a496-fed877cb8d92"/>
+				<reportElement x="371" y="11" width="80" height="15" uuid="de7dd02e-f331-43d3-a496-fed877cb8d92"/>
 				<textElement textAlignment="Right">
 					<font fontName="Tahoma" size="11" isBold="true"/>
 				</textElement>

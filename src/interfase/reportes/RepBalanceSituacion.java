@@ -327,7 +327,7 @@ public class RepBalanceSituacion extends JFrame {
         // Enviar los datos a una tabla temporal para luego proceder a realizar
         // cambios según corresponda para emitir el informe.
         sqlSent = 
-                "CREATE TEMPORARY TABLE balancesit " +
+                "CREATE TEMPORARY TABLE balancesit " + 
                 "   Select     " +
                 "    mayor,    " +
                 "    sub_cta,  " +
@@ -343,6 +343,7 @@ public class RepBalanceSituacion extends JFrame {
                 "    cr_mes,   " +
                 "    nivelc,   " +
                 "    nombre,   " + // 1=Indica que es formato de nombre
+                "    (Select mostrarFechaRep from configcuentas) as mostrarFecha,   " + // 1=Muestra la fecha, 0=No la muestra
                 "    0 as orden " +
                 "FROM " + tabla;
         
@@ -382,7 +383,7 @@ public class RepBalanceSituacion extends JFrame {
         // servirá posteriormente para establecer el ordenamiento de los datos
         // segun el tipo de cuenta (Capital, ingresos, gastos...)
         
-        sqlSent += where + " ORDER BY 1,2,3,4";
+        sqlSent += where + " ORDER BY 1,2,3,4"; // mayor, sub_cta, sub_sub, colect
         
         PreparedStatement ps;
         try {
@@ -427,8 +428,8 @@ public class RepBalanceSituacion extends JFrame {
             sqlSent = 
                     "Insert into balancesit " +
                     "   (ano_anter, db_fecha, cr_fecha, db_mes, cr_mes, orden, " +
-                    "   nom_cta, mayor, sub_cta, sub_sub, colect, nivel, nivelc) " +
-                    "values(0, 0, 0, 0, 0, 1, '', '000','001','','',0,0)";
+                    "   nom_cta, mayor, sub_cta, sub_sub, colect, nivel, nivelc, mostrarFecha) " +
+                    "values(0, 0, 0, 0, 0, 1, '', '000','001','','',0,0, (Select mostrarFechaRep from configcuentas))";
             ps = conn.prepareStatement(sqlSent);
             CMD.update(ps);
             ps.close();
@@ -456,23 +457,23 @@ public class RepBalanceSituacion extends JFrame {
                 cr_mes    = rs.getDouble("cr_mes");
             } // end if
             
-            sqlSent = 
-                    "Insert into balancesit " +
-                    "   (ano_anter, db_fecha, cr_fecha, db_mes, cr_mes, orden, " +
-                    "    nom_cta, mayor, sub_cta, sub_sub, colect, nivel, nivelc) " +
-                    "values(0, 0, 0, 0, 0, 1, '','000','001','','',0,0)";
-            
-            // Primero agrego un registro en blanco
-            ps = conn.prepareStatement(sqlSent);
-            CMD.update(ps);
-            ps.close();
+//            sqlSent = 
+//                    "Insert into balancesit " +
+//                    "   (ano_anter, db_fecha, cr_fecha, db_mes, cr_mes, orden, " +
+//                    "    nom_cta, mayor, sub_cta, sub_sub, colect, nivel, nivelc) " +
+//                    "values(0, 0, 0, 0, 0, 1, '','000','001','','',0,0)";
+//            
+//            // Primero agrego un registro en blanco
+//            ps = conn.prepareStatement(sqlSent);
+//            CMD.update(ps);
+//            ps.close();
             
             // Ahora inserto un registro con los totales
             sqlSent = 
                     "Insert into balancesit " +
                     "   (ano_anter, db_fecha, cr_fecha, db_mes, cr_mes, orden, " +
-                    "   nom_cta, mayor, sub_cta, sub_sub, colect, nivel, nivelc) " +
-                    "values(?, ?, ?, ?, ?, 2, '                 Total Activos','','','','',0,0)";
+                    "   nom_cta, mayor, sub_cta, sub_sub, colect, nivel, nivelc, mostrarFecha) " +
+                    "values(?, ?, ?, ?, ?, 2, '                 Total Activos','','','','',0,0,(Select mostrarFechaRep from configcuentas))";
             
             ps = conn.prepareStatement(sqlSent);
             ps.setDouble(1, ano_anter);
@@ -488,8 +489,8 @@ public class RepBalanceSituacion extends JFrame {
             sqlSent = 
                     "Insert into balancesit " +
                     "   (ano_anter, db_fecha, cr_fecha, db_mes, cr_mes, orden, " +
-                    "   nom_cta, mayor, sub_cta, sub_sub, colect, nivel, nivelc) " +
-                    "values(0, 0, 0, 0, 0, 2, '', '000','001','','',0,0)";
+                    "   nom_cta, mayor, sub_cta, sub_sub, colect, nivel, nivelc, mostrarFecha) " +
+                    "values(0, 0, 0, 0, 0, 2, '', '000','001','','',0,0,(Select mostrarFechaRep from configcuentas))";
             
             ps = conn.prepareStatement(sqlSent);
             CMD.update(ps);
@@ -525,7 +526,14 @@ public class RepBalanceSituacion extends JFrame {
         } // end if
         per += ", " + año;
         
-        String query = "Select * from balancesit order by orden";
+        String query = "Select * from balancesit order by orden, mayor, nivelc";
+        /*
+        Nota importante: 08/09/2020 Bosco
+        Este reporte se queda con un solo formulario, el 1 debido a que la información
+        se ve mejor de esta forma y es más fácil de trabajar.  Aunque no es igual que
+        el formulario de fox los datos si son iguales.
+        */
+        formJasper = "RepBalanceSit1.jasper"; // DEBUG: Uso el mismo formulario para todos
         new Reportes(conn).CGgenerico(
                 query,
                 "",     // where

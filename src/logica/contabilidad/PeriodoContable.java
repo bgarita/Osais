@@ -2,7 +2,6 @@ package logica.contabilidad;
 
 import Mail.Bitacora;
 import accesoDatos.CMD;
-import interfase.transacciones.RegistroAsientos;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,12 +20,23 @@ public class PeriodoContable {
     private int mes, año;
     private String descrip;
     private Date fecha_in, fecha_fi;
+    private int cerrado;
     
-    Connection conn;
+    private Connection conn;
     private boolean error;
     private String error_msg;
     
     private final Bitacora b = new Bitacora();
+    
+    /*
+    Este constructor se debe usar solo cuando la clase se usará como contenedor
+    de datos.  
+    No se debe usar si se requiere que se comunique con la base de datos.
+    */
+    public PeriodoContable(){
+        this.error = false;
+        this.error_msg = "";
+    } // empty constructor
     
     public PeriodoContable(Connection c){
         this.conn = c;
@@ -63,7 +73,7 @@ public class PeriodoContable {
             } // end if
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroAsientos.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
@@ -100,6 +110,35 @@ public class PeriodoContable {
     public String getError_msg() {
         return error_msg;
     }
+
+    public void setMes(int mes) {
+        this.mes = mes;
+    }
+
+    public void setAño(int año) {
+        this.año = año;
+    }
+
+    public void setDescrip(String descrip) {
+        this.descrip = descrip;
+    }
+
+    public void setFecha_in(Date fecha_in) {
+        this.fecha_in = fecha_in;
+    }
+
+    public void setFecha_fi(Date fecha_fi) {
+        this.fecha_fi = fecha_fi;
+    }
+
+    public int getCerrado() {
+        return cerrado;
+    }
+
+    public void setCerrado(int cerrado) {
+        this.cerrado = cerrado;
+    }
+    
     
     /**
      * Devuelve el nombre del mes.  Si el sistema se encuentra en el periodo 13
@@ -110,4 +149,43 @@ public class PeriodoContable {
         String mesL = (mes == 13 ? "Cierre contable" : Ut.mesLetras(mes-1));
         return mesL;
     } // end getMesLetras
+
+    public void cargarRegistro(Connection conn) {
+        String sqlSent = "Select * from coperiodoco Where mes = ? and año = ?";
+        PreparedStatement ps;
+        ResultSet rs;
+        
+        this.descrip = "";
+        java.sql.Date fecha;
+        
+        fecha_in = new Date();
+        fecha_fi = new Date();
+        
+        try {
+            ps = conn.prepareStatement(sqlSent, 
+                    ResultSet.TYPE_SCROLL_SENSITIVE, 
+                    ResultSet.CONCUR_READ_ONLY);
+            ps.setInt(1, mes);
+            ps.setInt(2, año);
+            
+            rs = CMD.select(ps);
+            if (rs != null && rs.first()){
+                fecha = rs.getDate("fecha_in");
+                fecha_in.setTime(fecha.getTime());
+                
+                fecha = rs.getDate("fecha_fi");
+                fecha_fi.setTime(fecha.getTime());
+                
+                this.descrip = rs.getString("descrip");
+            } // end if
+            ps.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, 
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+        }
+    } // end cargarRegistro
 } // end class

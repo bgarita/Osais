@@ -48,7 +48,7 @@ public class Inarticu extends JFrame {
 
     private static final long serialVersionUID = 1L;
 
-    public ResultSet rs, rs3;
+    private ResultSet rs;
 
     private String tabla;
     private String join;
@@ -127,42 +127,7 @@ public class Inarticu extends JFrame {
         bodegaDefault = "";    // Bosco agregado 30/12/2013
 
         // Cargar los formatos de precios, cantidades, etc.
-        Formato formato = new Formato();
-        try {
-            formato.loadConfiguration();
-            this.formatoCantidad = formato.getFormatoCantidad();
-            this.formatoPrecio   = formato.getFormatoPrecio();
-            this.formatoImpuesto = formato.getFormatoImpuesto();
-            this.formatoUtilidad = formato.getFormatoUtilidad();
-        } catch (SQLException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
-        }
-
-        if (formatoCantidad != null && !formatoCantidad.trim().isEmpty()) {
-            setTextBoxFormat(this.txtArtexis, this.formatoCantidad);
-            setTextBoxFormat(this.txtDisponible, this.formatoCantidad);
-            setTextBoxFormat(this.txtTransito, this.formatoCantidad);
-            setTextBoxFormat(this.txtArtmaxi, this.formatoCantidad);
-            setTextBoxFormat(this.txtArtmini, this.formatoCantidad);
-            setTextBoxFormat(this.txtArtiseg, this.formatoCantidad);
-        } // end if
-
-        if (formatoPrecio != null && !formatoPrecio.trim().isEmpty()) {
-            setTextBoxFormat(this.txtArtpre1, this.formatoPrecio);
-            setTextBoxFormat(this.txtArtpre2, this.formatoPrecio);
-            setTextBoxFormat(this.txtArtpre3, this.formatoPrecio);
-            setTextBoxFormat(this.txtArtpre4, this.formatoPrecio);
-            setTextBoxFormat(this.txtArtpre5, this.formatoPrecio);
-        } // end if
-        
-        if (formatoUtilidad != null && !formatoUtilidad.trim().isEmpty()) {
-            setTextBoxFormat(this.txtArtgan1, this.formatoUtilidad);
-            setTextBoxFormat(this.txtArtgan2, this.formatoUtilidad);
-            setTextBoxFormat(this.txtArtgan3, this.formatoUtilidad);
-            setTextBoxFormat(this.txtArtgan4, this.formatoUtilidad);
-            setTextBoxFormat(this.txtArtgan5, this.formatoUtilidad);
-        } // end if
+        setNumericFieldsFormat();
 
         // Verificación de permisos especiales (precios costos y márgenes)
         if (!UtilBD.tienePermisoEspecial(c, "precios")) {
@@ -337,7 +302,7 @@ public class Inarticu extends JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         tblVentas = new javax.swing.JTable();
         spnPeriodos = new javax.swing.JSpinner();
-        cboTipoPeriodo = new javax.swing.JComboBox();
+        cboTipoPeriodo = new javax.swing.JComboBox<>();
         btnFiltro = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         lblAviso = new javax.swing.JLabel();
@@ -1532,7 +1497,7 @@ public class Inarticu extends JFrame {
 
         spnPeriodos.setModel(new javax.swing.SpinnerNumberModel(90, 1, null, 1));
 
-        cboTipoPeriodo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Meses", "Días" }));
+        cboTipoPeriodo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Meses", "Días" }));
         cboTipoPeriodo.setSelectedIndex(1);
 
         btnFiltro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/24x24 png icons/Filter.png"))); // NOI18N
@@ -2642,7 +2607,7 @@ public class Inarticu extends JFrame {
 
     private void txtProcodeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtProcodeFocusLost
         try {
-            cargarProveedor();
+            this.txtProdesc.setText(this.getProveedor(this.txtProcode.getText().trim()));
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
@@ -2654,7 +2619,7 @@ public class Inarticu extends JFrame {
 
     private void txtArtfamFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtArtfamFocusLost
         try {
-            cargarFamilia();
+            this.txtFamilia.setText(getFamilia(this.txtArtfam.getText()));
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
@@ -2895,7 +2860,7 @@ public class Inarticu extends JFrame {
     private javax.swing.JButton btnQuitarFoto;
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JButton btnUltimo;
-    private javax.swing.JComboBox cboTipoPeriodo;
+    private javax.swing.JComboBox<String> cboTipoPeriodo;
     private javax.swing.JCheckBox chkAltarot;
     private javax.swing.JCheckBox chkAplicaOferta;
     private javax.swing.JCheckBox chkEsServicio;
@@ -3297,10 +3262,6 @@ public class Inarticu extends JFrame {
             // a saber ARTCODE, BARCODE y OTROC.
             cargarArtcode();
 
-//            rs = nav.cargarRegistro(
-//                    Navegador.ESPECIFICO,
-//                    txtArtcode.getText().trim(),
-//                    tabla, "artcode");
             rs = nav.cargarRegistroJoin(
                     Navegador.ESPECIFICO,
                     txtArtcode.getText().trim(),
@@ -3433,7 +3394,7 @@ public class Inarticu extends JFrame {
             txtDescripTarifa.setText(rs.getString("descrip"));
             txtPorcentaje.setText(Ut.setDecimalFormat(rs.getString("porcentaje"), this.formatoImpuesto));
 
-            cargarFamilia();
+            this.txtFamilia.setText(getFamilia(this.txtArtfam.getText()));
 
             chkAltarot.setSelected(rs.getBoolean("altarot"));
             chkVinternet.setSelected(rs.getBoolean("vinternet"));
@@ -3484,7 +3445,7 @@ public class Inarticu extends JFrame {
             txtProcode.setText(rs.getString("procode").trim());
             txtProdesc.setText(" ");
 
-            cargarProveedor();
+            this.txtProdesc.setText(this.getProveedor(this.txtProcode.getText().trim()));
 
             txtArtexis.setText(rs.getString("artexis"));
             txtArtreserv.setText(rs.getString("artreserv"));
@@ -3570,37 +3531,37 @@ public class Inarticu extends JFrame {
 
     } // end cargarObjetos
 
-    private void cargarFamilia() throws SQLException {
-        String sqlSent;
-        sqlSent = "Select ConsultarFamilia(?)";
-        PreparedStatement ps;
-        ps = conn.prepareStatement(sqlSent);
-        ps.setString(1, txtArtfam.getText().trim());
-        ResultSet rsx = CMD.select(ps);
-        rsx.first();
-        // Se pone un vacío con el fin de evaluar en la validación
-        // para evitar que se intente grabar un registro sin familia
-        // válida.
-        txtFamilia.setText("");
-        if (rsx.getRow() == 1 && rsx.getString(1) != null) {
-            txtFamilia.setText(rsx.getString(1));
+    
+    private String getFamilia(String artfam) throws SQLException {
+        String sqlSent = "Select ConsultarFamilia(?)";
+        String familia = "";
+        
+        PreparedStatement ps = conn.prepareStatement(sqlSent);
+        ps.setString(1, artfam);
+        
+        ResultSet rsF = CMD.select(ps);
+        rsF.first();
+        if (rsF.getRow() == 1 && rsF.getString(1) != null) {
+            familia = rsF.getString(1);
         } // end if
         ps.close();
-    } // end cargarFamilia
+        
+        return familia;
+    } // end getFamilia
 
-    private void cargarProveedor() throws SQLException {
-        String sqlSent;
-        sqlSent = "Select ConsultarProveedor(?)";
-        PreparedStatement ps;
-        ps = conn.prepareStatement(sqlSent);
-        ps.setString(1, txtProcode.getText().trim());
-        ResultSet rsx = CMD.select(ps);
-        rsx.first();
-        if (rsx.getRow() == 1 && rsx.getString(1) != null) {
-            txtProdesc.setText(rsx.getString(1));
+    private String getProveedor(String procode) throws SQLException {
+        String sqlSent = "Select ConsultarProveedor(?)";
+        String prodesc = "";
+        PreparedStatement ps = conn.prepareStatement(sqlSent);
+        ps.setString(1, procode);
+        ResultSet rsP = CMD.select(ps);
+        rsP.first();
+        if (rsP.getRow() == 1 && rsP.getString(1) != null) {
+            prodesc = rsP.getString(1);
         } // end if
         ps.close();
-    } // end cargarProveedor
+        return prodesc;
+    } // end getProveedor
 
     private void cargarArtcode() throws SQLException {
         String sqlSent;
@@ -4173,5 +4134,44 @@ public class Inarticu extends JFrame {
                         new javax.swing.text.NumberFormatter(
                                 new java.text.DecimalFormat(formatoCantidad))));
     } // end setTextBoxFormat
+
+    private void setNumericFieldsFormat() {
+        Formato formato = new Formato();
+        try {
+            formato.loadConfiguration();
+            this.formatoCantidad = formato.getFormatoCantidad();
+            this.formatoPrecio   = formato.getFormatoPrecio();
+            this.formatoImpuesto = formato.getFormatoImpuesto();
+            this.formatoUtilidad = formato.getFormatoUtilidad();
+        } catch (SQLException ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+        }
+
+        if (formatoCantidad != null && !formatoCantidad.trim().isEmpty()) {
+            setTextBoxFormat(this.txtArtexis, this.formatoCantidad);
+            setTextBoxFormat(this.txtDisponible, this.formatoCantidad);
+            setTextBoxFormat(this.txtTransito, this.formatoCantidad);
+            setTextBoxFormat(this.txtArtmaxi, this.formatoCantidad);
+            setTextBoxFormat(this.txtArtmini, this.formatoCantidad);
+            setTextBoxFormat(this.txtArtiseg, this.formatoCantidad);
+        } // end if
+
+        if (formatoPrecio != null && !formatoPrecio.trim().isEmpty()) {
+            setTextBoxFormat(this.txtArtpre1, this.formatoPrecio);
+            setTextBoxFormat(this.txtArtpre2, this.formatoPrecio);
+            setTextBoxFormat(this.txtArtpre3, this.formatoPrecio);
+            setTextBoxFormat(this.txtArtpre4, this.formatoPrecio);
+            setTextBoxFormat(this.txtArtpre5, this.formatoPrecio);
+        } // end if
+        
+        if (formatoUtilidad != null && !formatoUtilidad.trim().isEmpty()) {
+            setTextBoxFormat(this.txtArtgan1, this.formatoUtilidad);
+            setTextBoxFormat(this.txtArtgan2, this.formatoUtilidad);
+            setTextBoxFormat(this.txtArtgan3, this.formatoUtilidad);
+            setTextBoxFormat(this.txtArtgan4, this.formatoUtilidad);
+            setTextBoxFormat(this.txtArtgan5, this.formatoUtilidad);
+        } // end if
+    }
 
 } // end class

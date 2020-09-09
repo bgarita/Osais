@@ -1457,6 +1457,14 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuImportCatalogoActionPerformed"/>
                   </Events>
                 </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="mnuImpPeriodos">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Importar per&#xed;odos contables"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuImpPeriodosActionPerformed"/>
+                  </Events>
+                </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="mnuImpAsientos">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Importar asientos contables"/>

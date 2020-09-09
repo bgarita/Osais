@@ -38,7 +38,7 @@ public class Configconta extends JFrame {
     private Buscador   bd;
     private final Cuenta     cta;
     private JTextField campo;
-    private Bitacora b = new Bitacora();
+    private final Bitacora b = new Bitacora();
 
     /** Creates new form Bodegas
      * @param c
@@ -79,6 +79,8 @@ public class Configconta extends JFrame {
         txtdescrip = new javax.swing.JTextField();
         chkprecierre = new javax.swing.JCheckBox();
         chkmostrarfechaRep = new javax.swing.JCheckBox();
+        jLabel21 = new javax.swing.JLabel();
+        cboCierreFiscal = new javax.swing.JComboBox<>();
         panelVentas = new javax.swing.JPanel();
         panelFactCredito = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -205,6 +207,11 @@ public class Configconta extends JFrame {
 
         chkmostrarfechaRep.setText("Mostrar fecha en reportes");
 
+        jLabel21.setText("Cierre fiscal");
+
+        cboCierreFiscal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
+        cboCierreFiscal.setToolTipText("");
+
         javax.swing.GroupLayout panelGeneralLayout = new javax.swing.GroupLayout(panelGeneral);
         panelGeneral.setLayout(panelGeneralLayout);
         panelGeneralLayout.setHorizontalGroup(
@@ -213,7 +220,8 @@ public class Configconta extends JFrame {
                 .addContainerGap()
                 .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel19)
-                    .addComponent(jLabel20))
+                    .addComponent(jLabel20)
+                    .addComponent(jLabel21))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelGeneralLayout.createSequentialGroup()
@@ -222,17 +230,23 @@ public class Configconta extends JFrame {
                         .addComponent(lblNom_cta16, javax.swing.GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE)
                         .addGap(27, 27, 27))
                     .addGroup(panelGeneralLayout.createSequentialGroup()
-                        .addComponent(txtdescrip, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(cboCierreFiscal, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtdescrip, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE))
                         .addGap(28, 28, 28)
                         .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(chkmostrarfechaRep)
                             .addComponent(chkprecierre))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(172, Short.MAX_VALUE))))
         );
         panelGeneralLayout.setVerticalGroup(
             panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelGeneralLayout.createSequentialGroup()
-                .addContainerGap(189, Short.MAX_VALUE)
+                .addContainerGap(153, Short.MAX_VALUE)
+                .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel21)
+                    .addComponent(cboCierreFiscal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32)
                 .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel20)
                     .addComponent(txtdescrip, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -813,7 +827,7 @@ public class Configconta extends JFrame {
             .addGroup(panelComprasLayout.createSequentialGroup()
                 .addGap(158, 158, 158)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(159, Short.MAX_VALUE))
+                .addContainerGap(183, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Compras", panelCompras);
@@ -881,7 +895,7 @@ public class Configconta extends JFrame {
         panelRecibosCXCLayout.setVerticalGroup(
             panelRecibosCXCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRecibosCXCLayout.createSequentialGroup()
-                .addContainerGap(196, Short.MAX_VALUE)
+                .addContainerGap(207, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(175, 175, 175))
         );
@@ -950,8 +964,8 @@ public class Configconta extends JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(6, 6, 6)
-                .addComponent(jTabbedPane1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cmdGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmdSalir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1332,6 +1346,7 @@ public class Configconta extends JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cboCierreFiscal;
     private javax.swing.JCheckBox chkmostrarfechaRep;
     private javax.swing.JCheckBox chkprecierre;
     private javax.swing.JButton cmdGuardar;
@@ -1349,6 +1364,7 @@ public class Configconta extends JFrame {
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1497,21 +1513,24 @@ public class Configconta extends JFrame {
                     "   compras_e = ?,   " +
                     "   impuesto_c = ?,  " +
                     "   ctaCierre = ?,   " +
+                    "   mesCierreA = ?,  " +
                     "   mostrarfechaRep = ?";
         } else {
             sqlSent = 
-                    "Insert into configcuentas Select " +
-                    "   ?," +
-                    "   ?," +
-                    "   ?," +
-                    "   ?," +
-                    "   ?," +
-                    "   ?," +
-                    "   ?," +
-                    "   ?," +
-                    "   ?," +
-                    "   ?," +
-                    "   ? "; 
+                    "Insert into configcuentas (" + 
+                    "   ventas_g,    " +
+                    "   ventas_e,    " +
+                    "   descuento_vg," +
+                    "   descuento_ve," +
+                    "   impuesto_v,  " +
+                    "   transitoria, " +
+                    "   compras_g,   " +
+                    "   compras_e,   " +
+                    "   impuesto_c,  " +
+                    "   ctaCierre,   " +
+                    "   mesCierreA,  " +
+                    "   mostrarfechaRep) " +
+                    "   Values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"; 
         } // end if
         
         ps = conn.prepareStatement(sqlSent);
@@ -1525,7 +1544,8 @@ public class Configconta extends JFrame {
         ps.setString(8, txtCompras_e.getText());
         ps.setString(9, txtImpuesto_c.getText());
         ps.setString(10, txtCtaCierre.getText());
-        ps.setBoolean(11, chkmostrarfechaRep.isSelected());
+        ps.setInt(11, cboCierreFiscal.getSelectedIndex() + 1);
+        ps.setBoolean(12, chkmostrarfechaRep.isSelected());
         
         Ut.isSQLInjection(sqlSent);
         
@@ -1565,6 +1585,7 @@ public class Configconta extends JFrame {
                 this.chkprecierre.setSelected(rs.getBoolean("precierre"));
                 this.chkmostrarfechaRep.setSelected(rs.getBoolean("mostrarfechaRep"));
                 this.txtdescrip.setText(rs.getString("descrip"));
+                this.cboCierreFiscal.setSelectedIndex(rs.getInt("mesCierreA") - 1);
                 ps.close();
             } // end try with resources
             

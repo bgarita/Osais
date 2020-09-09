@@ -160,7 +160,7 @@ public class CoactualizCat {
                 ps2 = conn.prepareStatement(sqlSent);
                 
                 String cuenta;
-                // Est rs nunca estará nulo al entrar en este if
+                // Este rs nunca estará nulo al entrar en este if
                 rs.beforeFirst();
                 while (rs.next()){
                     ps2.setDouble(1, rs.getDouble("debito"));
@@ -190,7 +190,7 @@ public class CoactualizCat {
             
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(CoactualizCat.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             exito = false;
             this.mensaje_err = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
@@ -431,7 +431,7 @@ public class CoactualizCat {
                 CMD.transaction(conn, CMD.ROLLBACK);
             } // end if
         } catch (SQLException ex) {
-            Logger.getLogger(CoactualizCat.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             this.mensaje_err = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
@@ -554,7 +554,7 @@ public class CoactualizCat {
             } // end if
         } catch (SQLException ex) {
             // No proceso el error porque no es necesario
-            Logger.getLogger(CoactualizCat.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end close

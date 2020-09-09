@@ -197,7 +197,7 @@ public class Cotipasient implements IEstructuraBD {
                 ps.close();
             } // end try with resources
         } catch (SQLException ex) {
-            Logger.getLogger(Cotipasient.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());

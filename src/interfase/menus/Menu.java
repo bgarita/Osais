@@ -21,6 +21,7 @@ import interfase.seguridad.*;
 import interfase.transacciones.*;
 import invw.CargarAsientos;
 import invw.CargarCatalogoContable;
+import invw.CargarPeriodosContables;
 import invw.ExportarAsientos;
 import java.awt.Dialog;
 import java.awt.Frame;
@@ -457,6 +458,7 @@ public class Menu extends javax.swing.JFrame {
         mnuClienteFrec = new javax.swing.JMenuItem();
         mnuHerramConta = new javax.swing.JMenu();
         mnuImportCatalogo = new javax.swing.JMenuItem();
+        mnuImpPeriodos = new javax.swing.JMenuItem();
         mnuImpAsientos = new javax.swing.JMenuItem();
         mnuExportarAsientos = new javax.swing.JMenuItem();
         jSeparator6 = new javax.swing.JPopupMenu.Separator();
@@ -1700,6 +1702,14 @@ public class Menu extends javax.swing.JFrame {
             }
         });
         mnuHerramConta.add(mnuImportCatalogo);
+
+        mnuImpPeriodos.setText("Importar períodos contables");
+        mnuImpPeriodos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuImpPeriodosActionPerformed(evt);
+            }
+        });
+        mnuHerramConta.add(mnuImpPeriodos);
 
         mnuImpAsientos.setText("Importar asientos contables");
         mnuImpAsientos.addActionListener(new java.awt.event.ActionListener() {
@@ -2970,7 +2980,7 @@ CONEXION.getConnection(), // Conexión
                 return;
             } // end if
         } catch (Exception ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -3052,7 +3062,7 @@ CONEXION.getConnection(), // Conexión
                 return;
             } // end if
         } catch (Exception ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -3702,6 +3712,14 @@ CONEXION.getConnection(), // Conexión
         Impuestos_v.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuIVAActionPerformed
 
+    private void mnuImpPeriodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuImpPeriodosActionPerformed
+        try {
+            CargarPeriodosContables cpp = new CargarPeriodosContables(CONEXION.getConnection(), "/vconta/Migration/PER2.dbf");
+        } catch (JDBFException | InstantiationException | IllegalAccessException | SQLException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_mnuImpPeriodosActionPerformed
+
     public static void main(final DataBaseConnection c, final boolean disponible, final String url) {
 
         /* Set the Nimbus look and feel */
@@ -3843,6 +3861,7 @@ CONEXION.getConnection(), // Conexión
     private javax.swing.JMenuItem mnuIVA;
     private javax.swing.JMenuItem mnuImpAsientos;
     private javax.swing.JMenuItem mnuImpPag;
+    private javax.swing.JMenuItem mnuImpPeriodos;
     private javax.swing.JMenuItem mnuImportCatalogo;
     private javax.swing.JMenuItem mnuImportarInvw;
     private javax.swing.JMenuItem mnuImprimirFactura;

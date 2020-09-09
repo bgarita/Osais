@@ -64,6 +64,9 @@ public class MantenimientoBaseDatos extends Thread {
 
     @Override
     public void run() {
+        b.writeToLog(this.getClass().getName() + "--> " 
+                + "Inicia proceso de mantenimiento de la base de datos...");
+        
         MensajesAvance ma = new MensajesAvance();
         ma.setTitle("Mantenimiento de la base de datos");
         ma.setVisible(true);
@@ -81,6 +84,8 @@ public class MantenimientoBaseDatos extends Thread {
 
         // Reconstruir las vías de acceso de la base de datos
         if (viasAcceso) {
+            b.writeToLog(this.getClass().getName() + "--> " + "Optimizando vías de acceso...");
+            
             ma.setMessage("Optimizando vías de acceso...");
             inicio = System.currentTimeMillis();
             procesoOK = optimizarTablas();
@@ -121,6 +126,8 @@ public class MantenimientoBaseDatos extends Thread {
 
         // Eliminar o corregir inconsistencias
         if (inconsist) {
+            b.writeToLog(this.getClass().getName() + "--> " + "Verificando posibles inconsistencias...");
+            
             ma.setMessage("Verificando posibles inconsistencias...");
             duracion = "Duración:";
             inicio = System.currentTimeMillis();
@@ -155,6 +162,8 @@ public class MantenimientoBaseDatos extends Thread {
 
         // Recalcular el inventario reservado
         if (reservado) {
+            b.writeToLog(this.getClass().getName() + "--> " + "Recalculando inventario reservado...");
+            
             ma.setMessage("Recalculando inventario reservado...");
             duracion = "Duración:";
             inicio = System.currentTimeMillis();
@@ -195,6 +204,8 @@ public class MantenimientoBaseDatos extends Thread {
 
         // Recalcular el saldo de las facturas
         if (saldoFact) {
+            b.writeToLog(this.getClass().getName() + "--> " + "Recalculando facturas...");
+            
             ma.setMessage("Recalculando facturas...");
             duracion = "Duración:";
             inicio = System.currentTimeMillis();
@@ -235,6 +246,8 @@ public class MantenimientoBaseDatos extends Thread {
 
         // Recalcular el saldo de los clientes
         if (saldoClientes) {
+            b.writeToLog(this.getClass().getName() + "--> " + "Recalculando saldo de clientes...");
+            
             ma.setMessage("Recalculando el saldo de los clientes...");
             duracion = "Duración:";
             inicio = System.currentTimeMillis();
@@ -275,10 +288,19 @@ public class MantenimientoBaseDatos extends Thread {
 
         // Recalcular las existencias del inventario
         if (existencias) {
+            b.writeToLog(this.getClass().getName() + "--> " + "Recalculando inventarios...");
+            
             ma.setMessage("Recalculando existencias...");
             duracion = "Duración:";
+            procesoOK = true;
+            
             inicio = System.currentTimeMillis();
-            procesoOK = recalcularExistencias();
+            try {
+                recalcularExistencias();
+            } catch (SQLException ex) {
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                procesoOK = false;
+            }
 
             if (!procesoOK) {
                 ma.setMessage("... FALLIDO.");
@@ -315,6 +337,8 @@ public class MantenimientoBaseDatos extends Thread {
 
         // Recalcular el costo promedio del inventario
         if (costoPromedio) {
+            b.writeToLog(this.getClass().getName() + "--> " + "Recalculando costo promedio de los inventarios...");
+            
             ma.setMessage("Recalculando el costo promedio...");
             duracion = "Duración:";
             inicio = System.currentTimeMillis();
@@ -355,6 +379,8 @@ public class MantenimientoBaseDatos extends Thread {
 
         // Integridad facturación vs inventario
         if (factVsInv) {
+            b.writeToLog(this.getClass().getName() + "--> " + "Comprobando integridad de facturas en inventarios...");
+            
             ma.setMessage("Comprobando integridad facturación e inventarios...");
             duracion = "Duración:";
             inicio = System.currentTimeMillis();
@@ -395,6 +421,8 @@ public class MantenimientoBaseDatos extends Thread {
 
         // Recalcular el saldo de los proveedores
         if (saldoProv) {
+            b.writeToLog(this.getClass().getName() + "--> " + "Recalculando saldo proveedores...");
+            
             ma.setMessage("Recalculando el saldo de los proveedores...");
             duracion = "Duración:";
             inicio = System.currentTimeMillis();
@@ -435,6 +463,8 @@ public class MantenimientoBaseDatos extends Thread {
 
         // Recalcular inventario en tránsito
         if (transito) {
+            b.writeToLog(this.getClass().getName() + "--> " + "Recalculando inventario en tránsito...");
+            
             ma.setMessage("Recalculando inventario en tránsito...");
             duracion = "Duración:";
             inicio = System.currentTimeMillis();
@@ -489,10 +519,13 @@ public class MantenimientoBaseDatos extends Thread {
             try {
                 conn.close();
             } catch (SQLException ex) {
-                Logger.getLogger(MantenimientoBaseDatos.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                 b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             }
         }
+        
+        b.writeToLog(this.getClass().getName() + "--> " 
+                + "Fin del proceso de mantenimiento de la base de datos.");
     }
 
     private boolean optimizarTablas() {
@@ -751,14 +784,19 @@ public class MantenimientoBaseDatos extends Thread {
         return procesoOK;
     } // end validarIntegridadFacturas
 
-    private boolean recalcularExistencias() {
-        boolean procesoOK;
+    private void recalcularExistencias() throws SQLException {
+        //boolean procesoOK;
         String fechaS = Ut.fechaSQL2(fecha);
         fechaS = "'" + fechaS + " 23:59:59'";
 
-        procesoOK = UtilBD.recalcularExistencias(conn, fechaS);
+        //procesoOK = UtilBD.recalcularExistencias(conn, fechaS);
+        /*
+        Se corre este método en modalidad de cierre para que no haga control
+        transaccional ya que este proceso ya lo hace.
+        */
+        UtilBD.recalcularExistencias(conn, fechaS, 1);
 
-        return procesoOK;
+        //return procesoOK;
     } // end validarFacturasVsInventario
 
     private boolean recalcularCostos() {

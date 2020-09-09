@@ -37,6 +37,8 @@ public class TiposAsiento extends JFrame {
     private Navegador  nav = null;
     private Buscador   bd = null;
     
+    private boolean init; // Cuando está en true el evento del combo no corre.
+    
     private final Cotipasient tipo;
     private final Bitacora b = new Bitacora();
 
@@ -49,8 +51,8 @@ public class TiposAsiento extends JFrame {
     public TiposAsiento(Connection c) 
             throws SQLException, SQLInjectionException, EmptyDataSourceException {
         initComponents();
-        //cmdBuscar.setVisible(false);
         
+        this.init = true;
         
         tabla = "cotipasient";
         nav = new Navegador();
@@ -76,6 +78,7 @@ public class TiposAsiento extends JFrame {
         Ut.fillComboBox(cboSeleccionar, rs3, 2, true);
         
         sincronizarCombo();
+        this.init = false;
     } // end constructor
 
     public void setConexion(Connection c){ conn = c; }
@@ -93,7 +96,7 @@ public class TiposAsiento extends JFrame {
         lblFamilia = new javax.swing.JLabel();
         txtTipo_comp = new javax.swing.JFormattedTextField();
         txtDescrip = new javax.swing.JFormattedTextField();
-        cboSeleccionar = new javax.swing.JComboBox<String>();
+        cboSeleccionar = new javax.swing.JComboBox<>();
         cmdPrimero = new javax.swing.JButton();
         cmdAnterior = new javax.swing.JButton();
         cmdSiguiente = new javax.swing.JButton();
@@ -273,7 +276,7 @@ public class TiposAsiento extends JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cboSeleccionar, 0, 290, Short.MAX_VALUE)
-                            .addComponent(txtDescrip, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                            .addComponent(txtDescrip, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cmdBuscar)
                         .addGap(12, 12, 12))
@@ -298,13 +301,11 @@ public class TiposAsiento extends JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(13, 13, 13)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                        .addComponent(lblFamilia)
-                        .addComponent(txtTipo_comp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtDescrip, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(cmdBuscar)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(lblFamilia)
+                    .addComponent(txtTipo_comp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDescrip, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmdBuscar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cboSeleccionar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
@@ -355,6 +356,10 @@ public class TiposAsiento extends JFrame {
 }//GEN-LAST:event_txtTipo_compActionPerformed
 
     private void cboSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboSeleccionarActionPerformed
+        if (this.init){
+            return;
+        }
+        
         try {
             // Localizo en ResultSet el registro que corresponde
             // al item seleccionado
@@ -511,7 +516,7 @@ public class TiposAsiento extends JFrame {
                 CMD.transaction(conn, CMD.COMMIT);
             }
         } catch (SQLException | SQLInjectionException | EmptyDataSourceException ex) {
-            Logger.getLogger(TiposAsiento.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),
@@ -707,6 +712,7 @@ public class TiposAsiento extends JFrame {
         tipo.setTipo_comp(tipo_comp);
         tipo.setDescrip(descrip);
         
+        this.init = true;
         if (!consultarRegistro(tipo_comp)){
             registroActualizado = tipo.insert();
             cboSeleccionar.addItem(descrip);
@@ -716,6 +722,7 @@ public class TiposAsiento extends JFrame {
             cboSeleccionar.removeItemAt(cboSeleccionar.getSelectedIndex());
             cboSeleccionar.addItem(descrip);
         } // end if
+        this.init = false;
 
         if (rs3 != null){
             rs3.close();
