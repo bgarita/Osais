@@ -98,18 +98,10 @@ public class BackupJob extends Thread {
             Luego habrá que crear un parámetro para ubicar la herramienta según
             corresponda con el motor de base de datos.
             */
-            /*
-            NOTA IMPORTANTE:
-            Desde osais se vuelve necesario que exista el parámetro --column-statistics=0
-            ya que de lo contrario se generan errores.  Así funciona bien desde
-            los fuentes y desde la versión compilada.
-            Caso contrario ocurre con el programa BackupDB.jar.  Si se le pone
-            ese parámetro no funciona.  Caso sin resolver aún 05/08/2020
-            */
             String tool = "mysqldump ";
             String cmd = tool +
                     "--defaults-file=" + defaultsFileName + " --user=" + Menu.USUARIO.trim() + " --port=" + Menu.PORT +
-                    " --column-statistics=0 --default-character-set=utf8 --single-transaction=TRUE --routines --events " + DB;
+                    " --default-character-set=utf8 --single-transaction=TRUE --routines --events --triggers " + DB;
             String fileName     = targetFolder + "/" + unique + "_" + DB + ".osais";
             String zipFileName  = targetFolder + "/" + unique + "_" + DB; // No debe llevar extensión
             try {

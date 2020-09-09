@@ -1111,7 +1111,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
         // Validaciones.
         /*
          * En el caso de este botón solo se necesita validar que el asiento
-         * esté balanceado y que el monto de cualquiera, ya sea débtos o créditos
+         * esté balanceado y que el monto de cualquiera, ya sea débitos o créditos
          * sea mayor que cero.
          * El resto de las condiciones ya fue validado antes de agregar cualquier
          * línea de detalle al asiento.

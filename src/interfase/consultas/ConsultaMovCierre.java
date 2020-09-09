@@ -23,6 +23,8 @@ import logica.utilitarios.Ut;
  */
 public class ConsultaMovCierre extends javax.swing.JFrame {
 
+    private static final long serialVersionUID = 111L;
+
     private Timestamp fechaIn;
     private Timestamp fechaFi;
 

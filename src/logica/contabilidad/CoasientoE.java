@@ -288,7 +288,7 @@ public class CoasientoE {
             // Busco si el asiento fue reversado por algún otro
             this.anuladoPor = this.anuladoPor();
         } catch (SQLException ex) {
-            Logger.getLogger(CoasientoE.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
             this.descrip = "";

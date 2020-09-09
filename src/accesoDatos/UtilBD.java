@@ -393,9 +393,9 @@ public class UtilBD {
     public static String getFieldValue(
             Connection c,
             String table,
-            String fieldName,       // Campo que se consultará
-            String fieldKeyName,    // Llave para el Where
-            String keyValue)        // Valor para el Where
+            String fieldName, // Campo que se consultará
+            String fieldKeyName, // Llave para el Where
+            String keyValue) // Valor para el Where
             throws SQLException {
 
         String returnValue = null;
@@ -404,7 +404,7 @@ public class UtilBD {
                 + "From   " + table + " "
                 + "Where  " + fieldKeyName + " = ? ";
 
-        PreparedStatement ps = c.prepareStatement(sqlSent, 
+        PreparedStatement ps = c.prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
         ps.setString(1, keyValue);
         ResultSet rs = CMD.select(ps);
@@ -764,6 +764,27 @@ public class UtilBD {
     } // end recalcularExistencias
 
     /**
+     * @author Bosco Garita 23/08/2020 Recalcular las existencias de inventario
+     * para una fecha específica.
+     * @param c Connection conexión a la base de datos
+     * @param SQLDate String fecha SQL que se usará para recalcular los saldos
+     * @param cierre int 1=Modalidad de cierre, 0=Modalidad independiente 
+     * @throws java.sql.SQLException
+     */
+    public static void recalcularExistencias(Connection c, String SQLDate, int cierre) throws SQLException {
+        String sqlUpdate = "Call RecalcularExistencias(" + SQLDate + ", ?)";
+        PreparedStatement ps;
+
+        ps = c.prepareStatement(sqlUpdate);
+        ps.setInt(1, cierre);
+
+        CMD.update(ps);
+
+        ps.close();
+        
+    } // end recalcularExistencias
+
+    /**
      * @author Bosco Garita 25/12/2011 Recalcular el costo promedio del
      * inventario a hoy
      * @param c
@@ -779,7 +800,6 @@ public class UtilBD {
         ResultSet rs;
 
         try {
-            //rs = UtilBD.SQLSelect(c, sqlSelect);
             ps = c.prepareStatement(sqlSelect,
                     ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             rs = CMD.select(ps);
@@ -1989,20 +2009,21 @@ public class UtilBD {
 
         return contado;
     } // end esClienteGenerico
-    
+
     /**
-     * Trae los datos más relevantes de un artículo de inventario para ser 
+     * Trae los datos más relevantes de un artículo de inventario para ser
      * usados en los procesos de facturación, notas de crédito y pedidos.
+     *
      * @param conn Connection Conexión activa a la base de datos.
      * @param artcode String Código del producto
      * @param tipoca float Tipo de cambio para la conversión de moneda
      * @return ResultSet que contiene todos los datos recuperados de la BD.
      * @throws java.sql.SQLException
      */
-    public static ResultSet getArtcode(Connection conn, String artcode, float tipoca) throws SQLException{
+    public static ResultSet getArtcode(Connection conn, String artcode, float tipoca) throws SQLException {
         ResultSet rs;
         PreparedStatement ps;
-        String sqlSent 
+        String sqlSent
                 = "Select  "
                 + " inarticu.artdesc,"
                 + " inarticu.artpre1 / ? as artpre1,"
@@ -2017,19 +2038,19 @@ public class UtilBD {
                 + "from inarticu "
                 + "INNER JOIN tarifa_iva ON inarticu.codigoTarifa = tarifa_iva.codigoTarifa "
                 + "Where inarticu.artcode = ?";
-        
-        ps = conn.prepareStatement(sqlSent, 
+
+        ps = conn.prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        
+
         ps.setFloat(1, tipoca);
         ps.setFloat(2, tipoca);
         ps.setFloat(3, tipoca);
         ps.setFloat(4, tipoca);
         ps.setFloat(5, tipoca);
         ps.setString(6, artcode);
-        
+
         rs = CMD.select(ps);
-        
+
         return rs;
     } // end getArtcode
 

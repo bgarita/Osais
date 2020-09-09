@@ -18,7 +18,7 @@ import logica.contabilidad.Cuenta;
  * 2.   Este sistema debe tener todos los tipos de asiento que el de FOX.
  * 3.   Asegurarse de que todos los asientos tiene un tipo válido.
  *      Select * from aslcg02a where tipo_comp not in(Select tipo_comp from tiposa)
- * 4.   Crear todos los periodos contables que existen en la tabla aslcg03 en FOX 
+ * 4.   Crear todos los periodos contables que existen en la tabla aslcgpe en FOX 
  *      y dejarlos abiertos.
  * 
  * REQUISITOS POSTERIORES:
@@ -121,12 +121,19 @@ public class CargarAsientos {
                 usuario    = registro[15].toString();
                 debito     = Double.parseDouble(registro[18].toString());
                 credito    = Double.parseDouble(registro[19].toString()); 
+                
+                System.out.println("Comprobante: " + no_comprob);
+                
+                if (no_comprob.equals("7600828")){
+                    System.out.println("Descrip: " + descrip);
+                    System.out.println("Pagado_a: " + pagado_a);
+                }
 
                 // Si el encabezado de asiento no existe lo agrego
                 if (!asientoE.existeEnBaseDatos(no_comprob, tipo_comp)){
                     asientoE.setNo_comprob(no_comprob);
                     asientoE.setTipo_comp(tipo_comp);
-                    asientoE.setDescrip(descrip);
+                    asientoE.setDescrip(convertOldChar(descrip));
                     asientoE.setDocumento("MIGRACION");
                     asientoE.setEnviado(false);
                     asientoE.setFecha_comp(new java.sql.Timestamp(fecha_comp.getTime()));
@@ -172,7 +179,7 @@ public class CargarAsientos {
                     return;
                 } // end if (asientoD.isError())
 
-                asientoD.setDescrip(pagado_a); // Concepto
+                asientoD.setDescrip(convertOldChar(pagado_a)); // Concepto
                 asientoD.setMonto(debito + credito);
                 asientoD.setDb_cr((byte) db_cr);
                 asientoD.insert();
@@ -202,5 +209,13 @@ public class CargarAsientos {
                 
           
     } // end cargar
+    
+    
+    private String convertOldChar(String text) {
+        if (text.contains("�")){
+            text = text.replace("�", "ó");
+        }
+        return text;
+    }
 
 } // end LeerDBFs
