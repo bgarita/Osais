@@ -102,10 +102,8 @@ public class RepMovimCta extends JFrame {
         lblArtcode3.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
 
         DatFacfech1.setToolTipText("Fecha del movimiento - Blanco = todas");
-        DatFacfech1.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
 
         DatFacfech2.setToolTipText("Fecha del movimiento - Blanco = todas");
-        DatFacfech2.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         DatFacfech2.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 DatFacfech2PropertyChange(evt);
@@ -183,7 +181,6 @@ public class RepMovimCta extends JFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel4.setText("Cuenta:");
 
-        txtCuenta.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         txtCuenta.setToolTipText("Blanco=Todas la cuentas");
         txtCuenta.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -283,12 +280,12 @@ public class RepMovimCta extends JFrame {
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4))
         );
 
-        setSize(new java.awt.Dimension(385, 274));
+        setSize(new java.awt.Dimension(385, 280));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -360,6 +357,7 @@ public class RepMovimCta extends JFrame {
         
         select1 = 
                 "Select   " +
+                "   (Select mostrarFechaRep from configcuentas) as mostrarFecha,   " +
                 "		Concat(d.mayor,'-',d.sub_cta,'-',d.sub_sub,'-',d.colect) as cuenta,  " +
                 "		d.nom_cta,     " +
                 "		a.no_comprob,  " +
@@ -378,6 +376,7 @@ public class RepMovimCta extends JFrame {
         select2 = 
                 " Union all " +
                 "Select   " +
+                "   (Select mostrarFechaRep from configcuentas) as mostrarFecha,   " +
                 "		Concat(d.mayor,'-',d.sub_cta,'-',d.sub_sub,'-',d.colect) as cuenta,  " +
                 "		d.nom_cta,     " +
                 "		a.no_comprob,  " +

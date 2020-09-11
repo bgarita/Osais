@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RepBalance" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="776" leftMargin="14" rightMargin="2" topMargin="6" bottomMargin="6" uuid="07a34ec9-66fb-4b10-9e39-bc611f2d494a">
 	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="296"/>
+	<property name="ireport.x" value="21"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="pQuery" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["SELECT   " +
@@ -17,6 +17,7 @@
                 "    cr_fecha, " +
                 "    IfNull(db_mes,0) as db_mes,   " +
                 "    IfNull(cr_mes,0) as cr_mes,   " +
+                "   (Select mostrarFechaRep from configcuentas) as mostrarFecha,   " +
                 "    nivelc    " +
                 "FROM cocatalogo " +
                 "Where nivel = 0 " +
@@ -37,7 +38,7 @@
 		<defaultValueExpression><![CDATA[0]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[$P!{pQuery}]]>
+		<![CDATA[$P!{pQuery} ]]>
 	</queryString>
 	<field name="mayor" class="java.lang.String">
 		<fieldDescription><![CDATA[Cuenta mayor]]></fieldDescription>
@@ -51,15 +52,9 @@
 	<field name="colect" class="java.lang.String">
 		<fieldDescription><![CDATA[Colectiva]]></fieldDescription>
 	</field>
-	<field name="nom_cta" class="java.lang.String">
-		<fieldDescription><![CDATA[Nombre de la cuenta]]></fieldDescription>
-	</field>
-	<field name="nivel" class="java.lang.Long">
-		<fieldDescription><![CDATA[0=Cuenta de mayor, 1=Cuenta de movimientos]]></fieldDescription>
-	</field>
-	<field name="tipo_cta" class="java.lang.Long">
-		<fieldDescription><![CDATA[Tipo de cuenta (1=Activo, 2=Pasivo, 3=Capital, 4=Ingresos, 5=Gastos)]]></fieldDescription>
-	</field>
+	<field name="nom_cta" class="java.lang.String"/>
+	<field name="nivel" class="java.lang.Integer"/>
+	<field name="tipo_cta" class="java.lang.Integer"/>
 	<field name="ano_anter" class="java.math.BigDecimal">
 		<fieldDescription><![CDATA[Saldo del periodo anterior]]></fieldDescription>
 	</field>
@@ -69,13 +64,10 @@
 	<field name="cr_fecha" class="java.math.BigDecimal">
 		<fieldDescription><![CDATA[Créditos del periodo actual]]></fieldDescription>
 	</field>
-	<field name="db_mes" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[Débitos del mes actual]]></fieldDescription>
-	</field>
-	<field name="cr_mes" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[Créditos del mes actual]]></fieldDescription>
-	</field>
-	<field name="nivelc" class="java.lang.Boolean">
+	<field name="db_mes" class="java.math.BigDecimal"/>
+	<field name="cr_mes" class="java.math.BigDecimal"/>
+	<field name="mostrarFecha" class="java.lang.Integer"/>
+	<field name="nivelc" class="java.lang.Integer">
 		<fieldDescription><![CDATA[Nivel de cuenta]]></fieldDescription>
 	</field>
 	<variable name="totalAnoAnt" class="java.lang.Double" calculation="Sum">
@@ -111,14 +103,16 @@
 	<pageHeader>
 		<band height="73" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="776" height="20" forecolor="#0033CC" uuid="97b52f28-55f5-4fbc-a892-4f4e0c21874f"/>
+				<reportElement x="0" y="0" width="759" height="20" forecolor="#0033CC" uuid="97b52f28-55f5-4fbc-a892-4f4e0c21874f"/>
 				<textElement textAlignment="Center">
 					<font fontName="Tahoma" size="16" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{pEmpresa}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy h.mm a">
-				<reportElement x="0" y="20" width="100" height="20" uuid="e27dc3e1-aa84-443d-85e4-e0d3bc898851"/>
+				<reportElement x="0" y="20" width="115" height="18" uuid="e27dc3e1-aa84-443d-85e4-e0d3bc898851">
+					<printWhenExpression><![CDATA[$F{mostrarFecha} == 1]]></printWhenExpression>
+				</reportElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -129,7 +123,7 @@
 				<text><![CDATA[Sistema de contabilidad general]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="677" y="40" width="80" height="20" uuid="48748a03-d3f2-4004-86e2-697983c91b68"/>
+				<reportElement x="677" y="20" width="80" height="18" uuid="48748a03-d3f2-4004-86e2-697983c91b68"/>
 				<textElement textAlignment="Right">
 					<font isBold="true"/>
 				</textElement>
@@ -164,7 +158,7 @@
 				<text><![CDATA[AÑO ANT]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="682" y="7" width="75" height="15" forecolor="#FFFFFF" uuid="33c6281b-fe1c-4efd-abfb-af94bf0b4de7"/>
+				<reportElement x="677" y="7" width="80" height="15" forecolor="#FFFFFF" uuid="33c6281b-fe1c-4efd-abfb-af94bf0b4de7"/>
 				<textElement textAlignment="Right">
 					<font fontName="Tahoma" size="11" isBold="true"/>
 				</textElement>
@@ -203,7 +197,7 @@
 				<textFieldExpression><![CDATA[$F{db_mes}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-				<reportElement x="682" y="0" width="75" height="13" uuid="54222c2b-573b-412a-8505-c504976f8f71"/>
+				<reportElement x="677" y="0" width="80" height="13" uuid="54222c2b-573b-412a-8505-c504976f8f71"/>
 				<textElement textAlignment="Right">
 					<font fontName="Times New Roman" size="10"/>
 				</textElement>

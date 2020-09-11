@@ -433,6 +433,8 @@ public class Menu extends javax.swing.JFrame {
         mnuBalances = new javax.swing.JMenuItem();
         mnuEstResult = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jSeparator21 = new javax.swing.JPopupMenu.Separator();
         mnuMovAux = new javax.swing.JMenuItem();
         mnuCierre = new javax.swing.JMenu();
         mnuPrepararTabla = new javax.swing.JMenuItem();
@@ -1533,6 +1535,15 @@ public class Menu extends javax.swing.JFrame {
             }
         });
         mnuRepConta.add(jMenuItem1);
+
+        jMenuItem2.setText("Cédulas");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        mnuRepConta.add(jMenuItem2);
+        mnuRepConta.add(jSeparator21);
 
         mnuMovAux.setText("Movimientos auxiliares");
         mnuMovAux.addActionListener(new java.awt.event.ActionListener() {
@@ -3720,6 +3731,10 @@ CONEXION.getConnection(), // Conexión
         }
     }//GEN-LAST:event_mnuImpPeriodosActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        RepCedulas.main(new String[1]);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
     public static void main(final DataBaseConnection c, final boolean disponible, final String url) {
 
         /* Set the Nimbus look and feel */
@@ -3749,6 +3764,7 @@ CONEXION.getConnection(), // Conexión
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBoxMenuItem chkMenuSistemaDisp;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator10;
     private javax.swing.JPopupMenu.Separator jSeparator11;
@@ -3762,6 +3778,7 @@ CONEXION.getConnection(), // Conexión
     private javax.swing.JPopupMenu.Separator jSeparator19;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator20;
+    private javax.swing.JPopupMenu.Separator jSeparator21;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JSeparator jSeparator5;

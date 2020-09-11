@@ -337,6 +337,7 @@ public class RepBalances extends JFrame {
                 "    IfNull(db_mes,0) as db_mes,   " +
                 "    IfNull(cr_mes,0) as cr_mes,   " +
                 "    nivelc,   " +
+                "   (Select mostrarFechaRep from configcuentas) as mostrarFecha,   " +
                 "    nombre    " + // 1=Indica que es formato de nombre
                 "FROM " + tabla + " " + where + " " +
                 "ORDER BY 1,2,3,4";

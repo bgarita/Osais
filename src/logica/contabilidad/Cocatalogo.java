@@ -36,6 +36,11 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
     private String mensaje_error;
     private String nom_ctabk;   // Se usa para cuando se cambia el formato del nombre.
     
+    // Estas variables se usan para filtrar por año fiscal cuando se accede
+    // la tabla histórica hcocatalo.
+    private int perA;    // Año del periodo
+    private int perM;    // Mes del periodo (1-12)
+    
     private Cocatalogo[] cocatalogo;
     
     private final Bitacora b = new Bitacora();
@@ -66,6 +71,14 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
     public double getSaldoActual(){
         return (getSaldoMesAnterior() + (this.db_mes - this.cr_mes));
     } // end getSaldoActual
+    
+    public double getSaldoMes(){
+        return (this.db_mes - this.cr_mes);
+    }
+    
+    public double getSaldoAñoAnterior(){
+        return this.ano_anter;
+    }
     
     public Timestamp getFecha_c() {
         return fecha_c;
@@ -217,6 +230,38 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
     public String getTabla(){
         return this.tabla;
     }
+
+    public void setTabla(String tabla) {
+        this.tabla = tabla;
+    }
+
+    /**
+     * Año fiscal (0=periodo actual)
+     * @return 
+     */
+    public int getPerA() {
+        return perA;
+    }
+
+    public void setPerA(int perA) {
+        this.perA = perA;
+    }
+
+    /**
+     * Devuelve un número entre 1-12 (mes actual)
+     * @return 
+     */
+    public int getPerM() {
+        return perM;
+    }
+
+    /**
+     * Mes actual (1-12)
+     * @param perM 
+     */
+    public void setPerM(int perM) {
+        this.perM = perM;
+    }
     
     public int getActiva() {
         return this.activa;
@@ -234,10 +279,14 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
      * y actualiza los campos correspondientes en la clase.
      */
     @Override
-    public void cargar(){
+    public final void cargar(){
         String sqlSent =
                 "Select * from " + tabla + " " +
                 "Where mayor = ? and sub_cta = ? and sub_sub = ? and colect = ?";
+        if (this.tabla.equalsIgnoreCase("hcocatalogo")){
+            sqlSent += " and year(fecha_cierre) = " + this.perA + " and month(fecha_cierre) = " + this.perM;
+        } // end if
+        
         Calendar cal = GregorianCalendar.getInstance();
         cal.set(1900, 00, 01);
         try {

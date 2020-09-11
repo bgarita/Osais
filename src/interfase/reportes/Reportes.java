@@ -589,4 +589,89 @@ public class Reportes {
         } // end try-catch
 
     } // end CGBalance
+    
+    /**
+     * Autor: Bosco Garita.10/09/2020 Cédulas por cuenta
+     *
+     * @param select String Sentencia SELECT
+     * @param where String Sentencia WHERE
+     * @param orderby String Sentencia ORDER BY
+     * @param filtro String Indica los filtros usados (como título)
+     * @param formulario String Nombre del formulario a utilizar
+     * @param cuenta String cuenta y nombre de la cuenta
+     * @param saldo double saldo de la cuenta de mayor
+     * @param tipoSaldo String indica el tipo de saldo a mostrar
+     * @param periodo String mes en letras y año
+     */
+    @SuppressWarnings({"unchecked", "unchecked"})
+    public void CGCedula(
+            String select,
+            String where,
+            String orderby,
+            String filtro,
+            String formulario,
+            String cuenta,
+            String saldo,
+            String tipoSaldo,
+            String periodo) {
+
+        // Defino el nombre del formulario de impresión.
+        masterFileName += formulario;
+
+        File f = new File(masterFileName);
+
+        if (!f.exists() || f.isDirectory()) {
+            JOptionPane.showMessageDialog(null,
+                    "No encuentro el archivo de impresión. "
+                    + "\nDebería estar en la siguiente dirección:"
+                    + "\n" + masterFileName,
+                    "Error de configuración",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        } // end if
+
+        try {
+            // Verifico si hay inyección de código.
+            Ut.isSQLInjection(select + where + orderby);
+
+            masterReport = (JasperReport) JRLoader.loadObject(f);
+
+            Map<String,Object> parametro = new HashMap<>();
+
+            parametro.put("pQuery", select);
+            parametro.put("pWhere", where);
+            parametro.put("pOrderBy", orderby);
+            
+            parametro.put("pFiltro", filtro);
+            parametro.put("pCuenta", cuenta);
+            parametro.put("pSaldo", saldo);
+            parametro.put("pTipoSaldo", tipoSaldo);
+            parametro.put("pPeriodo", periodo);
+            parametro.put("pEmpresa", Menu.EMPRESA);
+
+            JasperPrint jasperPrint
+                    = JasperFillManager.fillReport(masterFileName, parametro, conn); 
+            
+            if (this.exportToPDF) {
+                String file = this.pdfFolfer + Ut.getProperty(Ut.FILE_SEPARATOR);
+                file += "cedulas.pdf";
+
+                JasperExportManager.exportReportToPdfFile(jasperPrint, file);
+                return;
+            } // end if
+            
+            JasperViewer jviewer = new JasperViewer(jasperPrint, false);
+            jviewer.setTitle("Cédulas");
+            jviewer.setVisible(true);
+        } catch (HeadlessException | JRException | SQLInjectionException ex ){
+            JOptionPane.showMessageDialog(null,
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            System.out.println("Error cargando el reporte maestro: "
+                    + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+        } // end try-catch
+
+    } // end CGCedula
 } // end class Reportes
