@@ -541,27 +541,22 @@
             </Menu>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator18">
             </MenuItem>
-            <Menu class="javax.swing.JMenu" name="mnuConta">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Contabilidad"/>
-              </Properties>
-              <SubComponents>
-                <MenuItem class="javax.swing.JMenuItem" name="mnuAsientos">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Asientos"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuAsientosActionPerformed"/>
-                  </Events>
-                </MenuItem>
-              </SubComponents>
-            </Menu>
             <MenuItem class="javax.swing.JMenuItem" name="mnuTransCaja">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Transacciones de caja"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuTransCajaActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator24">
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="mnuAsientos">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Asientos contables"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuAsientosActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -581,6 +576,17 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuVersionActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="mnuRegistroContable">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Icons/calendar-day.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Mes de registro contable"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuRegistroContableActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -1269,6 +1275,19 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem2ActionPerformed"/>
                   </Events>
                 </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="mnuCompMensual">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Comparativo mensual"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuCompMensualActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="mnuPromedioAnual">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Mes actual Vs promedio anual"/>
+                  </Properties>
+                </MenuItem>
                 <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator21">
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="mnuMovAux">
@@ -1347,6 +1366,16 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuCierreCajaActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator22">
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="mnuCierreConta">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Cierre de contabilidad"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuCierreContaActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -1454,6 +1483,24 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuClienteFrecActionPerformed"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="mnuGenArchSinc">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Generar archivos de sincronizaci&#xf3;n"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuGenArchSincActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="mnuAplicarSinc">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Aplicar archivos de sincronizaci&#xf3;n"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuAplicarSincActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator23">
+            </MenuItem>
             <Menu class="javax.swing.JMenu" name="mnuHerramConta">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Contabilidad"/>
@@ -1519,24 +1566,13 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuSumarizarCtasMayorActionPerformed"/>
                   </Events>
                 </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="mnuReabrirPer">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Re-abrir periodos cerrados"/>
+                  </Properties>
+                </MenuItem>
               </SubComponents>
             </Menu>
-            <MenuItem class="javax.swing.JMenuItem" name="mnuGenArchSinc">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Generar archivos de sincronizaci&#xf3;n"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuGenArchSincActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mnuAplicarSinc">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Aplicar archivos de sincronizaci&#xf3;n"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuAplicarSincActionPerformed"/>
-              </Events>
-            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="mnuConfig">

@@ -33,7 +33,7 @@ import logica.utilitarios.Ut;
 public class RepMovimCta extends JFrame {
 
     private Connection conn = null;
-    Navegador          Nav = null;
+    Navegador          nav = null;
     private final Bitacora b = new Bitacora();
     
     /** Creates new form
@@ -49,8 +49,8 @@ public class RepMovimCta extends JFrame {
         DatFacfech1.setDate(cal.getTime());
         DatFacfech2.setDate(cal.getTime());
 
-        Nav = new Navegador();
-        Nav.setConexion(conn);
+        nav = new Navegador();
+        nav.setConexion(conn);
         
     } // end constructor
 
@@ -344,6 +344,16 @@ public class RepMovimCta extends JFrame {
             return;
         } // end if
         
+        // Validar que ninguna fecha sea null
+        if (this.DatFacfech1.getDate() == null || this.DatFacfech2.getDate() == null){
+            JOptionPane.showMessageDialog(null, 
+                    "El rango de fechas es incorrecto.", 
+                    "Error", 
+                    JOptionPane.ERROR_MESSAGE);
+            this.DatFacfech1.requestFocusInWindow();
+            return;
+        } // end if
+        
         String 
                 select1, 
                 select2, 
@@ -552,4 +562,8 @@ public class RepMovimCta extends JFrame {
     private javax.swing.JTextField txtCuenta;
     // End of variables declaration//GEN-END:variables
     
+    public void setCuenta(String cuenta){
+        this.txtCuenta.setText(cuenta);
+        this.txtCuentaFocusLost(null);
+    } // end setCuenta
 } // end class

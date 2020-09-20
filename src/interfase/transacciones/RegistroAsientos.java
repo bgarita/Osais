@@ -2,6 +2,7 @@ package interfase.transacciones;
 
 import Mail.Bitacora;
 import accesoDatos.CMD;
+import accesoDatos.UtilBD;
 import interfase.menus.Menu;
 import interfase.otros.Buscador;
 import java.awt.Color;
@@ -57,8 +58,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
     private final Cuenta cta;    // Clase que maneja todo lo relacionado con cuentas
     private boolean validandoFecha;
     private final Connection conn;
-    private final PeriodoContable pc; // Carga todos los datos del periodo contable actual
-
+    private final PeriodoContable per; // Carga todos los datos del periodo contable actual
     /**
      * Creates new form RegistroAsientos
      *
@@ -66,7 +66,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
      */
     public RegistroAsientos(Connection c) {
         initComponents();
-
+        
         // Defino el escuchador con una clase anónima para controlar la
         // salida de esta pantalla.  Esto funciona simpre que se haya
         // establecido el siguiente parámetro:
@@ -81,7 +81,8 @@ public class RegistroAsientos extends javax.swing.JFrame {
         ); // end Listener
 
         conn = c;
-        this.pc = new PeriodoContable(conn);
+        this.per = new PeriodoContable(conn);
+        this.lblPeriodo.setText(per.getMesLetras() + " " + per.getAño());
 
         inicio = true;
         fin = false;
@@ -148,6 +149,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         lblAnuladoPor = new javax.swing.JLabel();
         lblAnulaA = new javax.swing.JLabel();
+        lblPeriodo = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuArchivo = new javax.swing.JMenu();
         mnuGuardar = new javax.swing.JMenuItem();
@@ -163,14 +165,14 @@ public class RegistroAsientos extends javax.swing.JFrame {
         jLabel1.setText("Descripción");
 
         txtDescrip.setColumns(60);
-        txtDescrip.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDescripActionPerformed(evt);
-            }
-        });
         txtDescrip.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtDescripFocusGained(evt);
+            }
+        });
+        txtDescrip.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDescripActionPerformed(evt);
             }
         });
         txtDescrip.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -181,14 +183,14 @@ public class RegistroAsientos extends javax.swing.JFrame {
 
         jLabel2.setText("Tipo");
 
-        cboDescrip.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboDescripActionPerformed(evt);
-            }
-        });
         cboDescrip.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 cboDescripFocusGained(evt);
+            }
+        });
+        cboDescrip.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboDescripActionPerformed(evt);
             }
         });
 
@@ -224,15 +226,12 @@ public class RegistroAsientos extends javax.swing.JFrame {
                 datFecha_compPropertyChange(evt);
             }
         });
-        datFecha_comp.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                datFecha_compKeyPressed(evt);
-            }
-        });
 
+        txtNo_refer.setEditable(false);
         txtNo_refer.setColumns(9);
         txtNo_refer.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         txtNo_refer.setToolTipText("mes + tipo de asiento + año");
+        txtNo_refer.setEnabled(false);
         txtNo_refer.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtNo_referFocusGained(evt);
@@ -376,6 +375,11 @@ public class RegistroAsientos extends javax.swing.JFrame {
         btnBajar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBajarActionPerformed(evt);
+            }
+        });
+        btnBajar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnBajarKeyPressed(evt);
             }
         });
 
@@ -552,7 +556,6 @@ public class RegistroAsientos extends javax.swing.JFrame {
 
         tblDetalle.setAutoCreateRowSorter(true);
         tblDetalle.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        tblDetalle.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         tblDetalle.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
@@ -674,6 +677,10 @@ public class RegistroAsientos extends javax.swing.JFrame {
         lblAnulaA.setText(" ");
         lblAnulaA.setToolTipText("Número de asiento que fue reversado por este asiento");
 
+        lblPeriodo.setForeground(java.awt.Color.red);
+        lblPeriodo.setText("jLabel12");
+        lblPeriodo.setToolTipText("Periodo en proceso");
+
         mnuArchivo.setText("Archivo");
 
         mnuGuardar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
@@ -748,8 +755,9 @@ public class RegistroAsientos extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblPeriodo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtTotalDebitos)
@@ -793,7 +801,8 @@ public class RegistroAsientos extends javax.swing.JFrame {
                     .addComponent(txtTotalDebitos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10)
                     .addComponent(jLabel11)
-                    .addComponent(jLabel12))
+                    .addComponent(jLabel12)
+                    .addComponent(lblPeriodo))
                 .addGap(8, 8, 8))
         );
 
@@ -948,6 +957,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
             txtNo_comprob.setText("");
         } // end if
 
+        this.setReferencia();
     }//GEN-LAST:event_txtNo_comprobFocusLost
 
     private void btnBuscarAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarAsActionPerformed
@@ -1128,7 +1138,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
         cal.setTime(this.datFecha_comp.getDate());
 
         // Si la fecha del asiento se encuentra en el perido actual hay que mayorizar.
-        if (cal.get(Calendar.MONTH) == pc.getMes() && cal.get(Calendar.YEAR) == pc.getAño()) {
+        if (cal.get(Calendar.MONTH) == per.getMes() && cal.get(Calendar.YEAR) == per.getAño()) {
             actuCat.setMayorizar(true);
         } // end if
 
@@ -1405,7 +1415,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
                 try {
                     CMD.transaction(conn, CMD.ROLLBACK);
                 } catch (SQLException ex) {
-                    Logger.getLogger(RegistroAsientos.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                     JOptionPane.showConfirmDialog(null,
                             ex.getMessage()
                             + "El sistema se cerrará para proteger la integridad de los datos.",
@@ -1427,7 +1437,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
             try {
                 CMD.transaction(conn, CMD.ROLLBACK);
             } catch (SQLException ex) {
-                Logger.getLogger(RegistroAsientos.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showConfirmDialog(null,
                         ex.getMessage()
                         + "El sistema se cerrará para proteger la integridad de los datos.",
@@ -1443,7 +1453,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
         try {
             CMD.transaction(conn, CMD.COMMIT);
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroAsientos.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showConfirmDialog(null,
                     ex.getMessage()
                     + "El sistema se cerrará para proteger la integridad de los datos.",
@@ -1476,33 +1486,18 @@ public class RegistroAsientos extends javax.swing.JFrame {
             return;
         } // end if
 
-        // Deshabilito el campo de la cuenta y solo se habilita si la fecha
-        // es una fecha aceptable.
-        this.datFecha_comp.setEnabled(false);
-        if (this.validandoFecha) {
-            return;
-        } // end if
+        this.txtCuenta.setEnabled(true);
 
-        this.validandoFecha = true;
-
-        // Traer el período en proceso.
-        String sqlSent
-                = "Select mesactual,añoactual from configcuentas";
-        short mesactual = 0, añoactual = 0;
-        String mensajeError;
-        PreparedStatement ps;
-        ResultSet rs;
         try {
-            ps = conn.prepareStatement(sqlSent,
-                    ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            rs = CMD.select(ps);
-            if (rs != null && rs.first()) {
-                mesactual = rs.getShort("mesactual");
-                añoactual = rs.getShort("añoactual");
+            if (!UtilBD.CGfechaValida(conn, datFecha_comp.getDate())) {
+                JOptionPane.showMessageDialog(null,
+                        "Esta fecha se encuentra en un periodo cerrado.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                this.txtCuenta.setEnabled(false);
             } // end if
-            ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroAsientos.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -1510,68 +1505,8 @@ public class RegistroAsientos extends javax.swing.JFrame {
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
-
-        // Si el sistema se encuentra en período de cierre anual no valido el
-        // rango de fechas.
-        // Aquí hay una potencial falla, el usuario podría ingresar cualquier
-        // fecha lo cual no estaría bien.  Pero esto solo le causaría problemas
-        // al mismo usuario ya que ese asiento solo puede ser mayorizado si se
-        // encuentra en el rango de fechas correcto.  Es decir, si el usuario 
-        // digita una fecha distinta del mes de cierre fiscal entonces no se le
-        // actualizará. Bosco 10/11/2013.
-        if (mesactual != 13) {
-            sqlSent
-                    = "Select cerrado from coperiodoco "
-                    + "Where mes = ? and año = ?";
-            try {
-                ps = conn.prepareStatement(sqlSent,
-                        ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-                ps.setShort(1, mesactual);
-                ps.setShort(2, añoactual);
-                rs = CMD.select(ps);
-                if (rs != null && rs.first()) {
-                    mensajeError = rs.getBoolean("cerrado") ? "Esta fecha pertenece a un período cerrado" : "";
-                } else {
-                    mensajeError = "El período no ha sido definido para esta fecha";
-                } // end if-else
-
-                // No valido el rango de fechas para permitir que se puedan
-                // ingresar asientos con fechas futuras.
-                ps.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(RegistroAsientos.class.getName()).log(Level.SEVERE, null, ex);
-                JOptionPane.showMessageDialog(null,
-                        ex.getMessage(),
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                this.datFecha_comp.setEnabled(false);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
-                return;
-            } // end try-catch
-
-            this.datFecha_comp.setEnabled(true);
-            // Si la variable del mensaje no está vacía despliego el error y
-            // deshabilito el botón que agrega el detalle del asiento con el
-            // fin de evitar que el usuario pueda guardar algo erróneo.
-            if (!mensajeError.isEmpty()) {
-                JOptionPane.showMessageDialog(null,
-                        mensajeError,
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                this.datFecha_comp.setEnabled(false);
-                return;
-            } // end if
-
-            // Formar la referencia (mes + tipo de asiento + año)
-            String ref
-                    = "" + (datFecha_comp.getCalendar().get(Calendar.MONTH) + 1)
-                    + asientoE.getTipo_comp()
-                    + datFecha_comp.getCalendar().get(Calendar.YEAR);
-            this.txtNo_refer.setText(ref);
-
-        } // end if (mesactual != 13)
-
-        this.validandoFecha = false;
+        
+        setReferencia();
     }//GEN-LAST:event_datFecha_compPropertyChange
     /**
      * Este método pone en blanco todos los controles para que el usuario pueda
@@ -1626,12 +1561,6 @@ public class RegistroAsientos extends javax.swing.JFrame {
         } // end if
     }//GEN-LAST:event_txtNo_comprobKeyPressed
 
-    private void datFecha_compKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_datFecha_compKeyPressed
-        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-            datFecha_comp.transferFocus();
-        } // end if
-    }//GEN-LAST:event_datFecha_compKeyPressed
-
     private void txtNo_referKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNo_referKeyPressed
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
             this.txtCuenta.requestFocusInWindow();
@@ -1640,7 +1569,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
 
     private void txtConceptoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtConceptoKeyPressed
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-            txtConcepto.transferFocus();
+            this.txtMontoD.requestFocusInWindow();
         } // end if
     }//GEN-LAST:event_txtConceptoKeyPressed
 
@@ -1960,7 +1889,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
 
             // Si la fecha del asiento se encuentra en el perido actual hay que 
             // aplicar los movimientos y mayorizar.
-            if (cal.get(Calendar.MONTH) == pc.getMes() && cal.get(Calendar.YEAR) == pc.getAño()) {
+            if (cal.get(Calendar.MONTH) == per.getMes() && cal.get(Calendar.YEAR) == per.getAño()) {
                 actuCat.setMayorizar(true);
                 boolean exito
                         = actuCat.actualizarCuentasMov(
@@ -2015,6 +1944,12 @@ public class RegistroAsientos extends javax.swing.JFrame {
         } // end if
 
     }//GEN-LAST:event_btnAnularActionPerformed
+
+    private void btnBajarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnBajarKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            this.btnBajarActionPerformed(null);
+        } // end if
+    }//GEN-LAST:event_btnBajarKeyPressed
 
     /**
      * @param c
@@ -2082,6 +2017,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
     private javax.swing.JLabel lblAnulaA;
     private javax.swing.JLabel lblAnuladoPor;
     private javax.swing.JLabel lblNom_cta;
+    private javax.swing.JLabel lblPeriodo;
     private javax.swing.JLabel lblidReg;
     private javax.swing.JMenuItem mnuAnular;
     private javax.swing.JMenu mnuArchivo;
@@ -2125,7 +2061,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
             } // end while
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroAsientos.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -2136,6 +2072,14 @@ public class RegistroAsientos extends javax.swing.JFrame {
     } // end cargarTipos
 
     private void setThisPeriodDate() {
-        this.datFecha_comp.setDate(pc.getFecha_in());
+        this.datFecha_comp.setDate(per.getFecha_in());
     } // end setThisPeriodDate
+
+    private void setReferencia() {
+        // La referencia se compone de mes + tipo de asiento + año
+        this.txtNo_refer.setText(
+                (Ut.getDatePart(this.datFecha_comp.getDate(), Ut.MES) + 1) + ""
+                + asientoE.getTipo_comp() + ""
+                + Ut.getDatePart(this.datFecha_comp.getDate(), Ut.AÑO));
+    } // end if
 }

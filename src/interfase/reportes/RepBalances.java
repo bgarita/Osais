@@ -316,11 +316,22 @@ public class RepBalances extends JFrame {
                 "ABS(ANO_ANTER)+ABS(DB_FECHA-CR_FECHA)+ABS(DB_MES)+ABS(CR_MES) > 0 " +
                 "and nivelc <= " + nivelc;
         
+        String per = this.cboMes.getSelectedItem().toString();
+        String año = txtAno.getText().trim();
+        if (txtAno.getText().trim().equals("0")){
+            año = GregorianCalendar.getInstance().get(Calendar.YEAR) + "";
+        } // end if
+        per += ", " + año;
+        
+        if (!txtAno.getText().trim().equals("0")){
+            where += " and year(fecha_cierre) = " + año + " and month(fecha_cierre) = " + (this.cboMes.getSelectedIndex() + 1);
+        } // end if
+        
         titulo += " - NIVEL " + nivelc;
         
         // Elegir la tabla.
         tabla = txtAno.getText().trim().equals("0") ? "cocatalogo":"hcocatalogo";
-        boolean hist = !txtAno.getText().trim().equals("0");
+        //boolean hist = !txtAno.getText().trim().equals("0");
         
         sqlSent = 
                 "   Select     " +
@@ -342,15 +353,6 @@ public class RepBalances extends JFrame {
                 "FROM " + tabla + " " + where + " " +
                 "ORDER BY 1,2,3,4";
         
-        
-        String per = this.cboMes.getSelectedItem().toString();
-        String año = txtAno.getText().trim();
-        if (txtAno.getText().trim().equals("0")){
-            año = GregorianCalendar.getInstance().get(Calendar.YEAR) + "";
-        } // end if
-        per += ", " + año;
-        
-       
         new Reportes(conn).CGBalance(
                 sqlSent,
                 "",     // where

@@ -674,4 +674,66 @@ public class Reportes {
         } // end try-catch
 
     } // end CGCedula
+
+    void CGComparativoMensual(
+            String select, String where, String orderby, 
+            String filtro, String formJasper,
+            String periodo1, String periodo2) {
+        // Defino el nombre del formulario de impresión.
+        masterFileName += formJasper;
+
+        File f = new File(masterFileName);
+
+        if (!f.exists() || f.isDirectory()) {
+            JOptionPane.showMessageDialog(null,
+                    "No encuentro el archivo de impresión. "
+                    + "\nDebería estar en la siguiente dirección:"
+                    + "\n" + masterFileName,
+                    "Error de configuración",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        } // end if
+
+        try {
+            // Verifico si hay inyección de código.
+            Ut.isSQLInjection(select + where + orderby);
+
+            masterReport = (JasperReport) JRLoader.loadObject(f);
+
+            Map<String,Object> parametro = new HashMap<>();
+
+            parametro.put("pQuery", select);
+            parametro.put("pWhere", where);
+            parametro.put("pOrderBy", orderby);
+            
+            parametro.put("pFiltro", filtro);
+            parametro.put("pEmpresa", Menu.EMPRESA);
+            
+            parametro.put("pPeriodo1", periodo1);
+            parametro.put("pPeriodo2", periodo2);
+
+            JasperPrint jasperPrint
+                    = JasperFillManager.fillReport(masterFileName, parametro, conn); 
+            
+            if (this.exportToPDF) {
+                String file = this.pdfFolfer + Ut.getProperty(Ut.FILE_SEPARATOR);
+                file += "comparativoMensual.pdf";
+
+                JasperExportManager.exportReportToPdfFile(jasperPrint, file);
+                return;
+            } // end if
+            
+            JasperViewer jviewer = new JasperViewer(jasperPrint, false);
+            jviewer.setTitle("Comparativo Mensual");
+            jviewer.setVisible(true);
+        } catch (HeadlessException | JRException | SQLInjectionException ex ){
+            JOptionPane.showMessageDialog(null,
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            System.out.println("Error cargando el reporte maestro: "
+                    + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+        } // end try-catch
+    } // end CGComparativoMensual
 } // end class Reportes

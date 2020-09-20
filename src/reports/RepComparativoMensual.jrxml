@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RepBalance" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="776" leftMargin="14" rightMargin="2" topMargin="6" bottomMargin="6" uuid="07a34ec9-66fb-4b10-9e39-bc611f2d494a">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="21"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="pQuery" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["SELECT "
+                + "	a.mayor, "
+                + "	a.sub_cta, "
+                + "	a.sub_sub, "
+                + "	a.colect, "
+                + "	a.nom_cta, "
+                + "	if(a.nivel = 0, 'Mayor', 'Detalle') as nivel ,"
+                + "	a.db_mes - a.cr_mes AS saldoMesA,"
+                + "	("
+                + "		SELECT b.db_mes - b.cr_mes "
+                + "		FROM hcocatalogo b "
+                + "		WHERE b.mayor = a.mayor "
+                + "		AND b.sub_cta = a.sub_cta "
+                + "		AND b.sub_sub = a.sub_sub "
+                + "		AND b.colect  = a.colect  "
+                + "		AND YEAR(b.fecha_cierre)  = 2010 "
+                + "		AND MONTH(b.fecha_cierre) = 3 "
+                + "	) AS saldoMesB, "
+                + "    (Select mostrarFechaRep from configcuentas) as mostrarFecha   "
+                + "FROM hcocatalogo a "
+                + "WHERE concat(a.mayor, a.sub_cta, a.sub_sub, a.colect) BETWEEN '000000000000' AND '999999999999' "
+                + "AND YEAR(a.fecha_cierre)  = 2010 "
+                + "AND MONTH(a.fecha_cierre) = 4 "
+                + "ORDER BY 1,2,3,4"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pWhere" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pOrderBy" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="pFiltro" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["Aquí se mostrarán los rangos del reporte"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pEmpresa" class="java.lang.String"/>
+	<parameter name="pTitulo" class="java.lang.String"/>
+	<parameter name="pPeriodo1" class="java.lang.String"/>
+	<parameter name="pPeriodo2" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[$P!{pQuery} ]]>
+	</queryString>
+	<field name="mayor" class="java.lang.String">
+		<fieldDescription><![CDATA[Cuenta mayor]]></fieldDescription>
+	</field>
+	<field name="sub_cta" class="java.lang.String">
+		<fieldDescription><![CDATA[Sub cuenta]]></fieldDescription>
+	</field>
+	<field name="sub_sub" class="java.lang.String">
+		<fieldDescription><![CDATA[Sub subcuenta]]></fieldDescription>
+	</field>
+	<field name="colect" class="java.lang.String">
+		<fieldDescription><![CDATA[Colectiva]]></fieldDescription>
+	</field>
+	<field name="nom_cta" class="java.lang.String">
+		<fieldDescription><![CDATA[Nombre de la cuenta]]></fieldDescription>
+	</field>
+	<field name="nivel" class="java.lang.String"/>
+	<field name="saldoMesA" class="java.math.BigDecimal"/>
+	<field name="saldoMesB" class="java.math.BigDecimal"/>
+	<field name="mostrarFecha" class="java.lang.Integer"/>
+	<variable name="totalDif" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{saldoMesA}.doubleValue() - $F{saldoMesB}.doubleValue()]]></variableExpression>
+		<initialValueExpression><![CDATA[0.00]]></initialValueExpression>
+	</variable>
+	<variable name="totalPer2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{saldoMesB}.doubleValue()]]></variableExpression>
+		<initialValueExpression><![CDATA[0.00]]></initialValueExpression>
+	</variable>
+	<variable name="totalPer1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{saldoMesA}.doubleValue()]]></variableExpression>
+		<initialValueExpression><![CDATA[0.00]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="7" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="75" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="759" height="20" forecolor="#0033CC" uuid="97b52f28-55f5-4fbc-a892-4f4e0c21874f"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pEmpresa}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy h.mm a">
+				<reportElement x="0" y="20" width="115" height="18" uuid="e27dc3e1-aa84-443d-85e4-e0d3bc898851">
+					<printWhenExpression><![CDATA[$F{mostrarFecha} == 1]]></printWhenExpression>
+				</reportElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="256" y="20" width="246" height="18" uuid="94819c73-0dc3-40cf-90f8-779037b1787d"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Sistema de contabilidad general]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="677" y="20" width="80" height="18" uuid="48748a03-d3f2-4004-86e2-697983c91b68"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pág.: "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="256" y="38" width="246" height="18" uuid="446533ac-b5e7-44ab-ad8f-7afd8d39839a"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Comparativo Mensual]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="0" y="0" width="759" height="20" backcolor="#8365F8" uuid="9479383a-b2d4-4713-a7c0-1f3ebea0efbb"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="6" y="3" width="80" height="15" forecolor="#00CCCC" uuid="92486c9a-38fa-415c-be1a-ccb575b90243"/>
+				<textElement>
+					<font fontName="Tahoma" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cuenta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="630" y="3" width="129" height="15" forecolor="#00CCCC" uuid="33c6281b-fe1c-4efd-abfb-af94bf0b4de7"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Diferencia]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="501" y="3" width="129" height="15" forecolor="#00CCCC" uuid="92636502-85c4-443b-bbfb-6255a7ed94cb"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pPeriodo2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="373" y="3" width="129" height="15" forecolor="#00CCCC" uuid="5a67cf7d-c654-435a-9e8e-ba9467a91eef"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pPeriodo1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="86" y="3" width="40" height="15" forecolor="#00CCCC" uuid="b750f89e-a8f1-4ab5-92a0-9c7f8b8b5104"/>
+				<textElement>
+					<font fontName="Tahoma" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nivel]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="630" y="0" width="129" height="13" isRemoveLineWhenBlank="true" uuid="54222c2b-573b-412a-8505-c504976f8f71">
+					<printWhenExpression><![CDATA[$F{saldoMesA}.doubleValue() != 0.00 || $F{saldoMesB}.doubleValue() != 0.00]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{saldoMesA}.doubleValue() - $F{saldoMesB}.doubleValue() ]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="126" y="0" width="245" height="13" isRemoveLineWhenBlank="true" uuid="2c8df903-7298-419c-ab80-8b878657ea22">
+					<printWhenExpression><![CDATA[$F{saldoMesA}.doubleValue() != 0.00 || $F{saldoMesB}.doubleValue() != 0.00]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Tahoma" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nom_cta}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="2" y="0" width="84" height="13" isRemoveLineWhenBlank="true" uuid="3556e1ff-46c4-4742-a0c8-136b6f013e4e">
+					<printWhenExpression><![CDATA[$F{saldoMesA}.doubleValue() != 0.00 || $F{saldoMesB}.doubleValue() != 0.00]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Tahoma" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{mayor} + " " + $F{sub_cta}+ " " + $F{sub_sub} + " " + $F{colect}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="501" y="0" width="129" height="13" isRemoveLineWhenBlank="true" uuid="f145c0d1-ee5a-4c20-8b90-53698a21d923">
+					<printWhenExpression><![CDATA[$F{saldoMesB}.doubleValue() != 0.00]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{saldoMesB}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="373" y="0" width="129" height="13" isRemoveLineWhenBlank="true" uuid="3cc0b092-d18d-4781-899a-c3ac8c851082">
+					<printWhenExpression><![CDATA[$F{saldoMesA}.doubleValue() != 0.00]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{saldoMesA}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="86" y="0" width="40" height="13" isRemoveLineWhenBlank="true" uuid="b2d398c5-22e2-4bf0-ab4a-61c2b09c8b28">
+					<printWhenExpression><![CDATA[$F{saldoMesA}.doubleValue() != 0.00 || $F{saldoMesB}.doubleValue() != 0.00]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Tahoma" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nivel}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="27" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="2" y="8" width="755" height="13" uuid="4b459863-513e-4857-80c4-0aecd3f1ca33"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pFiltro}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="34" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="359" y="4" width="400" height="20" uuid="e8f96274-92af-4bba-8a42-937aa52375d7"/>
+			</rectangle>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="false">
+				<reportElement isPrintRepeatedValues="false" x="630" y="7" width="129" height="15" forecolor="#00CCCC" uuid="05a129d2-67c6-477f-b567-1aff5249a3b3"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totalDif}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="false">
+				<reportElement isPrintRepeatedValues="false" x="501" y="7" width="129" height="15" forecolor="#00CCCC" uuid="7457ec11-2bd1-463d-8446-e43d09f25b8d"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totalPer2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="false">
+				<reportElement isPrintRepeatedValues="false" x="373" y="7" width="129" height="15" forecolor="#00CCCC" uuid="a89d36a9-4a16-48ca-b842-d2ecc4d05c04"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totalPer1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

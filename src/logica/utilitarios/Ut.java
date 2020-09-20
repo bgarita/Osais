@@ -63,9 +63,9 @@ public class Ut {
         return temp.substring(0, pos);
     } // end getConnectionPort
 
-    public final int DIA = 1;
-    final int MES = 2;
-    final int AÑO = 3;
+    public static final int DIA = 1;
+    public static final int MES = 2;
+    public static final int AÑO = 3;
 
     // Constantes para el método getProperty
     // Variables de entorno.
@@ -3171,4 +3171,33 @@ public class Ut {
         return uniqueName;
     } // end uniqueName
 
+    /**
+     * Obtener parte de una fecha (día, mes o año) todo depende del parámetro recibido.
+     * @param date Date fecha de la cual se extraerá el valor solicitado.
+     * @param part int parte de la fecha que se extraerá.
+     * @return int parte de la fecha solicitado (los meses empiezan en cero). 
+     * Si el parámetro part no coincide con los valores de Ut.java para día, mes o año
+     * el valor de retorno será un cero.
+     */
+    public static int getDatePart(Date date, int part){
+        int datePart = 0;
+        Calendar cal = GregorianCalendar.getInstance();
+        cal.setTime(date);
+        switch (part){
+            case Ut.DIA : {
+                datePart = cal.get(Calendar.DAY_OF_MONTH);
+                break;
+            }
+            case Ut.MES : {
+                datePart = cal.get(Calendar.MONTH);
+                break;
+            }
+            case Ut.AÑO : {
+                datePart = cal.get(Calendar.YEAR);
+                break;
+            }
+        } // end switch
+        
+        return datePart;
+    } // end getDatePart
 } // end utlitarios

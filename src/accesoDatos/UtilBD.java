@@ -21,6 +21,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import logica.Column;
 import logica.contabilidad.Cuenta;
+import logica.contabilidad.PeriodoContable;
 import logica.utilitarios.Ut;
 
 /**
@@ -320,7 +321,7 @@ public class UtilBD {
             if (rs != null && rs.first()) {
                 fechaAceptada = rs.getBoolean(1);
             } // end if
-            ps.close(); // Esto cierra automáticamente el rs (si existe).
+            ps.close();
         } // end try with resources
         return fechaAceptada;
     } // isValidDate
@@ -768,7 +769,7 @@ public class UtilBD {
      * para una fecha específica.
      * @param c Connection conexión a la base de datos
      * @param SQLDate String fecha SQL que se usará para recalcular los saldos
-     * @param cierre int 1=Modalidad de cierre, 0=Modalidad independiente 
+     * @param cierre int 1=Modalidad de cierre, 0=Modalidad independiente
      * @throws java.sql.SQLException
      */
     public static void recalcularExistencias(Connection c, String SQLDate, int cierre) throws SQLException {
@@ -781,7 +782,7 @@ public class UtilBD {
         CMD.update(ps);
 
         ps.close();
-        
+
     } // end recalcularExistencias
 
     /**
@@ -836,7 +837,7 @@ public class UtilBD {
      * @param conn Connection Conexión a la base de datos
      * @param telefonos JFormattedTextField[] Arreglo de objetos a formatear
      */
-    public static void setMarcaraT(Connection conn, JFormattedTextField[] telefonos) {
+    public static void setMascaraT(Connection conn, JFormattedTextField[] telefonos) {
         String sqlSelect = "Select mascaratel from config";
         ResultSet rs;
         String mascaratel;
@@ -860,7 +861,7 @@ public class UtilBD {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
         } // end try-catch
-    } // end setMarcaraT
+    } // end setMascaraT
 
     /**
      * Este método lo único que hace es verificar si hay registros para la
@@ -1617,6 +1618,395 @@ public class UtilBD {
         return mayores - detalle;
     } // end CGmayorVrsDetalle
 
+    /**
+     * Este método se usa para determinar si los movimientos del periodo actual
+     * están balanceados.
+     *
+     * @param conn Connection Conexión a la base de datos
+     * @return boolean true=Balanceado, false=Desbalanceado
+     * @throws java.sql.SQLException
+     */
+    public static boolean CGestaBalanceado(Connection conn) throws SQLException {
+        boolean balanceado;
+        String sqlSent
+                = "SELECT  "
+                + "	if (db_cr = 1, 'DB', 'CR') AS tipo, "
+                + "	SUM(d.monto) AS monto "
+                + "FROM coasientod d "
+                + "INNER JOIN coasientoe e ON d.no_comprob = e.no_comprob AND d.tipo_comp = e.tipo_comp "
+                + "WHERE e.fecha_comp BETWEEN ? AND ? "
+                + "GROUP BY 1";
+        PeriodoContable per = new PeriodoContable(conn);
+        Calendar fecha1 = GregorianCalendar.getInstance();
+        Calendar fecha2 = GregorianCalendar.getInstance();
+
+        fecha1.setTime(per.getFecha_in());
+        fecha2.setTime(per.getFecha_fi());
+        fecha2.set(Calendar.HOUR, 23);
+        fecha2.set(Calendar.MINUTE, 59);
+        fecha2.set(Calendar.SECOND, 59);
+        fecha2.set(Calendar.MILLISECOND, 0);
+
+        java.sql.Timestamp sqlDate1 = new Timestamp(fecha1.getTimeInMillis());
+        java.sql.Timestamp sqlDate2 = new Timestamp(fecha2.getTimeInMillis());
+
+        try (PreparedStatement ps = conn.prepareStatement(sqlSent,
+                ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+            ps.setTimestamp(1, sqlDate1);
+            ps.setTimestamp(2, sqlDate2);
+
+            ResultSet rs = CMD.select(ps);
+            rs.beforeFirst();
+            double DB = 0, CR = 0;
+            while (rs.next()) {
+                DB += rs.getString(1).equals("DB") ? rs.getDouble(2) : 0;
+                CR += rs.getString(1).equals("CR") ? rs.getDouble(2) : 0;
+            } // end while
+
+            balanceado = (DB == CR);
+            ps.close();
+        } // end try with resources
+
+        return balanceado;
+    } // end estaBalanceado
+
+    public static boolean CGmoverAsientosHistorico(Connection conn) throws SQLException {
+        boolean trasladado;
+
+        // Mover el encabezado de asientos
+        String sqlSent
+                = "INSERT INTO hcoasientoe ( "
+                + "	no_comprob, "
+                + "	fecha_comp, "
+                + "	no_refer, "
+                + "	tipo_comp, "
+                + "	descrip, "
+                + "	usuario, "
+                + "	periodo, "
+                + "	modulo, "
+                + "	documento, "
+                + "	movtido, "
+                + "	enviado, "
+                + "	asientoAnulado) "
+                + "	SELECT  "
+                + "		no_comprob, "
+                + "		fecha_comp, "
+                + "		no_refer, "
+                + "		tipo_comp, "
+                + "		descrip, "
+                + "		usuario, "
+                + "		periodo, "
+                + "		modulo, "
+                + "		documento, "
+                + "		movtido, "
+                + "		enviado, "
+                + "		asientoAnulado "
+                + "	FROM coasientoe e "
+                + "	WHERE e.fecha_comp BETWEEN ? AND ?";
+        PeriodoContable per = new PeriodoContable(conn);
+        Calendar fecha1 = GregorianCalendar.getInstance();
+        Calendar fecha2 = GregorianCalendar.getInstance();
+
+        fecha1.setTime(per.getFecha_in());
+        fecha2.setTime(per.getFecha_fi());
+        fecha2.set(Calendar.HOUR, 23);
+        fecha2.set(Calendar.MINUTE, 59);
+        fecha2.set(Calendar.SECOND, 59);
+        fecha2.set(Calendar.MILLISECOND, 0);
+
+        java.sql.Timestamp sqlDate1 = new Timestamp(fecha1.getTimeInMillis());
+        java.sql.Timestamp sqlDate2 = new Timestamp(fecha2.getTimeInMillis());
+
+        try (PreparedStatement ps = conn.prepareStatement(sqlSent)) {
+            ps.setTimestamp(1, sqlDate1);
+            ps.setTimestamp(2, sqlDate2);
+
+            int reg = CMD.update(ps);
+
+            trasladado = reg > 0;
+            ps.close();
+        } // end try with resources
+
+        // Si no se movió ningún registro no continúo
+        if (!trasladado) {
+            return trasladado;
+        } // end if
+
+        // Mover el detalle de los asientos
+        sqlSent = "INSERT INTO hcoasientod ( "
+                + "	no_comprob, "
+                + "	tipo_comp, "
+                + "	descrip, "
+                + "	db_cr, "
+                + "	monto, "
+                + "	mayor, "
+                + "	sub_cta, "
+                + "	sub_sub, "
+                + "	colect, "
+                + "	idReg) "
+                + "SELECT  "
+                + "	d.no_comprob, "
+                + "	d.tipo_comp, "
+                + "	d.descrip, "
+                + "	d.db_cr, "
+                + "	d.monto, "
+                + "	d.mayor, "
+                + "	d.sub_cta, "
+                + "	d.sub_sub, "
+                + "	d.colect, "
+                + "	d.idReg "
+                + "FROM coasientod d "
+                + "INNER JOIN coasientoe e ON d.no_comprob = e.no_comprob AND d.tipo_comp = e.tipo_comp "
+                + "WHERE e.fecha_comp BETWEEN ? AND ?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sqlSent)) {
+            ps.setTimestamp(1, sqlDate1);
+            ps.setTimestamp(2, sqlDate2);
+
+            int reg = CMD.update(ps);
+
+            trasladado = reg > 0;
+            ps.close();
+        } // end try with resources
+
+        // Si no se movió ningún registro no continúo
+        if (!trasladado) {
+            return trasladado;
+        } // end if
+
+        // Elimino los registros que se copiaron al histórico.
+        // Elimino en order inverso, primero el detalle luego el encabezado.
+        sqlSent = "DELETE FROM coasientod "
+                + "WHERE EXISTS( "
+                + "	SELECT no_comprob FROM coasientoe "
+                + "	WHERE no_comprob = coasientod.no_comprob "
+                + "	AND tipo_comp = coasientod.tipo_comp "
+                + "	AND fecha_comp BETWEEN ? AND ?"
+                + ")";
+
+        try (PreparedStatement ps = conn.prepareStatement(sqlSent)) {
+            ps.setTimestamp(1, sqlDate1);
+            ps.setTimestamp(2, sqlDate2);
+
+            int reg = CMD.update(ps);
+
+            trasladado = reg > 0;
+            ps.close();
+        } // end try with resources
+
+        // Si no se eliminó ningún registro no continúo
+        if (!trasladado) {
+            return trasladado;
+        } // end if
+
+        sqlSent = "DELETE FROM coasientoe "
+                + "WHERE fecha_comp BETWEEN ? AND ?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sqlSent)) {
+            ps.setTimestamp(1, sqlDate1);
+            ps.setTimestamp(2, sqlDate2);
+
+            int reg = CMD.update(ps);
+
+            trasladado = reg > 0;
+            ps.close();
+        } // end try with resources
+
+        return trasladado;
+    } // end CGmoverAsientosHistorico
+
+    public static boolean cerrarPeriodoActual(Connection conn, PeriodoContable per) throws SQLException {
+        int reg;
+        String sqlSent
+                = "UPDATE coperiodoco "
+                + "	SET cerrado = 1 "
+                + "WHERE año = ? "
+                + "AND mes = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sqlSent)) {
+            ps.setInt(1, per.getAño());
+            ps.setInt(2, per.getMes());
+            reg = CMD.update(ps);
+            ps.close();
+        } // end try with resources
+
+        if (reg <= 0) {
+            return false;
+        } // end if
+
+        /* 
+        Establecer el siguiente periodo.
+        Cuando el cierre es setiembre es distinto de cuando es diciembre.
+         */
+        int mesactual = 0, mesCierreA = 0, nextYear = 0, nextPer = 0;
+
+        sqlSent
+                = "SELECT mesactual, mesCierreA, añoactual "
+                + "FROM configcuentas";
+        try (PreparedStatement ps
+                = conn.prepareStatement(sqlSent, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+
+            ResultSet rs = CMD.select(ps);
+            if (rs != null && rs.first()) {
+                mesactual = rs.getInt(1);
+                mesCierreA = rs.getInt(2);
+                nextYear = rs.getInt(3);
+            } // end if
+            ps.close();
+        } // end try with resources
+
+        if (mesactual == 0 || mesCierreA == 0) {
+            return false;
+        } // end if
+
+        // Cierre en setiembre
+        if (mesCierreA == 9) {
+            if (mesactual < 9 || mesactual == 10 || mesactual == 11) {
+                nextPer = mesactual + 1;
+            } else if (mesactual == 12) {
+                nextPer = 1;
+                nextYear++;
+            } else if (mesactual == 9) {
+                nextPer = 13;
+            } else if (mesactual == 13) {
+                nextPer = 10;
+            } // end if-else
+        } // end if
+
+        // Cierre en diciembre
+        if (mesCierreA == 12) {
+            if (mesactual == 13) {
+                nextPer = 1;
+                nextYear++;
+            } else {
+                nextPer = mesactual + 1;
+            } // end if-else
+        } // end if
+
+        sqlSent
+                = "UPDATE configcuentas "
+                + "	SET mesactual = ?, añoactual = ? ";
+        try (PreparedStatement ps = conn.prepareStatement(sqlSent)) {
+            ps.setInt(1, nextPer);
+            ps.setInt(2, nextYear);
+            reg = CMD.update(ps);
+            ps.close();
+        } // end try with resources
+
+        if (reg <= 0) {
+            return false;
+        } // end if
+
+        return (reg > 0);
+    } // end cerrarPeriodoActual
+
+    /**
+     * Hace una copia del catálogo tal y como está en este momento.Se usa en el
+     * cierre mensual.
+     *
+     * @param conn
+     * @param fecha_fi
+     * @return
+     * @throws java.sql.SQLException
+     */
+    public static boolean CGguardarCatalogo(Connection conn, Date fecha_fi) throws SQLException {
+        boolean correcto = false;
+        java.sql.Date fecha_cierre = new java.sql.Date(fecha_fi.getTime());
+        String sqlSent
+                = "INSERT INTO hcocatalogo ( "
+                + "	mayor, "
+                + "	sub_cta, "
+                + "	sub_sub, "
+                + "	colect, "
+                + "	nom_cta, "
+                + "	nivel, "
+                + "	tipo_cta, "
+                + "	fecha_upd, "
+                + "	ano_anter, "
+                + "	db_fecha, "
+                + "	cr_fecha, "
+                + "	db_mes, "
+                + "	cr_mes, "
+                + "	nivelc, "
+                + "	nombre, "
+                + "	fecha_c, "
+                + "	activa, "
+                + "	fecha_cierre "
+                + ") "
+                + "SELECT  "
+                + "	mayor, "
+                + "	sub_cta, "
+                + "	sub_sub, "
+                + "	colect, "
+                + "	nom_cta, "
+                + "	nivel, "
+                + "	tipo_cta, "
+                + "	fecha_upd, "
+                + "	ano_anter, "
+                + "	db_fecha, "
+                + "	cr_fecha, "
+                + "	db_mes, "
+                + "	cr_mes, "
+                + "	nivelc, "
+                + "	nombre, "
+                + "	fecha_c, "
+                + "	activa, "
+                + "	? "
+                + "FROM cocatalogo";
+
+        try (PreparedStatement ps = conn.prepareStatement(sqlSent)) {
+            ps.setDate(1, fecha_cierre);
+            int reg = CMD.update(ps);
+            ps.close();
+            correcto = (reg > 0);
+        } // end try with resources
+
+        if (correcto) {
+            // Establecer los saldos iniciales para el nuevo mes en proceso
+            sqlSent
+                    = "UPDATE cocatalogo "
+                    + "	SET db_fecha = db_fecha + db_mes, "
+                    + "	    cr_fecha = cr_fecha + cr_mes, "
+                    + "	    db_mes = 0, "
+                    + "	    cr_mes = 0";
+            try (PreparedStatement ps = conn.prepareStatement(sqlSent)) {
+                int reg = CMD.update(ps);
+                ps.close();
+                correcto = (reg > 0);
+            } // end try with resources
+        } // end if
+        
+        return correcto;
+    } // end CGguardarCatalogo
+
+    /**
+     * Se considera válida cualquier fecha que se encuentre en un periodo cerrado.
+     * @param conn Connection Conexión a la base de datos.
+     * @param fecha Date fecha a revisar
+     * @return boolean true=Fecha válida, false=Fecha no válida
+     * @throws java.sql.SQLException
+     */
+    public static boolean CGfechaValida(Connection conn, Date fecha) throws SQLException{
+        boolean valida = false;
+        Calendar cal = GregorianCalendar.getInstance();
+        cal.setTime(fecha);
+        int year  = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH) + 1;
+        
+        String sqlSent 
+                = "SELECT descrip FROM coperiodoco "
+                + "WHERE año = ? AND mes = ? AND cerrado = 1";
+        try (PreparedStatement ps = conn.prepareStatement(sqlSent, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+            ps.setInt(1, year);
+            ps.setInt(2, month);
+            ResultSet rs = CMD.select(ps);
+            if (rs == null || !rs.first()){
+                valida = true;
+            } // end if
+            ps.close();
+        } // end try with resources
+        
+        return valida;
+    } // end CGfechaValida
     /**
      * Crear una nueva tabla basada en otra + un campo de tipo varchar. Este
      * método es "case sensitive" por lo que en una instalación de Windows

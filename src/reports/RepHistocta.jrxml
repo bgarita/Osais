@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RepMov" pageWidth="612" pageHeight="792" columnWidth="592" leftMargin="18" rightMargin="2" topMargin="6" bottomMargin="6" uuid="07a34ec9-66fb-4b10-9e39-bc611f2d494a">
-	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.x" value="509"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="pQuery" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["Select   " +
@@ -36,7 +36,7 @@
 	<parameter name="pUtilidadMes" class="java.lang.Double" isForPrompting="false"/>
 	<parameter name="pUtilidadMesA" class="java.lang.Double" isForPrompting="false"/>
 	<queryString>
-		<![CDATA[$P!{pQuery} ]]>
+		<![CDATA[$P!{pQuery}]]>
 	</queryString>
 	<field name="mostrarFecha" class="java.lang.Integer"/>
 	<field name="cuenta" class="java.lang.String"/>
@@ -94,26 +94,32 @@
 		<groupFooter>
 			<band height="25">
 				<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-					<reportElement x="421" y="6" width="75" height="13" forecolor="#2E8B42" uuid="2617881b-c85a-4d3a-85cf-16b6efc77253"/>
+					<reportElement x="426" y="6" width="75" height="13" forecolor="#2E8B42" uuid="2617881b-c85a-4d3a-85cf-16b6efc77253"/>
 					<textElement textAlignment="Right">
 						<font fontName="Times New Roman" size="10" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{vSubHaber}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-					<reportElement x="342" y="6" width="75" height="13" forecolor="#2E8B42" uuid="f379392f-a2ad-412e-9810-92ea9cea5712"/>
+					<reportElement x="348" y="6" width="75" height="13" forecolor="#2E8B42" uuid="f379392f-a2ad-412e-9810-92ea9cea5712"/>
 					<textElement textAlignment="Right">
 						<font fontName="Times New Roman" size="10" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{vSubDebe}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-					<reportElement mode="Opaque" x="505" y="6" width="75" height="13" forecolor="#0033CC" backcolor="#A5A0A0" uuid="1c569711-74ba-4d3d-8147-5e1ab419960a"/>
+					<reportElement mode="Opaque" x="505" y="6" width="75" height="13" forecolor="#0033CC" backcolor="#CCCCCC" uuid="1c569711-74ba-4d3d-8147-5e1ab419960a"/>
 					<textElement textAlignment="Right">
 						<font fontName="Times New Roman" size="10" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[new BigDecimal($P{pSaldoAnterior}).add( $V{vDebe}).subtract( $V{vHaber} )]]></textFieldExpression>
 				</textField>
+				<line>
+					<reportElement x="348" y="3" width="75" height="1" uuid="924012a6-7d64-4a3b-b9b1-ffcf9a955fb7"/>
+				</line>
+				<line>
+					<reportElement x="426" y="3" width="75" height="1" uuid="40e29ea6-8e0f-402a-abd6-f89af32dfc55"/>
+				</line>
 			</band>
 		</groupFooter>
 	</group>
@@ -162,35 +168,35 @@
 	<columnHeader>
 		<band height="26" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="11" width="50" height="15" backcolor="#A5A0A0" uuid="cffda232-7dfc-4300-a853-00ab63e0a01c"/>
+				<reportElement mode="Opaque" x="0" y="11" width="50" height="15" backcolor="#CCCCCC" uuid="cffda232-7dfc-4300-a853-00ab63e0a01c"/>
 				<textElement>
 					<font fontName="Tahoma" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Asiento]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="311" y="11" width="50" height="15" backcolor="#A5A0A0" uuid="e2c454a4-c127-4b13-8f55-4e8ffeb22cf6"/>
+				<reportElement mode="Opaque" x="295" y="11" width="50" height="15" backcolor="#CCCCCC" uuid="e2c454a4-c127-4b13-8f55-4e8ffeb22cf6"/>
 				<textElement textAlignment="Center">
 					<font fontName="Tahoma" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Fecha]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="361" y="11" width="56" height="15" backcolor="#A5A0A0" uuid="33c6281b-fe1c-4efd-abfb-af94bf0b4de7"/>
+				<reportElement mode="Opaque" x="348" y="11" width="75" height="15" backcolor="#CCCCCC" uuid="33c6281b-fe1c-4efd-abfb-af94bf0b4de7"/>
 				<textElement textAlignment="Right">
 					<font fontName="Tahoma" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Débitos]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="434" y="11" width="62" height="15" backcolor="#A5A0A0" uuid="3743db03-554d-40e7-81ec-0708bb7df7f0"/>
+				<reportElement mode="Opaque" x="426" y="11" width="75" height="15" backcolor="#CCCCCC" uuid="3743db03-554d-40e7-81ec-0708bb7df7f0"/>
 				<textElement textAlignment="Right">
 					<font fontName="Tahoma" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Créditos]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="517" y="11" width="63" height="15" backcolor="#A5A0A0" uuid="d6d98c89-ce37-4e7d-b736-a339c2bd6be5"/>
+				<reportElement mode="Opaque" x="505" y="11" width="75" height="15" backcolor="#CCCCCC" uuid="d6d98c89-ce37-4e7d-b736-a339c2bd6be5"/>
 				<textElement textAlignment="Right">
 					<font fontName="Tahoma" size="11" isBold="true"/>
 				</textElement>
@@ -201,14 +207,14 @@
 	<detail>
 		<band height="13" splitType="Stretch">
 			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-				<reportElement x="361" y="0" width="56" height="13" uuid="d0c122e9-b194-4b04-b8a0-5b33a94c265b"/>
+				<reportElement x="348" y="0" width="75" height="13" uuid="d0c122e9-b194-4b04-b8a0-5b33a94c265b"/>
 				<textElement textAlignment="Right">
 					<font fontName="Times New Roman" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{debe}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-				<reportElement x="421" y="0" width="75" height="13" uuid="54222c2b-573b-412a-8505-c504976f8f71"/>
+				<reportElement x="426" y="0" width="75" height="13" uuid="54222c2b-573b-412a-8505-c504976f8f71"/>
 				<textElement textAlignment="Right">
 					<font fontName="Times New Roman" size="10"/>
 				</textElement>
@@ -222,14 +228,14 @@
 				<textFieldExpression><![CDATA[$F{no_comprob}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement isPrintRepeatedValues="false" x="311" y="0" width="50" height="13" isPrintInFirstWholeBand="true" uuid="24e68491-0405-4f26-b69b-e3e24f14296d"/>
+				<reportElement isPrintRepeatedValues="false" x="295" y="0" width="50" height="13" isPrintInFirstWholeBand="true" uuid="24e68491-0405-4f26-b69b-e3e24f14296d"/>
 				<textElement textAlignment="Center">
 					<font fontName="Times New Roman" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fecha_comp}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement isPrintRepeatedValues="false" x="69" y="0" width="242" height="13" isPrintInFirstWholeBand="true" uuid="89305154-b8a3-4ae3-b40d-fe8051fcb661"/>
+				<reportElement stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="69" y="0" width="225" height="13" isPrintInFirstWholeBand="true" uuid="89305154-b8a3-4ae3-b40d-fe8051fcb661"/>
 				<textElement>
 					<font fontName="Times New Roman"/>
 				</textElement>
@@ -252,7 +258,7 @@
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="79" splitType="Stretch">
+		<band height="82" splitType="Stretch">
 			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
 				<reportElement x="100" y="25" width="95" height="15" uuid="1388f8e0-3428-469f-a9f8-1a0943ec7618"/>
 				<textElement textAlignment="Right">

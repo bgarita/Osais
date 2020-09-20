@@ -53,48 +53,21 @@ PENDIENTE
     por el EXE (los Writeln() que genera el sistema).
 
 
-Contabilidad #2 (En fox) Dufará (procesando solo el primer mes)
-- El balance tanto a nivel del mayor como de comprobación están correctos.
-- El reporte de asientos está correcto.
-- Balance de situación para febrero 2010:
-    - Total activos es correcto
-    - Pasivo a corto plazo está correcto
-    - Patrimonio está correcto
-    - Utilidad del periodo está correcta
-    - Total pasivo y patrimonio correcto
-    
-    En java sale màs detalle que en fox: Hay que revisar de donde se generan las 
-    agrupaciones porque algunas están repetidas.
 
-0.  Balance de situación.  sale más detalle que en Fox. Probar eliminar todas las
-    subcuentas (sub_cta) que sean distintas de 000 sin eliminar los registros en blanco que
-    se metieron.  ver como sale el reporte y si aún así no sale bien probar cambiar el
-    orden a mayor en vez de orden.
+--- CONTABILIDAD ---
+Contabilidad #4 (parqueo don Mincho)
+- Revisar balance Jun 2010      LISTO
+ 
+- Crear proceso de cierre mensual
+- Crear proceso de estado de resultados (pantalla de parámetros)
 
-
-1.  Hay que ver porqué la variable de pasivo y capital
-    no tiene datos. (es que las cuentas de mayor no tienen datos, hay que ver a otros niveles si
-    continúa el mismo comportamiento).
-2.  En el balanceSituacion2 en el encabezado y el detalle sale lo mismo.  Revisar contra fox para encontrar 
-    la diferencia a la hora de preparar los datos. Pero debe cargarse una contabilidad que tenga ya los datos
-    creados en Fox.
-
-
-
-*   Crear reporte de balance (a todos los niveles)
-*   Reporte estados financieros
-*   Reporte esatdo de resultados
-*   Reporte histórico de movimientos de cuentas
-*   Reporte de cédulas
-*   Cierre mensual
-*   Crear proceso de registro de cheques
+REVISAR DATOS DE ABRIL PARA HACER CIERRE MENSUAL.  Tener en cuenta que aún no se ha cargado ASLCG02
 
 
 
 NOTAS:
 1.  Se creó la tabla hcocatalo con la misma estructura de cocatalogo más el campo fecha_cierre.
-    Esta fecha es de tipo date y se usa como parte de la llave para guardar la fecha en que se
-    ejecutó el cierre mensual contable.
+    Esta fecha es de tipo date y se usa como parte de la llave para guardar la fecha del último día del mes en proceso.
 2.  Se creó una función saldoAl() dentro de UtilBD.java que obtiene el saldo de una cuenta específica 
     a una fecha específica. Esta función será usada en varios procesos como el 
     movimiento de cuentas que está en el mantenimiento de cuentas o el auxiliar analítico.

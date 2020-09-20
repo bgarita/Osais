@@ -75,7 +75,7 @@ public class Inclient extends javax.swing.JFrame implements IMantenimiento {
         // Establecer la máscara telefónica de acuerdo con la configuración.
         javax.swing.JFormattedTextField[] campos
                 = {txtClitel1, txtClitel2, txtClitel3, txtClicelu, txtClifax};
-        UtilBD.setMarcaraT(c, campos);
+        UtilBD.setMascaraT(c, campos);
         // Fin Bosco agregado 15/01/2012.
 
         // Esta sería la forma de utilizar la clase cliente.
