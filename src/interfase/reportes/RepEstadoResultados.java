@@ -4,7 +4,6 @@ import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
 import interfase.menus.Menu;
-import interfase.otros.Buscador;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,9 +22,9 @@ import logica.utilitarios.Ut;
  *
  * @author bgarita, 09/09/2020
  */
-public class RepCedulas extends javax.swing.JFrame {
+public class RepEstadoResultados extends javax.swing.JFrame {
 
-    private static final long serialVersionUID = 2L;
+    private static final long serialVersionUID = 23L;
     private final Connection conn;
     private final JTextField txtCuent;
     private final Bitacora b = new Bitacora();
@@ -35,7 +34,7 @@ public class RepCedulas extends javax.swing.JFrame {
     /**
      * Creates new form RepCedulas
      */
-    public RepCedulas() {
+    public RepEstadoResultados() {
         initComponents();
         this.init = true;
         this.conn = Menu.CONEXION.getConnection();
@@ -56,7 +55,6 @@ public class RepCedulas extends javax.swing.JFrame {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         cboMes = new javax.swing.JComboBox();
         jLabel3 = new javax.swing.JLabel();
         txtAno = new javax.swing.JFormattedTextField();
@@ -64,22 +62,10 @@ public class RepCedulas extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         btnImprimir = new javax.swing.JButton();
         btnCerrar = new javax.swing.JButton();
-        txtMayor = new javax.swing.JFormattedTextField();
-        txtSub_cta = new javax.swing.JFormattedTextField();
-        txtSub_sub = new javax.swing.JFormattedTextField();
-        lblNom_cta = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        radFecha = new javax.swing.JRadioButton();
-        radMes = new javax.swing.JRadioButton();
-        radMesA = new javax.swing.JRadioButton();
-        radAñoA = new javax.swing.JRadioButton();
-        lblSaldo = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuArchivo = new javax.swing.JMenu();
         mnuImprimir = new javax.swing.JMenuItem();
         mnuSalir = new javax.swing.JMenuItem();
-        mnuEdicion = new javax.swing.JMenu();
-        mnuBuscar = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cédulas");
@@ -87,10 +73,7 @@ public class RepCedulas extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 153));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Reporte de cédulas");
-
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel2.setText("Cuenta");
+        jLabel1.setText("Estado de resultados");
 
         cboMes.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
         cboMes.addActionListener(new java.awt.event.ActionListener() {
@@ -159,139 +142,6 @@ public class RepCedulas extends javax.swing.JFrame {
                 .addGap(4, 4, 4))
         );
 
-        try {
-            txtMayor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-        txtMayor.setText("000");
-        txtMayor.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        txtMayor.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtMayorFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtMayorFocusLost(evt);
-            }
-        });
-        txtMayor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtMayorActionPerformed(evt);
-            }
-        });
-
-        try {
-            txtSub_cta.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-        txtSub_cta.setText("000");
-        txtSub_cta.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        txtSub_cta.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtSub_ctaFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtSub_ctaFocusLost(evt);
-            }
-        });
-        txtSub_cta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSub_ctaActionPerformed(evt);
-            }
-        });
-
-        try {
-            txtSub_sub.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-        txtSub_sub.setText("000");
-        txtSub_sub.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        txtSub_sub.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtSub_subFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtSub_subFocusLost(evt);
-            }
-        });
-        txtSub_sub.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSub_subActionPerformed(evt);
-            }
-        });
-
-        lblNom_cta.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        lblNom_cta.setForeground(new java.awt.Color(0, 102, 51));
-        lblNom_cta.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblNom_cta.setText("<cta>");
-
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Tipo de saldo"));
-
-        buttonGroup1.add(radFecha);
-        radFecha.setSelected(true);
-        radFecha.setText("A la fecha");
-        radFecha.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                radFechaActionPerformed(evt);
-            }
-        });
-
-        buttonGroup1.add(radMes);
-        radMes.setText("Del mes");
-        radMes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                radMesActionPerformed(evt);
-            }
-        });
-
-        buttonGroup1.add(radMesA);
-        radMesA.setText("Mes anterior");
-        radMesA.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                radMesAActionPerformed(evt);
-            }
-        });
-
-        buttonGroup1.add(radAñoA);
-        radAñoA.setText("Año anterior");
-        radAñoA.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                radAñoAActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(radFecha)
-                    .addComponent(radMes)
-                    .addComponent(radMesA)
-                    .addComponent(radAñoA))
-                .addContainerGap(28, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(radFecha)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(radMes)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(radMesA)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(radAñoA)
-                .addGap(0, 8, Short.MAX_VALUE))
-        );
-
-        lblSaldo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblSaldo.setText("0.00");
-        lblSaldo.setPreferredSize(new java.awt.Dimension(22, 15));
-
         mnuArchivo.setText("Archivo");
         mnuArchivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -321,20 +171,6 @@ public class RepCedulas extends javax.swing.JFrame {
 
         jMenuBar1.add(mnuArchivo);
 
-        mnuEdicion.setText("Edición");
-
-        mnuBuscar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
-        mnuBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/binocular.png"))); // NOI18N
-        mnuBuscar.setText("Buscar");
-        mnuBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuBuscarActionPerformed(evt);
-            }
-        });
-        mnuEdicion.add(mnuBuscar);
-
-        jMenuBar1.add(mnuEdicion);
-
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -344,64 +180,38 @@ public class RepCedulas extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblNom_cta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(cboMes, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtAno, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtMayor, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtSub_cta, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtSub_sub, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel4)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(134, 134, 134)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(135, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(lblSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtSub_sub, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtSub_cta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtMayor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblNom_cta, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(58, 58, 58)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cboMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtAno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel4)
                         .addComponent(jLabel3)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4))
         );
 
-        setSize(new java.awt.Dimension(416, 380));
+        setSize(new java.awt.Dimension(416, 258));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -413,24 +223,6 @@ public class RepCedulas extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_mnuSalirActionPerformed
 
-    private void mnuBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBuscarActionPerformed
-        String tabla = "cocatalogo";
-        Buscador bd = new Buscador(new java.awt.Frame(), true,
-                tabla, "Concat(mayor,sub_cta,sub_sub,colect) as cta,nom_cta", "nom_cta", txtCuent, conn);
-        bd.setTitle("Buscar cuentas");
-        bd.lblBuscar.setText("Cuenta");
-        bd.setColumnHeader(0, "Cuenta");
-        bd.setColumnHeader(1, "Nombre de la cuenta");
-        bd.setVisible(true);
-
-        String cuenta = txtCuent.getText().trim();
-        txtMayor.setText(cuenta.substring(0, 3));
-        txtSub_cta.setText(cuenta.substring(3, 6));
-        txtSub_sub.setText(cuenta.substring(6, 9));
-
-        findAccount();
-    }//GEN-LAST:event_mnuBuscarActionPerformed
-
     private void txtAnoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtAnoFocusGained
         txtAno.selectAll();
     }//GEN-LAST:event_txtAnoFocusGained
@@ -441,7 +233,6 @@ public class RepCedulas extends javax.swing.JFrame {
         if (this.txtAno.getText().trim().equals("0")) {
             this.setCurrentPeriod();
         }
-        this.findAccount();
     }//GEN-LAST:event_txtAnoFocusLost
 
     private void txtAnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAnoActionPerformed
@@ -449,13 +240,24 @@ public class RepCedulas extends javax.swing.JFrame {
     }//GEN-LAST:event_txtAnoActionPerformed
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
+        /*
+        1.  Determinar si se usa el histórico o el catálogo actual.
+        2.  Calcular el saldo de todas las cuentas que están en la tabla cocuentaser
+        3.  Imprimir los resultados.
+        
+        Ver el formulario de fox: EstadoResult.scx
+        */
+        
+        
+        
+        /*
         String tabla, sqlSent, where, formJasper, cuenta, saldo, tipoSaldo, saldox, filtro;
         String mayor, sub_cta, sub_sub, periodo;
 
         if (!validar()) {
             return;
         } // end if
-
+        
         mayor = this.txtMayor.getText().trim();
         sub_cta = this.txtSub_cta.getText().trim();
         sub_sub = this.txtSub_sub.getText().trim();
@@ -536,7 +338,7 @@ public class RepCedulas extends javax.swing.JFrame {
                 saldo,
                 tipoSaldo,
                 periodo);
-
+        */
     }//GEN-LAST:event_btnImprimirActionPerformed
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
@@ -550,73 +352,6 @@ public class RepCedulas extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnCerrarActionPerformed
 
-    private void txtMayorFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMayorFocusGained
-        txtMayor.selectAll();
-    }//GEN-LAST:event_txtMayorFocusGained
-
-    private void txtSub_ctaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSub_ctaFocusGained
-        txtMayor.selectAll();
-    }//GEN-LAST:event_txtSub_ctaFocusGained
-
-    private void txtSub_subFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSub_subFocusGained
-        txtMayor.selectAll();
-    }//GEN-LAST:event_txtSub_subFocusGained
-
-    private void txtMayorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMayorFocusLost
-        if (txtMayor.getText().trim().isEmpty()) {
-            return;
-        } // end if
-
-        findAccount();
-    }//GEN-LAST:event_txtMayorFocusLost
-
-    private void txtSub_ctaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSub_ctaFocusLost
-        if (txtSub_cta.getText().trim().isEmpty()) {
-            return;
-        } // end if
-
-        findAccount();
-    }//GEN-LAST:event_txtSub_ctaFocusLost
-
-    private void txtSub_subFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSub_subFocusLost
-        if (txtSub_sub.getText().trim().isEmpty()) {
-            return;
-        } // end if
-
-        findAccount();
-    }//GEN-LAST:event_txtSub_subFocusLost
-
-    private void txtMayorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMayorActionPerformed
-        txtMayorFocusLost(null);
-        txtMayor.transferFocus();
-    }//GEN-LAST:event_txtMayorActionPerformed
-
-    private void txtSub_ctaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSub_ctaActionPerformed
-        txtSub_ctaFocusLost(null);
-        txtSub_cta.transferFocus();
-    }//GEN-LAST:event_txtSub_ctaActionPerformed
-
-    private void txtSub_subActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSub_subActionPerformed
-        txtSub_subFocusLost(null);
-        txtSub_sub.transferFocus();
-    }//GEN-LAST:event_txtSub_subActionPerformed
-
-    private void radFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radFechaActionPerformed
-        this.findAccount();
-    }//GEN-LAST:event_radFechaActionPerformed
-
-    private void radMesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radMesActionPerformed
-        this.findAccount();
-    }//GEN-LAST:event_radMesActionPerformed
-
-    private void radMesAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radMesAActionPerformed
-        this.findAccount();
-    }//GEN-LAST:event_radMesAActionPerformed
-
-    private void radAñoAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radAñoAActionPerformed
-        this.findAccount();
-    }//GEN-LAST:event_radAñoAActionPerformed
-
     private void cboMesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboMesActionPerformed
         if (this.init) {
             return;
@@ -624,7 +359,6 @@ public class RepCedulas extends javax.swing.JFrame {
         if (this.txtAno.getText().trim().equals("0")) {
             setCurrentPeriod();
         }
-        this.findAccount();
     }//GEN-LAST:event_cboMesActionPerformed
 
     private void mnuArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuArchivoActionPerformed
@@ -648,19 +382,20 @@ public class RepCedulas extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(RepCedulas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RepEstadoResultados.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(RepCedulas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RepEstadoResultados.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(RepCedulas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RepEstadoResultados.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(RepCedulas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RepEstadoResultados.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new RepCedulas().setVisible(true);
+            new RepEstadoResultados().setVisible(true);
         });
     }
 
@@ -670,27 +405,14 @@ public class RepCedulas extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox cboMes;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JLabel lblNom_cta;
-    private javax.swing.JLabel lblSaldo;
     private javax.swing.JMenu mnuArchivo;
-    private javax.swing.JMenuItem mnuBuscar;
-    private javax.swing.JMenu mnuEdicion;
     private javax.swing.JMenuItem mnuImprimir;
     private javax.swing.JMenuItem mnuSalir;
-    private javax.swing.JRadioButton radAñoA;
-    private javax.swing.JRadioButton radFecha;
-    private javax.swing.JRadioButton radMes;
-    private javax.swing.JRadioButton radMesA;
     private javax.swing.JFormattedTextField txtAno;
-    private javax.swing.JFormattedTextField txtMayor;
-    private javax.swing.JFormattedTextField txtSub_cta;
-    private javax.swing.JFormattedTextField txtSub_sub;
     // End of variables declaration//GEN-END:variables
 
     private boolean validar() {
@@ -789,41 +511,7 @@ public class RepCedulas extends javax.swing.JFrame {
         return correcto;
     } // end validarPer
 
-    private void findAccount() {
-        try {
-            String cuenta = this.txtMayor.getText().trim();
-            cuenta += this.txtSub_cta.getText().isEmpty() ? "000" : this.txtSub_cta.getText().trim();
-            cuenta += this.txtSub_sub.getText().isEmpty() ? "000" : this.txtSub_sub.getText().trim();
-            cuenta += "000";
-
-            coca.setTabla("cocatalogo");
-
-            int año = Integer.parseInt(this.txtAno.getText().trim());
-            if (año > 0) {
-                coca.setTabla("hcocatalogo");
-                coca.setPerA(año);
-            } // end if
-            coca.setPerM(this.cboMes.getSelectedIndex() + 1);
-            coca.setCuentaString(cuenta);
-            this.lblNom_cta.setText(coca.getNom_cta());
-
-            if (this.radFecha.isSelected()) {
-                this.lblSaldo.setText(Ut.setDecimalFormat(coca.getSaldoActual() + "", "#,##0.00"));
-            } else if (this.radMes.isSelected()) {
-                this.lblSaldo.setText(Ut.setDecimalFormat(coca.getSaldoMes() + "", "#,##0.00"));
-            } else if (this.radMesA.isSelected()) {
-                this.lblSaldo.setText(Ut.setDecimalFormat(coca.getSaldoMesAnterior() + "", "#,##0.00"));
-            } else {
-                this.lblSaldo.setText(Ut.setDecimalFormat(coca.getSaldoAñoAnterior() + "", "#,##0.00"));
-            } // end if-else
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null,
-                    ex.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
-        }
-    } // end findAccount
+    
 
     private void setCurrentPeriod() {
         PeriodoContable per = new PeriodoContable(conn);

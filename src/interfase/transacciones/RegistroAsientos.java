@@ -1067,7 +1067,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
                     Ut.setDecimalFormat(asientoD.getTotalDebito() - asientoD.getTotalCredito() + "", "#,##0.00"));
 
         } catch (Exception ex) {
-            Logger.getLogger(RegistroAsientos.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",

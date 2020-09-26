@@ -476,6 +476,7 @@ public class Menu extends javax.swing.JFrame {
         mnuConsecutivos = new javax.swing.JMenuItem();
         jSeparator14 = new javax.swing.JPopupMenu.Separator();
         mnuParmCont = new javax.swing.JMenuItem();
+        mnuParER = new javax.swing.JMenuItem();
         mnuAdmin = new javax.swing.JMenu();
         chkMenuSistemaDisp = new javax.swing.JCheckBoxMenuItem();
         mnuUsuarios = new javax.swing.JMenuItem();
@@ -1852,6 +1853,14 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuConfig.add(mnuParmCont);
 
+        mnuParER.setText("Parámetros estado de resultados");
+        mnuParER.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuParERActionPerformed(evt);
+            }
+        });
+        mnuConfig.add(mnuParER);
+
         mnuPrincipal.add(mnuConfig);
 
         mnuAdmin.setText("Admin");
@@ -2045,7 +2054,7 @@ public class Menu extends javax.swing.JFrame {
         try {
             driver = new CathalogDriver(CONEXION.getConnection(), catalogo);
         } catch (SQLException ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -3786,6 +3795,10 @@ CONEXION.getConnection(), // Conexión
         RegistroAsientos.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuAsientosActionPerformed
 
+    private void mnuParERActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuParERActionPerformed
+        CocuentasER.main(new String[1]);
+    }//GEN-LAST:event_mnuParERActionPerformed
+
     public static void main(final DataBaseConnection c, final boolean disponible, final String url) {
 
         /* Set the Nimbus look and feel */
@@ -3969,6 +3982,7 @@ CONEXION.getConnection(), // Conexión
     private javax.swing.JMenuItem mnuPagosCXC;
     private javax.swing.JMenuItem mnuPagosCXP;
     private javax.swing.JMenuItem mnuPagos_recibos_CXC;
+    private javax.swing.JMenuItem mnuParER;
     private javax.swing.JMenuItem mnuParmCont;
     private javax.swing.JMenu mnuPedidos;
     private javax.swing.JMenuItem mnuPedidosV;

@@ -998,6 +998,70 @@ public class Ut {
         // end if
         return row;
     } // end seek
+    
+    /**
+     * Autor: Bosco Garita 20/09/2020 Devuelve el número de fila en donde se
+     * encontraron los valores, <br>
+     * -1 si el valor no es encontrado.
+     *
+     * @param table JTable en donde se hará la búsqueda
+     * @param valores Object[] valore a buscar
+     * @param columns int[] columnas en donde se realizará la búsqueda
+     * @return int fila en donde se encontraron los valores o -1 si no se encontró
+     */
+    public static int seek(JTable table, Object[] valores, Integer[] columns) {
+        if (valores == null) {
+            return -1;
+        } // end if
+        
+        // Trato de localizar la primera columna que viene en el arreglo.
+        // Si no existe no continúo con la búsqueda
+        int fila = seek(table, valores[0], columns[0]);
+        
+        if (fila < 0){
+            return -1;
+        } // end if
+        
+        // Concateno todos los valores del arreglo para compararlos
+        String aValores = "";
+        String tValores;
+        for (Object o:valores){
+            aValores += o;
+        } // end for
+        
+        // Ahora concateno los valores de la tabla para hacer la comparación
+        int row;
+        boolean found = false;
+        for (row = 0; row < table.getRowCount(); row++) {
+            if (table.getValueAt(row, 0) == null) {
+                continue;
+            }
+            
+            // Concateno los valores de las columnas de acuerdo con los índices que vienen en el arreglo
+            tValores = "";
+            for (int col = 0; col < table.getColumnCount(); col++){
+                for (int i = 0; i < columns.length; i++){
+                    if (columns[i] == col){
+                        tValores += table.getValueAt(row, col);
+                    } // end if
+                } // end for
+            } // end for
+            
+            if (aValores.equals(tValores)){
+                boolean toggle = false, extend = false;
+                table.changeSelection(row, 0, toggle, extend);
+                found = true;
+                break;
+            } // end if
+        } // end for
+
+        if (found){
+            return row;
+        } else {
+            return -1;
+        }
+        
+    } // end seek
 
     /**
      * Busca dos valores en dos columnas distintas pero en la misma fila <br>

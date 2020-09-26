@@ -1,0 +1,82 @@
+// v_cantones
+SELECT
+	`canton`.`id` AS `id`,
+	`canton`.`idProvincia` AS `idProvincia`,
+	`canton`.`codigo` AS `codigo`,
+	`canton`.`canton` AS `canton`,
+	`provincia`.`provincia` AS `provincia`,
+	`provincia`.`codigo` AS `codigoProvincia`
+FROM
+	(
+		`canton`
+		JOIN `provincia` ON (
+			(
+				`canton`.`idProvincia` = `provincia`.`id`
+			)
+		)
+	)
+    
+// v_distritos
+
+SELECT
+	`distrito`.`id` AS `id`,
+	`distrito`.`idCanton` AS `idCanton`,
+	`distrito`.`codigo` AS `codigo`,
+	`distrito`.`distrito` AS `distrito`,
+	`canton`.`codigo` AS `codigoCanton`,
+	`canton`.`canton` AS `canton`,
+	`provincia`.`provincia` AS `provincia`,
+	`provincia`.`codigo` AS `codigoProvincia`
+FROM
+	(
+		(
+			`distrito`
+			JOIN `canton` ON (
+				(
+					`distrito`.`idCanton` = `canton`.`id`
+				)
+			)
+		)
+		JOIN `provincia` ON (
+			(
+				`canton`.`idProvincia` = `provincia`.`id`
+			)
+		)
+	)
+
+//v_barrios
+
+SELECT
+	`barrio`.`id` AS `id`,
+	`barrio`.`idDistrito` AS `idDistrito`,
+	`barrio`.`codigo` AS `codigo`,
+	`barrio`.`barrio` AS `barrio`,
+	`distrito`.`distrito` AS `distrito`,
+	`canton`.`canton` AS `canton`,
+	`provincia`.`provincia` AS `provincia`,
+	`provincia`.`codigo` AS `codigoProvincia`,
+	`canton`.`codigo` AS `codigoCanton`,
+	`distrito`.`codigo` AS `codigoDistrito`
+FROM
+	(
+		(
+			(
+				`barrio`
+				JOIN `distrito` ON (
+					(
+						`barrio`.`idDistrito` = `distrito`.`id`
+					)
+				)
+			)
+			JOIN `canton` ON (
+				(
+					`distrito`.`idCanton` = `canton`.`id`
+				)
+			)
+		)
+		JOIN `provincia` ON (
+			(
+				`canton`.`idProvincia` = `provincia`.`id`
+			)
+		)
+	)
