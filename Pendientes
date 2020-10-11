@@ -60,6 +60,7 @@ Contabilidad #4 (parqueo don Mincho)
  
 - Crear proceso de cierre mensual
 - Crear proceso de estado de resultados (pantalla de parámetros)
+  Se crearon las dos tablas y la pantalla pero falta revisar en fox para qué se usa el check procesar.
 
 REVISAR DATOS DE ABRIL PARA HACER CIERRE MENSUAL.  Tener en cuenta que aún no se ha cargado ASLCG02
 
@@ -72,3 +73,42 @@ NOTAS:
     a una fecha específica. Esta función será usada en varios procesos como el 
     movimiento de cuentas que está en el mantenimiento de cuentas o el auxiliar analítico.
     
+
+
+--- CABYS ---
+Para la implementación del CABYS (Catálogo de Bienes y Servicios) de Hacienda
+se debe hacer lo siguiente:
+1. Crear una tabla con ese nombre cabys con tres campos (codigocabys, descrip, impuesto)
+2. Crear una pantalla que busque el CABYS descargado de Hacienda y lo lea entero
+    determinando si el producto existe o no.
+    a. Si existe actualizar la descripción y el impuesto.
+    b. Si no existe agregar el registro.
+    c. Debe agregar un registro con el codigocabys en blanco, la descripción = "Producto CABYS no definido", impuesto= -1.00
+   Este proceso deberá estar actualizándose frecuentemente de manera que si Hacienda
+   hace cambios, el sistema se actualice cuando se descarga el CABYS.
+   NOTA: En el caso del impuesto viene la palabra Excento en vez de un cero en la
+         hoja de Excel.  Esto se debe validar para que el programa no se caiga y
+         a la vez para poner un cero en la tabla cabys.
+3. Agregar un campo (codigocabys) en las tablas inarticu, hinarticu, fadetall y 
+   wrk_fadetall que sean llave foránea de la tabla cabys con actualización en 
+   cascada y set restricción de borrado. Este campo tendrá un espacio en blanco
+   como default.
+4. Modificar la pantalla de mantenimiento de artículos para que utilice y valide
+   el código cabys.
+5. Crear un método en la clase UtilBD.java que determine el impuesto a usar a
+   la hora de hacer una factura. 
+    -- Parámetros: código de tarifa y codigo cabys
+    -- Devolución: porcentaje de impuesto (-1.00 si el código cabys no es encontrado)
+   a. Si el impuesto en la tabla tarifa_iva es diferente del que se encuentra
+      en la tabla cabys se debe informar al usuario pero se le advertirá que
+      el impuesto a utilizar será el de cabys.
+6. Modificar la pantalla de facturación para que use este nuevo método.
+   Si el valor retornado es negativo debe enviar un mensaje de error que diga
+   "Producto CABYS no definido". Este error de validación se puede dar en los
+   siguientes casos:
+   a. Cuando el código cabys no existe en la tabla cabys.
+   b. Cuando el código cabys en la tabla inarticu está en blanco.
+   Si se produce este error de validación no se permitirá factura dicho artículo.
+   Esta pantalla debe asegurarse de guardar el nuevo campo en las tablas de 
+   facturación.  Para eso es necesario modificar todos los procedimientos almacenados
+   que se usan tanto para agregar los registros en wrk_fadetall como en fadetall.

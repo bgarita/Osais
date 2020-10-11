@@ -154,7 +154,7 @@ public class CierreConta extends javax.swing.JFrame {
 
             boolean correcto = UtilBD.CGmoverAsientosHistorico(conn);
 
-            if (correcto && UtilBD.cerrarPeriodoActual(conn, per)) {
+            if (correcto && UtilBD.CGcerrarPeriodoActual(conn, per)) {
                 correcto = UtilBD.CGguardarCatalogo(conn, per.getFecha_fi());
             } // end if
 

@@ -95,6 +95,10 @@ public class PeriodoContable {
         
     } // end setData
 
+    /**
+     * Retorna el número de mes (1-12)
+     * @return 
+     */
     public int getMes() {
         return mes;
     }

@@ -4,19 +4,39 @@ import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
 import interfase.menus.Menu;
+import java.awt.Color;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import logica.contabilidad.Cocatalogo;
 import logica.contabilidad.PeriodoContable;
+import logica.utilitarios.FormatoTabla;
 import logica.utilitarios.Ut;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.DataFormat;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
 
 /**
  *
@@ -30,6 +50,9 @@ public class RepEstadoResultados extends javax.swing.JFrame {
     private final Bitacora b = new Bitacora();
     private final Cocatalogo coca;
     private boolean init;
+    private List<ParametrosER> listPar;
+    private FormatoTabla formatoTabla;
+    private String numberFormat;
 
     /**
      * Creates new form RepCedulas
@@ -37,11 +60,21 @@ public class RepEstadoResultados extends javax.swing.JFrame {
     public RepEstadoResultados() {
         initComponents();
         this.init = true;
+        this.numberFormat = "#,##0.00";
         this.conn = Menu.CONEXION.getConnection();
         this.coca = new Cocatalogo(conn);
         this.txtCuent = new JTextField("000");
         setCurrentPeriod();
         this.init = false;
+        this.listPar = new ArrayList<>();
+        this.formatoTabla = new FormatoTabla();
+
+        try {
+            formatoTabla.formatColumn(tblParametros, 1, FormatoTabla.H_RIGHT, Color.BLUE);
+        } catch (Exception ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+        } // end try-catch
     }
 
     /**
@@ -55,32 +88,29 @@ public class RepEstadoResultados extends javax.swing.JFrame {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
-        cboMes = new javax.swing.JComboBox();
+        cboMes = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         txtAno = new javax.swing.JFormattedTextField();
         jLabel4 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         btnImprimir = new javax.swing.JButton();
         btnCerrar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblParametros = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuArchivo = new javax.swing.JMenu();
         mnuImprimir = new javax.swing.JMenuItem();
         mnuSalir = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Cédulas");
+        setTitle("Estado de resultados");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 153));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Estado de resultados");
 
-        cboMes.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
-        cboMes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboMesActionPerformed(evt);
-            }
-        });
+        cboMes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel3.setText("Año");
@@ -142,6 +172,50 @@ public class RepEstadoResultados extends javax.swing.JFrame {
                 .addGap(4, 4, 4))
         );
 
+        tblParametros.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Parámetro", "Monto", "Cuenta"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.String.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tblParametros);
+        if (tblParametros.getColumnModel().getColumnCount() > 0) {
+            tblParametros.getColumnModel().getColumn(0).setMaxWidth(60);
+            tblParametros.getColumnModel().getColumn(1).setPreferredWidth(130);
+            tblParametros.getColumnModel().getColumn(1).setMaxWidth(200);
+        }
+
         mnuArchivo.setText("Archivo");
         mnuArchivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -180,18 +254,19 @@ public class RepEstadoResultados extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(cboMes, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 280, Short.MAX_VALUE)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtAno, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4)))
+                        .addComponent(jLabel4))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -199,19 +274,21 @@ public class RepEstadoResultados extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(58, 58, 58)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cboMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtAno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel4)
                         .addComponent(jLabel3)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4))
         );
 
-        setSize(new java.awt.Dimension(416, 258));
+        setSize(new java.awt.Dimension(656, 599));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -233,6 +310,8 @@ public class RepEstadoResultados extends javax.swing.JFrame {
         if (this.txtAno.getText().trim().equals("0")) {
             this.setCurrentPeriod();
         }
+
+        loadData();
     }//GEN-LAST:event_txtAnoFocusLost
 
     private void txtAnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAnoActionPerformed
@@ -240,105 +319,52 @@ public class RepEstadoResultados extends javax.swing.JFrame {
     }//GEN-LAST:event_txtAnoActionPerformed
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
-        /*
-        1.  Determinar si se usa el histórico o el catálogo actual.
-        2.  Calcular el saldo de todas las cuentas que están en la tabla cocuentaser
-        3.  Imprimir los resultados.
-        
-        Ver el formulario de fox: EstadoResult.scx
-        */
-        
-        
-        
-        /*
-        String tabla, sqlSent, where, formJasper, cuenta, saldo, tipoSaldo, saldox, filtro;
-        String mayor, sub_cta, sub_sub, periodo;
+        String periodo;
 
         if (!validar()) {
             return;
         } // end if
-        
-        mayor = this.txtMayor.getText().trim();
-        sub_cta = this.txtSub_cta.getText().trim();
-        sub_sub = this.txtSub_sub.getText().trim();
 
-        cuenta = "Cuenta: " + mayor + sub_cta + sub_sub + " " + this.lblNom_cta.getText().trim();
-        saldo = this.lblSaldo.getText().trim();
-
-        formJasper = "RepCedulas.jasper";
-
-        where = " where ";
-
-        if (!sub_sub.isEmpty() && !sub_sub.trim().equals("000")) {
-            where += "mayor = '" + mayor + "' and sub_cta = '" + sub_cta + "' and sub_sub = '" + sub_sub + "'";
-        } else if (!sub_cta.isEmpty() && !sub_cta.trim().equals("000")) {
-            where += "mayor = '" + mayor + "' and sub_cta = '" + sub_cta + "'";
-        } else if (!mayor.isEmpty()) {
-            where += "mayor = '" + mayor + "'";
-        } else {
+        /*
+        Continuar acá.
+        Se debe totalizar cada parámetro (objetos en la lista)
+        y luego enviar la información al metodo que genera el xls
+         */
+        try {
+            for (int i = 0; i < this.listPar.size(); i++) {
+                Object filterValue = this.listPar.get(i).getParametro();
+                Number monto = Ut.sum(tblParametros, 1, filterValue, 0);
+                this.listPar.get(i).setMonto(monto.doubleValue());
+            } // end for
+        } catch (Exception ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             JOptionPane.showMessageDialog(null,
-                    "Debe digitar una cuenta válida",
+                    ex.getMessage(),
                     "Error",
-                    JOptionPane.ERROR);
+                    JOptionPane.ERROR_MESSAGE);
             return;
-        } // end if-else
-
-        where += " and nivel = 1 and ano_anter+(db_fecha-cr_fecha)+(db_mes-cr_mes) <> 0";
+        } // end try-catch
 
         PeriodoContable per = new PeriodoContable(conn);
         if (!txtAno.getText().trim().equals("0")) {
             per.setAño(Integer.parseInt(this.txtAno.getText().trim()));
             per.setMes(this.cboMes.getSelectedIndex() + 1);
             per.cargarRegistro(conn);
-        }
+        } // end if
 
         periodo = per.getMesLetras() + ", " + per.getAño();
+        try {
+            generarEstadoResultadosXLS(periodo);
+        } catch (IOException | SQLException ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            JOptionPane.showMessageDialog(null,
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        } // end try-catch
 
-        tipoSaldo = "Tipo de saldo: ";
-        if (this.radFecha.isSelected()) {
-            tipoSaldo += "Actual";
-            saldox = "IfNull(ano_anter,0) + IfNull(db_fecha,0) - IfNull(cr_fecha,0) + IfNull(db_mes,0) - IfNull(cr_mes,0)";
-        } else if (this.radMes.isSelected()) {
-            tipoSaldo += "Del mes";
-            saldox = "IfNull(db_mes,0) - IfNull(cr_mes,0)";
-        } else if (this.radMesA.isSelected()) {
-            tipoSaldo += "Mes anterior";
-            saldox = "IfNull(ano_anter,0) + IfNull(db_fecha,0) - IfNull(cr_fecha,0)";
-        } else {
-            tipoSaldo += "Año anterior";
-            saldox = "IfNull(ano_anter,0)";
-        } // end if-else
-
-        saldox += " as saldox,";
-
-        // Elegir la tabla.
-        tabla = txtAno.getText().trim().equals("0") ? "cocatalogo" : "hcocatalogo";
-
-        sqlSent
-                = "   Select     "
-                + "    mayor,    "
-                + "    sub_cta,  "
-                + "    sub_sub,  "
-                + "    colect,   "
-                + "    formatCta(nom_cta,nivel,nombre,3) as nom_cta,  "
-                + saldox
-                + "   (Select mostrarFechaRep from configcuentas) as mostrarFecha   "
-                + "FROM " + tabla + " " + where + " "
-                + "ORDER BY 1,2,3,4";
-
-        filtro = cuenta + " - " + periodo + " - " + tipoSaldo;
-
-        new Reportes(conn).CGCedula(
-                sqlSent,
-                "", // where
-                "", // Order By
-                filtro, // filtro
-                formJasper,
-                cuenta,
-                saldo,
-                tipoSaldo,
-                periodo);
-        */
     }//GEN-LAST:event_btnImprimirActionPerformed
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
@@ -351,15 +377,6 @@ public class RepEstadoResultados extends javax.swing.JFrame {
         }
         dispose();
     }//GEN-LAST:event_btnCerrarActionPerformed
-
-    private void cboMesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboMesActionPerformed
-        if (this.init) {
-            return;
-        }
-        if (this.txtAno.getText().trim().equals("0")) {
-            setCurrentPeriod();
-        }
-    }//GEN-LAST:event_cboMesActionPerformed
 
     private void mnuArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuArchivoActionPerformed
         btnImprimirActionPerformed(null);
@@ -403,15 +420,17 @@ public class RepEstadoResultados extends javax.swing.JFrame {
     private javax.swing.JButton btnCerrar;
     private javax.swing.JButton btnImprimir;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JComboBox cboMes;
+    private javax.swing.JComboBox<String> cboMes;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenu mnuArchivo;
     private javax.swing.JMenuItem mnuImprimir;
     private javax.swing.JMenuItem mnuSalir;
+    private javax.swing.JTable tblParametros;
     private javax.swing.JFormattedTextField txtAno;
     // End of variables declaration//GEN-END:variables
 
@@ -432,14 +451,8 @@ public class RepEstadoResultados extends javax.swing.JFrame {
             } // end if
 
             return correcto;
-        } // end if (txtAno.getText().trim().equals("0"))
+        } // end if
 
-        /*
-         * El select que está aquí no se ha probado porque no hay cierres.
-         * Habrá que probarlo cuando se haga el primer cierre.
-         * El asunto es ver si se manda la fecha o también se manda la hora
-         * Bosco 21/08/2016 10:15am
-         */
         // Si el usuario eligió un año distinto de cero habrá que revisar el
         // histórico para verificar si el período solicitado existe.
         Calendar cal = GregorianCalendar.getInstance();
@@ -509,12 +522,444 @@ public class RepEstadoResultados extends javax.swing.JFrame {
         } // end if
 
         return correcto;
-    } // end validarPer
-
-    
+    } // end validar
 
     private void setCurrentPeriod() {
         PeriodoContable per = new PeriodoContable(conn);
         this.cboMes.setSelectedIndex(per.getMes() - 1);
     } // end setCurrentPeriod
-}
+
+    private void generarEstadoResultadosXLS(String periodo) throws FileNotFoundException, IOException, SQLException {
+        // https://www.javatpoint.com/apache-poi-excel-header
+
+        File file = new File("/temp/" + Menu.USUARIO + "_ER.xlsx");
+        Workbook wb = new HSSFWorkbook();
+        OutputStream out = new FileOutputStream(file);
+
+        // Creating a sheet using predefined class provided by Apache POI 
+        Sheet sheet = wb.createSheet("EstadoResultados");
+
+        // Set header
+        int fila = 0, col = 0;
+        Row rowCompany = sheet.createRow(fila);
+        Cell cellCompany = rowCompany.createCell(col);
+        cellCompany.setCellValue(Menu.EMPRESA);
+
+        String fontName = "Comic Sans Ms";
+        boolean bold = true;
+        int fontSize = 16;
+        int horzontalAlignment = CellStyle.ALIGN_CENTER;
+        int verticalAlignment = CellStyle.VERTICAL_CENTER;
+
+        sheet.addMergedRegion(new CellRangeAddress(fila, fila, 0, 4));
+
+        cellCompany.setCellStyle(
+                getCellStyle(wb, fontName, fontSize, bold, horzontalAlignment, verticalAlignment, ""));
+        rowCompany.setHeight((short) 0); // Row autofit
+        fila++;
+
+        Row rowTitle = sheet.createRow(fila);
+        Cell cellTitle = rowTitle.createCell(col);
+        cellTitle.setCellValue("Estado de Resultados");
+
+        sheet.addMergedRegion(new CellRangeAddress(fila, fila, 0, 4));
+
+        fontSize = 14;
+        cellTitle.setCellStyle(
+                getCellStyle(wb, fontName, fontSize, bold, horzontalAlignment, verticalAlignment, ""));
+        rowTitle.setHeight((short) 0); // Row autofit
+
+        fila++;
+
+        Row rowPeriod = sheet.createRow(fila);
+        Cell cellPeriod = rowPeriod.createCell(col);
+        cellPeriod.setCellValue(periodo);
+
+        sheet.addMergedRegion(new CellRangeAddress(fila, fila, 0, 4));
+
+        fontSize = 12;
+        cellPeriod.setCellStyle(getCellStyle(
+                wb, fontName, fontSize, bold, horzontalAlignment, verticalAlignment, ""));
+        rowPeriod.setHeight((short) 0); // Row autofit
+        fila++;
+
+        fila++; // Fila en blanco
+
+        fontSize = 11;
+        fontName = "Arial";
+        bold = false;
+
+        addCell(sheet, fila, 0, "INGRESOS");
+        addCell(sheet, fila, 3, "Inventario inicial");
+        addCell(sheet, fila, 4, 0.00);
+
+        sheet.getRow(fila).getCell(0).setCellStyle(
+                getCellStyle(wb, fontName, fontSize, true, verticalAlignment, ""));
+        sheet.getRow(fila).getCell(3).setCellStyle(
+                getCellStyle(wb, fontName, fontSize, bold, verticalAlignment, ""));
+        sheet.getRow(fila).getCell(4).setCellStyle(
+                getCellStyle(wb, fontName, fontSize, bold, verticalAlignment, numberFormat));
+
+        fila++;
+
+        int index = seek(1); // Devuelve el índice en la lista donde se encuentra el parámetro solicitado.
+        addCell(sheet, fila, 0, this.listPar.get(index).getDescrip());
+        addCell(sheet, fila, 1, this.listPar.get(index).getMonto());
+
+        index = seek(3);
+        addCell(sheet, fila, 3, "Compras");
+        addCell(sheet, fila, 4, this.listPar.get(index).getMonto());
+
+        sheet.getRow(fila).getCell(0).setCellStyle(
+                getCellStyle(wb, fontName, fontSize, bold, verticalAlignment, ""));
+        sheet.getRow(fila).getCell(1).setCellStyle(
+                getCellStyle(wb, fontName, fontSize, bold, verticalAlignment, numberFormat));
+        sheet.getRow(fila).getCell(3).setCellStyle(
+                getCellStyle(wb, fontName, fontSize, bold, verticalAlignment, ""));
+        sheet.getRow(fila).getCell(4).setCellStyle(
+                getCellStyle(wb, fontName, fontSize, bold, verticalAlignment, numberFormat));
+
+        fila++;
+
+        // No se busca el parámetro porque es el mismo de compras pero con otro encabezado
+        addCell(sheet, fila, 0, "Costo de ventas");
+        addCellFormula(sheet, fila, 1, "E6");
+
+        index = seek(4);
+        addCell(sheet, fila, 3, "Devoluciones sobre compras");
+        addCell(sheet, fila, 4, this.listPar.get(index).getMonto());
+
+        sheet.getRow(fila).getCell(0).setCellStyle(
+                getCellStyle(wb, fontName, fontSize, bold, verticalAlignment, ""));
+        sheet.getRow(fila).getCell(1).setCellStyle(
+                getCellStyle(wb, fontName, fontSize, bold, verticalAlignment, numberFormat));
+        sheet.getRow(fila).getCell(3).setCellStyle(
+                getCellStyle(wb, fontName, fontSize, bold, verticalAlignment, ""));
+        sheet.getRow(fila).getCell(4).setCellStyle(
+                getCellStyle(wb, fontName, fontSize, bold, verticalAlignment, numberFormat));
+
+        fila++;
+
+        index = seek(5);
+        addCell(sheet, fila, 3, "Descuentos sobre compras");
+        addCell(sheet, fila, 4, this.listPar.get(index).getMonto());
+
+        sheet.getRow(fila).getCell(3).setCellStyle(
+                getCellStyle(wb, fontName, fontSize, bold, verticalAlignment, ""));
+        sheet.getRow(fila).getCell(4).setCellStyle(
+                getCellStyle(wb, fontName, fontSize, bold, verticalAlignment, numberFormat));
+
+        fila++;
+
+        bold = true;
+        addCell(sheet, fila, 0, "UTILIDAD BRUTA");
+        addCellFormula(sheet, fila, 1, "B6+B7");
+        addCell(sheet, fila, 3, "Disponible para la venta");
+        addCellFormula(sheet, fila, 4, "E5+E6+E7");
+
+        sheet.getRow(fila).getCell(0).setCellStyle(
+                getCellStyle(wb, fontName, fontSize, bold, verticalAlignment, ""));
+        sheet.getRow(fila).getCell(1).setCellStyle(
+                getCellStyle(wb, fontName, fontSize, bold, verticalAlignment, numberFormat));
+        sheet.getRow(fila).getCell(3).setCellStyle(
+                getCellStyle(wb, fontName, fontSize, bold, verticalAlignment, ""));
+        sheet.getRow(fila).getCell(4).setCellStyle(
+                getCellStyle(wb, fontName, fontSize, bold, verticalAlignment, numberFormat));
+        bold = false;
+
+        fila++;
+
+        index = seek(6);
+        addCell(sheet, fila, 3, "Inventario final");
+        addCell(sheet, fila, 4, this.listPar.get(index).getMonto());
+
+        sheet.getRow(fila).getCell(3).setCellStyle(
+                getCellStyle(wb, fontName, fontSize, bold, verticalAlignment, ""));
+        sheet.getRow(fila).getCell(4).setCellStyle(
+                getCellStyle(wb, fontName, fontSize, bold, verticalAlignment, numberFormat));
+
+        fila++;
+
+        bold = true;
+        addCell(sheet, fila, 0, "GASTOS DE OPERACIÓN");
+        addCell(sheet, fila, 3, "Costo de la mercadería vendida");
+        addCellFormula(sheet, fila, 4, "E9+E10");
+
+        sheet.getRow(fila).getCell(0).setCellStyle(
+                getCellStyle(wb, fontName, fontSize, bold, verticalAlignment, ""));
+        sheet.getRow(fila).getCell(3).setCellStyle(
+                getCellStyle(wb, fontName, fontSize, bold, verticalAlignment, ""));
+        sheet.getRow(fila).getCell(4).setCellStyle(
+                getCellStyle(wb, fontName, fontSize, bold, verticalAlignment, numberFormat));
+        bold = false;
+
+        fila++;
+        
+        // Procesar los parámetros 7, 8, 9 y 10
+        for (int i = 7; i < 11; i++) {
+            index = seek(i);
+            col = 0;
+            addCell(sheet, fila, col, this.listPar.get(index).getDescrip());
+            sheet.getRow(fila).getCell(col).setCellStyle(
+                    getCellStyle(wb, fontName, fontSize, bold, verticalAlignment, ""));
+            col = 1;
+            addCell(sheet, fila, col, this.listPar.get(index).getMonto());
+            sheet.getRow(fila).getCell(col).setCellStyle(
+                    getCellStyle(wb, fontName, fontSize, bold, verticalAlignment, numberFormat));
+            fila++;
+        } // end for
+        
+        fila++;
+        
+        bold = true;
+        addCell(sheet, fila, 0, "UTILIDAD DE OPERACIÓN");
+        addCellFormula(sheet, fila, 1, "SUM(B12:B15) + B9");
+        sheet.getRow(fila).getCell(0).setCellStyle(
+                getCellStyle(wb, fontName, fontSize, bold, verticalAlignment, ""));
+        sheet.getRow(fila).getCell(1).setCellStyle(
+                getCellStyle(wb, fontName, fontSize, bold, verticalAlignment, numberFormat));
+        bold = false;
+        
+        fila++; // Línea en blanco
+        fila++;
+        
+        // Procesar los parámetros 11 - 15
+        for (int i = 11; i < 16; i++) {
+            index = seek(i);
+            col = 0;
+            addCell(sheet, fila, col, this.listPar.get(index).getDescrip());
+            sheet.getRow(fila).getCell(col).setCellStyle(
+                    getCellStyle(wb, fontName, fontSize, bold, verticalAlignment, ""));
+            col = 1;
+            addCell(sheet, fila, col, this.listPar.get(index).getMonto());
+            sheet.getRow(fila).getCell(col).setCellStyle(
+                    getCellStyle(wb, fontName, fontSize, bold, verticalAlignment, numberFormat));
+            fila++;
+        } // end for
+        
+        fila++;
+        
+        bold = true;
+        addCell(sheet, fila, 0, "UTILIDAD/PÉRDIDA DEL PERÍODO");
+        addCellFormula(sheet, fila, 1, "SUM(B19:B23) + B17");
+        sheet.getRow(fila).getCell(0).setCellStyle(
+                getCellStyle(wb, fontName, fontSize, bold, verticalAlignment, ""));
+        sheet.getRow(fila).getCell(1).setCellStyle(
+                getCellStyle(wb, fontName, fontSize, bold, verticalAlignment, numberFormat));
+        
+        // Column autofit
+        for (col = 0; col < 5; col++){
+            sheet.autoSizeColumn(col, true);
+        }
+
+        // writing the content to Workbook 
+        wb.write(out);
+        out.close();
+
+        Desktop.getDesktop().open(file);
+    } // end generarEstadoResultadosXLS
+
+    private CellStyle getCellStyle(
+            Workbook wb, String fontName, int fontSize, boolean bold,
+            int horzontalAlignment, int verticalAlignment, String formatX) {
+        // Set Font
+        HSSFFont font = (HSSFFont) wb.createFont();
+        if (bold) {
+            font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+        }
+        font.setFontHeightInPoints((short) fontSize);
+        font.setFontName(fontName);
+
+        // Set Style
+        CellStyle style = wb.createCellStyle();
+        style.setFillBackgroundColor(IndexedColors.BLACK.getIndex());
+        style.setAlignment((short) horzontalAlignment);           // Horizontal alignment
+        style.setVerticalAlignment((short) verticalAlignment);    // Vertical alignment
+        style.setFont(font);
+
+        if (!formatX.isEmpty()) {
+            DataFormat format = wb.createDataFormat();
+            style.setDataFormat(format.getFormat(formatX));
+        } // end if
+
+        return style;
+    } // end getCellStyle
+
+    /**
+     * Devuelve un objeto de estilo de celda basado en los parámetros recibidos.
+     * La alineación horizontal depende del tipo de dato que se le indique.
+     *
+     * @param wb
+     * @param fontName
+     * @param fontSize
+     * @param bold
+     * @param dataType
+     * @param verticalAlignment
+     * @param formatX
+     * @return
+     */
+    private CellStyle getCellStyle(
+            Workbook wb, String fontName, int fontSize, boolean bold,
+            int verticalAlignment, String formatX) {
+        // Set Font
+        HSSFFont font = (HSSFFont) wb.createFont();
+        if (bold) {
+            font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+        }
+        font.setFontHeightInPoints((short) fontSize);
+        font.setFontName(fontName);
+
+        // Set Style
+        CellStyle style = wb.createCellStyle();
+        style.setFillBackgroundColor(IndexedColors.BLACK.getIndex());
+
+        //style.setAlignment((short) horzontalAlignment);           // Horizontal alignment
+        style.setVerticalAlignment((short) verticalAlignment);    // Vertical alignment
+        style.setFont(font);
+
+        if (!formatX.isEmpty()) {
+            DataFormat format = wb.createDataFormat();
+            style.setDataFormat(format.getFormat(formatX));
+        } // end if
+
+        return style;
+    } // end getCellStyle
+
+    private void loadData() {
+        String tabla, sqlSent, where;
+
+        if (!validar()) {
+            return;
+        } // end if
+
+        PeriodoContable per = new PeriodoContable(conn);
+        if (!txtAno.getText().trim().equals("0")) {
+            per.setAño(Integer.parseInt(this.txtAno.getText().trim()));
+            per.setMes(this.cboMes.getSelectedIndex() + 1);
+            per.cargarRegistro(conn);
+        } // end if
+
+        // Elegir la tabla.
+        tabla = txtAno.getText().trim().equals("0") ? "cocatalogo" : "hcocatalogo";
+
+        // Calcular el monto para cada parámetro del estado de resultados
+        sqlSent
+                = "Select  "
+                + "	a.parametro,  "
+                + "	(b.ano_anter + b.db_fecha - b.cr_fecha + b.db_mes - b.cr_mes) AS monto, "
+                + "	b.nom_cta "
+                + "from cocuentaser a  "
+                + "Inner join " + tabla + " b on a.mayor = b.mayor  "
+                + "			   	   and a.sub_cta = b.sub_cta  "
+                + "				   and a.sub_sub = b.sub_sub  "
+                + "				   and a.colect = b.colect "
+                + "INNER JOIN coparametroser c ON a.parametro = c.parametro ";
+
+        // El where solo se necesita si el estado de resultados es para un
+        // periodo cerrado pues el mes actual está en la tabla cocatalogo.
+        if (tabla.equals("hcocatalogo")) {
+            where = " WHERE year(b.fecha_cierre) = ? "
+                    + "AND month(b.fecha_cierre) = ?";
+            sqlSent += where;
+        } // end if
+
+        try {
+            // Generar una tabla temporal con el detalle de la información
+            try (PreparedStatement ps = conn.prepareStatement(sqlSent,
+                    ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+                if (tabla.equals("hcocatalogo")) {
+                    ps.setInt(1, per.getAño());
+                    ps.setInt(2, per.getMes());
+                }
+                ResultSet rs = CMD.select(ps);
+                rs.last();
+                int rows = rs.getRow();
+                
+                Ut.resizeTable(tblParametros, (rows - tblParametros.getModel().getRowCount()), "Filas");
+
+                // Cargar los registros en una tabla
+                for (int row = 0; row < rows; row++) {
+                    rs.absolute(row + 1);
+                    tblParametros.setValueAt(rs.getObject(1), row, 0);
+                    tblParametros.setValueAt(
+                            Ut.setDecimalFormat(rs.getDouble(2) + "", numberFormat), row, 1);
+                    tblParametros.setValueAt(rs.getObject(3), row, 2);
+                } // end for
+            } // end try with resources
+
+            // Cargar la tabla de parametros del estado de resultados
+            sqlSent = "Select * from coparametroser";
+
+            // Cargar la tabla de parámetros en la lista.
+            // Luego se debe usar esta lista para totalizar cada parámetro 
+            // que está en la tabla y enviarlo a Excel
+            // Pero ese proceso lo hará generarEstadoResultadosXLS()
+            // y se ejecutará desde el botón Imprimir, no aquí.
+            try (PreparedStatement ps = conn.prepareStatement(sqlSent,
+                    ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+                ResultSet rs = CMD.select(ps);
+                this.listPar = new ArrayList<>();
+                while (rs != null && rs.next()) {
+                    this.listPar.add(
+                            new ParametrosER(
+                                    rs.getInt("parametro"), rs.getString("descrip"), 0.00));
+                } // end while
+                ps.close();
+            } // end try with resources
+
+        } catch (Exception ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            JOptionPane.showMessageDialog(null,
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        } // end try-catch
+    } // end loadData
+
+    private void addCell(Sheet sheet, int fila, int columna, String valor) {
+        Row row = sheet.getRow(fila);
+        if (row == null) {
+            row = sheet.createRow(fila);
+        }
+        Cell cell = row.createCell(columna);
+        cell.setCellValue(valor);
+    } // end addCell
+
+    private void addCell(Sheet sheet, int fila, int columna, double valor) {
+        Row row = sheet.getRow(fila);
+        if (row == null) {
+            row = sheet.createRow(fila);
+        }
+        Cell cell = row.createCell(columna);
+        cell.setCellValue(valor);
+    } // end addCell
+
+    private void addCellFormula(Sheet sheet, int fila, int columna, String formula) {
+        Row row = sheet.getRow(fila);
+        if (row == null) {
+            row = sheet.createRow(fila);
+        }
+        Cell cell = row.createCell(columna);
+        cell.setCellFormula(formula);
+    } // end addCell
+
+    /**
+     * Buscar un número de parámetro y devuelve el índice donde lo encontró (-1
+     * si no lo encontró).
+     *
+     * @param int parametro
+     * @return
+     */
+    private int seek(int parametro) {
+        int index = -1;
+        for (int i = 0; i < this.listPar.size(); i++) {
+            if (this.listPar.get(i).getParametro() == parametro) {
+                index = i;
+                break;
+            } // end if
+        } // end for
+
+        return index;
+    } // end seek
+} // end class

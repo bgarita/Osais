@@ -58,7 +58,6 @@ public class CocuentasER extends javax.swing.JFrame {
         lblNom_cta = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCuentas = new javax.swing.JTable();
-        chkProcesar = new javax.swing.JCheckBox();
         btnAgregar = new javax.swing.JButton();
         btnCerrar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
@@ -129,8 +128,6 @@ public class CocuentasER extends javax.swing.JFrame {
             tblCuentas.getColumnModel().getColumn(4).setMaxWidth(55);
         }
 
-        chkProcesar.setText("Procesar");
-
         btnAgregar.setText("Agregar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -171,8 +168,7 @@ public class CocuentasER extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cboParametro, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(chkProcesar))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 599, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -196,11 +192,10 @@ public class CocuentasER extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(31, 31, 31)
+                .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(cboParametro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(chkProcesar))
+                    .addComponent(cboParametro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel2)
@@ -329,6 +324,9 @@ public class CocuentasER extends javax.swing.JFrame {
             columnas[3] = 3;
             columnas[4] = 4;
             
+            // Ubico una fila que tenga todos los valores que se envían en
+            // el objeto valores.  Estos valores se buscan en las columnas
+            // indicadas según el objeto columnas.
             // Si ya existe no hago nada
             int fila = Ut.seek(tblCuentas, valores, columnas);
             if (fila >= 0) {
@@ -338,7 +336,8 @@ public class CocuentasER extends javax.swing.JFrame {
             fila = Ut.seekNull(tblCuentas, 0);
 
             if (fila < 0) {
-                Ut.resizeTable(tblCuentas, 1, "Columnas");
+                Ut.resizeTable(tblCuentas, 1, "Filas");
+                fila = Ut.seekNull(tblCuentas, 0);
             } // end if
 
             this.tblCuentas.setValueAt(this.listPar.get(this.cboParametro.getSelectedIndex()).getParametro(), fila, 0);
@@ -476,7 +475,6 @@ public class CocuentasER extends javax.swing.JFrame {
     private javax.swing.JButton btnCerrar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JComboBox<String> cboParametro;
-    private javax.swing.JCheckBox chkProcesar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -541,6 +539,10 @@ public class CocuentasER extends javax.swing.JFrame {
                     ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
                 ResultSet rs = CMD.select(ps);
                 if (rs != null && rs.first()) {
+                    rs.last();
+                    int filas = rs.getRow();
+                    Ut.resizeTable(tblCuentas, (filas - tblCuentas.getModel().getRowCount()), "Filas");
+                    
                     rs.beforeFirst();
                     int fila = 0;
                     while (rs.next()) {

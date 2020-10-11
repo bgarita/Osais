@@ -93,8 +93,8 @@
 		<groupHeader>
 			<band height="15">
 				<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-					<reportElement x="224" y="0" width="96" height="13" forecolor="#0F3FD0" uuid="5f514c6e-cdbe-4e4c-8f2a-1c533d03c231">
-						<printWhenExpression><![CDATA[$F{ano_anter}.doubleValue() > 0.00]]></printWhenExpression>
+					<reportElement x="224" y="0" width="96" height="13" isRemoveLineWhenBlank="true" forecolor="#0F3FD0" uuid="5f514c6e-cdbe-4e4c-8f2a-1c533d03c231">
+						<printWhenExpression><![CDATA[$F{ano_anter}.doubleValue() != 0.00]]></printWhenExpression>
 					</reportElement>
 					<textElement textAlignment="Right">
 						<font fontName="Times New Roman" size="10" isBold="true"/>
@@ -102,15 +102,17 @@
 					<textFieldExpression><![CDATA[$F{ano_anter}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-					<reportElement x="497" y="0" width="75" height="13" forecolor="#0F3FD0" uuid="34895260-4d6e-49ca-ab60-35bb459efb9e"/>
+					<reportElement x="497" y="0" width="75" height="13" isRemoveLineWhenBlank="true" forecolor="#0F3FD0" uuid="34895260-4d6e-49ca-ab60-35bb459efb9e">
+						<printWhenExpression><![CDATA[$F{ano_anter}.add( $F{db_fecha}.subtract( $F{cr_fecha} ) ).add($F{db_mes}).subtract($F{cr_mes}).doubleValue() != 0.00]]></printWhenExpression>
+					</reportElement>
 					<textElement textAlignment="Right">
 						<font fontName="Times New Roman" size="10" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{ano_anter}.add( $F{db_fecha}.subtract( $F{cr_fecha} ) ).add($F{db_mes}).subtract($F{cr_mes})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-					<reportElement x="326" y="0" width="77" height="13" forecolor="#0F3FD0" uuid="ec9d10f4-4ef2-4d37-baf7-045a58ab495a">
-						<printWhenExpression><![CDATA[($F{ano_anter}.doubleValue() + ($F{db_fecha}.doubleValue() - $F{cr_fecha}.doubleValue())) > 0.00]]></printWhenExpression>
+					<reportElement x="326" y="0" width="77" height="13" isRemoveLineWhenBlank="true" forecolor="#0F3FD0" uuid="ec9d10f4-4ef2-4d37-baf7-045a58ab495a">
+						<printWhenExpression><![CDATA[($F{ano_anter}.doubleValue() + ($F{db_fecha}.doubleValue() - $F{cr_fecha}.doubleValue())) != 0.00]]></printWhenExpression>
 					</reportElement>
 					<textElement textAlignment="Right">
 						<font fontName="Times New Roman" size="10" isBold="true"/>
@@ -118,8 +120,8 @@
 					<textFieldExpression><![CDATA[$F{ano_anter}.doubleValue() + ($F{db_fecha}.doubleValue() - $F{cr_fecha}.doubleValue())]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-					<reportElement x="409" y="0" width="77" height="13" forecolor="#0F3FD0" uuid="f2bda27c-cba5-4163-81b1-dec81cbf1200">
-						<printWhenExpression><![CDATA[$F{db_mes}.subtract( $F{cr_mes} ).doubleValue() > 0.00]]></printWhenExpression>
+					<reportElement x="409" y="0" width="77" height="13" isRemoveLineWhenBlank="true" forecolor="#0F3FD0" uuid="f2bda27c-cba5-4163-81b1-dec81cbf1200">
+						<printWhenExpression><![CDATA[$F{db_mes}.subtract( $F{cr_mes} ).doubleValue() != 0.00]]></printWhenExpression>
 					</reportElement>
 					<textElement textAlignment="Right">
 						<font fontName="Times New Roman" size="10" isBold="true"/>
@@ -223,14 +225,18 @@
 				<textFieldExpression><![CDATA[$F{db_mes}.subtract( $F{cr_mes} )]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-				<reportElement x="497" y="0" width="75" height="13" uuid="54222c2b-573b-412a-8505-c504976f8f71"/>
+				<reportElement x="497" y="0" width="75" height="13" uuid="54222c2b-573b-412a-8505-c504976f8f71">
+					<printWhenExpression><![CDATA[$F{ano_anter}.add( $F{db_fecha}.subtract( $F{cr_fecha} ) ).add($F{db_mes}).subtract($F{cr_mes}).doubleValue() != 0.00]]></printWhenExpression>
+				</reportElement>
 				<textElement textAlignment="Right">
 					<font fontName="Times New Roman" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{ano_anter}.add( $F{db_fecha}.subtract( $F{cr_fecha} ) ).add($F{db_mes}).subtract($F{cr_mes})]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="0" y="0" width="219" height="13" isRemoveLineWhenBlank="true" uuid="2c8df903-7298-419c-ab80-8b878657ea22"/>
+				<reportElement stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="0" y="0" width="219" height="13" isRemoveLineWhenBlank="true" uuid="2c8df903-7298-419c-ab80-8b878657ea22">
+					<printWhenExpression><![CDATA[!$F{sub_cta}.equals( "000" ) && !$F{nom_cta}.equals( "Total Activos" )]]></printWhenExpression>
+				</reportElement>
 				<textElement>
 					<font fontName="Times New Roman" size="9"/>
 				</textElement>

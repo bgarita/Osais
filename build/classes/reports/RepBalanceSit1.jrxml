@@ -18,8 +18,9 @@
                 "    db_mes,   " +
                 "    cr_mes,   " +
                 "    nivelc,   " +
+                "   (Select mostrarFechaRep from configcuentas) as mostrarFecha, " +
                 "    0 as orden " +
-                "FROM balancesitDev " +
+                "FROM cocatalogo " +
                 "ORDER BY 1,2,3,4"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="pWhere" class="java.lang.String" isForPrompting="false">
@@ -78,9 +79,8 @@
 	<field name="nivelc" class="java.lang.Integer">
 		<fieldDescription><![CDATA[Nivel de cuenta]]></fieldDescription>
 	</field>
-	<field name="orden" class="java.lang.Long">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
+	<field name="mostrarFecha" class="java.lang.Integer"/>
+	<field name="orden" class="java.lang.Integer"/>
 	<variable name="vRegistros" class="java.lang.String" calculation="Count">
 		<variableExpression><![CDATA[$F{nom_cta}]]></variableExpression>
 	</variable>
@@ -100,14 +100,16 @@
 	<pageHeader>
 		<band height="100" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="592" height="20" forecolor="#0033CC" uuid="97b52f28-55f5-4fbc-a892-4f4e0c21874f"/>
+				<reportElement x="1" y="0" width="581" height="20" forecolor="#0033CC" uuid="97b52f28-55f5-4fbc-a892-4f4e0c21874f"/>
 				<textElement textAlignment="Center">
 					<font fontName="Tahoma" size="16" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{pEmpresa}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy h.mm a">
-				<reportElement x="0" y="20" width="100" height="20" uuid="e27dc3e1-aa84-443d-85e4-e0d3bc898851"/>
+				<reportElement x="0" y="20" width="120" height="18" isRemoveLineWhenBlank="true" uuid="e27dc3e1-aa84-443d-85e4-e0d3bc898851">
+					<printWhenExpression><![CDATA[$F{mostrarFecha} == 1]]></printWhenExpression>
+				</reportElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -118,7 +120,7 @@
 				<text><![CDATA[Sistema de contabilidad general]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="500" y="36" width="80" height="20" uuid="48748a03-d3f2-4004-86e2-697983c91b68"/>
+				<reportElement x="502" y="20" width="80" height="18" uuid="48748a03-d3f2-4004-86e2-697983c91b68"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Pág.: "+$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
@@ -130,39 +132,39 @@
 				<text><![CDATA[Balance de situación]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="239" y="85" width="77" height="15" uuid="e2c454a4-c127-4b13-8f55-4e8ffeb22cf6"/>
-				<textElement textAlignment="Right">
-					<font fontName="Tahoma" size="11" isBold="true"/>
+				<reportElement x="219" y="85" width="96" height="15" uuid="e2c454a4-c127-4b13-8f55-4e8ffeb22cf6"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font fontName="Tahoma" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Año anterior]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="500" y="85" width="75" height="15" uuid="33c6281b-fe1c-4efd-abfb-af94bf0b4de7"/>
-				<textElement textAlignment="Right">
-					<font fontName="Tahoma" size="11" isBold="true"/>
+				<reportElement x="490" y="85" width="92" height="15" uuid="33c6281b-fe1c-4efd-abfb-af94bf0b4de7"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font fontName="Tahoma" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Acumulado]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="321" y="85" width="80" height="15" uuid="02fb620b-680e-406e-8b8e-aa367cc18f58"/>
-				<textElement textAlignment="Right">
-					<font fontName="Tahoma" size="11" isBold="true"/>
+				<reportElement x="316" y="85" width="80" height="15" uuid="02fb620b-680e-406e-8b8e-aa367cc18f58"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font fontName="Tahoma" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Mes anterior]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="406" y="85" width="80" height="15" uuid="df87df1e-68fd-4782-b2be-ec7381c4a690"/>
-				<textElement textAlignment="Right">
-					<font fontName="Tahoma" size="11" isBold="true"/>
+				<reportElement x="397" y="85" width="85" height="15" uuid="df87df1e-68fd-4782-b2be-ec7381c4a690"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font fontName="Tahoma" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Mes]]></text>
 			</staticText>
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="13" splitType="Stretch">
+		<band height="12" splitType="Stretch">
 			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="false">
-				<reportElement x="406" y="1" width="80" height="12" isRemoveLineWhenBlank="true" uuid="d0c122e9-b194-4b04-b8a0-5b33a94c265b">
+				<reportElement x="397" y="0" width="85" height="12" isRemoveLineWhenBlank="true" uuid="d0c122e9-b194-4b04-b8a0-5b33a94c265b">
 					<printWhenExpression><![CDATA[($F{ano_anter}.doubleValue() + $F{db_fecha}.doubleValue() + $F{cr_fecha}.doubleValue() + $F{db_mes}.doubleValue() + $F{cr_mes}.doubleValue())> 0.0]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
@@ -171,7 +173,7 @@
 				<textFieldExpression><![CDATA[$F{db_mes}.subtract( $F{cr_mes} )]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-				<reportElement x="500" y="1" width="75" height="12" isRemoveLineWhenBlank="true" uuid="54222c2b-573b-412a-8505-c504976f8f71">
+				<reportElement x="490" y="0" width="92" height="12" isRemoveLineWhenBlank="true" uuid="54222c2b-573b-412a-8505-c504976f8f71">
 					<printWhenExpression><![CDATA[($F{ano_anter}.doubleValue() + $F{db_fecha}.doubleValue() + $F{cr_fecha}.doubleValue() + $F{db_mes}.doubleValue() + $F{cr_mes}.doubleValue())> 0.0]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
@@ -180,7 +182,7 @@
 				<textFieldExpression><![CDATA[$F{ano_anter}.add( $F{db_fecha}.subtract( $F{cr_fecha} ) ).add($F{db_mes}).subtract($F{cr_mes})]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="0" y="1" width="219" height="12" isRemoveLineWhenBlank="true" uuid="2c8df903-7298-419c-ab80-8b878657ea22">
+				<reportElement stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="0" y="0" width="219" height="12" isRemoveLineWhenBlank="true" uuid="2c8df903-7298-419c-ab80-8b878657ea22">
 					<printWhenExpression><![CDATA[($F{ano_anter}.doubleValue() + $F{db_fecha}.doubleValue() + $F{cr_fecha}.doubleValue() + $F{db_mes}.doubleValue() + $F{cr_mes}.doubleValue())> 0.0]]></printWhenExpression>
 				</reportElement>
 				<textElement>
@@ -189,7 +191,7 @@
 				<textFieldExpression><![CDATA[$F{nom_cta}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-				<reportElement x="316" y="1" width="80" height="12" isRemoveLineWhenBlank="true" uuid="85e4b254-ec80-41b9-8f7d-18877242a31b">
+				<reportElement x="316" y="0" width="80" height="12" isRemoveLineWhenBlank="true" uuid="85e4b254-ec80-41b9-8f7d-18877242a31b">
 					<printWhenExpression><![CDATA[($F{ano_anter}.doubleValue() + $F{db_fecha}.doubleValue() + $F{cr_fecha}.doubleValue() + $F{db_mes}.doubleValue() + $F{cr_mes}.doubleValue())> 0.0]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
@@ -198,7 +200,7 @@
 				<textFieldExpression><![CDATA[$F{ano_anter}.doubleValue() + ($F{db_fecha}.doubleValue() - $F{cr_fecha}.doubleValue())]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-				<reportElement x="220" y="1" width="96" height="12" isRemoveLineWhenBlank="true" uuid="9f56b049-8404-414c-8a70-c61e4eb5f222">
+				<reportElement x="219" y="0" width="96" height="12" isRemoveLineWhenBlank="true" uuid="9f56b049-8404-414c-8a70-c61e4eb5f222">
 					<printWhenExpression><![CDATA[($F{ano_anter}.doubleValue() + $F{db_fecha}.doubleValue() + $F{cr_fecha}.doubleValue() + $F{db_mes}.doubleValue() + $F{cr_mes}.doubleValue())> 0.0]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
@@ -209,9 +211,9 @@
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="35" splitType="Stretch">
+		<band height="33" splitType="Stretch">
 			<textField isStretchWithOverflow="true">
-				<reportElement stretchType="RelativeToBandHeight" x="2" y="11" width="579" height="13" uuid="4b459863-513e-4857-80c4-0aecd3f1ca33"/>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="11" width="582" height="13" uuid="4b459863-513e-4857-80c4-0aecd3f1ca33"/>
 				<textElement>
 					<font fontName="Times New Roman"/>
 				</textElement>
@@ -220,46 +222,46 @@
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="101" splitType="Stretch">
+		<band height="69" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="52" width="160" height="15" forecolor="#0000FF" uuid="e806a504-5588-4103-abfe-df8c76cddab1"/>
+				<reportElement x="0" y="31" width="160" height="15" forecolor="#0000FF" uuid="e806a504-5588-4103-abfe-df8c76cddab1"/>
 				<textElement>
-					<font fontName="Tahoma" size="11" isBold="true"/>
+					<font fontName="Tahoma" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Utilidades del período]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-				<reportElement x="490" y="52" width="85" height="15" uuid="2df2f257-0e55-40e8-8ebc-5f0a833e24e0"/>
+				<reportElement x="490" y="31" width="92" height="15" uuid="2df2f257-0e55-40e8-8ebc-5f0a833e24e0"/>
 				<textElement textAlignment="Right">
-					<font fontName="Tahoma" size="11" isBold="true"/>
+					<font fontName="Tahoma" size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{pUtilidad}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-				<reportElement x="475" y="67" width="100" height="15" uuid="f5d032da-65fd-4b02-9783-9d471c7066ae"/>
+				<reportElement x="435" y="46" width="147" height="15" uuid="f5d032da-65fd-4b02-9783-9d471c7066ae"/>
 				<textElement textAlignment="Right">
-					<font fontName="Tahoma" size="11" isBold="true"/>
+					<font fontName="Tahoma" size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{pasivo_pat} + $P{pUtilidad}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="67" width="160" height="15" forecolor="#0000FF" uuid="4c37d4d4-da5c-457d-bbad-d484d435689e"/>
+				<reportElement x="0" y="46" width="160" height="15" forecolor="#0000FF" uuid="4c37d4d4-da5c-457d-bbad-d484d435689e"/>
 				<textElement>
-					<font fontName="Tahoma" size="11" isBold="true"/>
+					<font fontName="Tahoma" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Total (Pasivo y Patrimonio)]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-				<reportElement x="311" y="52" width="85" height="15" uuid="a81ea837-4bcc-4819-9574-718aa9967695"/>
+				<reportElement x="311" y="31" width="85" height="15" uuid="a81ea837-4bcc-4819-9574-718aa9967695"/>
 				<textElement textAlignment="Right">
-					<font fontName="Tahoma" size="11" isBold="true"/>
+					<font fontName="Tahoma" size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{pUtilidadMesA}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-				<reportElement x="401" y="52" width="85" height="15" uuid="72544fe2-0b05-4fc1-a400-ccd5fd227829"/>
+				<reportElement x="397" y="31" width="85" height="15" uuid="72544fe2-0b05-4fc1-a400-ccd5fd227829"/>
 				<textElement textAlignment="Right">
-					<font fontName="Tahoma" size="11" isBold="true"/>
+					<font fontName="Tahoma" size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{pUtilidadMes}]]></textFieldExpression>
 			</textField>

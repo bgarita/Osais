@@ -1815,7 +1815,7 @@ public class UtilBD {
         return trasladado;
     } // end CGmoverAsientosHistorico
 
-    public static boolean cerrarPeriodoActual(Connection conn, PeriodoContable per) throws SQLException {
+    public static boolean CGcerrarPeriodoActual(Connection conn, PeriodoContable per) throws SQLException {
         int reg;
         String sqlSent
                 = "UPDATE coperiodoco "
@@ -1897,7 +1897,7 @@ public class UtilBD {
         } // end if
 
         return (reg > 0);
-    } // end cerrarPeriodoActual
+    } // end CGcerrarPeriodoActual
 
     /**
      * Hace una copia del catálogo tal y como está en este momento.Se usa en el
@@ -1995,7 +1995,8 @@ public class UtilBD {
         String sqlSent 
                 = "SELECT descrip FROM coperiodoco "
                 + "WHERE año = ? AND mes = ? AND cerrado = 1";
-        try (PreparedStatement ps = conn.prepareStatement(sqlSent, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+        try (PreparedStatement ps = conn.prepareStatement(sqlSent, 
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
             ps.setInt(1, year);
             ps.setInt(2, month);
             ResultSet rs = CMD.select(ps);
@@ -2007,6 +2008,9 @@ public class UtilBD {
         
         return valida;
     } // end CGfechaValida
+    
+    
+    
     /**
      * Crear una nueva tabla basada en otra + un campo de tipo varchar. Este
      * método es "case sensitive" por lo que en una instalación de Windows

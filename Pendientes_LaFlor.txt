@@ -122,8 +122,8 @@ Punto 12        0.5 horas                                      Factura 73
 Punto 13        1 Hora                                         Factura 73
 Punto 14        0.5 horas                                      Factura 73
 Punto 15        0.5 horas                                      Factura 73
-Punto 16        0.5 horas
-Punto 17        3 horas
+Punto 16        0.5 horas                                      Factura 75
+Punto 17        3 horas                                        Factura 75
 
 
 EXTRA:

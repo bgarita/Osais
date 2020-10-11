@@ -57,7 +57,7 @@ public class RepCedulas extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        cboMes = new javax.swing.JComboBox();
+        cboMes = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         txtAno = new javax.swing.JFormattedTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -92,7 +92,7 @@ public class RepCedulas extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel2.setText("Cuenta");
 
-        cboMes.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
+        cboMes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
         cboMes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboMesActionPerformed(evt);
@@ -668,7 +668,7 @@ public class RepCedulas extends javax.swing.JFrame {
     private javax.swing.JButton btnCerrar;
     private javax.swing.JButton btnImprimir;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JComboBox cboMes;
+    private javax.swing.JComboBox<String> cboMes;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -710,14 +710,9 @@ public class RepCedulas extends javax.swing.JFrame {
             } // end if
 
             return correcto;
-        } // end if (txtAno.getText().trim().equals("0"))
+        } // end if 
 
-        /*
-         * El select que está aquí no se ha probado porque no hay cierres.
-         * Habrá que probarlo cuando se haga el primer cierre.
-         * El asunto es ver si se manda la fecha o también se manda la hora
-         * Bosco 21/08/2016 10:15am
-         */
+        
         // Si el usuario eligió un año distinto de cero habrá que revisar el
         // histórico para verificar si el período solicitado existe.
         Calendar cal = GregorianCalendar.getInstance();

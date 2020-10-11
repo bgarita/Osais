@@ -1532,6 +1532,11 @@ public class Menu extends javax.swing.JFrame {
         mnuEstFin.add(mnuBalances);
 
         mnuEstResult.setText("Estado de resultados");
+        mnuEstResult.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuEstResultActionPerformed(evt);
+            }
+        });
         mnuEstFin.add(mnuEstResult);
 
         mnuRepConta.add(mnuEstFin);
@@ -3798,6 +3803,16 @@ CONEXION.getConnection(), // Conexión
     private void mnuParERActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuParERActionPerformed
         CocuentasER.main(new String[1]);
     }//GEN-LAST:event_mnuParERActionPerformed
+
+    private void mnuEstResultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuEstResultActionPerformed
+       
+        
+            RepEstadoResultados.main(new String[1]);
+            //WriteXLSXFile w = new WriteXLSXFile(null, "/temp/test.xlsx", "Test", true);
+            //CreateXLSXFile.main(new String[1]);
+        
+            
+    }//GEN-LAST:event_mnuEstResultActionPerformed
 
     public static void main(final DataBaseConnection c, final boolean disponible, final String url) {
 

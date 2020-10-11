@@ -1000,7 +1000,8 @@ public class Ut {
     } // end seek
     
     /**
-     * Autor: Bosco Garita 20/09/2020 Devuelve el número de fila en donde se
+     * Autor: Bosco Garita 20/09/2020 
+     * Devuelve el número de fila en donde se
      * encontraron los valores, <br>
      * -1 si el valor no es encontrado.
      *
@@ -1748,13 +1749,13 @@ public class Ut {
     /**
      * Bosco Garita 06/08/2015 10:54 pm Totalizar los valores de una columna en
      * una tabla filtrando los datos en base al valor que contenga una columna
-     * especifica. La columna a sumar puede ser numérica o String de números. Si
+     * específica. La columna a sumar puede ser numérica o String de números. Si
      * es un String no importa si viene formateada.
      *
-     * @param t Tabla
-     * @param col Número de columna a totalizar
+     * @param t JTable Tabla
+     * @param col int Número de columna a totalizar
      * @param filterValue Object valor a utilizar como filtro
-     * @param filterCol int numero de columna que se usara en el filtro
+     * @param filterCol int número de columna que se usará en el filtro
      * @return Number total obtenido
      * @throws java.text.ParseException
      */
