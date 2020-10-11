@@ -11,10 +11,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-//import javax.xml.bind.JAXBContext;
-//import javax.xml.bind.JAXBException;
-//import javax.xml.bind.Marshaller;
-//import javax.xml.bind.Unmarshaller;
 import logica.utilitarios.Ut;
 
 /**
@@ -35,7 +31,7 @@ public class GeneraXML {
         try {
             FacturaElectronica fac = new FacturaElectronica();
             Clave clave = new Clave();
-            clave.setPais("506");
+            clave.setPais("506");   
             
             clave.setSucursal("001");       // Solo existe un local.
             clave.setTerminal("00001");     // Servidor centralizado.

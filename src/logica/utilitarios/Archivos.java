@@ -314,5 +314,25 @@ public class Archivos {
         FileOutputStream fos = new FileOutputStream(file);
         fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
         fos.close();
-    }
+    } // downloadFile
+    
+    public boolean renameFile(File oldFile, File newFile){
+        return oldFile.renameTo(newFile);
+    } // renameFile
+    
+    /**
+     * Get the size in bytes for a specific file.  If it does not exist or
+     * it is a directory the return value will be 0.
+     * @param file
+     * @return 
+     */
+    public long getFileSize(File file){
+        long size = 0;
+        
+        if (file.exists() && file.isFile()){
+            size = file.length();
+        } // end if
+        
+        return size;
+    } // end getFileSize
 } // end class
