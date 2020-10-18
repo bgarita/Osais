@@ -43,7 +43,7 @@ public class CierreConta extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextPane1 = new javax.swing.JTextPane();
-        btnGuardar = new javax.swing.JButton();
+        btnEjecutar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         lblPeriodo = new javax.swing.JLabel();
 
@@ -55,12 +55,12 @@ public class CierreConta extends javax.swing.JFrame {
         jTextPane1.setText("Este proceso trasladará todos los movimientos del periodo actual a las tablas de periodos cerrados y marcará como cerrado el periodo actual de tal manera que ya no será posible modificar ni agregar más datos al periodo en curso.\n\nAsegúrese de:\n1.  Realizar un buen respaldo de la base de datos.\n2.  Que no haya más usuarios en el sistema.");
         jScrollPane1.setViewportView(jTextPane1);
 
-        btnGuardar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZSAVE.png"))); // NOI18N
-        btnGuardar.setToolTipText("Guardar");
-        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+        btnEjecutar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnEjecutar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/24x24 png icons/Ejecutar32.png"))); // NOI18N
+        btnEjecutar.setToolTipText("Ejecutar");
+        btnEjecutar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuardarActionPerformed(evt);
+                btnEjecutarActionPerformed(evt);
             }
         });
 
@@ -87,7 +87,7 @@ public class CierreConta extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnEjecutar, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnSalir)))
                 .addContainerGap())
@@ -97,7 +97,7 @@ public class CierreConta extends javax.swing.JFrame {
                 .addContainerGap(214, Short.MAX_VALUE))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnGuardar, btnSalir});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnEjecutar, btnSalir});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -105,19 +105,19 @@ public class CierreConta extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(49, 49, 49)
                 .addComponent(lblPeriodo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnSalir)
-                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnEjecutar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnGuardar, btnSalir});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnEjecutar, btnSalir});
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+    private void btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjecutarActionPerformed
         int resp
                 = JOptionPane.showConfirmDialog(null,
                         "Se dispone a realizar el cierre mensual de contabilidad.\n¿Está seguro?",
@@ -196,7 +196,7 @@ public class CierreConta extends javax.swing.JFrame {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
-    }//GEN-LAST:event_btnGuardarActionPerformed
+    }//GEN-LAST:event_btnEjecutarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         try {
@@ -244,7 +244,7 @@ public class CierreConta extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnEjecutar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextPane jTextPane1;

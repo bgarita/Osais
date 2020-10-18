@@ -379,6 +379,44 @@ public class UtilBD {
 
         return DBValue;
     } // end getDBString
+    
+    /**
+     * Autor: Bosco Garita 15/10/2020. Determina si existen datos de acuerdo
+     * con los parámetros recibidos.
+     * 
+     * @param c Connection Conexión con la base de datos
+     * @param tabla String nombre de la tabla a consultar
+     * @param condicion String condición que se usará en el Where
+     * @param expresion String campo o expresión que tiene el valor a obtener
+     * (select).
+     * @return boolean true=Hay datos, false=No hay
+     * @throws java.sql.SQLException
+     */
+    public static boolean hayDatos(
+            Connection c,
+            String tabla,
+            String condicion,
+            String expresion) throws SQLException {
+        // No hago ninguna validación para que el programador pueda ver
+        // el error cuando alguno de los parámetros es incorrecto.
+        // Si la expresión contiene un alias ese es el que se usará como nombre
+        // de columna a la hora de consultar el RS.
+        String sqlSent
+                = "Select " + expresion + " from " + tabla + " Where " + condicion;
+        PreparedStatement ps;
+
+        ps = c.prepareStatement(sqlSent,
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        ResultSet r = CMD.select(ps);
+
+        Ut.goRecord(r, Ut.LAST);
+
+        int registros = Ut.recNo(r); // Cantidad de registros
+
+        ps.close();
+
+        return registros > 0;
+    } // end hayDatos
 
     /**
      * @throws java.sql.SQLException
@@ -394,9 +432,9 @@ public class UtilBD {
     public static String getFieldValue(
             Connection c,
             String table,
-            String fieldName, // Campo que se consultará
-            String fieldKeyName, // Llave para el Where
-            String keyValue) // Valor para el Where
+            String fieldName,       // Campo que se consultará
+            String fieldKeyName,    // Llave para el Where
+            String keyValue)        // Valor para el Where
             throws SQLException {
 
         String returnValue = null;

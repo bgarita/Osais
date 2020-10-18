@@ -319,7 +319,8 @@ public class RepBalances extends JFrame {
         String per = this.cboMes.getSelectedItem().toString();
         String año = txtAno.getText().trim();
         if (txtAno.getText().trim().equals("0")){
-            año = GregorianCalendar.getInstance().get(Calendar.YEAR) + "";
+            PeriodoContable periodo = new PeriodoContable(conn);
+            año = periodo.getAño() + "";
         } // end if
         per += ", " + año;
         

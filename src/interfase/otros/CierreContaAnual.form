@@ -27,33 +27,47 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="lblPeriodo" alignment="1" max="32767" attributes="0"/>
                   <Component id="jScrollPane1" alignment="0" pref="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="btnIniciarEjercicio" linkSize="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnGenerarAsiento" linkSize="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace pref="241" max="32767" attributes="0"/>
                       <Component id="btnEjecutar" linkSize="1" min="-2" pref="53" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnSalir" linkSize="1" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <Component id="lblAsiento" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="71" max="-2" attributes="0"/>
-              <Component id="lblPeriodo" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="214" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="209" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="lblPeriodo" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="81" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="lblAsiento" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="btnSalir" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnEjecutar" linkSize="2" alignment="0" min="-2" pref="40" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="btnSalir" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnEjecutar" linkSize="2" alignment="0" min="-2" pref="40" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="btnGenerarAsiento" linkSize="4" min="-2" pref="35" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <Component id="btnIniciarEjercicio" linkSize="4" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
           </Group>
       </Group>
@@ -73,7 +87,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="12" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Este proceso trasladar&#xe1; todos los movimientos del periodo actual a las tablas de periodos cerrados y marcar&#xe1; como cerrado el periodo actual de tal manera que ya no ser&#xe1; posible modificar ni agregar m&#xe1;s datos al periodo en curso.&#xa;&#xa;Aseg&#xfa;rese de:&#xa;1.  Realizar un buen respaldo de la base de datos.&#xa;2.  Que no haya m&#xe1;s usuarios en el sistema."/>
+            <Property name="text" type="java.lang.String" value="Este proceso traslada todos los movimientos del ejercicio contable a los acumulados anuales y limpia todas las cuentas de ingresos y gastos para iniciar un nuevo ejercicio contable.&#xa;Durante el proceso se genera el asiento de cierre.&#xa;El tipo de asiento utilizado para este movimiento es el 99. El sistema lo asignar&#xe1; autom&#xe1;ticamente por lo que hay que asegurarse de que el tipo est&#xe9; creado.&#xa;&#xa;&#xa;Aseg&#xfa;rese de:&#xa;1.  Realizar un buen respaldo de la base de datos.&#xa;2.  Que no haya m&#xe1;s usuarios en el sistema.&#xa;3.  Asegurarse de que el tipo de asiento 99 exista."/>
           </Properties>
         </Component>
       </SubComponents>
@@ -114,7 +128,38 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="33" red="33" type="rgb"/>
         </Property>
+        <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" value="Periodo a cerrar:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnGenerarAsiento">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Generar asiento de cierre"/>
+        <Property name="toolTipText" type="java.lang.String" value="Muestra el editor de asientos con los datos"/>
+        <Property name="horizontalTextPosition" type="int" value="0"/>
+        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[155, 25]"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGenerarAsientoActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnIniciarEjercicio">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Iniciar ejercicio contable"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblAsiento">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="14" style="1"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="0" green="0" id="red" palette="1" red="ff" type="palette"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value=" "/>
       </Properties>
     </Component>
   </SubComponents>

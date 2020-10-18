@@ -11,3 +11,4 @@ dist/
 Backups/
 OsaisReports/
 xmls/*.txt
+xmls/errores/*.*

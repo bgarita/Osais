@@ -7,7 +7,7 @@
         <Menu class="javax.swing.JMenu" name="mnuArchivo">
           <Properties>
             <Property name="mnemonic" type="int" value="77"/>
-            <Property name="text" type="java.lang.String" value="Mantenimiento"/>
+            <Property name="text" type="java.lang.String" value="Cat&#xe1;logos"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="mnuInarticu">
@@ -18,7 +18,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Icons/database_lightning.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Cat&#xe1;logo de productos"/>
+                <Property name="text" type="java.lang.String" value="Productos"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuInarticuActionPerformed"/>
@@ -32,7 +32,7 @@
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+I"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Cat&#xe1;logo de impuestos"/>
+                <Property name="text" type="java.lang.String" value="Impuestos"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuIVAActionPerformed"/>
@@ -60,7 +60,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Icons/Familias3.jpg"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Cat&#xe1;logo de familias"/>
+                <Property name="text" type="java.lang.String" value="Familias"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuInfamilyActionPerformed"/>
@@ -74,7 +74,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Icons/database.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Cat&#xe1;logo de bodegas"/>
+                <Property name="text" type="java.lang.String" value="Bodegas"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuBodegasActionPerformed"/>
@@ -104,7 +104,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Icons/shopcartapply_16x16.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Cat&#xe1;logo de proveedores"/>
+                <Property name="text" type="java.lang.String" value="Proveedores"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuInprovedActionPerformed"/>
@@ -115,7 +115,7 @@
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Shift+Ctrl+C"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Cat&#xe1;logo de clientes"/>
+                <Property name="text" type="java.lang.String" value="Clientes"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuClientesActionPerformed"/>
@@ -129,7 +129,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Icons/Vendedor.jpg"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Cat&#xe1;logo de vendedores"/>
+                <Property name="text" type="java.lang.String" value="Vendedores"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuVendedoresActionPerformed"/>
@@ -140,7 +140,7 @@
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Shift+Ctrl+Z"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Cat&#xe1;logo de zonas"/>
+                <Property name="text" type="java.lang.String" value="Zonas"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuTerritoriosActionPerformed"/>
@@ -167,7 +167,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Icons/currency.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Cat&#xe1;logo de monedas"/>
+                <Property name="text" type="java.lang.String" value="Monedas"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuMonedasActionPerformed"/>
@@ -214,7 +214,7 @@
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Shift+Alt+C"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Cat&#xe1;logo contable"/>
+                <Property name="text" type="java.lang.String" value="Cuentas"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuCatalogoContActionPerformed"/>
@@ -1373,12 +1373,25 @@
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator22">
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mnuCierreConta">
+            <MenuItem class="javax.swing.JMenuItem" name="mnuCiereContaMensual">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Cierre de contabilidad"/>
+                <Property name="text" type="java.lang.String" value="Cierre contable (mensual)"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuCierreContaActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuCiereContaMensualActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="mnuAyudaCierreAnual">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Ayuda cierre anual"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem3">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Cierre contable (anual)"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem3ActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>

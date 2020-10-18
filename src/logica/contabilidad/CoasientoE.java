@@ -26,7 +26,7 @@ public class CoasientoE {
     private int no_refer;           // Número de referencia (Mes+tipo+año)
     private String descrip;         // Descripción general del asiento
     private String usuario;         // Usuario que registra
-    private short periodo;          // Mes del ejercicio contable
+    private short periodo;          // Mes del ejercicio contable (13 si es cierre anual)
     private String modulo;          // Módulo del sistema que origina el movimiento
     private String documento;       // Número de documento en auxiliar (factura, nd, nc, etc.)
     private short movtido;          // Tipo de documento (ver campo movtido en la tabal intiposdoc)
@@ -35,6 +35,9 @@ public class CoasientoE {
     
     // Este campo no está en la tabla
     private String anuladoPor;      // Número de asiento que anula o reversa a este asiento
+    
+    // Esta variable se usa cuando es el asiento de cierre anual
+    private boolean cierreAnual;
     
     // Las siguientes dos variables se usan cuando hay que renombrar un asiento
     private String old_comprob;     // Número anterior
@@ -108,10 +111,21 @@ public class CoasientoE {
     public int getNo_refer() {
         return no_refer;
     }
+
+    public boolean isCierreAnual() {
+        return cierreAnual;
+    }
+
+    public void setCierreAnual(boolean cierreAnual) {
+        this.cierreAnual = cierreAnual;
+        setNo_refer();
+    }
+    
     
     /**
      * No se pone el setNo_refer() como público para evitar que se ponga cualquier cosa.
-     * Este campo siempre estará formado por Mes+tipo+año.
+     * Este campo siempre estará formado por Mes+tipo+año, pero si se trata del
+     * asiento de cierre anual el mes será 13.
      */
     private void setNo_refer(){
         if (fecha_comp == null){
@@ -122,7 +136,7 @@ public class CoasientoE {
         Calendar cal = GregorianCalendar.getInstance();
         
         cal.setTime(fecha_comp);
-        mes = cal.get(Calendar.MONTH) + 1;
+        mes = this.cierreAnual ? 13 : cal.get(Calendar.MONTH) + 1;
         año = cal.get(Calendar.YEAR);
         no_refer = Integer.parseInt(mes + "" + tipo_comp + "" + año);
         setPeriodo((short) mes);

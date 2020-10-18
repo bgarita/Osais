@@ -82,8 +82,8 @@ public class Menu extends javax.swing.JFrame {
      con las direcciones desde la 9 hasta la 3.
      Todo este proceso es transparente para el usuario.
      */
-    public static final String VERSIONN = "5.0r1";
-    private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Set 2020";
+    public static final String VERSIONN = "5.0r2";
+    private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Nov 2020";
     public static String USUARIO;
     public static String PASS;
     private static String SERVIDOR;
@@ -444,7 +444,9 @@ public class Menu extends javax.swing.JFrame {
         jSeparator9 = new javax.swing.JPopupMenu.Separator();
         mnuCierreCaja = new javax.swing.JMenuItem();
         jSeparator22 = new javax.swing.JPopupMenu.Separator();
-        mnuCierreConta = new javax.swing.JMenuItem();
+        mnuCiereContaMensual = new javax.swing.JMenuItem();
+        mnuAyudaCierreAnual = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         mnuHerramientas = new javax.swing.JMenu();
         mnuIntegridad = new javax.swing.JMenuItem();
         mnuRecodificarArticulos = new javax.swing.JMenuItem();
@@ -501,11 +503,11 @@ public class Menu extends javax.swing.JFrame {
         setName("frameMenu"); // NOI18N
 
         mnuArchivo.setMnemonic('M');
-        mnuArchivo.setText("Mantenimiento");
+        mnuArchivo.setText("Catálogos");
 
         mnuInarticu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
         mnuInarticu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/database_lightning.png"))); // NOI18N
-        mnuInarticu.setText("Catálogo de productos");
+        mnuInarticu.setText("Productos");
         mnuInarticu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuInarticuActionPerformed(evt);
@@ -514,7 +516,7 @@ public class Menu extends javax.swing.JFrame {
         mnuArchivo.add(mnuInarticu);
 
         mnuIVA.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
-        mnuIVA.setText("Catálogo de impuestos");
+        mnuIVA.setText("Impuestos");
         mnuIVA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuIVAActionPerformed(evt);
@@ -534,7 +536,7 @@ public class Menu extends javax.swing.JFrame {
 
         mnuInfamily.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
         mnuInfamily.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Familias3.jpg"))); // NOI18N
-        mnuInfamily.setText("Catálogo de familias");
+        mnuInfamily.setText("Familias");
         mnuInfamily.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuInfamilyActionPerformed(evt);
@@ -544,7 +546,7 @@ public class Menu extends javax.swing.JFrame {
 
         mnuBodegas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
         mnuBodegas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/database.png"))); // NOI18N
-        mnuBodegas.setText("Catálogo de bodegas");
+        mnuBodegas.setText("Bodegas");
         mnuBodegas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuBodegasActionPerformed(evt);
@@ -565,7 +567,7 @@ public class Menu extends javax.swing.JFrame {
 
         mnuInproved.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         mnuInproved.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/shopcartapply_16x16.png"))); // NOI18N
-        mnuInproved.setText("Catálogo de proveedores");
+        mnuInproved.setText("Proveedores");
         mnuInproved.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuInprovedActionPerformed(evt);
@@ -574,7 +576,7 @@ public class Menu extends javax.swing.JFrame {
         mnuArchivo.add(mnuInproved);
 
         mnuClientes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        mnuClientes.setText("Catálogo de clientes");
+        mnuClientes.setText("Clientes");
         mnuClientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuClientesActionPerformed(evt);
@@ -584,7 +586,7 @@ public class Menu extends javax.swing.JFrame {
 
         mnuVendedores.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         mnuVendedores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Vendedor.jpg"))); // NOI18N
-        mnuVendedores.setText("Catálogo de vendedores");
+        mnuVendedores.setText("Vendedores");
         mnuVendedores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuVendedoresActionPerformed(evt);
@@ -593,7 +595,7 @@ public class Menu extends javax.swing.JFrame {
         mnuArchivo.add(mnuVendedores);
 
         mnuTerritorios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        mnuTerritorios.setText("Catálogo de zonas");
+        mnuTerritorios.setText("Zonas");
         mnuTerritorios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuTerritoriosActionPerformed(evt);
@@ -613,7 +615,7 @@ public class Menu extends javax.swing.JFrame {
 
         mnuMonedas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_MASK));
         mnuMonedas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/currency.png"))); // NOI18N
-        mnuMonedas.setText("Catálogo de monedas");
+        mnuMonedas.setText("Monedas");
         mnuMonedas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuMonedasActionPerformed(evt);
@@ -651,7 +653,7 @@ public class Menu extends javax.swing.JFrame {
         mnuArchivo.add(mnuCatalogoC);
 
         mnuCatalogoCont.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
-        mnuCatalogoCont.setText("Catálogo contable");
+        mnuCatalogoCont.setText("Cuentas");
         mnuCatalogoCont.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuCatalogoContActionPerformed(evt);
@@ -1643,13 +1645,24 @@ public class Menu extends javax.swing.JFrame {
         mnuCierre.add(mnuCierreCaja);
         mnuCierre.add(jSeparator22);
 
-        mnuCierreConta.setText("Cierre de contabilidad");
-        mnuCierreConta.addActionListener(new java.awt.event.ActionListener() {
+        mnuCiereContaMensual.setText("Cierre contable (mensual)");
+        mnuCiereContaMensual.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuCierreContaActionPerformed(evt);
+                mnuCiereContaMensualActionPerformed(evt);
             }
         });
-        mnuCierre.add(mnuCierreConta);
+        mnuCierre.add(mnuCiereContaMensual);
+
+        mnuAyudaCierreAnual.setText("Ayuda cierre anual");
+        mnuCierre.add(mnuAyudaCierreAnual);
+
+        jMenuItem3.setText("Cierre contable (anual)");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        mnuCierre.add(jMenuItem3);
 
         mnuPrincipal.add(mnuCierre);
 
@@ -3763,9 +3776,9 @@ CONEXION.getConnection(), // Conexión
         RepComparativoMensual.main(new String[1]);
     }//GEN-LAST:event_mnuCompMensualActionPerformed
 
-    private void mnuCierreContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCierreContaActionPerformed
+    private void mnuCiereContaMensualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCiereContaMensualActionPerformed
         CierreConta.main(new String[1]);
-    }//GEN-LAST:event_mnuCierreContaActionPerformed
+    }//GEN-LAST:event_mnuCiereContaMensualActionPerformed
 
     private void mnuRegistroContableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRegistroContableActionPerformed
         logica.contabilidad.PeriodoContable per = new logica.contabilidad.PeriodoContable(CONEXION.getConnection());
@@ -3797,6 +3810,7 @@ CONEXION.getConnection(), // Conexión
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
+        
         RegistroAsientos.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuAsientosActionPerformed
 
@@ -3813,6 +3827,10 @@ CONEXION.getConnection(), // Conexión
         
             
     }//GEN-LAST:event_mnuEstResultActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        CierreContaAnual.main(new String[1]);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     public static void main(final DataBaseConnection c, final boolean disponible, final String url) {
 
@@ -3844,6 +3862,7 @@ CONEXION.getConnection(), // Conexión
     private javax.swing.JCheckBoxMenuItem chkMenuSistemaDisp;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator10;
     private javax.swing.JPopupMenu.Separator jSeparator11;
@@ -3888,6 +3907,7 @@ CONEXION.getConnection(), // Conexión
     private javax.swing.JMenuItem mnuArtMenosV;
     private javax.swing.JMenuItem mnuArticulosxprov;
     private javax.swing.JMenuItem mnuAsientos;
+    private javax.swing.JMenuItem mnuAyudaCierreAnual;
     private javax.swing.JMenuItem mnuBackup;
     private javax.swing.JMenuItem mnuBalances;
     private javax.swing.JMenuItem mnuBancos;
@@ -3905,9 +3925,9 @@ CONEXION.getConnection(), // Conexión
     private javax.swing.JMenuItem mnuCentroCosto;
     private javax.swing.JMenuItem mnuCerrarSesion;
     private javax.swing.JMenuItem mnuCerrarSistema;
+    private javax.swing.JMenuItem mnuCiereContaMensual;
     private javax.swing.JMenu mnuCierre;
     private javax.swing.JMenuItem mnuCierreCaja;
-    private javax.swing.JMenuItem mnuCierreConta;
     private javax.swing.JMenuItem mnuCierreM;
     private javax.swing.JMenuItem mnuClave;
     private javax.swing.JMenuItem mnuClienteFrec;
