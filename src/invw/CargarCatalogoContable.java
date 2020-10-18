@@ -10,7 +10,7 @@ import logica.contabilidad.Cuenta;
 /**
  * Esta clase carga el catálogo contable del sistema CG en fox Debe abrir el
  * archivo aslcg01.dbf y ejecutar el siguiente comando en FOX: COPY TO
- * Z:\home\bosco\CAT2.DBF TYPE FOX2X para que esta clase pueda procesar la
+ * ..\Migration\CAT2.DBF TYPE FOX2X para que esta clase pueda procesar la
  * tabla. Después de haber cargado el catálogo se debe ejecutar el siguiente SP
  * en base de datos: Call calcularNivelDeCuenta();
  *

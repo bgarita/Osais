@@ -27,16 +27,21 @@ Solución:
     a. Actualizar el nuevo campo en las tablas inarticu, inarticu_sinc y
        hinarticu con el valor correspondiente al código de IVA
        - Si se usa impuesto global y éste es mayor que cero se le pone '08'
-       - Si no usa impuesto globar y este es mayor que cero se le pone '02'
-       - Si es excento se le pone '01'
+       - Si NO usa impuesto global y este es 1% se le pone '02'
+       - Si es exento se le pone '01'                                                       Listo
     b. Actualizar la tabla fadetall con el correspondiente código de IVA
        - Si el campo facpive = 0, ponerle '01'
        - Si es 1, ponerle '02'
-       - Si es 13, pnerle '08'
-5.  Modificar el proceso de cierre para que traslade este nuevo campo a las
-    tablas históricas.
+       - Si es 13, ponerle '08'                                                             Listo
+5.  Modificar el proceso de cierre para que traslade este nuevo campo a las                 Listo
+    tablas históricas. 
     También hay que crear una tabla histórica (htarifa_iva) y trasladar los
     datos de acuerdo al mes que se esté cerrando.
+    - htarifa_iva                                                                           Listo
+    Nota:
+        Más adelante también habrá que eliminar los campo que se
+        quiten en estas tablas.
+                                                                               
 6.  Modificar la pantalla de mantenimiento de artículos para que use este nuevo
     campo y ya no permita digitar el porcentaje de impuesto ni elegir si usa
     impuesto global. En su lugar se agregará la referencia a la nueva tabla.
@@ -44,37 +49,85 @@ Solución:
       artimpv y artusaIVG pero no eliminarlos aún.  Estos campos se analizarán 
       después para obtener todas las referencias y modificar tanto los objetos
       de base de datos como los de Java y de esa forma poder eliminarlos, pero 
-      será unos dos meses después de este cambio.
-7.  Modificar el cálculo de utilidades y precios de venta en la pantalla de 
-    mantenimiento de artículos según esta nueva forma de optener los porcentajes
+      será unos dos meses después de este cambio.                                           Listo
+7.  Modificar el cálculo de utilidades y precios de venta en la pantalla de                 Listo
+    mantenimiento de artículos según esta nueva forma de obtener los porcentajes
     para los impuestos.
-8.  Modificar la pantalla de facturación para que ya no haga referencia al
+8.  Modificar la pantalla de facturación para que ya no haga referencia al                  Listo
     impuesto global sino solo a la nueva tabla (en relación con los artículos)
     y obtenga los valores de ahí.
-9.  Modificar el proceso de generación de factura electrónica para que obtenga
+9.  Modificar el proceso de generación de factura electrónica para que obtenga              Listo
     el código a enviar a Hacienda según el nuevo campo de la tabla fadetall
     (DetalleFactura.java, método setData()).
 10. Dejar en desuso el campo facpive en la tabla faencabe pero no eliminarlo
     aún. Cuando se haga el análisis del punto # 6 también se deberá incluir
     la revisión y eliminación de este campo.
+    Modificar proceso de facturación y proceso de notas de crédito.                         Listo
 11. Modificar todo el proceso de pedidos de venta para que se comporte con el
     IVA igual que la facturación.  Esto incluye todas las pantallas que hacen
-    uso de las tablas pedidod y pedidofd
+    uso de las tablas pedidod y pedidofd                                                    Listo
 12. Modificar todos los reportes de facturación, movimientos de inventario y 
-    pedidos de venta para que tomen los datos del IVA según la nueva tabla.
+    pedidos de venta para que tomen los datos del IVA según la nueva tabla.                 Listo
 13. Eliminar el campo de impuesto global en la tabla config y modificar la 
-    pantalla de mantenimiento de parámetros de facturación.
+    pantalla de mantenimiento de parámetros de facturación.                                 Listo
 14. Modificar el formulario de impresión de factura electrónica para que incluya
-    el código de impuesto y el valor utilizado.
-15. Modificar la pantalla de notas de crédito para que se ajusten al código de 
-    tarifa según la factura a la que se haga referencia.
+    el código de impuesto y el valor utilizado.                                             Solo se hicieron ajustes de formato ya que no se puede incluir un código general.
+15. Modificar la pantalla de notas de crédito para que refleje el código de 
+    tarifa según la factura a la que se haga referencia. Debe calcular el IVA
+    según la fecha en que se registró la factura.                                           Listo
 16. Modificar el proceso de generación del XML para que obtenga el código de 
-    tarifa registrado en las tablas de facturación.
+    tarifa registrado en las tablas de facturación.                                         Listo
+17. Validar todas las tablas y eliminar los campos que no se están usando.                  En proceso..
+    INARTICU.artimpv
+    INARTICU.artusaIVG
+
+    HINARTICU.artimpv
+    HINARTICU.artusaIVG
+    
+    En esta tabla hay que revisar si hay pantalla SPs o funciones que usen
+    esos campos y modificarlos.
+    INARTICU_SINC.artimpv
+    INARTICU_SINC.artusaIVG
+
+    Para eliminar este campo hay que revisar todo el código, reportes, SPs
+    y funciones para determinar cuáles aún lo usan y eliminar el uso.
+    FAENCABE.facpive
+    WRK_FAENCABE.facpive
 
 
 CONTROL DEL TIEMPO
-Análisis        1.5 (3 horas pero se cobra la mitad)
-Puntos 1 y 3    2.5 horas
-Punto 2         2 + 2.5 horas
-Implementación  2 horas
+Análisis        1.5 (3 horas pero se cobra la mitad)    Factura 65
+Puntos 1 y 3    2.5 horas                               Factura 65
+Punto 2         2 + 2.5 horas                           Factura 65
+Implementación  2 horas                                 Factura 66
+
+Facturar también 1.5 horas por concepto de 
+                    Revisión y corrección de documento electrónico 
+                    aceptado pero sin posibilidad de enviar correo. Factura 66
+Facturar otras 2 horas por revisión y recuperación de XMLs.         Factura 66
+
+Punto 4         1 hora                                         Factura 67
+Punto 5         2.5 horas                                      Factura 67
+
+Punto 6         1 + 1                                          Factura 68
+
+Punto 7         1                                              Factura 69
+Punto 8         3.5 horas                                      Factura 69
+Punto 9         1 hora                                         Factura 69
 ----------IMPLEMENTADO----------
+
+Punto 10        4.5 horas                                      Factura 71
+Punto 11        1 hora                                         Factura 71
+Punto 12        0.5 horas                                      Factura 73
+Punto 13        1 Hora                                         Factura 73
+Punto 14        0.5 horas                                      Factura 73
+Punto 15        0.5 horas                                      Factura 73
+Punto 16        0.5 horas                                      Factura 75
+Punto 17        3 horas                                        Factura 75
+
+
+EXTRA:
+Crear branch: "Duplicated keys Update"
+Buscar todos los códigos insert into para tablas con campo llave y sustituir el
+código por INSERT ... ON DUPLICATE KEY UPDATE
+Ver: https://chartio.com/resources/tutorials/how-to-insert-if-row-does-not-exist-upsert-in-mysql/#using-insert-on-duplicate-key-update

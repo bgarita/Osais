@@ -14,12 +14,16 @@ import logica.contabilidad.Cuenta;
 /**
  * REQUISITOS PREVIOS:
  * 1.   Debe haber importado el catálogo contable y no puede haber ningún movimiento
- *      con una cuenta errónea.
+ *      con una cuenta errónea.  Asegúrese de haber corrido el SP CALL calcularNivelDeCuenta();
  * 2.   Este sistema debe tener todos los tipos de asiento que el de FOX.
  * 3.   Asegurarse de que todos los asientos tiene un tipo válido.
  *      Select * from aslcg02a where tipo_comp not in(Select tipo_comp from tiposa)
  * 4.   Crear todos los periodos contables que existen en la tabla aslcgpe en FOX 
  *      y dejarlos abiertos.
+ * 5.   Se debe correr un proceso que garantice que los números de asiento son
+ *      únicos antes de realizar la importación de datos. Esto se debe hacer en
+ *      las tablas de Fox generadas para la migración.
+ *      Ver más abajo los comandos de fox.
  * 
  * REQUISITOS POSTERIORES:
  * 1.   Correr proceso de recalcular cuentas de movimientos para el primer mes 
@@ -43,14 +47,33 @@ import logica.contabilidad.Cuenta;
  * 
  * Esta clase carga todos los movimientos contables del sistema CG en fox
  * Debe abrir el archivo aslcg02a.dbf y ejecutar el siguiente comando
- * en FOX: COPY TO Z:\home\bosco\aslcg02a.DBF TYPE FOX2X 
+ * en FOX: COPY TO ..\migration\aslcg02a.DBF TYPE FOX2X 
  * Ahora hay que revisar la estructura de la tabla aslcg02.dbf y si el campo
  * fecha_comp esta primero que no_refer hay que modificar la estructura para
  * que quede primero no_refer.
  * Luego abrir el archivo aslcg02.dbf y ejecutar el siguiente comando
- * en FOX: COPY TO Z:\home\bosco\aslcg02.DBF TYPE FOX2X para que esta
+ * en FOX: COPY TO ..\migration\aslcg02.DBF TYPE FOX2X para que esta
  * clase pueda procesar ambas tablas. Quedarán todos los períodos abiertos
  * por lo que luego hay que proceder a cerrar mes a mes.
+ * 
+ * Ahora hay que eliminar todos los asientos de cierre anual para hacer que
+ * luego el sistema sea el que los realiza:
+ * DELETE FROM ..\migration\aslcg02a WHERE ALLTRIM(no_comprob) == '99999' AND tipo_comp == 99
+ * CLOSE DATABASES all
+ * USE ..\migration\aslcg02a EXCLUSIVE 
+ * PACK
+ * 
+ * Ahora se debe corregir las referencias en cero:
+ * UPDATE ..\migration\aslcg02a SET no_refer = VAL(ALLTRIM(STR(MONTH(fecha_comp))) + ALLTRIM(STR(tipo_comp)) + ALLTRIM(STR(YEAR(fecha_comp)))) WHERE no_refer == 0
+ * 
+ * Ahora se debe hacer que los números de asiento sean únicos.  Para eso se debe
+ * establecer la referencia como número de asiento y trasladar el número de asiento
+ * actual a la descripción para tener alguna referencia al número anterior.
+ * UPDATE ..\migration\aslcg02a SET descrip = ALLTRIM(descrip) + '-' + ALLTRIM(no_comprob) WHERE ALLTRIM(no_comprob) <> '99999' AND tipo_comp <> 99
+ * UPDATE ..\migration\aslcg02a SET no_comprob = ALLTRIM(STR(no_refer))
+ * 
+ * Todo lo anterior se debe repetir para la tabla ..\migration\aslcg02 antes de
+ * iniciar el proceso de migración de asientos.
  * 
  * @author Bosco Garita 14/09/2016
  */

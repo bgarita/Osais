@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Factura" pageWidth="612" pageHeight="792" columnWidth="605" leftMargin="5" rightMargin="2" topMargin="6" bottomMargin="6" uuid="8a6871c2-9858-4e1b-b535-91cec5e8fa2b">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="400"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="pFacnume" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[new Integer(1)]]></defaultValueExpression>
 	</parameter>
@@ -146,7 +146,7 @@
 				<textFieldExpression><![CDATA[$F{Direccion}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="371" y="11" width="57" height="15" uuid="de7dd02e-f331-43d3-a496-fed877cb8d92"/>
+				<reportElement x="371" y="11" width="80" height="15" uuid="de7dd02e-f331-43d3-a496-fed877cb8d92"/>
 				<textElement textAlignment="Right">
 					<font fontName="Tahoma" size="11" isBold="true"/>
 				</textElement>
@@ -273,36 +273,36 @@
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="21" splitType="Stretch">
+		<band height="23" splitType="Stretch">
 			<rectangle radius="10">
-				<reportElement mode="Opaque" x="1" y="4" width="579" height="15" backcolor="#09A3FF" uuid="42d14738-55d3-49c2-9b42-72c54b918b73"/>
+				<reportElement mode="Opaque" x="1" y="2" width="579" height="19" backcolor="#09A3FF" uuid="42d14738-55d3-49c2-9b42-72c54b918b73"/>
 				<graphicElement>
 					<pen lineColor="#000000"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="8" y="6" width="43" height="11" uuid="096cdfe5-dd4f-4f3f-afe3-b5f06bf22e3e"/>
+				<reportElement x="8" y="6" width="43" height="12" forecolor="#FFFFFF" uuid="096cdfe5-dd4f-4f3f-afe3-b5f06bf22e3e"/>
 				<textElement>
 					<font fontName="SansSerif" size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[CÓDIGO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="371" y="6" width="41" height="11" uuid="900785ef-ffbd-4f93-9596-eaa1a381327c"/>
+				<reportElement x="371" y="6" width="41" height="12" forecolor="#FFFFFF" uuid="900785ef-ffbd-4f93-9596-eaa1a381327c"/>
 				<textElement textAlignment="Right">
 					<font fontName="SansSerif" size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[PRECIO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="504" y="8" width="65" height="11" uuid="4d352abb-8065-4ede-a2f0-26a87a44f08b"/>
+				<reportElement x="504" y="6" width="65" height="12" forecolor="#FFFFFF" uuid="4d352abb-8065-4ede-a2f0-26a87a44f08b"/>
 				<textElement textAlignment="Right">
 					<font fontName="SansSerif" size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[TOTAL]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="427" y="6" width="55" height="11" uuid="7d915ff7-2a9f-4f61-a3f4-89714adb9641"/>
+				<reportElement x="427" y="6" width="55" height="12" forecolor="#FFFFFF" uuid="7d915ff7-2a9f-4f61-a3f4-89714adb9641"/>
 				<textElement>
 					<font fontName="SansSerif" size="9" isBold="true"/>
 				</textElement>
@@ -341,7 +341,7 @@
 				<textFieldExpression><![CDATA[$F{facmont}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00;-#,##0.00">
-				<reportElement x="422" y="0" width="60" height="13" uuid="526fab39-b971-4050-b60d-8d4c9f804aea"/>
+				<reportElement x="422" y="1" width="60" height="13" uuid="526fab39-b971-4050-b60d-8d4c9f804aea"/>
 				<textElement textAlignment="Right">
 					<font fontName="Tahoma" size="10"/>
 				</textElement>
@@ -371,21 +371,21 @@
 				<text><![CDATA[*** ULTIMA LINEA ***]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="386" y="55" width="65" height="16" uuid="ffa696e2-fcf5-4d87-88c6-ce538eeba904"/>
+				<reportElement x="386" y="55" width="65" height="16" forecolor="#FFFFFF" uuid="ffa696e2-fcf5-4d87-88c6-ce538eeba904"/>
 				<textElement textAlignment="Right">
 					<font fontName="SansSerif" size="12" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Sub-total]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="386" y="72" width="65" height="16" uuid="c098ee5d-9fff-4a5d-98ab-1ae31ecb00c6"/>
+				<reportElement x="386" y="72" width="65" height="16" forecolor="#FFFFFF" uuid="c098ee5d-9fff-4a5d-98ab-1ae31ecb00c6"/>
 				<textElement textAlignment="Right">
 					<font fontName="SansSerif" size="12" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Descuento]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="386" y="104" width="65" height="16" uuid="ba716aa7-f4b3-4cf2-aff7-a96153f7f853"/>
+				<reportElement x="386" y="104" width="65" height="16" forecolor="#FFFFFF" uuid="ba716aa7-f4b3-4cf2-aff7-a96153f7f853"/>
 				<textElement textAlignment="Right">
 					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
@@ -408,42 +408,42 @@
 				<textFieldExpression><![CDATA[$F{factext}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="460" y="55" width="7" height="16" uuid="4057dd0b-ead5-47b7-aea1-820647da8400"/>
+				<reportElement x="460" y="55" width="7" height="16" forecolor="#FFFFFF" uuid="4057dd0b-ead5-47b7-aea1-820647da8400"/>
 				<textElement>
 					<font fontName="SansSerif" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{simbolo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="460" y="72" width="7" height="16" uuid="b113926c-db19-40b6-93a0-e2bce2e1e416"/>
+				<reportElement x="460" y="72" width="7" height="16" forecolor="#FFFFFF" uuid="b113926c-db19-40b6-93a0-e2bce2e1e416"/>
 				<textElement>
 					<font fontName="SansSerif" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{simbolo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="460" y="104" width="7" height="16" uuid="ecd9008f-f201-461e-a42c-6fce886c03c4"/>
+				<reportElement x="460" y="104" width="7" height="16" forecolor="#FFFFFF" uuid="ecd9008f-f201-461e-a42c-6fce886c03c4"/>
 				<textElement>
 					<font fontName="SansSerif" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{simbolo}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00;-#,##0.00">
-				<reportElement x="473" y="55" width="95" height="16" uuid="7f3e40dc-ca46-40f5-8a23-05c5a3e5d142"/>
+				<reportElement x="473" y="55" width="95" height="16" forecolor="#FFFFFF" uuid="7f3e40dc-ca46-40f5-8a23-05c5a3e5d142"/>
 				<textElement textAlignment="Right">
 					<font fontName="SansSerif" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{SubTotal}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00;-#,##0.00">
-				<reportElement x="473" y="72" width="95" height="16" uuid="9057d844-bbc9-46a5-a531-55a71613e674"/>
+				<reportElement x="473" y="72" width="95" height="16" forecolor="#FFFFFF" uuid="9057d844-bbc9-46a5-a531-55a71613e674"/>
 				<textElement textAlignment="Right">
 					<font fontName="SansSerif" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{facdesc}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00;-#,##0.00">
-				<reportElement x="473" y="104" width="95" height="16" uuid="91f8c65a-ceea-429e-93e1-a7693fda4d52"/>
+				<reportElement x="473" y="104" width="95" height="16" forecolor="#FFFFFF" uuid="91f8c65a-ceea-429e-93e1-a7693fda4d52"/>
 				<textElement textAlignment="Right">
 					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
@@ -549,21 +549,21 @@
 				<text><![CDATA[devengará int. morat. del 3% mensual.]]></text>
 			</staticText>
 			<textField pattern="#,##0.00;-#,##0.00">
-				<reportElement x="473" y="88" width="95" height="16" uuid="2d8a20f9-b4af-47fb-ae1c-b092d44517aa"/>
+				<reportElement x="473" y="88" width="95" height="16" forecolor="#FFFFFF" uuid="2d8a20f9-b4af-47fb-ae1c-b092d44517aa"/>
 				<textElement textAlignment="Right">
 					<font fontName="SansSerif" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{facMonExp}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="386" y="88" width="65" height="16" uuid="c8b656d2-f65e-48ae-85d2-1decf9642c62"/>
+				<reportElement x="386" y="88" width="65" height="16" forecolor="#FFFFFF" uuid="c8b656d2-f65e-48ae-85d2-1decf9642c62"/>
 				<textElement textAlignment="Right">
 					<font fontName="SansSerif" size="12" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Express]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="460" y="88" width="7" height="16" uuid="8f455f74-0701-4a3e-8b0d-bfe06983df98"/>
+				<reportElement x="460" y="88" width="7" height="16" forecolor="#FFFFFF" uuid="8f455f74-0701-4a3e-8b0d-bfe06983df98"/>
 				<textElement>
 					<font fontName="SansSerif" size="12"/>
 				</textElement>

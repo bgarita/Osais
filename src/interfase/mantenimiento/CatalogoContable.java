@@ -11,6 +11,7 @@ import accesoDatos.CMD;
 import accesoDatos.UtilBD;
 import interfase.otros.Buscador;
 import interfase.otros.Navegador;
+import interfase.reportes.RepMovimCta;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.Connection;
@@ -70,6 +71,9 @@ public class CatalogoContable extends JFrame {
 
         nav.setConexion(conn);
         catalogo = new Cocatalogo(conn);
+        
+        logica.contabilidad.PeriodoContable per = new logica.contabilidad.PeriodoContable(conn);
+        this.lblPeriodo.setText(per.getMesLetras() + " " + per.getAño());
 
         try (ResultSet rs
                 = nav.cargarRegistro(
@@ -132,22 +136,26 @@ public class CatalogoContable extends JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         lblSaldoActual = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        lblDb_mes_pend = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        lblCr_mes_pend = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        lblSaldoPend = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         lblFecha_c = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        cboTipo_cta = new javax.swing.JComboBox<String>();
+        cboTipo_cta = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
         chkActiva = new javax.swing.JCheckBox();
         chkMovimientos = new javax.swing.JCheckBox();
         chkNombre = new javax.swing.JCheckBox();
         chkAsigaraER = new javax.swing.JCheckBox();
-        jPanel4 = new javax.swing.JPanel();
-        btnMovGeneral = new javax.swing.JButton();
-        btnMovGeneral1 = new javax.swing.JButton();
-        btnMovGeneral2 = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         lblFecha_upd = new javax.swing.JLabel();
+        lblPeriodo = new javax.swing.JLabel();
+        btnMovGeneral = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuArchivo = new javax.swing.JMenu();
         mnuValidCat = new javax.swing.JMenuItem();
@@ -318,6 +326,7 @@ public class CatalogoContable extends JFrame {
         });
 
         jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(204, 102, 0));
         jLabel1.setText("Saldo año anterior");
 
         jLabel3.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
@@ -327,10 +336,11 @@ public class CatalogoContable extends JFrame {
         jLabel4.setText("Créditos fecha");
 
         jLabel5.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
-        jLabel5.setForeground(java.awt.Color.blue);
+        jLabel5.setForeground(new java.awt.Color(255, 0, 255));
         jLabel5.setText("Saldo mes anterior");
 
         lblAno_anter.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
+        lblAno_anter.setForeground(new java.awt.Color(204, 102, 0));
         lblAno_anter.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblAno_anter.setText("lblAno_anter");
         lblAno_anter.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -346,7 +356,7 @@ public class CatalogoContable extends JFrame {
         lblCr_fecha.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         lblSaldoMesAnterior.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
-        lblSaldoMesAnterior.setForeground(java.awt.Color.blue);
+        lblSaldoMesAnterior.setForeground(new java.awt.Color(255, 0, 255));
         lblSaldoMesAnterior.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblSaldoMesAnterior.setText("lblSaldoMesAnterior");
         lblSaldoMesAnterior.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -368,14 +378,40 @@ public class CatalogoContable extends JFrame {
         jLabel8.setText("Créditos del mes");
 
         jLabel9.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
-        jLabel9.setForeground(java.awt.Color.blue);
-        jLabel9.setText("Saldoactual");
+        jLabel9.setForeground(new java.awt.Color(0, 153, 51));
+        jLabel9.setText("Saldo actual");
 
         lblSaldoActual.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
-        lblSaldoActual.setForeground(java.awt.Color.blue);
+        lblSaldoActual.setForeground(new java.awt.Color(0, 153, 51));
         lblSaldoActual.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblSaldoActual.setText("lblSaldoMesActual");
         lblSaldoActual.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel12.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        jLabel12.setText("Débitos pendientes");
+
+        lblDb_mes_pend.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
+        lblDb_mes_pend.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblDb_mes_pend.setText("débitos_pendientes");
+        lblDb_mes_pend.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel13.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        jLabel13.setText("Créditos pendientes");
+
+        lblCr_mes_pend.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
+        lblCr_mes_pend.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblCr_mes_pend.setText("créditos_pendientes");
+        lblCr_mes_pend.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel14.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        jLabel14.setForeground(java.awt.Color.blue);
+        jLabel14.setText("Saldo pendiente");
+
+        lblSaldoPend.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        lblSaldoPend.setForeground(java.awt.Color.blue);
+        lblSaldoPend.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblSaldoPend.setText("saldo_pendiente");
+        lblSaldoPend.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -384,22 +420,29 @@ public class CatalogoContable extends JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblSaldoActual, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblCr_mes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblDb_mes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblSaldoMesAnterior, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblCr_fecha, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblDb_fecha, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblAno_anter, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(lblSaldoActual, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblCr_mes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblDb_mes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblSaldoMesAnterior, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblCr_fecha, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblDb_fecha, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblAno_anter, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblSaldoPend, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCr_mes_pend, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblDb_mes_pend, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -423,7 +466,7 @@ public class CatalogoContable extends JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(lblSaldoMesAnterior)
                     .addComponent(jLabel5))
-                .addGap(14, 14, 14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblDb_mes)
                     .addComponent(jLabel7))
@@ -431,10 +474,23 @@ public class CatalogoContable extends JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblCr_mes)
                     .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblSaldoActual)
-                    .addComponent(jLabel9)))
+                    .addComponent(jLabel9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDb_mes_pend)
+                    .addComponent(jLabel12))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCr_mes_pend)
+                    .addComponent(jLabel13))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSaldoPend)
+                    .addComponent(jLabel14))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLabel2.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
@@ -451,7 +507,7 @@ public class CatalogoContable extends JFrame {
 
         jLabel10.setText("Tipo");
 
-        cboTipo_cta.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Activo", "Pasivo", "Capital", "Ingresos", "Gastos" }));
+        cboTipo_cta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activo", "Pasivo", "Capital", "Ingresos", "Gastos" }));
 
         chkActiva.setSelected(true);
         chkActiva.setText("Activa");
@@ -499,44 +555,6 @@ public class CatalogoContable extends JFrame {
                 .addGap(8, 8, 8))
         );
 
-        btnMovGeneral.setText("Movim. General");
-        btnMovGeneral.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMovGeneralActionPerformed(evt);
-            }
-        });
-
-        btnMovGeneral1.setText("Movim. del mes");
-
-        btnMovGeneral2.setText("Saldo Mov. Pend");
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addGap(0, 18, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnMovGeneral2)
-                    .addComponent(btnMovGeneral)
-                    .addComponent(btnMovGeneral1))
-                .addGap(6, 6, 6))
-        );
-
-        jPanel4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnMovGeneral, btnMovGeneral1, btnMovGeneral2});
-
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
-                .addComponent(btnMovGeneral)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnMovGeneral1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnMovGeneral2)
-                .addContainerGap())
-        );
-
         jLabel11.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel11.setText("Mayorización");
 
@@ -545,6 +563,17 @@ public class CatalogoContable extends JFrame {
         lblFecha_upd.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblFecha_upd.setText("lblFecha_upd");
         lblFecha_upd.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        lblPeriodo.setForeground(java.awt.Color.red);
+        lblPeriodo.setText("jLabel12");
+        lblPeriodo.setToolTipText("Periodo en proceso");
+
+        btnMovGeneral.setText("Ver movimientos");
+        btnMovGeneral.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMovGeneralActionPerformed(evt);
+            }
+        });
 
         mnuArchivo.setText("Archivo");
 
@@ -610,43 +639,23 @@ public class CatalogoContable extends JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtMayor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(4, 4, 4)
-                                .addComponent(txtSub_cta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(4, 4, 4)
-                                .addComponent(txtSub_sub, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(4, 4, 4)
-                                .addComponent(txtColect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtNom_cta, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(12, 12, 12)
-                                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-                                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING))
-                                        .addGap(22, 22, 22)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(lblFecha_c, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(cboTipo_cta, 0, 168, Short.MAX_VALUE)
-                                            .addComponent(lblFecha_upd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))))
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtMayor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(4, 4, 4)
+                        .addComponent(txtSub_cta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(4, 4, 4)
+                        .addComponent(txtSub_sub, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(4, 4, 4)
+                        .addComponent(txtColect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNom_cta, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(143, 143, 143)
+                        .addComponent(lblPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(cmdPrimero, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cmdAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -658,7 +667,25 @@ public class CatalogoContable extends JFrame {
                         .addComponent(cmdGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cmdBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(22, 22, 22)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(lblFecha_c, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cboTipo_cta, 0, 168, Short.MAX_VALUE)
+                                    .addComponent(lblFecha_upd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(btnMovGeneral)
+                                .addGap(42, 42, 42)))))
                 .addContainerGap())
         );
 
@@ -667,7 +694,7 @@ public class CatalogoContable extends JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtMayor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -683,13 +710,18 @@ public class CatalogoContable extends JFrame {
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cmdPrimero)
-                            .addComponent(cmdAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cmdSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cmdUltimo, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cmdGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cmdBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(8, 8, 8))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cmdPrimero)
+                                    .addComponent(cmdAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cmdSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cmdUltimo, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cmdGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cmdBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(8, 8, 8))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(lblPeriodo)
+                                .addGap(19, 19, 19))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
@@ -702,11 +734,11 @@ public class CatalogoContable extends JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
                             .addComponent(cboTipo_cta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(80, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(5, 5, 5)
+                        .addComponent(btnMovGeneral)
+                        .addGap(120, 120, 120))))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmdAnterior, cmdBorrar, cmdGuardar, cmdPrimero, cmdSiguiente, cmdUltimo});
@@ -723,7 +755,7 @@ public class CatalogoContable extends JFrame {
         try {
             conn.close();
         } catch (SQLException ex) {
-            Logger.getLogger(CatalogoContable.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         dispose();
@@ -1073,7 +1105,31 @@ public class CatalogoContable extends JFrame {
     }//GEN-LAST:event_chkMovimientosMouseClicked
 
     private void btnMovGeneralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMovGeneralActionPerformed
-
+        if (!this.chkMovimientos.isSelected()){
+            JOptionPane.showMessageDialog(null,
+                    "Sólo se pueden consultar las cuentas de movimientos.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        } // end if
+        
+        try {
+            String cuenta 
+                    = this.txtMayor.getText().trim()
+                    + this.txtSub_cta.getText().trim()
+                    + this.txtSub_sub.getText().trim()
+                    + this.txtColect.getText().trim();
+            RepMovimCta mov = new RepMovimCta(this.conn);
+            mov.setCuenta(cuenta);
+            mov.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+        }
     }//GEN-LAST:event_btnMovGeneralActionPerformed
 
     private void mnuValidCatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuValidCatActionPerformed
@@ -1101,7 +1157,7 @@ public class CatalogoContable extends JFrame {
             } // end while
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(CatalogoContable.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -1260,8 +1316,6 @@ public class CatalogoContable extends JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnMovGeneral;
-    private javax.swing.JButton btnMovGeneral1;
-    private javax.swing.JButton btnMovGeneral2;
     private javax.swing.JComboBox<String> cboTipo_cta;
     private javax.swing.JCheckBox chkActiva;
     private javax.swing.JCheckBox chkAsigaraER;
@@ -1276,6 +1330,9 @@ public class CatalogoContable extends JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1287,16 +1344,19 @@ public class CatalogoContable extends JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JLabel lblAno_anter;
     private javax.swing.JLabel lblCr_fecha;
     private javax.swing.JLabel lblCr_mes;
+    private javax.swing.JLabel lblCr_mes_pend;
     private javax.swing.JLabel lblDb_fecha;
     private javax.swing.JLabel lblDb_mes;
+    private javax.swing.JLabel lblDb_mes_pend;
     private javax.swing.JLabel lblFecha_c;
     private javax.swing.JLabel lblFecha_upd;
+    private javax.swing.JLabel lblPeriodo;
     private javax.swing.JLabel lblSaldoActual;
     private javax.swing.JLabel lblSaldoMesAnterior;
+    private javax.swing.JLabel lblSaldoPend;
     private javax.swing.JMenu mnuArchivo;
     private javax.swing.JMenuItem mnuBorrar;
     private javax.swing.JMenuItem mnuBuscar;
@@ -1447,17 +1507,23 @@ public class CatalogoContable extends JFrame {
         txtSub_sub.setText(catalogo.getSub_sub());
         txtColect.setText(catalogo.getColect());
         txtNom_cta.setText(catalogo.getNom_cta());
+        
         lblAno_anter.setText(Ut.setDecimalFormat(catalogo.getAno_anter() + "", "#,##0.00"));
+        
         lblCr_fecha.setText(Ut.setDecimalFormat(catalogo.getCr_fecha() + "", "#,##0.00"));
         lblDb_fecha.setText(Ut.setDecimalFormat(catalogo.getDb_fecha() + "", "#,##0.00"));
         lblSaldoMesAnterior.setText(Ut.setDecimalFormat(catalogo.getSaldoMesAnterior() + "", "#,##0.00"));
+        
         lblCr_mes.setText(Ut.setDecimalFormat(catalogo.getCr_mes() + "", "#,##0.00"));
         lblDb_mes.setText(Ut.setDecimalFormat(catalogo.getDb_mes() + "", "#,##0.00"));
         lblSaldoActual.setText(Ut.setDecimalFormat(catalogo.getSaldoActual() + "", "#,##0.00"));
-        //lblFecha_c.setText(catalogo.getFecha_c().toString());
+        
+        lblDb_mes_pend.setText(Ut.setDecimalFormat(catalogo.getDb_pend() + "", "#,##0.00"));
+        lblCr_mes_pend.setText(Ut.setDecimalFormat(catalogo.getCr_pend() + "", "#,##0.00"));
+        lblSaldoPend.setText(Ut.setDecimalFormat(
+                (catalogo.getSaldoActual() + catalogo.getDb_pend() - catalogo.getCr_pend()) + "", "#,##0.00"));
+        
         lblFecha_c.setText(Ut.dtoc(catalogo.getFecha_c()));
-
-        //lblFecha_upd.setText(catalogo.getFecha_upd().toString());
         lblFecha_upd.setText(Ut.ttoc(catalogo.getFecha_upd().getTime()));
 
         cboTipo_cta.setSelectedIndex(catalogo.getTipo_cta() - 1);

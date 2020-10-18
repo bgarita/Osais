@@ -348,7 +348,7 @@ public class Cuenta {
                 } // end if
             } // try with resources
         } catch (SQLException ex) {
-            Logger.getLogger(Cuenta.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             error = true;
             mensaje_error = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());

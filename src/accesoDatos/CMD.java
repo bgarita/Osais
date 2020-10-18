@@ -53,16 +53,19 @@ public class CMD {
      */
     public static boolean transaction(Connection c, int type) throws SQLException{
         switch(type){
-            case START_TRANSACTION:
+            case START_TRANSACTION: {
                 c.setAutoCommit(false);
                 break;
-            case COMMIT:
+            }
+            case COMMIT: {
                 c.commit();
                 c.setAutoCommit(true);
                 break;
-            default:
+            }
+            default: {
                 c.rollback();
                 c.setAutoCommit(true);
+            }
         } // end switch
         
         // Este return solo se ejecuta si no hay error.

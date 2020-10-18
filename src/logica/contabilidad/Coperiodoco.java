@@ -248,6 +248,7 @@ public class Coperiodoco implements IEstructuraBD {
      * @return true=El registro se agregó, false=El registro no se agregó - debe
      * verificar el mensaje de error (getMensaje_error())
      */
+    @Override
     public boolean insert(){
         this.error = false;
         this.mensaje_error = "";
@@ -288,6 +289,7 @@ public class Coperiodoco implements IEstructuraBD {
      * @return int número de registros afectados. Si hay error debe
      * verificar el mensaje de error (getMensaje_error())
      */
+    @Override
     public int update(){
         this.error = false;
         this.mensaje_error = "";

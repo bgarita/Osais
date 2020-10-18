@@ -39,6 +39,8 @@ import logica.utilitarios.Ut;
  */
 public class RegistroEntradas extends javax.swing.JFrame {
 
+    private static final long serialVersionUID = 13L;
+
     private Catalogos.CathalogDriver driver;  // Catálogos
 
     private Buscador bd;
@@ -98,7 +100,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
             formato.formatColumn(tblDetalle, 7, FormatoTabla.H_RIGHT, Color.MAGENTA);
             formato.formatColumn(tblDetalle, 8, FormatoTabla.H_RIGHT, Color.MAGENTA);
         } catch (Exception ex) {
-            Logger.getLogger(RegistroEntradas.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         conn = c;
@@ -115,7 +117,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
         // Cargo varios elementos de configuración
         rs = stat.executeQuery(
                 "Select "
-                + "codigoTC,BloquearConsDi,formatoCant,formatoPrecio,bodega,facimpu "
+                + "codigoTC,BloquearConsDi,formatoCant,formatoPrecio,bodega "
                 + "from config");
         if (rs == null) { // No se hay registros
             return;
@@ -123,9 +125,8 @@ public class RegistroEntradas extends javax.swing.JFrame {
 
         rs.first();
 
-        // Se establece este porcentaje en cero como valor default y no el IV
-        // que está configurado en la tabla config
-        facimpu = 0.00f;
+        // Se establece este porcentaje en cero como valor default.
+        this.facimpu = 0.00f;
         this.txtPorcentajeIV.setText("0.00");
 
         codigoTC = rs.getString("codigoTC").trim();
@@ -2099,7 +2100,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
             this.txtMovcant.requestFocusInWindow();
             // Fin Bosco agregado 18/03/2014
         } catch (Exception ex) {
-            Logger.getLogger(RegistroEntradas.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),
@@ -2127,7 +2128,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
         try {
             this.calcularLinea(Float.parseFloat(Ut.quitarFormato(txtIV.getText().trim())) > 0.00);
         } catch (Exception ex) {
-            Logger.getLogger(RegistroEntradas.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),
@@ -2422,9 +2423,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                 = "Select movdocu,concat(movtido, ' ', trim(movdesc),' ', movtimo,' ',dtoc(movfech)) from wrk_docinve "
                 + "Where movtimo = 'E'";
         bd = new Buscador(new java.awt.Frame(), true,
-                //"faencabe a inner join inclient b on a.clicode = b.clicode",
                 "Table definition not necesary",
-                //"a.facnume,b.clidesc","b.clidesc",this.txtFacnume,conn);
                 "Field definition not necesary", "movdocu", obMovdocu, conn);
 
         bd.setObjetoRetorno2(obMovtido, 1);
@@ -3432,7 +3431,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
 
         // Valido la bodega y el artículo
         String descrip = driver.getDescripcionBodega(txtBodega.getText().trim());
-        //if (!UtilBD.existeBodega(conn, txtBodega.getText())) {
+        
         if (descrip.isEmpty()) {
             mensajeError = "<<< Bodega no existe >>>.";
             txtBodega.requestFocusInWindow();
@@ -3447,7 +3446,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                 todoCorrecto = false;
             } // end if
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroEntradas.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             mensajeError = ex.getMessage();
             todoCorrecto = false;
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());

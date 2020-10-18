@@ -469,6 +469,7 @@ public class RepAsientos extends JFrame {
         
         select1 = 
                 "Select  " +
+                "    (Select mostrarFechaRep from configcuentas) as mostrarFecha,   " + // 1=Muestra la fecha, 0=No la muestra
                 "                a.no_comprob, " +
                 "                c.descrip as tipo, " +
                 "                date(b.fecha_comp) as fecha_comp, " +
@@ -489,6 +490,7 @@ public class RepAsientos extends JFrame {
         select2 = 
                 " Union all " +
                 "Select    " +
+                "    (Select mostrarFechaRep from configcuentas) as mostrarFecha,   " + // 1=Muestra la fecha, 0=No la muestra
                 "                a.no_comprob, " +
                 "                c.descrip as tipo, " +
                 "                date(b.fecha_comp) as fecha_comp, " +

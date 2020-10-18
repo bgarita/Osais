@@ -1,11 +1,14 @@
 UserConfig.txt
 build/
 build/classes/reports/*.*
-log.txt
+log.txt*
+*.log
+*.xml
 *.class
 *.pdf
 *.jar
 dist/
 Backups/
 OsaisReports/
-xmls/
+xmls/*.txt
+xmls/errores/*.*

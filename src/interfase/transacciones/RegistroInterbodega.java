@@ -256,14 +256,14 @@ public class RegistroInterbodega extends javax.swing.JFrame {
             ex.printStackTrace();
         }
         txtMovdocu.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        txtMovdocu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtMovdocuActionPerformed(evt);
-            }
-        });
         txtMovdocu.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtMovdocuFocusLost(evt);
+            }
+        });
+        txtMovdocu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtMovdocuActionPerformed(evt);
             }
         });
 
@@ -515,24 +515,26 @@ public class RegistroInterbodega extends javax.swing.JFrame {
             }
         });
         jScrollPane2.setViewportView(tblDetalle);
-        tblDetalle.getColumnModel().getColumn(0).setMinWidth(20);
-        tblDetalle.getColumnModel().getColumn(0).setPreferredWidth(60);
-        tblDetalle.getColumnModel().getColumn(0).setMaxWidth(80);
-        tblDetalle.getColumnModel().getColumn(1).setMinWidth(10);
-        tblDetalle.getColumnModel().getColumn(1).setPreferredWidth(30);
-        tblDetalle.getColumnModel().getColumn(1).setMaxWidth(60);
-        tblDetalle.getColumnModel().getColumn(2).setMinWidth(80);
-        tblDetalle.getColumnModel().getColumn(2).setPreferredWidth(200);
-        tblDetalle.getColumnModel().getColumn(2).setMaxWidth(280);
-        tblDetalle.getColumnModel().getColumn(3).setMinWidth(20);
-        tblDetalle.getColumnModel().getColumn(3).setPreferredWidth(50);
-        tblDetalle.getColumnModel().getColumn(3).setMaxWidth(100);
-        tblDetalle.getColumnModel().getColumn(4).setMinWidth(20);
-        tblDetalle.getColumnModel().getColumn(4).setPreferredWidth(60);
-        tblDetalle.getColumnModel().getColumn(4).setMaxWidth(100);
-        tblDetalle.getColumnModel().getColumn(5).setMinWidth(20);
-        tblDetalle.getColumnModel().getColumn(5).setPreferredWidth(60);
-        tblDetalle.getColumnModel().getColumn(5).setMaxWidth(100);
+        if (tblDetalle.getColumnModel().getColumnCount() > 0) {
+            tblDetalle.getColumnModel().getColumn(0).setMinWidth(20);
+            tblDetalle.getColumnModel().getColumn(0).setPreferredWidth(60);
+            tblDetalle.getColumnModel().getColumn(0).setMaxWidth(80);
+            tblDetalle.getColumnModel().getColumn(1).setMinWidth(10);
+            tblDetalle.getColumnModel().getColumn(1).setPreferredWidth(30);
+            tblDetalle.getColumnModel().getColumn(1).setMaxWidth(60);
+            tblDetalle.getColumnModel().getColumn(2).setMinWidth(80);
+            tblDetalle.getColumnModel().getColumn(2).setPreferredWidth(200);
+            tblDetalle.getColumnModel().getColumn(2).setMaxWidth(280);
+            tblDetalle.getColumnModel().getColumn(3).setMinWidth(20);
+            tblDetalle.getColumnModel().getColumn(3).setPreferredWidth(50);
+            tblDetalle.getColumnModel().getColumn(3).setMaxWidth(100);
+            tblDetalle.getColumnModel().getColumn(4).setMinWidth(20);
+            tblDetalle.getColumnModel().getColumn(4).setPreferredWidth(60);
+            tblDetalle.getColumnModel().getColumn(4).setMaxWidth(100);
+            tblDetalle.getColumnModel().getColumn(5).setMinWidth(20);
+            tblDetalle.getColumnModel().getColumn(5).setPreferredWidth(60);
+            tblDetalle.getColumnModel().getColumn(5).setMaxWidth(100);
+        }
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel13.setText("Totales");
@@ -793,13 +795,14 @@ public class RegistroInterbodega extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cmdBorrar)
-                    .addComponent(cmdGuardar)
-                    .addComponent(cmdAgregar)
-                    .addComponent(cmdSalir))
-                .addGap(8, 8, 8)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cmdBorrar)
+                        .addComponent(cmdGuardar)
+                        .addComponent(cmdSalir))
+                    .addComponent(cmdAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -807,12 +810,12 @@ public class RegistroInterbodega extends javax.swing.JFrame {
                 .addGroup(layout.createSequentialGroup()
                     .addGap(123, 123, 123)
                     .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(349, Short.MAX_VALUE)))
+                    .addContainerGap(427, Short.MAX_VALUE)))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmdAgregar, cmdBorrar, cmdGuardar, cmdSalir});
 
-        setSize(new java.awt.Dimension(764, 529));
+        setSize(new java.awt.Dimension(764, 612));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 

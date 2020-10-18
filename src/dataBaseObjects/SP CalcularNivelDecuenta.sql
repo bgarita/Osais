@@ -20,6 +20,13 @@ BEGIN
 		If(sub_cta != '000' AND sub_sub  = '000' AND colect  = '000', 2,
 		If(sub_cta != '000' AND sub_sub != '000' AND colect  = '000', 3,
 		If(sub_cta != '000' AND sub_sub != '000' AND colect != '000', 4, 0))));
+		
+	UPDATE hcocatalogo
+	SET nivelC =
+		If(sub_cta  = '000' AND sub_sub  = '000' AND colect  = '000', 1,
+		If(sub_cta != '000' AND sub_sub  = '000' AND colect  = '000', 2,
+		If(sub_cta != '000' AND sub_sub != '000' AND colect  = '000', 3,
+		If(sub_cta != '000' AND sub_sub != '000' AND colect != '000', 4, 0))));
 END$$
 
 delimiter ;

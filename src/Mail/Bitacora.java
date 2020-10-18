@@ -31,6 +31,7 @@ public class Bitacora {
     public Bitacora() {
         this.error_message = "";
         this.logFile = new File("log.txt");
+        setLogFile();
         this.logLevel = Bitacora.ERROR; // Nivel default
 
         if (!logFile.exists()) {
@@ -157,19 +158,21 @@ public class Bitacora {
 
         String nivel;
         switch (this.logLevel) {
-            case Bitacora.INFO : {
+            case Bitacora.INFO: {
                 nivel = "INFO";
                 break;
             }
-            case Bitacora.WARN : {
+            case Bitacora.WARN: {
                 nivel = "WARN";
                 break;
             }
-            case Bitacora.ERROR : {
+            case Bitacora.ERROR: {
                 nivel = "ERROR";
                 break;
             }
-            default:nivel = "INFO"; break;
+            default:
+                nivel = "INFO";
+                break;
         } // end switch
 
         Date d = new Date();
@@ -183,7 +186,7 @@ public class Bitacora {
             log.write(contentInBytes);
             log.flush();
             log.close();
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             Logger.getLogger(Bitacora.class.getName()).log(Level.SEVERE, null, ex);
             this.error_message = ex.getMessage();
         } // end try-catch
@@ -211,11 +214,45 @@ public class Bitacora {
                 text.appendCodePoint(content);
             } // end while
             log.close();
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             Logger.getLogger(Bitacora.class.getName()).log(Level.SEVERE, null, ex);
             this.error_message = ex.getMessage();
         } // end try-catch
 
         return text.toString();
     } // end readFromLog
+
+    private void setLogFile() {
+        long size = logFile.length();
+        long limit = (long) Math.pow(1024, 2);
+        int maxFiles = 10;
+
+        if (size < limit) {
+            return;
+        } // end if
+
+        // Eliminar el archivo 10 (maxFiles)
+        String file = this.logFile.getAbsolutePath() + maxFiles;
+        File f = new File(file);
+        if (f.exists()) {
+            f.delete();
+        } // end if
+
+        // Iterar en reversa para renombrar los archivos que quedan
+        for (int i = maxFiles; i-- > 1; ) {
+            file = this.logFile.getAbsolutePath() + i;
+            File newFile = new File(this.logFile.getAbsolutePath() + (i + 1));
+            f = new File(file);
+            if (f.exists()) {
+                f.renameTo(newFile);
+            } // end if
+        } // end for
+        
+        // Renombrar también el archivo actual
+        file = this.logFile.getAbsolutePath();
+        f = new File(file);
+        File newFile = new File(this.logFile.getAbsolutePath() + "1");
+        f.renameTo(newFile);
+
+    } // end setLogFile
 } // end class

@@ -53,49 +53,62 @@ PENDIENTE
     por el EXE (los Writeln() que genera el sistema).
 
 
-Contabilidad #2 (En fox) Dufará (procesando solo el primer mes)
-- El balance tanto a nivel del mayor como de comprobación están correctos.
-- El reporte de asientos está correcto.
-- Balance de situación para febrero 2010:
-    - Total activos es correcto
-    - Pasivo a corto plazo está correcto
-    - Patrimonio está correcto
-    - Utilidad del periodo está correcta
-    - Total pasivo y patrimonio correcto
-    
-    En java sale màs detalle que en fox: Hay que revisar de donde se generan las 
-    agrupaciones porque algunas están repetidas.
 
-0.  Balance de situación.  sale más detalle que en Fox. Probar eliminar todas las
-    subcuentas (sub_cta) que sean distintas de 000 sin eliminar los registros en blanco que
-    se metieron.  ver como sale el reporte y si aún así no sale bien probar cambiar el
-    orden a mayor en vez de orden.
+--- CONTABILIDAD ---
+Contabilidad #4 (parqueo don Mincho)
+- Revisar balance Jun 2010      LISTO
+ 
+- Crear proceso de cierre mensual
+- Crear proceso de estado de resultados (pantalla de parámetros)
+  Se crearon las dos tablas y la pantalla pero falta revisar en fox para qué se usa el check procesar.
 
-
-1.  Hay que ver porqué la variable de pasivo y capital
-    no tiene datos. (es que las cuentas de mayor no tienen datos, hay que ver a otros niveles si
-    continúa el mismo comportamiento).
-2.  En el balanceSituacion2 en el encabezado y el detalle sale lo mismo.  Revisar contra fox para encontrar 
-    la diferencia a la hora de preparar los datos. Pero debe cargarse una contabilidad que tenga ya los datos
-    creados en Fox.
-
-
-
-*   Crear reporte de balance (a todos los niveles)
-*   Reporte estados financieros
-*   Reporte esatdo de resultados
-*   Reporte histórico de movimientos de cuentas
-*   Reporte de cédulas
-*   Cierre mensual
-*   Crear proceso de registro de cheques
+REVISAR DATOS DE ABRIL PARA HACER CIERRE MENSUAL.  Tener en cuenta que aún no se ha cargado ASLCG02
 
 
 
 NOTAS:
 1.  Se creó la tabla hcocatalo con la misma estructura de cocatalogo más el campo fecha_cierre.
-    Esta fecha es de tipo date y se usa como parte de la llave para guardar la fecha en que se
-    ejecutó el cierre mensual contable.
+    Esta fecha es de tipo date y se usa como parte de la llave para guardar la fecha del último día del mes en proceso.
 2.  Se creó una función saldoAl() dentro de UtilBD.java que obtiene el saldo de una cuenta específica 
     a una fecha específica. Esta función será usada en varios procesos como el 
     movimiento de cuentas que está en el mantenimiento de cuentas o el auxiliar analítico.
     
+
+
+--- CABYS ---
+Para la implementación del CABYS (Catálogo de Bienes y Servicios) de Hacienda
+se debe hacer lo siguiente:
+1. Crear una tabla con ese nombre cabys con tres campos (codigocabys, descrip, impuesto)
+2. Crear una pantalla que busque el CABYS descargado de Hacienda y lo lea entero
+    determinando si el producto existe o no.
+    a. Si existe actualizar la descripción y el impuesto.
+    b. Si no existe agregar el registro.
+    c. Debe agregar un registro con el codigocabys en blanco, la descripción = "Producto CABYS no definido", impuesto= -1.00
+   Este proceso deberá estar actualizándose frecuentemente de manera que si Hacienda
+   hace cambios, el sistema se actualice cuando se descarga el CABYS.
+   NOTA: En el caso del impuesto viene la palabra Excento en vez de un cero en la
+         hoja de Excel.  Esto se debe validar para que el programa no se caiga y
+         a la vez para poner un cero en la tabla cabys.
+3. Agregar un campo (codigocabys) en las tablas inarticu, hinarticu, fadetall y 
+   wrk_fadetall que sean llave foránea de la tabla cabys con actualización en 
+   cascada y set restricción de borrado. Este campo tendrá un espacio en blanco
+   como default.
+4. Modificar la pantalla de mantenimiento de artículos para que utilice y valide
+   el código cabys.
+5. Crear un método en la clase UtilBD.java que determine el impuesto a usar a
+   la hora de hacer una factura. 
+    -- Parámetros: código de tarifa y codigo cabys
+    -- Devolución: porcentaje de impuesto (-1.00 si el código cabys no es encontrado)
+   a. Si el impuesto en la tabla tarifa_iva es diferente del que se encuentra
+      en la tabla cabys se debe informar al usuario pero se le advertirá que
+      el impuesto a utilizar será el de cabys.
+6. Modificar la pantalla de facturación para que use este nuevo método.
+   Si el valor retornado es negativo debe enviar un mensaje de error que diga
+   "Producto CABYS no definido". Este error de validación se puede dar en los
+   siguientes casos:
+   a. Cuando el código cabys no existe en la tabla cabys.
+   b. Cuando el código cabys en la tabla inarticu está en blanco.
+   Si se produce este error de validación no se permitirá factura dicho artículo.
+   Esta pantalla debe asegurarse de guardar el nuevo campo en las tablas de 
+   facturación.  Para eso es necesario modificar todos los procedimientos almacenados
+   que se usan tanto para agregar los registros en wrk_fadetall como en fadetall.

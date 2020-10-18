@@ -72,6 +72,18 @@ public class PeriodoContable {
                 this.descrip = rs.getString("descrip");
             } // end if
             ps.close();
+            
+            // Validar la integridad con la tabla de configuración
+            sqlSent = "Select mesActual, añoActual from configcuentas";
+            ps = conn.prepareStatement(sqlSent,
+                    ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            rs = CMD.select(ps);
+            if (rs == null || !rs.first() || rs.getInt("mesActual") != this.mes || rs.getInt("añoActual") != this.año){
+                ps.close();
+                throw new SQLException(
+                        "Hay una incongruencia entre la configuración de los periodos contables y el mes de proceso actual.");
+            } // end if
+            ps.close();
         } catch (SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
@@ -83,6 +95,10 @@ public class PeriodoContable {
         
     } // end setData
 
+    /**
+     * Retorna el número de mes (1-12)
+     * @return 
+     */
     public int getMes() {
         return mes;
     }
@@ -142,11 +158,11 @@ public class PeriodoContable {
     
     /**
      * Devuelve el nombre del mes.  Si el sistema se encuentra en el periodo 13
-     * devolverá "Cierre contable".
+     * devolverá "Cierre fiscal".
      * @return String Enero, Febrero, Marzo...
      */
     public String getMesLetras(){
-        String mesL = (mes == 13 ? "Cierre contable" : Ut.mesLetras(mes-1));
+        String mesL = (mes == 13 ? "Cierre fiscal" : Ut.mesLetras(mes-1));
         return mesL;
     } // end getMesLetras
 

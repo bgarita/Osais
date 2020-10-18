@@ -5,6 +5,7 @@
 	<property name="ireport.y" value="0"/>
 	<parameter name="pQuery" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["Select  " +
+"    (Select mostrarFechaRep from configcuentas) as mostrarFecha,   " +
                 "                a.no_comprob, " +
                 "                c.descrip as tipo, " +
                 "                date(b.fecha_comp) as fecha_comp, " +
@@ -37,15 +38,14 @@
 	<parameter name="pUtilidadMes" class="java.lang.Double" isForPrompting="false"/>
 	<parameter name="pUtilidadMesA" class="java.lang.Double" isForPrompting="false"/>
 	<queryString>
-		<![CDATA[$P!{pQuery}]]>
+		<![CDATA[$P!{pQuery} ]]>
 	</queryString>
+	<field name="mostrarFecha" class="java.lang.Integer"/>
 	<field name="no_comprob" class="java.lang.String">
 		<fieldDescription><![CDATA[Número de comprobante]]></fieldDescription>
 	</field>
 	<field name="tipo" class="java.lang.String"/>
-	<field name="fecha_comp" class="java.sql.Date">
-		<fieldDescription><![CDATA[Fecha del comprobante]]></fieldDescription>
-	</field>
+	<field name="fecha_comp" class="java.sql.Date"/>
 	<field name="no_refer" class="java.lang.Integer">
 		<fieldDescription><![CDATA[Número de referencia]]></fieldDescription>
 	</field>
@@ -58,9 +58,7 @@
 	<field name="nom_cta" class="java.lang.String">
 		<fieldDescription><![CDATA[Nombre de la cuenta]]></fieldDescription>
 	</field>
-	<field name="cuenta" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
+	<field name="cuenta" class="java.lang.String"/>
 	<field name="debe" class="java.math.BigDecimal"/>
 	<field name="haber" class="java.math.BigDecimal"/>
 	<variable name="vRegistros" class="java.lang.String" calculation="Count">
@@ -87,33 +85,33 @@
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 					<reportElement isPrintRepeatedValues="false" x="2" y="0" width="54" height="13" uuid="47ebacc7-9ae2-4442-9199-c8755a643c14"/>
 					<textElement>
-						<font fontName="Arial" isBold="true"/>
+						<font fontName="Arial" size="9" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{no_comprob}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="61" y="0" width="158" height="13" isRemoveLineWhenBlank="true" uuid="6a2d721c-2f69-4b88-8643-791d6cc36025"/>
+					<reportElement stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="58" y="0" width="158" height="13" isRemoveLineWhenBlank="true" uuid="6a2d721c-2f69-4b88-8643-791d6cc36025"/>
 					<textElement>
 						<font fontName="Arial" size="9" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{tipo}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
-					<reportElement isPrintRepeatedValues="false" x="219" y="0" width="50" height="13" forecolor="#FF00FA" uuid="24e68491-0405-4f26-b69b-e3e24f14296d"/>
+					<reportElement isPrintRepeatedValues="false" x="219" y="0" width="63" height="13" forecolor="#FF00FA" uuid="24e68491-0405-4f26-b69b-e3e24f14296d"/>
 					<textElement textAlignment="Center">
-						<font fontName="Arial" size="10" isBold="true"/>
+						<font fontName="Arial" size="9" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{fecha_comp}]]></textFieldExpression>
 				</textField>
 				<textField pattern="###0" isBlankWhenNull="true">
-					<reportElement x="270" y="0" width="58" height="13" uuid="77648742-b2a9-4dbc-9612-7746a53c077a"/>
+					<reportElement x="283" y="0" width="58" height="13" uuid="77648742-b2a9-4dbc-9612-7746a53c077a"/>
 					<textElement textAlignment="Right">
-						<font fontName="Arial" isBold="true"/>
+						<font fontName="Arial" size="9" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{no_refer}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement stretchType="RelativeToBandHeight" x="332" y="0" width="245" height="13" isRemoveLineWhenBlank="true" forecolor="#002AFF" uuid="66259c89-7d90-471b-8c5b-af4cf080f9be"/>
+					<reportElement stretchType="RelativeToBandHeight" x="346" y="0" width="235" height="13" isRemoveLineWhenBlank="true" forecolor="#002AFF" uuid="66259c89-7d90-471b-8c5b-af4cf080f9be"/>
 					<textElement>
 						<font fontName="Arial" size="9" isBold="true"/>
 					</textElement>
@@ -124,26 +122,26 @@
 		<groupFooter>
 			<band height="23">
 				<rectangle radius="8">
-					<reportElement x="345" y="4" width="233" height="17" backcolor="#CCCCCC" uuid="745353c9-4b2f-44db-b936-16a5f82c6196"/>
+					<reportElement x="318" y="4" width="265" height="17" backcolor="#CCCCCC" uuid="745353c9-4b2f-44db-b936-16a5f82c6196"/>
 				</rectangle>
 				<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-					<reportElement x="500" y="6" width="77" height="13" forecolor="#2E8B42" uuid="2617881b-c85a-4d3a-85cf-16b6efc77253"/>
+					<reportElement x="493" y="6" width="88" height="13" forecolor="#2E8B42" uuid="2617881b-c85a-4d3a-85cf-16b6efc77253"/>
 					<textElement textAlignment="Right">
-						<font fontName="Arial" size="11" isBold="true"/>
+						<font fontName="Arial" size="10" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{vSubHaber}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-					<reportElement x="417" y="6" width="77" height="13" forecolor="#2E8B42" uuid="f379392f-a2ad-412e-9810-92ea9cea5712"/>
+					<reportElement x="396" y="6" width="88" height="13" forecolor="#2E8B42" uuid="f379392f-a2ad-412e-9810-92ea9cea5712"/>
 					<textElement textAlignment="Right">
-						<font fontName="Arial" size="11" isBold="true"/>
+						<font fontName="Arial" size="10" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{vSubDebe}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="355" y="6" width="50" height="13" forecolor="#2E8B42" uuid="2ea7b8f7-4fa4-46d3-9a99-c9f18ca32f9a"/>
+					<reportElement x="325" y="6" width="60" height="13" forecolor="#2E8B42" uuid="2ea7b8f7-4fa4-46d3-9a99-c9f18ca32f9a"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Arial" size="11" isBold="true"/>
+						<font fontName="Arial" size="10" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Sub-total]]></text>
 				</staticText>
@@ -157,16 +155,18 @@
 		<band height="7" splitType="Stretch"/>
 	</title>
 	<pageHeader>
-		<band height="67" splitType="Stretch">
+		<band height="69" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="592" height="20" forecolor="#0033CC" uuid="97b52f28-55f5-4fbc-a892-4f4e0c21874f"/>
+				<reportElement x="0" y="0" width="581" height="20" forecolor="#0033CC" uuid="97b52f28-55f5-4fbc-a892-4f4e0c21874f"/>
 				<textElement textAlignment="Center">
 					<font fontName="Tahoma" size="16" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{pEmpresa}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy h.mm a">
-				<reportElement x="0" y="20" width="100" height="20" uuid="e27dc3e1-aa84-443d-85e4-e0d3bc898851"/>
+				<reportElement x="0" y="20" width="125" height="18" uuid="e27dc3e1-aa84-443d-85e4-e0d3bc898851">
+					<printWhenExpression><![CDATA[$F{mostrarFecha} == 1]]></printWhenExpression>
+				</reportElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -177,7 +177,7 @@
 				<text><![CDATA[Sistema de contabilidad general]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="500" y="36" width="80" height="20" uuid="48748a03-d3f2-4004-86e2-697983c91b68"/>
+				<reportElement x="501" y="20" width="80" height="18" uuid="48748a03-d3f2-4004-86e2-697983c91b68"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Pág.: "+$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
@@ -193,7 +193,7 @@
 	<columnHeader>
 		<band height="28" splitType="Stretch">
 			<rectangle radius="8">
-				<reportElement x="0" y="10" width="580" height="17" backcolor="#CCCCCC" uuid="ae135f47-9f74-4f49-bd5e-45b8b7775738"/>
+				<reportElement x="0" y="10" width="583" height="17" backcolor="#CCCCCC" uuid="ae135f47-9f74-4f49-bd5e-45b8b7775738"/>
 			</rectangle>
 			<staticText>
 				<reportElement x="58" y="11" width="42" height="15" uuid="61bc91db-4067-4b39-b9be-dc29b80a91a7"/>
@@ -210,35 +210,35 @@
 				<text><![CDATA[Docum]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="219" y="11" width="50" height="15" uuid="e2c454a4-c127-4b13-8f55-4e8ffeb22cf6"/>
+				<reportElement x="219" y="11" width="63" height="15" uuid="e2c454a4-c127-4b13-8f55-4e8ffeb22cf6"/>
 				<textElement textAlignment="Center">
 					<font fontName="Tahoma" size="11" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Fecha]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="438" y="11" width="56" height="15" uuid="33c6281b-fe1c-4efd-abfb-af94bf0b4de7"/>
+				<reportElement x="396" y="11" width="88" height="15" uuid="33c6281b-fe1c-4efd-abfb-af94bf0b4de7"/>
 				<textElement textAlignment="Right">
 					<font fontName="Tahoma" size="11" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Debe]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="524" y="11" width="53" height="15" uuid="3743db03-554d-40e7-81ec-0708bb7df7f0"/>
+				<reportElement x="493" y="11" width="88" height="15" uuid="3743db03-554d-40e7-81ec-0708bb7df7f0"/>
 				<textElement textAlignment="Right">
 					<font fontName="Tahoma" size="11" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Haber]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="270" y="11" width="45" height="15" uuid="02fb620b-680e-406e-8b8e-aa367cc18f58"/>
+				<reportElement x="283" y="11" width="58" height="15" uuid="02fb620b-680e-406e-8b8e-aa367cc18f58"/>
 				<textElement textAlignment="Right">
 					<font fontName="Tahoma" size="11" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Refer]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="173" y="11" width="40" height="15" uuid="df87df1e-68fd-4782-b2be-ec7381c4a690"/>
+				<reportElement x="155" y="11" width="57" height="15" uuid="df87df1e-68fd-4782-b2be-ec7381c4a690"/>
 				<textElement textAlignment="Right">
 					<font fontName="Tahoma" size="11" isBold="true" isItalic="true"/>
 				</textElement>
@@ -249,30 +249,30 @@
 	<detail>
 		<band height="13" splitType="Stretch">
 			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-				<reportElement x="419" y="0" width="75" height="13" uuid="d0c122e9-b194-4b04-b8a0-5b33a94c265b"/>
+				<reportElement x="396" y="0" width="88" height="13" uuid="d0c122e9-b194-4b04-b8a0-5b33a94c265b"/>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="11"/>
+					<font fontName="Arial" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{debe}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-				<reportElement x="502" y="0" width="75" height="13" uuid="54222c2b-573b-412a-8505-c504976f8f71"/>
+				<reportElement x="493" y="0" width="88" height="13" uuid="54222c2b-573b-412a-8505-c504976f8f71"/>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="11"/>
+					<font fontName="Arial" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{haber}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="2" y="0" width="170" height="13" isRemoveLineWhenBlank="true" uuid="2c8df903-7298-419c-ab80-8b878657ea22"/>
 				<textElement>
-					<font fontName="Arial" size="11"/>
+					<font fontName="Arial" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nom_cta}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="173" y="0" width="90" height="13" isRemoveLineWhenBlank="true" uuid="4624caf3-0287-4235-b2df-7aebe11081cf"/>
+				<reportElement stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="173" y="0" width="109" height="13" isRemoveLineWhenBlank="true" uuid="4624caf3-0287-4235-b2df-7aebe11081cf"/>
 				<textElement>
-					<font fontName="Arial" size="11"/>
+					<font fontName="Arial" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cuenta}]]></textFieldExpression>
 			</textField>
@@ -284,7 +284,7 @@
 	<pageFooter>
 		<band height="29" splitType="Stretch">
 			<textField isStretchWithOverflow="true">
-				<reportElement stretchType="RelativeToBandHeight" x="2" y="8" width="579" height="13" uuid="4b459863-513e-4857-80c4-0aecd3f1ca33"/>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="8" width="581" height="13" uuid="4b459863-513e-4857-80c4-0aecd3f1ca33"/>
 				<textElement>
 					<font fontName="Times New Roman"/>
 				</textElement>
@@ -295,26 +295,26 @@
 	<summary>
 		<band height="35" splitType="Stretch">
 			<rectangle radius="8">
-				<reportElement x="345" y="9" width="233" height="17" backcolor="#CCCCCC" uuid="f53bc5e1-41d6-44c4-aca6-e0fd4d561bf2"/>
+				<reportElement x="318" y="9" width="265" height="17" backcolor="#CCCCCC" uuid="f53bc5e1-41d6-44c4-aca6-e0fd4d561bf2"/>
 			</rectangle>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-				<reportElement x="414" y="12" width="80" height="13" forecolor="#0000FF" uuid="1388f8e0-3428-469f-a9f8-1a0943ec7618"/>
+				<reportElement x="396" y="12" width="88" height="13" forecolor="#0000FF" uuid="1388f8e0-3428-469f-a9f8-1a0943ec7618"/>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="11" isBold="true"/>
+					<font fontName="Arial" size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{vDebe}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-				<reportElement x="497" y="12" width="80" height="13" forecolor="#0000FF" uuid="9766e8bb-7d1c-4f25-946d-a4129e6a07d4"/>
+				<reportElement x="493" y="12" width="88" height="13" forecolor="#0000FF" uuid="9766e8bb-7d1c-4f25-946d-a4129e6a07d4"/>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="11" isBold="true"/>
+					<font fontName="Arial" size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{vHaber}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="345" y="11" width="60" height="15" forecolor="#0000FF" uuid="e806a504-5588-4103-abfe-df8c76cddab1"/>
+				<reportElement x="325" y="11" width="60" height="15" forecolor="#0000FF" uuid="e806a504-5588-4103-abfe-df8c76cddab1"/>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="11" isBold="true"/>
+					<font fontName="Arial" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Total final]]></text>
 			</staticText>

@@ -638,13 +638,15 @@ public class FacturaXML extends javax.swing.JFrame {
             CMD.transaction(conn, CMD.START_TRANSACTION);
             tran = true;
 
-            // Obtener el siguiente consecutivo de factura electrónica
-            //int documentoElectronico = getConsecutivoDocElectronico(facnume, facnd);
+            /*
+            Este método localiza primero la factura guardada en faencabe
+            y si existe obtiene el consecutivo de hacienda ya guardado.
+            En caso de que no logre obtener el consecutivo en esa tabla
+            entonces obtendrá el siguiente consecutivo desde la tabla de
+            configuración.
+            */            
             int documentoElectronico = docEl.getConsecutivoDocElectronico("FAC");
 
-            //clave.setSucursal(this.sucursal);
-            //clave.setTerminal(this.terminal);
-            //clave.setTipoComprobante(this.tipoComprobante);
             clave.setSucursal(docEl.getSucursal());
             clave.setTerminal(docEl.getTerminal());
             clave.setTipoComprobante(docEl.getTipoComprobante());
@@ -654,7 +656,6 @@ public class FacturaXML extends javax.swing.JFrame {
             fac.setNumeroConsecutivo(clave.getConsecutivoDoc());
             fac.setFechaEmision(emisor.getFacfech());
 
-            //clave.setSituacionComprobante(this.situacionComprobante);
             clave.setSituacionComprobante(docEl.getSituacionComprobante());
             clave.setFecha(emisor.getFacfech());
 
