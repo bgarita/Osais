@@ -1,1 +1,13 @@
 [Sun Oct 11 17:11:52 CST 2020][INFO][Usuario: null][TestBitacora--> Pruebas]
+[Sun Oct 18 14:57:22 CST 2020][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.]
+[Mon Oct 19 22:02:05 CST 2020][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.]
+[Mon Oct 19 22:12:55 CST 2020][ERROR][Usuario: bgarita][interfase.menus.Menu--> Data truncation: Data too long for column 'descrip' at row 1]
+[Mon Oct 19 22:20:24 CST 2020][ERROR][Usuario: bgarita][interfase.menus.Menu--> Data truncation: Data too long for column 'descrip' at row 1]
+[Tue Oct 20 18:42:55 CST 2020][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.]
+[Tue Oct 20 18:45:05 CST 2020][ERROR][Usuario: bgarita][logica.utilitarios.ProcessBackground--> Data truncation: Incorrect string value: '\xE2\x80\x8B\xE2\x80\x8B...' for column `laflor`.`cabys`.`descrip` at row 1]
+[Tue Oct 20 18:52:00 CST 2020][ERROR][Usuario: bgarita][logica.utilitarios.ProcessBackground--> Data truncation: Incorrect string value: '\xE2\x80\x8B\xE2\x80\x8B...' for column `laflor`.`cabys`.`descrip` at row 1]
+[Tue Oct 20 18:55:31 CST 2020][ERROR][Usuario: bgarita][logica.utilitarios.ProcessBackground--> Data truncation: Incorrect string value: '\xE2\x80\x8B\xE2\x80\x8B...' for column `laflor`.`cabys`.`descrip` at row 1]
+[Tue Oct 20 19:06:50 CST 2020][ERROR][Usuario: bgarita][logica.utilitarios.ProcessBackground--> Data truncation: Incorrect string value: '\xE2\x80\x8B\xE2\x80\x8B...' for column `laflor`.`cabys`.`descrip` at row 1]

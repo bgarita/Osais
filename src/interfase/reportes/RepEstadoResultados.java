@@ -526,13 +526,14 @@ public class RepEstadoResultados extends javax.swing.JFrame {
 
     private void setCurrentPeriod() {
         PeriodoContable per = new PeriodoContable(conn);
-        this.cboMes.setSelectedIndex(per.getMes() - 1);
+        int periodo = per.getMes() == 13 ? 0 : per.getMes() - 1;
+        this.cboMes.setSelectedIndex(periodo);
     } // end setCurrentPeriod
 
     private void generarEstadoResultadosXLS(String periodo) throws FileNotFoundException, IOException, SQLException {
         // https://www.javatpoint.com/apache-poi-excel-header
 
-        File file = new File("/temp/" + Menu.USUARIO + "_ER.xlsx");
+        File file = new File(Menu.USUARIO + "_ER.xlsx");
         Workbook wb = new HSSFWorkbook();
         OutputStream out = new FileOutputStream(file);
 
@@ -548,6 +549,7 @@ public class RepEstadoResultados extends javax.swing.JFrame {
         String fontName = "Comic Sans Ms";
         boolean bold = true;
         int fontSize = 16;
+        
         int horzontalAlignment = CellStyle.ALIGN_CENTER;
         int verticalAlignment = CellStyle.VERTICAL_CENTER;
 

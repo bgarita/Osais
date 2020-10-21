@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RepBalance" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="776" leftMargin="14" rightMargin="2" topMargin="6" bottomMargin="6" uuid="07a34ec9-66fb-4b10-9e39-bc611f2d494a">
 	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="19"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="pQuery" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["SELECT   " +
@@ -103,7 +103,7 @@
 	<pageHeader>
 		<band height="73" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="759" height="20" forecolor="#0033CC" uuid="97b52f28-55f5-4fbc-a892-4f4e0c21874f"/>
+				<reportElement x="9" y="0" width="759" height="20" forecolor="#0033CC" uuid="97b52f28-55f5-4fbc-a892-4f4e0c21874f"/>
 				<textElement textAlignment="Center">
 					<font fontName="Tahoma" size="16" isBold="true"/>
 				</textElement>

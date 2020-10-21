@@ -6,14 +6,13 @@
             <file>file:/C:/Java%20Programs/osais/osais.txt</file>
             <file>file:/C:/Java%20Programs/osais/src/interfase/menus/Menu.java</file>
             <file>file:/C:/Java%20Programs/osais/Pendientes_LaFlor.txt</file>
-            <file>file:/C:/Java%20Programs/osais/src/interfase/reportes/RepCedulas.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/interfase/reportes/ParametrosER.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/interfase/transacciones/RegistroFacturasV.java</file>
-            <file>file:/C:/Java%20Programs/osais/Pendientes</file>
             <file>file:/C:/Java%20Programs/osais/src/logica/DocumentoElectronico.java</file>
             <file>file:/C:/Java%20Programs/osais/src/interfase/reportes/RepEstadoResultados.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/accesoDatos/UtilBD.java</file>
             <file>file:/C:/Java%20Programs/osais/UserConfig.txt</file>
-            <file>file:/C:/Java%20Programs/osais/src/interfase/reportes/CocuentasER.java</file>
+            <file>file:/C:/Java%20Programs/osais/Pendientes.txt</file>
+            <file>file:/C:/Java%20Programs/osais/src/interfase/otros/CierreContaAnual.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/logica/utilitarios/ProcessBackground.java</file>
             <file>file:/C:/Java%20Programs/osais/src/interfase/otros/FacturaXML.java</file>
         </group>
     </open-files>

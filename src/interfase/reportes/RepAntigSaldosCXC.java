@@ -487,7 +487,7 @@ public class RepAntigSaldosCXC extends JFrame {
         try {
             saldoMay = Ut.quitarFormato(saldoMay);
         } catch (Exception ex) {
-            Logger.getLogger(RepAntigSaldosCXC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),

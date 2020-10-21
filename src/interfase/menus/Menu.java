@@ -61,7 +61,7 @@ public class Menu extends javax.swing.JFrame {
 
     // Propiedad que contendrá la conexión compartida
     private final Connection sConn;
-    
+
     private final Fondo FONDO;
     private final Navegador NAV;
     private final Notificacion NOTIF;         // Notificaciones
@@ -115,30 +115,30 @@ public class Menu extends javax.swing.JFrame {
         // Establecer la versión del motor de base de datos
         // y la versión de la base de datos.
         try {
-            String sqlSent = 
-                    "SHOW VARIABLES LIKE '%VERSION%'";
+            String sqlSent
+                    = "SHOW VARIABLES LIKE '%VERSION%'";
             PreparedStatement ps = c.getConnection().prepareStatement(
-                    sqlSent, ResultSet.TYPE_SCROLL_SENSITIVE, 
+                    sqlSent, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
             ResultSet rs = CMD.select(ps);
             Menu.engineVersion = "N/A";
             Menu.dataBaseVersion = "N/A";
-            if (rs.first()){
+            if (rs.first()) {
                 rs.beforeFirst();
-                while (rs.next()){
-                    if (rs.getString("variable_name").trim().equals("innodb_version")){
+                while (rs.next()) {
+                    if (rs.getString("variable_name").trim().equals("innodb_version")) {
                         Menu.dataBaseVersion = rs.getString("value");
                         continue;
                     } // end if
-                    
-                    if (rs.getString("variable_name").trim().equals("version")){
+
+                    if (rs.getString("variable_name").trim().equals("version")) {
                         Menu.engineVersion = rs.getString("value");
                     } // end if
                 } // end while
             } // end if
             ps.close();
-                    
-        } catch(SQLException ex) {
+
+        } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -146,7 +146,7 @@ public class Menu extends javax.swing.JFrame {
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         // Fin Bosco agregado 19/07/2019
-        
+
         // Estructura de carpetas del sistema.
         DIR = new DirectoryStructure();
 
@@ -241,10 +241,9 @@ public class Menu extends javax.swing.JFrame {
             Menu.SERVIDOR = rs.getString(1);
 
             rs.close();
-            
+
             // Esta conexión (sConn) se deja abierta porque los procesos de migración
             // de datos usan esta misma conexión.
-            
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
@@ -252,7 +251,7 @@ public class Menu extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
-        
+
         // Bosco agregado 27/07/2013
         /**
          * Se crearon las siguientes tablas: saisystem.notificaion (catálogo de
@@ -493,6 +492,8 @@ public class Menu extends javax.swing.JFrame {
         mnuConsXML = new javax.swing.JMenuItem();
         mnuConsultaXML = new javax.swing.JMenuItem();
         mnuRecibirXML = new javax.swing.JMenuItem();
+        jSeparator25 = new javax.swing.JPopupMenu.Separator();
+        mnuCabys = new javax.swing.JMenuItem();
         mnuSalir = new javax.swing.JMenu();
         mnuCerrarSesion = new javax.swing.JMenuItem();
         mnuCerrarSistema = new javax.swing.JMenuItem();
@@ -1997,6 +1998,15 @@ public class Menu extends javax.swing.JFrame {
             }
         });
         mnuHacienda.add(mnuRecibirXML);
+        mnuHacienda.add(jSeparator25);
+
+        mnuCabys.setText("Actualizar CABYS");
+        mnuCabys.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuCabysActionPerformed(evt);
+            }
+        });
+        mnuHacienda.add(mnuCabys);
 
         mnuPrincipal.add(mnuHacienda);
 
@@ -2243,7 +2253,7 @@ public class Menu extends javax.swing.JFrame {
         new AnulacionRecibosCXC(
                 new java.awt.Frame(),
                 true, // Modal
-CONEXION.getConnection(), // Conexión
+                CONEXION.getConnection(), // Conexión
                 "0") // Número de recibo
                 .setVisible(true);
     }//GEN-LAST:event_mnuAnularPagosActionPerformed
@@ -2275,7 +2285,7 @@ CONEXION.getConnection(), // Conexión
         new AnulacionDocInv(
                 new java.awt.Frame(),
                 true, // Modal
-CONEXION.getConnection(), // Conexión
+                CONEXION.getConnection(), // Conexión
                 "0", 0) // Número de documento y tipo
                 .setVisible(true);
     }//GEN-LAST:event_mnuAnularDocsInvActionPerformed
@@ -2307,7 +2317,7 @@ CONEXION.getConnection(), // Conexión
         new AnulacionFacturasCXC(
                 new java.awt.Frame(),
                 true, // Modal
-CONEXION.getConnection(), // Conexión
+                CONEXION.getConnection(), // Conexión
                 "0") // Número de documento
                 .setVisible(true);
     }//GEN-LAST:event_mnuAnularFacturasActionPerformed
@@ -2935,9 +2945,9 @@ CONEXION.getConnection(), // Conexión
 
         new AnulacionRecibosCXP(
                 new java.awt.Frame(),
-                true,                       // Modal
-                CONEXION.getConnection(),   // Conexión
-                "0")                        // Número de recibo
+                true, // Modal
+                CONEXION.getConnection(), // Conexión
+                "0") // Número de recibo
                 .setVisible(true);
     }//GEN-LAST:event_mnuAnulaRCXPActionPerformed
 
@@ -2967,9 +2977,9 @@ CONEXION.getConnection(), // Conexión
 
         new AnulacionFacturasCXP(
                 new java.awt.Frame(),
-                true,                       // Modal
-                CONEXION.getConnection(),   // Conexión
-                "0")                        // Número de documento
+                true, // Modal
+                CONEXION.getConnection(), // Conexión
+                "0") // Número de documento
                 .setVisible(true);
     }//GEN-LAST:event_mnuEliminarCXPActionPerformed
 
@@ -3022,8 +3032,8 @@ CONEXION.getConnection(), // Conexión
 
         new ConsultaSumarizada(
                 new java.awt.Frame(),
-                true,                       // Modal
-                CONEXION.getConnection())   // Conexión
+                true, // Modal
+                CONEXION.getConnection()) // Conexión
                 .setVisible(true);
     }//GEN-LAST:event_mnuConsultaSumarizadaActionPerformed
 
@@ -3215,9 +3225,9 @@ CONEXION.getConnection(), // Conexión
 
         new AnulacionRecibosCaja(
                 new java.awt.Frame(),
-                true,                       // Modal
-                CONEXION.getConnection(),   // Conexión
-                "0")                        // Número de recibo
+                true, // Modal
+                CONEXION.getConnection(), // Conexión
+                "0") // Número de recibo
                 .setVisible(true);
     }//GEN-LAST:event_mnuAnularCajaActionPerformed
 
@@ -3246,10 +3256,10 @@ CONEXION.getConnection(), // Conexión
         // Fin Bosco agregado 23/07/2011
         new ImpresionReciboCaja(
                 new java.awt.Frame(),
-                true,                       // Modal
-                CONEXION.getConnection(),   // Conexión
-                "0",                        // Número de recibo
-                true)                       // (true = Caja)
+                true, // Modal
+                CONEXION.getConnection(), // Conexión
+                "0", // Número de recibo
+                true) // (true = Caja)
                 .setVisible(true);
     }//GEN-LAST:event_mnuImprimirRecibosCajaActionPerformed
 
@@ -3277,7 +3287,7 @@ CONEXION.getConnection(), // Conexión
         new ImpresionReciboCaja(
                 new java.awt.Frame(),
                 true, // Modal
-CONEXION.getConnection(), // Conexión
+                CONEXION.getConnection(), // Conexión
                 "0", // Número de recibo
                 false) // (false = no fue llamado desde caja)
                 .setVisible(true);
@@ -3342,7 +3352,7 @@ CONEXION.getConnection(), // Conexión
 
     private void mnuMovxctaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMovxctaActionPerformed
         // Está pendiente la parte de seguridad
-        RepMovimCta.main(CONEXION.getConnection());        
+        RepMovimCta.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuMovxctaActionPerformed
 
     private void mnuGenArchSincActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuGenArchSincActionPerformed
@@ -3674,7 +3684,7 @@ CONEXION.getConnection(), // Conexión
             Este formulario corriendo desde un acceso directo en Windows 7 con
             MySQL 6 no arranca.  El problema es que no muestra ningún error.
             Si lo corro desde el prompt (java -jar osais.jar si corre) 03/07/2019
-        */
+         */
         FacturaXML fact;
         try {
             fact = new FacturaXML(CONEXION.getConnection());
@@ -3729,7 +3739,7 @@ CONEXION.getConnection(), // Conexión
     }//GEN-LAST:event_mnuRefNCActionPerformed
 
     private void mnuConsXMLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsXMLActionPerformed
-        DetalleNotificacionXml dnx = new DetalleNotificacionXml(new javax.swing.JFrame(), true,CONEXION.getConnection());
+        DetalleNotificacionXml dnx = new DetalleNotificacionXml(new javax.swing.JFrame(), true, CONEXION.getConnection());
         dnx.setVisible(true);
     }//GEN-LAST:event_mnuConsXMLActionPerformed
 
@@ -3751,7 +3761,7 @@ CONEXION.getConnection(), // Conexión
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
-        
+
         BackupFiles bk = new BackupFiles();
         bk.start();
     }//GEN-LAST:event_mnuRespArchivosActionPerformed
@@ -3784,11 +3794,11 @@ CONEXION.getConnection(), // Conexión
         logica.contabilidad.PeriodoContable per = new logica.contabilidad.PeriodoContable(CONEXION.getConnection());
         javax.swing.ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource("/Icons/calendar-day.png"));
         String periodo = "El periodo contable en proceso es " + per.getMesLetras() + " " + per.getAño();
-        
-        JOptionPane.showMessageDialog(null, 
-                periodo, 
-                "Periodo contable", 
-                JOptionPane.INFORMATION_MESSAGE, 
+
+        JOptionPane.showMessageDialog(null,
+                periodo,
+                "Periodo contable",
+                JOptionPane.INFORMATION_MESSAGE,
                 icon);
     }//GEN-LAST:event_mnuRegistroContableActionPerformed
 
@@ -3810,7 +3820,7 @@ CONEXION.getConnection(), // Conexión
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
-        
+
         RegistroAsientos.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuAsientosActionPerformed
 
@@ -3819,18 +3829,32 @@ CONEXION.getConnection(), // Conexión
     }//GEN-LAST:event_mnuParERActionPerformed
 
     private void mnuEstResultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuEstResultActionPerformed
-       
-        
-            RepEstadoResultados.main(new String[1]);
-            //WriteXLSXFile w = new WriteXLSXFile(null, "/temp/test.xlsx", "Test", true);
-            //CreateXLSXFile.main(new String[1]);
-        
-            
+
+        RepEstadoResultados.main(new String[1]);
+        //WriteXLSXFile w = new WriteXLSXFile(null, "/temp/test.xlsx", "Test", true);
+        //CreateXLSXFile.main(new String[1]);
+
+
     }//GEN-LAST:event_mnuEstResultActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         CierreContaAnual.main(new String[1]);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void mnuCabysActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCabysActionPerformed
+        // Poner un mensaje de confirmación
+
+        
+        
+        // Hay que trabajar diferente la barra de progreso.  No se está mostrando sino hasta que termina.
+        
+        
+        // Correr el proceso de actualización
+        logica.utilitarios.ProcessBackground pb = 
+                new logica.utilitarios.ProcessBackground(CONEXION.getConnection(), "Actualizar CABYS");
+        pb.start();
+        
+    }//GEN-LAST:event_mnuCabysActionPerformed
 
     public static void main(final DataBaseConnection c, final boolean disponible, final String url) {
 
@@ -3880,6 +3904,7 @@ CONEXION.getConnection(), // Conexión
     private javax.swing.JPopupMenu.Separator jSeparator22;
     private javax.swing.JPopupMenu.Separator jSeparator23;
     private javax.swing.JPopupMenu.Separator jSeparator24;
+    private javax.swing.JPopupMenu.Separator jSeparator25;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
@@ -3918,6 +3943,7 @@ CONEXION.getConnection(), // Conexión
     private javax.swing.JMenu mnuCXC;
     private javax.swing.JMenu mnuCXP;
     private javax.swing.JMenuItem mnuCXPs;
+    private javax.swing.JMenuItem mnuCabys;
     private javax.swing.JMenuItem mnuCajas;
     private javax.swing.JMenuItem mnuCambiarDatosFact;
     private javax.swing.JMenuItem mnuCatalogoC;
@@ -4198,5 +4224,4 @@ CONEXION.getConnection(), // Conexión
         return Menu.CONEXION.getConnection();
     }
 
-    
 }
