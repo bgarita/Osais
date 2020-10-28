@@ -118,7 +118,8 @@ public class DetalleFactura {
         String sqlSent
                 = "Select  "
                 + "     if((Select artcode from inservice where artcode = fadetall.artcode) is null, 'N','S') as EsServicio,    "
-                + "	'04' as tipoCod, " // Código interno
+                + "	fadetall.codigoCabys, " // Ver nota 17 del archivo Anexos y estructuras_V4.3.pdf
+                + "	'04' as tipoCod, "      // Código interno
                 + "	fadetall.artcode, "
                 + "	fadetall.faccant, "
                 + "	'Unid' as unidadMedida, "
@@ -130,12 +131,6 @@ public class DetalleFactura {
                 + "	(fadetall.facmont - fadetall.facdesc) as subtotal, "
                 + "	'01' as codImpuesto, " // 01=IVA, 02=Selectivo de consumo... ver nota 8 del archivo Anexos y estructuras_V4.3.pdf
                 + "	fadetall.codigoTarifa, " // 01=Excento, 08=Tarifa general 13%... ver nota 8.1 del archivo Anexos y estructuras_V4.3.pdf
-                //                + "     case fadetall.facpive "
-                //                + "		When 0 then '01' "
-                //                + "		When 1 then '02' "
-                //                + "		ELSE '08' "
-                //                + "	END AS codigoTarifa," // 01=Excento, 08=Tarifa general 13%... ver nota 8.1 del archivo Anexos y estructuras_V4.3.pdf
-                // + "	If(fadetall.facpive > 0, '08', '01') as codigoTarifa, " // 01=Excento, 08=Tarifa general 13%... ver nota 8.1 del archivo Anexos y estructuras_V4.3.pdf
                 + "	fadetall.facpive, "
                 + "	fadetall.facimve, "
                 + "	0.00 as FactorIVA, " // Esperar forma de cálculo (Julio 2019)
@@ -178,12 +173,12 @@ public class DetalleFactura {
             line++;
             LineaFactura lineaFac = new LineaFactura();
             lineaFac.setNumeroLinea(line);
+            lineaFac.setCodigo(rs.getString("codigoCabys").trim());
 
-            // Hacienda.  Este campo cambia de Codigo a CodigoComercial. Julio 2019
             Codigo c = new Codigo();
             c.setTipo(rs.getString("tipoCod"));
 
-            lineaFac.setCodigo("");                 // Julio 2019
+            //lineaFac.setCodigo("");                 // Julio 2019
             //lineaFac.setPartidaArancelaria("");     // Julio 2019
 
             c.setCodigo(rs.getString("artcode"));   // Julio 2019

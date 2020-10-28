@@ -2476,9 +2476,13 @@ public class UtilBD {
                 + " tarifa_iva.codigoTarifa,  "
                 + " tarifa_iva.descrip as descripTarifa, "
                 + " tarifa_iva.porcentaje as artimpv, "
+                + " cabys.codigoCabys, "
+                + " cabys.descrip as descripCabys, "
+                + " cabys.impuesto, "
                 + " inarticu.aplicaOferta  "
                 + "from inarticu "
                 + "INNER JOIN tarifa_iva ON inarticu.codigoTarifa = tarifa_iva.codigoTarifa "
+                + "INNER JOIN cabys ON inarticu.codigoCabys = cabys.codigoCabys "
                 + "Where inarticu.artcode = ?";
 
         ps = conn.prepareStatement(sqlSent,
@@ -2497,11 +2501,11 @@ public class UtilBD {
     } // end getArtcode
 
     public static String actualizarCabys(
-            Connection conn, JProgressBar pp, javax.swing.JLabel lblInfo) 
+            Connection conn, JProgressBar pp, javax.swing.JLabel lblInfo)
             throws FileNotFoundException, IOException, SQLException {
-        
+
         String msg;
-        
+
         /*
         Nota: Este método lee archivos xlsx, para xls se usan otros objetos.
          */
@@ -2537,14 +2541,14 @@ public class UtilBD {
                 + "	impuesto = ? ";
 
         PreparedStatement ps = conn.prepareStatement(sqlSent);
-        
+
         lblInfo.setText("Actualizando datos...");
-        
+
         // Iterate through each rows one by one
         Iterator<Row> rowIterator = sheet.iterator();
         while (rowIterator.hasNext()) {
             pp.setValue(count);
-            
+
             Row row = rowIterator.next();
 
             codigoCabys = "";
@@ -2566,7 +2570,7 @@ public class UtilBD {
                 switch (cell.getColumnIndex()) {
                     case 16: {
                         codigoCabys = cell.toString();
-                        if (codigoCabys.contains("cell.toString()")){
+                        if (codigoCabys.contains("cell.toString()")) {
                             System.out.println("Debug here");
                         }
                         break;
@@ -2589,23 +2593,23 @@ public class UtilBD {
 
                 // Aquí se dispara la actualización del cabys
                 // Solo lo hace cuando impuesto no esté vacío.
-                if (impuesto.isEmpty()){
+                if (impuesto.isEmpty()) {
                     continue;
                 }
-                
+
                 descrip = remove8203Char(descrip);
-                
+
                 ps.setString(1, codigoCabys);
                 ps.setString(2, descrip);
                 ps.setDouble(3, Double.parseDouble(impuesto));
                 ps.setString(4, descrip);
                 ps.setDouble(5, Double.parseDouble(impuesto));
-                
+
                 // Este try se usa solo para mostrar un mensaje más específico.
                 try {
                     CMD.update(ps);
-                } catch(SQLException ex){
-                    JOptionPane.showMessageDialog(null, 
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null,
                             "Cabys: " + codigoCabys + ", descrip: " + descrip,
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
@@ -2613,9 +2617,9 @@ public class UtilBD {
                 } // end try-catch
             } // end while
 
-            count ++;
+            count++;
         } // end while
-        
+
         msg = "Se procesaron " + count + " registros del CABYS.";
 
         file.close();
@@ -2623,21 +2627,43 @@ public class UtilBD {
     } // end actualizarCabys
 
     /**
-     * Eliminar el caracter invisible 8203 ya que genera un error
-     * si se intenta mandar a la base de datos.
+     * Eliminar el caracter invisible 8203 ya que genera un error si se intenta
+     * mandar a la base de datos.
+     *
      * @param descrip String texto a revisar
      * @return String texto sin el caracter 8203
      */
     public static String remove8203Char(String descrip) {
         StringBuilder sb = new StringBuilder();
         char[] codigos = descrip.toCharArray();
-        for (char c : codigos){
-            if (c == 8203){
+        for (char c : codigos) {
+            if (c == 8203) {
                 continue;
             } // end if
             sb.append(c);
         } // end for
         return sb.toString();
     } // end remove8203Char
+
+    public static boolean validarCabys(Connection conn, String codigoTarifa, String codigoCabys) throws SQLException {
+        boolean sonIguales;
+        
+        String sqlSent
+                = "SELECT "
+                + "	("
+                + "		(SELECT impuesto FROM cabys WHERE codigoCabys = ?) -  "
+                + "		(SELECT porcentaje FROM tarifa_iva WHERE codigoTarifa = ?) "
+                + "	) AS diferencia";
+        PreparedStatement ps = conn.prepareStatement(sqlSent, 
+                ResultSet.CONCUR_READ_ONLY, ResultSet.TYPE_SCROLL_SENSITIVE);
+        ps.setString(1, codigoCabys);
+        ps.setString(2, codigoTarifa);
+        ResultSet rs = CMD.select(ps);
+        rs.first();
+        sonIguales = (rs.getDouble("diferencia") == 0.00);
+        ps.close();
+        
+        return sonIguales;
+    } // end validarCabys
 
 } // end class UtilBD

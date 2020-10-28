@@ -3692,7 +3692,7 @@ public class Menu extends javax.swing.JFrame {
             fact.setTipo(FacturaXML.FACTURA);
             fact.setVisible(true);
         } catch (Exception ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, ex);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }

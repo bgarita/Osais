@@ -53,13 +53,13 @@ BEGIN
 	faccant, artprec, facimve,
 	facpive, facdesc, facmont,
 	artcosp, facnd, facpdesc, 
-	artcost, codigoTarifa)
+	artcost, codigoTarifa, codigoCabys)
 	Select
 		facnume, artcode, bodega,
 		faccant, artprec, facimve,
 		facpive, facdesc, facmont,
 		artcosp, facnd, facpdesc, 
-		artcost, codigoTarifa
+		artcost, codigoTarifa, codigoCabys
 	From wrk_fadetall
 	Where id = pid;
 END$$

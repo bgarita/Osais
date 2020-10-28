@@ -73,6 +73,8 @@ public class RegistroFacturasV extends javax.swing.JFrame {
     private boolean validarCliprec = true;
     private JTextArea fatext = new JTextArea("");  // Texto para la factura
     private final Bitacora b = new Bitacora();
+    private boolean usarCabys;
+    private String codigoCabys;
 
     // Esta variable se usa para validar si se puede facturar o no.
     // Se carga en las validaciones y se evalúa en el método cmdAgregarActionPerformed()
@@ -276,9 +278,10 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 + // Decide si se imprimen las fact   Bosco agregado 26/12/2013
                 "   precioOferta,  "
                 + // Número de precio para ofertas    Bosco agregado 01/03/2014
-                "   diaOferta      "
+                "   diaOferta,      "
                 + // Día de ofertas                   Bosco agregado 01/03/2014
-                "From config";
+                "   usarCabys "
+                + "From config";
 
         ps = conn.prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
@@ -294,6 +297,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         bloqdias = rs.getInt("bloqdias");
         bodega = rs.getString("bodega");
         usarivi = rs.getBoolean("usarivi");
+        usarCabys = rs.getBoolean("usarCabys");
         variarprecios = rs.getInt("variarprecios");
         bloquearconsf = rs.getBoolean("bloquearconsf");
         precio0 = rs.getBoolean("precio0");
@@ -549,96 +553,96 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         tblDetalle.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         tblDetalle.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Código", "Bodega", "Descripción", "Cantidad", "Precio Unit", "Total", "Existencia", "Disponible", "IVA", "Desc", "Tarifa"
+                "Código", "Bodega", "Descripción", "Cantidad", "Precio Unit", "Total", "Existencia", "Disponible", "IVA", "Desc", "Tarifa", "CABYS"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -650,7 +654,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             }
         });
         tblDetalle.setToolTipText("Haga click para sumar o restar a la cantidad.");
-        tblDetalle.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_NEXT_COLUMN);
+        tblDetalle.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
         tblDetalle.setColumnSelectionAllowed(true);
         tblDetalle.setGridColor(new java.awt.Color(0, 153, 102));
         tblDetalle.setPreferredSize(new java.awt.Dimension(1500, 1280));
@@ -669,23 +673,23 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         tblDetalle.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (tblDetalle.getColumnModel().getColumnCount() > 0) {
             tblDetalle.getColumnModel().getColumn(0).setMinWidth(50);
-            tblDetalle.getColumnModel().getColumn(0).setPreferredWidth(70);
-            tblDetalle.getColumnModel().getColumn(0).setMaxWidth(90);
+            tblDetalle.getColumnModel().getColumn(0).setPreferredWidth(80);
+            tblDetalle.getColumnModel().getColumn(0).setMaxWidth(100);
             tblDetalle.getColumnModel().getColumn(1).setMinWidth(35);
             tblDetalle.getColumnModel().getColumn(1).setPreferredWidth(50);
-            tblDetalle.getColumnModel().getColumn(1).setMaxWidth(55);
+            tblDetalle.getColumnModel().getColumn(1).setMaxWidth(60);
             tblDetalle.getColumnModel().getColumn(2).setMinWidth(200);
             tblDetalle.getColumnModel().getColumn(2).setPreferredWidth(300);
             tblDetalle.getColumnModel().getColumn(2).setMaxWidth(400);
             tblDetalle.getColumnModel().getColumn(3).setMinWidth(50);
             tblDetalle.getColumnModel().getColumn(3).setPreferredWidth(70);
             tblDetalle.getColumnModel().getColumn(3).setMaxWidth(100);
-            tblDetalle.getColumnModel().getColumn(4).setMinWidth(65);
-            tblDetalle.getColumnModel().getColumn(4).setPreferredWidth(75);
+            tblDetalle.getColumnModel().getColumn(4).setMinWidth(70);
+            tblDetalle.getColumnModel().getColumn(4).setPreferredWidth(80);
             tblDetalle.getColumnModel().getColumn(4).setMaxWidth(100);
-            tblDetalle.getColumnModel().getColumn(5).setMinWidth(70);
-            tblDetalle.getColumnModel().getColumn(5).setPreferredWidth(80);
-            tblDetalle.getColumnModel().getColumn(5).setMaxWidth(110);
+            tblDetalle.getColumnModel().getColumn(5).setMinWidth(75);
+            tblDetalle.getColumnModel().getColumn(5).setPreferredWidth(90);
+            tblDetalle.getColumnModel().getColumn(5).setMaxWidth(120);
             tblDetalle.getColumnModel().getColumn(6).setMinWidth(50);
             tblDetalle.getColumnModel().getColumn(6).setPreferredWidth(70);
             tblDetalle.getColumnModel().getColumn(6).setMaxWidth(100);
@@ -695,7 +699,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             tblDetalle.getColumnModel().getColumn(8).setMinWidth(50);
             tblDetalle.getColumnModel().getColumn(8).setPreferredWidth(70);
             tblDetalle.getColumnModel().getColumn(8).setMaxWidth(100);
-            tblDetalle.getColumnModel().getColumn(9).setMinWidth(60);
+            tblDetalle.getColumnModel().getColumn(9).setMinWidth(50);
             tblDetalle.getColumnModel().getColumn(9).setPreferredWidth(70);
             tblDetalle.getColumnModel().getColumn(9).setMaxWidth(100);
             tblDetalle.getColumnModel().getColumn(10).setMinWidth(35);
@@ -1529,9 +1533,8 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         lblCodigoTarifa.setText("   ");
         lblCodigoTarifa.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        lblDescripTarifa.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        lblDescripTarifa.setForeground(java.awt.Color.blue);
-        lblDescripTarifa.setText("   ");
+        lblDescripTarifa.setForeground(new java.awt.Color(0, 0, 255));
+        lblDescripTarifa.setText(" ");
         lblDescripTarifa.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         javax.swing.GroupLayout paneDetalleLayout = new javax.swing.GroupLayout(paneDetalle);
@@ -1559,17 +1562,17 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                             .addGroup(paneDetalleLayout.createSequentialGroup()
                                 .addComponent(txtBodega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(4, 4, 4)
-                                .addComponent(lblArtdesc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(lblArtdesc, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(paneDetalleLayout.createSequentialGroup()
                                 .addComponent(txtArtprec, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel23)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtFacpive, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblCodigoTarifa, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(lblDescripTarifa, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txtFacpive, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(8, 8, 8)
+                                .addComponent(lblCodigoTarifa, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(4, 4, 4)
+                                .addComponent(lblDescripTarifa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(paneDetalleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel21)
                             .addGroup(paneDetalleLayout.createSequentialGroup()
@@ -1628,9 +1631,9 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     .addComponent(lblLocalizacion)
                     .addGroup(paneDetalleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lblCodigoTarifa)
-                        .addComponent(lblDescripTarifa)
                         .addComponent(jLabel24)
-                        .addComponent(txtFacpdesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtFacpdesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblDescripTarifa)))
                 .addGap(14, 14, 14)
                 .addGroup(paneDetalleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(txtLines, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1883,7 +1886,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jTabbedPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
+                        .addGap(0, 0, 0)
                         .addComponent(jScrollPane2)))
                 .addContainerGap())
         );
@@ -1973,8 +1976,14 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         try {
             faccant = Ut.quitarFormato(txtFaccant.getText().trim());
             artprec = Ut.quitarFormato(txtArtprec.getText());
+            codigoTarifa = this.lblCodigoTarifa.getText().trim();
+            if (this.usarCabys && !UtilBD.validarCabys(conn, codigoTarifa, codigoCabys)) {
+                throw new Exception(
+                        "La tarifa IVA no coincide con el impuesto establecido en el CABYS.\n" +
+                        "Vaya al catálogo de productos y asegúrese que ambos valores sean iguales.");
+            } // end if
         } catch (Exception ex) {
-            Logger.getLogger(RegistroFacturasV.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -1984,7 +1993,6 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         } // try-catch
 
         facpive = txtFacpive.getText().trim();
-        codigoTarifa = lblCodigoTarifa.getText().trim();
 
         // Estos campos se incluyen aquí (aunque se crean al crear el encabezado
         // de la factura) porque el usuario podría cambiar esos datos.
@@ -2026,7 +2034,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 return;
             } // end if
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroFacturasV.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),
@@ -2141,7 +2149,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             }// end if
         }// end if
 
-        sqlSent = "Call ReservarFactura(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        sqlSent = "Call ReservarFactura(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
         // No se afecta el reservado
         // porque el programa de pedidos
@@ -2168,7 +2176,6 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             ps.setString(15, codigoTC);
             ps.setString(16, tipoca);
             ps.setString(17, afectarRes);
-            ps.setString(18, codigoTarifa);
 
             extraMessage = "[Reservar factura]";
 
@@ -2235,7 +2242,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 try {
                     CMD.transaction(conn, CMD.ROLLBACK);
                 } catch (SQLException ex1) {
-                    Logger.getLogger(RegistroFacturasV.class.getName()).log(Level.SEVERE, null, ex1);
+                    Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex1);
                     JOptionPane.showMessageDialog(null,
                             "Ha ocurrido un error inesperado.\n"
                             + "El sistema se cerrará para proteger la integridad de los datos.",
@@ -2294,7 +2301,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 try {
                     CMD.transaction(conn, CMD.ROLLBACK);
                 } catch (SQLException ex1) {
-                    Logger.getLogger(RegistroFacturasV.class.getName()).log(Level.SEVERE, null, ex1);
+                    Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex1);
                     JOptionPane.showMessageDialog(null,
                             ex1.getMessage(),
                             "Error",
@@ -2338,7 +2345,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 sonido.play();
                 Thread.sleep(100);
             } catch (MalformedURLException | InterruptedException ex) {
-                Logger.getLogger(RegistroFacturasV.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                 b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             }
             this.txtArtcode.requestFocusInWindow();
@@ -2551,7 +2558,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         try {
             conn.close();
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroFacturasV.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         dispose();
@@ -2710,7 +2717,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
 
             } // end if
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroFacturasV.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -2781,12 +2788,11 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         Double precio;
         Double artimpv;
 
-        
         try {
             if (rsArtcode != null) {
                 rsArtcode.close();
             } // end if
-            
+
             // Traer los datos del artículo.  Los precios vienen convertidos a la
             // moneda que el usuario haya elegido.
             rsArtcode = UtilBD.getArtcode(conn, artcode, tipoca);
@@ -2834,7 +2840,6 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 // verificar si el cliente es exento para rebajar el IV.
                 if (usarivi && !chkAplicarIV.isSelected()) {
                     precio = precio / (1 + artimpv / 100);
-                    //artimpv = 0.00;
                 } // end if
             } // end if (artimpv > 0)
 
@@ -2842,6 +2847,12 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             this.txtArtprec.setText(Ut.setDecimalFormat(String.valueOf(precio), formatoPrecio));
             this.lblCodigoTarifa.setText(rsArtcode.getString("codigoTarifa"));
             this.lblDescripTarifa.setText(rsArtcode.getString("descripTarifa"));
+            this.codigoCabys = rsArtcode.getString("codigoCabys").trim();
+
+            // Si este código viene vacío es porque se está usando cabys pero aún no ha sido asignado
+            if (this.codigoCabys.isEmpty()) {
+                throw new Exception("Código cabys sin asignar. \nDebe ir al catálogo de productos y asignarlo.");
+            } // end if
 
             // Si el campo txtBodega tiene algún valor entonces ejecuto
             // el ActionPerformed de ese campo.
@@ -2853,7 +2864,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             } // end if
 
         } catch (Exception ex) {
-            Logger.getLogger(RegistroFacturasV.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -2867,7 +2878,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             try {
                 cant = Ut.quitarFormato(cant);
             } catch (Exception ex) {
-                Logger.getLogger(RegistroFacturasV.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                 b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             }
 
@@ -2902,7 +2913,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 this.mnuAgregar.setEnabled(false);
                 return;
             } // end if
-            
+
             // Verificar la fecha de cierre de la bodega.
             if (UtilBD.bodegaCerrada(conn, lcBodega, DatFacfech.getDate())) {
                 JOptionPane.showMessageDialog(null,
@@ -2935,7 +2946,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 return;
             } // end if
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroFacturasV.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),
@@ -3223,7 +3234,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 lclicode, // Código de cliente
                 affected, // Número de registros afectados
                 vend, // Vendedor
-                terr;           // Territorio (zona)
+                terr;       // Territorio (zona)
 
         Double facmonexp;   // Monto por concepto de envío express
 
@@ -3270,7 +3281,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         idbanco = 0;
         if (this.cboBanco.getItemCount() > 0 && cboBanco.getSelectedIndex() >= 0) {
             idbanco = Ut.getNumericCode(this.cboBanco.getSelectedItem().toString(), "-");
-        }
+        } // end if
 
         // 0=Desconocido,1=Efectivo,2=Cheque,3=Tarjeta
         tipopago = this.cboTipoPago.getSelectedIndex(); // Bosco 14/06/2015
@@ -3393,22 +3404,14 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 sqlUpdate
                         = "Call ModificarEncabezadoFactura("
                         + "?,"
-                        + // id
-                        "?,"
-                        + // Número de factura
-                        "?,"
-                        + // Vendedor
-                        "?,"
-                        + // Zona
-                        "?,"
-                        + // Fecha
-                        "?,"
-                        + // Plazo
-                        "?,"
-                        + // Código de express
-                        "?,"
-                        + // Monto express
-                        "?)";  // Número de orden de compra
+                        + "?,"
+                        + "?,"
+                        + "?,"
+                        + "?,"
+                        + "?,"
+                        + "?,"
+                        + "?,"
+                        + "?)";
                 PreparedStatement psEncabezado = conn.prepareStatement(sqlUpdate);
                 psEncabezado.setInt(1, id);
                 psEncabezado.setInt(2, facnume);
@@ -3820,7 +3823,6 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         this.recordID = 0;
         facnume++;
         this.txtFacnume.setText(facnume + "");
-        //this.txtClicode.setText(""); // Bosco modificado 28/01/2019. Comento la línea para conservar el cliente. 
         this.txtClicode.setEnabled(true);
         this.txtClilimit.setText("0.00");
         this.txtClisald.setText("0.00");
@@ -5082,6 +5084,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 + " bodexis.artexis - bodexis.artreserv as disponible,"
                 + " wrk_fadetall.facpive,  "
                 + " wrk_fadetall.codigoTarifa,  "
+                + " wrk_fadetall.codigoCabys,  "
                 + " wrk_fadetall.artprec  + wrk_fadetall.artprec * (wrk_fadetall.facpive/100) as artprec,"
                 + " (wrk_fadetall.artprec + wrk_fadetall.artprec * (wrk_fadetall.facpive/100)) * faccant as facmont,"
                 + " wrk_fadetall.facpdesc "
@@ -5156,6 +5159,9 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 col++;
                 valor = rsF.getString("codigoTarifa");
                 tblDetalle.setValueAt(valor, row, col);
+                col++;
+                valor = rsF.getString("codigoCabys");
+                tblDetalle.setValueAt(valor, row, col);
                 col = 0;
                 row++;
             } // end while
@@ -5206,7 +5212,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             ps.close();
 
         } catch (Exception ex) {
-            Logger.getLogger(RegistroFacturasV.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -5228,6 +5234,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         lblCodigoTarifa.setText("?");
         lblDescripTarifa.setText("?");
         lblLocalizacion.setText("?");
+        this.codigoCabys = "";
     } // end limpiarObjetos
 
     private void createTempInvoice() {
@@ -5589,7 +5596,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                                     Double.parseDouble(montoExpress)));
                 } // end if
             } // end if (rsExp != null && rsExp.first())
-            
+
             txtMonExpress.setText(
                     Ut.setDecimalFormat(
                             montoExpress, this.formatoPrecio));
@@ -6256,7 +6263,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         try {
             cajaN = getCajaForThisUser(Usuario.USUARIO, conn);
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroFacturasV.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -6324,7 +6331,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             } // end if
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroFacturasV.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             errorMsg = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
@@ -6402,7 +6409,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             } // end if
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroFacturasV.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             errorMsg = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
@@ -6420,7 +6427,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             ps.setInt(1, tran.getRecnume());
             CMD.update(ps);
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroFacturasV.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             errorMsg = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
@@ -6512,7 +6519,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             } // end while
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroFacturasV.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error", JOptionPane.ERROR_MESSAGE);

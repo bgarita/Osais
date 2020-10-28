@@ -101,5 +101,29 @@ ALTER TABLE `cabys_audit`
 INSERT INTO cabys (codigocabys, descrip, impuesto) 
 VALUES(' ','Producto CABYS no definido',-1)
 ON DUPLICATE KEY UPDATE 
-descrip  = 'Producto CABYS no definido',
-impuesto = -1;
+	descrip  = 'Producto CABYS no definido',
+	impuesto = -1;
+
+
+ALTER TABLE `inarticu`
+	ADD COLUMN `codigocabys` VARCHAR(20) NOT NULL DEFAULT ' ' COMMENT 'Código del catálogo de bienes y servicios de Hacienda' COLLATE 'latin1_swedish_ci' AFTER `codigoTarifa`,
+	ADD CONSTRAINT `FK_inarticu_cabys` FOREIGN KEY (`codigocabys`) REFERENCES `cabys` (`codigocabys`);
+	
+ALTER TABLE `hinarticu`
+	ADD COLUMN `codigocabys` VARCHAR(20) NOT NULL DEFAULT ' ' COMMENT 'Código del catálogo de bienes y servicios de Hacienda' COLLATE 'latin1_swedish_ci',
+	ADD CONSTRAINT `FK_hinarticu_cabys` FOREIGN KEY (`codigocabys`) REFERENCES `cabys` (`codigocabys`);
+	
+ALTER TABLE `inarticu_sinc`
+	ADD COLUMN `codigocabys` VARCHAR(20) NOT NULL DEFAULT ' ' COMMENT 'Código del catálogo de bienes y servicios de Hacienda' COLLATE 'latin1_swedish_ci',
+	ADD CONSTRAINT `FK_inarticu_sinc_cabys` FOREIGN KEY (`codigocabys`) REFERENCES `cabys` (`codigocabys`);
+	
+ALTER TABLE `fadetall`
+	ADD COLUMN `codigocabys` VARCHAR(20) NOT NULL DEFAULT ' ' COMMENT 'Código del catálogo de bienes y servicios de Hacienda' COLLATE 'latin1_swedish_ci',
+	ADD CONSTRAINT `FK_fadetall_cabys` FOREIGN KEY (`codigocabys`) REFERENCES `cabys` (`codigocabys`);
+	
+ALTER TABLE `wrk_fadetall`
+	ADD COLUMN `codigocabys` VARCHAR(20) NOT NULL DEFAULT ' ' COMMENT 'Código del catálogo de bienes y servicios de Hacienda' COLLATE 'latin1_swedish_ci';
+	
+ALTER TABLE `config`
+	ADD COLUMN `usarCabys` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' 
+	COMMENT 'Le indica al sistema si debe usar el catálogo de bienes y servicios de Hacienda para obtener el IVA' AFTER `barrio`;

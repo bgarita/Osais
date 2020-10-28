@@ -915,7 +915,7 @@ public class ImpresionFactura extends java.awt.Dialog {
                 fact.setRangoDocumentos(factura, factura);
                 fact.runApp();
             } catch (Exception ex) {
-                Logger.getLogger(ImpresionFactura.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             }
         } // end if
 
