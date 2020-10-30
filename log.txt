@@ -11,3 +11,41 @@ Vaya al menú Registro y elija Tipo de cambio.]
 [Tue Oct 20 18:52:00 CST 2020][ERROR][Usuario: bgarita][logica.utilitarios.ProcessBackground--> Data truncation: Incorrect string value: '\xE2\x80\x8B\xE2\x80\x8B...' for column `laflor`.`cabys`.`descrip` at row 1]
 [Tue Oct 20 18:55:31 CST 2020][ERROR][Usuario: bgarita][logica.utilitarios.ProcessBackground--> Data truncation: Incorrect string value: '\xE2\x80\x8B\xE2\x80\x8B...' for column `laflor`.`cabys`.`descrip` at row 1]
 [Tue Oct 20 19:06:50 CST 2020][ERROR][Usuario: bgarita][logica.utilitarios.ProcessBackground--> Data truncation: Incorrect string value: '\xE2\x80\x8B\xE2\x80\x8B...' for column `laflor`.`cabys`.`descrip` at row 1]
+[Thu Oct 22 18:56:16 CST 2020][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.]
+[Thu Oct 22 20:51:39 CST 2020][ERROR][Usuario: bgarita][interfase.mantenimiento.Inarticu--> Unknown column 'codigocab' in 'where clause']
+[Thu Oct 22 21:04:21 CST 2020][ERROR][Usuario: null][accesoDatos.DataBaseConnection--> Could not create connection to database server. Attempted reconnect 3 times. Giving up.]
+[Thu Oct 22 21:08:51 CST 2020][ERROR][Usuario: bgarita][interfase.mantenimiento.Inarticu--> Column 'porcentaje' not found.]
+[Thu Oct 22 21:24:08 CST 2020][ERROR][Usuario: null][accesoDatos.DataBaseConnection--> Could not create connection to database server. Attempted reconnect 3 times. Giving up.]
+[Fri Oct 23 18:14:52 CST 2020][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.]
+[Fri Oct 23 18:29:28 CST 2020][ERROR][Usuario: bgarita][interfase.mantenimiento.Inarticu--> Incorrect number of arguments for PROCEDURE laflor.InsertarArticulo; expected 32, got 31]
+[Sat Oct 24 06:19:38 CST 2020][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.]
+[Sat Oct 24 06:22:39 CST 2020][ERROR][Usuario: bgarita][interfase.transacciones.RegistroFacturasV--> Column 'codigoCabys' not found.]
+[Sat Oct 24 06:23:08 CST 2020][ERROR][Usuario: null][accesoDatos.DataBaseConnection--> Could not create connection to database server. Attempted reconnect 3 times. Giving up.]
+[Sat Oct 24 06:37:03 CST 2020][ERROR][Usuario: null][accesoDatos.DataBaseConnection--> Could not create connection to database server. Attempted reconnect 3 times. Giving up.]
+[Sat Oct 24 06:37:33 CST 2020][ERROR][Usuario: bgarita][interfase.transacciones.RegistroFacturasV--> Código cabys sin asignar. 
+Debe ir al catálogo de productos y asignarlo.]
+[Sat Oct 24 07:12:57 CST 2020][ERROR][Usuario: null][accesoDatos.DataBaseConnection--> Could not create connection to database server. Attempted reconnect 3 times. Giving up.]
+[Sat Oct 24 07:13:56 CST 2020][ERROR][Usuario: bgarita][interfase.transacciones.RegistroFacturasV--> Parameter index out of range (19 > number of parameters, which is 18).]
+[Sat Oct 24 07:15:28 CST 2020][ERROR][Usuario: bgarita][interfase.transacciones.RegistroFacturasV--> Data truncation: Data too long for column 'codigoTarifa' at row 1]
+[Sat Oct 24 07:16:13 CST 2020][ERROR][Usuario: bgarita][interfase.transacciones.RegistroFacturasV--> Data truncation: Data too long for column 'codigoTarifa' at row 1]
+[Sat Oct 24 07:20:01 CST 2020][ERROR][Usuario: bgarita][interfase.transacciones.RegistroFacturasV--> Data truncation: Data too long for column 'codigoTarifa' at row 1]
+[Sun Oct 25 07:52:48 CST 2020][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.]
+[Sun Oct 25 09:27:12 CST 2020][ERROR][Usuario: bgarita][interfase.transacciones.RegistroFacturasV--> La tarifa IVA no coincide con el impuesto establecido en el CABYS.
+Vaya al catálogo de productos y asegúrese que ambos valores sean iguales.]
+[Sun Oct 25 09:29:27 CST 2020][ERROR][Usuario: bgarita][interfase.mantenimiento.Inarticu--> No operations allowed after connection closed.]
+[Sun Oct 25 09:30:54 CST 2020][ERROR][Usuario: bgarita][interfase.transacciones.RegistroFacturasV--> La tarifa IVA no coincide con el impuesto establecido en el CABYS.
+Vaya al catálogo de productos y asegúrese que ambos valores sean iguales.]
+[Sun Oct 25 09:43:05 CST 2020][ERROR][Usuario: null][accesoDatos.DataBaseConnection--> Could not create connection to database server. Attempted reconnect 3 times. Giving up.]
+[Sun Oct 25 09:55:56 CST 2020][ERROR][Usuario: bgarita][interfase.transacciones.RegistroFacturasV--> Código cabys sin asignar. 
+Debe ir al catálogo de productos y asignarlo.]
+[Sun Oct 25 09:56:10 CST 2020][ERROR][Usuario: bgarita][interfase.transacciones.RegistroFacturasV--> La tarifa IVA no coincide con el impuesto establecido en el CABYS.
+Vaya al catálogo de productos y asegúrese que ambos valores sean iguales.]
+[Sun Oct 25 10:19:57 CST 2020][ERROR][Usuario: null][accesoDatos.DataBaseConnection--> Could not create connection to database server. Attempted reconnect 3 times. Giving up.]
+[Sun Oct 25 21:07:36 CST 2020][ERROR][Usuario: bgarita][interfase.transacciones.RegistroNCCXC--> Unknown column 'pCodigoTarifa' in 'field list']
+[Sun Oct 25 21:10:33 CST 2020][ERROR][Usuario: bgarita][interfase.reportes.Reportes--> Unknown column name : factext]
+[Mon Oct 26 18:17:12 CST 2020][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.]

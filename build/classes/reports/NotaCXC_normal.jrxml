@@ -2,12 +2,12 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="NotaCXC" pageWidth="612" pageHeight="792" columnWidth="605" leftMargin="5" rightMargin="2" topMargin="6" bottomMargin="6" uuid="8a6871c2-9858-4e1b-b535-91cec5e8fa2b">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="70"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="pNotanume" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[new Integer(1)]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[Call ImprimirNotaCXC($P!{pNotanume});]]>
+		<![CDATA[Call ImprimirNotaCXC($P!{pNotanume}); ]]>
 	</queryString>
 	<field name="empresa" class="java.lang.String"/>
 	<field name="telefono" class="java.lang.String"/>
@@ -34,7 +34,6 @@
 	<field name="consHacienda" class="java.lang.String"/>
 	<field name="clitel1" class="java.lang.String"/>
 	<field name="clidir" class="java.lang.String"/>
-	<field name="factext" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -317,13 +316,6 @@
 				</textElement>
 				<text><![CDATA[Saldo Anterior]]></text>
 			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="8" y="10" width="561" height="29" isRemoveLineWhenBlank="true" uuid="2cfea782-1eb8-46cc-a665-dd78761829c2"/>
-				<textElement>
-					<font fontName="SansSerif" size="10" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{factext}]]></textFieldExpression>
-			</textField>
 		</band>
 	</summary>
 </jasperReport>
