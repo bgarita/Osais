@@ -15,8 +15,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ReservarNC_CXC`(
 	IN `pPrecio` tinyint(2),
 	IN `pCodigoTC` char(3),
 	IN `pTipoca` float,
-	IN `pFacpdesc` FLOAT,
-	IN `pCodigoTarifa` VARCHAR(3)
+	IN `pFacpdesc` FLOAT
 )
 LANGUAGE SQL
 NOT DETERMINISTIC
@@ -39,7 +38,9 @@ BEGIN
 	Declare vFacfepa         datetime;       
 	Declare vFacfppago       datetime;       
 	Declare vRedondear       bit;            
-	Declare vRedondearA5     bit;            
+	Declare vRedondearA5     bit;       
+	DECLARE vCodigotarifa	VARCHAR(3);
+	DECLARE vCodigoCabys	VARCHAR(20);     
 
 
 	-- Setear las variables para el control de errores
@@ -54,22 +55,27 @@ BEGIN
 
 	-- Verificar el redondeo de los decimales
 	Set vRedondear =
-		 Case When pCodigoTC = (Select codigoTC
-								from config) then (Select redondear from config)
+		 Case When pCodigoTC = (Select codigoTC from config) then (Select redondear from config)
 			  else 0
 		 End;
 
 
 	-- Verificar el redondeo a 5 y 10
 	Set vRedondearA5 =
-		 Case When pCodigoTC = (Select codigoTC
-								from config) then (Select redond5 from config)
+		 Case When pCodigoTC = (Select codigoTC from config) then (Select redond5 from config)
 			  else 0
 		 End;
 
 
 	-- Obtener el costo promedio
-	Set vArtcosp = (Select artcosp from inarticu where artcode = pArtcode);
+	-- Set vArtcosp = (Select artcosp from inarticu where artcode = pArtcode);
+	Select 
+		artcosp,
+		codigoTarifa,
+		codigoCabys
+	into vArtcosp, vCodigoTarifa, vCodigoCabys
+	From inarticu
+	where artcode = pArtcode;
 
 
 	-- Sumar la cantidad registrada (tabla de trabajo) antes de este artículo
@@ -100,6 +106,7 @@ BEGIN
 			facmont   = pFaccantActual * pArtprec,
 			facpive   = pFacpive,
 			codigoTarifa = pCodigoTarifa,
+			codigocabys = vCodigoCabys,
 			artcosp   = vArtcosp
 		Where id = pID and Bodega = pBodega and artcode = pArtcode;
 	Else
@@ -112,6 +119,7 @@ BEGIN
 			facmont,
 			facpive,
 			codigoTarifa,
+			codigoCabys,
 			artcosp,
 			facpdesc)
 		Values (
@@ -122,7 +130,8 @@ BEGIN
 			pArtprec,
 			pFaccant * pArtprec,
 			pFacpive,
-			pCodigoTarifa,
+			vCodigoTarifa,
+			vCodigoCabys,
 			vArtcosp,
 			pFacpdesc);
 	End if; 

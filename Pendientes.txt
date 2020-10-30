@@ -56,13 +56,16 @@ PENDIENTE
 
 --- CONTABILIDAD ---
 Contabilidad #4 (parqueo don Mincho)
-- Revisar balance Jun 2010      LISTO
- 
-- Crear proceso de cierre mensual
-- Crear proceso de estado de resultados (pantalla de parámetros)
-  Se crearon las dos tablas y la pantalla pero falta revisar en fox para qué se usa el check procesar.
+- Cierres mensuales verificados
+- Configuración para cierre fiscal en diciembre verificado (saldos seguidos, correcto el acumulado)
 
-REVISAR DATOS DE ABRIL PARA HACER CIERRE MENSUAL.  Tener en cuenta que aún no se ha cargado ASLCG02
+
+- Crear proceso para generar asiento de cierre anual basado en asientoc.prg
+    Pendiente: Registrar asientos para validar que los cambios que se le hicieron
+                a la pantalla de registro de asientos no le hayan afectado la funcionalidad. 
+- Crear proceso de cierre anual
+
+NOTA: Tener en cuenta que aún no se ha cargado ASLCG02
 
 
 
@@ -78,9 +81,13 @@ NOTAS:
 --- CABYS ---
 Para la implementación del CABYS (Catálogo de Bienes y Servicios) de Hacienda
 se debe hacer lo siguiente:
-1. Crear una tabla con ese nombre cabys con tres campos (codigocabys, descrip, impuesto)
-2. Crear una pantalla que busque el CABYS descargado de Hacienda y lo lea entero
-    determinando si el producto existe o no.
+1. Crear una tabla con ese nombre cabys con tres campos (codigocabys, descrip, impuesto)                    1 hora          LISTO
+   También se crea una tabla de auditoría para guardar los borrados o modificaciones a la tabla original    1 hora          LISTO
+   Hacer todo el proces de integridad referencial para que el motor procese los cambios                     1 hora          LISTO
+2. Crear un proceso que busque el CABYS descargado de Hacienda y lo lea entero                              5 horas         LISTO
+    determinando si el producto existe o no. Este proceso debe ser capaz de procesar
+    hojas de Excel de cualquier versión para que no existan limitaciones por el 
+    número de versión.
     a. Si existe actualizar la descripción y el impuesto.
     b. Si no existe agregar el registro.
     c. Debe agregar un registro con el codigocabys en blanco, la descripción = "Producto CABYS no definido", impuesto= -1.00
@@ -89,26 +96,25 @@ se debe hacer lo siguiente:
    NOTA: En el caso del impuesto viene la palabra Excento en vez de un cero en la
          hoja de Excel.  Esto se debe validar para que el programa no se caiga y
          a la vez para poner un cero en la tabla cabys.
-3. Agregar un campo (codigocabys) en las tablas inarticu, hinarticu, fadetall y 
-   wrk_fadetall que sean llave foránea de la tabla cabys con actualización en 
-   cascada y set restricción de borrado. Este campo tendrá un espacio en blanco
+3. Agregar un campo (codigocabys) en las tablas inarticu, hinarticu, inarticu_sinc,                         1 hora           LISTO
+   fadetall y wrk_fadetall que sean llave foránea de la tabla cabys con actualización  
+   en cascada y set restricción de borrado. Este campo tendrá un espacio en blanco
    como default.
-4. Modificar la pantalla de mantenimiento de artículos para que utilice y valide
-   el código cabys.
-5. Crear un método en la clase UtilBD.java que determine el impuesto a usar a
-   la hora de hacer una factura. 
-    -- Parámetros: código de tarifa y codigo cabys
-    -- Devolución: porcentaje de impuesto (-1.00 si el código cabys no es encontrado)
-   a. Si el impuesto en la tabla tarifa_iva es diferente del que se encuentra
-      en la tabla cabys se debe informar al usuario pero se le advertirá que
-      el impuesto a utilizar será el de cabys.
-6. Modificar la pantalla de facturación para que use este nuevo método.
-   Si el valor retornado es negativo debe enviar un mensaje de error que diga
-   "Producto CABYS no definido". Este error de validación se puede dar en los
-   siguientes casos:
-   a. Cuando el código cabys no existe en la tabla cabys.
-   b. Cuando el código cabys en la tabla inarticu está en blanco.
-   Si se produce este error de validación no se permitirá factura dicho artículo.
-   Esta pantalla debe asegurarse de guardar el nuevo campo en las tablas de 
-   facturación.  Para eso es necesario modificar todos los procedimientos almacenados
-   que se usan tanto para agregar los registros en wrk_fadetall como en fadetall.
+4. Agregar un campo (usarCabys tinyInt(1)) en la tabla config para que el sistema                           1 hora           LISTO
+   sea configurable y sepa si debe utilizar el impuesto de cabys o el catálogo 
+   de tarifas (ambos de Hacienda).
+5. Modificar la pantalla de configuración para que utilice el nuevo campo (usarCabys)                       1.5 horas        LISTO
+6. Modificar la pantalla de mantenimiento de artículos para que utilice y valide                            2 horas
+   el código cabys. (Pendiente Cálculo de utilidades y AGREGAR UN NUEVO ARTÍCULO) para el cálculo debe decidir cuál porcentaje tomar.
+7. Modificar los SPs ReservarFactura y AgregarFactura para que decidan que valor usar                       2 horas         LISTO
+8. Modificar la pantalla de facturación para que decida cuando usar cabys y cuando tarifa                   2 horas         LISTO
+   dependiendo del parámetro usaCabys que está en config
+9. Modificar el proceso de generación del XML para que incluya el nuevo campo en facturas y tiquetes y      4 horas (en proceso...)
+   use el valor de cabys. (Ya el código cabys aparece en el xml) Faltan las pruebas con Hacienda.
+10.Modificar el proceso de generación del XML para que incluya el nuevo campo en NC/ND y                    2 horas (en proceso...)
+   use el valor de cabys. (Ya el código cabys aparece en el xml) Faltan las pruebas con Hacienda
+10. Pruebas y depuración con el ambiente de pruebas de Hacienda                                             4 horas
+
+
+
+NOTA: El precio de actualización para la contabilidad es de 170 dólares.

@@ -13,18 +13,12 @@
 		<defaultValueExpression><![CDATA["Factura #"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[Call imprimirfacturaond($P!{pFacnume},$P!{pFacnd});]]>
+		<![CDATA[Call imprimirfacturaond($P!{pFacnume},$P!{pFacnd}); ]]>
 	</queryString>
-	<field name="empresa" class="java.lang.String">
-		<fieldDescription><![CDATA[Nombre de la empresa]]></fieldDescription>
-	</field>
+	<field name="empresa" class="java.lang.String"/>
 	<field name="telefono" class="java.lang.String"/>
-	<field name="cedulajur" class="java.lang.String">
-		<fieldDescription><![CDATA[Cédula jurídica]]></fieldDescription>
-	</field>
-	<field name="Direccion" class="java.lang.String">
-		<fieldDescription><![CDATA[Dirección]]></fieldDescription>
-	</field>
+	<field name="cedulajur" class="java.lang.String"/>
+	<field name="Direccion" class="java.lang.String"/>
 	<field name="simbolo" class="java.lang.String">
 		<fieldDescription><![CDATA[Símbolo de la moneda]]></fieldDescription>
 	</field>
@@ -32,59 +26,40 @@
 		<fieldDescription><![CDATA[Plazo en días]]></fieldDescription>
 	</field>
 	<field name="condiciones" class="java.lang.String"/>
-	<field name="chequeotar" class="java.lang.String">
-		<fieldDescription><![CDATA[Número de referencia para cheque, tarjeta, transferencia, etc.]]></fieldDescription>
-	</field>
-	<field name="artprec" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[Precio unitario]]></fieldDescription>
-	</field>
+	<field name="chequeotar" class="java.lang.String"/>
+	<field name="artprec" class="java.math.BigDecimal"/>
 	<field name="totalB" class="java.math.BigDecimal"/>
-	<field name="facmont" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[Monto bruto]]></fieldDescription>
-	</field>
-	<field name="total" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[Total de monedas billetes y fórmula]]></fieldDescription>
-	</field>
+	<field name="facmont" class="java.math.BigDecimal"/>
+	<field name="total" class="java.math.BigDecimal"/>
+	<field name="totalGrav" class="java.math.BigDecimal"/>
+	<field name="totalExen" class="java.math.BigDecimal"/>
 	<field name="facfech" class="java.sql.Timestamp">
 		<fieldDescription><![CDATA[Fecha del documento (factura, NC, ND)]]></fieldDescription>
 	</field>
-	<field name="clicode" class="java.lang.String">
-		<fieldDescription><![CDATA[Cliente predeterminado]]></fieldDescription>
+	<field name="clicode" class="java.lang.Long">
+		<fieldDescription><![CDATA[Código de cliente]]></fieldDescription>
 	</field>
-	<field name="facdesc" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[Descuento]]></fieldDescription>
-	</field>
-	<field name="facimve" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[Monto del impuesto de ventas]]></fieldDescription>
+	<field name="facdesc" class="java.math.BigDecimal"/>
+	<field name="facimve" class="java.math.BigDecimal"/>
+	<field name="facpive" class="java.lang.Float">
+		<fieldDescription><![CDATA[Porcentaje del impuesto de ventas]]></fieldDescription>
 	</field>
 	<field name="Totalf" class="java.math.BigDecimal"/>
 	<field name="facnume" class="java.lang.Integer">
 		<fieldDescription><![CDATA[Número de factura, ND, NC]]></fieldDescription>
 	</field>
 	<field name="faccant" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[Cantidad]]></fieldDescription>
+		<fieldDescription><![CDATA[Cantidad ]]></fieldDescription>
 	</field>
-	<field name="codigo" class="java.lang.String">
-		<fieldDescription><![CDATA[Código de moneda]]></fieldDescription>
-	</field>
-	<field name="artdesc" class="java.lang.String">
-		<fieldDescription><![CDATA[Descripción]]></fieldDescription>
-	</field>
-	<field name="clidesc" class="java.lang.String">
-		<fieldDescription><![CDATA[Nombre del cliente]]></fieldDescription>
-	</field>
+	<field name="codigo" class="java.lang.String"/>
+	<field name="artdesc" class="java.lang.String"/>
+	<field name="clidesc" class="java.lang.String"/>
 	<field name="clitel1" class="java.lang.String">
 		<fieldDescription><![CDATA[Teléfono principal]]></fieldDescription>
 	</field>
-	<field name="clidir" class="java.lang.String">
-		<fieldDescription><![CDATA[Dirección]]></fieldDescription>
-	</field>
-	<field name="nombre" class="java.lang.String">
-		<fieldDescription><![CDATA[Nombre de la persona que deposita/retira]]></fieldDescription>
-	</field>
-	<field name="factext" class="java.lang.String">
-		<fieldDescription><![CDATA[Texto de la factura]]></fieldDescription>
-	</field>
+	<field name="clidir" class="java.lang.String"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="factext" class="java.lang.String"/>
 	<field name="PrimerPago" class="java.lang.String"/>
 	<field name="SegundoPago" class="java.lang.String"/>
 	<field name="TercerPago" class="java.lang.String"/>
@@ -92,9 +67,7 @@
 		<fieldDescription><![CDATA[Número de pagos]]></fieldDescription>
 	</field>
 	<field name="MontoCadaPago" class="java.math.BigDecimal"/>
-	<field name="timbre" class="java.lang.String">
-		<fieldDescription><![CDATA[Código de referencia que permite el uso de facturas timbradas]]></fieldDescription>
-	</field>
+	<field name="timbre" class="java.lang.String"/>
 	<field name="facMonExp" class="java.math.BigDecimal">
 		<fieldDescription><![CDATA[Monto Express]]></fieldDescription>
 	</field>
@@ -303,17 +276,24 @@
 			</staticText>
 			<staticText>
 				<reportElement x="427" y="6" width="55" height="12" forecolor="#FFFFFF" uuid="7d915ff7-2a9f-4f61-a3f4-89714adb9641"/>
-				<textElement>
+				<textElement textAlignment="Right">
 					<font fontName="SansSerif" size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[CANTIDAD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="291" y="6" width="54" height="12" forecolor="#FFFFFF" uuid="6bc7135c-cffa-4d73-a791-fc7c3290308c"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IMPUESTO]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="14" splitType="Stretch">
 			<textField isStretchWithOverflow="true">
-				<reportElement x="75" y="1" width="270" height="13" uuid="f56196a1-6b12-4b6c-825c-5cbe755d794d"/>
+				<reportElement x="73" y="1" width="227" height="13" uuid="f56196a1-6b12-4b6c-825c-5cbe755d794d"/>
 				<textElement>
 					<font fontName="Tahoma" size="10"/>
 				</textElement>
@@ -346,6 +326,13 @@
 					<font fontName="Tahoma" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{faccant}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="304" y="1" width="41" height="13" uuid="54e09865-5612-48cc-a26c-3791097cb91f"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{facpive}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

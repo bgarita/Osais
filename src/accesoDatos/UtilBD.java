@@ -8,12 +8,17 @@ import Exceptions.EmptyDataSourceException;
 import Exceptions.NotUniqueValueException;
 import interfase.menus.Menu;
 import interfase.otros.Navegador;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.*;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +27,12 @@ import javax.swing.table.DefaultTableModel;
 import logica.Column;
 import logica.contabilidad.Cuenta;
 import logica.contabilidad.PeriodoContable;
+import logica.utilitarios.DirectoryStructure;
 import logica.utilitarios.Ut;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
@@ -379,11 +389,11 @@ public class UtilBD {
 
         return DBValue;
     } // end getDBString
-    
+
     /**
-     * Autor: Bosco Garita 15/10/2020. Determina si existen datos de acuerdo
-     * con los parámetros recibidos.
-     * 
+     * Autor: Bosco Garita 15/10/2020. Determina si existen datos de acuerdo con
+     * los parámetros recibidos.
+     *
      * @param c Connection Conexión con la base de datos
      * @param tabla String nombre de la tabla a consultar
      * @param condicion String condición que se usará en el Where
@@ -432,9 +442,9 @@ public class UtilBD {
     public static String getFieldValue(
             Connection c,
             String table,
-            String fieldName,       // Campo que se consultará
-            String fieldKeyName,    // Llave para el Where
-            String keyValue)        // Valor para el Where
+            String fieldName, // Campo que se consultará
+            String fieldKeyName, // Llave para el Where
+            String keyValue) // Valor para el Where
             throws SQLException {
 
         String returnValue = null;
@@ -2012,43 +2022,43 @@ public class UtilBD {
                 correcto = (reg > 0);
             } // end try with resources
         } // end if
-        
+
         return correcto;
     } // end CGguardarCatalogo
 
     /**
-     * Se considera válida cualquier fecha que se encuentre en un periodo cerrado.
+     * Se considera válida cualquier fecha que se encuentre en un periodo
+     * cerrado.
+     *
      * @param conn Connection Conexión a la base de datos.
      * @param fecha Date fecha a revisar
      * @return boolean true=Fecha válida, false=Fecha no válida
      * @throws java.sql.SQLException
      */
-    public static boolean CGfechaValida(Connection conn, Date fecha) throws SQLException{
+    public static boolean CGfechaValida(Connection conn, Date fecha) throws SQLException {
         boolean valida = false;
         Calendar cal = GregorianCalendar.getInstance();
         cal.setTime(fecha);
-        int year  = cal.get(Calendar.YEAR);
+        int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH) + 1;
-        
-        String sqlSent 
+
+        String sqlSent
                 = "SELECT descrip FROM coperiodoco "
                 + "WHERE año = ? AND mes = ? AND cerrado = 1";
-        try (PreparedStatement ps = conn.prepareStatement(sqlSent, 
+        try (PreparedStatement ps = conn.prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
             ps.setInt(1, year);
             ps.setInt(2, month);
             ResultSet rs = CMD.select(ps);
-            if (rs == null || !rs.first()){
+            if (rs == null || !rs.first()) {
                 valida = true;
             } // end if
             ps.close();
         } // end try with resources
-        
+
         return valida;
     } // end CGfechaValida
-    
-    
-    
+
     /**
      * Crear una nueva tabla basada en otra + un campo de tipo varchar. Este
      * método es "case sensitive" por lo que en una instalación de Windows
@@ -2466,9 +2476,13 @@ public class UtilBD {
                 + " tarifa_iva.codigoTarifa,  "
                 + " tarifa_iva.descrip as descripTarifa, "
                 + " tarifa_iva.porcentaje as artimpv, "
+                + " cabys.codigoCabys, "
+                + " cabys.descrip as descripCabys, "
+                + " cabys.impuesto, "
                 + " inarticu.aplicaOferta  "
                 + "from inarticu "
                 + "INNER JOIN tarifa_iva ON inarticu.codigoTarifa = tarifa_iva.codigoTarifa "
+                + "INNER JOIN cabys ON inarticu.codigoCabys = cabys.codigoCabys "
                 + "Where inarticu.artcode = ?";
 
         ps = conn.prepareStatement(sqlSent,
@@ -2485,5 +2499,171 @@ public class UtilBD {
 
         return rs;
     } // end getArtcode
+
+    public static String actualizarCabys(
+            Connection conn, JProgressBar pp, javax.swing.JLabel lblInfo)
+            throws FileNotFoundException, IOException, SQLException {
+
+        String msg;
+
+        /*
+        Nota: Este método lee archivos xlsx, para xls se usan otros objetos.
+         */
+        String fileName = "Catalogo-de-bienes-servicios.xlsx";
+        DirectoryStructure dir = new DirectoryStructure();
+        File cabys = new File(dir.getHome() + File.separator + fileName);
+        if (!cabys.exists()) {
+            msg = "El catálogo de bienes y servicios de Hacienda no fue encontrado.\n"
+                    + "Debe descargarlo de la página del Banco Central y colocarlo\n"
+                    + "en la carpeta " + dir.getHome() + "\n"
+                    + "Asegúrese de que el nombre del archivo sea " + fileName;
+            return msg;
+        } // end if
+
+        FileInputStream file = new FileInputStream(cabys);
+
+        // Create Workbook instance holding reference to .xlsx file
+        XSSFWorkbook workbook = new XSSFWorkbook(file);
+
+        // Get first/desired sheet from the workbook
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        pp.setMaximum(sheet.getPhysicalNumberOfRows());
+
+        int count = 0;      // Contar los artículos procesados.
+        String codigoCabys;
+        String descrip;
+        String impuesto;
+        String sqlSent
+                = "INSERT INTO cabys (codigocabys, descrip, impuesto) "
+                + "	VALUES(?,?,?) "
+                + "ON DUPLICATE KEY UPDATE "
+                + "	descrip  = ?,"
+                + "	impuesto = ? ";
+
+        PreparedStatement ps = conn.prepareStatement(sqlSent);
+
+        lblInfo.setText("Actualizando datos...");
+
+        // Iterate through each rows one by one
+        Iterator<Row> rowIterator = sheet.iterator();
+        while (rowIterator.hasNext()) {
+            pp.setValue(count);
+
+            Row row = rowIterator.next();
+
+            codigoCabys = "";
+            descrip = "";
+            impuesto = "";
+
+            // Las tres primeras filas son encabezados
+            if (row.getRowNum() < 2) {
+                continue;
+            }
+
+            Iterator<Cell> cellIterator = row.cellIterator();
+            while (cellIterator.hasNext()) {
+                Cell cell = cellIterator.next();
+                if (cell.getColumnIndex() < 16 || cell.getColumnIndex() > 18) {
+                    continue;
+                } // end if
+
+                switch (cell.getColumnIndex()) {
+                    case 16: {
+                        codigoCabys = cell.toString();
+                        if (codigoCabys.contains("cell.toString()")) {
+                            System.out.println("Debug here");
+                        }
+                        break;
+                    }
+                    case 17: {
+                        descrip = cell.toString();
+                        break;
+                    }
+                    case 18: {
+                        //impuesto = cell.getStringCellValue();
+                        impuesto = cell.toString();
+                        if (impuesto.equalsIgnoreCase("Exento")) {
+                            impuesto = "0%";
+                        }
+                        // Elimino el caracter final (%)
+                        impuesto = impuesto.replace("%", "");
+                        break;
+                    }
+                } // end switch
+
+                // Aquí se dispara la actualización del cabys
+                // Solo lo hace cuando impuesto no esté vacío.
+                if (impuesto.isEmpty()) {
+                    continue;
+                }
+
+                descrip = remove8203Char(descrip);
+
+                ps.setString(1, codigoCabys);
+                ps.setString(2, descrip);
+                ps.setDouble(3, Double.parseDouble(impuesto));
+                ps.setString(4, descrip);
+                ps.setDouble(5, Double.parseDouble(impuesto));
+
+                // Este try se usa solo para mostrar un mensaje más específico.
+                try {
+                    CMD.update(ps);
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null,
+                            "Cabys: " + codigoCabys + ", descrip: " + descrip,
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    throw ex;
+                } // end try-catch
+            } // end while
+
+            count++;
+        } // end while
+
+        msg = "Se procesaron " + count + " registros del CABYS.";
+
+        file.close();
+        return msg;
+    } // end actualizarCabys
+
+    /**
+     * Eliminar el caracter invisible 8203 ya que genera un error si se intenta
+     * mandar a la base de datos.
+     *
+     * @param descrip String texto a revisar
+     * @return String texto sin el caracter 8203
+     */
+    public static String remove8203Char(String descrip) {
+        StringBuilder sb = new StringBuilder();
+        char[] codigos = descrip.toCharArray();
+        for (char c : codigos) {
+            if (c == 8203) {
+                continue;
+            } // end if
+            sb.append(c);
+        } // end for
+        return sb.toString();
+    } // end remove8203Char
+
+    public static boolean validarCabys(Connection conn, String codigoTarifa, String codigoCabys) throws SQLException {
+        boolean sonIguales;
+        
+        String sqlSent
+                = "SELECT "
+                + "	("
+                + "		(SELECT impuesto FROM cabys WHERE codigoCabys = ?) -  "
+                + "		(SELECT porcentaje FROM tarifa_iva WHERE codigoTarifa = ?) "
+                + "	) AS diferencia";
+        PreparedStatement ps = conn.prepareStatement(sqlSent, 
+                ResultSet.CONCUR_READ_ONLY, ResultSet.TYPE_SCROLL_SENSITIVE);
+        ps.setString(1, codigoCabys);
+        ps.setString(2, codigoTarifa);
+        ResultSet rs = CMD.select(ps);
+        rs.first();
+        sonIguales = (rs.getDouble("diferencia") == 0.00);
+        ps.close();
+        
+        return sonIguales;
+    } // end validarCabys
 
 } // end class UtilBD

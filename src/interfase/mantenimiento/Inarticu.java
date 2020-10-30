@@ -59,6 +59,7 @@ public class Inarticu extends JFrame {
     private Buscador bd = null;
     private ResultSet rs2 = null;
     private boolean usarivi;    // true=el sistema trabaja con impuesto incluido
+    private boolean usarCabys;
 
     private int buscar = 0;     // 0=Artículos, 1=Familias, 2=Proveedores
     private final int ARTICULOS = 0;
@@ -140,6 +141,7 @@ public class Inarticu extends JFrame {
         cmdBuscar.setVisible(false);
         tabla = "inarticu";
         join = " INNER JOIN tarifa_iva ON inarticu.codigoTarifa = tarifa_iva.codigoTarifa ";
+        join += "INNER JOIN cabys on inarticu.codigoCabys = cabys.codigoCabys ";
         nav = new Navegador();
         conn = c;
         nav.setConexion(conn);
@@ -154,19 +156,22 @@ public class Inarticu extends JFrame {
              2) Proveedor automático
              3) Bodega predeterminada
              4) Sincronización de tablas
+             5) Usar CABYS
              */
             rs = nav.ejecutarQuery(
                     "Select "
                     + "usarivi, "
                     + "asignarprovaut, "
                     + "bodega, "
-                    + "sincronizarTablas "
+                    + "sincronizarTablas, "
+                    + "usarCabys "
                     + "from config");
             if (rs != null && rs.first()) {
                 this.usarivi = rs.getBoolean("usarivi");
                 this.asignarprovaut = rs.getBoolean("asignarprovaut");       // Bosco agregado 30/12/2013
                 this.bodegaDefault = rs.getString("bodega");                 // Bosco agregado 30/12/2013
                 this.sincronizarTablas = rs.getBoolean("sincronizarTablas"); // Bosco agregado 16/08/2016
+                this.usarCabys = rs.getBoolean("usarCabys");
             } // end if
             rs.close();
 
@@ -240,6 +245,11 @@ public class Inarticu extends JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         txtCodigoTarifa = new javax.swing.JFormattedTextField();
         txtDescripTarifa = new javax.swing.JTextField();
+        jLabel27 = new javax.swing.JLabel();
+        txtCodigoCabys = new javax.swing.JFormattedTextField();
+        txtPorcentajeCabys = new javax.swing.JFormattedTextField();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        txaCabys = new javax.swing.JTextArea();
         panelCostosyUtilidades = new javax.swing.JPanel();
         txtArtcosd = new javax.swing.JFormattedTextField();
         jLabel1 = new javax.swing.JLabel();
@@ -551,35 +561,104 @@ public class Inarticu extends JFrame {
             }
         });
 
+        jLabel27.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel27.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel27.setText("CABYS");
+
+        txtCodigoCabys.setColumns(3);
+        try {
+            txtCodigoCabys.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("***************")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        txtCodigoCabys.setToolTipText("Codigo de tarifa");
+        txtCodigoCabys.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtCodigoCabysFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtCodigoCabysFocusLost(evt);
+            }
+        });
+        txtCodigoCabys.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCodigoCabysActionPerformed(evt);
+            }
+        });
+
+        txtPorcentajeCabys.setEditable(false);
+        txtPorcentajeCabys.setColumns(6);
+        txtPorcentajeCabys.setForeground(java.awt.Color.blue);
+        txtPorcentajeCabys.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
+        txtPorcentajeCabys.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtPorcentajeCabys.setToolTipText("Porcentaje impuesto");
+        txtPorcentajeCabys.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtPorcentajeCabysFocusGained(evt);
+            }
+        });
+        txtPorcentajeCabys.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPorcentajeCabysActionPerformed(evt);
+            }
+        });
+
+        txaCabys.setEditable(false);
+        txaCabys.setColumns(20);
+        txaCabys.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        txaCabys.setLineWrap(true);
+        txaCabys.setRows(5);
+        txaCabys.setToolTipText("Catálogo de Bienes y Servicios");
+        txaCabys.setWrapStyleWord(true);
+        txaCabys.setEnabled(false);
+        jScrollPane4.setViewportView(txaCabys);
+
         javax.swing.GroupLayout panelGeneralLayout = new javax.swing.GroupLayout(panelGeneral);
         panelGeneral.setLayout(panelGeneralLayout);
         panelGeneralLayout.setHorizontalGroup(
             panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelGeneralLayout.createSequentialGroup()
-                .addGap(4, 4, 4)
-                .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblArtcode3, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblArtcode1)
-                    .addComponent(jLabel19)
-                    .addComponent(jLabel18))
-                .addGap(8, 8, 8)
-                .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(panelGeneralLayout.createSequentialGroup()
-                        .addComponent(txtProcode, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtProdesc, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelGeneralLayout.createSequentialGroup()
-                        .addComponent(txtArtfam, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtFamilia, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelGeneralLayout.createSequentialGroup()
-                        .addComponent(txtCodigoTarifa, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtDescripTarifa, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtPorcentaje, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(76, 76, 76)
+                        .addGap(4, 4, 4)
+                        .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblArtcode3, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblArtcode1)
+                            .addComponent(jLabel19)
+                            .addComponent(jLabel18)
+                            .addComponent(jLabel27))
+                        .addGap(8, 8, 8)
+                        .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panelGeneralLayout.createSequentialGroup()
+                                .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(txtCodigoCabys)
+                                    .addComponent(txtCodigoTarifa)
+                                    .addComponent(txtProcode, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                                    .addComponent(txtArtfam))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtFamilia, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtProdesc, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelGeneralLayout.createSequentialGroup()
+                                            .addComponent(txtDescripTarifa, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(txtPorcentaje, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelGeneralLayout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(txtPorcentajeCabys, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jScrollPane4))
+                        .addGap(31, 31, 31))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelGeneralLayout.createSequentialGroup()
+                        .addGap(83, 83, 83)
+                        .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(chkAltarot)
+                            .addComponent(chkVinternet)
+                            .addComponent(chkAplicaOferta)
+                            .addComponent(chkEsServicio))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelGeneralLayout.createSequentialGroup()
@@ -596,19 +675,9 @@ public class Inarticu extends JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnQuitarFoto)))
                 .addGap(4, 4, 4))
-            .addGroup(panelGeneralLayout.createSequentialGroup()
-                .addGap(83, 83, 83)
-                .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(chkAltarot)
-                    .addComponent(chkVinternet)
-                    .addComponent(chkAplicaOferta)
-                    .addComponent(chkEsServicio))
-                .addGap(95, 95, 95))
         );
 
         panelGeneralLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAgregarFoto, btnQuitarFoto});
-
-        panelGeneralLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtArtfam, txtProcode});
 
         panelGeneralLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtFamilia, txtProdesc});
 
@@ -618,45 +687,51 @@ public class Inarticu extends JFrame {
                 .addComponent(jSeparator1)
                 .addContainerGap())
             .addGroup(panelGeneralLayout.createSequentialGroup()
-                .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelGeneralLayout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(lblArtcode1)
-                            .addComponent(txtBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblArtcode2, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtOtroC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(4, 4, 4)
-                        .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(lblArtcode3)
-                            .addComponent(txtArtfam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtFamilia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(4, 4, 4)
-                        .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtProcode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel19)
-                            .addComponent(txtProdesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(4, 4, 4)
-                        .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel18)
-                            .addComponent(txtCodigoTarifa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDescripTarifa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtPorcentaje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(54, 54, 54)
-                        .addComponent(chkVinternet)
-                        .addGap(4, 4, 4)
-                        .addComponent(chkAltarot)
-                        .addGap(4, 4, 4)
-                        .addComponent(chkAplicaOferta)
-                        .addGap(4, 4, 4)
-                        .addComponent(chkEsServicio))
-                    .addGroup(panelGeneralLayout.createSequentialGroup()
-                        .addGap(45, 45, 45)
-                        .addComponent(lblFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addGap(45, 45, 45)
+                .addComponent(lblFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnQuitarFoto)
                     .addComponent(btnAgregarFoto)))
+            .addGroup(panelGeneralLayout.createSequentialGroup()
+                .addGap(8, 8, 8)
+                .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(lblArtcode1)
+                    .addComponent(txtBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblArtcode2, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtOtroC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(4, 4, 4)
+                .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(lblArtcode3)
+                    .addComponent(txtArtfam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFamilia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(4, 4, 4)
+                .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtProcode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel19)
+                    .addComponent(txtProdesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(4, 4, 4)
+                .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18)
+                    .addComponent(txtCodigoTarifa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDescripTarifa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPorcentaje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(4, 4, 4)
+                .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel27)
+                    .addComponent(txtCodigoCabys, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPorcentajeCabys, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(chkVinternet)
+                .addGap(4, 4, 4)
+                .addComponent(chkAltarot)
+                .addGap(4, 4, 4)
+                .addComponent(chkAplicaOferta)
+                .addGap(4, 4, 4)
+                .addComponent(chkEsServicio)
+                .addGap(26, 26, 26))
         );
 
         panelGeneralLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAgregarFoto, btnQuitarFoto});
@@ -704,17 +779,17 @@ public class Inarticu extends JFrame {
         txtArtgan1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtArtgan1.setToolTipText("");
         txtArtgan1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        txtArtgan1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtArtgan1ActionPerformed(evt);
-            }
-        });
         txtArtgan1.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtArtgan1FocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtArtgan1FocusLost(evt);
+            }
+        });
+        txtArtgan1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtArtgan1ActionPerformed(evt);
             }
         });
 
@@ -1120,7 +1195,7 @@ public class Inarticu extends JFrame {
                     .addComponent(jLabel32)
                     .addComponent(txtArtpre5, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtArtgan5, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(93, Short.MAX_VALUE))
+                .addContainerGap(94, Short.MAX_VALUE))
         );
 
         panelPrincipal.addTab("Costos - precios - utilidades", panelCostosyUtilidades);
@@ -1360,7 +1435,7 @@ public class Inarticu extends JFrame {
                             .addComponent(txtDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(27, 27, 27)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         panelPrincipal.addTab("Existencias", panelExistencias);
@@ -1415,7 +1490,7 @@ public class Inarticu extends JFrame {
         panelFechasLayout.setVerticalGroup(
             panelFechasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFechasLayout.createSequentialGroup()
-                .addContainerGap(129, Short.MAX_VALUE)
+                .addContainerGap(151, Short.MAX_VALUE)
                 .addGroup(panelFechasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel26)
                     .addComponent(txtArtfech, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1459,7 +1534,7 @@ public class Inarticu extends JFrame {
             .addGroup(panelObservacionesLayout.createSequentialGroup()
                 .addGap(76, 76, 76)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(75, Short.MAX_VALUE))
+                .addContainerGap(76, Short.MAX_VALUE))
         );
 
         panelPrincipal.addTab("Observaciones", panelObservaciones);
@@ -1534,7 +1609,7 @@ public class Inarticu extends JFrame {
                     .addComponent(cboTipoPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnFiltro))
                 .addGap(4, 4, 4)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1807,7 +1882,7 @@ public class Inarticu extends JFrame {
                         .addGap(38, 38, 38)
                         .addComponent(txtArtcode, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtArtdesc, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                        .addComponent(txtArtdesc, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(panelPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 797, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1817,7 +1892,7 @@ public class Inarticu extends JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(lblArtcode)
                     .addComponent(txtArtcode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtArtdesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -2776,6 +2851,34 @@ public class Inarticu extends JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDescripTarifaFocusGained
 
+    private void txtCodigoCabysFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCodigoCabysFocusGained
+        txtCodigoCabys.selectAll();
+    }//GEN-LAST:event_txtCodigoCabysFocusGained
+
+    private void txtCodigoCabysFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCodigoCabysFocusLost
+        try {
+            cargarCabys();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,
+                    ex.getMessage(),
+                    "Mensaje",
+                    JOptionPane.ERROR_MESSAGE);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+        } // end try-catch
+    }//GEN-LAST:event_txtCodigoCabysFocusLost
+
+    private void txtCodigoCabysActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoCabysActionPerformed
+        txtCodigoCabys.transferFocus();
+    }//GEN-LAST:event_txtCodigoCabysActionPerformed
+
+    private void txtPorcentajeCabysFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPorcentajeCabysFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPorcentajeCabysFocusGained
+
+    private void txtPorcentajeCabysActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPorcentajeCabysActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPorcentajeCabysActionPerformed
+
     /**
      * Este método hace una llamada al SP EliminarArticulo() y deposita en la
      * variable sqlResult la cantidad de registros eliminados.
@@ -2882,6 +2985,7 @@ public class Inarticu extends JFrame {
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
@@ -2897,6 +3001,7 @@ public class Inarticu extends JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblArtcode;
     private javax.swing.JLabel lblArtcode1;
@@ -2925,6 +3030,7 @@ public class Inarticu extends JFrame {
     private javax.swing.JTable tblExistencias;
     private javax.swing.JTable tblVentas;
     private javax.swing.JTextArea txaArtObse;
+    private javax.swing.JTextArea txaCabys;
     private javax.swing.JFormattedTextField txtArtcode;
     private javax.swing.JFormattedTextField txtArtcosa;
     private javax.swing.JFormattedTextField txtArtcosd;
@@ -2953,12 +3059,14 @@ public class Inarticu extends JFrame {
     private javax.swing.JFormattedTextField txtArtpre5;
     private javax.swing.JFormattedTextField txtArtreserv;
     private javax.swing.JFormattedTextField txtBarcode;
+    private javax.swing.JFormattedTextField txtCodigoCabys;
     private javax.swing.JFormattedTextField txtCodigoTarifa;
     private javax.swing.JTextField txtDescripTarifa;
     private javax.swing.JFormattedTextField txtDisponible;
     private javax.swing.JTextField txtFamilia;
     private javax.swing.JFormattedTextField txtOtroC;
     private javax.swing.JFormattedTextField txtPorcentaje;
+    private javax.swing.JFormattedTextField txtPorcentajeCabys;
     private javax.swing.JFormattedTextField txtProcode;
     private javax.swing.JTextField txtProdesc;
     private javax.swing.JFormattedTextField txtTransito;
@@ -3006,6 +3114,7 @@ public class Inarticu extends JFrame {
                     Artiseg,
                     Artdurp,
                     codigoTarifa,
+                    codigoCabys,
                     Otroc,
                     Altarot,
                     Vinternet,
@@ -3039,6 +3148,7 @@ public class Inarticu extends JFrame {
 
             Artdurp = txtArtdurp.getText().trim();
             codigoTarifa = txtCodigoTarifa.getText().trim();
+            codigoCabys = txtCodigoCabys.getText().trim();
             Otroc = txtOtroC.getText().trim();
             Altarot = (chkAltarot.isSelected() ? "1" : "0");
             Vinternet = (chkVinternet.isSelected() ? "1" : "0");
@@ -3123,6 +3233,7 @@ public class Inarticu extends JFrame {
                         + Artdurp + ","
                         + "now()" + ","
                         + "'" + codigoTarifa + "'" + ","
+                        + "'" + codigoCabys + "'" + ","
                         + "'" + Otroc + "'" + ","
                         + Altarot + ","
                         + aplicaOferta + ","
@@ -3148,6 +3259,7 @@ public class Inarticu extends JFrame {
                         + "artiseg = " + Artiseg + ","
                         + "artdurp = " + Artdurp + ","
                         + "codigoTarifa = " + "'" + codigoTarifa + "'" + ","
+                        + "codigoCabys  = " + "'" + codigoCabys + "'" + ","
                         + "otroc   = " + "'" + Otroc + "'" + ","
                         + "altarot = " + Altarot + ","
                         + "aplicaOferta = " + aplicaOferta + ","
@@ -3292,7 +3404,12 @@ public class Inarticu extends JFrame {
             txtFamilia.setText("");
             txtProcode.setText("");
             txtProdesc.setText("");
-            txtPorcentaje.setText("");
+            txtCodigoTarifa.setText("");
+            txtDescripTarifa.setText("");
+            txtPorcentaje.setText("0.00");
+            txtCodigoCabys.setText("");
+            txaCabys.setText("");
+            txtPorcentajeCabys.setText("0.00");
             chkVinternet.setSelected(false);
             chkAltarot.setSelected(false);
 
@@ -3391,8 +3508,11 @@ public class Inarticu extends JFrame {
             txtArtfam.setText(rs.getString("artfam").trim());
             txtFamilia.setText(" ");
             txtCodigoTarifa.setText(rs.getString("codigoTarifa"));
-            txtDescripTarifa.setText(rs.getString("descrip"));
+            txtDescripTarifa.setText(rs.getString("tarifa_iva.descrip"));
             txtPorcentaje.setText(Ut.setDecimalFormat(rs.getString("porcentaje"), this.formatoImpuesto));
+            txtCodigoCabys.setText(rs.getString("cabys.codigoCabys"));
+            txaCabys.setText(rs.getString("cabys.descrip"));
+            txtPorcentajeCabys.setText(Ut.setDecimalFormat(rs.getString("cabys.impuesto"), this.formatoImpuesto));
 
             this.txtFamilia.setText(getFamilia(this.txtArtfam.getText()));
 
@@ -3531,21 +3651,20 @@ public class Inarticu extends JFrame {
 
     } // end cargarObjetos
 
-    
     private String getFamilia(String artfam) throws SQLException {
         String sqlSent = "Select ConsultarFamilia(?)";
         String familia = "";
-        
+
         PreparedStatement ps = conn.prepareStatement(sqlSent);
         ps.setString(1, artfam);
-        
+
         ResultSet rsF = CMD.select(ps);
         rsF.first();
         if (rsF.getRow() == 1 && rsF.getString(1) != null) {
             familia = rsF.getString(1);
         } // end if
         ps.close();
-        
+
         return familia;
     } // end getFamilia
 
@@ -3690,6 +3809,24 @@ public class Inarticu extends JFrame {
             txtPorcentaje.setText("0");
         }
 
+        if (txtPorcentajeCabys.getText().trim().equals("")) {
+            txtPorcentajeCabys.setText("0");
+        }
+
+        // Validar que el porcentaje del impuesto coincida con el del cabys
+        if (this.usarCabys) {
+            double ivaA = Double.parseDouble(txtPorcentaje.getText().trim());
+            double ivaB = Double.parseDouble(txtPorcentajeCabys.getText().trim());
+            if (ivaA != ivaB) {
+                JOptionPane.showMessageDialog(null,
+                        "El porcentaje del impuesto no coincide con el del CABYS.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                txtCodigoTarifa.requestFocusInWindow();
+                return false;
+            } // end if
+        } // end if
+
         this.txaArtObseFocusLost(null);
 
         return true;
@@ -3737,7 +3874,8 @@ public class Inarticu extends JFrame {
         double utilidad;
 
         // Obtener el porcentaje de impuesto que usa este artículo
-        float IVA = Float.parseFloat(this.txtPorcentaje.getText().trim());
+        float IVA = Float.parseFloat(
+                this.usarCabys ? this.txtPorcentajeCabys.getText().trim() : this.txtPorcentaje.getText().trim());
         precioSinIVA = "0";
 
         if (preciox.getText().trim().isEmpty()) {
@@ -3798,7 +3936,8 @@ public class Inarticu extends JFrame {
         double costo, utilidad, fpreciox;
 
         // Obtener el porcentaje de impuesto que usa este artículo
-        float IVA = Float.parseFloat(this.txtPorcentaje.getText().trim());
+        float IVA = Float.parseFloat(
+                this.usarCabys ? this.txtPorcentajeCabys.getText().trim() : this.txtPorcentaje.getText().trim());
 
         try {
             costo = Double.parseDouble(
@@ -3857,7 +3996,8 @@ public class Inarticu extends JFrame {
         String depur = "Utilidad";
 
         // Obtener el porcentaje de impuesto que usa este artículo
-        float IVA = Float.parseFloat(this.txtPorcentaje.getText().trim());
+        float IVA = Float.parseFloat(
+                this.usarCabys ? this.txtPorcentajeCabys.getText().trim() : this.txtPorcentaje.getText().trim());
 
         try {
             // Agrego revisión del margen de utilidad 14/09/2010.
@@ -4140,7 +4280,7 @@ public class Inarticu extends JFrame {
         try {
             formato.loadConfiguration();
             this.formatoCantidad = formato.getFormatoCantidad();
-            this.formatoPrecio   = formato.getFormatoPrecio();
+            this.formatoPrecio = formato.getFormatoPrecio();
             this.formatoImpuesto = formato.getFormatoImpuesto();
             this.formatoUtilidad = formato.getFormatoUtilidad();
         } catch (SQLException ex) {
@@ -4164,7 +4304,7 @@ public class Inarticu extends JFrame {
             setTextBoxFormat(this.txtArtpre4, this.formatoPrecio);
             setTextBoxFormat(this.txtArtpre5, this.formatoPrecio);
         } // end if
-        
+
         if (formatoUtilidad != null && !formatoUtilidad.trim().isEmpty()) {
             setTextBoxFormat(this.txtArtgan1, this.formatoUtilidad);
             setTextBoxFormat(this.txtArtgan2, this.formatoUtilidad);
@@ -4173,5 +4313,26 @@ public class Inarticu extends JFrame {
             setTextBoxFormat(this.txtArtgan5, this.formatoUtilidad);
         } // end if
     }
+
+    private void cargarCabys() throws Exception {
+        txaCabys.setText("");
+        txtPorcentajeCabys.setText("0.00");
+
+        String sqlSent
+                = "SELECT  "
+                + "	descrip, "
+                + "	impuesto "
+                + "FROM cabys "
+                + "WHERE codigocabys = ?";
+        PreparedStatement ps = conn.prepareStatement(sqlSent);
+        ps.setString(1, txtCodigoCabys.getText().trim());
+        ResultSet rsx = CMD.select(ps);
+        rsx.first();
+        if (rsx.getRow() == 1 && rsx.getString(1) != null) {
+            txaCabys.setText(rsx.getString("descrip"));
+            txtPorcentajeCabys.setText(Ut.setDecimalFormat(rsx.getString("impuesto"), this.formatoImpuesto));
+        } // end if
+        ps.close();
+    } // end cargarCabys
 
 } // end class

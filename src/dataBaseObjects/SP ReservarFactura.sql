@@ -18,8 +18,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ReservarFactura`(
 	IN `pPrecio` tinyint(2),
 	IN `pCodigoTC` char(3),
 	IN `pTipoca` float,
-	IN `pAfectarRes` char(20),
-	IN `pCodigoTarifa` VARCHAR(3)
+	IN `pAfectarRes` char(20)
 )
 BEGIN
 	-- Autor: Bosco Garita Azofeifa
@@ -49,6 +48,8 @@ BEGIN
 	Declare vRedondearA5       bit;            
 	Declare vExist0            bit;            
 	Declare vDispCompras       decimal(12,2);  
+	DECLARE vCodigotarifa	  VARCHAR(3);
+	DECLARE vCodigoCabys	  VARCHAR(20);
 
 
 	Set vResultado    = 1;
@@ -88,12 +89,21 @@ BEGIN
 
 	-- Obtengo los costos estándard y promedio aplicando el tipo de cambio de la transacción.
 	-- Set vArtcosp = (Select artcosp / pTipoca from inarticu where artcode = pArtcode);
-	Select 
+	/*Select 
 		artcosp / pTipoca,
 		artcost / pTipoca
 	From inarticu
 	where artcode = pArtcode
-	into vArtcosp, vArtcost;
+	into vArtcosp, vArtcost;*/
+	
+	Select 
+		artcosp / pTipoca,
+		artcost / pTipoca,
+		codigoTarifa,
+		codigoCabys
+	into vArtcosp, vArtcost, vCodigoTarifa, vCodigoCabys
+	From inarticu
+	where artcode = pArtcode;
 
 	-- Obtengo la cantidad reservada anterior (si hay)
 	Set vReservadoAnterior =
@@ -148,7 +158,8 @@ BEGIN
 			   artprec   	= pArtprec,
 			   facmont   	= vReservadoActual * pArtprec,
 			   facpive   	= pFacpive,
-			   codigoTarifa = pCodigoTarifa,
+			   codigoTarifa = vCodigoTarifa,
+			   codigocabys = vCodigoCabys,
 			   artcosp   	= vArtcosp,
 			   artcost	= vArtcost
 			Where id = pID and Bodega = pBodega and artcode = pArtcode;
@@ -162,6 +173,7 @@ BEGIN
 			  facmont,
 			  facpive,
 			  codigoTarifa,
+			  codigoCabys,
 			  artcosp,
 			  artcost)
 			Values (
@@ -172,7 +184,8 @@ BEGIN
 			  pArtprec,
 			  pReservado * pArtprec,
 			  pFacpive,
-			  pCodigoTarifa,
+			  vCodigoTarifa,
+			  vCodigoCabys,
 			  vArtcosp,
 			  vArtcost);
 		End if ; -- if-else

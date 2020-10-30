@@ -111,6 +111,7 @@ public class DetalleNotaCredito {
         String sqlSent
                 = "Select  "
                 + "     if((Select artcode from inservice where artcode = fadetall.artcode) is null, 'N','S') as EsServicio,    "
+                + "	fadetall.codigoCabys, "
                 + "	'04' as tipoCod, " // Código interno
                 + "	fadetall.artcode, "
                 + "	Abs(fadetall.faccant) as faccant, "
@@ -122,7 +123,6 @@ public class DetalleNotaCredito {
                 + "	If(Abs(fadetall.facdesc) > 0,'Buen cliente','') as NatDescuento, "
                 + "	(Abs(fadetall.facmont) - Abs(fadetall.facdesc)) as subtotal, "
                 + "	'01' as codImpuesto, "  // 01=IVA, 02=Selectivo de consumo... ver nota 8 del archivo Anexos y estructuras_V4.3.pdf
-                //+ "	If(fadetall.facpive > 0, '08', '01') as codigoTarifa, " // 01=Excento, 08=Tarifa general 13%... ver nota 8.1 del archivo Anexos y estructuras_V4.3.pdf
                 + "	fadetall.codigoTarifa, " // 01=Excento, 08=Tarifa general 13%... ver nota 8.1 del archivo Anexos y estructuras_V4.3.pdf
                 + "	fadetall.facpive, "
                 + "	0.00 as FactorIVA, "    // Esperar forma de cálculo (Julio 2019)
@@ -167,11 +167,11 @@ public class DetalleNotaCredito {
             LineaNotaCredito lineaNC = new LineaNotaCredito();
             lineaNC.setNumeroLinea(line);
             
-            // Hacienda.  Este campo cambia de Codigo a CodigoComercial. Julio 2019
+            lineaNC.setCodigo(rs.getString("codigoCabys").trim());
             Codigo c = new Codigo();
             c.setTipo(rs.getString("tipoCod"));
             
-            lineaNC.setCodigo("");                 // Julio 2019
+            //lineaNC.setCodigo("");                 // Julio 2019
             //lineaNC.setPartidaArancelaria("");     // Julio 2019
             
             c.setCodigo(rs.getString("artcode"));  // Julio 2019

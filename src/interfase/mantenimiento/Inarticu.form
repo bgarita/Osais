@@ -182,10 +182,10 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblArtcode" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtArtcode" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtArtdesc" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="2" attributes="0">
+                  <Component id="lblArtcode" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtArtcode" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtArtdesc" alignment="2" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="panelPrincipal" max="32767" attributes="0"/>
@@ -219,35 +219,60 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblArtcode3" alignment="0" min="-2" pref="49" max="-2" attributes="0"/>
-                          <Component id="lblArtcode1" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel18" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lblArtcode3" alignment="0" min="-2" pref="49" max="-2" attributes="0"/>
+                                  <Component id="lblArtcode1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel18" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel27" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="txtBarcode" min="-2" pref="246" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                          <Component id="txtCodigoCabys" max="32767" attributes="0"/>
+                                          <Component id="txtCodigoTarifa" max="32767" attributes="0"/>
+                                          <Component id="txtProcode" pref="140" max="32767" attributes="0"/>
+                                          <Component id="txtArtfam" max="32767" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Group type="103" alignment="0" groupAlignment="0" attributes="0">
+                                                  <Component id="txtFamilia" linkSize="9" alignment="0" min="-2" pref="288" max="-2" attributes="0"/>
+                                                  <Component id="txtProdesc" linkSize="9" alignment="1" min="-2" pref="253" max="-2" attributes="1"/>
+                                              </Group>
+                                              <Group type="102" alignment="1" attributes="0">
+                                                  <Component id="txtDescripTarifa" min="-2" pref="228" max="-2" attributes="1"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="txtPorcentaje" min="-2" pref="55" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                              <Component id="txtPorcentajeCabys" min="-2" pref="55" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                  </Group>
+                                  <Component id="jScrollPane4" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="83" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="chkAltarot" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="chkVinternet" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="chkAplicaOferta" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="chkEsServicio" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="txtBarcode" alignment="0" min="-2" pref="246" max="-2" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="txtProcode" linkSize="8" min="-2" pref="99" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="txtProdesc" linkSize="9" min="-2" pref="253" max="-2" attributes="1"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="txtArtfam" linkSize="8" min="-2" pref="99" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="txtFamilia" linkSize="9" min="-2" pref="288" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="txtCodigoTarifa" min="-2" pref="99" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="txtDescripTarifa" min="-2" pref="228" max="-2" attributes="1"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="txtPorcentaje" min="-2" pref="55" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <EmptySpace min="-2" pref="76" max="-2" attributes="0"/>
                       <Component id="jSeparator1" min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
@@ -270,16 +295,6 @@
                       </Group>
                       <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="83" pref="83" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="chkAltarot" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="chkVinternet" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="chkAplicaOferta" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="chkEsServicio" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="95" max="-2" attributes="0"/>
-                  </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -289,53 +304,58 @@
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="2" attributes="0">
-                                  <Component id="lblArtcode1" alignment="2" min="-2" max="-2" attributes="0"/>
-                                  <Component id="txtBarcode" alignment="2" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblArtcode2" alignment="2" min="-2" pref="15" max="-2" attributes="0"/>
-                                  <Component id="txtOtroC" alignment="2" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="2" attributes="0">
-                                  <Component id="lblArtcode3" alignment="2" min="-2" max="-2" attributes="0"/>
-                                  <Component id="txtArtfam" alignment="2" min="-2" max="-2" attributes="0"/>
-                                  <Component id="txtFamilia" alignment="2" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="txtProcode" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel19" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="txtProdesc" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jLabel18" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="txtCodigoTarifa" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="txtDescripTarifa" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="txtPorcentaje" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
-                              <Component id="chkVinternet" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                              <Component id="chkAltarot" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                              <Component id="chkAplicaOferta" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                              <Component id="chkEsServicio" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="45" pref="45" max="-2" attributes="0"/>
-                              <Component id="lblFoto" min="-2" pref="273" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <EmptySpace pref="9" max="32767" attributes="0"/>
+                      <EmptySpace min="45" pref="45" max="-2" attributes="0"/>
+                      <Component id="lblFoto" min="-2" pref="273" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnQuitarFoto" linkSize="4" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnAgregarFoto" linkSize="4" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="2" attributes="0">
+                          <Component id="lblArtcode1" alignment="2" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtBarcode" alignment="2" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblArtcode2" alignment="2" min="-2" pref="15" max="-2" attributes="0"/>
+                          <Component id="txtOtroC" alignment="2" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="2" attributes="0">
+                          <Component id="lblArtcode3" alignment="2" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtArtfam" alignment="2" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtFamilia" alignment="2" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="txtProcode" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel19" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtProdesc" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel18" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtCodigoTarifa" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtDescripTarifa" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtPorcentaje" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel27" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtCodigoCabys" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtPorcentajeCabys" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <Component id="jScrollPane4" min="-2" pref="73" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="chkVinternet" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+                      <Component id="chkAltarot" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+                      <Component id="chkAplicaOferta" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+                      <Component id="chkEsServicio" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -592,6 +612,70 @@
                 <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtDescripTarifaFocusGained"/>
               </Events>
             </Component>
+            <Component class="javax.swing.JLabel" name="jLabel27">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="11" style="1"/>
+                </Property>
+                <Property name="horizontalAlignment" type="int" value="4"/>
+                <Property name="text" type="java.lang.String" value="CABYS"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JFormattedTextField" name="txtCodigoCabys">
+              <Properties>
+                <Property name="columns" type="int" value="3"/>
+                <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
+                  <Format format="***************" subtype="-1" type="5"/>
+                </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Codigo de tarifa"/>
+              </Properties>
+              <Events>
+                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtCodigoCabysFocusGained"/>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtCodigoCabysFocusLost"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtCodigoCabysActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JFormattedTextField" name="txtPorcentajeCabys">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+                <Property name="columns" type="int" value="6"/>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="0" id="blue" palette="1" red="0" type="palette"/>
+                </Property>
+                <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+                  <Format format="#,##0.00" subtype="-1" type="0"/>
+                </Property>
+                <Property name="horizontalAlignment" type="int" value="4"/>
+                <Property name="toolTipText" type="java.lang.String" value="Porcentaje impuesto"/>
+              </Properties>
+              <Events>
+                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtPorcentajeCabysFocusGained"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtPorcentajeCabysActionPerformed"/>
+              </Events>
+            </Component>
+            <Container class="javax.swing.JScrollPane" name="jScrollPane4">
+              <AuxValues>
+                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+              </AuxValues>
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+              <SubComponents>
+                <Component class="javax.swing.JTextArea" name="txaCabys">
+                  <Properties>
+                    <Property name="editable" type="boolean" value="false"/>
+                    <Property name="columns" type="int" value="20"/>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Arial" size="12" style="0"/>
+                    </Property>
+                    <Property name="lineWrap" type="boolean" value="true"/>
+                    <Property name="rows" type="int" value="5"/>
+                    <Property name="toolTipText" type="java.lang.String" value="Cat&#xe1;logo de Bienes y Servicios"/>
+                    <Property name="wrapStyleWord" type="boolean" value="true"/>
+                    <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
+                </Component>
+              </SubComponents>
+            </Container>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="panelCostosyUtilidades">
@@ -718,7 +802,7 @@
                           <Component id="txtArtpre5" alignment="2" min="-2" pref="24" max="-2" attributes="0"/>
                           <Component id="txtArtgan5" alignment="2" min="-2" pref="24" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="93" max="32767" attributes="0"/>
+                      <EmptySpace pref="94" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -789,9 +873,9 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtArtgan1ActionPerformed"/>
                 <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtArtgan1FocusGained"/>
                 <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtArtgan1FocusLost"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtArtgan1ActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel5">
@@ -1242,7 +1326,7 @@
                       </Group>
                       <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                       <Component id="jScrollPane2" min="-2" pref="147" max="-2" attributes="0"/>
-                      <EmptySpace pref="29" max="32767" attributes="0"/>
+                      <EmptySpace pref="58" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1522,7 +1606,7 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="129" max="32767" attributes="0"/>
+                      <EmptySpace pref="151" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel26" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtArtfech" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1629,7 +1713,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="76" max="-2" attributes="0"/>
                       <Component id="jScrollPane1" min="-2" pref="199" max="-2" attributes="0"/>
-                      <EmptySpace pref="75" max="32767" attributes="0"/>
+                      <EmptySpace pref="76" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1698,7 +1782,7 @@
                           <Component id="btnFiltro" alignment="2" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                      <Component id="jScrollPane3" pref="294" max="32767" attributes="0"/>
+                      <Component id="jScrollPane3" pref="299" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>

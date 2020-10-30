@@ -1011,7 +1011,7 @@ public class FacturaXML extends javax.swing.JFrame {
             CMD.transaction(conn, CMD.COMMIT);
         } catch (SQLException | JAXBException ex) {
             envio = -1;
-            Logger.getLogger(GeneraXML.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -1024,7 +1024,7 @@ public class FacturaXML extends javax.swing.JFrame {
             try {
                 CMD.transaction(conn, CMD.ROLLBACK);
             } catch (SQLException ex) {
-                Logger.getLogger(FacturaXML.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                 // No se hace nada con el error porque si este error se da
                 // es porque existe un problema a nivel del servidor y por
                 // tanto nada va a funcionar.
@@ -1278,12 +1278,8 @@ public class FacturaXML extends javax.swing.JFrame {
             tran = true;
 
             // Obtener el siguiente consecutivo de factura electrónica
-            //int documentoElectronico = getConsecutivoDocElectronico(facnume, facnd);
             int documentoElectronico = docEl.getConsecutivoDocElectronico("NDB");
 
-            //clave.setSucursal(this.sucursal);
-            //clave.setTerminal(this.terminal);
-            //clave.setTipoComprobante(this.tipoComprobante);
             clave.setSucursal(docEl.getSucursal());
             clave.setTerminal(docEl.getTerminal());
             clave.setTipoComprobante(docEl.getTipoComprobante());
@@ -1293,7 +1289,6 @@ public class FacturaXML extends javax.swing.JFrame {
             notaD.setNumeroConsecutivo(clave.getConsecutivoDoc());
             notaD.setFechaEmision(emisor.getFacfech());
 
-            //clave.setSituacionComprobante(this.situacionComprobante);
             clave.setSituacionComprobante(docEl.getSituacionComprobante());
             clave.setFecha(emisor.getFacfech());
 
@@ -1332,8 +1327,6 @@ public class FacturaXML extends javax.swing.JFrame {
             ResumenFactura resumen = new ResumenFactura();
 
             // Julio 2019
-            //resumen.setCodigoMoneda(emisor.getCodigoMoneda());
-            //resumen.setTipoCambio(emisor.getTipoCambio());
             CodigoTipoMoneda tipoMoneda = new CodigoTipoMoneda();
             tipoMoneda.setCodigoTipoMoneda(emisor.getCodigoMonedaHacienda());
             tipoMoneda.setTipoCambio(emisor.getTipoCambio());

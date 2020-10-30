@@ -65,6 +65,8 @@ public class RegistroNCCXC extends javax.swing.JFrame {
     private boolean procesar = true;   // Se usa para validar si se puede o no procesar
     private String mensajeEr = "";     // Contiene el mensaje por el cual no se puede procesar
     private final Bitacora b = new Bitacora();
+    private boolean usarCabys;
+    private String codigoCabys;
 
     // Constantes de configuración
     private final String bodegaDefault;   // Bodega predeterminada
@@ -176,9 +178,10 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                 + // Generar los movimientos de caja
                 "imprimirFactura,"
                 + // Decide si se imprimen las fact o NC   Bosco agregado 23/09/2018
-                "genasienfac    "
+                "genasienfac,   "
                 + // Generar los asientos de facturas
-                "From config";
+                "   usarCabys "
+                + "From config";
 
         rs = stat.executeQuery(sqlSent);
 
@@ -188,6 +191,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         genmovcaja = rs.getBoolean("genmovcaja");    // Bosco agregado 08/07/2015
         bodegaDefault = rs.getString("bodega");
         usarivi = rs.getBoolean("usarivi");
+        usarCabys = rs.getBoolean("usarCabys");
         variarprecios = rs.getInt("variarprecios");
         bloquearconsf = rs.getBoolean("bloquearconsf");
         precio0 = rs.getBoolean("precio0");
@@ -341,96 +345,96 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         tblDetalle.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         tblDetalle.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Código", "Bodega", "Descripción", "Cantidad", "Precio Unit", "Total", "Existencia", "Disponible", "IVA", "Desc", "Tarifa"
+                "Código", "Bodega", "Descripción", "Cantidad", "Precio Unit", "Total", "Existencia", "Disponible", "IVA", "Desc", "Tarifa", "CABYS"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -1287,20 +1291,23 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         artcode = txtArtcode.getText().trim();
         bodega = txtBodega.getText().trim();
         try {
-            faccant
-                    = Double.parseDouble(
-                            txtFaccant.getText().trim().isEmpty() ? "0"
-                            : Ut.quitarFormato(txtFaccant.getText().trim()));
-            artprec
-                    = Double.parseDouble(
-                            txtArtprec.getText().trim().isEmpty() ? "0"
-                            : Ut.quitarFormato(txtArtprec.getText().trim()));
-            facpive
-                    = Float.parseFloat(
-                            txtFacpive.getText().trim().isEmpty() ? "0"
-                            : Ut.quitarFormato(txtFacpive.getText().trim()));
+            faccant = Double.parseDouble(
+                    txtFaccant.getText().trim().isEmpty() ? "0"
+                    : Ut.quitarFormato(txtFaccant.getText().trim()));
+            artprec = Double.parseDouble(
+                    txtArtprec.getText().trim().isEmpty() ? "0"
+                    : Ut.quitarFormato(txtArtprec.getText().trim()));
+            facpive = Float.parseFloat(
+                    txtFacpive.getText().trim().isEmpty() ? "0"
+                    : Ut.quitarFormato(txtFacpive.getText().trim()));
+            codigoTarifa = this.lblCodigoTarifa.getText().trim();
+            if (this.usarCabys && !UtilBD.validarCabys(conn, codigoTarifa, codigoCabys)) {
+                throw new Exception(
+                        "La tarifa IVA no coincide con el impuesto establecido en el CABYS.\n"
+                        + "Vaya al catálogo de productos y asegúrese que ambos valores sean iguales.");
+            } // end if
         } catch (Exception ex) {
-            Logger.getLogger(RegistroNCCXC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -1309,7 +1316,6 @@ public class RegistroNCCXC extends javax.swing.JFrame {
             return;
         } // end try-catch
 
-        codigoTarifa = lblCodigoTarifa.getText().trim();
         facpdesc = Float.parseFloat(txtFacpdesc.getText().trim());
 
         // Estos campos se incluyen aquí aunque se crean al crear el encabezado
@@ -1352,7 +1358,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                 return;
             } // end if
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroNCCXC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -1421,32 +1427,18 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         // TRANSACCIÓN.
         sqlSent = "Call ReservarNC_CXC("
                 + "   ?,"
-                + // 1 ID del registro
-                "   ?,"
-                + // 2 Bodega
-                "   ?,"
-                + // 3 Artículo
-                "   ?,"
-                + // 4 Cantidad
-                "   ?,"
-                + // 5 Precio
-                "   ?,"
-                + // 6 Porcentaje impuesto de ventas
-                facfech + ","
-                + // Fecha
-                "   ?,"
-                + // 7 Vendedor
-                "   ?,"
-                + // 8 Zona
-                "   ?,"
-                + // 9 Categoría de precio
-                "   ?,"
-                + // 10 Código del tipo de cambio
-                "   ?,"
-                + // 11 Tipo de cambio
-                "   ?,"
-                + // 12 Porcentaje de descuento
-                "   ?)";        // 13 Código de Tarifa
+                + "   ?,"
+                + "   ?,"
+                + "   ?,"
+                + "   ?,"
+                + "   ?,"
+                + facfech + ","
+                + "   ?,"
+                + "   ?,"
+                + "   ?,"
+                + "   ?,"
+                + "   ?,"
+                + "   ?)";
         try {
             PreparedStatement ps;
             ps = conn.prepareStatement(sqlSent,
@@ -1463,7 +1455,6 @@ public class RegistroNCCXC extends javax.swing.JFrame {
             ps.setString(10, codigoTC);
             ps.setFloat(11, tipoca);
             ps.setFloat(12, facpdesc);
-            ps.setString(13, codigoTarifa);
 
             // Inicia la transacción
             this.hayTransaccion = CMD.transaction(conn, CMD.START_TRANSACTION);
@@ -1657,7 +1648,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         try {
             conn.close();
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroNCCXC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         dispose();
@@ -1778,9 +1769,9 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                     "artcode",
                     "artcode",
                     artcode) == null) {
-                
+
                 artcode = UtilBD.getArtcode(conn, artcode); // Buscar en los tres campos principales del catálogo de artículos
-                
+
                 if (artcode != null && !artcode.trim().equals(tempArtcode.trim())) {
                     txtArtcode.setText(artcode);
                     txtArtdesc.setText("");
@@ -1808,7 +1799,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                 bd.lblBuscar.setText("Descripción:");
                 bd.buscar(txtArtcode.getText().trim());
                 bd.setVisible(true);
-                
+
                 // Aún cuando aquí se cambie el valor, éste no cambiará hasta que
                 // corra por segunda vez.
                 txtArtcode.setText(tmp.getText());
@@ -1829,7 +1820,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
             // Traer los datos del artículo.  Los precios vienen convertidos a la
             // moneda que el usuario haya elegido.
             rsArtcode = UtilBD.getArtcode(conn, artcode, Float.parseFloat(tipoca));
-            
+
             if (rsArtcode != null) {
                 rsArtcode.first();
             } // end if
@@ -1851,9 +1842,15 @@ public class RegistroNCCXC extends javax.swing.JFrame {
             actual mientras que en el método que sigue, aunque se trae el código
             de tarifa con el que fue facturado el artículo, no se está usando
             pero si el porcentaje que se usó en ese momento.
-            */
+             */
             this.lblCodigoTarifa.setText(rsArtcode.getString("codigoTarifa"));
             this.lblDescripTarifa.setText(rsArtcode.getString("descripTarifa"));
+            this.codigoCabys = rsArtcode.getString("codigoCabys").trim();
+            
+            // Si este código viene vacío es porque se está usando cabys pero aún no ha sido asignado
+            if (this.codigoCabys.isEmpty()) {
+                throw new Exception("Código cabys sin asignar. \nDebe ir al catálogo de productos y asignarlo.");
+            } // end if
 
             // Verificar si el artículo fue o no comprado por este cliente.
             // Este método realiza también sus propias validaciones.
@@ -1869,7 +1866,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                 txtArtcode.transferFocus();
             } // end if
 
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -1929,7 +1926,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                 return;
             } // end if
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroNCCXC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -1961,7 +1958,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
             disponible = Ut.setDecimalFormat(disponible, "#,##0.00");
             ps.close();
         } catch (Exception ex) {
-            Logger.getLogger(RegistroNCCXC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -2654,7 +2651,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         try {
             lcPrecio = Ut.quitarFormato(lcPrecio);
         } catch (Exception ex) {
-            Logger.getLogger(RegistroNCCXC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -2743,7 +2740,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
 
             } // end if (Double.parseDouble(lcPrecio) != precio)
         } catch (Exception ex) {
-            Logger.getLogger(RegistroNCCXC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -2793,7 +2790,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
             clisald = Double.parseDouble(
                     Ut.quitarFormato(txtClisald.getText()));
         } catch (Exception ex) {
-            Logger.getLogger(RegistroNCCXC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -3101,6 +3098,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                 + "bodexis.artexis - bodexis.artreserv as disponible,"
                 + "wrk_fadetall.facpive,  "
                 + "wrk_fadetall.codigoTarifa,  "
+                + "wrk_fadetall.codigoCabys,  "
                 + "wrk_fadetall.artprec  + wrk_fadetall.artprec * (wrk_fadetall.facpive/100) as artprec,"
                 + "(wrk_fadetall.artprec + wrk_fadetall.artprec * (wrk_fadetall.facpive/100)) * faccant as facmont,"
                 + "wrk_fadetall.facpdesc  "
@@ -3174,6 +3172,9 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                 col++;
                 valor = rs.getString("codigoTarifa");
                 tblDetalle.setValueAt(valor, row, col);
+                col++;
+                valor = rs.getString("codigoCabys");
+                tblDetalle.setValueAt(valor, row, col);
                 col = 0;
                 row++;
             } // end while
@@ -3228,6 +3229,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         txtFacpdesc.setText("0.00");
         lblCodigoTarifa.setText("?");
         lblDescripTarifa.setText("?");
+        this.codigoCabys = "";
     } // end limpiarObjetos
 
     private void createTempCreditNote() {
@@ -3604,7 +3606,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         faccant = "1";
         try {
             rsComprado = stat.executeQuery(sqlSent);
-            
+
             // Este ResultSet siempre tendrá un registro
             rsComprado.first();
             if (!rsComprado.getString("MensajeEr").equals("")) {
@@ -4091,7 +4093,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         try {
             cajaN = getCajaForThisUser(Usuario.USUARIO, conn);
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroNCCXC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -4167,7 +4169,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
             } // end if
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroNCCXC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             errorMsg = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
@@ -4246,7 +4248,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
             } // end if
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroNCCXC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             errorMsg = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
@@ -4264,7 +4266,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
             ps.setInt(1, tran.getRecnume());
             CMD.update(ps);
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroNCCXC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             errorMsg = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch

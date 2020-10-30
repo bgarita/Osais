@@ -92,6 +92,10 @@ public class FormatoTabla extends JFormattedTextField implements TableCellRender
         
     } // end formatColumn
     
+    public void setColumnHeader(JTable table, int column, String header){
+        table.getColumnModel().getColumn(column).setHeaderValue(header);
+    }
+    
     
 
     public void setStringColor(Color c) {StringColor  = c;}

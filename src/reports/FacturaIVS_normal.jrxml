@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Factura" pageWidth="612" pageHeight="792" columnWidth="605" leftMargin="5" rightMargin="2" topMargin="6" bottomMargin="6" uuid="8a6871c2-9858-4e1b-b535-91cec5e8fa2b">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="283"/>
+	<property name="ireport.y" value="21"/>
 	<parameter name="pFacnume" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[new Integer(1)]]></defaultValueExpression>
 	</parameter>
@@ -41,12 +41,18 @@
 	</field>
 	<field name="facdesc" class="java.math.BigDecimal"/>
 	<field name="facimve" class="java.math.BigDecimal"/>
+	<field name="facpive" class="java.lang.Float">
+		<fieldDescription><![CDATA[Porcentaje del impuesto de ventas]]></fieldDescription>
+	</field>
+	<field name="facpdesc" class="java.lang.Float">
+		<fieldDescription><![CDATA[Porcentaje de descuento]]></fieldDescription>
+	</field>
 	<field name="Totalf" class="java.math.BigDecimal"/>
 	<field name="facnume" class="java.lang.Integer">
 		<fieldDescription><![CDATA[Número de factura, ND, NC]]></fieldDescription>
 	</field>
 	<field name="faccant" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[Cantidad]]></fieldDescription>
+		<fieldDescription><![CDATA[Cantidad ]]></fieldDescription>
 	</field>
 	<field name="codigo" class="java.lang.String"/>
 	<field name="artdesc" class="java.lang.String"/>
@@ -122,7 +128,7 @@
 				<textFieldExpression><![CDATA[$F{Direccion}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="371" y="11" width="57" height="15" uuid="de7dd02e-f331-43d3-a496-fed877cb8d92"/>
+				<reportElement x="371" y="11" width="71" height="15" uuid="de7dd02e-f331-43d3-a496-fed877cb8d92"/>
 				<textElement textAlignment="Right">
 					<font fontName="Tahoma" size="11" isBold="true"/>
 				</textElement>
@@ -264,7 +270,7 @@
 				<text><![CDATA[CÓDIGO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="371" y="8" width="41" height="12" forecolor="#FFFFFF" uuid="900785ef-ffbd-4f93-9596-eaa1a381327c"/>
+				<reportElement x="338" y="8" width="60" height="12" forecolor="#FFFFFF" uuid="900785ef-ffbd-4f93-9596-eaa1a381327c"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Arial" size="9" isBold="true"/>
 				</textElement>
@@ -278,18 +284,32 @@
 				<text><![CDATA[TOTAL]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="427" y="8" width="55" height="12" forecolor="#FFFFFF" uuid="7d915ff7-2a9f-4f61-a3f4-89714adb9641"/>
+				<reportElement x="298" y="8" width="40" height="12" forecolor="#FFFFFF" uuid="7d915ff7-2a9f-4f61-a3f4-89714adb9641"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Arial" size="9" isBold="true"/>
 				</textElement>
-				<text><![CDATA[CANTIDAD]]></text>
+				<text><![CDATA[CANT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="444" y="8" width="41" height="12" forecolor="#FFFFFF" uuid="340a59fc-556f-4fe0-8e4d-5933a4ddee58"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IVA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="401" y="8" width="41" height="12" forecolor="#FFFFFF" uuid="5a28ca72-e3d0-4f0a-8e74-4c6f571a4bb8"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DESC]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="14" splitType="Stretch">
 			<textField isStretchWithOverflow="true">
-				<reportElement x="75" y="1" width="270" height="13" uuid="f56196a1-6b12-4b6c-825c-5cbe755d794d"/>
+				<reportElement x="75" y="1" width="227" height="13" uuid="f56196a1-6b12-4b6c-825c-5cbe755d794d"/>
 				<textElement>
 					<font fontName="Tahoma" size="10"/>
 				</textElement>
@@ -310,18 +330,32 @@
 				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00;-#,##0.00">
-				<reportElement x="352" y="1" width="60" height="13" uuid="ea89542d-c247-4fc2-8885-585f98654dcc"/>
+				<reportElement x="338" y="1" width="60" height="13" uuid="ea89542d-c247-4fc2-8885-585f98654dcc"/>
 				<textElement textAlignment="Right">
 					<font fontName="Tahoma" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{artprec}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00;-#,##0.00">
-				<reportElement x="422" y="1" width="60" height="13" uuid="526fab39-b971-4050-b60d-8d4c9f804aea"/>
+				<reportElement x="298" y="1" width="40" height="13" uuid="526fab39-b971-4050-b60d-8d4c9f804aea"/>
 				<textElement textAlignment="Right">
 					<font fontName="Tahoma" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{faccant}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="444" y="1" width="41" height="13" uuid="ddb6c304-b698-4a17-9781-a162147c1fb1"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{facpive}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="401" y="1" width="41" height="13" uuid="d7365422-79fd-4aea-ac33-951da800f6f5"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{facpdesc}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
