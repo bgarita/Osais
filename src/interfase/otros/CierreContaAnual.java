@@ -18,7 +18,8 @@ import logica.contabilidad.PeriodoContable;
 
 /**
  *
- * @author bgarita 14/10/2020
+ * @author bgarita 14/10/2020 La etiqueta lblAsiento solo tendrá contenido
+ * cuando el asiento de cierre haya sido generado.
  */
 public class CierreContaAnual extends javax.swing.JFrame {
 
@@ -35,6 +36,20 @@ public class CierreContaAnual extends javax.swing.JFrame {
         this.conn = Menu.CONEXION.getConnection();
         this.per = new PeriodoContable(conn);
         this.lblPeriodo.setText("Periodo a cerrar: " + per.getMesLetras() + ", " + per.getAño());
+        try {
+            String temp = UtilBD.getFieldValue(conn, "coasientoe", "no_comprob", "periodo", "13");
+            if (temp != null && !temp.trim().isEmpty()) {
+                this.lblAsiento.setText(temp);
+                this.chkListo1.setSelected(true);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+        }
     } // end constructor
 
     /**
@@ -48,29 +63,21 @@ public class CierreContaAnual extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextPane1 = new javax.swing.JTextPane();
-        btnEjecutar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         lblPeriodo = new javax.swing.JLabel();
         btnGenerarAsiento = new javax.swing.JButton();
         btnIniciarEjercicio = new javax.swing.JButton();
         lblAsiento = new javax.swing.JLabel();
+        chkListo1 = new javax.swing.JCheckBox();
+        chkListo2 = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Cierre contable");
+        setTitle("Cierre anual");
 
         jTextPane1.setEditable(false);
-        jTextPane1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jTextPane1.setText("Este proceso traslada todos los movimientos del ejercicio contable a los acumulados anuales y limpia todas las cuentas de ingresos y gastos para iniciar un nuevo ejercicio contable.\nDurante el proceso se genera el asiento de cierre.\nEl tipo de asiento utilizado para este movimiento es el 99. El sistema lo asignará automáticamente por lo que hay que asegurarse de que el tipo esté creado.\n\n\nAsegúrese de:\n1.  Realizar un buen respaldo de la base de datos.\n2.  Que no haya más usuarios en el sistema.\n3.  Asegurarse de que el tipo de asiento 99 exista.");
+        jTextPane1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jTextPane1.setText("Este proceso traslada todos los saldos del ejercicio contable a los acumulados anuales y limpia todas las cuentas de ingresos y gastos para iniciar un nuevo ejercicio contable.\nDe igual forma, los asientos contables son trasladados al histórico y no permitirá que sean modificados.\nDurante el proceso se genera el asiento de cierre.\nEl tipo de asiento utilizado para este movimiento es el 99. El sistema lo asignará automáticamente por lo que hay que asegurarse de que el tipo esté creado.\n\n\nAsegúrese de:\n1.  Realizar un buen respaldo de la base de datos.\n2.  Que no haya más usuarios en el sistema.\n3.  Asegurarse de que el tipo de asiento 99 exista.");
         jScrollPane1.setViewportView(jTextPane1);
-
-        btnEjecutar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnEjecutar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/24x24 png icons/Ejecutar32.png"))); // NOI18N
-        btnEjecutar.setToolTipText("Ejecutar");
-        btnEjecutar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEjecutarActionPerformed(evt);
-            }
-        });
 
         btnSalir.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZCLOSE.png"))); // NOI18N
@@ -96,12 +103,25 @@ public class CierreContaAnual extends javax.swing.JFrame {
             }
         });
 
-        btnIniciarEjercicio.setText("Iniciar ejercicio contable");
+        btnIniciarEjercicio.setText("Ejecutar cierre anual");
+        btnIniciarEjercicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIniciarEjercicioActionPerformed(evt);
+            }
+        });
 
         lblAsiento.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblAsiento.setForeground(java.awt.Color.red);
         lblAsiento.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblAsiento.setText(" ");
+
+        chkListo1.setText("Listo");
+        chkListo1.setEnabled(false);
+        chkListo1.setFocusable(false);
+
+        chkListo2.setText("Listo");
+        chkListo2.setEnabled(false);
+        chkListo2.setFocusable(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -117,15 +137,18 @@ public class CierreContaAnual extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnIniciarEjercicio)
                             .addComponent(btnGenerarAsiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 241, Short.MAX_VALUE)
-                        .addComponent(btnEjecutar, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSalir))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(chkListo1)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(chkListo2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 251, Short.MAX_VALUE)
+                                .addComponent(btnSalir))))
                     .addComponent(lblAsiento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnEjecutar, btnSalir});
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnGenerarAsiento, btnIniciarEjercicio});
 
@@ -137,39 +160,24 @@ public class CierreContaAnual extends javax.swing.JFrame {
                 .addComponent(lblPeriodo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblAsiento)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnSalir)
-                            .addComponent(btnEjecutar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnGenerarAsiento, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnGenerarAsiento, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(chkListo1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnIniciarEjercicio))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnIniciarEjercicio)
+                            .addComponent(chkListo2)))
+                    .addComponent(btnSalir))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnEjecutar, btnSalir});
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnGenerarAsiento, btnIniciarEjercicio});
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjecutarActionPerformed
-        int resp
-                = JOptionPane.showConfirmDialog(null,
-                        "Se dispone a realizar el cierre anual de contabilidad.\n¿Está seguro?",
-                        "Confirme por favor",
-                        JOptionPane.YES_NO_OPTION);
-        if (resp == JOptionPane.NO_OPTION) {
-            return;
-        } // end if
-
-
-    }//GEN-LAST:event_btnEjecutarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         try {
@@ -188,8 +196,9 @@ public class CierreContaAnual extends javax.swing.JFrame {
             // Validaciones
             if (per.getMes() != 13) {
                 JOptionPane.showMessageDialog(null,
+                        "El periodo en proceso no es el de cierre anual.\n"
+                        + "Primero cierrar los periodos anteriores.",
                         "Error",
-                        "El periodo en proceso no es el de cierre anual.",
                         JOptionPane.ERROR_MESSAGE);
                 return;
             } // end if
@@ -224,6 +233,11 @@ public class CierreContaAnual extends javax.swing.JFrame {
                         + "NOTA: No lo anule porque entonces no podrá realizar el cierre.",
                         "Advertencia",
                         JOptionPane.WARNING_MESSAGE);
+                // Esto habilita al usuario a continuar con el cierre.
+                // Esta situación se da cuando el usuario genera el asiento de
+                // cierre pero se sale de la pantalla antes de hacer el cierre anual.
+                this.lblAsiento.setText(temp);
+                this.chkListo1.setSelected(true);
                 return;
             } // end if
 
@@ -298,7 +312,7 @@ public class CierreContaAnual extends javax.swing.JFrame {
         try {
             String db_cr;
             double montoC = 0.00;
-            
+
             PreparedStatement ps = conn.prepareStatement(
                     sqlSent, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
@@ -311,13 +325,13 @@ public class CierreContaAnual extends javax.swing.JFrame {
                 // Los montos positivos van al HABER y los negativos al DEBE
                 db_cr = rs.getDouble("monto") > 0 ? "C" : "D";
                 ra.setMonto(Math.abs(rs.getDouble("monto")), db_cr);
-                
-                if (db_cr.equals("D")){
-                    montoC += Math.abs(rs.getDouble("monto")); 
+
+                if (db_cr.equals("D")) {
+                    montoC += Math.abs(rs.getDouble("monto"));
                 } else {
-                    montoC -= Math.abs(rs.getDouble("monto")); 
+                    montoC -= Math.abs(rs.getDouble("monto"));
                 }
-                
+
                 ra.agregarRegistro();
             } // end while
             ps.close();
@@ -329,6 +343,7 @@ public class CierreContaAnual extends javax.swing.JFrame {
             ra.agregarRegistro();
             ra.guardarAsiento();
             ra.cerrarVentana();
+            this.chkListo1.setSelected(true);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
@@ -338,6 +353,194 @@ public class CierreContaAnual extends javax.swing.JFrame {
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
     }//GEN-LAST:event_btnGenerarAsientoActionPerformed
+
+    private void btnIniciarEjercicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarEjercicioActionPerformed
+        if (!this.chkListo1.isSelected()) {
+            JOptionPane.showMessageDialog(null,
+                    "Aún no ha generado el asiento de cierre.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        } // end if
+
+        if (this.chkListo2.isSelected()) {
+            JOptionPane.showMessageDialog(null,
+                    "El cierre anual ya se ejecutó.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        } // end if
+
+        int resp
+                = JOptionPane.showConfirmDialog(null,
+                        "Se dispone a realizar el cierre anual de contabilidad.\n¿Está seguro?",
+                        "Confirme por favor",
+                        JOptionPane.YES_NO_OPTION);
+        if (resp == JOptionPane.NO_OPTION) {
+            return;
+        } // end if
+        try {
+            // Una última verificación para asegurar que el asiento de cierre ya fue generado
+            String temp = UtilBD.getFieldValue(conn, "coasientoe", "no_comprob", "periodo", "13");
+            if (temp == null || temp.trim().isEmpty()) {
+                throw new Exception("El asiento de cierre no ha sido generado.");
+            } // end if
+        } catch (Exception ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            return;
+        } // end try-catch
+
+        // Trasladar los saldos al acumulado y limpiar los campos para nuevo ejercicio contable
+        String sqlSent
+                = "UPDATE cocatalogo "
+                + "	SET ano_anter = ano_anter + db_fecha - cr_fecha + db_mes - cr_mes, "
+                + "		cr_fecha = 0,  "
+                + "		db_fecha = 0,  "
+                + "		db_mes = 0,    "
+                + "		cr_mes = 0";
+
+        try {
+            // Iniciar la transacción
+            CMD.transaction(conn, CMD.START_TRANSACTION);
+
+            PreparedStatement ps = conn.prepareStatement(sqlSent);
+            CMD.update(ps);
+            ps.close();
+
+            // Marcar el perio 13 como cerrado
+            sqlSent
+                    = "Update coperiodoco "
+                    + "   Set cerrado = 1 "
+                    + "Where mes = ? and año = ? ";
+
+            ps = conn.prepareStatement(sqlSent);
+            ps.setInt(1, per.getMes());
+            ps.setInt(2, per.getAño());
+            CMD.update(ps);
+            ps.close();
+
+            // Traslado el asiento de cierre al histórico y lo elimino del actual
+            sqlSent
+                    = "INSERT INTO coasientod( "
+                    + "	no_comprob, "
+                    + "	tipo_comp, "
+                    + "	descrip, "
+                    + "	db_cr, "
+                    + "	monto, "
+                    + "	mayor, "
+                    + "	sub_cta, "
+                    + "	sub_sub, "
+                    + "	colect "
+                    + "	) "
+                    + "	SELECT  "
+                    + "		d.no_comprob, "
+                    + "		d.tipo_comp, "
+                    + "		d.descrip, "
+                    + "		d.db_cr, "
+                    + "		d.monto, "
+                    + "		d.mayor, "
+                    + "		d.sub_cta, "
+                    + "		d.sub_sub, "
+                    + "		d.colect "
+                    + "	FROM coasientod d "
+                    + "	INNER JOIN coasientoe e ON  "
+                    + "		d.no_comprob = e.no_comprob  "
+                    + "		AND d.tipo_comp = e.tipo_comp "
+                    + "	WHERE d.tipo_comp = 99 AND e.periodo = 13";
+            ps = conn.prepareStatement(sqlSent);
+            CMD.update(ps);
+            ps.close();
+
+            sqlSent
+                    = "INSERT INTO hcoasientoe( "
+                    + "	no_comprob, "
+                    + "	fecha_comp, "
+                    + "	no_refer, "
+                    + "	tipo_comp, "
+                    + "	descrip, "
+                    + "	usuario, "
+                    + "	periodo, "
+                    + "	modulo, "
+                    + "	documento, "
+                    + "	movtido, "
+                    + "	enviado, "
+                    + "	asientoAnulado "
+                    + "	) "
+                    + "	SELECT  "
+                    + "		no_comprob, "
+                    + "		fecha_comp, "
+                    + "		no_refer, "
+                    + "		tipo_comp, "
+                    + "		descrip, "
+                    + "		usuario, "
+                    + "		periodo, "
+                    + "		modulo, "
+                    + "		documento, "
+                    + "		movtido, "
+                    + "		enviado, "
+                    + "		asientoAnulado "
+                    + "FROM coasientoe "
+                    + "WHERE tipo_comp = 99 AND periodo = 13";
+            ps = conn.prepareStatement(sqlSent);
+            CMD.update(ps);
+            ps.close();
+
+            // Eliminar el asiento de cierre de la tabla actual
+            sqlSent
+                    = "DELETE coasientod FROM coasientod "
+                    + "INNER JOIN coasientoe ON coasientod.no_comprob = coasientoe.no_comprob "
+                    + "AND coasientod.tipo_comp = coasientoe.tipo_comp "
+                    + "WHERE coasientod.tipo_comp = 99 "
+                    + "AND coasientoe.periodo = 13";
+            ps = conn.prepareStatement(sqlSent);
+            CMD.update(ps);
+            ps.close();
+
+            sqlSent
+                    = "DELETE FROM coasientoe "
+                    + "WHERE tipo_comp = 99 "
+                    + "AND periodo = 13";
+            ps = conn.prepareStatement(sqlSent);
+            CMD.update(ps);
+            ps.close();
+
+            // Actualizar la tabla de configuración contable
+            sqlSent
+                    = "UPDATE configcuentas SET  "
+                    + "	mesactual = If (mesCierrea = 12, 1, mesCierreA + 1), "
+                    + "	añoactual = añoactual + 1";
+            ps = conn.prepareStatement(sqlSent);
+            CMD.update(ps);
+            ps.close();
+
+            CMD.transaction(conn, CMD.COMMIT);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            try {
+                CMD.transaction(conn, CMD.ROLLBACK);
+            } catch (SQLException ex1) {
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex1);
+            }
+            return;
+        } // end try-catch
+
+        this.chkListo2.setSelected(true);
+
+        // Cargar el nuevo periodo
+        per.refrecarPeriodo();
+
+        JOptionPane.showMessageDialog(null,
+                "Cierre anual realizado exitosamente!\b\n"
+                + "Periodo de proceso actual: " + per.getDescrip(),
+                "Mensaje",
+                JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_btnIniciarEjercicioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -374,10 +577,11 @@ public class CierreContaAnual extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnEjecutar;
     private javax.swing.JButton btnGenerarAsiento;
     private javax.swing.JButton btnIniciarEjercicio;
     private javax.swing.JButton btnSalir;
+    private javax.swing.JCheckBox chkListo1;
+    private javax.swing.JCheckBox chkListo2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextPane jTextPane1;
     private javax.swing.JLabel lblAsiento;

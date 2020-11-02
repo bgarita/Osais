@@ -102,6 +102,7 @@ public class TablaConteo extends JFrame {
         cmdCerrar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         cmdCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/control-power.png"))); // NOI18N
         cmdCerrar.setText("Cancelar");
+        cmdCerrar.setPreferredSize(new java.awt.Dimension(101, 32));
         cmdCerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmdCerrarActionPerformed(evt);
@@ -119,6 +120,8 @@ public class TablaConteo extends JFrame {
         cmdAceptar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         cmdAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/disk.png"))); // NOI18N
         cmdAceptar.setText("Aceptar");
+        cmdAceptar.setMaximumSize(new java.awt.Dimension(97, 32));
+        cmdAceptar.setPreferredSize(new java.awt.Dimension(97, 28));
         cmdAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmdAceptarActionPerformed(evt);
@@ -169,10 +172,9 @@ public class TablaConteo extends JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(cmdAceptar)
+                        .addComponent(cmdAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmdCerrar)
-                        .addGap(120, 120, 120))
+                        .addComponent(cmdCerrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -193,7 +195,8 @@ public class TablaConteo extends JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(chkRegenerar)
                                     .addComponent(chkOrdenarxdesc))))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmdAceptar, cmdCerrar});
@@ -218,10 +221,10 @@ public class TablaConteo extends JFrame {
                 .addComponent(chkOrdenarxdesc)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(chkRegenerar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cmdCerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmdAceptar))
+                    .addComponent(cmdCerrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmdAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(4, 4, 4))
         );
 
@@ -322,7 +325,7 @@ public class TablaConteo extends JFrame {
             ps.close();
             hayTran = false;
         } catch (SQLException ex) {
-            Logger.getLogger(TablaConteo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),
@@ -333,7 +336,7 @@ public class TablaConteo extends JFrame {
                 try {
                     CMD.transaction(conn, CMD.ROLLBACK);
                 } catch (SQLException ex1) {
-                    Logger.getLogger(TablaConteo.class.getName()).log(Level.SEVERE, null, ex1);
+                    Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex1);
                     JOptionPane.showMessageDialog(
                             null,
                             ex1.getMessage(),

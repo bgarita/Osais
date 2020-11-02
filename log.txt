@@ -49,3 +49,14 @@ Vaya al catálogo de productos y asegúrese que ambos valores sean iguales.]
 [Sun Oct 25 21:10:33 CST 2020][ERROR][Usuario: bgarita][interfase.reportes.Reportes--> Unknown column name : factext]
 [Mon Oct 26 18:17:12 CST 2020][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
 Vaya al menú Registro y elija Tipo de cambio.]
+[Thu Oct 29 22:15:59 CST 2020][ERROR][Usuario: bgarita][interfase.transacciones.RegistroAsientos--> Esta fecha se encuentra en un periodo cerrado.]
+[Thu Oct 29 22:19:15 CST 2020][ERROR][Usuario: bgarita][interfase.transacciones.RegistroAsientos--> Esta fecha se encuentra en un periodo cerrado.]
+[Sat Oct 31 21:20:49 CST 2020][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.]
+[Sat Oct 31 21:24:04 CST 2020][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.]
+[Sat Oct 31 21:51:29 CST 2020][ERROR][Usuario: bgarita][interfase.otros.CierreContaAnual--> Table 'laflor.coperiodo' doesn't exist]
+[Sat Oct 31 22:01:46 CST 2020][ERROR][Usuario: bgarita][logica.contabilidad.PeriodoContable--> Hay una incongruencia entre la configuración de los periodos contables y el mes de proceso actual.]
+[Sat Oct 31 22:14:15 CST 2020][ERROR][Usuario: null][accesoDatos.DataBaseConnection--> Could not create connection to database server. Attempted reconnect 3 times. Giving up.]
+[Sun Nov 01 08:10:34 CST 2020][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.]
