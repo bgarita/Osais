@@ -60,7 +60,10 @@ public class RegistroAsientos extends javax.swing.JFrame {
     private boolean validandoFecha;
     private final Connection conn;
     private final PeriodoContable per; // Carga todos los datos del periodo contable actual
-    private JLabel lblDescripA;
+    
+    // Este estiqueta tendrá el siguiente valor al terminar el asiento de cierre anual:
+    // this.lblDescripA.setText("Comprobante: " + asientoE.getNo_comprob() + ", tipo: " + asientoE.getTipo_comp());
+    private JLabel lblDescripA; // Se usa para indicar que se está generando el asiento de cierre anual
 
     /**
      * Creates new form RegistroAsientos
@@ -904,7 +907,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
         try {
             // La conexión no se cierra cuando es el asiento de cierre anual
             // ya que ésta viene desde otro proceso.
-            if (this.lblDescripA == null){
+            if (this.lblDescripA == null) {
                 conn.close();
             }
         } catch (SQLException ex) {
@@ -1257,10 +1260,10 @@ public class RegistroAsientos extends javax.swing.JFrame {
         asientoE.setTipo_comp(tipo);
         asientoE.setDescrip(this.txtDescrip.getText().trim());
         asientoE.setFecha_comp(fecha_comp);
-        
+
         // Si esta etiqueta existe es porque se está generando el asiento de
         // cierre anual. El método setCierreAnual cambia el periodo y la refernecia.
-        if (this.lblDescripA != null){
+        if (this.lblDescripA != null) {
             asientoE.setCierreAnual(true);
         } // end if
         asientoE.setUsuario(Menu.USUARIOBD);
@@ -1513,21 +1516,19 @@ public class RegistroAsientos extends javax.swing.JFrame {
         } // end if
 
         this.txtCuenta.setEnabled(true);
+        asientoE.setNo_refer(0); // Esto obliga a cambiar la referencia
 
         try {
             // Si este label es null es porque no es el asiento de cierre.
             // Y el mensaje no aplica para el asiento de cierre.
             if (this.lblDescripA == null) {
                 if (!UtilBD.CGfechaValida(conn, datFecha_comp.getDate())) {
-                    JOptionPane.showMessageDialog(null,
-                            "Esta fecha se encuentra en un periodo cerrado.",
-                            "Error",
-                            JOptionPane.ERROR_MESSAGE);
                     this.txtCuenta.setEnabled(false);
+                    throw new Exception("Esta fecha se encuentra en un periodo cerrado.");
                 } // end if
             } // end if
 
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
@@ -2108,10 +2109,19 @@ public class RegistroAsientos extends javax.swing.JFrame {
 
     private void setReferencia() {
         // La referencia se compone de periodo + tipo de asiento + año
-        if (this.lblDescripA != null){ // Solo existe para el asiento de cierre anual.
+        if (this.lblDescripA != null) { // Solo existe para el asiento de cierre anual.
             asientoE.setCierreAnual(true);
         } // end if
-        
+
+        if (asientoE.getNo_refer() == 0) {
+            // Pongo la fecha que esté en este momento para que se pueda
+            // generar la referencia.
+            if (this.datFecha_comp.getDate() != null) {
+                Timestamp t = new Timestamp(this.datFecha_comp.getDate().getTime());
+                asientoE.setFecha_comp(t);
+            } // end if
+        } // end if
+
         this.txtNo_refer.setText(asientoE.getNo_refer() + "");
     } // end if
 
@@ -2193,8 +2203,8 @@ public class RegistroAsientos extends javax.swing.JFrame {
     public void setDescripA(JLabel lblDescripA) {
         this.lblDescripA = lblDescripA;
     }
-    
-    public void cerrarVentana(){
+
+    public void cerrarVentana() {
         this.btnSalirActionPerformed(null);
     }
 }

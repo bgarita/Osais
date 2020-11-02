@@ -302,6 +302,7 @@ public class Menu extends javax.swing.JFrame {
         mnuMonedas = new javax.swing.JMenuItem();
         mnuCentroCosto = new javax.swing.JMenuItem();
         jSeparator12 = new javax.swing.JPopupMenu.Separator();
+        mnuCatalosConta = new javax.swing.JMenu();
         mnuPeriodos = new javax.swing.JMenuItem();
         mnuCatalogoC = new javax.swing.JMenuItem();
         mnuCatalogoCont = new javax.swing.JMenuItem();
@@ -433,6 +434,7 @@ public class Menu extends javax.swing.JFrame {
         jSeparator21 = new javax.swing.JPopupMenu.Separator();
         mnuMovAux = new javax.swing.JMenuItem();
         mnuCierre = new javax.swing.JMenu();
+        mnuCierreInventario = new javax.swing.JMenu();
         mnuPrepararTabla = new javax.swing.JMenuItem();
         mnuListadoToma = new javax.swing.JMenuItem();
         mnuDigitarConteo = new javax.swing.JMenuItem();
@@ -443,8 +445,8 @@ public class Menu extends javax.swing.JFrame {
         jSeparator9 = new javax.swing.JPopupMenu.Separator();
         mnuCierreCaja = new javax.swing.JMenuItem();
         jSeparator22 = new javax.swing.JPopupMenu.Separator();
+        mnuCierreConta = new javax.swing.JMenu();
         mnuCiereContaMensual = new javax.swing.JMenuItem();
-        mnuAyudaCierreAnual = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         mnuHerramientas = new javax.swing.JMenu();
         mnuIntegridad = new javax.swing.JMenuItem();
@@ -634,6 +636,8 @@ public class Menu extends javax.swing.JFrame {
         mnuArchivo.add(mnuCentroCosto);
         mnuArchivo.add(jSeparator12);
 
+        mnuCatalosConta.setText("Contabilidad");
+
         mnuPeriodos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         mnuPeriodos.setText("Períodos contables");
         mnuPeriodos.addActionListener(new java.awt.event.ActionListener() {
@@ -641,7 +645,7 @@ public class Menu extends javax.swing.JFrame {
                 mnuPeriodosActionPerformed(evt);
             }
         });
-        mnuArchivo.add(mnuPeriodos);
+        mnuCatalosConta.add(mnuPeriodos);
 
         mnuCatalogoC.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         mnuCatalogoC.setText("Tipos de asiento");
@@ -651,7 +655,7 @@ public class Menu extends javax.swing.JFrame {
                 mnuCatalogoCActionPerformed(evt);
             }
         });
-        mnuArchivo.add(mnuCatalogoC);
+        mnuCatalosConta.add(mnuCatalogoC);
 
         mnuCatalogoCont.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         mnuCatalogoCont.setText("Cuentas");
@@ -660,7 +664,9 @@ public class Menu extends javax.swing.JFrame {
                 mnuCatalogoContActionPerformed(evt);
             }
         });
-        mnuArchivo.add(mnuCatalogoCont);
+        mnuCatalosConta.add(mnuCatalogoCont);
+
+        mnuArchivo.add(mnuCatalosConta);
         mnuArchivo.add(jSeparator15);
 
         mnuCajas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/pos-terminal-16.png"))); // NOI18N
@@ -1587,13 +1593,15 @@ public class Menu extends javax.swing.JFrame {
         mnuCierre.setMnemonic('i');
         mnuCierre.setText("Cierre");
 
+        mnuCierreInventario.setText("Inventario");
+
         mnuPrepararTabla.setText("Preparar tabla para la toma física");
         mnuPrepararTabla.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuPrepararTablaActionPerformed(evt);
             }
         });
-        mnuCierre.add(mnuPrepararTabla);
+        mnuCierreInventario.add(mnuPrepararTabla);
 
         mnuListadoToma.setText("Imprimir listado para la toma física");
         mnuListadoToma.addActionListener(new java.awt.event.ActionListener() {
@@ -1601,7 +1609,7 @@ public class Menu extends javax.swing.JFrame {
                 mnuListadoTomaActionPerformed(evt);
             }
         });
-        mnuCierre.add(mnuListadoToma);
+        mnuCierreInventario.add(mnuListadoToma);
 
         mnuDigitarConteo.setText("Digitar conteo físico");
         mnuDigitarConteo.addActionListener(new java.awt.event.ActionListener() {
@@ -1609,7 +1617,7 @@ public class Menu extends javax.swing.JFrame {
                 mnuDigitarConteoActionPerformed(evt);
             }
         });
-        mnuCierre.add(mnuDigitarConteo);
+        mnuCierreInventario.add(mnuDigitarConteo);
 
         mnuDiferencias.setText("Imprimir listado de diferencias");
         mnuDiferencias.addActionListener(new java.awt.event.ActionListener() {
@@ -1617,7 +1625,7 @@ public class Menu extends javax.swing.JFrame {
                 mnuDiferenciasActionPerformed(evt);
             }
         });
-        mnuCierre.add(mnuDiferencias);
+        mnuCierreInventario.add(mnuDiferencias);
 
         mnuAplicarAj.setText("Aplicar ajustes de inventario");
         mnuAplicarAj.addActionListener(new java.awt.event.ActionListener() {
@@ -1625,7 +1633,9 @@ public class Menu extends javax.swing.JFrame {
                 mnuAplicarAjActionPerformed(evt);
             }
         });
-        mnuCierre.add(mnuAplicarAj);
+        mnuCierreInventario.add(mnuAplicarAj);
+
+        mnuCierre.add(mnuCierreInventario);
         mnuCierre.add(jSeparator7);
 
         mnuCierreM.setText("Ejecutar cierre mensual");
@@ -1646,24 +1656,25 @@ public class Menu extends javax.swing.JFrame {
         mnuCierre.add(mnuCierreCaja);
         mnuCierre.add(jSeparator22);
 
-        mnuCiereContaMensual.setText("Cierre contable (mensual)");
+        mnuCierreConta.setText("Cierre contabilidad");
+
+        mnuCiereContaMensual.setText("Mensual");
         mnuCiereContaMensual.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuCiereContaMensualActionPerformed(evt);
             }
         });
-        mnuCierre.add(mnuCiereContaMensual);
+        mnuCierreConta.add(mnuCiereContaMensual);
 
-        mnuAyudaCierreAnual.setText("Ayuda cierre anual");
-        mnuCierre.add(mnuAyudaCierreAnual);
-
-        jMenuItem3.setText("Cierre contable (anual)");
+        jMenuItem3.setText("Anual");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem3ActionPerformed(evt);
             }
         });
-        mnuCierre.add(jMenuItem3);
+        mnuCierreConta.add(jMenuItem3);
+
+        mnuCierre.add(mnuCierreConta);
 
         mnuPrincipal.add(mnuCierre);
 
@@ -3932,7 +3943,6 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuArtMenosV;
     private javax.swing.JMenuItem mnuArticulosxprov;
     private javax.swing.JMenuItem mnuAsientos;
-    private javax.swing.JMenuItem mnuAyudaCierreAnual;
     private javax.swing.JMenuItem mnuBackup;
     private javax.swing.JMenuItem mnuBalances;
     private javax.swing.JMenuItem mnuBancos;
@@ -3948,12 +3958,15 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuCambiarDatosFact;
     private javax.swing.JMenuItem mnuCatalogoC;
     private javax.swing.JMenuItem mnuCatalogoCont;
+    private javax.swing.JMenu mnuCatalosConta;
     private javax.swing.JMenuItem mnuCentroCosto;
     private javax.swing.JMenuItem mnuCerrarSesion;
     private javax.swing.JMenuItem mnuCerrarSistema;
     private javax.swing.JMenuItem mnuCiereContaMensual;
     private javax.swing.JMenu mnuCierre;
     private javax.swing.JMenuItem mnuCierreCaja;
+    private javax.swing.JMenu mnuCierreConta;
+    private javax.swing.JMenu mnuCierreInventario;
     private javax.swing.JMenuItem mnuCierreM;
     private javax.swing.JMenuItem mnuClave;
     private javax.swing.JMenuItem mnuClienteFrec;

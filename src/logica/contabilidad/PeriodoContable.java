@@ -94,6 +94,10 @@ public class PeriodoContable {
         } // end try-catch
         
     } // end setData
+    
+    public void refrecarPeriodo(){
+        setData();
+    }
 
     /**
      * Retorna el número de mes (1-12)

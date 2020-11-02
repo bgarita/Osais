@@ -59,11 +59,19 @@ Contabilidad #4 (parqueo don Mincho)
 - Cierres mensuales verificados
 - Configuración para cierre fiscal en diciembre verificado (saldos seguidos, correcto el acumulado)
 
+- Crear proceso para generar asiento de cierre anual basado en asientoc.prg LISTO
+- Crear proceso de cierre anual                                             LISTO
+- Reabrir periodos
 
-- Crear proceso para generar asiento de cierre anual basado en asientoc.prg
-    Pendiente: Registrar asientos para validar que los cambios que se le hicieron
-                a la pantalla de registro de asientos no le hayan afectado la funcionalidad. 
-- Crear proceso de cierre anual
+Mejora: Hacer que la contabilidad sea multi-moneda
+    1.  Agregar el codigo de moneda y el tipo de cambio en las tablas transaccionales
+    2.  Hacer que los reportes se puedan expresar en cualquier moneda.
+        Para eso es necesario:
+        1. Obtener la moneda original
+        2. Obtener la fecha de la transacción
+        Con estos datos se busca el tipo de cambio de la moneda en la cual se desea
+        expresar el reporte y se hace la conversión.  En el caso de los reportes
+        que solo muestran saldos, la fecha que se usa es la del día.
 
 NOTA: Tener en cuenta que aún no se ha cargado ASLCG02
 
