@@ -48,11 +48,14 @@ public class Impuestos_c {
 
         String sqlSent
                 = "SELECT "
-                + " codigoTarifa, "
-                + " descrip, "
-                + " porcentaje "
+                + " tarifa_iva.codigoTarifa, "
+                + " tarifa_iva.descrip, "
+                + " tarifa_iva.porcentaje, "
+                + " tarifa_iva.cuenta, "
+                + " vistacocatalogo.nom_cta "
                 + "FROM tarifa_iva "
-                + "WHERE codigoTarifa = ?";
+                + "Left join vistacocatalogo on tarifa_iva.cuenta = vistacocatalogo.cuenta "
+                + "WHERE tarifa_iva.codigoTarifa = ?";
         try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
@@ -62,11 +65,14 @@ public class Impuestos_c {
             ivM.setCodigoTarifa(codigoTarifa);
             ivM.setDescrip("");
             ivM.setPorcentaje(0);
+            ivM.setCuenta("");
 
             if (rs != null && rs.first()) {
                 ivM.setCodigoTarifa(rs.getString("codigoTarifa"));
                 ivM.setDescrip(rs.getString("descrip"));
                 ivM.setPorcentaje(rs.getFloat("porcentaje"));
+                ivM.setCuenta(rs.getString("cuenta"));
+                ivM.setNom_cta(rs.getString("nom_cta"));
             } // end if
             ps.close();
         } // end try with resources
@@ -152,10 +158,13 @@ public class Impuestos_c {
 
         String sqlSent
                 = "SELECT "
-                + " codigoTarifa, "
-                + " descrip, "
-                + " porcentaje "
-                + "FROM tarifa_iva ";
+                + " tarifa_iva.codigoTarifa, "
+                + " tarifa_iva.descrip, "
+                + " tarifa_iva.porcentaje, "
+                + " tarifa_iva.cuenta, "
+                + " vistacocatalogo.nom_cta "
+                + "FROM tarifa_iva "
+                + "Left join vistacocatalogo on tarifa_iva.cuenta = vistacocatalogo.cuenta ";
         try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
@@ -170,6 +179,8 @@ public class Impuestos_c {
                 ivM.setCodigoTarifa(rs.getString("codigoTarifa"));
                 ivM.setDescrip(rs.getString("descrip"));
                 ivM.setPorcentaje(rs.getFloat("porcentaje"));
+                ivM.setCuenta(rs.getString("cuenta"));
+                ivM.setNom_cta(rs.getString("nom_cta"));
 
                 tmList.add(ivM);
             } // end while
@@ -185,11 +196,14 @@ public class Impuestos_c {
 
         String sqlSent
                 = "SELECT "
-                + " codigoTarifa, "
-                + " descrip, "
-                + " porcentaje "
+                + " tarifa_iva.codigoTarifa, "
+                + " tarifa_iva.descrip, "
+                + " tarifa_iva.porcentaje, "
+                + " tarifa_iva.cuenta, "
+                + " vistacocatalogo.nom_cta "
                 + "FROM tarifa_iva "
-                + "where descrip like ?";
+                + "Left join vistacocatalogo on tarifa_iva.cuenta = vistacocatalogo.cuenta"
+                + "where tarifa_iva.descrip like ?";
         try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
@@ -206,6 +220,8 @@ public class Impuestos_c {
                 ivM.setCodigoTarifa(rs.getString("codigoTarifa"));
                 ivM.setDescrip(rs.getString("descrip"));
                 ivM.setPorcentaje(rs.getFloat("porcentaje"));
+                ivM.setCuenta(rs.getString("cuenta"));
+                ivM.setNom_cta(rs.getString("nom_cta"));
 
                 tmList.add(ivM);
             } // end while
@@ -220,14 +236,15 @@ public class Impuestos_c {
 
         String sqlSent
                 = "INSERT INTO `tarifa_iva` "
-                + "(`codigoTarifa`, `descrip`, `porcentaje`) "
-                + "VALUES (?, ?, ?);";
+                + "(`codigoTarifa`, `descrip`, `porcentaje`, `cuenta`) "
+                + "VALUES (?, ?, ?, ?);";
         try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
             ps.setString(1, this.ivM.getCodigoTarifa());
             ps.setString(2, this.ivM.getDescrip());
             ps.setFloat(3, ivM.getPorcentaje());
+            ps.setString(4, this.ivM.getCuenta());
             this.affectedRecords = CMD.update(ps);
             ps.close();
         } // end try
@@ -243,14 +260,15 @@ public class Impuestos_c {
 
         String sqlSent
                 = "UPDATE `tarifa_iva` SET "
-                + "`descrip` = ?, `porcentaje` = ? "
+                + "`descrip` = ?, `porcentaje` = ?, `cuenta` = ? "
                 + "WHERE codigoTarifa = ?";
         try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
             ps.setString(1, ivM.getDescrip());
-            ps.setFloat(2, this.ivM.getPorcentaje());
-            ps.setString(3, ivM.getCodigoTarifa());
+            ps.setFloat(2, ivM.getPorcentaje());
+            ps.setString(3, ivM.getCuenta());
+            ps.setString(4, ivM.getCodigoTarifa());
 
             this.affectedRecords = CMD.update(ps);
             ps.close();

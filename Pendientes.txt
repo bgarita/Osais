@@ -1,7 +1,4 @@
 
-Compilar y correr en pruebas La Flor.  Es necesario validar que se generan los
-xml de facturación electrónica.  Si no funcionara, se puede deshacer el cambio
-con git restore.  Probado, todo funciona perfectamente 08/07/2020, excepto jasper reports
 
 NOTA: Jasper Reports (el plugin) no funciona con java14. Solo funciona con java 8
 
@@ -56,11 +53,14 @@ PENDIENTE
 
 --- CONTABILIDAD ---
 Contabilidad #4 (parqueo don Mincho)
-- Cierres mensuales verificados
-- Configuración para cierre fiscal en diciembre verificado (saldos seguidos, correcto el acumulado)
+- Modificar la pantalla de impuestos para que incluya la cuenta contable            LISTO
+- Modificar la pantalla de configuración de cuentas para que incluya todas las C.   LISTO
+- Revisar y corregir la integración de la factura a contabilidad                    En proceso...
+- Revisar y corregir la integración de la NC a contabilidad
+- Revisar y corregir la integración de la ND a contabilidad
 
-- Crear proceso para generar asiento de cierre anual basado en asientoc.prg LISTO
-- Crear proceso de cierre anual                                             LISTO
+
+USAR EL ASIENTO 112011 TIPO 1 COMO EJEMPLO PARA VER QUÉ CUENTA VA AL HABER Y CUAL AL DEBE
 - Reabrir periodos
 
 Mejora: Hacer que la contabilidad sea multi-moneda

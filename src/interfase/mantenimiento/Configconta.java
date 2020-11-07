@@ -68,7 +68,7 @@ public class Configconta extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        cmdGuardar = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
         cmdSalir = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         panelGeneral = new javax.swing.JPanel();
@@ -98,27 +98,25 @@ public class Configconta extends JFrame {
         lblNom_cta3 = new javax.swing.JLabel();
         txtDescuento_ve = new javax.swing.JFormattedTextField();
         lblNom_cta4 = new javax.swing.JLabel();
-        txtImpuesto_v = new javax.swing.JFormattedTextField();
-        lblNom_cta5 = new javax.swing.JLabel();
-        panelFactContado = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
-        txtTransitoria = new javax.swing.JFormattedTextField();
+        txtImpuesto_v = new javax.swing.JTextField();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel22 = new javax.swing.JLabel();
+        txtBanco = new javax.swing.JFormattedTextField();
         lblNom_cta6 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         txtVentas_g1 = new javax.swing.JFormattedTextField();
         lblNom_cta7 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         txtDescuento_vg1 = new javax.swing.JFormattedTextField();
         lblNom_cta12 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
         txtVentas_e1 = new javax.swing.JFormattedTextField();
         lblNom_cta13 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
         txtDescuento_ve1 = new javax.swing.JFormattedTextField();
         lblNom_cta14 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        txtImpuesto_v1 = new javax.swing.JFormattedTextField();
-        lblNom_cta15 = new javax.swing.JLabel();
+        txtImpuesto_v2 = new javax.swing.JTextField();
         panelCompras = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
@@ -149,12 +147,12 @@ public class Configconta extends JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Configuración de cuentas contables");
 
-        cmdGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZSAVE.png"))); // NOI18N
-        cmdGuardar.setToolTipText("Guardar registro");
-        cmdGuardar.setMaximumSize(new java.awt.Dimension(93, 29));
-        cmdGuardar.addActionListener(new java.awt.event.ActionListener() {
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZSAVE.png"))); // NOI18N
+        btnGuardar.setToolTipText("Guardar registro");
+        btnGuardar.setMaximumSize(new java.awt.Dimension(93, 29));
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdGuardarActionPerformed(evt);
+                btnGuardarActionPerformed(evt);
             }
         });
 
@@ -175,17 +173,17 @@ public class Configconta extends JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        txtCtaCierre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCtaCierreActionPerformed(evt);
-            }
-        });
         txtCtaCierre.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtCtaCierreFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtCtaCierreFocusLost(evt);
+            }
+        });
+        txtCtaCierre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCtaCierreActionPerformed(evt);
             }
         });
         txtCtaCierre.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -241,12 +239,12 @@ public class Configconta extends JFrame {
         );
         panelGeneralLayout.setVerticalGroup(
             panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelGeneralLayout.createSequentialGroup()
-                .addContainerGap(153, Short.MAX_VALUE)
+            .addGroup(panelGeneralLayout.createSequentialGroup()
+                .addGap(177, 177, 177)
                 .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel21)
                     .addComponent(cboCierreFiscal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
+                .addGap(29, 29, 29)
                 .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel20)
                     .addComponent(txtdescrip, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -258,7 +256,7 @@ public class Configconta extends JFrame {
                     .addComponent(lblNom_cta16)
                     .addComponent(txtCtaCierre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel19))
-                .addGap(189, 189, 189))
+                .addGap(178, 178, 178))
         );
 
         jTabbedPane1.addTab("General", panelGeneral);
@@ -275,7 +273,7 @@ public class Configconta extends JFrame {
 
         jLabel5.setText("Descuento ventas exentas");
 
-        jLabel6.setText("Impuesto de ventas");
+        jLabel6.setText("Impuesto al valor agregado");
 
         txtVentas_g.setColumns(12);
         try {
@@ -283,11 +281,8 @@ public class Configconta extends JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        txtVentas_g.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtVentas_gActionPerformed(evt);
-            }
-        });
+        txtVentas_g.setMinimumSize(new java.awt.Dimension(47, 20));
+        txtVentas_g.setPreferredSize(new java.awt.Dimension(47, 20));
         txtVentas_g.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtVentas_gFocusGained(evt);
@@ -296,12 +291,18 @@ public class Configconta extends JFrame {
                 txtVentas_gFocusLost(evt);
             }
         });
+        txtVentas_g.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtVentas_gActionPerformed(evt);
+            }
+        });
         txtVentas_g.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtVentas_gKeyPressed(evt);
             }
         });
 
+        txtCtaCliente.setColumns(12);
         txtCtaCliente.setText("[Cliente]");
         txtCtaCliente.setEnabled(false);
 
@@ -313,17 +314,18 @@ public class Configconta extends JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        txtDescuento_vg.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDescuento_vgActionPerformed(evt);
-            }
-        });
+        txtDescuento_vg.setPreferredSize(new java.awt.Dimension(47, 20));
         txtDescuento_vg.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtDescuento_vgFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtDescuento_vgFocusLost(evt);
+            }
+        });
+        txtDescuento_vg.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDescuento_vgActionPerformed(evt);
             }
         });
         txtDescuento_vg.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -340,17 +342,18 @@ public class Configconta extends JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        txtVentas_e.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtVentas_eActionPerformed(evt);
-            }
-        });
+        txtVentas_e.setPreferredSize(new java.awt.Dimension(47, 20));
         txtVentas_e.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtVentas_eFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtVentas_eFocusLost(evt);
+            }
+        });
+        txtVentas_e.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtVentas_eActionPerformed(evt);
             }
         });
         txtVentas_e.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -367,17 +370,18 @@ public class Configconta extends JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        txtDescuento_ve.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDescuento_veActionPerformed(evt);
-            }
-        });
+        txtDescuento_ve.setPreferredSize(new java.awt.Dimension(47, 20));
         txtDescuento_ve.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtDescuento_veFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtDescuento_veFocusLost(evt);
+            }
+        });
+        txtDescuento_ve.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDescuento_veActionPerformed(evt);
             }
         });
         txtDescuento_ve.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -389,37 +393,14 @@ public class Configconta extends JFrame {
         lblNom_cta4.setText("cta");
 
         txtImpuesto_v.setColumns(12);
-        try {
-            txtImpuesto_v.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("############")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-        txtImpuesto_v.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtImpuesto_vActionPerformed(evt);
-            }
-        });
-        txtImpuesto_v.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtImpuesto_vFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtImpuesto_vFocusLost(evt);
-            }
-        });
-        txtImpuesto_v.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtImpuesto_vKeyPressed(evt);
-            }
-        });
-
-        lblNom_cta5.setText("cta");
+        txtImpuesto_v.setText("[Tarifa]");
+        txtImpuesto_v.setEnabled(false);
 
         javax.swing.GroupLayout panelFactCreditoLayout = new javax.swing.GroupLayout(panelFactCredito);
         panelFactCredito.setLayout(panelFactCreditoLayout);
         panelFactCreditoLayout.setHorizontalGroup(
             panelFactCreditoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFactCreditoLayout.createSequentialGroup()
+            .addGroup(panelFactCreditoLayout.createSequentialGroup()
                 .addGroup(panelFactCreditoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(jLabel1)
@@ -428,22 +409,24 @@ public class Configconta extends JFrame {
                     .addComponent(jLabel6)
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelFactCreditoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(txtDescuento_ve, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtVentas_e, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtDescuento_vg, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtVentas_g, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtCtaCliente, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtImpuesto_v))
+                .addGroup(panelFactCreditoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtDescuento_ve, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtVentas_e, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtDescuento_vg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtVentas_g, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtCtaCliente)
+                    .addComponent(txtImpuesto_v, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelFactCreditoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblNom_cta1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblNom_cta1, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
                     .addComponent(lblNom_cta2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblNom_cta3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblNom_cta4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblNom_cta5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblNom_cta4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
+
+        panelFactCreditoLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtCtaCliente, txtDescuento_ve, txtDescuento_vg, txtImpuesto_v, txtVentas_e, txtVentas_g});
+
         panelFactCreditoLayout.setVerticalGroup(
             panelFactCreditoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelFactCreditoLayout.createSequentialGroup()
@@ -452,204 +435,169 @@ public class Configconta extends JFrame {
                     .addComponent(txtCtaCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(4, 4, 4)
                 .addGroup(panelFactCreditoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel2)
+                    .addComponent(lblNom_cta1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtVentas_g, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblNom_cta1))
+                    .addComponent(jLabel2))
                 .addGap(4, 4, 4)
                 .addGroup(panelFactCreditoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(lblNom_cta2)
+                    .addComponent(lblNom_cta2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtDescuento_vg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addGap(4, 4, 4)
                 .addGroup(panelFactCreditoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txtVentas_e, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblNom_cta3))
+                    .addComponent(lblNom_cta3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(4, 4, 4)
                 .addGroup(panelFactCreditoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel5)
                     .addComponent(txtDescuento_ve, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblNom_cta4))
+                    .addComponent(lblNom_cta4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(4, 4, 4)
                 .addGroup(panelFactCreditoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(lblNom_cta5)
-                    .addComponent(txtImpuesto_v, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addGap(6, 6, 6))
+                    .addComponent(jLabel6)
+                    .addComponent(txtImpuesto_v, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        panelFactContado.setBorder(javax.swing.BorderFactory.createTitledBorder("Asiento de facturas de contado"));
+        panelFactCreditoLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {txtCtaCliente, txtDescuento_ve, txtDescuento_vg, txtImpuesto_v, txtVentas_e, txtVentas_g});
 
-        jLabel7.setText("Transitoria");
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Asiento de facturas de contado"));
 
-        txtTransitoria.setColumns(12);
-        try {
-            txtTransitoria.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("############")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-        txtTransitoria.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTransitoriaActionPerformed(evt);
-            }
-        });
-        txtTransitoria.addFocusListener(new java.awt.event.FocusAdapter() {
+        jLabel22.setText("Banco");
+
+        txtBanco.setColumns(12);
+        txtBanco.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("############"))));
+        txtBanco.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                txtTransitoriaFocusGained(evt);
+                txtBancoFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                txtTransitoriaFocusLost(evt);
+                txtBancoFocusLost(evt);
             }
         });
-        txtTransitoria.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtBanco.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBancoActionPerformed(evt);
+            }
+        });
+        txtBanco.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtTransitoriaKeyPressed(evt);
+                txtBancoKeyPressed(evt);
             }
         });
 
         lblNom_cta6.setText("cta");
 
-        jLabel8.setForeground(new java.awt.Color(36, 75, 112));
-        jLabel8.setText("Ventas gravadas");
+        jLabel7.setText("Ventas gravadas");
 
         txtVentas_g1.setColumns(12);
-        try {
-            txtVentas_g1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("############")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
         txtVentas_g1.setEnabled(false);
 
         lblNom_cta7.setForeground(new java.awt.Color(36, 75, 112));
         lblNom_cta7.setText("cta");
+        lblNom_cta7.setPreferredSize(new java.awt.Dimension(15, 20));
 
-        jLabel15.setForeground(new java.awt.Color(36, 75, 112));
-        jLabel15.setText("Descuento ventas gravadas");
+        jLabel8.setText("Descuento ventas gravadas");
 
         txtDescuento_vg1.setColumns(12);
-        try {
-            txtDescuento_vg1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("############")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
         txtDescuento_vg1.setEnabled(false);
 
         lblNom_cta12.setForeground(new java.awt.Color(36, 75, 112));
         lblNom_cta12.setText("cta");
 
-        jLabel16.setForeground(new java.awt.Color(36, 75, 112));
-        jLabel16.setText("Ventas exentas");
+        jLabel15.setText("Ventas exentas");
+
+        jLabel23.setText("Descuento ventas exentas");
+
+        jLabel24.setText("Impuesto al valor agregado");
 
         txtVentas_e1.setColumns(12);
-        try {
-            txtVentas_e1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("############")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
         txtVentas_e1.setEnabled(false);
 
         lblNom_cta13.setForeground(new java.awt.Color(36, 75, 112));
         lblNom_cta13.setText("cta");
 
-        jLabel17.setForeground(new java.awt.Color(36, 75, 112));
-        jLabel17.setText("Descuento ventas exentas");
-
         txtDescuento_ve1.setColumns(12);
-        try {
-            txtDescuento_ve1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("############")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
         txtDescuento_ve1.setEnabled(false);
 
         lblNom_cta14.setForeground(new java.awt.Color(36, 75, 112));
         lblNom_cta14.setText("cta");
 
-        jLabel18.setForeground(new java.awt.Color(36, 75, 112));
-        jLabel18.setText("Impuesto de ventas");
+        txtImpuesto_v2.setColumns(12);
+        txtImpuesto_v2.setText("[Tarifa]");
+        txtImpuesto_v2.setEnabled(false);
 
-        txtImpuesto_v1.setColumns(12);
-        try {
-            txtImpuesto_v1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("############")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-        txtImpuesto_v1.setEnabled(false);
-
-        lblNom_cta15.setForeground(new java.awt.Color(36, 75, 112));
-        lblNom_cta15.setText("cta");
-
-        javax.swing.GroupLayout panelFactContadoLayout = new javax.swing.GroupLayout(panelFactContado);
-        panelFactContado.setLayout(panelFactContadoLayout);
-        panelFactContadoLayout.setHorizontalGroup(
-            panelFactContadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelFactContadoLayout.createSequentialGroup()
-                .addGroup(panelFactContadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel8)
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel24)
+                    .addComponent(jLabel23)
                     .addComponent(jLabel15)
-                    .addComponent(jLabel16)
-                    .addComponent(jLabel17)
-                    .addComponent(jLabel18))
+                    .addComponent(jLabel22)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtBanco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtVentas_g1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDescuento_vg1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtVentas_e1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDescuento_ve1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtImpuesto_v2, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelFactContadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtVentas_g1)
-                    .addComponent(txtDescuento_vg1, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
-                    .addComponent(txtVentas_e1)
-                    .addComponent(txtDescuento_ve1)
-                    .addComponent(txtImpuesto_v1)
-                    .addComponent(txtTransitoria))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelFactContadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblNom_cta7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblNom_cta6, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblNom_cta15, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
-                    .addComponent(lblNom_cta14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblNom_cta13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblNom_cta12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblNom_cta6, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
+                    .addComponent(lblNom_cta7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblNom_cta12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblNom_cta13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblNom_cta14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        panelFactContadoLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtDescuento_ve1, txtDescuento_vg1, txtImpuesto_v1, txtTransitoria, txtVentas_e1, txtVentas_g1});
+        jPanel3Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtBanco, txtDescuento_ve1, txtDescuento_vg1, txtImpuesto_v2, txtVentas_e1, txtVentas_g1});
 
-        panelFactContadoLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblNom_cta12, lblNom_cta13, lblNom_cta14, lblNom_cta15, lblNom_cta6, lblNom_cta7});
-
-        panelFactContadoLayout.setVerticalGroup(
-            panelFactContadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelFactContadoLayout.createSequentialGroup()
-                .addGroup(panelFactContadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelFactContadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                        .addComponent(jLabel7)
-                        .addComponent(txtTransitoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelFactContadoLayout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(lblNom_cta6, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelFactContadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel8)
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel22)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtBanco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblNom_cta6)))
+                .addGap(4, 4, 4)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
                     .addComponent(txtVentas_g1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblNom_cta7))
-                .addGap(4, 4, 4)
-                .addGroup(panelFactContadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(lblNom_cta12)
+                    .addComponent(lblNom_cta7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
                     .addComponent(txtDescuento_vg1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel15))
-                .addGap(4, 4, 4)
-                .addGroup(panelFactContadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel16)
+                    .addComponent(lblNom_cta12))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel15)
                     .addComponent(txtVentas_e1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblNom_cta13))
                 .addGap(4, 4, 4)
-                .addGroup(panelFactContadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel17)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel23)
                     .addComponent(txtDescuento_ve1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblNom_cta14))
-                .addGap(4, 4, 4)
-                .addGroup(panelFactContadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(lblNom_cta15)
-                    .addComponent(txtImpuesto_v1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel18)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel24)
+                    .addComponent(txtImpuesto_v2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 16, Short.MAX_VALUE))
         );
+
+        jPanel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblNom_cta12, lblNom_cta13, lblNom_cta14, lblNom_cta6, lblNom_cta7});
+
+        jPanel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {txtBanco, txtDescuento_ve1, txtDescuento_vg1, txtImpuesto_v2, txtVentas_e1, txtVentas_g1});
 
         javax.swing.GroupLayout panelVentasLayout = new javax.swing.GroupLayout(panelVentas);
         panelVentas.setLayout(panelVentasLayout);
@@ -659,15 +607,15 @@ public class Configconta extends JFrame {
                 .addContainerGap()
                 .addGroup(panelVentasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelFactCredito, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelFactContado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         panelVentasLayout.setVerticalGroup(
             panelVentasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelVentasLayout.createSequentialGroup()
                 .addComponent(panelFactCredito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(6, 6, 6)
-                .addComponent(panelFactContado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -825,9 +773,9 @@ public class Configconta extends JFrame {
         panelComprasLayout.setVerticalGroup(
             panelComprasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelComprasLayout.createSequentialGroup()
-                .addGap(158, 158, 158)
+                .addGap(182, 182, 182)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(183, Short.MAX_VALUE))
+                .addContainerGap(179, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Compras", panelCompras);
@@ -894,10 +842,10 @@ public class Configconta extends JFrame {
         );
         panelRecibosCXCLayout.setVerticalGroup(
             panelRecibosCXCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRecibosCXCLayout.createSequentialGroup()
-                .addContainerGap(207, Short.MAX_VALUE)
+            .addGroup(panelRecibosCXCLayout.createSequentialGroup()
+                .addGap(206, 206, 206)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(175, 175, 175))
+                .addContainerGap(196, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Recibos (CXC)", panelRecibosCXC);
@@ -951,35 +899,35 @@ public class Configconta extends JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(cmdGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cmdSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jTabbedPane1))
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmdGuardar, cmdSalir});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnGuardar, cmdSalir});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addGap(6, 6, 6)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPane1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cmdGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmdSalir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6))
+                .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmdGuardar, cmdSalir});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnGuardar, cmdSalir});
 
-        setSize(new java.awt.Dimension(738, 606));
+        pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void mnuGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuGuardarActionPerformed
-        cmdGuardarActionPerformed(evt);
+        btnGuardarActionPerformed(evt);
 }//GEN-LAST:event_mnuGuardarActionPerformed
 
     private void mnuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSalirActionPerformed
@@ -1006,10 +954,8 @@ public class Configconta extends JFrame {
             this.txtDescuento_vgFocusLost(null);
         } else if (campo == this.txtImpuesto_c){
             this.txtImpuesto_cFocusLost(null);
-        } else if (campo == this.txtImpuesto_v){
-            this.txtImpuesto_vFocusLost(null);
-        } else if (campo == this.txtTransitoria){
-            this.txtTransitoriaFocusLost(null);
+        } else if (campo == this.txtBanco){
+            this.txtBancoFocusLost(null);
         } else if (campo == this.txtVentas_e){
             this.txtVentas_eFocusLost(null);
         } else if (campo == this.txtVentas_g){
@@ -1017,14 +963,13 @@ public class Configconta extends JFrame {
         }
 }//GEN-LAST:event_mnuBuscarActionPerformed
 
-    private void cmdGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdGuardarActionPerformed
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // Validaciones
         if (    !checkLength(txtVentas_g)
                 || !checkLength(txtDescuento_vg)
                 || !checkLength(txtVentas_e) 
                 || !checkLength(txtDescuento_ve)
-                || !checkLength(txtImpuesto_v)
-                || !checkLength(txtTransitoria)
+                || !checkLength(txtBanco)
                 || !checkLength(txtCompras_g)
                 || !checkLength(txtCompras_e)
                 || !checkLength(txtImpuesto_c)
@@ -1035,7 +980,6 @@ public class Configconta extends JFrame {
                 || lblNom_cta2.getText().isEmpty() 
                 || lblNom_cta3.getText().isEmpty()
                 || lblNom_cta4.getText().isEmpty()
-                || lblNom_cta5.getText().isEmpty()
                 || lblNom_cta6.getText().isEmpty()
                 || lblNom_cta8.getText().isEmpty()
                 || lblNom_cta9.getText().isEmpty()
@@ -1060,7 +1004,7 @@ public class Configconta extends JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException | SQLInjectionException ex) {
             try {
-                Logger.getLogger(Configconta.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(
                         null,
                         ex.getMessage(),
@@ -1070,11 +1014,11 @@ public class Configconta extends JFrame {
                     CMD.transaction(conn, CMD.ROLLBACK);
                 }
             } catch (SQLException ex1) {
-                Logger.getLogger(Configconta.class.getName()).log(Level.SEVERE, null, ex1);
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex1);
                 b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             }
         }
-}//GEN-LAST:event_cmdGuardarActionPerformed
+}//GEN-LAST:event_btnGuardarActionPerformed
 
     private void cmdSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdSalirActionPerformed
         dispose();       
@@ -1136,20 +1080,6 @@ public class Configconta extends JFrame {
         lblNom_cta14.setText(lblNom_cta4.getText());
     }//GEN-LAST:event_txtDescuento_veFocusLost
 
-    private void txtImpuesto_vFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtImpuesto_vFocusGained
-        txtImpuesto_v.selectAll();
-        campo = txtImpuesto_v;
-    }//GEN-LAST:event_txtImpuesto_vFocusGained
-
-    private void txtImpuesto_vFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtImpuesto_vFocusLost
-        if (!checkLength(txtImpuesto_v)){
-            return;
-        } // end if
-        setNombreCuenta(txtImpuesto_v, lblNom_cta5);
-        txtImpuesto_v1.setText(txtImpuesto_v.getText());
-        lblNom_cta15.setText(lblNom_cta5.getText());
-    }//GEN-LAST:event_txtImpuesto_vFocusLost
-
     private void txtVentas_eActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtVentas_eActionPerformed
         txtVentas_e.transferFocus();
     }//GEN-LAST:event_txtVentas_eActionPerformed
@@ -1165,10 +1095,6 @@ public class Configconta extends JFrame {
     private void txtDescuento_veActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescuento_veActionPerformed
         txtDescuento_ve.transferFocus();
     }//GEN-LAST:event_txtDescuento_veActionPerformed
-
-    private void txtImpuesto_vActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtImpuesto_vActionPerformed
-        txtImpuesto_v.transferFocus();
-    }//GEN-LAST:event_txtImpuesto_vActionPerformed
 
     private void txtVentas_gKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtVentas_gKeyPressed
         if(evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER){
@@ -1193,36 +1119,6 @@ public class Configconta extends JFrame {
             txtDescuento_ve.transferFocus();
         } // end if
     }//GEN-LAST:event_txtDescuento_veKeyPressed
-
-    private void txtImpuesto_vKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtImpuesto_vKeyPressed
-        if(evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER){
-            txtImpuesto_v.transferFocus();
-        } // end if
-    }//GEN-LAST:event_txtImpuesto_vKeyPressed
-
-    private void txtTransitoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTransitoriaActionPerformed
-        txtTransitoria.transferFocus();
-    }//GEN-LAST:event_txtTransitoriaActionPerformed
-
-    private void txtTransitoriaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTransitoriaFocusGained
-        txtTransitoria.selectAll();
-        campo = txtTransitoria;
-    }//GEN-LAST:event_txtTransitoriaFocusGained
-
-    private void txtTransitoriaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTransitoriaFocusLost
-        if (!checkLength(txtTransitoria)){
-            return;
-        } // end if
-        setNombreCuenta(txtTransitoria, lblNom_cta6);
-        txtTransitoria1.setText(txtTransitoria.getText());
-        lblNom_cta11.setText(lblNom_cta6.getText());
-    }//GEN-LAST:event_txtTransitoriaFocusLost
-
-    private void txtTransitoriaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTransitoriaKeyPressed
-        if(evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER){
-            txtTransitoria.transferFocus();
-        } // end if
-    }//GEN-LAST:event_txtTransitoriaKeyPressed
 
     private void txtCompras_gActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCompras_gActionPerformed
         txtCompras_g.transferFocus();
@@ -1311,6 +1207,30 @@ public class Configconta extends JFrame {
         } // end if
     }//GEN-LAST:event_txtCtaCierreKeyPressed
 
+    private void txtBancoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBancoActionPerformed
+        txtBanco.transferFocus();
+    }//GEN-LAST:event_txtBancoActionPerformed
+
+    private void txtBancoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBancoFocusGained
+        txtBanco.selectAll();
+        campo = txtBanco;
+    }//GEN-LAST:event_txtBancoFocusGained
+
+    private void txtBancoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBancoFocusLost
+        if (!checkLength(txtBanco)){
+            return;
+        } // end if
+        setNombreCuenta(txtBanco, lblNom_cta6);
+        txtTransitoria1.setText(txtBanco.getText());
+        lblNom_cta11.setText(lblNom_cta6.getText());
+    }//GEN-LAST:event_txtBancoFocusLost
+
+    private void txtBancoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBancoKeyPressed
+        if(evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER){
+            txtBanco.transferFocus();
+        } // end if
+    }//GEN-LAST:event_txtBancoKeyPressed
+
     
 
     /**
@@ -1346,10 +1266,10 @@ public class Configconta extends JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnGuardar;
     private javax.swing.JComboBox<String> cboCierreFiscal;
     private javax.swing.JCheckBox chkmostrarfechaRep;
     private javax.swing.JCheckBox chkprecierre;
-    private javax.swing.JButton cmdGuardar;
     private javax.swing.JButton cmdSalir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1358,13 +1278,13 @@ public class Configconta extends JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1375,6 +1295,7 @@ public class Configconta extends JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lblNom_cta1;
     private javax.swing.JLabel lblNom_cta10;
@@ -1382,12 +1303,10 @@ public class Configconta extends JFrame {
     private javax.swing.JLabel lblNom_cta12;
     private javax.swing.JLabel lblNom_cta13;
     private javax.swing.JLabel lblNom_cta14;
-    private javax.swing.JLabel lblNom_cta15;
     private javax.swing.JLabel lblNom_cta16;
     private javax.swing.JLabel lblNom_cta2;
     private javax.swing.JLabel lblNom_cta3;
     private javax.swing.JLabel lblNom_cta4;
-    private javax.swing.JLabel lblNom_cta5;
     private javax.swing.JLabel lblNom_cta6;
     private javax.swing.JLabel lblNom_cta7;
     private javax.swing.JLabel lblNom_cta8;
@@ -1398,11 +1317,11 @@ public class Configconta extends JFrame {
     private javax.swing.JMenuItem mnuGuardar;
     private javax.swing.JMenuItem mnuSalir;
     private javax.swing.JPanel panelCompras;
-    private javax.swing.JPanel panelFactContado;
     private javax.swing.JPanel panelFactCredito;
     private javax.swing.JPanel panelGeneral;
     private javax.swing.JPanel panelRecibosCXC;
     private javax.swing.JPanel panelVentas;
+    private javax.swing.JFormattedTextField txtBanco;
     private javax.swing.JFormattedTextField txtCompras_e;
     private javax.swing.JFormattedTextField txtCompras_g;
     private javax.swing.JFormattedTextField txtCtaCierre;
@@ -1414,9 +1333,8 @@ public class Configconta extends JFrame {
     private javax.swing.JFormattedTextField txtDescuento_vg;
     private javax.swing.JFormattedTextField txtDescuento_vg1;
     private javax.swing.JFormattedTextField txtImpuesto_c;
-    private javax.swing.JFormattedTextField txtImpuesto_v;
-    private javax.swing.JFormattedTextField txtImpuesto_v1;
-    private javax.swing.JFormattedTextField txtTransitoria;
+    private javax.swing.JTextField txtImpuesto_v;
+    private javax.swing.JTextField txtImpuesto_v2;
     private javax.swing.JFormattedTextField txtTransitoria1;
     private javax.swing.JFormattedTextField txtVentas_e;
     private javax.swing.JFormattedTextField txtVentas_e1;
@@ -1507,7 +1425,6 @@ public class Configconta extends JFrame {
                     "   ventas_e = ?,    " +
                     "   descuento_vg = ?," +
                     "   descuento_ve = ?," +
-                    "   impuesto_v = ?,  " +
                     "   transitoria = ?, " +
                     "   compras_g = ?,   " +
                     "   compras_e = ?,   " +
@@ -1522,7 +1439,6 @@ public class Configconta extends JFrame {
                     "   ventas_e,    " +
                     "   descuento_vg," +
                     "   descuento_ve," +
-                    "   impuesto_v,  " +
                     "   transitoria, " +
                     "   compras_g,   " +
                     "   compras_e,   " +
@@ -1530,7 +1446,7 @@ public class Configconta extends JFrame {
                     "   ctaCierre,   " +
                     "   mesCierreA,  " +
                     "   mostrarfechaRep) " +
-                    "   Values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"; 
+                    "   Values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"; 
         } // end if
         
         ps = conn.prepareStatement(sqlSent);
@@ -1538,14 +1454,13 @@ public class Configconta extends JFrame {
         ps.setString(2, txtVentas_e.getText());
         ps.setString(3, txtDescuento_vg.getText());
         ps.setString(4, txtDescuento_ve.getText());
-        ps.setString(5, txtImpuesto_v.getText());
-        ps.setString(6, txtTransitoria.getText());
-        ps.setString(7, txtCompras_g.getText());
-        ps.setString(8, txtCompras_e.getText());
-        ps.setString(9, txtImpuesto_c.getText());
-        ps.setString(10, txtCtaCierre.getText());
-        ps.setInt(11, cboCierreFiscal.getSelectedIndex() + 1);
-        ps.setBoolean(12, chkmostrarfechaRep.isSelected());
+        ps.setString(5, txtBanco.getText());
+        ps.setString(6, txtCompras_g.getText());
+        ps.setString(7, txtCompras_e.getText());
+        ps.setString(8, txtImpuesto_c.getText());
+        ps.setString(9, txtCtaCierre.getText());
+        ps.setInt(10, cboCierreFiscal.getSelectedIndex() + 1);
+        ps.setBoolean(11, chkmostrarfechaRep.isSelected());
         
         Ut.isSQLInjection(sqlSent);
         
@@ -1576,8 +1491,7 @@ public class Configconta extends JFrame {
                 this.txtCompras_g.setText(rs.getString("Compras_g"));
                 this.txtDescuento_ve.setText(rs.getString("Descuento_ve"));
                 this.txtDescuento_vg.setText(rs.getString("Descuento_vg"));
-                this.txtImpuesto_v.setText(rs.getString("Impuesto_v"));
-                this.txtTransitoria.setText(rs.getString("Transitoria"));
+                this.txtBanco.setText(rs.getString("Transitoria"));
                 this.txtCompras_g.setText(rs.getString("Compras_g"));
                 this.txtCompras_e.setText(rs.getString("Compras_e"));
                 this.txtImpuesto_c.setText(rs.getString("Impuesto_c"));
@@ -1596,14 +1510,13 @@ public class Configconta extends JFrame {
             this.txtCompras_gFocusLost(null);
             this.txtDescuento_veFocusLost(null);
             this.txtDescuento_vgFocusLost(null);
-            this.txtImpuesto_vFocusLost(null);
-            this.txtTransitoriaFocusLost(null);
+            this.txtBancoFocusLost(null);
             this.txtCompras_gFocusLost(null);
             this.txtCompras_eFocusLost(null);
             this.txtImpuesto_cFocusLost(null);
             this.txtCtaCierreFocusLost(null);
         } catch (SQLException ex) {
-            Logger.getLogger(Configconta.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",

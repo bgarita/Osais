@@ -100,7 +100,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
     private final boolean bloquearNpag;   // Bloquear número de pagos
     private final boolean bloquearcatp;   // Bloquear categoría de precios y descuentos
     private final String codigoTCP;       // Código de maneda predeterminado
-    private final boolean genasienfac;    // Generar los asientos de facturas
+    private boolean genasienfac;          // Generar los asientos de facturas
     private final boolean genmovcaja;     // Generar los movimientos de caja
 
     private int recordID = 0;             // Número único de registro en las tablas de trabajo
@@ -426,6 +426,10 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         } else {
             this.txtClicode.requestFocusInWindow();
         } // end if
+        ps.close();
+        
+        // Validar interface contable
+        revisarRequisitosContables();
     } // constructor
 
     /**
@@ -1979,8 +1983,8 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             codigoTarifa = this.lblCodigoTarifa.getText().trim();
             if (this.usarCabys && !UtilBD.validarCabys(conn, codigoTarifa, codigoCabys)) {
                 throw new Exception(
-                        "La tarifa IVA no coincide con el impuesto establecido en el CABYS.\n" +
-                        "Vaya al catálogo de productos y asegúrese que ambos valores sean iguales.");
+                        "La tarifa IVA no coincide con el impuesto establecido en el CABYS.\n"
+                        + "Vaya al catálogo de productos y asegúrese que ambos valores sean iguales.");
             } // end if
         } catch (Exception ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
@@ -5744,8 +5748,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         ps.close();
 
         // Cargar consecutivo de asientos
-        sqlSent
-                = "Select * from coconsecutivo";
+        sqlSent = "Select * from coconsecutivo";
         ps = conn.prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
         rsX = CMD.select(ps);
@@ -5767,13 +5770,15 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         ps.setShort(1, tipo_comp);
         rsX = CMD.select(ps);
         if (Ut.goRecord(rsX, Ut.FIRST)) {
-            String temp = rsX.getString("max").trim();
-            // Si el max es mayor o igual al consecutivo registrado...
-            if (temp.compareTo(no_comprob.trim()) > 0 || temp.compareTo(no_comprob.trim()) == 0) {
-                no_comprob = (Integer.parseInt(temp) + 1) + "";
-                no_comprob = Ut.lpad(no_comprob.trim(), "0", 10);
+            int tempCon1 = rsX.getInt("max");
+            int tempCon2 = Integer.parseInt(no_comprob);
+            
+            if (tempCon1 >= tempCon2){
+                tempCon2 = tempCon1+1;
             } // end if
-
+            
+            no_comprob = tempCon2 + "";
+            no_comprob = Ut.lpad(no_comprob, "0", 10);
         } // end if
         ps.close();
 
@@ -5834,26 +5839,31 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         ps.close();
 
         // Agregar el detalle del asiento
+        /*
+        Datos en SELECT
+        0.  Impuesto (solo para cuadrar monto)
+        1.  Descuento de ventas exentas
+        2.  Descuento de ventas grabadas
+        3.  Ventas exentas
+        4.  Ventas grabadas
+         */
         sqlSent
-                = "Select "
-                + "	If(config.redond5 = 1, "
-                + "		RedondearA5(sum(facimve)), sum(facimve)) as facimve, "
-                + // Impuesto
-                "	If(config.redond5 = 1, "
-                + "		RedondearA5(sum(If(facimve = 0,facdesc,0))), "
-                + "				    sum(If(facimve = 0,facdesc,0))) as DescVEX,"
-                + // Descuento de ventas exentas
-                "	If(config.redond5 = 1, "
-                + "		RedondearA5(sum(If(facimve > 0,facdesc,0))), "
-                + "				    sum(If(facimve > 0,facdesc,0))) as DescVGR,"
-                + // Descuento de ventas grabadas
-                "	If(config.redond5 = 1, "
-                + "		RedondearA5(sum(If(facimve = 0, facmont, 0))), "
-                + "					sum(If(facimve = 0, facmont, 0))) as VtasExentas,"
-                + "	If(config.redond5 = 1, "
-                + "		RedondearA5(sum(If(facimve > 0, facmont, 0))), "
-                + "					sum(If(facimve > 0, facmont, 0))) as VtasGrabadas "
-                + "from fadetall, config "
+                = "Select  "
+                + " 	If(config.redond5 = 1, "
+                + "         RedondearA5(sum(facimve)), sum(facimve)) as facimve,  "
+                + " 	If(config.redond5 = 1,  "
+                + "         RedondearA5(sum(If(facimve = 0,facdesc,0))),  "
+                + "                         sum(If(facimve = 0,facdesc,0))) as DescVEX, "
+                + " 	If(config.redond5 = 1,  "
+                + "         RedondearA5(sum(If(facimve > 0,facdesc,0))),  "
+                + "                         sum(If(facimve > 0,facdesc,0))) as DescVGR, "
+                + " 	If(config.redond5 = 1,  "
+                + "         RedondearA5(sum(If(facimve = 0, facmont, 0))),  "
+                + "                         sum(If(facimve = 0, facmont, 0))) as VtasExentas, "
+                + " 	If(config.redond5 = 1,  "
+                + "         RedondearA5(sum(If(facimve > 0, facmont, 0))),  "
+                + "                         sum(If(facimve > 0, facmont, 0))) as VtasGrabadas  "
+                + " from fadetall, config "
                 + "where fadetall.facnume = ? and facnd = 0";
 
         ps = conn.prepareStatement(sqlSent,
@@ -5890,10 +5900,10 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         detal.setDescrip("Facturación del " + fecha_comp);
 
         /*
-         * Primera línea del asiento - monto de la factura, débito
+         * Primera línea del asiento - monto de la factura
          */
         detal.setCuenta(cta);
-        db_cr = 0;
+        db_cr = 1;
         detal.setDb_cr(db_cr);
         detal.setMonto(facmont);
         detal.insert();
@@ -5903,12 +5913,12 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         } // end if
 
         /*
-         * Segunda línea del asiento - ventas grabadas, crédito
+         * Segunda línea del asiento - ventas grabadas
          */
         if (vtasGrabadas > 0) {
             cta.setCuentaString(ventas_g);
             detal.setCuenta(cta);
-            db_cr = 1;
+            db_cr = 0;
             detal.setDb_cr(db_cr);
             detal.setMonto(vtasGrabadas);
             detal.insert();
@@ -5918,12 +5928,12 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         } // end if
 
         /*
-         * Tercera línea del asiento - ventas exentas, crédito
+         * Tercera línea del asiento - ventas exentas
          */
         if (vtasExentas > 0) {
             cta.setCuentaString(ventas_e);
             detal.setCuenta(cta);
-            db_cr = 1;
+            db_cr = 0;
             detal.setDb_cr(db_cr);
             detal.setMonto(vtasExentas);
             detal.insert();
@@ -5933,12 +5943,12 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         } // end if
 
         /*
-         * Cuarta línea del asiento - descuento ventas grabadas, débito
+         * Cuarta línea del asiento - descuento ventas grabadas
          */
         if (rsD.getDouble("DescVGR") > 0) {
             cta.setCuentaString(descuento_vg);
             detal.setCuenta(cta);
-            db_cr = 0;
+            db_cr = 1;
             detal.setDb_cr(db_cr);
             detal.setMonto(rsD.getDouble("DescVGR"));
             detal.insert();
@@ -5948,12 +5958,12 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         } // end if
 
         /*
-         * Quinta línea del asiento - descuento ventas exentas, débito
+         * Quinta línea del asiento - descuento ventas exentas
          */
         if (rsD.getDouble("DescVEX") > 0) {
             cta.setCuentaString(descuento_ve);
             detal.setCuenta(cta);
-            db_cr = 0;
+            db_cr = 1;
             detal.setDb_cr(db_cr);
             detal.setMonto(rsD.getDouble("DescVEX"));
             detal.insert();
@@ -5965,18 +5975,54 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         /*
          * Sexta línea del asiento - impuesto, crédito
          */
-        if (rsD.getDouble("facimve") > 0) {
-            cta.setCuentaString(impuesto_v);
+        //        if (rsD.getDouble("facimve") > 0) {
+        //            cta.setCuentaString(impuesto_v);
+        //            detal.setCuenta(cta);
+        //            db_cr = 1;
+        //            detal.setDb_cr(db_cr);
+        //            detal.setMonto(rsD.getDouble("facimve"));
+        //            detal.insert();
+        //            if (detal.isError()) {
+        //                return "ERROR " + detal.getMensaje_error();
+        //            } // end if
+        //        } // end if
+        ps.close();
+
+        /*
+        Obtener una lista de los impuestos y sus respectiavas cuentas
+         */
+        sqlSent = " SELECT  "
+                + " 	tarifa_iva.cuenta, "
+                + " 	if (config.redond5 = 1, "
+                + "	 	RedondearA5(SUM(fadetall.facimve)), SUM(fadetall.facimve)) AS facimve "
+                + " FROM config, fadetall "
+                + " INNER JOIN tarifa_iva ON fadetall.codigoTarifa = tarifa_iva.codigoTarifa "
+                + " WHERE fadetall.facnume = ? and fadetall.facnd = 0 "
+                + " GROUP BY tarifa_iva.cuenta";
+
+        ps = conn.prepareStatement(sqlSent,
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        ps.setInt(1, facnume);
+        rsD = CMD.select(ps);
+        if (!Ut.goRecord(rsD, Ut.FIRST)) {
+            return "ERROR detalle de impuestos no encontrado.";
+        } // end if
+
+        db_cr = 0;
+        rsD.beforeFirst();
+        while (rsD.next()) {
+            if (rsD.getDouble("facimve") == 0) {
+                continue;
+            } // end if
+            cta.setCuentaString(rsD.getString("cuenta"));
             detal.setCuenta(cta);
-            db_cr = 1;
             detal.setDb_cr(db_cr);
             detal.setMonto(rsD.getDouble("facimve"));
             detal.insert();
             if (detal.isError()) {
                 return "ERROR " + detal.getMensaje_error();
             } // end if
-        } // end if
-
+        } // end while
         ps.close();
 
         // Actualizar la tabla de facturas
@@ -6534,5 +6580,51 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                         new javax.swing.text.NumberFormatter(
                                 new java.text.DecimalFormat(formatoCantidad))));
     } // end setTextBoxFormat
+
+    /*
+    No se generan los asientos si existe alguna tarifa sin cuenta asignada.
+    Tampoco se generan los asientos si no se ha hecho la configuración de los mismo.
+    */
+    private void revisarRequisitosContables() throws SQLException {
+        String sqlSent = "SELECT COUNT(*) as cantidad FROM tarifa_iva WHERE cuenta = ''";
+        PreparedStatement ps = conn.prepareStatement(sqlSent,
+                ResultSet.TYPE_SCROLL_SENSITIVE,
+                ResultSet.CONCUR_READ_ONLY);
+
+        ResultSet rs = CMD.select(ps);
+        rs.first();
+
+        if (rs.getInt(1) > 0) {
+            this.genasienfac = false;
+            String msg
+                    = "WARNING Hay " + rs.getInt(1) + " impuestos cuya cuenta contable no ha sido asignada.\n"
+                    + "No se podrán genera los asientos de ventas.";
+            JOptionPane.showMessageDialog(null,
+                    msg,
+                    "Advertencia",
+                    JOptionPane.WARNING_MESSAGE);
+            b.writeToLog(this.getClass().getName() + "--> " + msg);
+        } // end if
+        ps.close();
+        
+        sqlSent
+                = "Select * from configcuentas";
+        ps = conn.prepareStatement(sqlSent,
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        rs = CMD.select(ps);
+        if (!Ut.goRecord(rs, Ut.FIRST)) {
+            this.genasienfac = false;
+            String msg
+                    = "WARNING Aún no se han configurado las cuentas\n "
+                    + "para el asiento de ventas.\n"
+                    + "Los asientos no serán generados.";
+            JOptionPane.showMessageDialog(null,
+                    msg,
+                    "Advertencia",
+                    JOptionPane.WARNING_MESSAGE);
+            b.writeToLog(this.getClass().getName() + "--> " + msg);
+        } // end if
+        ps.close();
+    } // end revisarRequisitosContables
 
 } // end class RegistroFacturasV

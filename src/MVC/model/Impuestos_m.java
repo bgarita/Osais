@@ -8,6 +8,8 @@ public class Impuestos_m {
     private String codigoTarifa;
     private String descrip;
     private float porcentaje;
+    private String cuenta;
+    private String nom_cta;
     
     // Estas variables no son parte de la tabla.  Solo se usan para transportar
     // los errores que ocurran con las clases que invoquen este modelo.
@@ -19,14 +21,18 @@ public class Impuestos_m {
     public Impuestos_m(){
         this.codigoTarifa = "";
         this.descrip = "";
+        this.cuenta = "0";
+        this.nom_cta = "";
         this.error = false;
         this.error_msg = "";
     } // end empty constructor
 
-    public Impuestos_m(String codigoTarifa, String descrip, float porcentaje) {
+    public Impuestos_m(String codigoTarifa, String descrip, float porcentaje, String cuenta, String nom_cta) {
         this.codigoTarifa = codigoTarifa;
         this.descrip = descrip;
         this.porcentaje = porcentaje;
+        this.cuenta = cuenta;
+        this.nom_cta = nom_cta;
         this.error = false;
         this.error_msg = "";
     } // end constructor
@@ -60,6 +66,22 @@ public class Impuestos_m {
         this.porcentaje = porcentaje;
     }
 
+    public String getCuenta() {
+        return cuenta;
+    }
+
+    public String getNom_cta() {
+        return nom_cta;
+    }
+
+    public void setNom_cta(String nom_cta) {
+        this.nom_cta = nom_cta;
+    }
+    
+    public void setCuenta(String cuenta) {
+        this.cuenta = cuenta == null || cuenta.trim().isEmpty() ? "0" : cuenta;
+    }
+    
     public boolean isError() {
         return error;
     }
