@@ -32,10 +32,10 @@ public class DocumentoElectronico {
     private final int facnume;
     private final int facnd;
     private final String tipoXML;   // V=Ventas, C=Compras
-    
+
     private boolean error;          // Se usa en los métodos que no tiran excepciones.
     private String error_msg;       // Se usa en los métodos que no tiran excepciones.
-    
+
     private String sucursal;        // 
     private String terminal;        //
     private String tipoComprobante; // 01=FAC, 02=NDB, 03=NCR, 04=Tiquete, 08=Fact Compra
@@ -43,7 +43,7 @@ public class DocumentoElectronico {
 
     // Conexión a la base de datos (no se debe cerrar en esta clase).
     private final Connection conn;
-    
+
     private final Bitacora b = new Bitacora();
 
     public DocumentoElectronico(int facnume, int facnd, String tipoXML, Connection conn) {
@@ -237,20 +237,32 @@ public class DocumentoElectronico {
     public void enviarXML(int facnume) {
         // Para la factura y el tiquete se usa el mismo tipo de documento (FAC).
         String tipoDoc;
-        switch (this.tipoComprobante){
-            case "01": tipoDoc = "FAC"; break; // Factura
-            case "02": tipoDoc = "NDB"; break; // Nota de débito
-            case "03": tipoDoc = "NCR"; break; // Nota de crédito
-            case "04": tipoDoc = "FAC"; break; // Tiquete
-            case "08": tipoDoc = "FCO"; break; // Factura de compra
-            default : tipoDoc = ""; break;
+        switch (this.tipoComprobante) {
+            case "01":
+                tipoDoc = "FAC";
+                break; // Factura
+            case "02":
+                tipoDoc = "NDB";
+                break; // Nota de débito
+            case "03":
+                tipoDoc = "NCR";
+                break; // Nota de crédito
+            case "04":
+                tipoDoc = "FAC";
+                break; // Tiquete
+            case "08":
+                tipoDoc = "FCO";
+                break; // Factura de compra
+            default:
+                tipoDoc = "";
+                break;
         } // end switch
-        if (tipoDoc.isEmpty()){
+        if (tipoDoc.isEmpty()) {
             this.error = true;
             this.error_msg = "[DocumentoElectronico] El tipo de documento está mal definico";
             return;
         } // end if
-        
+
         // Este proceso es únicamente windows por lo que no debe correr en Linux
         String os = Ut.getProperty(Ut.OS_NAME).toLowerCase();
         if (!os.contains("win") || !Menu.enviarDocumentosElectronicos) {
@@ -259,6 +271,15 @@ public class DocumentoElectronico {
 
         try {
             String dir = Menu.DIR.getXmls() + Ut.getProperty(Ut.FILE_SEPARATOR);
+
+            // Si el ejecutable no existe no continúo.
+            // Se incluye esta validación antes del try para enviar un
+            String exe = dir + "EnviarFactura2.exe";
+            File f = new File(exe);
+            if (!f.exists()) {
+                throw new Exception("El módulo de envío de la factura electrónica no fue encontrado");
+            } // end if
+            
             String xmlFile = facnume + ".xml";      // Solo va el nombre del archivo, no la ruta.
             String logFile = dir + facnume + ".log";
 
@@ -310,12 +331,12 @@ public class DocumentoElectronico {
         // entonces busco los tres tipos.
         //File f = new File(dirLogs + documento + sufijo);
         File f = new File(dirLogs + temp + sufijo);
-        if (f.exists()){
+        if (f.exists()) {
             documento = temp;
         } else {
             f = new File(dirLogs + documento + sufijo);
         } // end if
-        
+
         if (!f.exists()) { // ventas
             sufijo = "_HacP.log";
             f = new File(dirLogs + documento + sufijo);
@@ -376,7 +397,7 @@ public class DocumentoElectronico {
     public void setSituacionComprobante(int situacionComprobante) {
         this.situacionComprobante = situacionComprobante;
     }
-    
+
     /**
      * Determinar si existe un documento de ventas.
      *
@@ -411,13 +432,13 @@ public class DocumentoElectronico {
 
         return existe;
     } // end existeDoc
-    
-    
+
     /**
      * Obtiene el consecutivo para un documento electrónico nuevo o generado
      * previamente.
      *
-     * @param tipoDoc String FAC=Factura, NDB=Nota de débido, NCR=Nota de crédito
+     * @param tipoDoc String FAC=Factura, NDB=Nota de débido, NCR=Nota de
+     * crédito
      * @return
      * @throws SQLException
      */
@@ -464,7 +485,7 @@ public class DocumentoElectronico {
                 break;
             default:
                 campo = "tiqElect";
-                break; 
+                break;
         } // end switch
 
         sqlSent = "Select " + campo + " from config";

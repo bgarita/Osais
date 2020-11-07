@@ -1624,7 +1624,7 @@ public class FacturaXML extends javax.swing.JFrame {
         docEl.setSucursal(sucursal);
         docEl.setTerminal(terminal);
         docEl.setTipoComprobante(tipoComprobante);
-        //docEl.enviarXML(facnume, tipo);
+        
         docEl.enviarXML(facnume);
         if (docEl.isError()){
             if (mode == INTERACTIVE){
