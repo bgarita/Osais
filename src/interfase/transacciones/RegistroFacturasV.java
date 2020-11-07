@@ -5772,11 +5772,11 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         if (Ut.goRecord(rsX, Ut.FIRST)) {
             int tempCon1 = rsX.getInt("max");
             int tempCon2 = Integer.parseInt(no_comprob);
-            
+
             if (tempCon1 >= tempCon2){
                 tempCon2 = tempCon1+1;
             } // end if
-            
+
             no_comprob = tempCon2 + "";
             no_comprob = Ut.lpad(no_comprob, "0", 10);
         } // end if

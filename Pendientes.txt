@@ -58,6 +58,8 @@ Contabilidad #4 (parqueo don Mincho)
 - Revisar y corregir la integración de la factura a contabilidad                    En proceso...
 - Revisar y corregir la integración de la NC a contabilidad
 - Revisar y corregir la integración de la ND a contabilidad
+- Cambiar la forma de los consecutivos contables.  Hacer por tipo. Agregar campo
+  en esa tabla y cambiar el mantenimiento y la generación de asientos.
 
 
 USAR EL ASIENTO 112011 TIPO 1 COMO EJEMPLO PARA VER QUÉ CUENTA VA AL HABER Y CUAL AL DEBE
@@ -112,16 +114,17 @@ se debe hacer lo siguiente:
    sea configurable y sepa si debe utilizar el impuesto de cabys o el catálogo 
    de tarifas (ambos de Hacienda).
 5. Modificar la pantalla de configuración para que utilice el nuevo campo (usarCabys)                       1.5 horas        LISTO
-6. Modificar la pantalla de mantenimiento de artículos para que utilice y valide                            2 horas
-   el código cabys. (Pendiente Cálculo de utilidades y AGREGAR UN NUEVO ARTÍCULO) para el cálculo debe decidir cuál porcentaje tomar.
+6. Modificar la pantalla de mantenimiento de artículos para que utilice y valide                            2 horas          LISTO
+   el código cabys. (Pendiente Cálculo de utilidades y AGREGAR UN NUEVO ARTÍCULO) 
+   para el cálculo debe decidir cuál porcentaje tomar.
 7. Modificar los SPs ReservarFactura y AgregarFactura para que decidan que valor usar                       2 horas         LISTO
 8. Modificar la pantalla de facturación para que decida cuando usar cabys y cuando tarifa                   2 horas         LISTO
    dependiendo del parámetro usaCabys que está en config
-9. Modificar el proceso de generación del XML para que incluya el nuevo campo en facturas y tiquetes y      4 horas (en proceso...)
+9. Modificar el proceso de generación del XML para que incluya el nuevo campo en facturas y tiquetes y      4 horas         LISTO
    use el valor de cabys. (Ya el código cabys aparece en el xml) Faltan las pruebas con Hacienda.
-10.Modificar el proceso de generación del XML para que incluya el nuevo campo en NC/ND y                    2 horas (en proceso...)
+10.Modificar el proceso de generación del XML para que incluya el nuevo campo en NC/ND y                    2 horas         LISTO
    use el valor de cabys. (Ya el código cabys aparece en el xml) Faltan las pruebas con Hacienda
-10. Pruebas y depuración con el ambiente de pruebas de Hacienda                                             4 horas
+10. Pruebas y depuración con el ambiente de pruebas de Hacienda                                             4 horas         LISTO
 
 
 

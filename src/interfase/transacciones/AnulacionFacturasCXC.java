@@ -27,7 +27,7 @@ public class AnulacionFacturasCXC extends java.awt.Dialog {
     private static final long serialVersionUID = 1L;
     private final Connection conn;  // Conexión a la base de datos
     private String facnume;         // Aquí estará el facnume pasado por parámetro
-    private ResultSet rs = null;   // Uso general
+    private ResultSet rs = null;    // Uso general
     private int reccaja;            // Referencia de caja
     private final Bitacora b = new Bitacora();
 
@@ -394,7 +394,7 @@ public class AnulacionFacturasCXC extends java.awt.Dialog {
             } // end if
             ps.close();
         } catch (Exception ex) {
-            Logger.getLogger(AnulacionFacturasCXC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -427,7 +427,7 @@ public class AnulacionFacturasCXC extends java.awt.Dialog {
         String sqlSent;
         PreparedStatement ps;
         boolean genasienfac = false;
-        Catransa tran;
+        Catransa tranCaja;
 
         // Confirmar la anulación
         int respuesta
@@ -439,7 +439,7 @@ public class AnulacionFacturasCXC extends java.awt.Dialog {
             return;
         } // end if
 
-        tran = new Catransa(conn);
+        tranCaja = new Catransa(conn);
 
         try {
             // Verificar si hay interface contable
@@ -457,12 +457,12 @@ public class AnulacionFacturasCXC extends java.awt.Dialog {
             // Si existe referencia de caja procedo primero a anular el 
             // registro en caja. El segundo parámetro le indica que no debe
             // hacer un un start transction.
-            tran.anularRegistro(reccaja, false);
+            tranCaja.anularRegistro(reccaja, false);
 
-            if (tran.isError()) {
+            if (tranCaja.isError()) {
                 CMD.transaction(conn, CMD.ROLLBACK);
                 JOptionPane.showMessageDialog(null,
-                        tran.getMensaje_error(),
+                        tranCaja.getMensaje_error(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 this.setVisible(true);
@@ -524,17 +524,17 @@ public class AnulacionFacturasCXC extends java.awt.Dialog {
                  * la factura, ND o NC y el proceso valida que el registro no esté
                  * anulado y si lo está ni siquiera pasa por acá.
                  * Puede ser que más adelante se vuelva necesario que se haga
-                 * esa validación debido a que esa clase va a se utilizada por
+                 * esa validación debido a que esa clase va a ser utilizada por
                  * todos los procesos y es posible que alguno no valide la 
                  * anulación en los auxiliares (Bosco 06/10/2013).
                  */
 
-                CoasientoE asiento
+                CoasientoE asientoE
                         = new CoasientoE(no_comprob, tipo_comp, conn);
-                if (!asiento.anular()) {
+                if (!asientoE.anular()) {
                     CMD.transaction(conn, CMD.ROLLBACK);
                     JOptionPane.showMessageDialog(null,
-                            asiento.getMensaje_error(),
+                            asientoE.getMensaje_error(),
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
                     this.setVisible(true);
@@ -671,7 +671,7 @@ public class AnulacionFacturasCXC extends java.awt.Dialog {
                 ps.close();
             } // end if
         } catch (SQLException ex) {
-            Logger.getLogger(AnulacionFacturasCXC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
