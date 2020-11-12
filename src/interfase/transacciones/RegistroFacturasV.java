@@ -50,6 +50,7 @@ import logica.OrdenCompra;
 import logica.Usuario;
 import logica.contabilidad.CoasientoD;
 import logica.contabilidad.CoasientoE;
+import logica.contabilidad.Cotipasient;
 import logica.contabilidad.Cuenta;
 import logica.utilitarios.FormatoTabla;
 import logica.utilitarios.Ut;
@@ -1075,11 +1076,11 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel16)
                     .addComponent(txtFacmont, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(13, 13, 13)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtCambio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -1889,9 +1890,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jTabbedPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, 0)
-                        .addComponent(jScrollPane2)))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -2854,7 +2853,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             this.codigoCabys = rsArtcode.getString("codigoCabys").trim();
 
             // Si este código viene vacío es porque se está usando cabys pero aún no ha sido asignado
-            if (this.codigoCabys.isEmpty()) {
+            if (usarCabys && this.codigoCabys.isEmpty()) {
                 throw new Exception("Código cabys sin asignar. \nDebe ir al catálogo de productos y asignarlo.");
             } // end if
 
@@ -3760,6 +3759,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 if (!errorMsg.equals("")) {
                     if (errorMsg.contains("ERROR")) {
                         CMD.transaction(conn, CMD.ROLLBACK);
+                        b.writeToLog(this.getClass().getName() + "--> " + errorMsg);
                         this.hayTransaccion = false;
                         JOptionPane.showMessageDialog(null,
                                 errorMsg,
@@ -5681,7 +5681,8 @@ public class RegistroFacturasV extends javax.swing.JFrame {
      *
      * @param facnume int número de factura
      * @param contado boolean true=es de contado, false=es de crédito.
-     * @return boolean true=El asiento se generó, false=El asiento no se generó
+     * @return String mensaje de error en caso (si hay) o vacío si no hay
+     * @throws SQLException
      */
     private String generarAsiento(int facnume, boolean contado) throws SQLException {
         String ctacliente;      // Cuenta del cliente o cuenta transitoria.
@@ -5745,42 +5746,22 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         descuento_vg = rsX.getString("descuento_vg");
         descuento_ve = rsX.getString("descuento_ve");
         impuesto_v = rsX.getString("impuesto_v");
+        tipo_comp = rsX.getShort("tipo_comp_V");
         ps.close();
 
-        // Cargar consecutivo de asientos
-        sqlSent = "Select * from coconsecutivo";
-        ps = conn.prepareStatement(sqlSent,
-                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        rsX = CMD.select(ps);
-        if (!Ut.goRecord(rsX, Ut.FIRST)) {
-            return "WARNING aún no se han configurado los consecutivos\n "
-                    + "para el asiento de ventas.";
-        } // end if
-        no_comprob = (rsX.getInt("no_comprobv") + 1) + "";
+        // Cargar el último número registrado en la tabla de tipos de asiento
+        Cotipasient tipo = new Cotipasient(conn);
+        tipo.setTipo_comp(tipo_comp); 
+        no_comprob = tipo.getConsecutivo() + "";
         no_comprob = Ut.lpad(no_comprob.trim(), "0", 10);
-        tipo_comp = rsX.getShort("tipo_compv");
-        ps.close();
-
-        // Validar si el consecutivo está bien
-        sqlSent
-                = "Select IfNull(max(no_comprob),0) as max from coasientoe "
-                + "Where tipo_comp = ? ";
-        ps = conn.prepareStatement(sqlSent,
-                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        ps.setShort(1, tipo_comp);
-        rsX = CMD.select(ps);
-        if (Ut.goRecord(rsX, Ut.FIRST)) {
-            int tempCon1 = rsX.getInt("max");
-            int tempCon2 = Integer.parseInt(no_comprob);
-
-            if (tempCon1 >= tempCon2){
-                tempCon2 = tempCon1+1;
-            } // end if
-
-            no_comprob = tempCon2 + "";
-            no_comprob = Ut.lpad(no_comprob, "0", 10);
+        
+        // Si el consecutivo ya existe se le asigna el siguiente automáticamente
+        encab = new CoasientoE(conn);
+        if (encab.existeEnBaseDatos(no_comprob, tipo_comp)){
+            no_comprob = tipo.getSiguienteConsecutivo(tipo_comp) + "";
+            no_comprob = Ut.lpad(no_comprob.trim(), "0", 10);
         } // end if
-        ps.close();
+
 
         // Datos para el cliente y el encabezado del asiento
         sqlSent
@@ -5789,8 +5770,8 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 + "	concat(trim(mayor), trim(sub_cta), trim(sub_sub), trim(colect)) as cuenta,"
                 + "	facplazo, "
                 + "	facmont,  "
-                + "       user      "
-                + "from faencabe    "
+                + "     user      "
+                + "from faencabe  "
                 + "Inner join inclient on faencabe.clicode = inclient.clicode "
                 + "Where facnume = ? and facnd = 0";
 
@@ -5971,21 +5952,6 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 return "ERROR " + detal.getMensaje_error();
             } // end if
         } // end if
-
-        /*
-         * Sexta línea del asiento - impuesto, crédito
-         */
-        //        if (rsD.getDouble("facimve") > 0) {
-        //            cta.setCuentaString(impuesto_v);
-        //            detal.setCuenta(cta);
-        //            db_cr = 1;
-        //            detal.setDb_cr(db_cr);
-        //            detal.setMonto(rsD.getDouble("facimve"));
-        //            detal.insert();
-        //            if (detal.isError()) {
-        //                return "ERROR " + detal.getMensaje_error();
-        //            } // end if
-        //        } // end if
         ps.close();
 
         /*
@@ -6038,21 +6004,11 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         CMD.update(ps);
         ps.close();
 
-        // Cambiar el consecutivo del asiento de ventas
-        sqlSent = "Call CambiarConsecutivoConta(?, ?, 1)";
-        ps = conn.prepareStatement(sqlSent,
-                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        ps.setInt(1, Integer.parseInt(no_comprob));
-        ps.setShort(2, tipo_comp);
-        rsX = CMD.select(ps);
-        if (Ut.goRecord(rsX, Ut.FIRST)) {
-            if (rsX.getBoolean("HayError")) {
-                return rsX.getString("ErrorMessage");
-            } // end if
-        } // end if
-
-        ps.close();
-        return "";
+        // Actualizar el consecutivo del asiento de ventas
+        // Se registra el último número utilizado
+        tipo.setConsecutivo(Integer.parseInt(no_comprob));
+        tipo.update();
+        return ""; // Vacío significa que todo salió bien.
     } // end generarAsiento
 
     private void POSBehaviour() {
@@ -6586,6 +6542,10 @@ public class RegistroFacturasV extends javax.swing.JFrame {
     Tampoco se generan los asientos si no se ha hecho la configuración de los mismo.
     */
     private void revisarRequisitosContables() throws SQLException {
+        // Si no hay interface contable no hago la revisión.
+        if (!genasienfac){
+            return;
+        } // end if
         String sqlSent = "SELECT COUNT(*) as cantidad FROM tarifa_iva WHERE cuenta = ''";
         PreparedStatement ps = conn.prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,

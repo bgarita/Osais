@@ -102,34 +102,42 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
+              <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+              <Component id="btnPrimero" linkSize="1" min="-2" pref="69" max="-2" attributes="1"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Component id="btnAnterior" linkSize="1" min="-2" pref="69" max="-2" attributes="3"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="btnSiguiente" linkSize="1" min="-2" pref="69" max="-2" attributes="2"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="btnUltimo" linkSize="1" min="-2" pref="69" max="-2" attributes="2"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="btnGuardar" linkSize="1" min="-2" pref="69" max="-2" attributes="2"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="btnBorrar" linkSize="1" min="-2" pref="69" max="-2" attributes="2"/>
+              <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="lblFamilia" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                  <Component id="lblFamilia" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblFamilia1" alignment="0" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="txtDescrip" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
                       <Component id="txtTipo_comp" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="cboSeleccionar" pref="290" max="32767" attributes="0"/>
-                          <Component id="txtDescrip" pref="0" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="cmdBuscar" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="btnBuscar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
-                      <Component id="cmdPrimero" linkSize="1" min="-2" pref="69" max="-2" attributes="1"/>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Component id="cmdAnterior" linkSize="1" min="-2" pref="69" max="-2" attributes="3"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="cmdSiguiente" linkSize="1" min="-2" pref="69" max="-2" attributes="2"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="cmdUltimo" linkSize="1" min="-2" pref="69" max="-2" attributes="2"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="cmdGuardar" linkSize="1" min="-2" pref="69" max="-2" attributes="2"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="cmdBorrar" linkSize="1" min="-2" pref="69" max="-2" attributes="2"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="txtConsecutivo" min="-2" pref="115" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -138,23 +146,30 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="2" attributes="0">
                   <Component id="lblFamilia" alignment="2" min="-2" max="-2" attributes="0"/>
                   <Component id="txtTipo_comp" alignment="2" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtDescrip" alignment="2" min="-2" max="-2" attributes="0"/>
-                  <Component id="cmdBuscar" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnBuscar" alignment="2" min="-2" pref="33" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="cboSeleccionar" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="69" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="txtDescrip" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblFamilia1" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtConsecutivo" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="46" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="cmdPrimero" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="cmdAnterior" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="cmdSiguiente" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="cmdUltimo" linkSize="2" alignment="0" min="-2" pref="29" max="-2" attributes="0"/>
-                  <Component id="cmdGuardar" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="cmdBorrar" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnPrimero" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnAnterior" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnSiguiente" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnUltimo" linkSize="2" alignment="0" min="-2" pref="29" max="-2" attributes="0"/>
+                  <Component id="btnGuardar" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnBorrar" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
           </Group>
@@ -162,7 +177,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JButton" name="cmdBuscar">
+    <Component class="javax.swing.JButton" name="btnBuscar">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/Icons/zoom.png"/>
@@ -170,7 +185,7 @@
         <Property name="text" type="java.lang.String" value="Buscar"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmdBuscarActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBuscarActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lblFamilia">
@@ -178,7 +193,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="11" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Tipo"/>
+        <Property name="text" type="java.lang.String" value="Tipo asiento"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="txtTipo_comp">
@@ -204,21 +219,7 @@
         <Property name="toolTipText" type="java.lang.String" value="Descripci&#xf3;n"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JComboBox" name="cboSeleccionar">
-      <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="0"/>
-        </Property>
-        <Property name="toolTipText" type="java.lang.String" value="Elija un tipo de asiento"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cboSeleccionarActionPerformed"/>
-      </Events>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-      </AuxValues>
-    </Component>
-    <Component class="javax.swing.JButton" name="cmdPrimero">
+    <Component class="javax.swing.JButton" name="btnPrimero">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/Icons/WZTOP.png"/>
@@ -227,10 +228,10 @@
         <Property name="focusCycleRoot" type="boolean" value="true"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmdPrimeroActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPrimeroActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="cmdAnterior">
+    <Component class="javax.swing.JButton" name="btnAnterior">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/Icons/WZBACK.png"/>
@@ -242,10 +243,10 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmdAnteriorActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAnteriorActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="cmdSiguiente">
+    <Component class="javax.swing.JButton" name="btnSiguiente">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/Icons/WZNEXT.png"/>
@@ -256,10 +257,10 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmdSiguienteActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSiguienteActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="cmdUltimo">
+    <Component class="javax.swing.JButton" name="btnUltimo">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/Icons/WZEND.png"/>
@@ -268,10 +269,10 @@
         <Property name="focusCycleRoot" type="boolean" value="true"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmdUltimoActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUltimoActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="cmdGuardar">
+    <Component class="javax.swing.JButton" name="btnGuardar">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/Icons/WZSAVE.png"/>
@@ -282,10 +283,10 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmdGuardarActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGuardarActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="cmdBorrar">
+    <Component class="javax.swing.JButton" name="btnBorrar">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/Icons/WZDELETE.png"/>
@@ -296,8 +297,37 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmdBorrarActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBorrarActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel1">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="11" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="&#xda;ltimo asiento"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="txtConsecutivo">
+      <Properties>
+        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
+          <Format format="##########" subtype="-1" type="5"/>
+        </Property>
+        <Property name="toolTipText" type="java.lang.String" value="&#xda;ltimo asiento registrado"/>
+      </Properties>
+      <Events>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtConsecutivoFocusGained"/>
+        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtConsecutivoFocusLost"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtConsecutivoActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblFamilia1">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="11" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Descripci&#xf3;n"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

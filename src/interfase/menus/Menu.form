@@ -1641,7 +1641,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuParmCont">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Par&#xe1;metros contables"/>
+                <Property name="text" type="java.lang.String" value="Interface contable"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuParmContActionPerformed"/>
