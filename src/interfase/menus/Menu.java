@@ -1875,7 +1875,7 @@ public class Menu extends javax.swing.JFrame {
         mnuConfig.add(mnuConsecutivos);
         mnuConfig.add(jSeparator14);
 
-        mnuParmCont.setText("Parámetros contables");
+        mnuParmCont.setText("Interface contable");
         mnuParmCont.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuParmContActionPerformed(evt);

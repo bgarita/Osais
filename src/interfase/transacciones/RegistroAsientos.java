@@ -26,6 +26,7 @@ import javax.swing.table.DefaultTableModel;
 import logica.contabilidad.CoactualizCat;
 import logica.contabilidad.CoasientoD;
 import logica.contabilidad.CoasientoE;
+import logica.contabilidad.Cotipasient;
 import logica.contabilidad.Cuenta;
 import logica.contabilidad.PeriodoContable;
 import logica.utilitarios.Ut;
@@ -60,7 +61,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
     private boolean validandoFecha;
     private final Connection conn;
     private final PeriodoContable per; // Carga todos los datos del periodo contable actual
-    
+
     // Este estiqueta tendrá el siguiente valor al terminar el asiento de cierre anual:
     // this.lblDescripA.setText("Comprobante: " + asientoE.getNo_comprob() + ", tipo: " + asientoE.getTipo_comp());
     private JLabel lblDescripA; // Se usa para indicar que se está generando el asiento de cierre anual
@@ -928,14 +929,14 @@ public class RegistroAsientos extends javax.swing.JFrame {
         } // end if
 
         // Obtener el tipo de asiento
-        short tipo = 0;
-        String descrip = cboDescrip.getSelectedItem().toString();
-        for (String s : this.aTipo_comp) {
-            if (s.contains(descrip)) {
-                tipo = Short.parseShort(s.substring(0, Ut.getPosicion(s, ",")));
-                break;
-            } // end if
-        } // end for
+        short tipo = getTipo_comp();
+//        String descrip = cboDescrip.getSelectedItem().toString();
+//        for (String s : this.aTipo_comp) {
+//            if (s.contains(descrip)) {
+//                tipo = Short.parseShort(s.substring(0, Ut.getPosicion(s, ",")));
+//                break;
+//            } // end if
+//        } // end for
 
         asientoE.setTipo_comp(tipo);
         asientoE.setNo_comprob(txtNo_comprob.getText());
@@ -1126,6 +1127,17 @@ public class RegistroAsientos extends javax.swing.JFrame {
         if (old_tipo != 0) {
             return;
         } // end if
+
+        // Establecer el consecutivo de asientos para el tipo de asiento elegido
+        Cotipasient tipoAs = new Cotipasient(conn);
+        tipoAs.setTipo_comp(this.getTipo_comp());
+        String no_comprob;
+
+        //no_comprob = tipoAs.getSiguienteConsecutivo(getTipo_comp()) + "";
+        no_comprob = tipoAs.getConsecutivo() + "";
+        no_comprob = Ut.lpad(no_comprob, "0", 10);
+
+        txtNo_comprob.setText(no_comprob);
 
         // Si el número de asiento no está vacío ejecuto el codigo del 
         // ActionPerformed para ese campo.
@@ -2207,4 +2219,17 @@ public class RegistroAsientos extends javax.swing.JFrame {
     public void cerrarVentana() {
         this.btnSalirActionPerformed(null);
     }
+
+    private short getTipo_comp() {
+        // Obtener el tipo de asiento
+        short tipo = 0;
+        String descrip = cboDescrip.getSelectedItem().toString();
+        for (String s : this.aTipo_comp) {
+            if (s.contains(descrip)) {
+                tipo = Short.parseShort(s.substring(0, Ut.getPosicion(s, ",")));
+                break;
+            } // end if
+        } // end for
+        return tipo;
+    } // end getTipo_comp
 }

@@ -314,9 +314,7 @@ public class CoasientoE {
     } // end cargarRegistro
 
     /**
-     * Este método consulta la base de datos para ver si el asiento existe o no,
-     * pero esta búsqueda solo se hace para la tabla de trabajo actual, no busca
-     * en el histórico.
+     * Este método consulta la base de datos para ver si el asiento existe o no.
      *
      * @author Bosco Garita 06/09/2013 SD
      * @param no_comprob String número de asiento
@@ -327,7 +325,7 @@ public class CoasientoE {
     public boolean existeEnBaseDatos(String no_comprob, short tipo_comp) throws SQLException {
         boolean existe = false;
         String sqlSent
-                = "Select no_comprob from " + tabla + " "
+                = "Select no_comprob from vistaconsecutivoasientos "
                 + "Where no_comprob = ? and tipo_comp = ?";
         try (PreparedStatement ps = conn.prepareStatement(sqlSent,
                 ResultSet.TYPE_FORWARD_ONLY,

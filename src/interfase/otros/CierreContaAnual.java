@@ -210,8 +210,9 @@ public class CierreContaAnual extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null,
                         "El tipo de asiento 99 no existe.\n"
                         + "Éste es necesario para el asiento de cierre anual.\n"
-                        + "Vaya al menú Mantenimiento y elija la opción de tipos de asiento,\n"
-                        + "lo crea y luego intenta de nuevo.",
+                        + "Vaya al menú Catálogos/Contabilidad y elija la \n"
+                        + "opción de tipos de asiento,lo crea\n"
+                        + "y luego intenta de nuevo.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
@@ -247,10 +248,11 @@ public class CierreContaAnual extends javax.swing.JFrame {
 
             // Si hay movimientos sin cerrar, el cierre no continúa
             // LOCATE FOR periodo <= nMescierrea AND YEAR(fecha_comp) = YEAR(aslcgpe.fecha_fi)
-            boolean hayDatosSinCerrar = UtilBD.hayDatos(conn,
-                    "coasientoe",
-                    "periodo <= " + mesCierreAnual + " AND YEAR(fecha_comp) = " + per.getAño(),
-                    "no_comprob");
+            boolean hayDatosSinCerrar
+                    = UtilBD.hayDatos(conn,
+                            "coasientoe",
+                            "periodo <= " + mesCierreAnual + " AND YEAR(fecha_comp) = " + per.getAño(),
+                            "no_comprob");
 
             if (hayDatosSinCerrar) {
                 JOptionPane.showMessageDialog(null,

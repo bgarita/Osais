@@ -11,7 +11,6 @@
 
 package interfase.otros;
 
-import Exceptions.NotUniqueValueException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -22,7 +21,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import logica.utilitarios.Ut;
 
 /**
@@ -45,23 +43,6 @@ public class Consecutivos extends javax.swing.JFrame {
     private String docinv, ultordec;
     private final Bitacora b = new Bitacora();
     
-    // Bosco agregado 28/09/2013
-    private String no_comprobv;     // Asiento de ventas
-    private short tipo_compv;       // Tipo para el asiento de ventas
-    private String no_comprobc;     // Asiento de compras
-    private short tipo_compc;       // Tipo para el asiento de compras
-    private String no_comprobrv;    // Asiento de recibos (CXC)
-    private short tipo_comprv;      // Tipo para el asiento de recibos (CXC)
-    
-    private final int VENTAS  = 1;
-    private final int COMPRAS = 2;
-    private final int RECIBOS = 3;
-    
-    private int buscar;
-    private Buscador bd;
-    private JTextField field;
-    // Fin Bosco agregado 28/09/2013
-    
 
     /** Creates new form
      * @param c */
@@ -76,17 +57,7 @@ public class Consecutivos extends javax.swing.JFrame {
         ndeb         = 0;
         recnume1     = 0;
         pronume      = 0;
-        no_comprobv  = "0";
-        tipo_compv   = 0;
-        no_comprobc  = "0";
-        tipo_compc   = 0;
-        no_comprobrv = "0";
-        tipo_comprv  = 0;
-        lblTipo_compv.setText("");
-        lblTipo_compc.setText("");
-        lblTipo_comprv.setText("");
         
-        buscar = 0;
         cargarConsecutivos();
     } // end constructor
     
@@ -99,8 +70,8 @@ public class Consecutivos extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        cmdGuardar = new javax.swing.JButton();
-        cmdSalir = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
+        btnSalir = new javax.swing.JButton();
         panelGeneral = new javax.swing.JTabbedPane();
         panelCXC = new javax.swing.JPanel();
         lblFacnume = new javax.swing.JLabel();
@@ -123,21 +94,6 @@ public class Consecutivos extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         lblMovdocu = new javax.swing.JLabel();
         txtDocinv = new javax.swing.JFormattedTextField();
-        panelConta = new javax.swing.JPanel();
-        lblAsientoV = new javax.swing.JLabel();
-        txtNo_comprobv = new javax.swing.JFormattedTextField();
-        lblTipoV = new javax.swing.JLabel();
-        txtTipo_compv = new javax.swing.JFormattedTextField();
-        lblAsientoC = new javax.swing.JLabel();
-        txtTipo_compc = new javax.swing.JFormattedTextField();
-        txtNo_comprobc = new javax.swing.JFormattedTextField();
-        lblTipo_compv = new javax.swing.JLabel();
-        lblTipo_compc = new javax.swing.JLabel();
-        lblAsientoV1 = new javax.swing.JLabel();
-        lblAsientoC1 = new javax.swing.JLabel();
-        txtNo_comprobrv = new javax.swing.JFormattedTextField();
-        txtTipo_comprv = new javax.swing.JFormattedTextField();
-        lblTipo_comprv = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         lblReciboCaja = new javax.swing.JLabel();
         txtRecnumeca = new javax.swing.JFormattedTextField();
@@ -145,33 +101,26 @@ public class Consecutivos extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         mnuGuardar = new javax.swing.JMenuItem();
         mnuSalir = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        mnuBuscar = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Consecutivos");
         setLocationByPlatform(true);
 
-        cmdGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZSAVE.png"))); // NOI18N
-        cmdGuardar.setToolTipText("Guardar registro");
-        cmdGuardar.setMaximumSize(new java.awt.Dimension(93, 29));
-        cmdGuardar.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                cmdGuardarFocusGained(evt);
-            }
-        });
-        cmdGuardar.addActionListener(new java.awt.event.ActionListener() {
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZSAVE.png"))); // NOI18N
+        btnGuardar.setToolTipText("Guardar registro");
+        btnGuardar.setMaximumSize(new java.awt.Dimension(93, 29));
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdGuardarActionPerformed(evt);
+                btnGuardarActionPerformed(evt);
             }
         });
 
-        cmdSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZCLOSE.png"))); // NOI18N
-        cmdSalir.setToolTipText("Salir");
-        cmdSalir.setMaximumSize(new java.awt.Dimension(93, 29));
-        cmdSalir.addActionListener(new java.awt.event.ActionListener() {
+        btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZCLOSE.png"))); // NOI18N
+        btnSalir.setToolTipText("Salir");
+        btnSalir.setMaximumSize(new java.awt.Dimension(93, 29));
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdSalirActionPerformed(evt);
+                btnSalirActionPerformed(evt);
             }
         });
 
@@ -339,7 +288,7 @@ public class Consecutivos extends javax.swing.JFrame {
                 .addGroup(panelCXCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblProforma)
                     .addComponent(txtPronume, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
 
         panelGeneral.addTab("Cuentas por cobrar", panelCXC);
@@ -408,7 +357,7 @@ public class Consecutivos extends javax.swing.JFrame {
                 .addGroup(panelCXPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblReciboCXP1)
                     .addComponent(txtUltordenc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(80, Short.MAX_VALUE))
+                .addContainerGap(95, Short.MAX_VALUE))
         );
 
         panelGeneral.addTab("Cuentas por pagar", panelCXP);
@@ -450,212 +399,10 @@ public class Consecutivos extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblMovdocu)
                     .addComponent(txtDocinv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(107, Short.MAX_VALUE))
+                .addContainerGap(119, Short.MAX_VALUE))
         );
 
         panelGeneral.addTab("Inventarios", jPanel1);
-
-        lblAsientoV.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        lblAsientoV.setText("Ventas");
-
-        txtNo_comprobv.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        txtNo_comprobv.setColumns(10);
-        txtNo_comprobv.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("0000000000"))));
-        txtNo_comprobv.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txtNo_comprobv.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNo_comprobvActionPerformed(evt);
-            }
-        });
-        txtNo_comprobv.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtNo_comprobvFocusGained(evt);
-            }
-        });
-
-        lblTipoV.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        lblTipoV.setText("Tipo de asiento");
-
-        txtTipo_compv.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        txtTipo_compv.setColumns(10);
-        txtTipo_compv.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        txtTipo_compv.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txtTipo_compv.setText("0");
-        txtTipo_compv.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTipo_compvActionPerformed(evt);
-            }
-        });
-        txtTipo_compv.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtTipo_compvFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtTipo_compvFocusLost(evt);
-            }
-        });
-
-        lblAsientoC.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        lblAsientoC.setText("Compras");
-
-        txtTipo_compc.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        txtTipo_compc.setColumns(10);
-        txtTipo_compc.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        txtTipo_compc.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txtTipo_compc.setText("0");
-        txtTipo_compc.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTipo_compcActionPerformed(evt);
-            }
-        });
-        txtTipo_compc.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtTipo_compcFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtTipo_compcFocusLost(evt);
-            }
-        });
-
-        txtNo_comprobc.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        txtNo_comprobc.setColumns(10);
-        txtNo_comprobc.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("0000000000"))));
-        txtNo_comprobc.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txtNo_comprobc.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNo_comprobcActionPerformed(evt);
-            }
-        });
-        txtNo_comprobc.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtNo_comprobcFocusGained(evt);
-            }
-        });
-
-        lblTipo_compv.setForeground(java.awt.Color.blue);
-        lblTipo_compv.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblTipo_compv.setText("lblTipo_compv");
-
-        lblTipo_compc.setForeground(java.awt.Color.blue);
-        lblTipo_compc.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblTipo_compc.setText("lblTipo_compc");
-
-        lblAsientoV1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        lblAsientoV1.setText("Último asiento de:");
-
-        lblAsientoC1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        lblAsientoC1.setText("Recibos CXC");
-
-        txtNo_comprobrv.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        txtNo_comprobrv.setColumns(10);
-        txtNo_comprobrv.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("0000000000"))));
-        txtNo_comprobrv.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txtNo_comprobrv.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNo_comprobrvActionPerformed(evt);
-            }
-        });
-        txtNo_comprobrv.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtNo_comprobrvFocusGained(evt);
-            }
-        });
-
-        txtTipo_comprv.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        txtTipo_comprv.setColumns(10);
-        txtTipo_comprv.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        txtTipo_comprv.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txtTipo_comprv.setText("0");
-        txtTipo_comprv.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTipo_comprvActionPerformed(evt);
-            }
-        });
-        txtTipo_comprv.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtTipo_comprvFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtTipo_comprvFocusLost(evt);
-            }
-        });
-
-        lblTipo_comprv.setForeground(java.awt.Color.blue);
-        lblTipo_comprv.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblTipo_comprv.setText("lblTipo_comprv");
-
-        javax.swing.GroupLayout panelContaLayout = new javax.swing.GroupLayout(panelConta);
-        panelConta.setLayout(panelContaLayout);
-        panelContaLayout.setHorizontalGroup(
-            panelContaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelContaLayout.createSequentialGroup()
-                .addGap(234, 234, 234)
-                .addComponent(lblTipoV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(216, 216, 216))
-            .addGroup(panelContaLayout.createSequentialGroup()
-                .addGroup(panelContaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelContaLayout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(lblAsientoV1))
-                    .addGroup(panelContaLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(panelContaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblAsientoV)
-                            .addComponent(lblAsientoC)
-                            .addComponent(lblAsientoC1))
-                        .addGap(18, 18, 18)
-                        .addGroup(panelContaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNo_comprobv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtNo_comprobc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtNo_comprobrv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(panelContaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtTipo_compv, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtTipo_compc, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtTipo_comprv, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelContaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblTipo_compv, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblTipo_compc, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblTipo_comprv, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        panelContaLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtNo_comprobc, txtNo_comprobrv, txtNo_comprobv});
-
-        panelContaLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtTipo_compc, txtTipo_comprv, txtTipo_compv});
-
-        panelContaLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblTipo_compc, lblTipo_comprv, lblTipo_compv});
-
-        panelContaLayout.setVerticalGroup(
-            panelContaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelContaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelContaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblAsientoV1)
-                    .addComponent(lblTipoV))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelContaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(lblAsientoV)
-                    .addComponent(txtNo_comprobv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTipo_compv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblTipo_compv))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelContaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(lblAsientoC)
-                    .addComponent(txtNo_comprobc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTipo_compc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblTipo_compc))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelContaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(lblAsientoC1)
-                    .addComponent(txtNo_comprobrv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTipo_comprv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblTipo_comprv))
-                .addContainerGap(100, Short.MAX_VALUE))
-        );
-
-        panelGeneral.addTab("Contabilidad", panelConta);
 
         lblReciboCaja.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblReciboCaja.setText("Último recibo caja");
@@ -690,7 +437,7 @@ public class Consecutivos extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(79, Short.MAX_VALUE)
+                .addContainerGap(118, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblReciboCaja)
                     .addComponent(txtRecnumeca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -723,20 +470,6 @@ public class Consecutivos extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edición");
-
-        mnuBuscar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
-        mnuBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/binocular.png"))); // NOI18N
-        mnuBuscar.setText("Buscar");
-        mnuBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuBuscarActionPerformed(evt);
-            }
-        });
-        jMenu2.add(mnuBuscar);
-
-        jMenuBar1.add(jMenu2);
-
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -745,9 +478,9 @@ public class Consecutivos extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(210, 210, 210)
-                .addComponent(cmdGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cmdSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panelGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
@@ -760,8 +493,8 @@ public class Consecutivos extends javax.swing.JFrame {
                 .addComponent(panelGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 25, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(cmdGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmdSalir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(4, 4, 4))
         );
 
@@ -770,18 +503,18 @@ public class Consecutivos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mnuGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuGuardarActionPerformed
-        cmdGuardarActionPerformed(evt);
+        btnGuardarActionPerformed(evt);
     }//GEN-LAST:event_mnuGuardarActionPerformed
 
     private void mnuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSalirActionPerformed
         dispose();
 }//GEN-LAST:event_mnuSalirActionPerformed
 
-    private void cmdSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdSalirActionPerformed
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         mnuSalirActionPerformed(null);
-    }//GEN-LAST:event_cmdSalirActionPerformed
+    }//GEN-LAST:event_btnSalirActionPerformed
 
-    private void cmdGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdGuardarActionPerformed
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // Verificar si el número cambió para ejecutar el SP
         short tipo;
         String sqlSent;
@@ -985,70 +718,9 @@ public class Consecutivos extends javax.swing.JFrame {
                 } // end
                 ps.close();
             } // end if
-            
-            // Asiento de ventas
-            if (!txtNo_comprobv.getText().trim().equals(no_comprobv.trim())){
-                no_comprobv = txtNo_comprobv.getText().trim();
-                tipo_compv = Short.parseShort(this.txtTipo_compv.getText().trim());
-                sqlSent = "Call CambiarConsecutivoConta(?,?,1)";
-                ps = conn.prepareStatement(sqlSent);
-                ps.setInt(1, Integer.parseInt(no_comprobv));
-                ps.setShort(2, tipo_compv);
-                rs = CMD.select(ps);
-                if (Ut.goRecord(rs, Ut.FIRST) && rs.getBoolean("HayError")){
-                    JOptionPane.showMessageDialog(
-                            null,
-                            rs.getString("ErrorMessage"),
-                            "Error",
-                            JOptionPane.ERROR_MESSAGE);
-                    huboError = true;
-                } // end
-                ps.close();
-            } // end if
-            
-            // Asiento de compras
-            if (!txtNo_comprobc.getText().trim().equals(no_comprobc.trim())){
-                no_comprobc = txtNo_comprobc.getText().trim();
-                tipo_compc = Short.parseShort(this.txtTipo_compc.getText().trim());
-                sqlSent = "Call CambiarConsecutivoConta(?,?,2)";
-                ps = conn.prepareStatement(sqlSent);
-                ps.setInt(1, Integer.parseInt(no_comprobc));
-                ps.setShort(2, tipo_compc);
-                rs = CMD.select(ps);
-                if (Ut.goRecord(rs, Ut.FIRST) && rs.getBoolean("HayError")){
-                    JOptionPane.showMessageDialog(
-                            null,
-                            rs.getString("ErrorMessage"),
-                            "Error",
-                            JOptionPane.ERROR_MESSAGE);
-                    huboError = true;
-                } // end
-                ps.close();
-            } // end if
-            
-            // Asiento de recibos (CXC)
-            if (!txtNo_comprobrv.getText().trim().equals(no_comprobrv.trim())){
-                no_comprobrv = txtNo_comprobrv.getText().trim();
-                tipo_comprv = Short.parseShort(this.txtTipo_comprv.getText().trim());
-                sqlSent = "Call CambiarConsecutivoConta(?,?,3)";
-                ps = conn.prepareStatement(sqlSent);
-                ps.setInt(1, Integer.parseInt(no_comprobrv));
-                ps.setShort(2, tipo_comprv);
-                rs = CMD.select(ps);
-                if (Ut.goRecord(rs, Ut.FIRST) && rs.getBoolean("HayError")){
-                    JOptionPane.showMessageDialog(
-                            null,
-                            rs.getString("ErrorMessage"),
-                            "Error",
-                            JOptionPane.ERROR_MESSAGE);
-                    huboError = true;
-                } // end
-                ps.close();
-            } // end if
-            
             CMD.transaction(conn, CMD.COMMIT);
             hayTran = false;
-        }catch(SQLException | NumberFormatException | NullPointerException ex){
+        } catch(SQLException | NumberFormatException | NullPointerException ex){
             huboError = true;
             JOptionPane.showMessageDialog(
                     null,
@@ -1074,27 +746,35 @@ public class Consecutivos extends javax.swing.JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
             } // end if
         } // en finally
-    }//GEN-LAST:event_cmdGuardarActionPerformed
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
-    private void txtFacnumeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFacnumeFocusGained
-        txtFacnume.selectAll();
-    }//GEN-LAST:event_txtFacnumeFocusGained
+    private void txtRecnumecaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRecnumecaActionPerformed
+        txtRecnumeca.transferFocus();
+    }//GEN-LAST:event_txtRecnumecaActionPerformed
 
-    private void txtFormularioFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFormularioFocusGained
-        txtFormulario.selectAll();
-    }//GEN-LAST:event_txtFormularioFocusGained
+    private void txtRecnumecaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtRecnumecaFocusGained
+        txtRecnumeca.selectAll();
+    }//GEN-LAST:event_txtRecnumecaFocusGained
 
-    private void txtRecnumeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtRecnumeFocusGained
-        txtRecnume.selectAll();
-    }//GEN-LAST:event_txtRecnumeFocusGained
+    private void txtDocinvFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDocinvFocusGained
+        txtDocinv.selectAll();
+    }//GEN-LAST:event_txtDocinvFocusGained
 
-    private void txtNcredFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNcredFocusGained
-        txtNcred.selectAll();
-    }//GEN-LAST:event_txtNcredFocusGained
+    private void txtDocinvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDocinvActionPerformed
+        txtDocinv.transferFocus();
+    }//GEN-LAST:event_txtDocinvActionPerformed
 
-    private void txtNdebFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNdebFocusGained
-        txtNdeb.selectAll();
-    }//GEN-LAST:event_txtNdebFocusGained
+    private void txtUltordencFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUltordencFocusGained
+        txtUltordenc.selectAll();
+    }//GEN-LAST:event_txtUltordencFocusGained
+
+    private void txtUltordencActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUltordencActionPerformed
+        txtUltordenc.transferFocus();
+    }//GEN-LAST:event_txtUltordencActionPerformed
+
+    private void txtRecnume1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRecnume1ActionPerformed
+        txtRecnume1.transferFocus();
+    }//GEN-LAST:event_txtRecnume1ActionPerformed
 
     private void txtRecnume1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtRecnume1FocusGained
         txtRecnume1.selectAll();
@@ -1104,184 +784,49 @@ public class Consecutivos extends javax.swing.JFrame {
         txtPronume.selectAll();
     }//GEN-LAST:event_txtPronumeFocusGained
 
-    private void txtDocinvFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDocinvFocusGained
-        txtDocinv.selectAll();
-    }//GEN-LAST:event_txtDocinvFocusGained
+    private void txtPronumeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPronumeActionPerformed
+        txtPronume.transferFocus();
+    }//GEN-LAST:event_txtPronumeActionPerformed
 
-    private void txtFacnumeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFacnumeActionPerformed
-        txtFacnume.transferFocus();
-    }//GEN-LAST:event_txtFacnumeActionPerformed
-
-    private void txtFormularioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFormularioActionPerformed
-        txtFormulario.transferFocus();
-    }//GEN-LAST:event_txtFormularioActionPerformed
-
-    private void txtRecnumeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRecnumeActionPerformed
-        txtRecnume.transferFocus();
-    }//GEN-LAST:event_txtRecnumeActionPerformed
-
-    private void txtNcredActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNcredActionPerformed
-        txtNcred.transferFocus();
-    }//GEN-LAST:event_txtNcredActionPerformed
+    private void txtNdebFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNdebFocusGained
+        txtNdeb.selectAll();
+    }//GEN-LAST:event_txtNdebFocusGained
 
     private void txtNdebActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNdebActionPerformed
         txtNdeb.transferFocus();
     }//GEN-LAST:event_txtNdebActionPerformed
 
-    private void txtRecnume1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRecnume1ActionPerformed
-        txtRecnume1.transferFocus();
-    }//GEN-LAST:event_txtRecnume1ActionPerformed
+    private void txtNcredFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNcredFocusGained
+        txtNcred.selectAll();
+    }//GEN-LAST:event_txtNcredFocusGained
 
-    private void txtPronumeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPronumeActionPerformed
-        txtPronume.transferFocus();
-    }//GEN-LAST:event_txtPronumeActionPerformed
+    private void txtNcredActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNcredActionPerformed
+        txtNcred.transferFocus();
+    }//GEN-LAST:event_txtNcredActionPerformed
 
-    private void txtDocinvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDocinvActionPerformed
-        txtDocinv.transferFocus();
-    }//GEN-LAST:event_txtDocinvActionPerformed
+    private void txtRecnumeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtRecnumeFocusGained
+        txtRecnume.selectAll();
+    }//GEN-LAST:event_txtRecnumeFocusGained
 
-    private void txtNo_comprobvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNo_comprobvActionPerformed
-        txtNo_comprobv.transferFocus();
-    }//GEN-LAST:event_txtNo_comprobvActionPerformed
+    private void txtRecnumeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRecnumeActionPerformed
+        txtRecnume.transferFocus();
+    }//GEN-LAST:event_txtRecnumeActionPerformed
 
-    private void txtNo_comprobvFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNo_comprobvFocusGained
-        txtNo_comprobv.selectAll();
-        buscar = 0;
-    }//GEN-LAST:event_txtNo_comprobvFocusGained
+    private void txtFormularioFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFormularioFocusGained
+        txtFormulario.selectAll();
+    }//GEN-LAST:event_txtFormularioFocusGained
 
-    private void txtTipo_compvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTipo_compvActionPerformed
-        txtTipo_compv.transferFocus();
-    }//GEN-LAST:event_txtTipo_compvActionPerformed
+    private void txtFormularioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFormularioActionPerformed
+        txtFormulario.transferFocus();
+    }//GEN-LAST:event_txtFormularioActionPerformed
 
-    private void txtTipo_compvFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTipo_compvFocusGained
-        txtTipo_compv.selectAll();
-        buscar = VENTAS;
-        field = txtTipo_compv;
-    }//GEN-LAST:event_txtTipo_compvFocusGained
+    private void txtFacnumeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFacnumeFocusGained
+        txtFacnume.selectAll();
+    }//GEN-LAST:event_txtFacnumeFocusGained
 
-    private void txtTipo_compcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTipo_compcActionPerformed
-        txtTipo_compc.transferFocus();
-    }//GEN-LAST:event_txtTipo_compcActionPerformed
-
-    private void txtTipo_compcFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTipo_compcFocusGained
-        txtTipo_compc.selectAll();
-        buscar = COMPRAS;
-        field = txtTipo_compc;
-    }//GEN-LAST:event_txtTipo_compcFocusGained
-
-    private void txtNo_comprobcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNo_comprobcActionPerformed
-        txtNo_comprobc.transferFocus();
-    }//GEN-LAST:event_txtNo_comprobcActionPerformed
-
-    private void txtNo_comprobcFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNo_comprobcFocusGained
-        txtNo_comprobc.selectAll();
-    }//GEN-LAST:event_txtNo_comprobcFocusGained
-
-    private void txtTipo_compvFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTipo_compvFocusLost
-        try {
-            String tipo = txtTipo_compv.getText().trim();
-            lblTipo_compv.setText(
-                    UtilBD.getDBString(
-                    conn, "cotipasient", "tipo_comp = " + tipo, "descrip"));
-        } catch (NotUniqueValueException | SQLException ex) {
-            Logger.getLogger(Consecutivos.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, 
-                    ex.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            lblTipo_compv.setText("");
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
-        } // end try-catch
-    }//GEN-LAST:event_txtTipo_compvFocusLost
-
-    private void txtTipo_compcFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTipo_compcFocusLost
-        try {
-            String tipo = txtTipo_compc.getText().trim();
-            lblTipo_compc.setText(
-                    UtilBD.getDBString(
-                    conn, "cotipasient", "tipo_comp = " + tipo, "descrip"));
-        } catch (NotUniqueValueException | SQLException ex) {
-            Logger.getLogger(Consecutivos.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, 
-                    ex.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            lblTipo_compc.setText("");
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
-        } // end try-catch
-    }//GEN-LAST:event_txtTipo_compcFocusLost
-
-    private void mnuBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBuscarActionPerformed
-        if (buscar == 0){
-            return;
-        } // end if
-        bd = new Buscador(new java.awt.Frame(), true,
-                    "cotipasient","tipo_comp,descrip","descrip",field,conn);
-        bd.setTitle("Buscar tipos de asiento");
-        bd.lblBuscar.setText("Tipo asiento");
-        bd.setVisible(true);
-        if (buscar == VENTAS){
-            this.txtTipo_compvFocusLost(null);
-        } else {
-            this.txtTipo_compcFocusLost(null);
-        } // end if-else
-        
-    }//GEN-LAST:event_mnuBuscarActionPerformed
-
-    private void cmdGuardarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmdGuardarFocusGained
-        buscar = 0;
-    }//GEN-LAST:event_cmdGuardarFocusGained
-
-    private void txtNo_comprobrvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNo_comprobrvActionPerformed
-        txtNo_comprobrv.transferFocus();
-    }//GEN-LAST:event_txtNo_comprobrvActionPerformed
-
-    private void txtNo_comprobrvFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNo_comprobrvFocusGained
-        txtNo_comprobrv.selectAll();
-    }//GEN-LAST:event_txtNo_comprobrvFocusGained
-
-    private void txtTipo_comprvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTipo_comprvActionPerformed
-        txtTipo_comprv.transferFocus();
-    }//GEN-LAST:event_txtTipo_comprvActionPerformed
-
-    private void txtTipo_comprvFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTipo_comprvFocusGained
-        txtTipo_comprv.selectAll();
-        buscar = RECIBOS;
-        field = txtTipo_comprv;
-    }//GEN-LAST:event_txtTipo_comprvFocusGained
-
-    private void txtTipo_comprvFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTipo_comprvFocusLost
-        try {
-            String tipo = txtTipo_comprv.getText().trim();
-            lblTipo_comprv.setText(
-                    UtilBD.getDBString(
-                    conn, "cotipasient", "tipo_comp = " + tipo, "descrip"));
-        } catch (NotUniqueValueException | SQLException ex) {
-            Logger.getLogger(Consecutivos.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, 
-                    ex.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            lblTipo_comprv.setText("");
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
-        } // end try-catch
-    }//GEN-LAST:event_txtTipo_comprvFocusLost
-
-    private void txtUltordencActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUltordencActionPerformed
-        txtUltordenc.transferFocus();
-    }//GEN-LAST:event_txtUltordencActionPerformed
-
-    private void txtUltordencFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUltordencFocusGained
-        txtUltordenc.selectAll();
-    }//GEN-LAST:event_txtUltordencFocusGained
-
-    private void txtRecnumecaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtRecnumecaFocusGained
-        txtRecnumeca.selectAll();
-    }//GEN-LAST:event_txtRecnumecaFocusGained
-
-    private void txtRecnumecaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRecnumecaActionPerformed
-        txtRecnumeca.transferFocus();
-    }//GEN-LAST:event_txtRecnumecaActionPerformed
+    private void txtFacnumeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFacnumeActionPerformed
+        txtFacnume.transferFocus();
+    }//GEN-LAST:event_txtFacnumeActionPerformed
 
     /**
      * @param c
@@ -1312,17 +857,12 @@ public class Consecutivos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton cmdGuardar;
-    private javax.swing.JButton cmdSalir;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnSalir;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JLabel lblAsientoC;
-    private javax.swing.JLabel lblAsientoC1;
-    private javax.swing.JLabel lblAsientoV;
-    private javax.swing.JLabel lblAsientoV1;
     private javax.swing.JLabel lblFacnume;
     private javax.swing.JLabel lblFormulario;
     private javax.swing.JLabel lblMovdocu;
@@ -1331,34 +871,22 @@ public class Consecutivos extends javax.swing.JFrame {
     private javax.swing.JLabel lblReciboCXP;
     private javax.swing.JLabel lblReciboCXP1;
     private javax.swing.JLabel lblReciboCaja;
-    private javax.swing.JLabel lblTipoV;
-    private javax.swing.JLabel lblTipo_compc;
-    private javax.swing.JLabel lblTipo_comprv;
-    private javax.swing.JLabel lblTipo_compv;
     private javax.swing.JLabel lblfacnd;
     private javax.swing.JLabel lblfacnd2;
-    private javax.swing.JMenuItem mnuBuscar;
     private javax.swing.JMenuItem mnuGuardar;
     private javax.swing.JMenuItem mnuSalir;
     private javax.swing.JPanel panelCXC;
     private javax.swing.JPanel panelCXP;
-    private javax.swing.JPanel panelConta;
     private javax.swing.JTabbedPane panelGeneral;
     private javax.swing.JFormattedTextField txtDocinv;
     private javax.swing.JFormattedTextField txtFacnume;
     private javax.swing.JFormattedTextField txtFormulario;
     private javax.swing.JFormattedTextField txtNcred;
     private javax.swing.JFormattedTextField txtNdeb;
-    private javax.swing.JFormattedTextField txtNo_comprobc;
-    private javax.swing.JFormattedTextField txtNo_comprobrv;
-    private javax.swing.JFormattedTextField txtNo_comprobv;
     private javax.swing.JFormattedTextField txtPronume;
     private javax.swing.JFormattedTextField txtRecnume;
     private javax.swing.JFormattedTextField txtRecnume1;
     private javax.swing.JFormattedTextField txtRecnumeca;
-    private javax.swing.JFormattedTextField txtTipo_compc;
-    private javax.swing.JFormattedTextField txtTipo_comprv;
-    private javax.swing.JFormattedTextField txtTipo_compv;
     private javax.swing.JFormattedTextField txtUltordenc;
     // End of variables declaration//GEN-END:variables
     private void cargarConsecutivos(){
@@ -1411,48 +939,7 @@ public class Consecutivos extends javax.swing.JFrame {
             
             // Bosco agregado 28/09/2013
             ps.close();
-            
-            sqlSent =
-                    "Select                 " +
-                    "        no_comprobv,   " +
-                    "        tipo_compv,    " +
-                    "        (Select descrip from cotipasient         " +
-                    "       Where tipo_comp = tipo_compv) as tipoV,   " + 
-                    "        no_comprobc,   " +
-                    "        tipo_compc,    " +
-                    "        (Select descrip from    cotipasient      " +
-                    "       Where tipo_comp = tipo_compc) as tipoC,   " + 
-                    "        no_comprobrv,   " +
-                    "        tipo_comprv,    " +
-                    "        (Select descrip from    cotipasient      " +
-                    "       Where tipo_comp = tipo_comprv) as tipoRV  " + 
-                    "From coconsecutivo     ";
-            ps = conn.prepareStatement(sqlSent);
-            rs = CMD.select(ps);
-            if (!Ut.goRecord(rs, Ut.FIRST)){
-                return;
-            } // end if
-            
-            this.no_comprobv  = rs.getString("no_comprobv");
-            this.tipo_compv   = rs.getShort("tipo_compv");
-            this.no_comprobc  = rs.getString("no_comprobc");
-            this.tipo_compc   = rs.getShort("tipo_compc");
-            this.no_comprobrv = rs.getString("no_comprobrv");
-            this.tipo_comprv  = rs.getShort("tipo_comprv");
-            
-            this.txtNo_comprobv.setText(rs.getString("no_comprobv"));
-            this.txtTipo_compv.setText(rs.getString("tipo_compv"));
-            this.lblTipo_compv.setText(rs.getString("tipoV"));
-            this.txtNo_comprobc.setText(rs.getString("no_comprobc"));
-            this.txtTipo_compc.setText(rs.getString("tipo_compc"));
-            this.lblTipo_compc.setText(rs.getString("tipoC"));
-            
-            this.txtNo_comprobrv.setText(rs.getString("no_comprobrv"));
-            this.txtTipo_comprv.setText(rs.getString("tipo_comprv"));
-            this.lblTipo_comprv.setText(rs.getString("tipoRV"));
-            ps.close();
-            // Fin Bosco agregado 28/09/2013
-        }catch(SQLException ex){
+        } catch(SQLException ex){
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),
