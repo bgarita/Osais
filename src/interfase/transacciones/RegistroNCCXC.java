@@ -34,6 +34,7 @@ import logica.OrdenCompra;
 import logica.Usuario;
 import logica.contabilidad.CoasientoD;
 import logica.contabilidad.CoasientoE;
+import logica.contabilidad.Cotipasient;
 import logica.contabilidad.Cuenta;
 import logica.utilitarios.FormatoTabla;
 import logica.utilitarios.SQLInjectionException;
@@ -1846,7 +1847,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
             this.lblCodigoTarifa.setText(rsArtcode.getString("codigoTarifa"));
             this.lblDescripTarifa.setText(rsArtcode.getString("descripTarifa"));
             this.codigoCabys = rsArtcode.getString("codigoCabys").trim();
-            
+
             // Si este código viene vacío es porque se está usando cabys pero aún no ha sido asignado
             if (this.codigoCabys.isEmpty()) {
                 throw new Exception("Código cabys sin asignar. \nDebe ir al catálogo de productos y asignarlo.");
@@ -2354,6 +2355,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                 if (!errorMsg.equals("")) {
                     if (errorMsg.contains("ERROR")) {
                         CMD.transaction(conn, CMD.ROLLBACK);
+                        b.writeToLog(this.getClass().getName() + "--> " + errorMsg);
                         this.hayTransaccion = false;
                         JOptionPane.showMessageDialog(null,
                                 errorMsg,
@@ -3743,6 +3745,12 @@ public class RegistroNCCXC extends javax.swing.JFrame {
      * @return boolean true=El asiento se generó, false=El asiento no se generó
      */
     private String generarAsiento(int facnume, boolean contado) throws SQLException {
+        /*
+        Nota: por ahora se usan exactamente las misma cuentas que el asiento
+        de ventas, pero más adelante habrá que valorar la cuenta del banco.
+        Es posible que en su lugar se utilice otra cuenta, generalmente llamada
+        devoluciones sobre ventas. Esto aplicaría solo para la NC sobre contado.
+        */
         String ctacliente;      // Cuenta del cliente o cuenta transitoria.
         String transitoria;     // Cuenta transitoria.
         String ventas_g;        // Ventas gravadas
@@ -3804,41 +3812,21 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         descuento_vg = rsX.getString("descuento_vg");
         descuento_ve = rsX.getString("descuento_ve");
         impuesto_v = rsX.getString("impuesto_v");
+        tipo_comp = rsX.getShort("tipo_comp_V");
         ps.close();
 
-        // Cargar consecutivo de asientos
-        sqlSent
-                = "Select * from coconsecutivo";
-        ps = conn.prepareStatement(sqlSent,
-                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        rsX = CMD.select(ps);
-        if (!Ut.goRecord(rsX, Ut.FIRST)) {
-            return "WARNING aún no se han configurado los consecutivos\n "
-                    + "para el asiento de ventas.";
-        } // end if
-        no_comprob = (rsX.getInt("no_comprobv") + 1) + "";
+        // Cargar el último número registrado en la tabla de tipos de asiento
+        Cotipasient tipo = new Cotipasient(conn);
+        tipo.setTipo_comp(tipo_comp);
+        no_comprob = tipo.getConsecutivo() + "";
         no_comprob = Ut.lpad(no_comprob.trim(), "0", 10);
-        tipo_comp = rsX.getShort("tipo_compv");
-        ps.close();
 
-        // Validar si el consecutivo está bien
-        sqlSent
-                = "Select IfNull(max(no_comprob),0) as max from coasientoe "
-                + "Where tipo_comp = ? ";
-        ps = conn.prepareStatement(sqlSent,
-                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        ps.setShort(1, tipo_comp);
-        rsX = CMD.select(ps);
-        if (Ut.goRecord(rsX, Ut.FIRST)) {
-            String temp = rsX.getString("max").trim();
-            // Si el max es mayor o igual al consecutivo registrado...
-            if (temp.compareTo(no_comprob.trim()) > 0 || temp.compareTo(no_comprob.trim()) == 0) {
-                no_comprob = (Integer.parseInt(temp) + 1) + "";
-                no_comprob = Ut.lpad(no_comprob.trim(), "0", 10);
-            } // end if
-
+        // Si el consecutivo ya existe se le asigna el siguiente automáticamente
+        encab = new CoasientoE(conn);
+        if (encab.existeEnBaseDatos(no_comprob, tipo_comp)) {
+            no_comprob = tipo.getSiguienteConsecutivo(tipo_comp) + "";
+            no_comprob = Ut.lpad(no_comprob.trim(), "0", 10);
         } // end if
-        ps.close();
 
         // Datos para el cliente y el encabezado del asiento
         sqlSent
@@ -3857,10 +3845,10 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         ps.setInt(1, facnume);
         rsE = CMD.select(ps);
         if (!Ut.goRecord(rsE, Ut.FIRST)) {
-            return "ERROR factura no encontrada para asiento.";
+            return "ERROR nota de crédito no encontrada para asiento.";
         } // end if
 
-        // Si la factura es de crédito se usará esta cuenta sino se usará la transitoria.
+        // Si la NC es de crédito se usará esta cuenta sino se usará la transitoria.
         ctacliente = rsE.getString("cuenta");
 
         // Si es una NC normal hay que validar la cuenta del cliente y
@@ -3897,25 +3885,30 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         ps.close();
 
         // Agregar el detalle del asiento
+        /*
+        Datos en SELECT
+        0.  Impuesto (solo para cuadrar monto)
+        1.  Descuento de ventas exentas
+        2.  Descuento de ventas grabadas
+        3.  Ventas exentas
+        4.  Ventas grabadas
+         */
         sqlSent
                 = "Select "
                 + "	If(config.redond5 = 1, "
-                + "		RedondearA5(Abs(sum(facimve))), Abs(sum(facimve))) as facimve, "
-                + // Impuesto
-                "	If(config.redond5 = 1, "
-                + "		RedondearA5(Abs(sum(If(facimve = 0,facdesc,0)))), "
-                + "				    Abs(sum(If(facimve = 0,facdesc,0)))) as DescVEX,"
-                + // Descuento de ventas exentas
-                "	If(config.redond5 = 1, "
-                + "		RedondearA5(Abs(sum(If(facimve > 0,facdesc,0)))), "
-                + "				    Abs(sum(If(facimve > 0,facdesc,0)))) as DescVGR,"
-                + // Descuento de ventas grabadas
-                "	If(config.redond5 = 1, "
-                + "		RedondearA5(Abs(sum(If(facimve = 0, facmont, 0)))), "
-                + "				    Abs(sum(If(facimve = 0, facmont, 0)))) as VtasExentas,"
+                + "         RedondearA5(Abs(sum(facimve))), Abs(sum(facimve))) as facimve, "
                 + "	If(config.redond5 = 1, "
-                + "		RedondearA5(Abs(sum(If(facimve > 0, facmont, 0)))), "
-                + "				    Abs(sum(If(facimve > 0, facmont, 0)))) as VtasGrabadas "
+                + "         RedondearA5(Abs(sum(If(facimve = 0,facdesc,0)))), "
+                + "				Abs(sum(If(facimve = 0,facdesc,0)))) as DescVEX,"
+                + "	If(config.redond5 = 1, "
+                + "         RedondearA5(Abs(sum(If(facimve <> 0,facdesc,0)))), "
+                + "				Abs(sum(If(facimve <> 0,facdesc,0)))) as DescVGR,"
+                + "	If(config.redond5 = 1, "
+                + "         RedondearA5(Abs(sum(If(facimve = 0, facmont, 0)))), "
+                + "				Abs(sum(If(facimve = 0, facmont, 0)))) as VtasExentas,"
+                + "	If(config.redond5 = 1, "
+                + "         RedondearA5(Abs(sum(If(facimve <> 0, facmont, 0)))), "
+                + "				Abs(sum(If(facimve <> 0, facmont, 0)))) as VtasGrabadas "
                 + "from fadetall, config "
                 + "where fadetall.facnume = ? and facnd > 0";
 
@@ -3953,10 +3946,10 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         detal.setDescrip("Notas de crédito del " + fecha_comp);
 
         /*
-         * Primera línea del asiento - monto de la factura, débito
+         * Primera línea del asiento - monto de la nota de crédito
          */
         detal.setCuenta(cta);
-        db_cr = 1;
+        db_cr = 0;
         detal.setDb_cr(db_cr);
         detal.setMonto(facmont);
         detal.insert();
@@ -3966,12 +3959,12 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         } // end if
 
         /*
-         * Segunda línea del asiento - ventas grabadas, crédito
+         * Segunda línea del asiento - ventas grabadas
          */
         if (vtasGrabadas > 0) {
             cta.setCuentaString(ventas_g);
             detal.setCuenta(cta);
-            db_cr = 0;
+            db_cr = 1;
             detal.setDb_cr(db_cr);
             detal.setMonto(vtasGrabadas);
             detal.insert();
@@ -3981,12 +3974,12 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         } // end if
 
         /*
-         * Tercera línea del asiento - ventas exentas, crédito
+         * Tercera línea del asiento - ventas exentas
          */
         if (vtasExentas > 0) {
             cta.setCuentaString(ventas_e);
             detal.setCuenta(cta);
-            db_cr = 0;
+            db_cr = 1;
             detal.setDb_cr(db_cr);
             detal.setMonto(vtasExentas);
             detal.insert();
@@ -3996,12 +3989,12 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         } // end if
 
         /*
-         * Cuarta línea del asiento - descuento ventas grabadas, débito
+         * Cuarta línea del asiento - descuento ventas grabadas
          */
         if (rsD.getDouble("DescVGR") > 0) {
             cta.setCuentaString(descuento_vg);
             detal.setCuenta(cta);
-            db_cr = 1;
+            db_cr = 0;
             detal.setDb_cr(db_cr);
             detal.setMonto(rsD.getDouble("DescVGR"));
             detal.insert();
@@ -4016,7 +4009,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         if (rsD.getDouble("DescVEX") > 0) {
             cta.setCuentaString(descuento_ve);
             detal.setCuenta(cta);
-            db_cr = 1;
+            db_cr = 0;
             detal.setDb_cr(db_cr);
             detal.setMonto(rsD.getDouble("DescVEX"));
             detal.insert();
@@ -4024,24 +4017,45 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                 return "ERROR " + detal.getMensaje_error();
             } // end if
         } // end if
+        ps.close();
 
         /*
-         * Sexta línea del asiento - impuesto, crédito
+        Obtener una lista de los impuestos y sus respectiavas cuentas
          */
-        if (rsD.getDouble("facimve") > 0) {
-            cta.setCuentaString(impuesto_v);
+        sqlSent = " SELECT  "
+                + " 	tarifa_iva.cuenta, "
+                + " 	if (config.redond5 = 1, "
+                + "	 	RedondearA5(SUM(Abs(fadetall.facimve))), SUM(Abs(fadetall.facimve))) AS facimve "
+                + " FROM config, fadetall "
+                + " INNER JOIN tarifa_iva ON fadetall.codigoTarifa = tarifa_iva.codigoTarifa "
+                + " WHERE fadetall.facnume = ? and fadetall.facnd > 0 "
+                + " GROUP BY tarifa_iva.cuenta";
+        
+        ps = conn.prepareStatement(sqlSent,
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        ps.setInt(1, facnume);
+        rsD = CMD.select(ps);
+        if (!Ut.goRecord(rsD, Ut.FIRST)) {
+            return "ERROR detalle de impuestos no encontrado.";
+        } // end if
+        
+        db_cr = 1;
+        rsD.beforeFirst();
+        while (rsD.next()) {
+            if (rsD.getDouble("facimve") == 0) {
+                continue;
+            } // end if
+            cta.setCuentaString(rsD.getString("cuenta"));
             detal.setCuenta(cta);
-            db_cr = 0;
             detal.setDb_cr(db_cr);
             detal.setMonto(rsD.getDouble("facimve"));
             detal.insert();
             if (detal.isError()) {
                 return "ERROR " + detal.getMensaje_error();
             } // end if
-        } // end if
-
+        } // end while
         ps.close();
-
+        
         // Actualizar la tabla de facturas
         sqlSent
                 = "Update faencabe Set "
@@ -4055,21 +4069,11 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         CMD.update(ps);
         ps.close();
 
-        // Cambiar el consecutivo del asiento de ventas
-        sqlSent = "Call CambiarConsecutivoConta(?, ?, 1)";
-        ps = conn.prepareStatement(sqlSent,
-                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        ps.setInt(1, Integer.parseInt(no_comprob));
-        ps.setShort(2, tipo_comp);
-        rsX = CMD.select(ps);
-        if (Ut.goRecord(rsX, Ut.FIRST)) {
-            if (rsX.getBoolean("HayError")) {
-                return rsX.getString("ErrorMessage");
-            } // end if
-        } // end if
-
-        ps.close();
-        return "";
+        // Actualizar el consecutivo del asiento de ventas
+        // Se registra el último número utilizado
+        tipo.setConsecutivo(Integer.parseInt(no_comprob));
+        tipo.update();
+        return ""; // Vacío significa que todo salió bien.
     } // end generarAsiento
 
     private String registrarCaja(int facnume) {
