@@ -37,6 +37,8 @@ import logica.utilitarios.Ut;
  */
 public class RegistroFacturasC extends javax.swing.JFrame {
 
+    private static final long serialVersionUID = 1L;
+
     private Connection conn;
     private Statement  stat;
     private ResultSet    rs;
@@ -153,7 +155,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         spnVence_en = new javax.swing.JSpinner();
         jLabel7 = new javax.swing.JLabel();
-        cboMoneda = new javax.swing.JComboBox();
+        cboMoneda = new javax.swing.JComboBox<>();
         txtTipoca = new javax.swing.JFormattedTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
@@ -167,11 +169,11 @@ public class RegistroFacturasC extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         txaObservaciones = new javax.swing.JTextArea();
         jPanel4 = new javax.swing.JPanel();
-        cboTipoPago = new javax.swing.JComboBox();
+        cboTipoPago = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         txtChequeoTarjeta = new javax.swing.JTextField();
         lblBanco = new javax.swing.JLabel();
-        cboBanco = new javax.swing.JComboBox();
+        cboBanco = new javax.swing.JComboBox<>();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuArchivo = new javax.swing.JMenu();
         mnuGuardar = new javax.swing.JMenuItem();
@@ -306,16 +308,16 @@ public class RegistroFacturasC extends javax.swing.JFrame {
 
         cboMoneda.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         cboMoneda.setForeground(new java.awt.Color(204, 0, 153));
-        cboMoneda.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Colones", "Dólares" }));
+        cboMoneda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Colones", "Dólares" }));
         cboMoneda.setToolTipText("Moneda");
-        cboMoneda.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboMonedaActionPerformed(evt);
-            }
-        });
         cboMoneda.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 cboMonedaFocusGained(evt);
+            }
+        });
+        cboMoneda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboMonedaActionPerformed(evt);
             }
         });
 
@@ -517,7 +519,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(txaObservaciones);
 
-        cboTipoPago.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Desconocido", "Efectivo", "Cheque", "Tarjeta", "Transferencia" }));
+        cboTipoPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Desconocido", "Efectivo", "Cheque", "Tarjeta", "Transferencia" }));
         cboTipoPago.setToolTipText("Elija el tipo de pago");
         cboTipoPago.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -783,7 +785,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                     Double.parseDouble(
                     Ut.quitarFormato(txtImpuesto.getText().trim()));
         } catch (Exception ex) {
-            Logger.getLogger(RegistroFacturasC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
@@ -893,8 +895,8 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                 psUpdate.close();
             } // end if
             
-            // Si es una factura hay que actualizar el monto de la última compra
-            // y también la fecha de la última compra.
+            // Si es una factura hay que actualizar el monto y la fecha de la 
+            // última compra.
             // En este caso se debe poner como condición que la fecha que ya está
             // en la tabla sea menor a la fecha de esta factura.  Por esta razón
             // podría ser que no se actualice ningún registro y por lo tanto no
@@ -1359,9 +1361,9 @@ public class RegistroFacturasC extends javax.swing.JFrame {
     private javax.swing.ButtonGroup btnGTipo;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnSalir;
-    private javax.swing.JComboBox cboBanco;
-    private javax.swing.JComboBox cboMoneda;
-    private javax.swing.JComboBox cboTipoPago;
+    private javax.swing.JComboBox<String> cboBanco;
+    private javax.swing.JComboBox<String> cboMoneda;
+    private javax.swing.JComboBox<String> cboTipoPago;
     private com.toedter.calendar.JDateChooser datFecha_fac;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -1645,7 +1647,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                 todoCorrecto = false;
             } // end if
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroFacturasC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),
@@ -1717,7 +1719,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                 } // end if
             } // end if
         } catch (Exception ex) {
-            Logger.getLogger(RegistroFacturasC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),

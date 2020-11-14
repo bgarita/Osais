@@ -820,7 +820,7 @@ public class Configconta extends JFrame {
         txtCtaCliente2.setEnabled(false);
 
         jLabel14.setForeground(new java.awt.Color(36, 75, 112));
-        jLabel14.setText("Transitoria");
+        jLabel14.setText("Banco");
 
         txtTransitoria1.setColumns(12);
         try {

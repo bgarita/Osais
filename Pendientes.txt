@@ -55,11 +55,15 @@ PENDIENTE
 Contabilidad #4 (parqueo don Mincho)
 - Modificar la pantalla de impuestos para que incluya la cuenta contable            LISTO
 - Modificar la pantalla de configuración de cuentas para que incluya todas las C.   LISTO
-- Revisar y corregir la integración de la factura a contabilidad                    En proceso...
+- Revisar y corregir la integración de la factura a contabilidad                    LISTO
 - Revisar y corregir la integración de la NC a contabilidad
-- Revisar y corregir la integración de la ND a contabilidad
+- Revisar y corregir la integración de la ND a contabilidad                         LISTO (no genera asiento, solo se hace en contabilidad para afectar el banco)
 - Cambiar la forma de los consecutivos contables.  Hacer por tipo. Agregar campo
-  en esa tabla y cambiar el mantenimiento y la generación de asientos.
+  en esa tabla y cambiar el mantenimiento y la generación de asientos.              LISTO
+- Adaptar la factura a la nueva forma de obtener los consecutivos para el asiento   LISTO
+- Eliminar la parte de consecutivos de la pantalla de configuración y también del   LISTO
+  procedimiento almacenado.
+- Revisar y corregir la forma de mantener el consecutivo de compras.                En proceso...
 
 
 USAR EL ASIENTO 112011 TIPO 1 COMO EJEMPLO PARA VER QUÉ CUENTA VA AL HABER Y CUAL AL DEBE
@@ -91,10 +95,10 @@ NOTAS:
 --- CABYS ---
 Para la implementación del CABYS (Catálogo de Bienes y Servicios) de Hacienda
 se debe hacer lo siguiente:
-1. Crear una tabla con ese nombre cabys con tres campos (codigocabys, descrip, impuesto)                    1 hora          LISTO
-   También se crea una tabla de auditoría para guardar los borrados o modificaciones a la tabla original    1 hora          LISTO
-   Hacer todo el proces de integridad referencial para que el motor procese los cambios                     1 hora          LISTO
-2. Crear un proceso que busque el CABYS descargado de Hacienda y lo lea entero                              5 horas         LISTO
+1. Crear una tabla con ese nombre cabys con tres campos (codigocabys, descrip, impuesto)                    1 hora          LISTO   Factura # 80
+   También se crea una tabla de auditoría para guardar los borrados o modificaciones a la tabla original    1 hora          LISTO   Factura # 80
+   Hacer todo el proces de integridad referencial para que el motor procese los cambios                     1 hora          LISTO   Factura # 80
+2. Crear un proceso que busque el CABYS descargado de Hacienda y lo lea entero                              5 horas         LISTO   Factura # 80
     determinando si el producto existe o no. Este proceso debe ser capaz de procesar
     hojas de Excel de cualquier versión para que no existan limitaciones por el 
     número de versión.
