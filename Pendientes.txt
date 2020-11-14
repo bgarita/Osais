@@ -54,16 +54,33 @@ PENDIENTE
 --- CONTABILIDAD ---
 Contabilidad #4 (parqueo don Mincho)
 - Modificar la pantalla de impuestos para que incluya la cuenta contable            LISTO
+
 - Modificar la pantalla de configuración de cuentas para que incluya todas las C.   LISTO
+
 - Revisar y corregir la integración de la factura a contabilidad                    LISTO
-- Revisar y corregir la integración de la NC a contabilidad
+
+- Revisar y corregir la integración de la NC a contabilidad                         LISTO
+
 - Revisar y corregir la integración de la ND a contabilidad                         LISTO (no genera asiento, solo se hace en contabilidad para afectar el banco)
+
 - Cambiar la forma de los consecutivos contables.  Hacer por tipo. Agregar campo
   en esa tabla y cambiar el mantenimiento y la generación de asientos.              LISTO
+
 - Adaptar la factura a la nueva forma de obtener los consecutivos para el asiento   LISTO
+
 - Eliminar la parte de consecutivos de la pantalla de configuración y también del   LISTO
   procedimiento almacenado.
-- Revisar y corregir la forma de mantener el consecutivo de compras.                En proceso...
+
+- Revisar y corregir la forma de mantener el consecutivo de compras.                LISTO
+
+- Revisar y corregir la forma de hacer el asiento de pagos de clientes.             LISTO
+
+- Reivsar si los procesos de anulación de facturas, NC y recibos de CXC están  
+  generando el correspondiente asiento de anulación.                                
+
+- No permitir que los asientos generados por el auxiliar se anulen desde el
+  sistema de contabilidad. Éstos se deben anular desde el auxiliar y generar
+  el correspondiente asiento de anulación.
 
 
 USAR EL ASIENTO 112011 TIPO 1 COMO EJEMPLO PARA VER QUÉ CUENTA VA AL HABER Y CUAL AL DEBE

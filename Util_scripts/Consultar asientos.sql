@@ -10,5 +10,5 @@ INNER JOIN cocatalogo c ON
 	d.sub_cta = c.sub_cta AND 
 	d.sub_sub = c.sub_sub AND 
 	d.colect = c.colect
-WHERE d.no_comprob = '112011'
-AND e.tipo_comp = 1;
+WHERE d.no_comprob = '0001252014'
+AND e.tipo_comp = 5;

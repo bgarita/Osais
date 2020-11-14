@@ -772,7 +772,7 @@
             </Container>
             <Component class="javax.swing.JLabel" name="jLabel16">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Tipo de asiento ventas"/>
+                <Property name="text" type="java.lang.String" value="Tipo de asiento"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cboDescripAsientoV">
@@ -983,7 +983,7 @@
             </Container>
             <Component class="javax.swing.JLabel" name="jLabel17">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Tipo de asiento compras"/>
+                <Property name="text" type="java.lang.String" value="Tipo de asiento"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cboDescripAsientoC">
@@ -1001,8 +1001,8 @@
         <Container class="javax.swing.JPanel" name="panelRecibosCXC">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Recibos (CXC)">
-                <Property name="tabTitle" type="java.lang.String" value="Recibos (CXC)"/>
+              <JTabbedPaneConstraints tabName="Pagos (CXC)">
+                <Property name="tabTitle" type="java.lang.String" value="Pagos (CXC)"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -1010,9 +1010,17 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPanel2" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="cboDescripAsientoP" min="-2" pref="364" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -1022,7 +1030,12 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="206" max="-2" attributes="0"/>
                       <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="233" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel18" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cboDescripAsientoP" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace pref="136" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1036,6 +1049,9 @@
                   </Border>
                 </Property>
               </Properties>
+              <AccessibilityProperties>
+                <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Asiento de pagos de cuentas por cobrar"/>
+              </AccessibilityProperties>
 
               <Layout>
                 <DimensionLayout dim="0">
@@ -1045,10 +1061,10 @@
                               <Component id="jLabel13" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel14" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="16" max="32767" attributes="0"/>
+                          <EmptySpace pref="56" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="txtCtaCliente2" alignment="0" pref="150" max="32767" attributes="0"/>
-                              <Component id="txtTransitoria1" alignment="0" pref="0" max="32767" attributes="0"/>
+                              <Component id="txtTransitoria1" alignment="0" pref="189" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="lblNom_cta11" min="-2" pref="279" max="-2" attributes="0"/>
@@ -1113,6 +1129,21 @@
                 </Component>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JLabel" name="jLabel18">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Tipo de asiento"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="cboDescripAsientoP">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="0"/>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
           </SubComponents>
         </Container>
       </SubComponents>

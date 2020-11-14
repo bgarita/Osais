@@ -345,7 +345,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Icons/blogs--plus.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Facturaci&#xf3;n"/>
+                <Property name="text" type="java.lang.String" value="Facturaci&#xf3;n venta"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuFacturacionActionPerformed"/>
@@ -405,20 +405,41 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuRefNCActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mnuPagosCXC">
+            <Menu class="javax.swing.JMenu" name="mnuPagos">
               <Properties>
-                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+F6"/>
-                </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Icons/money.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Pagos de clientes"/>
+                <Property name="text" type="java.lang.String" value="Pagos"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuPagosCXCActionPerformed"/>
-              </Events>
-            </MenuItem>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="mnuPagosCXC">
+                  <Properties>
+                    <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                      <KeyStroke key="Ctrl+F6"/>
+                    </Property>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/Icons/money.png"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Pagos de clientes"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuPagosCXCActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="mnuRecibosCXP">
+                  <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/Icons/money_delete.png"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Pagos a proveedores"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuRecibosCXPActionPerformed"/>
+                  </Events>
+                </MenuItem>
+              </SubComponents>
+            </Menu>
             <MenuItem class="javax.swing.JMenuItem" name="mnuPagaresCXC">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Pagar&#xe9;s (CXC)"/>
@@ -456,17 +477,6 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuFacturasCActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mnuRecibosCXP">
-              <Properties>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Icons/money_delete.png"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Pagos a proveedores"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuRecibosCXPActionPerformed"/>
-              </Events>
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuAplicarNDB">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Aplicar notas de d&#xe9;bito (CXP)"/>
@@ -498,7 +508,7 @@
               <SubComponents>
                 <MenuItem class="javax.swing.JMenuItem" name="mnuAnularPagos">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Recibos (CXC)"/>
+                    <Property name="text" type="java.lang.String" value="Pagos (CXC)"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuAnularPagosActionPerformed"/>
@@ -522,7 +532,7 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="mnuAnulaRCXP">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Recibos (CXP)"/>
+                    <Property name="text" type="java.lang.String" value="Pagos (CXP)"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuAnulaRCXPActionPerformed"/>
