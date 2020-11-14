@@ -325,13 +325,14 @@ public class Menu extends javax.swing.JFrame {
         mnuOtrasCXC = new javax.swing.JMenuItem();
         mnuAplicarNCCXC = new javax.swing.JMenuItem();
         mnuRefNC = new javax.swing.JMenuItem();
+        mnuPagos = new javax.swing.JMenu();
         mnuPagosCXC = new javax.swing.JMenuItem();
+        mnuRecibosCXP = new javax.swing.JMenuItem();
         mnuPagaresCXC = new javax.swing.JMenuItem();
         mnuInteresM = new javax.swing.JMenuItem();
         jSeparator4 = new javax.swing.JPopupMenu.Separator();
         mnuOrdenesC = new javax.swing.JMenuItem();
         mnuFacturasC = new javax.swing.JMenuItem();
-        mnuRecibosCXP = new javax.swing.JMenuItem();
         mnuAplicarNDB = new javax.swing.JMenuItem();
         jSeparator16 = new javax.swing.JPopupMenu.Separator();
         mnuLiquidacionD = new javax.swing.JMenuItem();
@@ -759,7 +760,7 @@ public class Menu extends javax.swing.JFrame {
 
         mnuFacturacion.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, java.awt.event.InputEvent.CTRL_MASK));
         mnuFacturacion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/blogs--plus.png"))); // NOI18N
-        mnuFacturacion.setText("Facturación");
+        mnuFacturacion.setText("Facturación venta");
         mnuFacturacion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuFacturacionActionPerformed(evt);
@@ -812,6 +813,9 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuRegistro.add(mnuRefNC);
 
+        mnuPagos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/money.png"))); // NOI18N
+        mnuPagos.setText("Pagos");
+
         mnuPagosCXC.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, java.awt.event.InputEvent.CTRL_MASK));
         mnuPagosCXC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/money.png"))); // NOI18N
         mnuPagosCXC.setText("Pagos de clientes");
@@ -820,7 +824,18 @@ public class Menu extends javax.swing.JFrame {
                 mnuPagosCXCActionPerformed(evt);
             }
         });
-        mnuRegistro.add(mnuPagosCXC);
+        mnuPagos.add(mnuPagosCXC);
+
+        mnuRecibosCXP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/money_delete.png"))); // NOI18N
+        mnuRecibosCXP.setText("Pagos a proveedores");
+        mnuRecibosCXP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuRecibosCXPActionPerformed(evt);
+            }
+        });
+        mnuPagos.add(mnuRecibosCXP);
+
+        mnuRegistro.add(mnuPagos);
 
         mnuPagaresCXC.setText("Pagarés (CXC)");
         mnuPagaresCXC.addActionListener(new java.awt.event.ActionListener() {
@@ -856,15 +871,6 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuRegistro.add(mnuFacturasC);
 
-        mnuRecibosCXP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/money_delete.png"))); // NOI18N
-        mnuRecibosCXP.setText("Pagos a proveedores");
-        mnuRecibosCXP.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuRecibosCXPActionPerformed(evt);
-            }
-        });
-        mnuRegistro.add(mnuRecibosCXP);
-
         mnuAplicarNDB.setText("Aplicar notas de débito (CXP)");
         mnuAplicarNDB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -886,7 +892,7 @@ public class Menu extends javax.swing.JFrame {
         mnuAnular.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/cancelar16.png"))); // NOI18N
         mnuAnular.setText("Anular/Eliminar");
 
-        mnuAnularPagos.setText("Recibos (CXC)");
+        mnuAnularPagos.setText("Pagos (CXC)");
         mnuAnularPagos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuAnularPagosActionPerformed(evt);
@@ -910,7 +916,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuAnular.add(mnuAnularDocsInv);
 
-        mnuAnulaRCXP.setText("Recibos (CXP)");
+        mnuAnulaRCXP.setText("Pagos (CXP)");
         mnuAnulaRCXP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuAnulaRCXPActionPerformed(evt);
@@ -4053,6 +4059,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuOtrasCXC;
     private javax.swing.JMenuItem mnuPagaresCXC;
     private javax.swing.JMenuItem mnuPagaresEm;
+    private javax.swing.JMenu mnuPagos;
     private javax.swing.JMenuItem mnuPagosCXC;
     private javax.swing.JMenuItem mnuPagosCXP;
     private javax.swing.JMenuItem mnuPagos_recibos_CXC;

@@ -40,7 +40,7 @@ public class Configconta extends JFrame {
     private Buscador   bd;
     private final Cuenta cta;
     private JTextField campo;
-    private Cotipasient[] listTipos;
+    private Cotipasient[] aTipos;
     private final Bitacora b = new Bitacora();
 
     /** Creates new form Bodegas
@@ -146,6 +146,8 @@ public class Configconta extends JFrame {
         jLabel14 = new javax.swing.JLabel();
         txtTransitoria1 = new javax.swing.JFormattedTextField();
         lblNom_cta11 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        cboDescripAsientoP = new javax.swing.JComboBox<>();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuArchivo = new javax.swing.JMenu();
         mnuGuardar = new javax.swing.JMenuItem();
@@ -608,7 +610,7 @@ public class Configconta extends JFrame {
 
         jPanel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {txtBanco, txtDescuento_ve1, txtDescuento_vg1, txtImpuesto_v2, txtVentas_e1, txtVentas_g1});
 
-        jLabel16.setText("Tipo de asiento ventas");
+        jLabel16.setText("Tipo de asiento");
 
         javax.swing.GroupLayout panelVentasLayout = new javax.swing.GroupLayout(panelVentas);
         panelVentas.setLayout(panelVentasLayout);
@@ -781,7 +783,7 @@ public class Configconta extends JFrame {
                     .addComponent(lblNom_cta10)))
         );
 
-        jLabel17.setText("Tipo de asiento compras");
+        jLabel17.setText("Tipo de asiento");
 
         javax.swing.GroupLayout panelComprasLayout = new javax.swing.GroupLayout(panelCompras);
         panelCompras.setLayout(panelComprasLayout);
@@ -841,10 +843,10 @@ public class Configconta extends JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel13)
                     .addComponent(jLabel14))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtCtaCliente2, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                    .addComponent(txtTransitoria1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(txtTransitoria1, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblNom_cta11, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -863,13 +865,21 @@ public class Configconta extends JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jLabel18.setText("Tipo de asiento");
+
         javax.swing.GroupLayout panelRecibosCXCLayout = new javax.swing.GroupLayout(panelRecibosCXC);
         panelRecibosCXC.setLayout(panelRecibosCXCLayout);
         panelRecibosCXCLayout.setHorizontalGroup(
             panelRecibosCXCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRecibosCXCLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelRecibosCXCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(panelRecibosCXCLayout.createSequentialGroup()
+                        .addComponent(jLabel18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cboDescripAsientoP, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panelRecibosCXCLayout.setVerticalGroup(
@@ -877,10 +887,16 @@ public class Configconta extends JFrame {
             .addGroup(panelRecibosCXCLayout.createSequentialGroup()
                 .addGap(206, 206, 206)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(233, Short.MAX_VALUE))
+                .addGap(77, 77, 77)
+                .addGroup(panelRecibosCXCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18)
+                    .addComponent(cboDescripAsientoP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(136, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Recibos (CXC)", panelRecibosCXC);
+        jPanel2.getAccessibleContext().setAccessibleName("Asiento de pagos de cuentas por cobrar");
+
+        jTabbedPane1.addTab("Pagos (CXC)", panelRecibosCXC);
 
         mnuArchivo.setText("Archivo");
 
@@ -1037,6 +1053,7 @@ public class Configconta extends JFrame {
         } catch (SQLException | SQLInjectionException ex) {
             try {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 JOptionPane.showMessageDialog(
                         null,
                         ex.getMessage(),
@@ -1301,6 +1318,7 @@ public class Configconta extends JFrame {
     private javax.swing.JButton btnGuardar;
     private javax.swing.JComboBox<String> cboCierreFiscal;
     private javax.swing.JComboBox<String> cboDescripAsientoC;
+    private javax.swing.JComboBox<String> cboDescripAsientoP;
     private javax.swing.JComboBox<String> cboDescripAsientoV;
     private javax.swing.JCheckBox chkmostrarfechaRep;
     private javax.swing.JCheckBox chkprecierre;
@@ -1314,6 +1332,7 @@ public class Configconta extends JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
@@ -1450,6 +1469,7 @@ public class Configconta extends JFrame {
         // Obtengo los tipos de asiento para compras y ventas
         short tipo_comp_V = getTipoCompFromCombo(this.cboDescripAsientoV);
         short tipo_comp_C = getTipoCompFromCombo(this.cboDescripAsientoC);
+        short tipo_comp_P = getTipoCompFromCombo(this.cboDescripAsientoP);
         
         String sqlSent = "Select ventas_g from configcuentas";
         PreparedStatement ps = conn.prepareStatement(sqlSent);
@@ -1473,6 +1493,7 @@ public class Configconta extends JFrame {
                     "   mesCierreA = ?,  " +
                     "   tipo_comp_V = ?, " +
                     "   tipo_comp_C = ?, " +
+                    "   tipo_comp_P = ?, " +
                     "   mostrarfechaRep = ?";
         } else {
             sqlSent = 
@@ -1489,8 +1510,9 @@ public class Configconta extends JFrame {
                     "   mesCierreA,  " +
                     "   tipo_comp_V, " +
                     "   tipo_comp_C, " +
+                    "   tipo_comp_P, " +
                     "   mostrarfechaRep) " +
-                    "   Values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"; 
+                    "   Values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"; 
         } // end if
         
         ps = conn.prepareStatement(sqlSent);
@@ -1506,7 +1528,8 @@ public class Configconta extends JFrame {
         ps.setInt(10, cboCierreFiscal.getSelectedIndex() + 1);
         ps.setShort(11, tipo_comp_V);
         ps.setShort(12, tipo_comp_C);
-        ps.setBoolean(13, chkmostrarfechaRep.isSelected());
+        ps.setShort(13, tipo_comp_P);
+        ps.setBoolean(14, chkmostrarfechaRep.isSelected());
         
         Ut.isSQLInjection(sqlSent);
         
@@ -1551,6 +1574,7 @@ public class Configconta extends JFrame {
                 // en el combo que corresponda.
                 setComboValue(this.cboDescripAsientoV, rs.getShort("tipo_comp_V"));
                 setComboValue(this.cboDescripAsientoC, rs.getShort("tipo_comp_C"));
+                setComboValue(this.cboDescripAsientoP, rs.getShort("tipo_comp_P"));
                 ps.close();
             } // end try with resources
             
@@ -1579,10 +1603,11 @@ public class Configconta extends JFrame {
 
     private void cargarTiposAsiento() {
         Cotipasient tipo = new Cotipasient(conn);
-        this.listTipos = tipo.getAllTipo_comp();
-        for (Cotipasient listTipo : listTipos) {
+        this.aTipos = tipo.getAllTipo_comp();
+        for (Cotipasient listTipo : aTipos) {
             this.cboDescripAsientoV.addItem(listTipo.getDescrip());
             this.cboDescripAsientoC.addItem(listTipo.getDescrip());
+            this.cboDescripAsientoP.addItem(listTipo.getDescrip());
         } // end for
     } // end cargarTiposAsiento
 
@@ -1590,8 +1615,8 @@ public class Configconta extends JFrame {
         // Localizo el índice en el array ya que ambos combos se cargaron en el mismo orden.
         cboDescripAsiento.setSelectedIndex(-1);
         
-        for (int i = 0; i < this.listTipos.length; i++){
-            if (listTipos[i].getTipo_comp() == tipo_comp){
+        for (int i = 0; i < this.aTipos.length; i++){
+            if (aTipos[i].getTipo_comp() == tipo_comp){
                 cboDescripAsiento.setSelectedIndex(i);
                 break;
             } // end if
@@ -1603,6 +1628,6 @@ public class Configconta extends JFrame {
         if (selectedIndex < 0){
             return 0;
         } // end if
-        return this.listTipos[selectedIndex].getTipo_comp();
+        return this.aTipos[selectedIndex].getTipo_comp();
     } // end getTipoCompFromCombo
 } // end class

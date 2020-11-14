@@ -8,8 +8,8 @@
             <file>file:/C:/Java%20Programs/osais/src/logica/xmls/DetalleNotaCredito.java</file>
             <file>file:/C:/Java%20Programs/osais/src/interfase/menus/Menu.java</file>
             <file>file:/C:/Java%20Programs/osais/src/interfase/reportes/Reportes.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/interfase/transacciones/RegistroFacturasV.java</file>
             <file>file:/C:/Java%20Programs/osais/src/logica/contabilidad/CoasientoE.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/interfase/transacciones/RegistroFacturasV.java</file>
             <file>file:/C:/Java%20Programs/osais/src/logica/xmls/LineaFactura.java</file>
             <file>file:/C:/Java%20Programs/osais/src/logica/DocumentoElectronico.java</file>
             <file>file:/C:/Java%20Programs/osais/src/interfase/reportes/RepEstadoResultados.java</file>
@@ -20,6 +20,8 @@
             <file>file:/C:/Java%20Programs/osais/src/interfase/consultas/DetalleNotificacionXml.java</file>
             <file>file:/C:/Java%20Programs/osais/src/logica/contabilidad/CoasientoD.java</file>
             <file>file:/C:/Java%20Programs/osais/src/logica/xmls/FacturaElectronica.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/interfase/transacciones/AnulacionFacturasCXC.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/interfase/transacciones/RegistroPagosCXC.java</file>
             <file>file:/C:/Java%20Programs/osais/src/interfase/mantenimiento/Configconta.java</file>
             <file>file:/C:/Java%20Programs/osais/src/logica/xmls/DetalleFactura.java</file>
             <file>file:/C:/Java%20Programs/osais/src/interfase/transacciones/RegistroNCCXC.java</file>

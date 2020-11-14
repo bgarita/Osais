@@ -46,6 +46,7 @@ import logica.Catransa;
 import logica.Usuario;
 import logica.contabilidad.CoasientoD;
 import logica.contabilidad.CoasientoE;
+import logica.contabilidad.Cotipasient;
 import logica.contabilidad.Cuenta;
 import logica.utilitarios.FormatoTabla;
 import logica.utilitarios.SQLInjectionException;
@@ -71,7 +72,6 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
     private final Bitacora b = new Bitacora();
 
     // Constantes de configuración
-    //private final String codigoTCP;  // Código de maneda predeterminado
     private final boolean DistPago;    // Distribuir el pago automáticamente Bosco 22/12/2011.
     
     private final boolean genasienfac; // Generar los asientos Bosco 12/10/2013.
@@ -115,7 +115,7 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
             formato.formatColumn(tblDetalle, 4, FormatoTabla.H_RIGHT, Color.MAGENTA);
             formato.formatColumn(tblDetalle, 5, FormatoTabla.H_RIGHT, Color.BLUE);
         } catch (Exception ex) {
-            Logger.getLogger(RegistroPagosCXC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         
@@ -181,7 +181,7 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
             // Cargar el combo de bancos
             UtilBD.loadBancos(conn, cboBanco);
         } catch (EmptyDataSourceException ex) {
-            Logger.getLogger(RegistroPagosCXC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
@@ -211,7 +211,7 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
         cmdGuardar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         txtRecnume = new javax.swing.JFormattedTextField();
-        cboMoneda = new javax.swing.JComboBox();
+        cboMoneda = new javax.swing.JComboBox<>();
         txtTipoca = new javax.swing.JFormattedTextField();
         jLabel8 = new javax.swing.JLabel();
         txtMonto = new javax.swing.JFormattedTextField();
@@ -231,9 +231,9 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         txtVencido = new javax.swing.JFormattedTextField();
         jPanel2 = new javax.swing.JPanel();
-        cboTipoPago = new javax.swing.JComboBox();
+        cboTipoPago = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
-        cboBanco = new javax.swing.JComboBox();
+        cboBanco = new javax.swing.JComboBox<>();
         lblBanco = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         txtRef = new javax.swing.JFormattedTextField();
@@ -403,7 +403,7 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
         });
 
         cboMoneda.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        cboMoneda.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Colones", "Dólares" }));
+        cboMoneda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Colones", "Dólares" }));
         cboMoneda.setToolTipText("Moneda");
         cboMoneda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -554,7 +554,7 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
         txtVencido.setText("0.0000");
         txtVencido.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
-        cboTipoPago.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Desconocido", "Efectivo", "Cheque", "Tarjeta", "Transferencia" }));
+        cboTipoPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Desconocido", "Efectivo", "Cheque", "Tarjeta", "Transferencia" }));
         cboTipoPago.setToolTipText("Número de cheque, transferencia o autorización de tarjeta");
         cboTipoPago.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -939,7 +939,6 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
                 posGuion,   // Se usa para procesar strings (posición del guión)
                 tipopago;   // Tipo de pago
         
-        
         Float tc;
         
         // Variables para SP InsertarPagoCXC()
@@ -1007,7 +1006,7 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
         try {
             monto = Ut.quitarFormato(txtMonto.getText().trim());
         } catch (Exception ex) {
-            Logger.getLogger(RegistroPagosCXC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(), 
                     "Error", 
@@ -1281,7 +1280,7 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
                         .setVisible(true);
             }
         } catch (NotUniqueValueException | SQLException ex) {
-            Logger.getLogger(RegistroPagosCXC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
@@ -1403,7 +1402,7 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
                 return;
             } // end if
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroPagosCXC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),
@@ -1597,7 +1596,7 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
             } // end if
             // Fin Bosco modificado 22/12/2011.
         } catch (Exception ex) {
-            Logger.getLogger(RegistroPagosCXC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(), 
                     "Error", 
@@ -1732,7 +1731,6 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
                 return;
             } // end if
         } catch (Exception ex) {
-            Logger.getLogger(RegistroPagosCXC.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
@@ -1771,9 +1769,9 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.calendar.JDateChooser DatFecha;
-    private javax.swing.JComboBox cboBanco;
-    private javax.swing.JComboBox cboMoneda;
-    private javax.swing.JComboBox cboTipoPago;
+    private javax.swing.JComboBox<String> cboBanco;
+    private javax.swing.JComboBox<String> cboMoneda;
+    private javax.swing.JComboBox<String> cboTipoPago;
     private javax.swing.JButton cmdGuardar;
     private javax.swing.JButton cmdSalir;
     private javax.swing.JButton jButton1;
@@ -1982,7 +1980,7 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
             txtRemanente.setText(Ut.setDecimalFormat(remanente.toString(),"#,##0.0000"));
         } // end distribuir
         catch (Exception ex) {
-            Logger.getLogger(RegistroPagosCXC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(), 
                     "Error",
@@ -2007,11 +2005,6 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
                 continue;
             }
             try{
-                //                tipocaReg = Float.parseFloat(
-                //                        tblDetalle.getValueAt(row, 5).toString());
-                //                if (!this.codigoTCP.equals(this.codigoTC))
-                //                    tipocaReg = Float.parseFloat(txtTipoca.getText().trim());
-                //                // end if
                 montoAp   = Double.parseDouble(
                         tblDetalle.getValueAt(row, 4).toString());
             }catch (NumberFormatException ex){
@@ -2019,10 +2012,6 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
                 b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 continue;
             }
-            // Bosco modificado 22/08/2011.
-            // Elimino la conversión.
-            //montoAp  *= tipocaReg;
-            // Fin Bosco modificado 22/08/2011.
             aplicado += montoAp;
             row++;
         } // end while
@@ -2039,7 +2028,7 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
                     Ut.setDecimalFormat(
                     String.valueOf(aplicar - aplicado),"#,##0.0000"));
         } catch (Exception ex) {
-            Logger.getLogger(RegistroPagosCXC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(), 
                     "Error",
@@ -2099,7 +2088,10 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
             return "WARNING " + cta.getMensaje_error();
         } // end if
         
-        sqlSent = "Select transitoria from configcuentas";
+        // El campo se llama transitoria pero se guarda la cuenta del banco
+        // El tipo_comp se usa no solo para clasificar el asiento sino
+        // también para obtener el consecutivo del asiento (que es por tipo).
+        sqlSent = "Select transitoria, tipo_comp_P from configcuentas";
         ps = conn.prepareStatement(sqlSent, 
                 ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
         rsX = CMD.select(ps);
@@ -2109,40 +2101,21 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
         } // end if
         
         transitoria = rsX.getString("transitoria");
+        tipo_comp = rsX.getShort("tipo_comp_P");
         ps.close();
         
-        // Cargar consecutivo de asientos
-        sqlSent = "Select no_comprobrv,tipo_comprv from coconsecutivo";
-        ps = conn.prepareStatement(sqlSent, 
-                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        rsX = CMD.select(ps);
-        if (!Ut.goRecord(rsX, Ut.FIRST)){
-            return "WARNING aún no se han configurado los consecutivos\n " +
-                    "para el asiento de ventas.";
-        } // end if
-        no_comprob = (rsX.getInt("no_comprobrv") + 1) + "";
+        // Cargar el último número registrado en la tabla de tipos de asiento
+        Cotipasient tipo = new Cotipasient(conn);
+        tipo.setTipo_comp(tipo_comp); 
+        no_comprob = tipo.getConsecutivo() + "";
         no_comprob = Ut.lpad(no_comprob.trim(), "0", 10);
-        tipo_comp  = rsX.getShort("tipo_comprv");
-        ps.close();
         
-        // Validar si el consecutivo está bien
-        sqlSent = 
-                "Select IfNull(max(no_comprob),0) as max from coasientoe " +
-                "Where tipo_comp = ? ";
-        ps = conn.prepareStatement(sqlSent, 
-                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        ps.setShort(1, tipo_comp);
-        rsX = CMD.select(ps);
-        if (Ut.goRecord(rsX, Ut.FIRST)){
-            String temp = rsX.getString("max").trim();
-            // Si el max es mayor o igual al consecutivo registrado...
-            if (temp.compareTo(no_comprob.trim()) > 0 || temp.compareTo(no_comprob.trim()) == 0){
-                no_comprob = (Integer.parseInt(temp) + 1) + "";
-                no_comprob = Ut.lpad(no_comprob.trim(), "0", 10);
-            } // end if
-            
+        // Si el consecutivo ya existe se le asigna el siguiente automáticamente
+        encab = new CoasientoE(conn);
+        if (encab.existeEnBaseDatos(no_comprob, tipo_comp)){
+            no_comprob = tipo.getSiguienteConsecutivo(tipo_comp) + "";
+            no_comprob = Ut.lpad(no_comprob.trim(), "0", 10);
         } // end if
-        ps.close();
         
         // Datos para el cliente y el encabezado del asiento
         sqlSent =
@@ -2163,13 +2136,19 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
             return "ERROR factura no encontrada para asiento.";
         } // end if
         
+        // Si la cuenta está vacía no se puede hacer el asiento
+        if (rsE.getString("cuenta") == null || rsE.getString("cuenta").trim().isEmpty()){
+            ps.close();
+            return "ERROR Este cliente aún no tiene una cuenta contable asignada." ;
+        } // end if
+        
         ctacliente = rsE.getString("cuenta");
         
         cta.setCuentaString(ctacliente);
         
         if (cta.isError()){
             ps.close();
-            return "WARNING " + cta.getMensaje_error();
+            return "ERROR " + cta.getMensaje_error();
         } // end if
         
         monto = rsE.getDouble("monto");
@@ -2179,11 +2158,11 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
         // Agregar el encabezado del asiento
         encab = new CoasientoE(no_comprob, tipo_comp, conn);
         encab.setFecha_comp(fecha_comp);
-        encab.setDescrip("Registro de recibo (CXC) # " + recnume);
+        encab.setDescrip("Registro de pago (CXC) # " + recnume + " - " + this.cboTipoPago.getSelectedItem());
         encab.setUsuario(rsE.getString("user"));
         encab.setModulo("CXC");
         encab.setDocumento(recnume + "");
-        encab.setMovtido(movtido); // No es tal relevante en recibos.
+        encab.setMovtido(movtido); // No es tan relevante en recibos.
         encab.setEnviado(false);
         encab.insert();
         if (encab.isError()){
@@ -2193,10 +2172,10 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
         
         // Agregar el detalle del asiento
         detal = new CoasientoD(no_comprob, tipo_comp, conn);
-        detal.setDescrip("Recibos (CXC) del " + fecha_comp);
+        detal.setDescrip("Pagos (CXC) del " + fecha_comp);
         
         /*
-         * Primera línea del asiento - monto del recibo, crédito
+         * Primera línea del asiento - monto del recibo, débito
          */
         
         detal.setCuenta(cta);
@@ -2210,7 +2189,7 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
         } // end if
         
         /*
-         * Segunda línea del asiento - monto del recibo, débito
+         * Segunda línea del asiento - monto del recibo, crédito
          */
         cta.setCuentaString(transitoria);
         detal.setCuenta(cta);
@@ -2236,21 +2215,11 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
         CMD.update(ps);
         ps.close();
         
-        // Cambiar el consecutivo del asiento de recibos (CXC)
-        sqlSent = "Call CambiarConsecutivoConta(?, ?, 3)";
-        ps = conn.prepareStatement(sqlSent, 
-                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        ps.setInt(1, Integer.parseInt(no_comprob));
-        ps.setShort(2, tipo_comp);
-        rsX = CMD.select(ps);
-        if (Ut.goRecord(rsX, Ut.FIRST)){
-            if (rsX.getBoolean("HayError")){
-                return rsX.getString("ErrorMessage");
-            } // end if
-        } // end if
-        
-        ps.close();
-        return "";
+        // Actualizar el consecutivo del asiento de pagos CXC
+        // Se registra el último número utilizado
+        tipo.setConsecutivo(Integer.parseInt(no_comprob));
+        tipo.update();
+        return ""; // Vacío significa que todo salió bien.
     } // end generarAsiento
     
     
@@ -2276,7 +2245,7 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
         try {
             cajaN = getCajaForThisUser(Usuario.USUARIO, conn);
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroPagosCXC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
@@ -2346,7 +2315,7 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
             } // end if
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroPagosCXC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             errorMsg = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
@@ -2423,7 +2392,7 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
             } // end if
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroPagosCXC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             errorMsg = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
@@ -2441,7 +2410,7 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
             ps.setInt(1, tran.getRecnume());
             CMD.update(ps);
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroPagosCXC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             errorMsg = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
