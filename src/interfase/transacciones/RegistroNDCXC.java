@@ -106,8 +106,8 @@ public class RegistroNDCXC extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        cmdGuardar = new javax.swing.JButton();
-        cmdSalir = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
+        btnSalir = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         txtFacnume = new javax.swing.JFormattedTextField();
         jLabel1 = new javax.swing.JLabel();
@@ -119,7 +119,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
         DatFacfech = new com.toedter.calendar.JDateChooser();
         txtFacmont = new javax.swing.JFormattedTextField();
         txtReferencia = new javax.swing.JTextField();
-        cboMoneda = new javax.swing.JComboBox();
+        cboMoneda = new javax.swing.JComboBox<>();
         txtTipoca = new javax.swing.JFormattedTextField();
         jLabel7 = new javax.swing.JLabel();
         txtOrdenC = new javax.swing.JTextField();
@@ -134,21 +134,21 @@ public class RegistroNDCXC extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Registro de Notas de Débito (CXC)");
 
-        cmdGuardar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        cmdGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/disk.png"))); // NOI18N
-        cmdGuardar.setText("Guardar");
-        cmdGuardar.addActionListener(new java.awt.event.ActionListener() {
+        btnGuardar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/disk.png"))); // NOI18N
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdGuardarActionPerformed(evt);
+                btnGuardarActionPerformed(evt);
             }
         });
 
-        cmdSalir.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        cmdSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/control-power.png"))); // NOI18N
-        cmdSalir.setText("Salir");
-        cmdSalir.addActionListener(new java.awt.event.ActionListener() {
+        btnSalir.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/control-power.png"))); // NOI18N
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdSalirActionPerformed(evt);
+                btnSalirActionPerformed(evt);
             }
         });
 
@@ -243,7 +243,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
 
         cboMoneda.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         cboMoneda.setForeground(new java.awt.Color(204, 0, 153));
-        cboMoneda.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Colones", "Dólares" }));
+        cboMoneda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Colones", "Dólares" }));
         cboMoneda.setToolTipText("Moneda");
         cboMoneda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -315,9 +315,9 @@ public class RegistroNDCXC extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(137, 137, 137)
-                        .addComponent(cmdGuardar)
+                        .addComponent(btnGuardar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmdSalir, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
+                        .addComponent(btnSalir, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -354,7 +354,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmdGuardar, cmdSalir});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnGuardar, btnSalir});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -383,31 +383,31 @@ public class RegistroNDCXC extends javax.swing.JFrame {
                     .addComponent(DatFacfech, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cmdGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmdSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(4, 4, 4))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmdGuardar, cmdSalir});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnGuardar, btnSalir});
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cmdSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdSalirActionPerformed
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         this.fin = true;
 
         setVisible(false);
         try {
             conn.close();
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroNDCXC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
         dispose();
-}//GEN-LAST:event_cmdSalirActionPerformed
+}//GEN-LAST:event_btnSalirActionPerformed
 
-    private void cmdGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdGuardarActionPerformed
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         String facnume, clicode, referencia, tipoca, sqlSent;
 
         // ****** Validar los datos ******
@@ -456,7 +456,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
                 return;
             } // end if
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroNDCXC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),
@@ -471,7 +471,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
         try {
             lcFacmont = Ut.quitarFormato(lcFacmont);
         } catch (Exception ex) {
-            Logger.getLogger(RegistroNDCXC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -516,7 +516,6 @@ public class RegistroNDCXC extends javax.swing.JFrame {
                         rs.getString(2),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                //stat.executeUpdate("RollBack");
                 CMD.transaction(conn, CMD.ROLLBACK);
                 return;
             } // end if
@@ -635,7 +634,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
             } // end if
         } // end catch
         txtClicode.requestFocusInWindow();
-    }//GEN-LAST:event_cmdGuardarActionPerformed
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void txtFacnumeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFacnumeActionPerformed
         txtFacnume.transferFocus();
@@ -666,11 +665,11 @@ public class RegistroNDCXC extends javax.swing.JFrame {
                         + "\nCorresponde a un período ya cerrado.",
                         "Validar fecha..",
                         JOptionPane.ERROR_MESSAGE);
-                cmdGuardar.setEnabled(false);
+                btnGuardar.setEnabled(false);
                 DatFacfech.setDate(GregorianCalendar.getInstance().getTime());
             } // end if
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroNDCXC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),
@@ -693,7 +692,6 @@ public class RegistroNDCXC extends javax.swing.JFrame {
         String clicode = txtClicode.getText();
         boolean existe = false;
 
-        //String sqlSelect = "Select ConsultarCliente(" + clicode + ")";
         String sqlSelect = "Call ConsultarDatosCliente(" + clicode + ")";
         try {
             rs = stat.executeQuery(sqlSelect);
@@ -751,7 +749,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
 }//GEN-LAST:event_mnuBuscarActionPerformed
 
     private void mnuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSalirActionPerformed
-        cmdSalirActionPerformed(evt);
+        btnSalirActionPerformed(evt);
     }//GEN-LAST:event_mnuSalirActionPerformed
 
     private void cboMonedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboMonedaActionPerformed
@@ -791,7 +789,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFacmontFocusGained
 
     private void mnuGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuGuardarActionPerformed
-        cmdGuardarActionPerformed(evt);
+        btnGuardarActionPerformed(evt);
     }//GEN-LAST:event_mnuGuardarActionPerformed
 
     private void txtFacmontFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFacmontFocusLost
@@ -808,7 +806,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
                 ref = "-" + ref;
                 this.txtReferencia.setText(ref);
             } // end if
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage()
                     + "\nDebe digitar un número de nota de crédito válido.",
@@ -853,7 +851,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
             
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroNDCXC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     }//GEN-LAST:event_txtReferenciaFocusLost
@@ -912,9 +910,9 @@ public class RegistroNDCXC extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.calendar.JDateChooser DatFacfech;
-    private javax.swing.JComboBox cboMoneda;
-    private javax.swing.JButton cmdGuardar;
-    private javax.swing.JButton cmdSalir;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnSalir;
+    private javax.swing.JComboBox<String> cboMoneda;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1014,7 +1012,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
             txtFacmont.setText(Ut.setDecimalFormat(monto, "##0.00"));
         } // end redondear
         catch (Exception ex) {
-            Logger.getLogger(RegistroNDCXC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",

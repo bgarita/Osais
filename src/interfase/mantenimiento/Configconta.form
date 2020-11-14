@@ -1091,7 +1091,7 @@
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="70" green="4b" red="24" type="rgb"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Transitoria"/>
+                    <Property name="text" type="java.lang.String" value="Banco"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JFormattedTextField" name="txtTransitoria1">

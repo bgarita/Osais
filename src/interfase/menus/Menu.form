@@ -450,7 +450,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuFacturasC">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Facturas de compra NC y ND (CXP)"/>
+                <Property name="text" type="java.lang.String" value="Facturas de compra, NC y ND (CXP)"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuFacturasCActionPerformed"/>

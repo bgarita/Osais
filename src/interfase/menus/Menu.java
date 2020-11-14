@@ -848,7 +848,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuRegistro.add(mnuOrdenesC);
 
-        mnuFacturasC.setText("Facturas de compra NC y ND (CXP)");
+        mnuFacturasC.setText("Facturas de compra, NC y ND (CXP)");
         mnuFacturasC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuFacturasCActionPerformed(evt);
