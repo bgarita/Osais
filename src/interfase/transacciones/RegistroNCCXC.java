@@ -75,7 +75,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
     private final int variarprecios;      // Variar los precios *
     private final boolean bloquearconsf;  // Bloquear consecutivo de lbFacturas
     private final boolean precio0;        // Permitir precios en cero
-    private final boolean redondear;      // Redondear al entero mayor
+    //private final boolean redondear;      // Redondear al entero mayor
     private final boolean bloquearfechaF; // Bloquear la fechaSQL de la NC
     private final String codigoTCP;      // Código de maneda predeterminado
     private final boolean creditoaf;      // Aceptar créditos a favor
@@ -196,7 +196,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         variarprecios = rs.getInt("variarprecios");
         bloquearconsf = rs.getBoolean("bloquearconsf");
         precio0 = rs.getBoolean("precio0");
-        redondear = rs.getBoolean("redondear");
+        //redondear = rs.getBoolean("redondear");
         bloquearfechaF = rs.getBoolean("bloquearfechaF");
         creditoaf = rs.getBoolean("creditoaf");
         aplicarnotac = rs.getBoolean("aplicarnotac");
@@ -1849,7 +1849,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
             this.codigoCabys = rsArtcode.getString("codigoCabys").trim();
 
             // Si este código viene vacío es porque se está usando cabys pero aún no ha sido asignado
-            if (this.codigoCabys.isEmpty()) {
+            if (this.usarCabys && this.codigoCabys.isEmpty()) {
                 throw new Exception("Código cabys sin asignar. \nDebe ir al catálogo de productos y asignarlo.");
             } // end if
 
