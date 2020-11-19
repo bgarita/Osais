@@ -429,33 +429,36 @@ public class UtilBD {
     } // end hayDatos
 
     /**
+     * Obtener el valor de un campo de una tabla en base de datos.
+     * Si la tabla posee más de un registro para el valor consultado,
+     * el método mostrará solo el primero que aparezca.
      * @throws java.sql.SQLException
      * @Author: Bosco Garita 15/09/2010 Sintaxis de MySQL -- Esto se cambió,
      * ahora es genérico Bosco 19/03/2013
      * @param c Conexión
-     * @param table Talba a consultar
-     * @param fieldName Nombre del campo a consultar
-     * @param fieldKeyName Nombre del campo para el Where
-     * @param keyValue Valor para el Where
+     * @param tabla Talba a consultar
+     * @param nombreCampo Nombre del campo a consultar
+     * @param campoWhere Nombre del campo para el Where
+     * @param valorCampoWhere Valor para el Where
      * @return
      */
     public static String getFieldValue(
             Connection c,
-            String table,
-            String fieldName, // Campo que se consultará
-            String fieldKeyName, // Llave para el Where
-            String keyValue) // Valor para el Where
+            String tabla,
+            String nombreCampo,         // Campo que se consultará
+            String campoWhere,          // Llave para el Where
+            String valorCampoWhere)     // Valor para el Where
             throws SQLException {
 
         String returnValue = null;
         String sqlSent
-                = "Select min(" + fieldName + ") as " + fieldName + " "
-                + "From   " + table + " "
-                + "Where  " + fieldKeyName + " = ? ";
+                = "Select min(" + nombreCampo + ") as " + nombreCampo + " "
+                + "From   " + tabla + " "
+                + "Where  " + campoWhere + " = ? ";
 
         PreparedStatement ps = c.prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        ps.setString(1, keyValue);
+        ps.setString(1, valorCampoWhere);
         ResultSet rs = CMD.select(ps);
         if (rs != null && rs.first()) {
             returnValue = rs.getString(1);

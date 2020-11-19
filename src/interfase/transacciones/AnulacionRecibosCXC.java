@@ -16,6 +16,7 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import logica.contabilidad.CoasientoE;
 import logica.utilitarios.Ut;
 
 /**
@@ -62,9 +63,9 @@ public class AnulacionRecibosCXC extends java.awt.Dialog {
         txtRecnume.setText(recibo);
 
         // Si el campo está habilitado le pongo el focus...
-        if (txtRecnume.isEnabled())
+        if (txtRecnume.isEnabled()) {
             txtRecnume.requestFocusInWindow();
-        else{ // ... caso contrario ejecuto el evento que busca el recibo
+        } else { // ... caso contrario ejecuto el evento que busca el recibo
             txtRecnumeFocusLost(null);
             cmdAnular.requestFocusInWindow();
         } // end if
@@ -91,7 +92,7 @@ public class AnulacionRecibosCXC extends java.awt.Dialog {
 
         setIconImage(null);
         setModalityType(java.awt.Dialog.ModalityType.DOCUMENT_MODAL);
-        setTitle("Anular recibos (CXC)");
+        setTitle("Anular pagos de clientes");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 closeDialog(evt);
@@ -123,17 +124,17 @@ public class AnulacionRecibosCXC extends java.awt.Dialog {
 
         txtRecnume.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         txtRecnume.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txtRecnume.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtRecnumeActionPerformed(evt);
-            }
-        });
         txtRecnume.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtRecnumeFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtRecnumeFocusLost(evt);
+            }
+        });
+        txtRecnume.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtRecnumeActionPerformed(evt);
             }
         });
 
@@ -172,27 +173,28 @@ public class AnulacionRecibosCXC extends java.awt.Dialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblClidesc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 89, Short.MAX_VALUE)
+                        .addComponent(cmdAnular)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cmdSalir))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtRecnume, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lblClidesc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtRecnume, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lblMoneda, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtMonto))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(cmdAnular)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmdSalir)))
+                                .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
 
@@ -201,7 +203,7 @@ public class AnulacionRecibosCXC extends java.awt.Dialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(44, 44, 44)
+                .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtRecnume, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -215,7 +217,7 @@ public class AnulacionRecibosCXC extends java.awt.Dialog {
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblMoneda)
-                .addGap(18, 24, Short.MAX_VALUE)
+                .addGap(18, 42, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(cmdSalir)
                     .addComponent(cmdAnular))
@@ -224,7 +226,7 @@ public class AnulacionRecibosCXC extends java.awt.Dialog {
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmdAnular, cmdSalir});
 
-        setSize(new java.awt.Dimension(294, 254));
+        setSize(new java.awt.Dimension(325, 254));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -342,6 +344,17 @@ public class AnulacionRecibosCXC extends java.awt.Dialog {
         boolean hayTransaccion = false;
 
         try {
+            boolean genasienfac = false;
+            // Verificar si hay interface contable
+            String sqlSent = "Select genasienfac from config";
+            PreparedStatement ps = conn.prepareStatement(sqlSent,
+                    ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            rs = CMD.select(ps);
+            if (Ut.goRecord(rs, Ut.FIRST)) {
+                genasienfac = rs.getBoolean("genasienfac");
+            } // end if
+            ps.close();
+            
             hayTransaccion = CMD.transaction(conn, CMD.START_TRANSACTION);
 
             String sqlDelete = "Call AnularPagoCXC(" + recibo + ")";
@@ -360,6 +373,28 @@ public class AnulacionRecibosCXC extends java.awt.Dialog {
                         JOptionPane.ERROR_MESSAGE);
                 CMD.transaction(conn, CMD.ROLLBACK);
                 return;
+            } // end if
+            
+            // Si hay interface contable...
+            if (genasienfac) {
+                // Obtener el número y tipo de asiento a anular
+                sqlSent
+                        = "Select no_comprob, tipo_comp "
+                        + "From pagos "
+                        + "Where recnume = " + recibo + " ";
+                ps = conn.prepareStatement(sqlSent,
+                        ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+                rs = CMD.select(ps);
+                Ut.goRecord(rs, Ut.FIRST);
+                String no_comprob = rs.getString("no_comprob");
+                short tipo_comp = rs.getShort("tipo_comp");
+                ps.close();
+                
+                CoasientoE asientoE
+                        = new CoasientoE(no_comprob, tipo_comp, conn);
+                if (!asientoE.anular()) {
+                    throw new SQLException(asientoE.getMensaje_error());
+                } // end if
             } // end if
 
             CMD.transaction(conn, CMD.COMMIT);

@@ -58,13 +58,14 @@ public class RegistroAsientos extends javax.swing.JFrame {
     private boolean inicio;      // Se usa para evitar que algunos eventos se disparen
     private boolean fin;         // Se usa para evitar que algunos eventos se disparen
     private final Cuenta cta;    // Clase que maneja todo lo relacionado con cuentas
-    private boolean validandoFecha;
     private final Connection conn;
     private final PeriodoContable per; // Carga todos los datos del periodo contable actual
 
     // Este estiqueta tendrá el siguiente valor al terminar el asiento de cierre anual:
-    // this.lblDescripA.setText("Comprobante: " + asientoE.getNo_comprob() + ", tipo: " + asientoE.getTipo_comp());
-    private JLabel lblDescripA; // Se usa para indicar que se está generando el asiento de cierre anual
+    // "Comprobante: " + asientoE.getNo_comprob() + ", tipo: " + asientoE.getTipo_comp()
+    // Se usa para indicar que se está generando el asiento de cierre anual desde el auxiliar
+    // En un asiento o proceso normal deberá ser null
+    private JLabel lblDescripA;
 
     /**
      * Creates new form RegistroAsientos
@@ -96,7 +97,6 @@ public class RegistroAsientos extends javax.swing.JFrame {
         old_comprob = "";
         old_tipo = 0;
         tmp_tipo = new JTextField("0");
-        this.validandoFecha = false;
         this.datFecha_comp.setDate(new Date());
         cargarTipos();
         setThisPeriodDate();
@@ -930,24 +930,17 @@ public class RegistroAsientos extends javax.swing.JFrame {
 
         // Obtener el tipo de asiento
         short tipo = getTipo_comp();
-//        String descrip = cboDescrip.getSelectedItem().toString();
-//        for (String s : this.aTipo_comp) {
-//            if (s.contains(descrip)) {
-//                tipo = Short.parseShort(s.substring(0, Ut.getPosicion(s, ",")));
-//                break;
-//            } // end if
-//        } // end for
-
+        
         asientoE.setTipo_comp(tipo);
         asientoE.setNo_comprob(txtNo_comprob.getText());
 
         lblAnuladoPor.setText("");
-        if (asientoE.getAnuladoPor() != null) {
+        if (asientoE.getAnuladoPor() != null && !asientoE.getAnuladoPor().trim().isEmpty()) {
             lblAnuladoPor.setText("Anulado por: " + asientoE.getAnuladoPor());
         } // end if
 
         lblAnulaA.setText("Anula a: " + asientoE.getAsientoAnulado());
-        if (asientoE.getAsientoAnulado().isEmpty()) {
+        if (asientoE.getAsientoAnulado().trim().isEmpty()) {
             lblAnulaA.setText("");
         } // end if
 
@@ -1038,12 +1031,12 @@ public class RegistroAsientos extends javax.swing.JFrame {
         datFecha_comp.setDate(asientoE.getFecha_comp());
 
         lblAnuladoPor.setText("Anulado por: " + asientoE.getAnuladoPor());
-        if (asientoE.getAnuladoPor().isEmpty()) {
+        if (asientoE.getAnuladoPor().trim().isEmpty()) {
             lblAnuladoPor.setText("");
         } // end if
 
         lblAnulaA.setText("Anula a: " + asientoE.getAsientoAnulado());
-        if (asientoE.getAsientoAnulado().isEmpty()) {
+        if (asientoE.getAsientoAnulado().trim().isEmpty()) {
             lblAnulaA.setText("");
         } // end if
 
@@ -1899,7 +1892,37 @@ public class RegistroAsientos extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
             return;
         } // end if
+        
+        if (asientoE.getAnuladoPor() != null && !asientoE.getAnuladoPor().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null,
+                    "Este asiento ya está nulo.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        } // end if
 
+        // Si el asiento viene de un auxiliar no se debe permitir la anulación
+        if (!asientoE.getModulo().equals("CON")) {
+            String modulo;
+            try {
+                modulo = UtilBD.getFieldValue(conn, "modulo", "descrip", "modulo", asientoE.getModulo());
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null,
+                        ex.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                return;
+            } // end try-catch
+
+            JOptionPane.showMessageDialog(null,
+                    "No se pueden anular asientos creados por los auxiliares.\n"
+                    + "Vaya a " + modulo + " y ejecute el proceso de anulación desde ahí.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        } // end if
+        
         int lnRespuesta
                 = JOptionPane.showConfirmDialog(null,
                         "¿Seguro que quiere anular este asiento?",

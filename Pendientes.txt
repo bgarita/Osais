@@ -75,12 +75,20 @@ Contabilidad #4 (parqueo don Mincho)
 
 - Revisar y corregir la forma de hacer el asiento de pagos de clientes.             LISTO
 
-- Reivsar si los procesos de anulación de facturas, NC y recibos de CXC están  
+- Reivsar si los procesos de anulación de facturas, NC y recibos de CXC están       LISTO
   generando el correspondiente asiento de anulación.                                
 
-- No permitir que los asientos generados por el auxiliar se anulen desde el
+- No permitir que los asientos generados por el auxiliar se anulen desde el         LISTO
   sistema de contabilidad. Éstos se deben anular desde el auxiliar y generar
   el correspondiente asiento de anulación.
+
+- Crear configuración para el asiento de compras
+
+- Crear proceso de registro automático de asientos de facturas de compra
+
+- Crear proceso de registro automático de asientos de NC de compra
+
+- Crear proceso de registro automático de asientos pagos a proveedores
 
 
 USAR EL ASIENTO 112011 TIPO 1 COMO EJEMPLO PARA VER QUÉ CUENTA VA AL HABER Y CUAL AL DEBE
