@@ -530,14 +530,18 @@ public class CoasientoE {
         sqlSent
                 = "Select no_comprob from " + tabla + " "
                 + "Where asientoAnulado = ? "
+                + "AND tipo_comp = ? "
                 + "Union "
                 + "Select no_comprob from " + historica + " "
-                + "Where asientoAnulado = ? ";
+                + "Where asientoAnulado = ? "
+                + "AND tipo_comp = ? ";
         try {
             ps = conn.prepareStatement(sqlSent,
                     ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ps.setString(1, no_comprob);
-            ps.setString(2, no_comprob);
+            ps.setShort(2, tipo_comp);
+            ps.setString(3, no_comprob);
+            ps.setShort(4, tipo_comp);
 
             rs = CMD.select(ps);
 

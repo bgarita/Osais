@@ -69,29 +69,29 @@ public class Ut {
 
     // Constantes para el método getProperty
     // Variables de entorno.
-    public static final int USER_NAME   = 1;
-    public static final int USER_DIR    = 2;
-    public static final int USER_HOME   = 3;
-    public static final int TMPDIR      = 4;
-    public static final int OS_NAME     = 5;
-    public static final int OS_VERSION  = 6;
+    public static final int USER_NAME = 1;
+    public static final int USER_DIR = 2;
+    public static final int USER_HOME = 3;
+    public static final int TMPDIR = 4;
+    public static final int OS_NAME = 5;
+    public static final int OS_VERSION = 6;
     public static final int FILE_SEPARATOR = 7;
     public static final int PATH_SEPARATOR = 8;
     public static final int LINE_SEPARATOR = 9;
-    public static final int WINDIR      = 10;      // Solo para windows
-    public static final int SYSTEM32    = 11;      // Solo para windows
+    public static final int WINDIR = 10;      // Solo para windows
+    public static final int SYSTEM32 = 11;      // Solo para windows
     public static final int COMPUTERNAME = 12;
     public static final int PROCESSOR_IDENTIFIER = 13;
     public static final int JAVA_VERSION = 14;
 
     // Constantes para navegar en un Result Set
-    public static final int BEFORE_FIRST    = 1;
-    public static final int FIRST           = 2;
-    public static final int NEXT            = 3;
-    public static final int PREVIOUS        = 4;
-    public static final int LAST            = 5;
-    public static final int AFTER_LAST      = 6;
-    public static final int ABSOLUTE        = 7;
+    public static final int BEFORE_FIRST = 1;
+    public static final int FIRST = 2;
+    public static final int NEXT = 3;
+    public static final int PREVIOUS = 4;
+    public static final int LAST = 5;
+    public static final int AFTER_LAST = 6;
+    public static final int ABSOLUTE = 7;
 
     /**
      * @author: Bosco Garita Azofeifa Este método recibe un objeto de tipo
@@ -121,7 +121,7 @@ public class Ut {
         Number valor;
         NumberFormat nf = NumberFormat.getNumberInstance();
         try {
-            valortexto = valortexto == null? "0":valortexto.trim();
+            valortexto = valortexto == null ? "0" : valortexto.trim();
             valor = nf.parse(valortexto);
         } catch (ParseException ex) {
             valor = nf.parse("0");
@@ -998,38 +998,38 @@ public class Ut {
         // end if
         return row;
     } // end seek
-    
+
     /**
-     * Autor: Bosco Garita 20/09/2020 
-     * Devuelve el número de fila en donde se
+     * Autor: Bosco Garita 20/09/2020 Devuelve el número de fila en donde se
      * encontraron los valores, <br>
      * -1 si el valor no es encontrado.
      *
      * @param table JTable en donde se hará la búsqueda
      * @param valores Object[] valore a buscar
      * @param columns int[] columnas en donde se realizará la búsqueda
-     * @return int fila en donde se encontraron los valores o -1 si no se encontró
+     * @return int fila en donde se encontraron los valores o -1 si no se
+     * encontró
      */
     public static int seek(JTable table, Object[] valores, Integer[] columns) {
         if (valores == null) {
             return -1;
         } // end if
-        
+
         // Trato de localizar la primera columna que viene en el arreglo.
         // Si no existe no continúo con la búsqueda
         int fila = seek(table, valores[0], columns[0]);
-        
-        if (fila < 0){
+
+        if (fila < 0) {
             return -1;
         } // end if
-        
+
         // Concateno todos los valores del arreglo para compararlos
         String aValores = "";
         String tValores;
-        for (Object o:valores){
+        for (Object o : valores) {
             aValores += o;
         } // end for
-        
+
         // Ahora concateno los valores de la tabla para hacer la comparación
         int row;
         boolean found = false;
@@ -1037,18 +1037,18 @@ public class Ut {
             if (table.getValueAt(row, 0) == null) {
                 continue;
             }
-            
+
             // Concateno los valores de las columnas de acuerdo con los índices que vienen en el arreglo
             tValores = "";
-            for (int col = 0; col < table.getColumnCount(); col++){
-                for (int i = 0; i < columns.length; i++){
-                    if (columns[i] == col){
+            for (int col = 0; col < table.getColumnCount(); col++) {
+                for (int i = 0; i < columns.length; i++) {
+                    if (columns[i] == col) {
                         tValores += table.getValueAt(row, col);
                     } // end if
                 } // end for
             } // end for
-            
-            if (aValores.equals(tValores)){
+
+            if (aValores.equals(tValores)) {
                 boolean toggle = false, extend = false;
                 table.changeSelection(row, 0, toggle, extend);
                 found = true;
@@ -1056,12 +1056,12 @@ public class Ut {
             } // end if
         } // end for
 
-        if (found){
+        if (found) {
             return row;
         } else {
             return -1;
         }
-        
+
     } // end seek
 
     /**
@@ -1202,6 +1202,23 @@ public class Ut {
 
         return minimo;
     } // end getMin
+
+    /**
+     * Busca la siguiente fila con valor null en la columna cero, si no la
+     * encuentra, agrega una nueva fila. IMPORTANTE: Si la columna cero debe
+     * tener valores nulos, no use este método.
+     *
+     * @param tblX JTable tabla sobre la cual se realizará la acción.
+     * @return int número de fila agregada o con null en la columna cero.
+     */
+    public static int appendBlank(JTable tblX) {
+        int row = Ut.seekNull(tblX, 0);
+        if (row < 0) {
+            Ut.resizeTable(tblX, 1, "Filas");
+            row = Ut.seekNull(tblX, 0);
+        } // end if
+        return row;
+    } // end appendBlank
 
     /**
      * Este método busca dentro de un arreglo bidimensional y retorna el índice
@@ -1644,41 +1661,60 @@ public class Ut {
      * @throws java.text.ParseException
      */
     public static Number sum(JTable t, int col) throws Exception {
-        Number suma = null; // Tendrá el resultado convertido
+        Number suma = 0;
         String valor;
-        Long sumaInt = 0L;       // Aquí se sumarán todos los tipos de entero
-        Double sumaFloat = 0.00; // Aquí todos los de punto flotante
+        //Long sumaInt = 0L;       // Aquí se sumarán todos los tipos de entero
+        Double sumaDouble = 0.00; // Aquí todos los de punto flotante
 
         // Obtener el modelo de la tabla
         DefaultTableModel dtm = (DefaultTableModel) t.getModel();
         int rows = dtm.getRowCount(); // Número de filas en la tabla
-        if (t.getValueAt(0, col) instanceof Float
-                || t.getValueAt(0, col) instanceof Double
-                || t.getValueAt(0, col) instanceof String) {
-            // Recorro la tabla sumando los valores
-            for (int i = 0; i < rows; i++) {
-                if (t.getValueAt(i, col) != null) {
-                    valor = Ut.quitarFormato(t.getValueAt(i, col).toString());
-                    sumaFloat += Double.parseDouble(valor);
-                }// end if
-            } // end for
-            suma = (Number) sumaFloat;
-        } else if (t.getValueAt(0, col) instanceof Byte
-                || t.getValueAt(0, col) instanceof Short
-                || t.getValueAt(0, col) instanceof Integer
-                || t.getValueAt(0, col) instanceof Long) {
-            // Recorro la tabla sumando los valores
-            for (int i = 0; i < rows; i++) {
-                if (t.getValueAt(i, col) != null) {
-                    valor = Ut.quitarFormato(t.getValueAt(i, col).toString());
-                    sumaInt = +Long.parseLong(valor);
-                } // end if
-            } // end for
-            suma = (Number) sumaInt;
-        }
-        if (suma == null) {
-            suma = 0;
-        } // end if
+
+        for (int i = 0; i < rows; i++) {
+            if (t.getValueAt(i, col) == null) {
+                continue;
+            } // end if
+
+            if (t.getValueAt(0, col) instanceof Float
+                    || t.getValueAt(0, col) instanceof Double
+                    || t.getValueAt(0, col) instanceof String
+                    || t.getValueAt(0, col) instanceof Byte
+                    || t.getValueAt(0, col) instanceof Short
+                    || t.getValueAt(0, col) instanceof Integer
+                    || t.getValueAt(0, col) instanceof Long) {
+                valor = Ut.quitarFormato(t.getValueAt(i, col).toString());
+                sumaDouble += Double.parseDouble(valor);
+            } // end if
+            suma = (Number) sumaDouble;
+        } // end for
+
+//        if (t.getValueAt(0, col) instanceof Float
+//                || t.getValueAt(0, col) instanceof Double
+//                || t.getValueAt(0, col) instanceof String) {
+//            // Recorro la tabla sumando los valores
+//            for (int i = 0; i < rows; i++) {
+//                if (t.getValueAt(i, col) != null) {
+//                    valor = Ut.quitarFormato(t.getValueAt(i, col).toString());
+//                    sumaFloat += Double.parseDouble(valor);
+//                }// end if
+//            } // end for
+//            suma = (Number) sumaFloat;
+//        } else if (t.getValueAt(0, col) instanceof Byte
+//                || t.getValueAt(0, col) instanceof Short
+//                || t.getValueAt(0, col) instanceof Integer
+//                || t.getValueAt(0, col) instanceof Long) {
+//            // Recorro la tabla sumando los valores
+//            for (int i = 0; i < rows; i++) {
+//                if (t.getValueAt(i, col) != null) {
+//                    valor = Ut.quitarFormato(t.getValueAt(i, col).toString());
+//                    sumaInt = +Long.parseLong(valor);
+//                } // end if
+//            } // end for
+//            suma = (Number) sumaInt;
+//        }
+//        if (suma == null) {
+//            suma = 0;
+//        } // end if
 
         return suma;
     } // end sum
@@ -2067,8 +2103,9 @@ public class Ut {
     } // end getAlias
 
     /**
-     * Este método revisa algunas características sobre inyección de código. Está diseñado para trabajar sobre MySQL únicamente pero responde a la
- mayoría de SQL stándar.
+     * Este método revisa algunas características sobre inyección de código.
+     * Está diseñado para trabajar sobre MySQL únicamente pero responde a la
+     * mayoría de SQL stándar.
      *
      * @param sqlSent
      * @return true=Hay inyección, false=no hay
@@ -3065,7 +3102,7 @@ public class Ut {
                     Stream<String> stream = Files.lines(path, Charset.forName("ISO-8859-1"));
                     content = stream.toArray();
                 } // end try-catch interno
-                
+
                 for (Object o : content) {
                     sb.append(o).append("\n");
                 } // end for
@@ -3217,52 +3254,66 @@ public class Ut {
         } // end if
         return props;
     } // end getMailConfig
-    
+
     /**
      * Retorna un nombre único ideal para nombres de archivo (type=1), nombres
      * de transacción, nombres de sesión web (type=2).
-     * @param type int 1=Nombre único ideal para archivos, 2=Nombre único universal (128 bits)
+     *
+     * @param type int 1=Nombre único ideal para archivos, 2=Nombre único
+     * universal (128 bits)
      * @return String unique name
      */
-    public static String getUniqueName(int type){
+    public static String getUniqueName(int type) {
         String uniqueName;
-        if (type == 1){
+        if (type == 1) {
             String fecha = Ut.dtoc(new Date());
             uniqueName = fecha.replaceAll("/", "-") + " " + Ut.getCurrentTime().replaceAll(":", " ");
         } else {
             uniqueName = UUID.randomUUID().toString();
         }
-        
+
         return uniqueName;
     } // end uniqueName
 
     /**
-     * Obtener parte de una fecha (día, mes o año) todo depende del parámetro recibido.
+     * Obtener parte de una fecha (día, mes o año) todo depende del parámetro
+     * recibido.
+     *
      * @param date Date fecha de la cual se extraerá el valor solicitado.
      * @param part int parte de la fecha que se extraerá.
-     * @return int parte de la fecha solicitado (los meses empiezan en cero). 
-     * Si el parámetro part no coincide con los valores de Ut.java para día, mes o año
-     * el valor de retorno será un cero.
+     * @return int parte de la fecha solicitado (los meses empiezan en cero). Si
+     * el parámetro part no coincide con los valores de Ut.java para día, mes o
+     * año el valor de retorno será un cero.
      */
-    public static int getDatePart(Date date, int part){
+    public static int getDatePart(Date date, int part) {
         int datePart = 0;
         Calendar cal = GregorianCalendar.getInstance();
         cal.setTime(date);
-        switch (part){
-            case Ut.DIA : {
+        switch (part) {
+            case Ut.DIA: {
                 datePart = cal.get(Calendar.DAY_OF_MONTH);
                 break;
             }
-            case Ut.MES : {
+            case Ut.MES: {
                 datePart = cal.get(Calendar.MONTH);
                 break;
             }
-            case Ut.AÑO : {
+            case Ut.AÑO: {
                 datePart = cal.get(Calendar.YEAR);
                 break;
             }
         } // end switch
-        
+
         return datePart;
     } // end getDatePart
+
+    public static void setRowNull(JTable table, int row) {
+        if (row < 0) {
+            return;
+        } // end if
+
+        for (int col = 0; col < table.getColumnModel().getColumnCount(); col++) {
+            table.setValueAt(null, row, col);
+        } // end for
+    } // end setRowNull
 } // end utlitarios

@@ -5691,7 +5691,6 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         String ventas_e;        // Ventas exentas
         String descuento_vg;    // Descuento de ventas gravadas
         String descuento_ve;    // Descuento de ventas exentas
-        String impuesto_v;      // Impuesto de ventas
 
         String no_comprob;      // Número de asiento
         short tipo_comp;        // Tipo de asiento
@@ -5745,7 +5744,6 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         ventas_e = rsX.getString("ventas_e");
         descuento_vg = rsX.getString("descuento_vg");
         descuento_ve = rsX.getString("descuento_ve");
-        impuesto_v = rsX.getString("impuesto_v");
         tipo_comp = rsX.getShort("tipo_comp_V");
         ps.close();
 

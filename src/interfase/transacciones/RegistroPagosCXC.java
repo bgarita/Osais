@@ -2060,7 +2060,6 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
      * Genera el asiento contable.
      * Este método genera el asiento contable para un recibo o pago de un cliente.
      * @param recnume int número de recibo
-     * @param contado boolean true=Es NC sobre contado, false=Es NC normal.
      * @return boolean true=El asiento se generó, false=El asiento no se generó
      */
     private String generarAsiento(int recnume) throws SQLException {
@@ -2133,7 +2132,7 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
         ps.setInt(1, recnume);
         rsE = CMD.select(ps);
         if (!Ut.goRecord(rsE, Ut.FIRST)){
-            return "ERROR factura no encontrada para asiento.";
+            return "ERROR recibo no encontrado para asiento.";
         } // end if
         
         // Si la cuenta está vacía no se puede hacer el asiento

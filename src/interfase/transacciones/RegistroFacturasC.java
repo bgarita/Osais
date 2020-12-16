@@ -3,11 +3,12 @@
  *
  * Created on 14/04/2012, 08:03:00 AM
  */
-
 package interfase.transacciones;
 
 import Exceptions.CurrencyExchangeException;
 import Exceptions.EmptyDataSourceException;
+import MVC.controller.Impuestos_c;
+import MVC.model.Impuestos_m;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -28,6 +29,10 @@ import javax.swing.JTextField;
 import logica.Cacaja;
 import logica.Catransa;
 import logica.Usuario;
+import logica.contabilidad.CoasientoD;
+import logica.contabilidad.CoasientoE;
+import logica.contabilidad.Cotipasient;
+import logica.contabilidad.Cuenta;
 import logica.utilitarios.SQLInjectionException;
 import logica.utilitarios.Ut;
 
@@ -40,99 +45,107 @@ public class RegistroFacturasC extends javax.swing.JFrame {
     private static final long serialVersionUID = 1L;
 
     private Connection conn;
-    private Statement  stat;
-    private ResultSet    rs;
+    private Statement stat;
+    private ResultSet rs;
     private ResultSet rsMoneda = null;  // Monedas
     private String codigoTC;            // Código del tipo de cambio
     private final String codigoTCP;     // Código de maneda predeterminado
     private final boolean redond5;      // Decide si se redondea a 5 y 10
     private boolean inicio = true;      // Se usa para evitar que corran agunos eventos
-    private Navegador  nav = null;
+    private Navegador nav = null;
     private final int PROVEEDOR = 1;    // Constante para guiar la búsqueda
-    private final int ENTRADA   = 2;    // Constante para guiar la búsqueda
+    private final int ENTRADA = 2;    // Constante para guiar la búsqueda
     private int buscar = PROVEEDOR;     // Valor predeterminado de la búsqueda
     private final boolean genmovcaja;   // Generar los movimientos de caja
     private JTextField txtIdtarjeta;    // Código de tarjeta
+    private boolean genasienfac;        // Indica si el interface contable está activado o no.
+    private final Impuestos_c iva;      // Controlador para tarifas IVA
+    private Impuestos_m im;             // Modelo para tarifas IVA
     private final Bitacora b = new Bitacora();
 
     public RegistroFacturasC(Connection c) throws SQLException {
         initComponents();
-        
+
         // Defino el escuchador con una clase anónima para controlar la
         // salida de esta pantalla.  Esto funciona simpre que se haya
         // establecido el siguiente parámetro:
         // setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE)
         // Esta pantalla lo hace en initComponents().
-        addWindowListener(new WindowAdapter(){
+        addWindowListener(new WindowAdapter() {
             @Override
-            public void windowClosing(WindowEvent e){
+            public void windowClosing(WindowEvent e) {
                 btnSalirActionPerformed(null);
             } // end windowClosing
         } // end class
         ); // end Listener
-        
+
         this.txtIdtarjeta = new JTextField("0"); // Código de tarjeta de crédito o débito
         conn = c;
         stat = c.createStatement(
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY);
-        nav  = new Navegador();
+        nav = new Navegador();
         nav.setConexion(conn);
 
         datFecha_fac.setDate(GregorianCalendar.getInstance().getTime());
-        
+
         // Cargo el combo de las monedas
         cargarComboMonedas();
-        
+
         // Elijo la moneda predeterminada
-        rs = stat.executeQuery("Select codigoTC,redond5, genmovcaja from config");
+        rs = stat.executeQuery(
+                "Select codigoTC, redond5, genmovcaja, genasienfac from config");
         rs.first();
-        
+
         codigoTCP = rs.getString("codigoTC").trim();
-        codigoTC  = rs.getString("codigoTC").trim();
-        redond5   = rs.getBoolean("redond5");
+        codigoTC = rs.getString("codigoTC").trim();
+        redond5 = rs.getBoolean("redond5");
         genmovcaja = rs.getBoolean("genmovcaja");    // Bosco agregado 08/07/2015
-        
+        genasienfac = rs.getBoolean("genasienfac");
+
         String descrip = "";
         rsMoneda.beforeFirst();
-        while (rsMoneda.next()){
-            if (rsMoneda.getString("codigo").trim().equals(codigoTC)){
+        while (rsMoneda.next()) {
+            if (rsMoneda.getString("codigo").trim().equals(codigoTC)) {
                 descrip = rsMoneda.getString("descrip").trim();
                 break;
             } // end if
         } // end while
-        
+
         if (!descrip.equals("")) {
             cboMoneda.setSelectedItem(descrip);
         } // end if
-        
+
         this.cboTipoPago.setSelectedIndex(1); // El default es efectivo
-        
+
         try {
             UtilBD.loadBancos(conn, cboBanco);
             this.cboBanco.setSelectedIndex(0);
-        } catch(SQLException | EmptyDataSourceException ex){
-            JOptionPane.showMessageDialog(null, 
+        } catch (SQLException | EmptyDataSourceException ex) {
+            JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
-        
+
         this.cboBanco.setVisible(false);
         this.lblBanco.setVisible(false);
-        
+
         inicio = false;
         cboMonedaActionPerformed(null);
         this.radFacturaActionPerformed(null);
-        
+
         habilitarObjetos();
+
+        iva = new Impuestos_c(new Impuestos_m());
+        this.txtCodigoTarifaFocusLost(null); // Mostrar el IVA por default
     } // end contructor
-    
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -163,7 +176,9 @@ public class RegistroFacturasC extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         txtImpuesto = new javax.swing.JFormattedTextField();
         jLabel4 = new javax.swing.JLabel();
-        txtTotal_fac = new javax.swing.JFormattedTextField();
+        txtMontoGravado = new javax.swing.JFormattedTextField();
+        jLabel10 = new javax.swing.JLabel();
+        txtMontoExento = new javax.swing.JFormattedTextField();
         btnGuardar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -174,6 +189,15 @@ public class RegistroFacturasC extends javax.swing.JFrame {
         txtChequeoTarjeta = new javax.swing.JTextField();
         lblBanco = new javax.swing.JLabel();
         cboBanco = new javax.swing.JComboBox<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblIVA = new javax.swing.JTable();
+        jLabel11 = new javax.swing.JLabel();
+        txtCodigoTarifa = new javax.swing.JTextField();
+        lblTarifa = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        txtMontoIva = new javax.swing.JFormattedTextField();
+        btnAdd = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuArchivo = new javax.swing.JMenu();
         mnuGuardar = new javax.swing.JMenuItem();
@@ -398,14 +422,14 @@ public class RegistroFacturasC extends javax.swing.JFrame {
         txtDescuento.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtDescuento.setText("0.00");
         txtDescuento.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
-        txtDescuento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDescuentoActionPerformed(evt);
-            }
-        });
         txtDescuento.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtDescuentoFocusGained(evt);
+            }
+        });
+        txtDescuento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDescuentoActionPerformed(evt);
             }
         });
 
@@ -416,37 +440,61 @@ public class RegistroFacturasC extends javax.swing.JFrame {
         txtImpuesto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
         txtImpuesto.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtImpuesto.setText("0.00");
+        txtImpuesto.setToolTipText("Monto total de impuestos");
         txtImpuesto.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
-        txtImpuesto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtImpuestoActionPerformed(evt);
-            }
-        });
         txtImpuesto.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtImpuestoFocusGained(evt);
             }
         });
-
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel4.setText("Monto");
-
-        txtTotal_fac.setColumns(12);
-        txtTotal_fac.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
-        txtTotal_fac.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txtTotal_fac.setText("0.00");
-        txtTotal_fac.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
-        txtTotal_fac.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtTotal_facFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtTotal_facFocusLost(evt);
+        txtImpuesto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtImpuestoActionPerformed(evt);
             }
         });
-        txtTotal_fac.addActionListener(new java.awt.event.ActionListener() {
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel4.setText("Monto gravado");
+
+        txtMontoGravado.setColumns(12);
+        txtMontoGravado.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
+        txtMontoGravado.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtMontoGravado.setText("0.00");
+        txtMontoGravado.setToolTipText("Incluye el impuesto");
+        txtMontoGravado.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
+        txtMontoGravado.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtMontoGravadoFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtMontoGravadoFocusLost(evt);
+            }
+        });
+        txtMontoGravado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTotal_facActionPerformed(evt);
+                txtMontoGravadoActionPerformed(evt);
+            }
+        });
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel10.setText("Monto exento");
+
+        txtMontoExento.setColumns(12);
+        txtMontoExento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
+        txtMontoExento.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtMontoExento.setText("0.00");
+        txtMontoExento.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
+        txtMontoExento.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtMontoExentoFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtMontoExentoFocusLost(evt);
+            }
+        });
+        txtMontoExento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtMontoExentoActionPerformed(evt);
             }
         });
 
@@ -455,24 +503,29 @@ public class RegistroFacturasC extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(txtDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(txtImpuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(txtTotal_fac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtMontoGravado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtMontoExento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtImpuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(txtTotal_fac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtMontoGravado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(txtMontoExento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -481,7 +534,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(txtImpuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 10, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         btnGuardar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -548,18 +601,18 @@ public class RegistroFacturasC extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addGap(4, 4, 4)
                 .addComponent(jLabel2)
                 .addGap(4, 4, 4)
                 .addComponent(cboTipoPago, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtChequeoTarjeta, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblBanco)
-                .addGap(0, 0, 0)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(cboBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4))
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -571,6 +624,110 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addComponent(txtChequeoTarjeta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
+
+        tblIVA.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Código", "Descripción", "%", "Monto"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblIVA.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblIVAMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblIVA);
+        if (tblIVA.getColumnModel().getColumnCount() > 0) {
+            tblIVA.getColumnModel().getColumn(0).setPreferredWidth(100);
+            tblIVA.getColumnModel().getColumn(0).setMaxWidth(150);
+            tblIVA.getColumnModel().getColumn(2).setPreferredWidth(80);
+            tblIVA.getColumnModel().getColumn(2).setMaxWidth(120);
+            tblIVA.getColumnModel().getColumn(3).setPreferredWidth(120);
+            tblIVA.getColumnModel().getColumn(3).setMaxWidth(200);
+        }
+
+        jLabel11.setText("Código IVA");
+
+        txtCodigoTarifa.setColumns(3);
+        txtCodigoTarifa.setText("08");
+        txtCodigoTarifa.setToolTipText("Código de tarifa según M. Hacienda");
+        txtCodigoTarifa.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtCodigoTarifaFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtCodigoTarifaFocusLost(evt);
+            }
+        });
+        txtCodigoTarifa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCodigoTarifaActionPerformed(evt);
+            }
+        });
+
+        lblTarifa.setText(" ");
+        lblTarifa.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel12.setText("Monto");
+
+        txtMontoIva.setColumns(14);
+        txtMontoIva.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,###.00"))));
+        txtMontoIva.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtMontoIva.setText("0.00");
+        txtMontoIva.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtMontoIvaFocusGained(evt);
+            }
+        });
+        txtMontoIva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtMontoIvaActionPerformed(evt);
+            }
+        });
+
+        btnAdd.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/arrow-turn-270-left.png"))); // NOI18N
+        btnAdd.setText("Agregar");
+        btnAdd.setPreferredSize(new java.awt.Dimension(99, 30));
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
+        btnAdd.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnAddKeyPressed(evt);
+            }
+        });
+
+        btnDelete.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/eraser.png"))); // NOI18N
+        btnDelete.setText("Borrar");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         mnuArchivo.setText("Archivo");
 
@@ -617,31 +774,51 @@ public class RegistroFacturasC extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(8, 8, 8)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(10, 10, 10))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addComponent(jScrollPane1))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1))))
+                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtCodigoTarifa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblTarifa, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtMontoIva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnDelete)))
                 .addContainerGap())
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnGuardar, btnSalir});
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAdd, btnDelete});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -653,18 +830,33 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jLabel11)
+                    .addComponent(txtCodigoTarifa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblTarifa)
+                    .addComponent(jLabel12)
+                    .addComponent(txtMontoIva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDelete))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(4, 4, 4))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnGuardar, btnSalir});
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jPanel3, jScrollPane1});
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAdd, btnDelete});
 
         pack();
         setLocationRelativeTo(null);
@@ -673,20 +865,20 @@ public class RegistroFacturasC extends javax.swing.JFrame {
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         int resp;
         String infoMsg = "Perderá los datos que no ha guardado.";
-        infoMsg += this.txtRefinv.getText().trim().isEmpty() ? "":
-                "\nAdemás, por tratarse de un documento de inventario\n" +
-                "los datos quedarán inconsistentes.";
-        
-        resp = JOptionPane.showInternalConfirmDialog(this.getContentPane(), 
+        infoMsg += this.txtRefinv.getText().trim().isEmpty() ? ""
+                : "\nAdemás, por tratarse de un documento de inventario\n"
+                + "los datos quedarán inconsistentes.";
+
+        resp = JOptionPane.showInternalConfirmDialog(this.getContentPane(),
                 "¿Realmente desea cerrar esta ventana?\n" + infoMsg,
                 "Confirme por favor",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.WARNING_MESSAGE);
-        
-        if (resp != JOptionPane.YES_OPTION){
+
+        if (resp != JOptionPane.YES_OPTION) {
             return;
         } // end if
-        
+
         setVisible(false);
         dispose();
 }//GEN-LAST:event_btnSalirActionPerformed
@@ -697,15 +889,15 @@ public class RegistroFacturasC extends javax.swing.JFrame {
         // Esta variable se inicializa aquí porque durante la validación el
         // Spinner puede cambiar.
         int vence_en = Integer.parseInt(spnVence_en.getValue().toString());
-        if (!validarDatos()){
+        if (!validarDatos()) {
             return;
         } // end if
-            
+
         String sqlInsert;   // Comando enviado al motor de base de datos.
         String mensaje;     // Indica que se registró satisfactoriamente.
         int idtarjeta,      // Tarjeta de crédito o débito
-            idbanco;        // Código de banco
-        
+                idbanco;    // Código de banco
+
         /*
          * Declaración de variables correspondientes a los campos de la tabla.
          * El campo vence_en es el único que se declara antes de estos debido
@@ -713,10 +905,10 @@ public class RegistroFacturasC extends javax.swing.JFrame {
          */
         String factura = txtFactura.getText().trim();
         String tipo;
-        String procode = txtProcode.getText().trim(); 
-        Timestamp fecha_fac;        
+        String procode = txtProcode.getText().trim();
+        Timestamp fecha_fac;
         Timestamp fecha_pag;
-        double total_fac;
+        double total_fac, montoGravado, montoExento;
         float tipoca = Float.parseFloat(txtTipoca.getText().trim());
         double descuento;
         double impuesto;
@@ -725,117 +917,114 @@ public class RegistroFacturasC extends javax.swing.JFrame {
         double saldo;
         String fechac = "now()";
         String observaciones = txaObservaciones.getText().trim();
-        
+
         // Asignar la tarjeta
         idtarjeta = Integer.parseInt(this.txtIdtarjeta.getText().trim()); // Bosco 14/06/2015
         int tipopago;
-        
+
         // Asignar el banco seleccionado (si es diferente de cero)
         idbanco = Ut.getNumericCode(this.cboBanco.getSelectedItem().toString(), "-");
-        
+
         // 0=Desconocido,1=Efectivo,2=Cheque,3=Tarjeta
         tipopago = this.cboTipoPago.getSelectedIndex(); // Bosco 14/06/2015
-        
-        if ((idtarjeta > 0 || idbanco > 0) && this.txtChequeoTarjeta.getText().trim().isEmpty()){
-            JOptionPane.showMessageDialog(null, 
-                    "Si elije pago con tarjeta o cheque no puede\n" +
-                    "dejar la referencia vacía.");
+
+        if ((idtarjeta > 0 || idbanco > 0) && this.txtChequeoTarjeta.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null,
+                    "Si elije pago con tarjeta o cheque no puede\n"
+                    + "dejar la referencia vacía.");
             this.txtChequeoTarjeta.requestFocusInWindow();
             return;
         } // end if
-        
+
         String chequeotar = this.txtChequeoTarjeta.getText().trim();
-        
+
         // Aunque se le haya puesto un número éste no será válido si
         // la factura es de crédito.
-        if (Integer.parseInt(this.spnVence_en.getValue().toString()) == 0){
+        if (Integer.parseInt(this.spnVence_en.getValue().toString()) == 0) {
             chequeotar = "";
         } // end if
-        
-        
-                
-        if (this.radFactura.isSelected()){
+
+        if (this.radFactura.isSelected()) {
             tipo = "FAC";
             mensaje = "Factura ";
-        } else if (this.radNC.isSelected()){
+        } else if (this.radNC.isSelected()) {
             tipo = "NCR";
             mensaje = "Nota de crédito ";
         } else {
             tipo = "NDB";
             mensaje = "Nota de débito ";
         } // end if-else
-        
+
         mensaje += "# " + factura + " registrada satisfactoriamente.";
-        
+
         fecha_fac = new Timestamp(datFecha_fac.getCalendar().getTimeInMillis());
-        
+
         Calendar cal = GregorianCalendar.getInstance();
         cal.setTimeInMillis(datFecha_fac.getCalendar().getTimeInMillis());
         cal.add(Calendar.DAY_OF_MONTH, vence_en);
         fecha_pag = new Timestamp(cal.getTimeInMillis());
-        
+
         try {
-            total_fac = 
-                    Double.parseDouble(
-                    Ut.quitarFormato(txtTotal_fac.getText().trim()));
-            descuento = 
-                    Double.parseDouble(
-                    Ut.quitarFormato(txtDescuento.getText().trim()));
-            impuesto = 
-                    Double.parseDouble(
-                    Ut.quitarFormato(txtImpuesto.getText().trim()));
+            montoGravado
+                    = Double.parseDouble(
+                            Ut.quitarFormato(txtMontoGravado.getText().trim()));
+            montoExento
+                    = Double.parseDouble(
+                            Ut.quitarFormato(txtMontoExento.getText().trim()));
+
+            total_fac = montoGravado + montoExento;
+
+            descuento
+                    = Double.parseDouble(
+                            Ut.quitarFormato(txtDescuento.getText().trim()));
+            impuesto
+                    = Double.parseDouble(
+                            Ut.quitarFormato(txtImpuesto.getText().trim()));
         } catch (Exception ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, 
+            JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // try-catch
-        
-        
-        saldo = vence_en > 0 ? total_fac:0;
-        
+
+        saldo = vence_en > 0 ? total_fac : 0;
+
         // Las notas de débito se guardan negativas (montos)
-        if (tipo.equals("NDB")){
+        if (tipo.equals("NDB")) {
             total_fac = total_fac * -1;
+            montoGravado = montoGravado * -1;
+            montoExento = montoExento * -1;
             descuento = descuento * -1;
-            impuesto  = impuesto  * -1;
-            saldo     = saldo     * -1;
+            impuesto = impuesto * -1;
+            saldo = saldo * -1;
         } // end if
-        
+
         // Inicia el proceso de guardado
-        sqlInsert = 
-                "Insert into cxpfacturas(" +
-                "   factura,tipo,procode,fecha_fac,vence_en,fecha_pag," +
-                "   total_fac,codigoTC,tipoca,descuento,impuesto," +
-                "   refinv,saldo,user,fechac,observaciones,medioPago,chequeotar)" +
-                "Values("         +
-                "   ?,?,?,?,?,?," + 
-                "   ?,?,?,?,?,"   +
-                "   ?,?," + user + "," + fechac + ",?,?,?)";
-        
+        sqlInsert
+                = "Insert into cxpfacturas("
+                + "   factura,tipo,procode,fecha_fac,vence_en,fecha_pag,"
+                + "   total_fac,codigoTC,tipoca,descuento,impuesto,"
+                + "   refinv,saldo,user,fechac,observaciones,medioPago, "
+                + "   chequeotar,monto_gra,monto_exe)"
+                + "Values("
+                + "   ?,?,?,?,?,?,"
+                + "   ?,?,?,?,?,"
+                + "   ?,?," + user + "," + fechac + ",?,?,?,?,?)";
+
         String sqlUpdate;
-        
+
         PreparedStatement psInsert, psUpdate;
         boolean hayTransaccion = false;
         int regAfec;
-        
+
         // Inicia la transacción
         try {
             CMD.transaction(conn, CMD.START_TRANSACTION);
             hayTransaccion = true;
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, 
-                    ex.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
-            return;
-        } // end try-catch
         
-        try {
             psInsert = conn.prepareStatement(sqlInsert);
             psInsert.setString(1, factura);
             psInsert.setString(2, tipo);
@@ -853,126 +1042,144 @@ public class RegistroFacturasC extends javax.swing.JFrame {
             psInsert.setString(14, observaciones);
             psInsert.setInt(15, tipopago);
             psInsert.setString(16, chequeotar);
+            psInsert.setDouble(17, montoGravado);
+            psInsert.setDouble(18, montoExento);
 
             regAfec = psInsert.executeUpdate();
-            
-            if (regAfec != 1){
-                JOptionPane.showMessageDialog(null,
-                        "[INSERT] Se esperaba agregar un registro\n" +
-                        "pero se agregaron " + regAfec + ".",
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                CMD.transaction(conn, CMD.ROLLBACK);
-                psInsert.close();
-                return;
-            } // end if
+
             psInsert.close();
-            
-            // Si el plazo el mayor que cero entonces se afecta el saldo.
+
+            if (regAfec != 1) {
+                throw new SQLException(
+                        "[INSERT] Se esperaba agregar un registro\n"
+                        + "pero se agregaron " + regAfec + ".");
+            } // end if
+
+            // Agregar el detalle de los impuestos
+            sqlInsert
+                    = "Insert into cxpfacturasd( "
+                    + "factura, tipo, procode, codigoTarifa, facpive, facimve) "
+                    + "values(?,?,?,?,?,?) ";
+
+            psInsert = conn.prepareStatement(sqlInsert);
+            psInsert.setString(1, factura);
+            psInsert.setString(2, tipo);
+            psInsert.setString(3, procode);
+
+            for (int i = 0; i < tblIVA.getRowCount(); i++) {
+                if (tblIVA.getValueAt(i, 0) == null) {
+                    continue;
+                } // end if
+
+                if (tblIVA.getValueAt(i, 0).toString().trim().isEmpty()) {
+                    continue;
+                } // end if
+
+                psInsert.setString(4, tblIVA.getValueAt(i, 0).toString());
+                psInsert.setString(5, tblIVA.getValueAt(i, 2).toString());
+                psInsert.setString(6, tblIVA.getValueAt(i, 3).toString());
+
+                regAfec = psInsert.executeUpdate();
+
+                if (regAfec != 1) {
+                    throw new SQLException(
+                            "[INSERT IVA]: Se esperaba agregar un registro\n"
+                            + "pero se agregaron " + regAfec + ".");
+                } // end if
+            } // end for
+            psInsert.close();
+
+            // Si el plazo es mayor que cero entonces se afecta el saldo.
             // Este monto siempre se guardará en moneda local.
-            if (vence_en > 0){
-                sqlUpdate = 
-                        "Update inproved " +
-                        "   set prosald = prosald + (? * ?) " +
-                        "Where procode = ?";
+            if (vence_en > 0) {
+                sqlUpdate
+                        = "Update inproved "
+                        + "   set prosald = prosald + (? * ?) "
+                        + "Where procode = ?";
                 psUpdate = conn.prepareStatement(sqlUpdate);
                 psUpdate.setDouble(1, total_fac * tipoca); // El saldo se registra en moneda local
                 psUpdate.setFloat(2, tipoca);
                 psUpdate.setString(3, procode);
-                
+
                 regAfec = psUpdate.executeUpdate();
-                
-                if (regAfec != 1){
-                    JOptionPane.showMessageDialog(null,
-                            "[SALDO] Se esperaba la actualización de un registro\n" +
-                            "pero se actualizaron " + regAfec + ".",
-                            "Error",
-                            JOptionPane.ERROR_MESSAGE);
-                    CMD.transaction(conn, CMD.ROLLBACK);
-                    psUpdate.close();
-                    return;
-                } // end if
+
                 psUpdate.close();
+
+                if (regAfec != 1) {
+                    throw new SQLException(
+                            "[SALDO] Se esperaba la actualización de un registro\n"
+                            + "pero se actualizaron " + regAfec + ".");
+                } // end if
+
             } // end if
-            
+
             // Si es una factura hay que actualizar el monto y la fecha de la 
             // última compra.
             // En este caso se debe poner como condición que la fecha que ya está
             // en la tabla sea menor a la fecha de esta factura.  Por esta razón
             // podría ser que no se actualice ningún registro y por lo tanto no
             // se hace la revisión de los registros afectados.
-            if (tipo.equals("FAC")){
-                sqlUpdate = 
-                        "Update inproved " +
-                        "   set promouc = ?, profeuc = ? " +
-                        "Where procode = ? and (profeuc is null or profeuc <= ? )";
-                
+            if (tipo.equals("FAC")) {
+                sqlUpdate
+                        = "Update inproved "
+                        + "   set promouc = ?, profeuc = ? "
+                        + "Where procode = ? and (profeuc is null or profeuc <= ? )";
+
                 psUpdate = conn.prepareStatement(sqlUpdate);
                 psUpdate.setDouble(1, total_fac * tipoca); // Se registra en moneda local
                 psUpdate.setTimestamp(2, fecha_fac);
                 psUpdate.setString(3, procode);
                 psUpdate.setTimestamp(4, fecha_fac);
-                
+
                 psUpdate.executeUpdate();
-                
+
                 psUpdate.close();
             } // end if
-            
-            
+
             // ***************************************************************
             // Guardar los datos de tarjetas y bancos
-            
             // Bosco agregado 14/06/2015
             // Actualizar el número de tarjeta
-            if (idtarjeta > 0){
+            if (idtarjeta > 0) {
                 PreparedStatement ps;
-                sqlUpdate = 
-                        "Update cxpfacturas Set idtarjeta = ? " +
-                        "Where factura = ? and procode = ?";
+                sqlUpdate
+                        = "Update cxpfacturas Set idtarjeta = ? "
+                        + "Where factura = ? and procode = ?";
                 ps = conn.prepareStatement(sqlUpdate);
                 ps.setInt(1, idtarjeta);
                 ps.setString(2, factura);
                 ps.setString(3, procode);
                 regAfec = CMD.update(ps);
-                if (regAfec == 0){
-                    JOptionPane.showMessageDialog(null, 
-                            "Error al guardar el número de tarjeta " +
-                            idtarjeta + "." +
-                            "\nFactura NO guardada.",
-                            "Error",
-                            JOptionPane.ERROR_MESSAGE);
-                    CMD.transaction(conn, CMD.ROLLBACK);
-                    ps.close();
-                    return;
-                } // end if
                 ps.close();
+                if (regAfec == 0) {
+                    throw new SQLException(
+                            "Error al guardar el número de tarjeta "
+                            + idtarjeta + "."
+                            + "\nFactura NO guardada.");
+                } // end if
+
             } // end if
-            
-            
-            if (idbanco > 0){
-                sqlUpdate = 
-                        "Update cxpfacturas Set idbanco = ? " +
-                        "Where factura = ? and procode = ?";
+
+            if (idbanco > 0) {
+                sqlUpdate
+                        = "Update cxpfacturas Set idbanco = ? "
+                        + "Where factura = ? and procode = ?";
                 PreparedStatement ps;
                 ps = conn.prepareStatement(sqlUpdate);
                 ps.setInt(1, idbanco);
                 ps.setString(2, factura);
                 ps.setString(3, procode);
                 regAfec = CMD.update(ps);
-                if (regAfec == 0){
-                    JOptionPane.showMessageDialog(null, 
-                            "Error al guardar el número de banco " +
-                            idbanco + "." +
-                            "\nFactura NO guardada.",
-                            "Error",
-                            JOptionPane.ERROR_MESSAGE);
-                    CMD.transaction(conn, CMD.ROLLBACK);
-                    ps.close();
-                    return;
-                } // end if
                 ps.close();
+                if (regAfec == 0) {
+                    throw new SQLException(
+                            "Error al guardar el número de banco "
+                            + idbanco + "."
+                            + "\nFactura NO guardada.");
+                } // end if
+
             } // end if
-            
+
             //****************************************************************
             // Aquí se ejecuta el código para registrar en caja.
             // La condición es que el usuario sea un cajero y que
@@ -980,28 +1187,32 @@ public class RegistroFacturasC extends javax.swing.JFrame {
             // o transferencia. 
             //****************************************************************
             String errorMsg = "";
-            if (vence_en == 0 && this.genmovcaja){
+            if (vence_en == 0 && this.genmovcaja) {
                 errorMsg = registrarCaja(factura, procode);
             } // end if
-            
-            if (!errorMsg.isEmpty()){
-                CMD.transaction(conn, CMD.ROLLBACK);
-                JOptionPane.showMessageDialog(null,
-                        errorMsg,
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
+
+            if (!errorMsg.isEmpty()) {
+                throw new SQLException(errorMsg);
             } // end if
-            
+
+            // Generar el asiento contable.
+            // Por ahora solo se generan los asientos de facturas.
+            if (genasienfac && tipo.equals("FAC")) {
+                errorMsg = generarAsiento(factura, (vence_en == 0));
+                if (!errorMsg.isEmpty()) {
+                    throw new SQLException(errorMsg);
+                } // end if
+            } // end if
+
             CMD.transaction(conn, CMD.COMMIT);
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, 
+            JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             try {
-                if (hayTransaccion){
+                if (hayTransaccion) {
                     CMD.transaction(conn, CMD.ROLLBACK);
                 } // end if
             } catch (SQLException ex1) {
@@ -1011,16 +1222,16 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                         JOptionPane.ERROR_MESSAGE);
                 b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             } // end catch
-            
+
             return;
         } // end catch
-        
+
         // Ya al llegar aquí todo fue ejecutado correctamente.
-        JOptionPane.showMessageDialog(null, 
+        JOptionPane.showMessageDialog(null,
                 mensaje,
-                "Mensaje", 
+                "Mensaje",
                 JOptionPane.INFORMATION_MESSAGE);
-        
+
         /*
          * De acuerdo con el comportamiento que ha tenido el sistema hasta esta
          * fecha (06/07/2014) es mejor que, al guardar un documento, se cierre.
@@ -1030,7 +1241,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
          * Bosco Garita Azofeifa 06/07/2014 6:47 a.m.
          */
         dispose();
-        
+
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void txtFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFacturaActionPerformed
@@ -1043,18 +1254,18 @@ public class RegistroFacturasC extends javax.swing.JFrame {
 
     private void txtProcodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtProcodeActionPerformed
         // Verificar si el proveedor existe.
-        if (!existeProveedor()){
+        if (!existeProveedor()) {
             return;
         } // end if
-        
+
         // Verificar si el documento ya fue digitado.
-        if (existeDocumento()){
+        if (existeDocumento()) {
             return;
         } // end if
         txtProcode.transferFocus();
-        
+
         habilitarMediodePago();
-        
+
 }//GEN-LAST:event_txtProcodeActionPerformed
 
     private void txtProcodeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtProcodeFocusGained
@@ -1063,16 +1274,16 @@ public class RegistroFacturasC extends javax.swing.JFrame {
 }//GEN-LAST:event_txtProcodeFocusGained
 
     private void datFecha_facPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_datFecha_facPropertyChange
-        if (this.inicio){
+        if (this.inicio) {
             return;
         } // end if
-        
+
         String facfech = Ut.fechaSQL(datFecha_fac.getDate());
         try {
-            if (!UtilBD.isValidDate(conn,facfech)){
+            if (!UtilBD.isValidDate(conn, facfech)) {
                 JOptionPane.showMessageDialog(null,
-                        "No puede utilizar esta fecha.  " +
-                        "\nCorresponde a un período ya cerrado.",
+                        "No puede utilizar esta fecha.  "
+                        + "\nCorresponde a un período ya cerrado.",
                         "Validar fecha..",
                         JOptionPane.ERROR_MESSAGE);
                 btnGuardar.setEnabled(false);
@@ -1090,44 +1301,44 @@ public class RegistroFacturasC extends javax.swing.JFrame {
 }//GEN-LAST:event_datFecha_facPropertyChange
 
     private void mnuBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBuscarActionPerformed
-        String tabla = 
-                buscar == PROVEEDOR ? "inproved":
-                "inmovime " +
-                "Inner Join inmovimd on inmovime.movdocu = inmovimd.movdocu " +
-                "and inmovime.movtimo = inmovimd.movtimo " +
-                "and inmovime.movtido = inmovimd.movtido " +
-                "Inner join inproved on inmovimd.procode = inproved.procode";
-        String campos = 
-                buscar == PROVEEDOR ? "procode,prodesc":
-                "distinct inmovimd.movdocu, prodesc, movfech";
+        String tabla
+                = buscar == PROVEEDOR ? "inproved"
+                        : "inmovime "
+                        + "Inner Join inmovimd on inmovime.movdocu = inmovimd.movdocu "
+                        + "and inmovime.movtimo = inmovimd.movtimo "
+                        + "and inmovime.movtido = inmovimd.movtido "
+                        + "Inner join inproved on inmovimd.procode = inproved.procode";
+        String campos
+                = buscar == PROVEEDOR ? "procode,prodesc"
+                        : "distinct inmovimd.movdocu, prodesc, movfech";
         String buscarEn = "prodesc";
-        JTextField retorno = 
-                buscar == PROVEEDOR ? txtProcode:txtRefinv;
-        String titulo = 
-                buscar == PROVEEDOR ? 
-                "Buscar proveedores":
-                "Buscar entradas";
-        String[] titulos = 
-                buscar == PROVEEDOR ? 
-                new String[] {"Código","Nombre"}:
-                new String[] {"Entrada","Proveedor","Fecha"};
-        
-        Buscador bd = 
-                new Buscador(new java.awt.Frame(), true,
-                    tabla,campos,buscarEn,retorno,conn,3,titulos);
-            bd.setTitle(titulo);
-            bd.lblBuscar.setText("Proveedor:");
+        JTextField retorno
+                = buscar == PROVEEDOR ? txtProcode : txtRefinv;
+        String titulo
+                = buscar == PROVEEDOR
+                        ? "Buscar proveedores"
+                        : "Buscar entradas";
+        String[] titulos
+                = buscar == PROVEEDOR
+                        ? new String[]{"Código", "Nombre"}
+                : new String[]{"Entrada", "Proveedor", "Fecha"};
+
+        Buscador bd
+                = new Buscador(new java.awt.Frame(), true,
+                        tabla, campos, buscarEn, retorno, conn, 3, titulos);
+        bd.setTitle(titulo);
+        bd.lblBuscar.setText("Proveedor:");
 
         bd.setVisible(true);
 
-        if (buscar == PROVEEDOR){
+        if (buscar == PROVEEDOR) {
             txtProcodeActionPerformed(null);
             txtProcode.transferFocus();
         } else {
             txtRefinvActionPerformed(null);
             txtRefinv.transferFocus();
         } // end if
-        
+
         bd.dispose();
 }//GEN-LAST:event_mnuBuscarActionPerformed
 
@@ -1148,44 +1359,44 @@ public class RegistroFacturasC extends javax.swing.JFrame {
             // Verifico si el tipo de cambio ya está configurado para la fecha del doc.
             txtTipoca.setText(
                     String.valueOf(UtilBD.tipoCambio(
-                    codigoTC, datFecha_fac.getDate(), conn)));
+                            codigoTC, datFecha_fac.getDate(), conn)));
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, 
+            JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
-                    "Error", 
+                    "Error",
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
-        txtTotal_facFocusLost(null);
+        txtMontoGravadoFocusLost(null);
 }//GEN-LAST:event_cboMonedaActionPerformed
 
     private void txtRefinvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRefinvActionPerformed
-        if (!existeRefinv()){
-                return;
+        if (!existeRefinv()) {
+            return;
         } // end if
-        
+
         txtRefinv.transferFocus();
     }//GEN-LAST:event_txtRefinvActionPerformed
 
-    private void txtTotal_facActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotal_facActionPerformed
-        txtTotal_fac.transferFocus();
-    }//GEN-LAST:event_txtTotal_facActionPerformed
+    private void txtMontoGravadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMontoGravadoActionPerformed
+        txtMontoGravado.transferFocus();
+    }//GEN-LAST:event_txtMontoGravadoActionPerformed
 
-    private void txtTotal_facFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTotal_facFocusGained
-        txtTotal_fac.selectAll();
-    }//GEN-LAST:event_txtTotal_facFocusGained
+    private void txtMontoGravadoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMontoGravadoFocusGained
+        txtMontoGravado.selectAll();
+    }//GEN-LAST:event_txtMontoGravadoFocusGained
 
     private void mnuGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuGuardarActionPerformed
         btnGuardarActionPerformed(evt);
     }//GEN-LAST:event_mnuGuardarActionPerformed
 
-    private void txtTotal_facFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTotal_facFocusLost
-        if (txtTotal_fac.getText() == null) {
+    private void txtMontoGravadoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMontoGravadoFocusLost
+        if (txtMontoGravado.getText() == null) {
             return;
         } // end if
-        redondear();
-    }//GEN-LAST:event_txtTotal_facFocusLost
+        redondear(txtMontoGravado);
+    }//GEN-LAST:event_txtMontoGravadoFocusLost
 
     private void txtDescuentoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDescuentoFocusGained
         txtDescuento.selectAll();
@@ -1227,27 +1438,27 @@ public class RegistroFacturasC extends javax.swing.JFrame {
     }//GEN-LAST:event_cboMonedaFocusGained
 
     private void txaObservacionesFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txaObservacionesFocusLost
-        if (txaObservaciones.getText().trim().length() > 150){
-            JOptionPane.showMessageDialog(null, 
-                    "El máximo permitido de caracteres para el campo\n" +
-                    "observaciones es de 150.\n\n" +
-                    "Corríjalo antes de continuar.",
+        if (txaObservaciones.getText().trim().length() > 150) {
+            JOptionPane.showMessageDialog(null,
+                    "El máximo permitido de caracteres para el campo\n"
+                    + "observaciones es de 150.\n\n"
+                    + "Corríjalo antes de continuar.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
         } // end if
     }//GEN-LAST:event_txaObservacionesFocusLost
 
     private void cboTipoPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTipoPagoActionPerformed
-        if (inicio && this.txtFactura.getText().trim().equals("0")){
+        if (inicio && this.txtFactura.getText().trim().equals("0")) {
             return;
         } // end if
-        
+
         String item = cboTipoPago.getSelectedItem().toString();
 
-        if (item.equals("Efectivo")){
+        if (item.equals("Efectivo")) {
             txtChequeoTarjeta.setText("");
             txtChequeoTarjeta.setEditable(false);
-            this.txtTotal_fac.requestFocusInWindow();
+            this.txtMontoGravado.requestFocusInWindow();
         } else {
             txtChequeoTarjeta.setEditable(true);
             txtChequeoTarjeta.setFocusable(true);
@@ -1257,12 +1468,12 @@ public class RegistroFacturasC extends javax.swing.JFrame {
         // Si se trata de una tarajeta hago el llamado a la pantalla de
         // mantenimiento de tarjetas con los parámetros necesarios para
         // su debida inicialización y actualización.
-        if (item.equals("Tarjeta")){
+        if (item.equals("Tarjeta")) {
             TarjetaDC.main(conn, this.txtIdtarjeta, this.txtChequeoTarjeta);
             return;
         } // end if
 
-        if (item.equals("Cheque")){
+        if (item.equals("Cheque")) {
             this.cboBanco.setVisible(true);
             this.lblBanco.setVisible(true);
         } // end if
@@ -1278,7 +1489,114 @@ public class RegistroFacturasC extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnGuardarKeyPressed
 
-    /**guments
+    private void txtMontoExentoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMontoExentoFocusGained
+        txtMontoExento.selectAll();
+    }//GEN-LAST:event_txtMontoExentoFocusGained
+
+    private void txtMontoExentoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMontoExentoFocusLost
+        if (txtMontoExento.getText() == null) {
+            return;
+        } // end if
+        redondear(txtMontoExento);
+    }//GEN-LAST:event_txtMontoExentoFocusLost
+
+    private void txtMontoExentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMontoExentoActionPerformed
+        txtMontoExento.transferFocus();
+    }//GEN-LAST:event_txtMontoExentoActionPerformed
+
+    private void txtCodigoTarifaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCodigoTarifaFocusLost
+        try {
+            im = iva.getIv(txtCodigoTarifa.getText());
+            lblTarifa.setText(im.getDescrip());
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+        } // end try-catch
+    }//GEN-LAST:event_txtCodigoTarifaFocusLost
+
+    private void txtCodigoTarifaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCodigoTarifaFocusGained
+        txtCodigoTarifa.selectAll();
+    }//GEN-LAST:event_txtCodigoTarifaFocusGained
+
+    private void txtCodigoTarifaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoTarifaActionPerformed
+        txtCodigoTarifa.transferFocus();
+    }//GEN-LAST:event_txtCodigoTarifaActionPerformed
+
+    private void txtMontoIvaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMontoIvaFocusGained
+        txtMontoIva.selectAll();
+    }//GEN-LAST:event_txtMontoIvaFocusGained
+
+    private void txtMontoIvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMontoIvaActionPerformed
+        txtMontoIva.transferFocus();
+    }//GEN-LAST:event_txtMontoIvaActionPerformed
+
+    private void btnAddKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnAddKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            btnAddActionPerformed(null);
+        }
+    }//GEN-LAST:event_btnAddKeyPressed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        try {
+            // Si la descripción del impuesto está en blanco, no hago nada
+            if (im.getDescrip().trim().isEmpty()) {
+                return;
+            } // end if
+
+            // Si no hay monto no hago nada
+            String monto = Ut.quitarFormato(this.txtMontoIva.getText().trim());
+            if (monto.isEmpty() || Double.parseDouble(monto) <= 0) {
+                return;
+            } // end if
+
+            int row = Ut.appendBlank(tblIVA);
+            tblIVA.setValueAt(im.getCodigoTarifa(), row, 0);
+            tblIVA.setValueAt(im.getDescrip(), row, 1);
+            tblIVA.setValueAt(im.getPorcentaje(), row, 2);
+            tblIVA.setValueAt(Double.parseDouble(monto), row, 3);
+            recalcularImpuesto();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+        } // end try-catch
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void tblIVAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblIVAMouseClicked
+        int row = tblIVA.getSelectedRow();
+        if (tblIVA.getValueAt(row, 0) == null) {
+            return;
+        } // end if
+        txtCodigoTarifa.setText(tblIVA.getValueAt(row, 0).toString());
+        txtCodigoTarifaFocusLost(null);
+        txtMontoIva.setText(tblIVA.getValueAt(row, 3).toString());
+    }//GEN-LAST:event_tblIVAMouseClicked
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        try {
+            int row = tblIVA.getSelectedRow();
+            if (tblIVA.getValueAt(row, 0) == null) {
+                return;
+            } // end if
+            Ut.setRowNull(tblIVA, row);
+            recalcularImpuesto();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+        } // end try-catch
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    /**
+     * guments
+     *
      * @param tipoDoc
      * @param procode
      * @param refInv
@@ -1286,21 +1604,20 @@ public class RegistroFacturasC extends javax.swing.JFrame {
      * @param IV
      * @param descuento
      * @param c
-    */
+     */
     public static void main(
-            final int tipoDoc,      // Tipo de documento
-            final String procode,   // Código de proveedor
-            final String refInv,    // Documento de referencia en inventario
-            final double monto,     // Total de la factura
-            final double IV,        // Monto del impuesto de ventas
+            final int tipoDoc, // Tipo de documento
+            final String procode, // Código de proveedor
+            final String refInv, // Documento de referencia en inventario
+            final double monto, // Total de la factura
+            final double IV, // Monto del impuesto de ventas
             final double descuento, // Monto del descuento
             final Connection c) {
-        
-        
+
         try {
             // Bosco agregado 23/07/2011
             // Integración del segundo nivel de seguridad.
-            if (!UtilBD.tienePermiso(c,"RegistroFacturasC")){
+            if (!UtilBD.tienePermiso(c, "RegistroFacturasC")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
@@ -1309,14 +1626,14 @@ public class RegistroFacturasC extends javax.swing.JFrame {
             } // end if
         } catch (Exception ex) {
             Logger.getLogger(RegistroFacturasC.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, 
+            JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             return;
         } // end try-catch
         // Fin Bosco agregado 23/07/2011
-        
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -1327,37 +1644,39 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                     // Si no se ha establecido la configuración no continúo
                     Statement s = c.createStatement();
                     ResultSet r = s.executeQuery("Select facnume from config");
-                    if (r == null){
+                    if (r == null) {
                         JOptionPane.showMessageDialog(null,
-                                "Todavía no se ha establecido la " +
-                                "configuración del sistema.",
+                                "Todavía no se ha establecido la "
+                                + "configuración del sistema.",
                                 "Configuración",
                                 JOptionPane.ERROR_MESSAGE);
                         return;
                     } // end if
-                    
+
                     RegistroFacturasC rfc = new RegistroFacturasC(c);
                     rfc.setVisible(true);
-                    
-                    if (tipoDoc != 0){
+
+                    if (tipoDoc != 0) {
                         rfc.setParameters(tipoDoc, procode, refInv, monto, IV, descuento);
                         rfc.setAlwaysOnTop(true);
                         rfc.btnGuardar.requestFocusInWindow();
                     } // end if
-                    
+
                 } catch (CurrencyExchangeException | SQLException | NumberFormatException | HeadlessException ex) {
                     JOptionPane.showMessageDialog(null,
                             ex.getMessage(),
-                            "Error", 
+                            "Error",
                             JOptionPane.ERROR_MESSAGE);
                     new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 } // end try-catch
             } // end run
         });
-        
+
     } // end main
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnDelete;
     private javax.swing.ButtonGroup btnGTipo;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnSalir;
@@ -1366,6 +1685,9 @@ public class RegistroFacturasC extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cboTipoPago;
     private com.toedter.calendar.JDateChooser datFecha_fac;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1380,8 +1702,10 @@ public class RegistroFacturasC extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JLabel lblBanco;
+    private javax.swing.JLabel lblTarifa;
     private javax.swing.JMenu mnuArchivo;
     private javax.swing.JMenuItem mnuBuscar;
     private javax.swing.JMenu mnuEdicion;
@@ -1391,18 +1715,21 @@ public class RegistroFacturasC extends javax.swing.JFrame {
     private javax.swing.JRadioButton radNC;
     private javax.swing.JRadioButton radND;
     private javax.swing.JSpinner spnVence_en;
+    private javax.swing.JTable tblIVA;
     private javax.swing.JTextArea txaObservaciones;
     private javax.swing.JTextField txtChequeoTarjeta;
+    private javax.swing.JTextField txtCodigoTarifa;
     private javax.swing.JFormattedTextField txtDescuento;
     private javax.swing.JFormattedTextField txtFactura;
     private javax.swing.JFormattedTextField txtImpuesto;
+    private javax.swing.JFormattedTextField txtMontoExento;
+    private javax.swing.JFormattedTextField txtMontoGravado;
+    private javax.swing.JFormattedTextField txtMontoIva;
     private javax.swing.JFormattedTextField txtProcode;
     private javax.swing.JTextField txtProdesc;
     private javax.swing.JTextField txtRefinv;
     private javax.swing.JFormattedTextField txtTipoca;
-    private javax.swing.JFormattedTextField txtTotal_fac;
     // End of variables declaration//GEN-END:variables
-
 
     private void ubicarCodigo() {
         try {
@@ -1414,15 +1741,15 @@ public class RegistroFacturasC extends javax.swing.JFrame {
             rsMoneda.beforeFirst();
             while (rsMoneda.next()) {
                 if (cboMoneda.getSelectedItem().toString().trim().equals(
-                        rsMoneda.getString("descrip").trim())){
+                        rsMoneda.getString("descrip").trim())) {
                     codigoTC = rsMoneda.getString("codigo").trim();
                     break;
                 } // end if
             } // end while
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, 
+            JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
-                    "Error", 
+                    "Error",
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
@@ -1437,19 +1764,19 @@ public class RegistroFacturasC extends javax.swing.JFrame {
             } // end if
             this.cboMoneda.removeAllItems();
             rsMoneda.beforeFirst();
-            while (rsMoneda.next()){
+            while (rsMoneda.next()) {
                 cboMoneda.addItem(rsMoneda.getString("descrip"));
             } // end while
         } catch (SQLException | SQLInjectionException ex) {
             JOptionPane.showMessageDialog(null,
-                    ex.getMessage(), 
-                    "Error", 
+                    ex.getMessage(),
+                    "Error",
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     } // end cargarComboMonedas
 
-    private void redondear(){
+    private void redondear(javax.swing.JFormattedTextField objeto) {
         // Si la configuración no permite redondeo o
         // el código de moneda no es el predeterminado
         // no redondeo nada.
@@ -1459,37 +1786,36 @@ public class RegistroFacturasC extends javax.swing.JFrame {
 
         String monto;
         try {
-            monto = Ut.quitarFormato(
-                    txtTotal_fac.getText().trim());
+            monto = Ut.quitarFormato(objeto.getText().trim());
             monto = Ut.redondearA5(monto);
-            txtTotal_fac.setText(Ut.setDecimalFormat(monto, "##0.00"));
+            objeto.setText(Ut.setDecimalFormat(monto, "##0.00"));
         } catch (Exception ex) {
             Logger.getLogger(RegistroFacturasC.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
-                    ex.getMessage(), 
-                    "Error", 
+                    ex.getMessage(),
+                    "Error",
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
-        
+
     } // end redondear
-    
-    private boolean existeRefinv(){
+
+    private boolean existeRefinv() {
         // Si se digita algún documento hay que verificar si realmente existe.
         String movdocu = txtRefinv.getText().trim();
-        String movtimo = this.radFactura.isSelected() ? "E":"S";
-        int movtido = this.radFactura.isSelected() ? 2:7;
-        String sqlSent = 
-                "Select 1 from inmovime " +
-                "Where movdocu = ? and movtimo = ? and movtido = ?";
+        String movtimo = this.radFactura.isSelected() ? "E" : "S";
+        int movtido = this.radFactura.isSelected() ? 2 : 7;
+        String sqlSent
+                = "Select 1 from inmovime "
+                + "Where movdocu = ? and movtimo = ? and movtido = ?";
         PreparedStatement ps;
         ResultSet rsx;
         boolean existe = false;
-        
-        if (movdocu.isEmpty()){
+
+        if (movdocu.isEmpty()) {
             return true;
         } // end if
-        
+
         try {
             ps = conn.prepareStatement(sqlSent);
             ps.setString(1, movdocu);
@@ -1498,43 +1824,43 @@ public class RegistroFacturasC extends javax.swing.JFrame {
             rsx = ps.executeQuery();
             existe = (rsx != null && rsx.first());
             ps.close();
-            if (!existe){
-                JOptionPane.showMessageDialog(null, 
+            if (!existe) {
+                JOptionPane.showMessageDialog(null,
                         "El documento de referencia no existe en inventarios.",
-                        "Error", 
+                        "Error",
                         JOptionPane.ERROR_MESSAGE);
             } // end if
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, 
+            JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
-                    "Error", 
+                    "Error",
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
-            
+
         return existe;
-       
+
     } // end existeRefinv
-    
-    private boolean existeProveedor(){
+
+    private boolean existeProveedor() {
         boolean existe = false;
-        String sqlSent = 
-                "Select prodesc, proplaz from inproved Where procode = ?";
+        String sqlSent
+                = "Select prodesc, proplaz from inproved Where procode = ?";
         ResultSet rsx;
         PreparedStatement ps;
-        
+
         this.txtProdesc.setText("");
-        
+
         try {
             ps = conn.prepareStatement(sqlSent);
             ps.setString(1, this.txtProcode.getText());
             rsx = ps.executeQuery();
             existe = (rsx != null && rsx.first());
-            
-            if (!existe){
-                JOptionPane.showMessageDialog(null, 
-                        "Proveedor no existe.\n" +
-                        "Digite otro código o utilice el buscador (CTRL+B)",
+
+            if (!existe) {
+                JOptionPane.showMessageDialog(null,
+                        "Proveedor no existe.\n"
+                        + "Digite otro código o utilice el buscador (CTRL+B)",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
             } else {
@@ -1542,35 +1868,35 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                 this.spnVence_en.setValue(rsx.getObject("proplaz"));
                 rsx.close();
             } // end if
-        } catch (SQLException | HeadlessException ex){
-            JOptionPane.showMessageDialog(null, 
+        } catch (SQLException | HeadlessException ex) {
+            JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
-        } 
-        
+        }
+
         return existe;
-        
+
     } // end existeProveedor
-    
-    private boolean existeDocumento(){
+
+    private boolean existeDocumento() {
         boolean existe = true;
-        String sqlSent = 
-                "Select 1 from cxpfacturas Where " +
-                "factura = ? and tipo = ? and procode = ?";
+        String sqlSent
+                = "Select 1 from cxpfacturas Where "
+                + "factura = ? and tipo = ? and procode = ?";
         String tipo;
-        if (this.radFactura.isSelected()){
+        if (this.radFactura.isSelected()) {
             tipo = "FAC";
-        } else if (this.radNC.isSelected()){
+        } else if (this.radNC.isSelected()) {
             tipo = "NCR";
         } else {
             tipo = "NDB";
         } // end if-else
-        
+
         ResultSet rsx;
         PreparedStatement ps;
-        
+
         // Verificar si la factura ya fue digitada.
         try {
             ps = conn.prepareStatement(sqlSent);
@@ -1579,66 +1905,66 @@ public class RegistroFacturasC extends javax.swing.JFrame {
             ps.setString(3, this.txtProcode.getText());
             rsx = ps.executeQuery();
             existe = (rsx != null && rsx.first());
-            if (rsx != null){
+            if (rsx != null) {
                 rs.close();
             } // end if
-            if (existe){
-                JOptionPane.showMessageDialog(null, 
-                        "El documento " + this.txtFactura.getText().trim() + 
-                        " ya fue digitado antes.",
+            if (existe) {
+                JOptionPane.showMessageDialog(null,
+                        "El documento " + this.txtFactura.getText().trim()
+                        + " ya fue digitado antes.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 this.txtFactura.requestFocusInWindow();
             } // end if
-        } catch (SQLException ex){
-            JOptionPane.showMessageDialog(null, 
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
-        
+
         return existe;
-        
+
     } // end existeDocumento
-    
-    private void habilitarObjetos(){
-        this.txtTotal_fac.setEditable(true);
+
+    private void habilitarObjetos() {
+        this.txtMontoGravado.setEditable(true);
         this.txtRefinv.setEnabled(
                 this.radFactura.isSelected() || this.radND.isSelected());
         this.txtDescuento.setEnabled(
                 this.radFactura.isSelected() || this.radND.isSelected());
         this.txtImpuesto.setEnabled(
                 this.radFactura.isSelected() || this.radND.isSelected());
-        
-        if (this.txtFactura.getText().trim().equals("0")){
+
+        if (this.txtFactura.getText().trim().equals("0")) {
             this.txtFactura.requestFocusInWindow();
         } else {
-            this.txtTotal_fac.requestFocusInWindow();
+            this.txtMontoGravado.requestFocusInWindow();
         } // end if
-        
+
     } // end habilitarObjetos
-    
-    private boolean validarDatos(){
-        boolean todoCorrecto = existeProveedor();    
+
+    private boolean validarDatos() {
+        boolean todoCorrecto = existeProveedor();
         int idtarjeta;
         String banco;
         int posGuion;
         int idbanco;
         String item;
-        
-        if (todoCorrecto){
+
+        if (todoCorrecto) {
             todoCorrecto = existeRefinv();
         } // end if
-        if (todoCorrecto){
+        if (todoCorrecto) {
             todoCorrecto = !existeDocumento();
         } // end if
-        
+
         // Valido la fecha
         String fecha;
         fecha = Ut.fechaSQL(this.datFecha_fac.getDate());
         try {
-            if (todoCorrecto && !UtilBD.isValidDate(conn,fecha)){
+            if (todoCorrecto && !UtilBD.isValidDate(conn, fecha)) {
                 JOptionPane.showMessageDialog(null,
                         "La fecha corresponde a un período cerrado.",
                         "Error",
@@ -1656,29 +1982,28 @@ public class RegistroFacturasC extends javax.swing.JFrame {
             todoCorrecto = false;
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
-        
+
         try {
             // Valido el monto del documento.
-            double total_fac = 
-                    Double.parseDouble(
-                    Ut.quitarFormato(txtTotal_fac.getText().trim()));
-            if (todoCorrecto){
-                if (total_fac <= 0.00){
+            double total_fac
+                    = Double.parseDouble(Ut.quitarFormato(txtMontoGravado.getText().trim()));
+            if (todoCorrecto) {
+                if (total_fac <= 0.00) {
                     JOptionPane.showMessageDialog(null,
                             "El monto del documento no es válido.",
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
-                    txtTotal_fac.requestFocusInWindow();
+                    txtMontoGravado.requestFocusInWindow();
                     todoCorrecto = false;
                 } // end if
             } // end if
 
             // Valido el descuento del documento.
-            double descuento = 
-                    Double.parseDouble(
-                    Ut.quitarFormato(txtDescuento.getText().trim()));
-            if (todoCorrecto){
-                if (descuento < 0.00){
+            double descuento
+                    = Double.parseDouble(
+                            Ut.quitarFormato(txtDescuento.getText().trim()));
+            if (todoCorrecto) {
+                if (descuento < 0.00) {
                     JOptionPane.showMessageDialog(null,
                             "El descuento no es válido.",
                             "Error",
@@ -1686,10 +2011,10 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                     txtDescuento.requestFocusInWindow();
                     todoCorrecto = false;
                 } // end if
-                if (todoCorrecto && descuento >= total_fac){
+                if (todoCorrecto && descuento >= total_fac) {
                     JOptionPane.showMessageDialog(null,
-                            "El descuento no es aceptable.\n" +
-                            "Debería ser inferior al total.",
+                            "El descuento no es aceptable.\n"
+                            + "Debería ser inferior al total.",
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
                     txtDescuento.requestFocusInWindow();
@@ -1697,11 +2022,11 @@ public class RegistroFacturasC extends javax.swing.JFrame {
             } // end if
 
             // Valido el impuesto del documento.
-            double impuesto = 
-                    Double.parseDouble(
-                    Ut.quitarFormato(txtImpuesto.getText().trim()));
-            if (todoCorrecto){
-                if (impuesto < 0.00){
+            double impuesto
+                    = Double.parseDouble(
+                            Ut.quitarFormato(txtImpuesto.getText().trim()));
+            if (todoCorrecto) {
+                if (impuesto < 0.00) {
                     JOptionPane.showMessageDialog(null,
                             "El impuesto no es válido.",
                             "Error",
@@ -1709,10 +2034,10 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                     txtImpuesto.requestFocusInWindow();
                     todoCorrecto = false;
                 } // end if
-                if (todoCorrecto && impuesto >= total_fac){
+                if (todoCorrecto && impuesto >= total_fac) {
                     JOptionPane.showMessageDialog(null,
-                            "El impuesto no es aceptable.\n" +
-                            "Debería ser inferior al total.",
+                            "El impuesto no es aceptable.\n"
+                            + "Debería ser inferior al total.",
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
                     txtImpuesto.requestFocusInWindow();
@@ -1728,32 +2053,31 @@ public class RegistroFacturasC extends javax.swing.JFrame {
             todoCorrecto = false;
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
-        
+
         // Verifico que cuando el prveedor es de contado que el medio de pago
         // no sea "Desconocido"
-        if (this.spnVence_en.getValue().equals("0")){
-            if (this.cboTipoPago.getSelectedItem().toString().equals("Desconocido")){
+        if (this.spnVence_en.getValue().equals("0")) {
+            if (this.cboTipoPago.getSelectedItem().toString().equals("Desconocido")) {
                 JOptionPane.showMessageDialog(null,
-                    "Si la factura es de contado no puede elegir 'Desconocido' como medio de pago.",
-                    "Información",
-                    JOptionPane.INFORMATION_MESSAGE);
+                        "Si la factura es de contado no puede elegir 'Desconocido' como medio de pago.",
+                        "Información",
+                        JOptionPane.INFORMATION_MESSAGE);
                 todoCorrecto = false;
             } // end if
         } // end if
-        
-        
+
         // Obtener el número de banco
         banco = this.cboBanco.getSelectedItem().toString();
         posGuion = Ut.getPosicion(banco, "-");
         banco = banco.substring(0, posGuion);
-        
+
         // Validar que el plazo, la tarjeta y el banco tengan un valor adecuado
         idbanco = 0;
         try {
             Integer.parseInt(this.spnVence_en.getValue().toString());
             Integer.parseInt(this.txtIdtarjeta.getText().trim()); // Bosco 14/06/2015
             idbanco = Integer.parseInt(banco);
-        } catch (Exception ex){
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -1761,16 +2085,15 @@ public class RegistroFacturasC extends javax.swing.JFrame {
             todoCorrecto = false;
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
-        
-        
+
         // Validar la tarjeta
         idtarjeta = 0;
         item = this.cboTipoPago.getSelectedItem().toString();
-        if (todoCorrecto){
+        if (todoCorrecto) {
             // Si el medio de pago es tarjeta o cheque el número no puede ser cero
             try {
                 idtarjeta = Integer.parseInt(this.txtIdtarjeta.getText().trim()); // Bosco 14/06/2015
-            } catch (Exception ex){
+            } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null,
                         ex.getMessage(),
                         "Error",
@@ -1779,71 +2102,69 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                 b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             } // end try-catch
         } // end if
-        
-        if (todoCorrecto && item.equals("Tarjeta") && idtarjeta == 0){
-            JOptionPane.showMessageDialog(null, 
+
+        if (todoCorrecto && item.equals("Tarjeta") && idtarjeta == 0) {
+            JOptionPane.showMessageDialog(null,
                     "Debe eligir una tarjeta válida.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            
+
             this.cboTipoPago.requestFocusInWindow();
             todoCorrecto = false;
         } // end if
-        
+
         // Validar que si el pago es con cheque que tenga un valor válido.
-        if (todoCorrecto && item.equals("Cheque") && idbanco == 0){
-            JOptionPane.showMessageDialog(null, 
+        if (todoCorrecto && item.equals("Cheque") && idbanco == 0) {
+            JOptionPane.showMessageDialog(null,
                     "Debe eligir una institución bancaria válida.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            
+
             this.cboBanco.requestFocusInWindow();
             todoCorrecto = false;
         } // end if
-        
-        
-        if (todoCorrecto && txaObservaciones.getText().trim().length() > 150){
-            JOptionPane.showMessageDialog(null, 
-                    "El máximo permitido de caracteres para el campo\n" +
-                    "observaciones es de 150.\n\n" +
-                    "Corríjalo antes de continuar.",
+
+        if (todoCorrecto && txaObservaciones.getText().trim().length() > 150) {
+            JOptionPane.showMessageDialog(null,
+                    "El máximo permitido de caracteres para el campo\n"
+                    + "observaciones es de 150.\n\n"
+                    + "Corríjalo antes de continuar.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             todoCorrecto = false;
         } // end if
-        
+
         return todoCorrecto;
     } // end validarDatos
-    
+
     /**
-     * Bosco 30/04/2012
-     * Establecer el tipo de documento.
-     * Cuando se usa este método el usuario no podrá establecer manualmente el
-     * tipo de documento.
+     * Bosco 30/04/2012 Establecer el tipo de documento. Cuando se usa este
+     * método el usuario no podrá establecer manualmente el tipo de documento.
+     *
      * @param tipoDoc int tipo de documento
      */
-    private void setParameters(int tipoDoc, String procode, String refInv, double monto, double IV, double descuento){
-        if (tipoDoc == 2){ // Entrada por compra
+    private void setParameters(int tipoDoc, String procode, String refInv, double monto, double IV, double descuento) {
+        if (tipoDoc == 2) { // Entrada por compra
             this.radFactura.setSelected(true);
-        } else if (tipoDoc == 7){
+        } else if (tipoDoc == 7) {
             this.radND.setSelected(true);
         } // end if
-        
+
         // Por ahora el número de factura y la referencia a inventarios es la
         // misma.  Si en inventarios no usan documentos propios entonces es 
         // conveniente que estos dos números sean iguales.
         this.txtFactura.setText(refInv);
-        this.txtTotal_fac.setText(monto + "");
+        this.txtMontoGravado.setText(monto + "");
         this.txtProcode.setText(procode);
         txtProcodeActionPerformed(null);
         this.txtRefinv.setText(refInv);
         txtRefinvActionPerformed(null);
-        this.txtImpuesto.setText(IV+"");
-        this.txtDescuento.setText(descuento+"");
-        
+        this.txtImpuesto.setText(IV + "");
+        this.txtDescuento.setText(descuento + "");
+
         habilitarObjetos();
     } // end setData
-    
+
     private String registrarCaja(String factura, String procode) {
         int tipopago;           // 0 = Desconocido, 1 = Efectivo, 2 = cheque, 3 = tarjeta, 4 = Transferencia
         double monto;           // Monto de la transacción
@@ -1857,16 +2178,16 @@ public class RegistroFacturasC extends javax.swing.JFrame {
         String errorMsg;        // Mensajes de error
         Cacaja caja;            // Objeto para el manejo de la caja
         Catransa tran;          // Objeto para el registro de la transacción en cajas
-        
+
         errorMsg = "";
-        
+
         // Determinar a cual caja esta asignado el usuario
         int cajaN; // Numero de caja
         try {
             cajaN = getCajaForThisUser(Usuario.USUARIO, conn);
         } catch (SQLException ex) {
             Logger.getLogger(RegistroFacturasC.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, 
+            JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
@@ -1874,63 +2195,63 @@ public class RegistroFacturasC extends javax.swing.JFrame {
             cajaN = -1;
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
-        
+
         // Crear el objeto caja con el número correspondiente al usuario
         caja = new Cacaja(cajaN, conn);
-        
-        if (errorMsg.isEmpty()){
-            if (caja.isError()){
+
+        if (errorMsg.isEmpty()) {
+            if (caja.isError()) {
                 errorMsg = caja.getMensaje_error();
             } else {
                 // Abrir la caja y determinar cualquier tipo de error como
                 // que el usuario no esté asignado a la caja o que esté inactivo.
                 caja.abrir(conn);
-                
-                if (caja.isError()){
+
+                if (caja.isError()) {
                     errorMsg = caja.getMensaje_error();
                 } // end if
             } // end if - else
-            
+
         } // end if (errorMsg.isEmpty())
-        
-        if (!errorMsg.isEmpty()){
+
+        if (!errorMsg.isEmpty()) {
             return errorMsg;
         } // end if
-        
+
         // Crear el objeto de transacciones
         tran = new Catransa(conn);
-        
+
         // Obtener el consecutivo de cajas
         recnumeca = tran.getSiguienteRecibo();
-        
-        if (tran.isError()){
+
+        if (tran.isError()) {
             return tran.getMensaje_error();
         } // end if
-        
+
         // Obtener los datos de la factura
-        sqlSent = 
-                "Select total_fac, idbanco, idtarjeta " +
-                "From cxpfacturas " +
-                "Where factura = ? and procode = ?";
-        monto    = 0;
+        sqlSent
+                = "Select total_fac, idbanco, idtarjeta "
+                + "From cxpfacturas "
+                + "Where factura = ? and procode = ?";
+        monto = 0;
         tipopago = 0;
-        idbanco  = 0;
-        idtarjeta= 0;
-        
+        idbanco = 0;
+        idtarjeta = 0;
+
         try {
             ps = conn.prepareStatement(sqlSent,
                     ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ps.setString(1, factura);
             ps.setString(2, procode);
             rsx = CMD.select(ps);
-            if (rsx == null || !rsx.first()){
+            if (rsx == null || !rsx.first()) {
                 errorMsg = "Ocurrió un error al tratar de localizar la factura para cajas.";
             } // end if
-            
-            if (errorMsg.isEmpty()){
+
+            if (errorMsg.isEmpty()) {
                 tipopago = 1; // Efectivo
-                monto    = rsx.getDouble("total_fac");
-                idbanco  = rsx.getInt("idbanco");
+                monto = rsx.getDouble("total_fac");
+                idbanco = rsx.getInt("idbanco");
                 idtarjeta = rsx.getInt("idtarjeta");
             } // end if
             ps.close();
@@ -1939,28 +2260,28 @@ public class RegistroFacturasC extends javax.swing.JFrame {
             errorMsg = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
-        
-        if (!errorMsg.isEmpty()){
+
+        if (!errorMsg.isEmpty()) {
             return errorMsg;
         } // end if
-        
+
         tran.setMonto(monto);
         tran.setRecnume(recnumeca);
         tran.setDocumento(factura);
         tran.setTipodoc("FAC");
         tran.setTipomov("R");
-        
+
         // Si el monto es negativo se trata de una ND.
-        if (monto < 0){
-            monto = monto *-1;
+        if (monto < 0) {
+            monto = monto * -1;
             tran.setMonto(monto);
             tran.setTipodoc("NDD");
             tran.setTipomov("D");
         } // end if
-        
+
         cal = GregorianCalendar.getInstance();
-        
-        tran.setFecha(new Date(cal.getTimeInMillis())); 
+
+        tran.setFecha(new Date(cal.getTimeInMillis()));
         tran.setCedula(this.txtProcode.getText());
         tran.setNombre(this.txtProdesc.getText());
         tran.setTipopago(tipopago);
@@ -1970,24 +2291,24 @@ public class RegistroFacturasC extends javax.swing.JFrame {
         tran.setModulo("CXP");
         tran.setIdbanco(idbanco);
         tran.setIdtarjeta(idtarjeta);
-        
+
         // Continuar con el try para registrar la transacción (ver RegistroTransaccionesCaja)
         // Actualizar la tabla de transacciones
         // El parámetro: true=Depósito, false=Retiro
         tran.registrar(tran.getTipomov().equals("D")); // Hace el insert en catransa
-        if (tran.isError()){
+        if (tran.isError()) {
             errorMsg = tran.getMensaje_error();
         } // end if
-        
+
         // Actualizar el saldo en caja
-        if (errorMsg.isEmpty()){
+        if (errorMsg.isEmpty()) {
             // Las facturas son retiros pero las ND son depósitos
-            if (tran.getTipomov().equals("R")){
+            if (tran.getTipomov().equals("R")) {
                 caja.setRetiros(caja.getRetiros() + tran.getMonto());
                 caja.setSaldoactual(caja.getSaldoactual() - tran.getMonto());
 
                 // Si el pago es en efectivo se debe actualizar este rubro
-                if (tipopago == 1){
+                if (tipopago == 1) {
                     caja.setEfectivo(caja.getEfectivo() - monto);
                 } // end if
             } else { // Depósitos (Notas de débito)
@@ -1995,41 +2316,41 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                 caja.setSaldoactual(caja.getSaldoactual() + tran.getMonto());
 
                 // Si la devolución se cancela en efectivo se debe actualizar este rubro
-                if (tipopago == 1){
+                if (tipopago == 1) {
                     caja.setEfectivo(caja.getEfectivo() + monto);
                 } // end if
             } // end if-else
-            
+
             caja.actualizarTransacciones(); // Saldos y fechas
-            
-            if (caja.isError()){
+
+            if (caja.isError()) {
                 errorMsg = caja.getMensaje_error();
             } // end if
         } // end if
-        
+
         // Si ha ocurrido algún error envío el mensaje y termino la ejecución
-        if (!errorMsg.isEmpty()){
+        if (!errorMsg.isEmpty()) {
             return errorMsg;
         } // end if
-        
+
         // Actualizo la referencia de caja en la tabla faencabe
-        sqlSent = 
-                "Update cxpfacturas set " +
-                "   reccaja = ?    " +
-                "Where factura = ? and procode = ?";
-        
+        sqlSent
+                = "Update cxpfacturas set "
+                + "   reccaja = ?    "
+                + "Where factura = ? and procode = ?";
+
         try {
             ps = conn.prepareStatement(sqlSent);
             ps.setInt(1, tran.getRecnume());
             ps.setString(2, factura);
             ps.setString(3, procode);
-            
+
             // Solo un registro puede ser actualizado
             int reg = CMD.update(ps);
-            if (reg != 1){
-                errorMsg = 
-                        "Error! Se esperaba actualizar 1 registro en el auxiliar\n" +
-                        "pero se actualizaron " + reg + ".";
+            if (reg != 1) {
+                errorMsg
+                        = "Error! Se esperaba actualizar 1 registro en el auxiliar\n"
+                        + "pero se actualizaron " + reg + ".";
             } // end if
             ps.close();
         } catch (SQLException ex) {
@@ -2037,15 +2358,15 @@ public class RegistroFacturasC extends javax.swing.JFrame {
             errorMsg = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
-        
-        if (!errorMsg.isEmpty()){
+
+        if (!errorMsg.isEmpty()) {
             return errorMsg;
         } // end if
-        
+
         // Actualizo el consecutivo de recibos de caja
-        sqlSent = 
-                "Update config set " +
-                "   recnumeca = ?";
+        sqlSent
+                = "Update config set "
+                + "   recnumeca = ?";
         try {
             ps = conn.prepareStatement(sqlSent);
             ps.setInt(1, tran.getRecnume());
@@ -2055,24 +2376,292 @@ public class RegistroFacturasC extends javax.swing.JFrame {
             errorMsg = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
-        
-        
+
         return errorMsg;
     } // end registrarCaja
-    
-    
-    
 
     private void habilitarMediodePago() {
         this.cboTipoPago.setEnabled(true);
         this.txtChequeoTarjeta.setEnabled(true);
-        
+
         // Si el proveedor es de crédito pongo el medio de pago como 
         // desconocido y deshabilito el combo.
-        if (Integer.parseInt(this.spnVence_en.getValue().toString()) > 0){
+        if (Integer.parseInt(this.spnVence_en.getValue().toString()) > 0) {
             this.cboTipoPago.setSelectedIndex(0);
             this.cboTipoPago.setEnabled(false);
             this.txtChequeoTarjeta.setEnabled(false);
         } // end if
     }
+
+    private void recalcularImpuesto() throws Exception {
+        Number totalIva = Ut.sum(tblIVA, 3);
+        this.txtImpuesto.setText(Ut.setDecimalFormat(totalIva.toString(), "#,##0.00"));
+    } // end recalcularMontos
+
+    /**
+     * Genera el asiento contable.
+     *
+     * @param factura String número de factura
+     * @param contado boolean true=es de contado, false=es de crédito.
+     * @return String mensaje de error en caso (si hay) o vacío si no hay
+     * @throws SQLException
+     */
+    private String generarAsiento(String factura, boolean contado) throws SQLException {
+        String ctaProveedor;    // Cuenta del proveedor o cuenta transitoria.
+        String transitoria;     // Cuenta transitoria.
+        String compras_g;       // Compras gravadas
+        String compras_e;       // Compras exentas
+
+        String tipoD;           // Tipo de documento (FAC, NCR, NDB)
+
+        String no_comprob;      // Número de asiento
+        short tipo_comp;        // Tipo de asiento
+        short movtido = 2;      // Entrada por compra
+        Timestamp fecha_comp;   // Fecha del asiento
+        double total_fac;       // Monto de la factura
+        double comprasExentas;  // Compras exentas
+        double comprasGrabadas; // Compras grabadas
+        Cuenta cta;             // Estructura de la cuenta contable
+        byte db_cr;             // Débito o crédito
+
+        String sqlSent;
+        ResultSet rsE, rsD, rsX;
+        PreparedStatement ps;
+
+        CoasientoE encab;       // Encabezado de asientos
+        CoasientoD detal;       // Detalle de asientos
+
+        cta = new Cuenta();
+        cta.setConn(conn);
+
+        if (cta.isError()) {
+            return "WARNING " + cta.getMensaje_error();
+        } // end if
+
+        // Definir el tipo de documento que se está procesando.
+        tipoD = "FAC";
+        if (radNC.isSelected()) {
+            tipoD = "NCR";
+        } else if (radND.isSelected()) {
+            tipoD = "NDB";
+        } // end if
+
+        /*
+         * 1.   Cargar las cuentas del asiento de compras.
+         * 2.   Cargar el rsE con el proveedor, la cuenta del proveedor (si es de crédito),
+         *      el monto de la factura, y el impuesto.
+         * 3.   Cargar el rsD con el descuento de compras gravadas, el decuento de
+         *      compras exentas, el monto de compras gravadas y el monto de compras exentas.
+         * 4.   Validar que los montos del detalle cuadren con el del encabezado.
+         * 5.   Inicializar el encabezado y guardarlo.
+         * 6.   Inicializar el detalle y guardar cada línea.
+         * 7.   Verificar que el asiento esté balanceado.
+         */
+        sqlSent
+                = "Select * from configcuentas";
+        ps = conn.prepareStatement(sqlSent,
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        rsX = CMD.select(ps);
+        if (!Ut.goRecord(rsX, Ut.FIRST)) {
+            return "WARNING aún no se han configurado las cuentas\n "
+                    + "para el asiento de compras.";
+        } // end if
+
+        transitoria = rsX.getString("transitoria");
+        compras_g = rsX.getString("compras_g");
+        compras_e = rsX.getString("compras_e");
+        tipo_comp = rsX.getShort("tipo_comp_C");
+        ps.close();
+
+        // Cargar el último número registrado en la tabla de tipos de asiento
+        Cotipasient tipo = new Cotipasient(conn);
+        tipo.setTipo_comp(tipo_comp);
+        no_comprob = tipo.getConsecutivo() + "";
+        no_comprob = Ut.lpad(no_comprob.trim(), "0", 10);
+
+        // Si el consecutivo ya existe se le asigna el siguiente automáticamente
+        encab = new CoasientoE(conn);
+        if (encab.existeEnBaseDatos(no_comprob, tipo_comp)) {
+            no_comprob = tipo.getSiguienteConsecutivo(tipo_comp) + "";
+            no_comprob = Ut.lpad(no_comprob.trim(), "0", 10);
+        } // end if
+
+        // Datos para el proveedor y el encabezado del asiento
+        sqlSent
+                = "SELECT  "
+                + "	c.procode,   "
+                + "	concat(trim(i.mayor), trim(i.sub_cta), trim(i.sub_sub), trim(i.colect)) as cuenta, "
+                + "	c.vence_en,  "
+                + "	c.total_fac, "
+                + "     c.monto_gra, "
+                + "     c.monto_exe, "
+                + "     c.impuesto,  "
+                + "     c.descuento, "
+                + "	c.user       "
+                + "FROM cxpfacturas c "
+                + "INNER JOIN inproved i ON c.procode = i.procode "
+                + "Where c.factura = ? and c.tipo = ?";
+
+        ps = conn.prepareStatement(sqlSent,
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        ps.setString(1, factura);
+        ps.setString(2, tipoD);
+        rsE = CMD.select(ps);
+        if (!Ut.goRecord(rsE, Ut.FIRST)) {
+            return "ERROR factura no encontrada para asiento.";
+        } // end if
+
+        // Si la factura es de crédito se usará esta cuenta sino se usará la transitoria.
+        ctaProveedor = rsE.getString("cuenta");
+
+        // Si la factura es de crédito hay que validar la cuenta del proveedor y
+        // si es de contado hay que validar la cuenta transitoria.
+        if (contado) {
+            cta.setCuentaString(transitoria);
+        } else {
+            cta.setCuentaString(ctaProveedor);
+        } // end if
+
+        if (cta.isError()) {
+            ps.close();
+            return "WARNING " + cta.getMensaje_error()
+                    + " [" + (contado ? "transitoria" : "proveedor") + "].";
+        } // end if
+
+        total_fac = rsE.getDouble("total_fac");
+        comprasExentas = rsE.getDouble("monto_exe");
+        comprasGrabadas = rsE.getDouble("monto_gra");
+        
+        // El monto grabado viene con el impuesto incluido y por lo tanto se debe restar.
+        comprasGrabadas -= rsE.getDouble("impuesto");
+
+        fecha_comp = new Timestamp(this.datFecha_fac.getDate().getTime());
+
+        // Agregar el encabezado del asiento
+        String descripAsiento
+                = "Registro de "
+                + (tipoD.equals("FAC") ? "factura" : tipoD.equals("NCR") ? "nota de crédito" : "nota de débito")
+                + " de compras # "
+                + factura;
+        encab = new CoasientoE(no_comprob, tipo_comp, conn);
+        encab.setFecha_comp(fecha_comp);
+        encab.setDescrip(descripAsiento);
+        encab.setUsuario(rsE.getString("user"));
+        encab.setModulo("CXP");
+        encab.setDocumento(factura);
+        encab.setMovtido(movtido);
+        encab.setEnviado(false);
+        encab.insert();
+        if (encab.isError()) {
+            return "ERROR " + encab.getMensaje_error();
+        } // end if
+        ps.close();
+
+        // Agregar el detalle del asiento
+        detal = new CoasientoD(no_comprob, tipo_comp, conn);
+        detal.setDescrip("Compras del " + fecha_comp);
+
+        /*
+         * Primera línea del asiento - monto de la factura
+         */
+        detal.setCuenta(cta);
+        db_cr = 0; // Créditos
+        detal.setDb_cr(db_cr);
+        detal.setMonto(total_fac);
+        detal.insert();
+        if (detal.isError()) {
+            ps.close();
+            return "ERROR " + detal.getMensaje_error();
+        } // end if
+
+        /*
+         * Segunda línea del asiento - compras grabadas
+         */
+        if (comprasGrabadas > 0) {
+            cta.setCuentaString(compras_g);
+            detal.setCuenta(cta);
+            db_cr = 1; // Débitos
+            detal.setDb_cr(db_cr);
+            detal.setMonto(comprasGrabadas);
+            detal.insert();
+            if (detal.isError()) {
+                return "ERROR " + detal.getMensaje_error();
+            } // end if
+        } // end if
+
+        /*
+         * Tercera línea del asiento - compras exentas
+         */
+        if (comprasExentas > 0) {
+            cta.setCuentaString(compras_e);
+            detal.setCuenta(cta);
+            db_cr = 1; // Débitos
+            detal.setDb_cr(db_cr);
+            detal.setMonto(comprasExentas);
+            detal.insert();
+            if (detal.isError()) {
+                return "ERROR " + detal.getMensaje_error();
+            } // end if
+        } // end if
+
+        ps.close();
+
+        /*
+        Obtener una lista de los impuestos y sus respectiavas cuentas
+         */
+        sqlSent = "SELECT  "
+                + " 	tarifa_iva.cuenta,  "
+                + " 	SUM(cxpfacturasd.facimve) AS facimve  "
+                + "FROM cxpfacturasd  "
+                + "INNER JOIN tarifa_iva ON cxpfacturasd.codigoTarifa = tarifa_iva.codigoTarifa  "
+                + "WHERE cxpfacturasd.factura = ? and cxpfacturasd.tipo = ?  "
+                + "GROUP BY tarifa_iva.cuenta";
+
+        ps = conn.prepareStatement(sqlSent,
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        ps.setString(1, factura);
+        ps.setString(2, tipoD);
+        rsD = CMD.select(ps);
+        if (!Ut.goRecord(rsD, Ut.FIRST)) {
+            return "ERROR detalle de impuestos no encontrado.";
+        } // end if
+
+        db_cr = 1;
+        rsD.beforeFirst();
+        while (rsD.next()) {
+            if (rsD.getDouble("facimve") == 0) {
+                continue;
+            } // end if
+            cta.setCuentaString(rsD.getString("cuenta"));
+            detal.setCuenta(cta);
+            detal.setDb_cr(db_cr);
+            detal.setMonto(rsD.getDouble("facimve"));
+            detal.insert();
+            if (detal.isError()) {
+                return "ERROR " + detal.getMensaje_error();
+            } // end if
+        } // end while
+        ps.close();
+
+        // Actualizar la tabla de facturas
+        sqlSent
+                = "UPDATE cxpfacturas "
+                + "	SET no_comprob = ?, tipo_comp = ? "
+                + "WHERE factura = ?  "
+                + "AND tipo = ?";
+        ps = conn.prepareStatement(sqlSent);
+
+        ps.setString(1, no_comprob);
+        ps.setShort(2, tipo_comp);
+        ps.setString(3, factura);
+        ps.setString(4, tipoD);
+        CMD.update(ps);
+        ps.close();
+
+        // Actualizar el consecutivo del asiento de compras
+        // Se registra el último número utilizado
+        tipo.setConsecutivo(Integer.parseInt(no_comprob));
+        tipo.update();
+        return ""; // Vacío significa que todo salió bien.
+    } // end generarAsiento
 }

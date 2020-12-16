@@ -8,8 +8,10 @@ public class Impuestos_m {
     private String codigoTarifa;
     private String descrip;
     private float porcentaje;
-    private String cuenta;
-    private String nom_cta;
+    private String cuenta;      // Cuenta para el IVA de ventas
+    private String nom_cta;     // Nombre de la cuenta de IVA ventas
+    private String cuenta_c;    // Cuenta para el IVA de compras
+    private String nom_cta_c;   // Nombre de la cuenta de IVA compras
     
     // Estas variables no son parte de la tabla.  Solo se usan para transportar
     // los errores que ocurran con las clases que invoquen este modelo.
@@ -23,20 +25,23 @@ public class Impuestos_m {
         this.descrip = "";
         this.cuenta = "0";
         this.nom_cta = "";
+        this.cuenta_c = "0";
+        this.nom_cta_c = "";
         this.error = false;
         this.error_msg = "";
     } // end empty constructor
 
-    public Impuestos_m(String codigoTarifa, String descrip, float porcentaje, String cuenta, String nom_cta) {
+    public Impuestos_m(String codigoTarifa, String descrip, float porcentaje, String cuenta, String nom_cta, String cuenta_c) {
         this.codigoTarifa = codigoTarifa;
         this.descrip = descrip;
         this.porcentaje = porcentaje;
         this.cuenta = cuenta;
         this.nom_cta = nom_cta;
+        this.cuenta_c = cuenta_c;
         this.error = false;
         this.error_msg = "";
-    } // end constructor
-    
+    } // end full constructor
+
     //</editor-fold>
     
     
@@ -80,6 +85,22 @@ public class Impuestos_m {
     
     public void setCuenta(String cuenta) {
         this.cuenta = cuenta == null || cuenta.trim().isEmpty() ? "0" : cuenta;
+    }
+
+    public String getCuenta_c() {
+        return cuenta_c;
+    }
+
+    public void setCuenta_c(String cuenta_c) {
+        this.cuenta_c = cuenta_c == null || cuenta_c.trim().isEmpty() ? "0" : cuenta_c;
+    }
+
+    public String getNom_cta_c() {
+        return nom_cta_c;
+    }
+
+    public void setNom_cta_c(String nom_cta_c) {
+        this.nom_cta_c = nom_cta_c;
     }
     
     public boolean isError() {

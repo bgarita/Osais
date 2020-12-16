@@ -38,14 +38,14 @@ public class Impuestos_v extends JFrame {
     private final String tabla;
     private PreparedStatement ps;
     private Connection conn = null;
-    Navegador nav = null;
+    private Navegador nav = null;
     private Buscador bd = null;
     private final Bitacora b = new Bitacora();
-    private Impuestos_c ivC;
-    private List<Impuestos_m> ivMList;
+    private Impuestos_c ivController;
+    private List<Impuestos_m> ivModelList;
     private boolean skipCombo;
     private final Cuenta cta;
-    private int buscar; // 1 = Tarifas, 2 = Cuentas
+    private int buscar; // 1 = Tarifas, 2 = Cuentas 1, 3 = Cuentas 2
 
     /**
      * Creates new form Impuestos
@@ -63,11 +63,11 @@ public class Impuestos_v extends JFrame {
         conn = c;
         cta = new Cuenta(c);
 
-        Impuestos_m ivM = new Impuestos_m();
-        ivC = new Impuestos_c(ivM);
-        ivM = ivC.getFirst();
+        Impuestos_m ivModel = new Impuestos_m();
+        ivController = new Impuestos_c(ivModel);
+        ivModel = ivController.getFirst();
 
-        setData(ivM);
+        setData(ivModel);
         fillCombo();
 
     } // end constructor
@@ -99,8 +99,11 @@ public class Impuestos_v extends JFrame {
         jLabel1 = new javax.swing.JLabel();
         txtporcentaje = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
-        txtCuenta = new javax.swing.JFormattedTextField();
-        lblNom_cta1 = new javax.swing.JLabel();
+        txtCuenta_v = new javax.swing.JFormattedTextField();
+        lblNom_cta_v = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        txtCuenta_c = new javax.swing.JFormattedTextField();
+        lblNom_cta_c = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuArchivo = new javax.swing.JMenu();
         mnuGuardar = new javax.swing.JMenuItem();
@@ -217,49 +220,95 @@ public class Impuestos_v extends JFrame {
         txtporcentaje.setToolTipText("Tarifa");
         txtporcentaje.setDisabledTextColor(new java.awt.Color(0, 0, 255));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Cuenta"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Cuenta (ventas)"));
 
-        txtCuenta.setColumns(12);
+        txtCuenta_v.setColumns(12);
         try {
-            txtCuenta.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("############")));
+            txtCuenta_v.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("############")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        txtCuenta.addFocusListener(new java.awt.event.FocusAdapter() {
+        txtCuenta_v.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                txtCuentaFocusGained(evt);
+                txtCuenta_vFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                txtCuentaFocusLost(evt);
+                txtCuenta_vFocusLost(evt);
             }
         });
-        txtCuenta.addActionListener(new java.awt.event.ActionListener() {
+        txtCuenta_v.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCuentaActionPerformed(evt);
+                txtCuenta_vActionPerformed(evt);
             }
         });
-        txtCuenta.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtCuenta_v.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtCuentaKeyPressed(evt);
+                txtCuenta_vKeyPressed(evt);
             }
         });
 
-        lblNom_cta1.setText("cta");
-        lblNom_cta1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        lblNom_cta_v.setText("cta");
+        lblNom_cta_v.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(txtCuenta, javax.swing.GroupLayout.DEFAULT_SIZE, 427, Short.MAX_VALUE)
-            .addComponent(lblNom_cta1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(txtCuenta_v)
+            .addComponent(lblNom_cta_v, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(txtCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtCuenta_v, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
-                .addComponent(lblNom_cta1)
+                .addComponent(lblNom_cta_v)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Cuenta (compras)"));
+
+        txtCuenta_c.setColumns(12);
+        try {
+            txtCuenta_c.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("############")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        txtCuenta_c.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtCuenta_cFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtCuenta_cFocusLost(evt);
+            }
+        });
+        txtCuenta_c.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCuenta_cActionPerformed(evt);
+            }
+        });
+        txtCuenta_c.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCuenta_cKeyPressed(evt);
+            }
+        });
+
+        lblNom_cta_c.setText("cta");
+        lblNom_cta_c.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(txtCuenta_c)
+            .addComponent(lblNom_cta_c, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(txtCuenta_c, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(lblNom_cta_c)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -321,9 +370,6 @@ public class Impuestos_v extends JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(lblFamilia)
                         .addGap(2, 2, 2)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -353,7 +399,12 @@ public class Impuestos_v extends JFrame {
                         .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAnterior, btnBorrar, btnGuardar, btnPrimero, btnSiguiente, btnUltimo});
@@ -361,7 +412,7 @@ public class Impuestos_v extends JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(8, 8, 8)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnBuscar)
@@ -374,9 +425,11 @@ public class Impuestos_v extends JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtDescrip, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cboSeleccionar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnPrimero)
                     .addComponent(btnAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -389,7 +442,7 @@ public class Impuestos_v extends JFrame {
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAnterior, btnBorrar, btnGuardar, btnPrimero, btnSiguiente, btnUltimo});
 
-        setSize(new java.awt.Dimension(475, 318));
+        setSize(new java.awt.Dimension(475, 411));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -418,17 +471,19 @@ public class Impuestos_v extends JFrame {
             bd.lblBuscar.setText("Impuesto");
             bd.setVisible(true);
             txtcodigoTarifaActionPerformed(null);
-        } else if (buscar == 2) {
-            buscarCuenta();
-        } // end if-else
+            return;
+        }
 
+        // Este código corre solo si se va a buscar una cuenta ya sea para
+        // el primer campo o para el segundo (buscar = 2 or buscar = 3)
+        buscarCuenta();
 }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void txtcodigoTarifaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcodigoTarifaActionPerformed
         try {
             Impuestos_m ivM = new Impuestos_m();
-            ivC = new Impuestos_c(ivM);
-            ivM = ivC.getIv(this.txtcodigoTarifa.getText().trim());
+            ivController = new Impuestos_c(ivM);
+            ivM = ivController.getIv(this.txtcodigoTarifa.getText().trim());
 
             setData(ivM);
         } catch (SQLException ex) {
@@ -441,11 +496,11 @@ public class Impuestos_v extends JFrame {
 }//GEN-LAST:event_txtcodigoTarifaActionPerformed
 
     private void cboSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboSeleccionarActionPerformed
-        if (this.ivMList == null || this.ivMList.isEmpty() || this.skipCombo) {
+        if (this.ivModelList == null || this.ivModelList.isEmpty() || this.skipCombo) {
             return;
         } // end if
 
-        ivMList.forEach(ivM -> {
+        ivModelList.forEach(ivM -> {
             if (ivM.getDescrip().trim().equals(this.cboSeleccionar.getSelectedItem().toString())) {
                 this.txtcodigoTarifa.setText(ivM.getCodigoTarifa());
                 try {
@@ -468,29 +523,13 @@ public class Impuestos_v extends JFrame {
         // Cuando es una tabla pequeña se puede tener toda en memoria y no requiere
         // ir a la BD a buscar la info. pero si así fuera debería usar el método
         // first de la clase controller (Impuestos_c.java)
-        /*
-        this.txtcodigoTarifa.setText(this.ivMList.get(0).getCodigoTarifa());
-        this.txtDescrip.setText(this.ivMList.get(0).getDescrip());
-        this.txtCuenta.setText(this.ivMList.get(0).getCuenta());
-        try {
-            this.txtporcentaje.setText(Ut.setDecimalFormat(this.ivMList.get(0).getPorcentaje() + "", "#,##0.00"));
-            sincronizarCombo();
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null,
-                    ex.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
-        } // end try-catch
-         */
-
-        Impuestos_m ivM = this.ivMList.get(0);
+        Impuestos_m ivM = this.ivModelList.get(0);
         setData(ivM);
 }//GEN-LAST:event_btnPrimeroActionPerformed
 
     private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
         try {
-            Impuestos_m ivM = this.ivC.getPrevious(this.txtcodigoTarifa.getText());
+            Impuestos_m ivM = this.ivController.getPrevious(this.txtcodigoTarifa.getText());
             setData(ivM);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,
@@ -503,7 +542,7 @@ public class Impuestos_v extends JFrame {
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
         try {
-            Impuestos_m ivM = this.ivC.getNext(this.txtcodigoTarifa.getText());
+            Impuestos_m ivM = this.ivController.getNext(this.txtcodigoTarifa.getText());
             setData(ivM);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,
@@ -516,23 +555,9 @@ public class Impuestos_v extends JFrame {
 
     private void btnUltimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUltimoActionPerformed
 
-        int index = ivMList.size() - 1;
-        /*
-        this.txtcodigoTarifa.setText(this.ivMList.get(index).getCodigoTarifa());
-        this.txtDescrip.setText(this.ivMList.get(index).getDescrip());
-        try {
-            this.txtporcentaje.setText(Ut.setDecimalFormat(this.ivMList.get(index).getPorcentaje() + "", "#,##0.00"));
-            sincronizarCombo();
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null,
-                    ex.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
-        } // end try-catch
-        */
-        
-        Impuestos_m ivM = this.ivMList.get(index);
+        int index = ivModelList.size() - 1;
+
+        Impuestos_m ivM = this.ivModelList.get(index);
         setData(ivM);
 }//GEN-LAST:event_btnUltimoActionPerformed
 
@@ -554,29 +579,48 @@ public class Impuestos_v extends JFrame {
         eliminarRegistro(txtcodigoTarifa.getText().trim());
 }//GEN-LAST:event_btnBorrarActionPerformed
 
-    private void txtCuentaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCuentaFocusGained
-        txtCuenta.selectAll();
+    private void txtCuenta_vFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCuenta_vFocusGained
+        txtCuenta_v.selectAll();
         buscar = 2;
-    }//GEN-LAST:event_txtCuentaFocusGained
+    }//GEN-LAST:event_txtCuenta_vFocusGained
 
-    private void txtCuentaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCuentaFocusLost
-        setNombreCuenta(txtCuenta, lblNom_cta1);
-    }//GEN-LAST:event_txtCuentaFocusLost
+    private void txtCuenta_vFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCuenta_vFocusLost
+        setNombreCuenta(txtCuenta_v, lblNom_cta_v);
+    }//GEN-LAST:event_txtCuenta_vFocusLost
 
-    private void txtCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCuentaActionPerformed
-        txtCuenta.transferFocus();
-    }//GEN-LAST:event_txtCuentaActionPerformed
+    private void txtCuenta_vActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCuenta_vActionPerformed
+        txtCuenta_v.transferFocus();
+    }//GEN-LAST:event_txtCuenta_vActionPerformed
 
-    private void txtCuentaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCuentaKeyPressed
+    private void txtCuenta_vKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCuenta_vKeyPressed
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-            txtCuenta.transferFocus();
+            txtCuenta_v.transferFocus();
         } // end if
-    }//GEN-LAST:event_txtCuentaKeyPressed
+    }//GEN-LAST:event_txtCuenta_vKeyPressed
 
     private void txtcodigoTarifaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtcodigoTarifaFocusGained
         txtcodigoTarifa.selectAll();
         buscar = 1;
     }//GEN-LAST:event_txtcodigoTarifaFocusGained
+
+    private void txtCuenta_cFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCuenta_cFocusGained
+        txtCuenta_c.selectAll();
+        buscar = 3;
+    }//GEN-LAST:event_txtCuenta_cFocusGained
+
+    private void txtCuenta_cFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCuenta_cFocusLost
+        setNombreCuenta(txtCuenta_c, lblNom_cta_c);
+    }//GEN-LAST:event_txtCuenta_cFocusLost
+
+    private void txtCuenta_cActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCuenta_cActionPerformed
+        txtCuenta_c.transferFocus();
+    }//GEN-LAST:event_txtCuenta_cActionPerformed
+
+    private void txtCuenta_cKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCuenta_cKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            txtCuenta_c.transferFocus();
+        } // end if
+    }//GEN-LAST:event_txtCuenta_cKeyPressed
 
     /**
      * Este método hace una llamada al SP EliminarFamilia() y deposlt la
@@ -595,7 +639,7 @@ public class Impuestos_v extends JFrame {
         boolean eliminado = false;
 
         try {
-            eliminado = this.ivC.delete(codigoTarifa);
+            eliminado = this.ivController.delete(codigoTarifa);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(
                     null,
@@ -669,15 +713,18 @@ public class Impuestos_v extends JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblFamilia;
-    private javax.swing.JLabel lblNom_cta1;
+    private javax.swing.JLabel lblNom_cta_c;
+    private javax.swing.JLabel lblNom_cta_v;
     private javax.swing.JMenu mnuArchivo;
     private javax.swing.JMenuItem mnuBorrar;
     private javax.swing.JMenuItem mnuBuscar;
     private javax.swing.JMenu mnuEdicion;
     private javax.swing.JMenuItem mnuGuardar;
     private javax.swing.JMenuItem mnuSalir;
-    private javax.swing.JFormattedTextField txtCuenta;
+    private javax.swing.JFormattedTextField txtCuenta_c;
+    private javax.swing.JFormattedTextField txtCuenta_v;
     private javax.swing.JFormattedTextField txtDescrip;
     private javax.swing.JFormattedTextField txtcodigoTarifa;
     private javax.swing.JTextField txtporcentaje;
@@ -689,9 +736,10 @@ public class Impuestos_v extends JFrame {
         ivM.setDescrip(this.txtDescrip.getText());
         ivM.setPorcentaje(Float.parseFloat(
                 Ut.quitarFormato(this.txtporcentaje.getText().trim())));
-        ivM.setCuenta(this.txtCuenta.getText().trim());
+        ivM.setCuenta(this.txtCuenta_v.getText().trim());
+        ivM.setCuenta_c(this.txtCuenta_c.getText().trim());
 
-        this.ivC.save(ivM);
+        this.ivController.save(ivM);
 
         JOptionPane.showMessageDialog(
                 null,
@@ -716,8 +764,10 @@ public class Impuestos_v extends JFrame {
             this.txtcodigoTarifa.setText(ivM.getCodigoTarifa());
             this.txtDescrip.setText(ivM.getDescrip());
             this.txtporcentaje.setText(Ut.setDecimalFormat(ivM.getPorcentaje() + "", "#,##0.00"));
-            this.txtCuenta.setText(ivM.getCuenta());
-            this.lblNom_cta1.setText(ivM.getNom_cta());
+            this.txtCuenta_v.setText(ivM.getCuenta());
+            this.lblNom_cta_v.setText(ivM.getNom_cta());
+            this.txtCuenta_c.setText(ivM.getCuenta_c());
+            this.lblNom_cta_c.setText(ivM.getNom_cta_c());
             sincronizarCombo();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(
@@ -737,8 +787,8 @@ public class Impuestos_v extends JFrame {
             if (cboSeleccionar.getItemCount() > 0) {
                 cboSeleccionar.removeAllItems();
             }
-            this.ivMList = ivC.getAll();
-            ivMList.forEach((i) -> {
+            this.ivModelList = ivController.getAll();
+            ivModelList.forEach((i) -> {
                 cboSeleccionar.addItem(i.getDescrip());
             });
             sincronizarCombo();
@@ -797,13 +847,21 @@ public class Impuestos_v extends JFrame {
 
     private void buscarCuenta() {
         bd = new Buscador(new java.awt.Frame(), true,
-                "cocatalogo", "Concat(mayor,sub_cta,sub_sub,colect) as cta,nom_cta", "nom_cta", this.txtCuenta, conn);
+                "cocatalogo", 
+                "Concat(mayor,sub_cta,sub_sub,colect) as cta,nom_cta", 
+                "nom_cta", (buscar == 2 ? this.txtCuenta_v : this.txtCuenta_c), 
+                conn);
         bd.setTitle("Buscar cuentas");
         bd.lblBuscar.setText("Cuenta");
         bd.setColumnHeader(0, "Cuenta");
         bd.setColumnHeader(1, "Nombre de la cuenta");
         bd.setVisible(true);
 
-        this.txtCuentaFocusLost(null);
+        if (buscar == 2){
+            this.txtCuenta_vFocusLost(null);
+        } else {
+            this.txtCuenta_cFocusLost(null);
+        }
+        
     } // end buscarCuenta
 } // end class

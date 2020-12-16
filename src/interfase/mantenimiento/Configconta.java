@@ -79,7 +79,7 @@ public class Configconta extends JFrame {
         panelGeneral = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
         txtCtaCierre = new javax.swing.JFormattedTextField();
-        lblNom_cta16 = new javax.swing.JLabel();
+        lblNom_cta_cierre = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         txtdescrip = new javax.swing.JTextField();
         chkprecierre = new javax.swing.JCheckBox();
@@ -96,32 +96,35 @@ public class Configconta extends JFrame {
         jLabel6 = new javax.swing.JLabel();
         txtVentas_g = new javax.swing.JFormattedTextField();
         txtCtaCliente = new javax.swing.JTextField();
-        lblNom_cta1 = new javax.swing.JLabel();
+        lblNom_cta_ventas_gravadas_cred = new javax.swing.JLabel();
         txtDescuento_vg = new javax.swing.JFormattedTextField();
-        lblNom_cta2 = new javax.swing.JLabel();
+        lblNom_cta_descuento_VG_cred = new javax.swing.JLabel();
         txtVentas_e = new javax.swing.JFormattedTextField();
-        lblNom_cta3 = new javax.swing.JLabel();
+        lblNom_cta_ventas_exentas_cred = new javax.swing.JLabel();
         txtDescuento_ve = new javax.swing.JFormattedTextField();
-        lblNom_cta4 = new javax.swing.JLabel();
+        lblNom_cta_descuento_VE_cred = new javax.swing.JLabel();
         txtImpuesto_v = new javax.swing.JTextField();
+        jLabel25 = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel22 = new javax.swing.JLabel();
         txtBanco = new javax.swing.JFormattedTextField();
-        lblNom_cta6 = new javax.swing.JLabel();
+        lblNom_cta_banco = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         txtVentas_g1 = new javax.swing.JFormattedTextField();
-        lblNom_cta7 = new javax.swing.JLabel();
+        lblNom_cta_ventas_gravadas_con = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         txtDescuento_vg1 = new javax.swing.JFormattedTextField();
-        lblNom_cta12 = new javax.swing.JLabel();
+        lblNom_cta_descuento_VG_con = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
         txtVentas_e1 = new javax.swing.JFormattedTextField();
-        lblNom_cta13 = new javax.swing.JLabel();
+        lblNom_cta_ventas_exentas_con = new javax.swing.JLabel();
         txtDescuento_ve1 = new javax.swing.JFormattedTextField();
-        lblNom_cta14 = new javax.swing.JLabel();
+        lblNom_cta_descuento_VE_con = new javax.swing.JLabel();
         txtImpuesto_v2 = new javax.swing.JTextField();
+        jLabel27 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         cboDescripAsientoV = new javax.swing.JComboBox<>();
         panelCompras = new javax.swing.JPanel();
@@ -130,24 +133,35 @@ public class Configconta extends JFrame {
         txtCtaProveedor = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         txtCompras_g = new javax.swing.JFormattedTextField();
-        lblNom_cta8 = new javax.swing.JLabel();
+        lblNom_cta_compras_g = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         txtCompras_e = new javax.swing.JFormattedTextField();
-        lblNom_cta9 = new javax.swing.JLabel();
+        lblNom_cta_compras_e = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         txtImpuesto_c = new javax.swing.JFormattedTextField();
-        lblNom_cta10 = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
+        jLabel29 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         cboDescripAsientoC = new javax.swing.JComboBox<>();
         panelRecibosCXC = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
-        txtCtaCliente2 = new javax.swing.JTextField();
+        txtCtaProveedor2 = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
-        txtTransitoria1 = new javax.swing.JFormattedTextField();
-        lblNom_cta11 = new javax.swing.JLabel();
+        txtBanco_pagos_cxp = new javax.swing.JFormattedTextField();
+        lblNom_cta_banco_pagos_cxp = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
-        cboDescripAsientoP = new javax.swing.JComboBox<>();
+        cboDescripAsientoPP = new javax.swing.JComboBox<>();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel31 = new javax.swing.JLabel();
+        txtCtaCliente3 = new javax.swing.JTextField();
+        jLabel32 = new javax.swing.JLabel();
+        txtBanco_pagos_cxc = new javax.swing.JFormattedTextField();
+        lblNom_cta_banco_pagos_cxc = new javax.swing.JLabel();
+        jLabel33 = new javax.swing.JLabel();
+        jLabel34 = new javax.swing.JLabel();
+        cboDescripAsientoPC = new javax.swing.JComboBox<>();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuArchivo = new javax.swing.JMenu();
         mnuGuardar = new javax.swing.JMenuItem();
@@ -203,7 +217,7 @@ public class Configconta extends JFrame {
             }
         });
 
-        lblNom_cta16.setText("cta");
+        lblNom_cta_cierre.setText("cta");
 
         jLabel20.setText("Período actual");
 
@@ -236,7 +250,7 @@ public class Configconta extends JFrame {
                     .addGroup(panelGeneralLayout.createSequentialGroup()
                         .addComponent(txtCtaCierre, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblNom_cta16, javax.swing.GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE)
+                        .addComponent(lblNom_cta_cierre, javax.swing.GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE)
                         .addGap(27, 27, 27))
                     .addGroup(panelGeneralLayout.createSequentialGroup()
                         .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -264,7 +278,7 @@ public class Configconta extends JFrame {
                 .addComponent(chkmostrarfechaRep)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblNom_cta16)
+                    .addComponent(lblNom_cta_cierre)
                     .addComponent(txtCtaCierre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel19))
                 .addGap(178, 178, 178))
@@ -317,7 +331,7 @@ public class Configconta extends JFrame {
         txtCtaCliente.setText("[Cliente]");
         txtCtaCliente.setEnabled(false);
 
-        lblNom_cta1.setText("cta");
+        lblNom_cta_ventas_gravadas_cred.setText("cta");
 
         txtDescuento_vg.setColumns(12);
         try {
@@ -345,7 +359,7 @@ public class Configconta extends JFrame {
             }
         });
 
-        lblNom_cta2.setText("cta");
+        lblNom_cta_descuento_VG_cred.setText("cta");
 
         txtVentas_e.setColumns(12);
         try {
@@ -373,7 +387,7 @@ public class Configconta extends JFrame {
             }
         });
 
-        lblNom_cta3.setText("cta");
+        lblNom_cta_ventas_exentas_cred.setText("cta");
 
         txtDescuento_ve.setColumns(12);
         try {
@@ -401,11 +415,15 @@ public class Configconta extends JFrame {
             }
         });
 
-        lblNom_cta4.setText("cta");
+        lblNom_cta_descuento_VE_cred.setText("cta");
 
         txtImpuesto_v.setColumns(12);
         txtImpuesto_v.setText("[Tarifa]");
         txtImpuesto_v.setEnabled(false);
+
+        jLabel25.setText("* Cuenta definida en el catálo de clientes");
+
+        jLabel26.setText("* Cuenta definida en el catálogo de tarifas o impuestos");
 
         javax.swing.GroupLayout panelFactCreditoLayout = new javax.swing.GroupLayout(panelFactCredito);
         panelFactCredito.setLayout(panelFactCreditoLayout);
@@ -429,10 +447,15 @@ public class Configconta extends JFrame {
                     .addComponent(txtImpuesto_v, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelFactCreditoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblNom_cta1, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
-                    .addComponent(lblNom_cta2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblNom_cta3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblNom_cta4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblNom_cta_ventas_gravadas_cred, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
+                    .addComponent(lblNom_cta_descuento_VG_cred, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblNom_cta_ventas_exentas_cred, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblNom_cta_descuento_VE_cred, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(panelFactCreditoLayout.createSequentialGroup()
+                        .addGroup(panelFactCreditoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel25)
+                            .addComponent(jLabel26))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -443,32 +466,34 @@ public class Configconta extends JFrame {
             .addGroup(panelFactCreditoLayout.createSequentialGroup()
                 .addGroup(panelFactCreditoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(txtCtaCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCtaCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel25))
                 .addGap(4, 4, 4)
                 .addGroup(panelFactCreditoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(lblNom_cta1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
                     .addComponent(txtVentas_g, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(lblNom_cta_ventas_gravadas_cred, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(4, 4, 4)
                 .addGroup(panelFactCreditoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(lblNom_cta2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
                     .addComponent(txtDescuento_vg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addComponent(lblNom_cta_descuento_VG_cred, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(4, 4, 4)
-                .addGroup(panelFactCreditoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelFactCreditoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel4)
                     .addComponent(txtVentas_e, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblNom_cta3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblNom_cta_ventas_exentas_cred, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(4, 4, 4)
                 .addGroup(panelFactCreditoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel5)
                     .addComponent(txtDescuento_ve, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblNom_cta4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblNom_cta_descuento_VE_cred, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(4, 4, 4)
                 .addGroup(panelFactCreditoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel6)
-                    .addComponent(txtImpuesto_v, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(txtImpuesto_v, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel26))
+                .addGap(8, 8, 8))
         );
 
         panelFactCreditoLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {txtCtaCliente, txtDescuento_ve, txtDescuento_vg, txtImpuesto_v, txtVentas_e, txtVentas_g});
@@ -498,24 +523,24 @@ public class Configconta extends JFrame {
             }
         });
 
-        lblNom_cta6.setText("cta");
+        lblNom_cta_banco.setText("cta");
 
         jLabel7.setText("Ventas gravadas");
 
         txtVentas_g1.setColumns(12);
         txtVentas_g1.setEnabled(false);
 
-        lblNom_cta7.setForeground(new java.awt.Color(36, 75, 112));
-        lblNom_cta7.setText("cta");
-        lblNom_cta7.setPreferredSize(new java.awt.Dimension(15, 20));
+        lblNom_cta_ventas_gravadas_con.setForeground(new java.awt.Color(36, 75, 112));
+        lblNom_cta_ventas_gravadas_con.setText("cta");
+        lblNom_cta_ventas_gravadas_con.setPreferredSize(new java.awt.Dimension(15, 20));
 
         jLabel8.setText("Descuento ventas gravadas");
 
         txtDescuento_vg1.setColumns(12);
         txtDescuento_vg1.setEnabled(false);
 
-        lblNom_cta12.setForeground(new java.awt.Color(36, 75, 112));
-        lblNom_cta12.setText("cta");
+        lblNom_cta_descuento_VG_con.setForeground(new java.awt.Color(36, 75, 112));
+        lblNom_cta_descuento_VG_con.setText("cta");
 
         jLabel15.setText("Ventas exentas");
 
@@ -526,18 +551,20 @@ public class Configconta extends JFrame {
         txtVentas_e1.setColumns(12);
         txtVentas_e1.setEnabled(false);
 
-        lblNom_cta13.setForeground(new java.awt.Color(36, 75, 112));
-        lblNom_cta13.setText("cta");
+        lblNom_cta_ventas_exentas_con.setForeground(new java.awt.Color(36, 75, 112));
+        lblNom_cta_ventas_exentas_con.setText("cta");
 
         txtDescuento_ve1.setColumns(12);
         txtDescuento_ve1.setEnabled(false);
 
-        lblNom_cta14.setForeground(new java.awt.Color(36, 75, 112));
-        lblNom_cta14.setText("cta");
+        lblNom_cta_descuento_VE_con.setForeground(new java.awt.Color(36, 75, 112));
+        lblNom_cta_descuento_VE_con.setText("cta");
 
         txtImpuesto_v2.setColumns(12);
         txtImpuesto_v2.setText("[Tarifa]");
         txtImpuesto_v2.setEnabled(false);
+
+        jLabel27.setText("* Cuenta definida en el catálogo de tarifas o impuestos");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -561,11 +588,14 @@ public class Configconta extends JFrame {
                     .addComponent(txtImpuesto_v2, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblNom_cta6, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
-                    .addComponent(lblNom_cta7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblNom_cta12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblNom_cta13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblNom_cta14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblNom_cta_banco, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
+                    .addComponent(lblNom_cta_ventas_gravadas_con, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblNom_cta_descuento_VG_con, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblNom_cta_ventas_exentas_con, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblNom_cta_descuento_VE_con, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel27)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -574,39 +604,39 @@ public class Configconta extends JFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel22)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtBanco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lblNom_cta6)))
+                    .addComponent(txtBanco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblNom_cta_banco))
                 .addGap(4, 4, 4)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel7)
                     .addComponent(txtVentas_g1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblNom_cta7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblNom_cta_ventas_gravadas_con, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel8)
                     .addComponent(txtDescuento_vg1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblNom_cta12))
+                    .addComponent(lblNom_cta_descuento_VG_con))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel15)
                     .addComponent(txtVentas_e1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblNom_cta13))
+                    .addComponent(lblNom_cta_ventas_exentas_con))
                 .addGap(4, 4, 4)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel23)
                     .addComponent(txtDescuento_ve1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblNom_cta14))
+                    .addComponent(lblNom_cta_descuento_VE_con))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel24)
-                    .addComponent(txtImpuesto_v2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 22, Short.MAX_VALUE))
+                    .addComponent(txtImpuesto_v2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel27))
+                .addGap(0, 8, Short.MAX_VALUE))
         );
 
-        jPanel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblNom_cta12, lblNom_cta13, lblNom_cta14, lblNom_cta6, lblNom_cta7});
+        jPanel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblNom_cta_banco, lblNom_cta_descuento_VE_con, lblNom_cta_descuento_VG_con, lblNom_cta_ventas_exentas_con, lblNom_cta_ventas_gravadas_con});
 
         jPanel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {txtBanco, txtDescuento_ve1, txtDescuento_vg1, txtImpuesto_v2, txtVentas_e1, txtVentas_g1});
 
@@ -634,11 +664,11 @@ public class Configconta extends JFrame {
                 .addComponent(panelFactCredito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelVentasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
                     .addComponent(cboDescripAsientoV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addContainerGap(159, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Ventas", panelVentas);
@@ -658,11 +688,6 @@ public class Configconta extends JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        txtCompras_g.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCompras_gActionPerformed(evt);
-            }
-        });
         txtCompras_g.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtCompras_gFocusGained(evt);
@@ -671,13 +696,18 @@ public class Configconta extends JFrame {
                 txtCompras_gFocusLost(evt);
             }
         });
+        txtCompras_g.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCompras_gActionPerformed(evt);
+            }
+        });
         txtCompras_g.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtCompras_gKeyPressed(evt);
             }
         });
 
-        lblNom_cta8.setText("cta");
+        lblNom_cta_compras_g.setText("cta");
 
         jLabel11.setText("Compras exentas");
 
@@ -706,27 +736,26 @@ public class Configconta extends JFrame {
             }
         });
 
-        lblNom_cta9.setText("cta");
+        lblNom_cta_compras_e.setText("cta");
 
         jLabel12.setText("Impuesto de compras");
 
         txtImpuesto_c.setColumns(12);
         try {
-            txtImpuesto_c.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("############")));
+            txtImpuesto_c.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("************")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        txtImpuesto_c.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtImpuesto_cActionPerformed(evt);
-            }
-        });
+        txtImpuesto_c.setText("[Tafifa]");
+        txtImpuesto_c.setEnabled(false);
         txtImpuesto_c.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtImpuesto_cFocusGained(evt);
             }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtImpuesto_cFocusLost(evt);
+        });
+        txtImpuesto_c.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtImpuesto_cActionPerformed(evt);
             }
         });
         txtImpuesto_c.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -735,7 +764,9 @@ public class Configconta extends JFrame {
             }
         });
 
-        lblNom_cta10.setText("cta");
+        jLabel28.setText("* Cuenta definida en el catálogo de proveedores");
+
+        jLabel29.setText("* Cuenta definida en el catálogo de tarifas o impuestos");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -755,9 +786,13 @@ public class Configconta extends JFrame {
                     .addComponent(txtCompras_g))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblNom_cta8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
-                    .addComponent(lblNom_cta9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
-                    .addComponent(lblNom_cta10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE))
+                    .addComponent(lblNom_cta_compras_g, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
+                    .addComponent(lblNom_cta_compras_e, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel28)
+                            .addComponent(jLabel29))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -765,22 +800,23 @@ public class Configconta extends JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(txtCtaProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCtaProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel28))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel10)
                     .addComponent(txtCompras_g, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblNom_cta8))
+                    .addComponent(lblNom_cta_compras_g))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel11)
                     .addComponent(txtCompras_e, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblNom_cta9))
+                    .addComponent(lblNom_cta_compras_e))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel12)
                     .addComponent(txtImpuesto_c, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblNom_cta10)))
+                    .addComponent(jLabel29)))
         );
 
         jLabel17.setText("Tipo de asiento");
@@ -805,35 +841,39 @@ public class Configconta extends JFrame {
             .addGroup(panelComprasLayout.createSequentialGroup()
                 .addGap(182, 182, 182)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(42, 42, 42)
                 .addGroup(panelComprasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
                     .addComponent(cboDescripAsientoC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(190, Short.MAX_VALUE))
+                .addContainerGap(174, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Compras", panelCompras);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Asiento de recibos de cuentas por cobrar"));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Asiento de recibos de cuentas por pagar"));
 
-        jLabel13.setText("Cuentas por cobrar cliente");
+        jLabel13.setText("Cuentas por pagar proveedor");
 
-        txtCtaCliente2.setText("[Cliente]");
-        txtCtaCliente2.setEnabled(false);
+        txtCtaProveedor2.setText("[Proveedor]");
+        txtCtaProveedor2.setEnabled(false);
 
         jLabel14.setForeground(new java.awt.Color(36, 75, 112));
         jLabel14.setText("Banco");
 
-        txtTransitoria1.setColumns(12);
+        txtBanco_pagos_cxp.setColumns(12);
         try {
-            txtTransitoria1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("############")));
+            txtBanco_pagos_cxp.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("############")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        txtTransitoria1.setEnabled(false);
+        txtBanco_pagos_cxp.setEnabled(false);
 
-        lblNom_cta11.setForeground(new java.awt.Color(36, 75, 112));
-        lblNom_cta11.setText("cta");
+        lblNom_cta_banco_pagos_cxp.setForeground(new java.awt.Color(36, 75, 112));
+        lblNom_cta_banco_pagos_cxp.setText("cta");
+
+        jLabel30.setText("* Cuenta definida en el catálo de proveedores");
+
+        jLabel18.setText("Tipo de asiento");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -841,14 +881,23 @@ public class Configconta extends JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel13)
-                    .addComponent(jLabel14))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtCtaCliente2, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                    .addComponent(txtTransitoria1, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblNom_cta11, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel13)
+                            .addComponent(jLabel14))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtCtaProveedor2, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
+                            .addComponent(txtBanco_pagos_cxp, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblNom_cta_banco_pagos_cxp, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel30)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cboDescripAsientoPP, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -856,16 +905,88 @@ public class Configconta extends JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
-                    .addComponent(txtCtaCliente2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCtaProveedor2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel30))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel14)
-                    .addComponent(txtTransitoria1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblNom_cta11))
+                    .addComponent(txtBanco_pagos_cxp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblNom_cta_banco_pagos_cxp))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18)
+                    .addComponent(cboDescripAsientoPP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jLabel18.setText("Tipo de asiento");
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Asiento de recibos de cuentas por cobrar"));
+
+        jLabel31.setText("Cuentas por cobrar cliente");
+
+        txtCtaCliente3.setText("[Cliente]");
+        txtCtaCliente3.setEnabled(false);
+
+        jLabel32.setForeground(new java.awt.Color(36, 75, 112));
+        jLabel32.setText("Banco");
+
+        txtBanco_pagos_cxc.setColumns(12);
+        try {
+            txtBanco_pagos_cxc.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("############")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        txtBanco_pagos_cxc.setEnabled(false);
+
+        lblNom_cta_banco_pagos_cxc.setForeground(new java.awt.Color(36, 75, 112));
+        lblNom_cta_banco_pagos_cxc.setText("cta");
+
+        jLabel33.setText("* Cuenta definida en el catálo de clientes");
+
+        jLabel34.setText("Tipo de asiento");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel31)
+                            .addComponent(jLabel32))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtCtaCliente3, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
+                            .addComponent(txtBanco_pagos_cxc, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblNom_cta_banco_pagos_cxc, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel33)))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel34)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cboDescripAsientoPC, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel31)
+                    .addComponent(txtCtaCliente3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel33))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jLabel32)
+                    .addComponent(txtBanco_pagos_cxc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblNom_cta_banco_pagos_cxc))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel34)
+                    .addComponent(cboDescripAsientoPC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout panelRecibosCXCLayout = new javax.swing.GroupLayout(panelRecibosCXC);
         panelRecibosCXC.setLayout(panelRecibosCXCLayout);
@@ -874,29 +995,23 @@ public class Configconta extends JFrame {
             .addGroup(panelRecibosCXCLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelRecibosCXCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(panelRecibosCXCLayout.createSequentialGroup()
-                        .addComponent(jLabel18)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cboDescripAsientoP, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         panelRecibosCXCLayout.setVerticalGroup(
             panelRecibosCXCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRecibosCXCLayout.createSequentialGroup()
-                .addGap(206, 206, 206)
+                .addGap(120, 120, 120)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(77, 77, 77)
-                .addGroup(panelRecibosCXCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel18)
-                    .addComponent(cboDescripAsientoP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(136, Short.MAX_VALUE))
+                .addContainerGap(159, Short.MAX_VALUE))
         );
 
         jPanel2.getAccessibleContext().setAccessibleName("Asiento de pagos de cuentas por cobrar");
 
-        jTabbedPane1.addTab("Pagos (CXC)", panelRecibosCXC);
+        jTabbedPane1.addTab("Pagos", panelRecibosCXC);
 
         mnuArchivo.setText("Archivo");
 
@@ -946,7 +1061,7 @@ public class Configconta extends JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cmdSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -959,18 +1074,17 @@ public class Configconta extends JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(2, 2, 2)
+                .addContainerGap()
                 .addComponent(jTabbedPane1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(4, 4, 4)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmdSalir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(4, 4, 4))
+                    .addComponent(cmdSalir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnGuardar, cmdSalir});
 
-        pack();
+        setSize(new java.awt.Dimension(738, 675));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -1000,8 +1114,6 @@ public class Configconta extends JFrame {
             this.txtDescuento_veFocusLost(null);
         } else if (campo == this.txtDescuento_vg){
             this.txtDescuento_vgFocusLost(null);
-        } else if (campo == this.txtImpuesto_c){
-            this.txtImpuesto_cFocusLost(null);
         } else if (campo == this.txtBanco){
             this.txtBancoFocusLost(null);
         } else if (campo == this.txtVentas_e){
@@ -1024,15 +1136,14 @@ public class Configconta extends JFrame {
                 || !checkLength(txtCtaCierre)){
             return;
         } // end if
-        if (       lblNom_cta1.getText().isEmpty() 
-                || lblNom_cta2.getText().isEmpty() 
-                || lblNom_cta3.getText().isEmpty()
-                || lblNom_cta4.getText().isEmpty()
-                || lblNom_cta6.getText().isEmpty()
-                || lblNom_cta8.getText().isEmpty()
-                || lblNom_cta9.getText().isEmpty()
-                || lblNom_cta10.getText().isEmpty()
-                || lblNom_cta16.getText().isEmpty()){
+        if (       lblNom_cta_ventas_gravadas_cred.getText().isEmpty() 
+                || lblNom_cta_descuento_VG_cred.getText().isEmpty() 
+                || lblNom_cta_ventas_exentas_cred.getText().isEmpty()
+                || lblNom_cta_descuento_VE_cred.getText().isEmpty()
+                || lblNom_cta_banco.getText().isEmpty()
+                || lblNom_cta_compras_g.getText().isEmpty()
+                || lblNom_cta_compras_e.getText().isEmpty()
+                || lblNom_cta_cierre.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, 
                     "Una de las cuentas no existe o no es de movimientos.",
                     "Error",
@@ -1082,9 +1193,9 @@ public class Configconta extends JFrame {
         if (!checkLength(txtVentas_g)){
             return;
         } // end if
-        setNombreCuenta(txtVentas_g, lblNom_cta1);
+        setNombreCuenta(txtVentas_g, lblNom_cta_ventas_gravadas_cred);
         txtVentas_g1.setText(txtVentas_g.getText());
-        lblNom_cta7.setText(lblNom_cta1.getText());
+        lblNom_cta_ventas_gravadas_con.setText(lblNom_cta_ventas_gravadas_cred.getText());
     }//GEN-LAST:event_txtVentas_gFocusLost
 
     private void txtDescuento_vgFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDescuento_vgFocusGained
@@ -1096,9 +1207,9 @@ public class Configconta extends JFrame {
         if (!checkLength(txtDescuento_vg)){
             return;
         } // end if
-        setNombreCuenta(txtDescuento_vg, lblNom_cta2);
+        setNombreCuenta(txtDescuento_vg, lblNom_cta_descuento_VG_cred);
         txtDescuento_vg1.setText(txtDescuento_vg.getText());
-        lblNom_cta12.setText(lblNom_cta2.getText());
+        lblNom_cta_descuento_VG_con.setText(lblNom_cta_descuento_VG_cred.getText());
     }//GEN-LAST:event_txtDescuento_vgFocusLost
 
     private void txtVentas_eFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtVentas_eFocusGained
@@ -1110,9 +1221,9 @@ public class Configconta extends JFrame {
         if (!checkLength(txtVentas_e)){
             return;
         } // end if
-        setNombreCuenta(txtVentas_e, lblNom_cta3);
+        setNombreCuenta(txtVentas_e, lblNom_cta_ventas_exentas_cred);
         txtVentas_e1.setText(txtVentas_e.getText());
-        lblNom_cta13.setText(lblNom_cta3.getText());
+        lblNom_cta_ventas_exentas_con.setText(lblNom_cta_ventas_exentas_cred.getText());
     }//GEN-LAST:event_txtVentas_eFocusLost
 
     private void txtDescuento_veFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDescuento_veFocusGained
@@ -1124,9 +1235,9 @@ public class Configconta extends JFrame {
         if (!checkLength(txtDescuento_ve)){
             return;
         } // end if
-        setNombreCuenta(txtDescuento_ve, lblNom_cta4);
+        setNombreCuenta(txtDescuento_ve, lblNom_cta_descuento_VE_cred);
         txtDescuento_ve1.setText(txtDescuento_ve.getText());
-        lblNom_cta14.setText(lblNom_cta4.getText());
+        lblNom_cta_descuento_VE_con.setText(lblNom_cta_descuento_VE_cred.getText());
     }//GEN-LAST:event_txtDescuento_veFocusLost
 
     private void txtVentas_eActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtVentas_eActionPerformed
@@ -1182,7 +1293,7 @@ public class Configconta extends JFrame {
         if (!checkLength(txtCompras_g)){
             return;
         } // end if
-        setNombreCuenta(txtCompras_g, lblNom_cta8);
+        setNombreCuenta(txtCompras_g, lblNom_cta_compras_g);
     }//GEN-LAST:event_txtCompras_gFocusLost
 
     private void txtCompras_gKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCompras_gKeyPressed
@@ -1204,7 +1315,7 @@ public class Configconta extends JFrame {
         if (!checkLength(txtCompras_e)){
             return;
         } // end if
-        setNombreCuenta(txtCompras_e, lblNom_cta9);
+        setNombreCuenta(txtCompras_e, lblNom_cta_compras_e);
     }//GEN-LAST:event_txtCompras_eFocusLost
 
     private void txtCompras_eKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCompras_eKeyPressed
@@ -1221,13 +1332,6 @@ public class Configconta extends JFrame {
         txtImpuesto_c.selectAll();
         campo = txtImpuesto_c;
     }//GEN-LAST:event_txtImpuesto_cFocusGained
-
-    private void txtImpuesto_cFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtImpuesto_cFocusLost
-        if (!checkLength(txtImpuesto_c)){
-            return;
-        } // end if
-        setNombreCuenta(txtImpuesto_c, lblNom_cta10);
-    }//GEN-LAST:event_txtImpuesto_cFocusLost
 
     private void txtImpuesto_cKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtImpuesto_cKeyPressed
         if(evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER){
@@ -1247,7 +1351,7 @@ public class Configconta extends JFrame {
         if (!checkLength(txtCtaCierre)){
             return;
         } // end if
-        setNombreCuenta(txtCtaCierre, lblNom_cta16);
+        setNombreCuenta(txtCtaCierre, lblNom_cta_cierre);
     }//GEN-LAST:event_txtCtaCierreFocusLost
 
     private void txtCtaCierreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCtaCierreKeyPressed
@@ -1269,9 +1373,11 @@ public class Configconta extends JFrame {
         if (!checkLength(txtBanco)){
             return;
         } // end if
-        setNombreCuenta(txtBanco, lblNom_cta6);
-        txtTransitoria1.setText(txtBanco.getText());
-        lblNom_cta11.setText(lblNom_cta6.getText());
+        setNombreCuenta(txtBanco, lblNom_cta_banco);
+        txtBanco_pagos_cxc.setText(txtBanco.getText());
+        txtBanco_pagos_cxp.setText(txtBanco.getText());
+        lblNom_cta_banco_pagos_cxp.setText(lblNom_cta_banco.getText());
+        lblNom_cta_banco_pagos_cxc.setText(lblNom_cta_banco.getText());
     }//GEN-LAST:event_txtBancoFocusLost
 
     private void txtBancoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBancoKeyPressed
@@ -1318,7 +1424,8 @@ public class Configconta extends JFrame {
     private javax.swing.JButton btnGuardar;
     private javax.swing.JComboBox<String> cboCierreFiscal;
     private javax.swing.JComboBox<String> cboDescripAsientoC;
-    private javax.swing.JComboBox<String> cboDescripAsientoP;
+    private javax.swing.JComboBox<String> cboDescripAsientoPC;
+    private javax.swing.JComboBox<String> cboDescripAsientoPP;
     private javax.swing.JComboBox<String> cboDescripAsientoV;
     private javax.swing.JCheckBox chkmostrarfechaRep;
     private javax.swing.JCheckBox chkprecierre;
@@ -1340,7 +1447,17 @@ public class Configconta extends JFrame {
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1351,21 +1468,22 @@ public class Configconta extends JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JLabel lblNom_cta1;
-    private javax.swing.JLabel lblNom_cta10;
-    private javax.swing.JLabel lblNom_cta11;
-    private javax.swing.JLabel lblNom_cta12;
-    private javax.swing.JLabel lblNom_cta13;
-    private javax.swing.JLabel lblNom_cta14;
-    private javax.swing.JLabel lblNom_cta16;
-    private javax.swing.JLabel lblNom_cta2;
-    private javax.swing.JLabel lblNom_cta3;
-    private javax.swing.JLabel lblNom_cta4;
-    private javax.swing.JLabel lblNom_cta6;
-    private javax.swing.JLabel lblNom_cta7;
-    private javax.swing.JLabel lblNom_cta8;
-    private javax.swing.JLabel lblNom_cta9;
+    private javax.swing.JLabel lblNom_cta_banco;
+    private javax.swing.JLabel lblNom_cta_banco_pagos_cxc;
+    private javax.swing.JLabel lblNom_cta_banco_pagos_cxp;
+    private javax.swing.JLabel lblNom_cta_cierre;
+    private javax.swing.JLabel lblNom_cta_compras_e;
+    private javax.swing.JLabel lblNom_cta_compras_g;
+    private javax.swing.JLabel lblNom_cta_descuento_VE_con;
+    private javax.swing.JLabel lblNom_cta_descuento_VE_cred;
+    private javax.swing.JLabel lblNom_cta_descuento_VG_con;
+    private javax.swing.JLabel lblNom_cta_descuento_VG_cred;
+    private javax.swing.JLabel lblNom_cta_ventas_exentas_con;
+    private javax.swing.JLabel lblNom_cta_ventas_exentas_cred;
+    private javax.swing.JLabel lblNom_cta_ventas_gravadas_con;
+    private javax.swing.JLabel lblNom_cta_ventas_gravadas_cred;
     private javax.swing.JMenu mnuArchivo;
     private javax.swing.JMenuItem mnuBuscar;
     private javax.swing.JMenu mnuEdicion;
@@ -1377,12 +1495,15 @@ public class Configconta extends JFrame {
     private javax.swing.JPanel panelRecibosCXC;
     private javax.swing.JPanel panelVentas;
     private javax.swing.JFormattedTextField txtBanco;
+    private javax.swing.JFormattedTextField txtBanco_pagos_cxc;
+    private javax.swing.JFormattedTextField txtBanco_pagos_cxp;
     private javax.swing.JFormattedTextField txtCompras_e;
     private javax.swing.JFormattedTextField txtCompras_g;
     private javax.swing.JFormattedTextField txtCtaCierre;
     private javax.swing.JTextField txtCtaCliente;
-    private javax.swing.JTextField txtCtaCliente2;
+    private javax.swing.JTextField txtCtaCliente3;
     private javax.swing.JTextField txtCtaProveedor;
+    private javax.swing.JTextField txtCtaProveedor2;
     private javax.swing.JFormattedTextField txtDescuento_ve;
     private javax.swing.JFormattedTextField txtDescuento_ve1;
     private javax.swing.JFormattedTextField txtDescuento_vg;
@@ -1390,7 +1511,6 @@ public class Configconta extends JFrame {
     private javax.swing.JFormattedTextField txtImpuesto_c;
     private javax.swing.JTextField txtImpuesto_v;
     private javax.swing.JTextField txtImpuesto_v2;
-    private javax.swing.JFormattedTextField txtTransitoria1;
     private javax.swing.JFormattedTextField txtVentas_e;
     private javax.swing.JFormattedTextField txtVentas_e1;
     private javax.swing.JFormattedTextField txtVentas_g;
@@ -1467,9 +1587,10 @@ public class Configconta extends JFrame {
 
     private void guardarRegistro() throws SQLException, SQLInjectionException {
         // Obtengo los tipos de asiento para compras y ventas
-        short tipo_comp_V = getTipoCompFromCombo(this.cboDescripAsientoV);
-        short tipo_comp_C = getTipoCompFromCombo(this.cboDescripAsientoC);
-        short tipo_comp_P = getTipoCompFromCombo(this.cboDescripAsientoP);
+        short tipo_comp_V  = getTipoCompFromCombo(this.cboDescripAsientoV);
+        short tipo_comp_C  = getTipoCompFromCombo(this.cboDescripAsientoC);
+        short tipo_comp_PC = getTipoCompFromCombo(this.cboDescripAsientoPC);    // Pagos clientes
+        short tipo_comp_PP = getTipoCompFromCombo(this.cboDescripAsientoPP);    // Pagos proveedores
         
         String sqlSent = "Select ventas_g from configcuentas";
         PreparedStatement ps = conn.prepareStatement(sqlSent);
@@ -1488,12 +1609,12 @@ public class Configconta extends JFrame {
                     "   transitoria = ?, " +
                     "   compras_g = ?,   " +
                     "   compras_e = ?,   " +
-                    "   impuesto_c = ?,  " +
                     "   ctaCierre = ?,   " +
                     "   mesCierreA = ?,  " +
                     "   tipo_comp_V = ?, " +
                     "   tipo_comp_C = ?, " +
                     "   tipo_comp_P = ?, " +
+                    "   tipo_comp_PP = ?," +
                     "   mostrarfechaRep = ?";
         } else {
             sqlSent = 
@@ -1505,12 +1626,12 @@ public class Configconta extends JFrame {
                     "   transitoria, " +
                     "   compras_g,   " +
                     "   compras_e,   " +
-                    "   impuesto_c,  " +
                     "   ctaCierre,   " +
                     "   mesCierreA,  " +
                     "   tipo_comp_V, " +
                     "   tipo_comp_C, " +
                     "   tipo_comp_P, " +
+                    "   tipo_comp_PP," +
                     "   mostrarfechaRep) " +
                     "   Values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"; 
         } // end if
@@ -1523,12 +1644,12 @@ public class Configconta extends JFrame {
         ps.setString(5, txtBanco.getText());
         ps.setString(6, txtCompras_g.getText());
         ps.setString(7, txtCompras_e.getText());
-        ps.setString(8, txtImpuesto_c.getText());
-        ps.setString(9, txtCtaCierre.getText());
-        ps.setInt(10, cboCierreFiscal.getSelectedIndex() + 1);
-        ps.setShort(11, tipo_comp_V);
-        ps.setShort(12, tipo_comp_C);
-        ps.setShort(13, tipo_comp_P);
+        ps.setString(8, txtCtaCierre.getText());
+        ps.setInt(9, cboCierreFiscal.getSelectedIndex() + 1);
+        ps.setShort(10, tipo_comp_V);
+        ps.setShort(11, tipo_comp_C);
+        ps.setShort(12, tipo_comp_PC);
+        ps.setShort(13, tipo_comp_PP);
         ps.setBoolean(14, chkmostrarfechaRep.isSelected());
         
         Ut.isSQLInjection(sqlSent);
@@ -1544,7 +1665,7 @@ public class Configconta extends JFrame {
                 "        configcuentas.*,       " +
                 "        coperiodoco.descrip    " +
                 "from configcuentas             " +
-                "left join coperiodoco on configcuentas.mesactual = coperiodoco.mes " +
+                "Left join coperiodoco on configcuentas.mesactual = coperiodoco.mes " +
                 "and configcuentas.añoactual = coperiodoco.año";
         try {
             try (PreparedStatement ps = conn.prepareStatement(sqlSent, 
@@ -1563,7 +1684,6 @@ public class Configconta extends JFrame {
                 this.txtBanco.setText(rs.getString("Transitoria"));
                 this.txtCompras_g.setText(rs.getString("Compras_g"));
                 this.txtCompras_e.setText(rs.getString("Compras_e"));
-                this.txtImpuesto_c.setText(rs.getString("Impuesto_c"));
                 this.txtCtaCierre.setText(rs.getString("ctaCierre"));
                 this.chkprecierre.setSelected(rs.getBoolean("precierre"));
                 this.chkmostrarfechaRep.setSelected(rs.getBoolean("mostrarfechaRep"));
@@ -1572,9 +1692,10 @@ public class Configconta extends JFrame {
                 
                 // Seleccionar el tipo de asiento que viene desde la base de datos
                 // en el combo que corresponda.
-                setComboValue(this.cboDescripAsientoV, rs.getShort("tipo_comp_V"));
-                setComboValue(this.cboDescripAsientoC, rs.getShort("tipo_comp_C"));
-                setComboValue(this.cboDescripAsientoP, rs.getShort("tipo_comp_P"));
+                setComboValue(this.cboDescripAsientoV, rs.getShort("tipo_comp_V"));     // Asiento de ventas
+                setComboValue(this.cboDescripAsientoC, rs.getShort("tipo_comp_C"));     // Asiento de compras
+                setComboValue(this.cboDescripAsientoPC, rs.getShort("tipo_comp_P"));    // Tipo de asiento pagos a clientes
+                setComboValue(this.cboDescripAsientoPP, rs.getShort("tipo_comp_PP"));   // Tipo de asiento pagos a proveedores
                 ps.close();
             } // end try with resources
             
@@ -1588,7 +1709,6 @@ public class Configconta extends JFrame {
             this.txtBancoFocusLost(null);
             this.txtCompras_gFocusLost(null);
             this.txtCompras_eFocusLost(null);
-            this.txtImpuesto_cFocusLost(null);
             this.txtCtaCierreFocusLost(null);
         } catch (SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
@@ -1607,7 +1727,8 @@ public class Configconta extends JFrame {
         for (Cotipasient listTipo : aTipos) {
             this.cboDescripAsientoV.addItem(listTipo.getDescrip());
             this.cboDescripAsientoC.addItem(listTipo.getDescrip());
-            this.cboDescripAsientoP.addItem(listTipo.getDescrip());
+            this.cboDescripAsientoPC.addItem(listTipo.getDescrip());
+            this.cboDescripAsientoPP.addItem(listTipo.getDescrip());
         } // end for
     } // end cargarTiposAsiento
 

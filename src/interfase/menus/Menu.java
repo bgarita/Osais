@@ -83,7 +83,7 @@ public class Menu extends javax.swing.JFrame {
      Todo este proceso es transparente para el usuario.
      */
     public static final String VERSIONN = "5.0r2";
-    private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Nov 2020";
+    private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Dic 2020";
     public static String USUARIO;
     public static String PASS;
     private static String SERVIDOR;
