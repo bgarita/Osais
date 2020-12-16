@@ -4,8 +4,8 @@
  * Created on 22/04/2012, 12:46:00 PM Bosco
  * Modified on 20/08/2019 Bosco
  */
-
 package interfase.transacciones;
+
 import Exceptions.CurrencyExchangeException;
 import Exceptions.EmptyDataSourceException;
 import Mail.Bitacora;
@@ -32,25 +32,31 @@ import javax.swing.table.DefaultTableModel;
 import logica.Cacaja;
 import logica.Catransa;
 import logica.Usuario;
+import logica.contabilidad.CoasientoD;
+import logica.contabilidad.CoasientoE;
+import logica.contabilidad.Cotipasient;
+import logica.contabilidad.Cuenta;
 import logica.utilitarios.FormatoTabla;
 import logica.utilitarios.SQLInjectionException;
 import logica.utilitarios.Ut;
+
 /**
  *
  * @author Bosco Garita
  */
-
 public class RegistroPagosCXP extends javax.swing.JFrame {
-    private Buscador   bd;
+
+    private static final long serialVersionUID = 16L;
+    private Buscador bd;
     private Connection conn;
-    private Navegador  nav = null;
-    private Statement  stat;
-    private ResultSet  rsMoneda = null; // Monedas
-    private ResultSet  rsFac = null;   // Facturas con saldo
-    private String     codigoTC;       // Código del tipo de cambio
-    private boolean    inicio = true;  // Se usa para evitar que corran agunos eventos
-    private boolean    fin = false;    // Se usa para evitar que corran agunos eventos
-    private Calendar   fechaA = GregorianCalendar.getInstance();
+    private Navegador nav = null;
+    private Statement stat;
+    private ResultSet rsMoneda = null;// Monedas
+    private ResultSet rsFac = null;   // Facturas con saldo
+    private String codigoTC;          // Código del tipo de cambio
+    private boolean inicio = true;    // Se usa para evitar que corran agunos eventos
+    private boolean fin = false;      // Se usa para evitar que corran agunos eventos
+    private Calendar fechaA = GregorianCalendar.getInstance();
     private boolean fechaCorrecta = false;
     private final Bitacora b = new Bitacora();
 
@@ -64,11 +70,14 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
     FormatoTabla formato;
     private boolean hayTransaccion;
 
+    private final boolean genasienfac;      // Interface contable
 
-    /** Creates new form RegistroEntradas
+    /**
+     * Creates new form RegistroEntradas
+     *
      * @param c
      * @param procode
-     * @throws java.sql.SQLException 
+     * @throws java.sql.SQLException
      */
     public RegistroPagosCXP(Connection c, String procode) throws SQLException {
         /*
@@ -80,29 +89,29 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
         Resuelto: 20/08/2019. El problema se daba en el evento propertyChange del
         componente de fecha. Se condicionó para que se ejecute solo si el control
         no está null y que tenga alg1ún valor.
-        */
+         */
         try {
             initComponents();
-        } catch(Exception ex){
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex);
         }
-        
+
         // Defino el escuchador con una clase anónima para controlar la
         // salida de esta pantalla.  Esto funciona siempre que se haya
         // establecido el siguiente parámetro:
         // setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE)
         // Esta pantalla lo hace en initComponents().
-        addWindowListener(new WindowAdapter(){
+        addWindowListener(new WindowAdapter() {
             @Override
-            public void windowClosing(WindowEvent e){
+            public void windowClosing(WindowEvent e) {
                 btnSalirActionPerformed(null);
             } // end windowClosing
         } // end class
         ); // end Listener
-        
+
         this.txtProcode.setText(procode);
-        
+
         this.txtIdtarjeta = new JTextField("0"); // Código de tarjeta de crédito o débito
 
         txtProdesc.setText(""); // Este campo será la referencia para continuar con el pago.
@@ -110,7 +119,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
         txtVencido.setText("0.0000");
 
         formato = new FormatoTabla();
-        
+
         try {
             formato.formatColumn(tblDetalle, 3, FormatoTabla.H_RIGHT, Color.BLUE);
             formato.formatColumn(tblDetalle, 4, FormatoTabla.H_RIGHT, Color.MAGENTA);
@@ -119,9 +128,9 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
             Logger.getLogger(RegistroPagosCXC.class.getName()).log(Level.SEVERE, null, ex);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
-        
+
         conn = c;
-        nav  = new Navegador();
+        nav = new Navegador();
         nav.setConexion(conn);
         stat = conn.createStatement(
                 ResultSet.TYPE_SCROLL_SENSITIVE,
@@ -129,15 +138,20 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
 
         // Cargo el combo de las monedas
         cargarComboMonedas();
-        
+
         DatFecha.setDate(fechaA.getTime());
-        
+
         // Cargo los parámetros de configuración
-        String sqlSent =
-                "Select            " +
-                "   recnume1 + 1,  " + // Consecutivo
-                "   genmovcaja,    " + // Generar los movimientos de caja  Bosco agregado 16/07/2015
-                "   codigoTC       " + // Moneda predeterminada
+        String sqlSent
+                = "Select            "
+                + "   recnume1 + 1,  "
+                + // Consecutivo
+                "   genmovcaja,    "
+                + // Generar los movimientos de caja  Bosco agregado 16/07/2015
+                "   genasienfac,   "
+                + // Generar los asientos contables
+                "   codigoTC       "
+                + // Moneda predeterminada
                 "From config";
 
         ResultSet rs = stat.executeQuery(sqlSent);
@@ -146,61 +160,61 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
 
         // Elijo la moneda predeterminada
         codigoTCP = rs.getString("codigoTC").trim();
-        codigoTC  = rs.getString("codigoTC").trim();
-        
+        codigoTC = rs.getString("codigoTC").trim();
+
         genmovcaja = rs.getBoolean("genmovcaja");  // Bosco 16/07/2015
-        
+        genasienfac = rs.getBoolean("genasienfac");
+
         String descrip = "";
-        
-        if (Ut.seek(rsMoneda, codigoTC, "codigo")){
+
+        if (Ut.seek(rsMoneda, codigoTC, "codigo")) {
             descrip = rsMoneda.getString("descrip").trim();
         }
-        
+
         if (!descrip.equals("")) {
             cboMoneda.setSelectedItem(descrip);
         } // end if
 
         txtRecnume.setText(rs.getString(1));
-        
+
         txtRecnumeActionPerformed(null); // Establecer el consecutivo
-        
+
         inicio = false;
-        
-        if (procode.trim().isEmpty()){
+
+        if (procode.trim().isEmpty()) {
             // Buscar la factura más vieja y cargar el proveedor correspondiente
             txtProcode.setText(getOldestProcode());
         } // end if
-        
+
         // Establecer el tipo de cambio
         cboMonedaActionPerformed(null);
-        
+
         this.txtProcodeActionPerformed(null);
-        
+
         try {
             // Cargar el combo de bancos
             UtilBD.loadBancos(conn, cboBanco);
         } catch (EmptyDataSourceException ex) {
             Logger.getLogger(RegistroPagosCXP.class.getName()).log(Level.SEVERE, null, ex);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
-            JOptionPane.showMessageDialog(null, 
+            JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
-                    "Error", 
+                    "Error",
                     JOptionPane.ERROR_MESSAGE);
         } // end try-catch
-        
+
         this.cboBanco.setSelectedIndex(0);
-        
+
         this.cboBanco.setVisible(false);
         this.lblBanco.setVisible(false);
     } // constructor
-    
 
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
      */
-    
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -255,12 +269,11 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
 
         txtProcode.setColumns(6);
         try {
-            txtProcode.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("**********")));
+            txtProcode.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("***************")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
         txtProcode.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        txtProcode.setText("0");
         txtProcode.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtProcodeFocusGained(evt);
@@ -622,8 +635,8 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtProcode, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 60, Short.MAX_VALUE)
+                                .addComponent(txtProcode, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel9)
                                 .addGap(4, 4, 4)
                                 .addComponent(DatFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -754,12 +767,12 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         // Verifico si hay datos sin guardar
         // Si hay datos advierto al usuario
-        if (Ut.countNotNull(tblDetalle, 0) > 0){
-            if(JOptionPane.showConfirmDialog(null,
-                    "No ha guardado el recibo.\n" +
-                    "Si continúa perderá los datos.\n" +
-                    "\n¿Realmente desea salir?")
-                    != JOptionPane.YES_OPTION){
+        if (Ut.countNotNull(tblDetalle, 0) > 0) {
+            if (JOptionPane.showConfirmDialog(null,
+                    "No ha guardado el recibo.\n"
+                    + "Si continúa perderá los datos.\n"
+                    + "\n¿Realmente desea salir?")
+                    != JOptionPane.YES_OPTION) {
                 return;
             } // end if
         } // end if
@@ -771,7 +784,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
 
     private void mnuBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBuscarActionPerformed
         bd = new Buscador(new java.awt.Frame(), true,
-                "inproved","procode,prodesc","prodesc",txtProcode,conn);
+                "inproved", "procode,prodesc", "prodesc", txtProcode, conn);
         bd.setTitle("Buscar proveedores");
         bd.lblBuscar.setText("Nombre:");
         bd.setVisible(true);
@@ -781,37 +794,37 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
 
     private void txtProcodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtProcodeActionPerformed
         // despliegue anterior (si lo hubo).
-        for (int i = 0; i < tblDetalle.getRowCount(); i++){
-            for (int j = 0; j < tblDetalle.getColumnModel().getColumnCount(); j++){
+        for (int i = 0; i < tblDetalle.getRowCount(); i++) {
+            for (int j = 0; j < tblDetalle.getColumnModel().getColumnCount(); j++) {
                 tblDetalle.setValueAt(null, i, j);
             } // end for
         } // end for
 
         // Este método incluye validaciones.
         datosdelProveedor();
-        
+
         boolean existe = !txtProdesc.getText().trim().equals("");
-        
+
         // Si el proveedor no existe o no debe nada...
-        if (!existe || !txtMonto.isEnabled()){
-            if (!existe){
-                JOptionPane.showMessageDialog(null, 
+        if (!existe || !txtMonto.isEnabled()) {
+            if (!existe) {
+                JOptionPane.showMessageDialog(null,
                         "Proveedor no existe",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
             } // end if
             return;
         } // end if
-        
+
         // Cargo las facturas con saldo...
         String procode = txtProcode.getText().trim();
         String sqlSent = "Call ConsultarFacturasProveedor(?,?)";
         PreparedStatement ps;
 
         rsFac = null;
-        
+
         try {
-            ps  = conn.prepareCall(sqlSent);
+            ps = conn.prepareCall(sqlSent);
             ps.setString(1, procode);
             ps.setInt(2, 1); // indica que son facturas y NC con saldo.
             rsFac = ps.executeQuery();
@@ -829,7 +842,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
              * tabla.
              */
             DefaultTableModel dtm = (DefaultTableModel) tblDetalle.getModel();
-            if(dtm.getRowCount() < dataRows){
+            if (dtm.getRowCount() < dataRows) {
                 dtm.setRowCount(dataRows);
                 tblDetalle.setModel(dtm);
             }// end if
@@ -838,16 +851,16 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
             String saldo;
             rsFac.beforeFirst();
 
-            while (rsFac.next()){
+            while (rsFac.next()) {
                 // Solo cargo los registros que sean de la misma moneda de la
                 // transacción.
-                if (!rsFac.getString("codigoTC").trim().equals(codigoTC)){
+                if (!rsFac.getString("codigoTC").trim().equals(codigoTC)) {
                     continue;
                 } // end if
-                
+
                 tblDetalle.setValueAt(rsFac.getObject("factura"), row, 0);
-                tblDetalle.setValueAt(rsFac.getObject("fecha"  ), row, 1);
-                tblDetalle.setValueAt(rsFac.getObject("Moneda" ), row, 2);
+                tblDetalle.setValueAt(rsFac.getObject("fecha"), row, 1);
+                tblDetalle.setValueAt(rsFac.getObject("Moneda"), row, 2);
                 saldo = rsFac.getString("saldo");
                 saldo = Ut.setDecimalFormat(saldo, "#,##0.0000");
                 tblDetalle.setValueAt(saldo, row, 3);
@@ -865,11 +878,11 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
-        
+
         // Establecer el tipo de pago por defecto en efectivo
         this.cboTipoPago.setSelectedIndex(1);
         this.cboTipoPagoActionPerformed(evt);
-        
+
         txtProcode.transferFocus();
     }//GEN-LAST:event_txtProcodeActionPerformed
 
@@ -884,17 +897,17 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
         // remanente es cero.
 
         // Si el formulario apenas está cargando...
-        if (inicio){
+        if (inicio) {
             return;
         } // end if
-        
-        int     idbanco,    // Tarjeta de crédito o débito
-                idtarjeta,  // Código de banco
-                posGuion,   // Se usa para procesar strings (posición del guión)
+
+        int idbanco, // Tarjeta de crédito o débito
+                idtarjeta, // Código de banco
+                posGuion, // Se usa para procesar strings (posición del guión)
                 tipopago;   // Tipo de pago
 
         // Verifico que haya al menos una línea de detalle
-        if (Ut.countNotNull(tblDetalle, 1) == 0){
+        if (Ut.countNotNull(tblDetalle, 1) == 0) {
             JOptionPane.showMessageDialog(
                     null,
                     "El recibo aún no tiene detalle.",
@@ -904,7 +917,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
         } // end if
 
         // Verifico que la fecha esté correcta
-        if (!fechaCorrecta){
+        if (!fechaCorrecta) {
             JOptionPane.showMessageDialog(
                     null,
                     "Verifique la fecha.",
@@ -913,11 +926,11 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
             this.DatFecha.requestFocusInWindow();
             return;
         } // end if
-        
+
         // Validar el TC
         Float tc = Float.valueOf(txtTipoca.getText());
 
-        if (tc <= 0){
+        if (tc <= 0) {
             JOptionPane.showMessageDialog(
                     null,
                     "No hay tipo de cambio registrado para esta fecha.",
@@ -925,23 +938,23 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
             return;
         } // end if
-        
+
         idtarjeta = Integer.parseInt(this.txtIdtarjeta.getText().trim());
-        
+
         // Asignar el banco seleccionado (si es diferente de cero)
         String banco;
         banco = this.cboBanco.getSelectedItem().toString();
         posGuion = Ut.getPosicion(banco, "-");
         banco = banco.substring(0, posGuion);
         idbanco = Integer.parseInt(banco);
-        
+
         // 0=Desconocido,1=Efectivo,2=Cheque,3=Tarjeta
         tipopago = this.cboTipoPago.getSelectedIndex(); // Bosco 14/07/2015
-        
-        if ((idtarjeta > 0 || idbanco > 0) && this.txtRef.getText().trim().isEmpty()){
-            JOptionPane.showMessageDialog(null, 
-                    "Si elije pago con tarjeta o cheque no puede\n" +
-                    "dejar la referencia vacía.");
+
+        if ((idtarjeta > 0 || idbanco > 0) && this.txtRef.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null,
+                    "Si elije pago con tarjeta o cheque no puede\n"
+                    + "dejar la referencia vacía.");
             this.txtRef.requestFocusInWindow();
             return;
         } // end if
@@ -951,12 +964,12 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
         double monto;
         float tipoca;
         Timestamp fecha;
-        String procode,concepto,cheque;
-        
-        procode  = txtProcode.getText().trim();
-        fecha    = new Timestamp(DatFecha.getCalendar().getTimeInMillis());
+        String procode, concepto, cheque;
+
+        procode = txtProcode.getText().trim();
+        fecha = new Timestamp(DatFecha.getCalendar().getTimeInMillis());
         concepto = txtConcepto.getText().trim();
-        
+
         cheque = txtRef.getText().trim();
         //banco  = "";
         tipoca = Float.parseFloat(txtTipoca.getText().trim());
@@ -966,9 +979,9 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
         short row = 0;  // Se usa para recorrer el JTable.
 
         // Reviso el consecutivo del recibo
-        txtRecnumeActionPerformed(null) ;
+        txtRecnumeActionPerformed(null);
         recnume = Integer.parseInt(txtRecnume.getText().trim());
-        
+
         // Iniciar la transacción
         try {
             CMD.transaction(conn, CMD.START_TRANSACTION);
@@ -977,11 +990,11 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
             Logger.getLogger(RegistroPagosCXP.class.getName()).log(Level.SEVERE, null, ex);
             // Si no se pudo iniciar la transacción es porque hay un problema
             // serio a nivel de base de datos.
-            JOptionPane.showMessageDialog(null, 
-                    "Se ha producido un error grave a nivel de base de datos.\n" +
-                    "No es posible continuar.\n\n" +
-                    "Cierre todos los procesos que tenga abiertos, luego el sistema\n" +
-                    "e intente nuevamente.",
+            JOptionPane.showMessageDialog(null,
+                    "Se ha producido un error grave a nivel de base de datos.\n"
+                    + "No es posible continuar.\n\n"
+                    + "Cierre todos los procesos que tenga abiertos, luego el sistema\n"
+                    + "e intente nuevamente.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
@@ -989,42 +1002,40 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
         } // end try-catch
 
         int affected; // Registros afectados
-        
+
         try {
             monto = Double.parseDouble(
                     Ut.quitarFormato(txtMonto.getText().trim()));
-            
-            
-            
+
             // Actualizar el consecutivo (último número usado).
-            String sqlUpdateConfig =
-                    "Update config Set " +
-                    "recnume = ?";
-            
+            String sqlUpdateConfig
+                    = "Update config Set "
+                    + "recnume = ?";
+
             PreparedStatement psConfig;
-            
+
             psConfig = conn.prepareStatement(sqlUpdateConfig);
             psConfig.setInt(1, recnume);
-            
+
             affected = CMD.update(psConfig);
-            
+
             // No pregunto si es diferente de cero ya que mysql no reporta
             // registros actualizados cuando el valor a cambiar realmente no
             // cambió.
-            if (affected > 1){
-                errorMessage =
-                        "La tabla de configuración tiene más de un registro." +
-                        "\nSolo debería tener uno." +
-                        "\nComuníquese con el administrador de bases de datos.";
+            if (affected > 1) {
+                errorMessage
+                        = "La tabla de configuración tiene más de un registro."
+                        + "\nSolo debería tener uno."
+                        + "\nComuníquese con el administrador de bases de datos.";
             } // end if
 
             psConfig.close();
-            
+
             // Guardar el encabezado del recibo.
-            String sqlInsert =
-                    "Call InsertarPagoCXP(?,?,?,?,?,?,?,?)";
-            
-            if (errorMessage.equals("")){
+            String sqlInsert
+                    = "Call InsertarPagoCXP(?,?,?,?,?,?,?,?)";
+
+            if (errorMessage.equals("")) {
                 PreparedStatement pscxppage = conn.prepareStatement(sqlInsert);
                 pscxppage.setInt(1, recnume);
                 pscxppage.setString(2, procode);
@@ -1035,19 +1046,19 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
                 //pscxppage.setString(7, banco);
                 pscxppage.setString(7, codigoTC);
                 pscxppage.setFloat(8, tipoca);
-                
+
                 // Se usa executeQuery() porque el SP devuelve un Select.
                 ResultSet rs = CMD.select(pscxppage);
                 // rs nunca podrá ser null en este punto
                 // Si ocurriera algún error el catch lo capturaría y
                 // la ejecusión de esta parte del código nunca se haría
                 rs.first();
-                if (rs.getBoolean(1)){
+                if (rs.getBoolean(1)) {
                     errorMessage = rs.getString(2) + "\nRecibo NO guardado";
                 } // end if
             } // end if
 
-            if (errorMessage.equals("")){
+            if (errorMessage.equals("")) {
                 // Variables para el detalle del recibo
                 String factura, tipo;
 
@@ -1058,41 +1069,41 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
                 // de un pago podría estar compuesto por varias monedas y para de-
                 // terminar el TC y el código de moneda utilizado debe consultarse
                 // la factura o NC a la cual hace referencia cada registro del detalle.
-                while (row < tblDetalle.getRowCount()){
+                while (row < tblDetalle.getRowCount()) {
                     // Si no se ha establecido un valor en la celda...
-                    if (tblDetalle.getValueAt(row, 0) == null ||
-                            tblDetalle.getValueAt(row, 4) == null){
+                    if (tblDetalle.getValueAt(row, 0) == null
+                            || tblDetalle.getValueAt(row, 4) == null) {
                         row++;
                         continue;
                     } // end if
 
                     // .. o si el valor de la celda es cero.
                     if (Double.parseDouble(
-                            tblDetalle.getValueAt(row, 4).toString()) == 0){
+                            tblDetalle.getValueAt(row, 4).toString()) == 0) {
                         row++;
                         continue;
                     } // end if
 
                     factura = tblDetalle.getValueAt(row, 0).toString();
                     tipo = tblDetalle.getValueAt(row, 6).toString();
-                    
-                    saldo =
-                            Double.parseDouble(
-                            Ut.quitarFormato(
-                            tblDetalle.getValueAt(row, 3).toString()));
-                    monto = 
-                            Double.parseDouble(
-                            Ut.quitarFormato(
-                            tblDetalle.getValueAt(row, 4).toString()));
+
+                    saldo
+                            = Double.parseDouble(
+                                    Ut.quitarFormato(
+                                            tblDetalle.getValueAt(row, 3).toString()));
+                    monto
+                            = Double.parseDouble(
+                                    Ut.quitarFormato(
+                                            tblDetalle.getValueAt(row, 4).toString()));
 
                     // Agrego el registro en el detalle de pagos (cxppagd)
                     // También actualiza el saldo de la factura.
-                    String sqlSent = 
-                            "Call InsertarDetalleReciboCXP(?,?,?,?,?,?,?)";
-                    
+                    String sqlSent
+                            = "Call InsertarDetalleReciboCXP(?,?,?,?,?,?,?)";
+
                     PreparedStatement psDetalle;
-                    
-                    psDetalle = conn.prepareStatement(sqlSent, 
+
+                    psDetalle = conn.prepareStatement(sqlSent,
                             ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
                     psDetalle.setInt(1, recnume);
                     psDetalle.setString(2, factura);
@@ -1101,7 +1112,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
                     psDetalle.setDouble(5, saldo);
                     psDetalle.setTimestamp(6, fecha);
                     psDetalle.setString(7, procode);
-                    
+
                     // Uso executeQuery por debe retornar un ResultSet
                     ResultSet rsx = CMD.select(psDetalle);
 
@@ -1109,7 +1120,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
 
                     // El SP InsertarDetalleReciboCXP() devuelve true si
                     // ocurriera algún error a la hora de insertar el detalle.
-                    if (rsx.getBoolean(1)){
+                    if (rsx.getBoolean(1)) {
                         errorMessage = rsx.getString(2);
                         break;
                     } // end if
@@ -1120,103 +1131,125 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
             } // if errorMessage.equals("")
 
             // Actualizar el saldo del proveedor
-            if (errorMessage.equals("")){
-                String sqlUpdateProveedor = 
-                        "Update inproved " +
-                        "   set prosald = prosald - (? * ?) " +
-                        "Where procode = ?";
-                PreparedStatement psUpdateProveedor = 
-                        conn.prepareStatement(sqlUpdateProveedor);
+            if (errorMessage.equals("")) {
+                String sqlUpdateProveedor
+                        = "Update inproved "
+                        + "   set prosald = prosald - (? * ?) "
+                        + "Where procode = ?";
+                PreparedStatement psUpdateProveedor
+                        = conn.prepareStatement(sqlUpdateProveedor);
                 psUpdateProveedor.setDouble(1, monto);
                 psUpdateProveedor.setFloat(2, tipoca);
                 psUpdateProveedor.setString(3, procode);
-                
+
                 affected = psUpdateProveedor.executeUpdate();
-                
-                if (affected != 1){
+
+                if (affected != 1) {
                     errorMessage = "No se pudo actualizar el saldo del proveedor.";
                 } // end if
             } // end if
-            
-            
+
             // Actualizar el tipo de pago
             String sqlUpdate;
-            if (errorMessage.isEmpty()){
+            if (errorMessage.isEmpty()) {
                 PreparedStatement ps;
-                sqlUpdate = 
-                        "Update cxppage Set tipopago = ? " +
-                        "Where recnume = ?";
+                sqlUpdate
+                        = "Update cxppage Set tipopago = ? "
+                        + "Where recnume = ?";
                 ps = conn.prepareStatement(sqlUpdate);
                 ps.setInt(1, tipopago);
                 ps.setInt(2, recnume);
                 affected = CMD.update(ps);
-                if (affected == 0){
-                    errorMessage =
-                            "Error al guardar el tipo de pago " +
-                            "\nRecibo NO guardado.";
+                if (affected == 0) {
+                    errorMessage
+                            = "Error al guardar el tipo de pago "
+                            + "\nRecibo NO guardado.";
                 } // end if
                 ps.close();
             } // end if
-            
+
             // Actualizar el número de tarjeta
-            if (errorMessage.isEmpty() && idtarjeta > 0){
+            if (errorMessage.isEmpty() && idtarjeta > 0) {
                 PreparedStatement ps;
-                sqlUpdate = 
-                        "Update cxppage Set idtarjeta = ? " +
-                        "Where recnume = ?";
+                sqlUpdate
+                        = "Update cxppage Set idtarjeta = ? "
+                        + "Where recnume = ?";
                 ps = conn.prepareStatement(sqlUpdate);
                 ps.setInt(1, idtarjeta);
                 ps.setInt(2, recnume);
                 affected = CMD.update(ps);
-                if (affected == 0){
-                    errorMessage =
-                            "Error al guardar el número de tarjeta " +
-                            idtarjeta + "." +
-                            "\nRecibo NO guardado.";
+                if (affected == 0) {
+                    errorMessage
+                            = "Error al guardar el número de tarjeta "
+                            + idtarjeta + "."
+                            + "\nRecibo NO guardado.";
                 } // end if
                 ps.close();
             } // end if
-            
+
             // Actualizar el número de banco
-            if (errorMessage.isEmpty() && idbanco > 0){
-                sqlUpdate = 
-                        "Update cxppage Set idbanco = ? " +
-                        "Where recnume = ?";
+            if (errorMessage.isEmpty() && idbanco > 0) {
+                sqlUpdate
+                        = "Update cxppage Set idbanco = ? "
+                        + "Where recnume = ?";
                 PreparedStatement ps;
                 ps = conn.prepareStatement(sqlUpdate);
                 ps.setInt(1, idbanco);
                 ps.setInt(2, recnume);
                 affected = CMD.update(ps);
-                if (affected == 0){
-                    errorMessage =
-                            "Error al guardar el número de banco " +
-                            idbanco + "." +
-                            "\nRecibo NO guardado.";
+                if (affected == 0) {
+                    errorMessage
+                            = "Error al guardar el número de banco "
+                            + idbanco + "."
+                            + "\nRecibo NO guardado.";
                 } // end if
                 ps.close();
             } // end if
-            
+
             // Registrar la transacción en caja, Bosco 16/07/2015
-            if (errorMessage.isEmpty() && this.genmovcaja){
+            if (errorMessage.isEmpty() && this.genmovcaja) {
                 errorMessage = registrarCaja(recnume);
             } // end if
-            
+
+            // Generación del asiento contable.
+            if (errorMessage.isEmpty() && genasienfac) { // Si hay interface contable...
+                errorMessage
+                        = generarAsiento(recnume);
+                if (!errorMessage.equals("")) {
+                    if (errorMessage.contains("ERROR")) {
+                        CMD.transaction(conn, CMD.ROLLBACK);
+                        this.hayTransaccion = false;
+                        JOptionPane.showMessageDialog(null,
+                                errorMessage,
+                                "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                        return;
+                    } // end if
+
+                    // Se muestra el mensaje de advertencia pero continúa el proceso.
+                    JOptionPane.showMessageDialog(null,
+                            errorMessage + "\n"
+                            + "El asiento no se generará.",
+                            "Advertencia",
+                            JOptionPane.WARNING_MESSAGE);
+                } // end if
+            } // end if
+
             // Confirmo o desestimo los updates...
-            if (errorMessage.isEmpty()){
+            if (errorMessage.isEmpty()) {
                 CMD.transaction(conn, CMD.COMMIT);
             } else {
                 CMD.transaction(conn, CMD.ROLLBACK);
             } // end if
             this.hayTransaccion = false;
-        
+
         } catch (Exception ex) {
             Logger.getLogger(RegistroPagosCXP.class.getName()).log(Level.SEVERE, null, ex);
             errorMessage = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // catch externo
-        
-        
-        if (!errorMessage.isEmpty()){
+
+        if (!errorMessage.isEmpty()) {
             try {
                 if (this.hayTransaccion) {
                     CMD.transaction(conn, CMD.ROLLBACK);
@@ -1225,16 +1258,14 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
                 Logger.getLogger(RegistroPagosCXP.class.getName()).log(Level.SEVERE, null, ex);
                 b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             }
-            
+
             JOptionPane.showMessageDialog(null,
                     errorMessage,
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             return;
         } // end if
-        
-        
-        
+
         // Limpio la tabla para evitar que quede alguna línea del
         // despliegue anterior.
         Ut.clearJTable(tblDetalle);
@@ -1251,48 +1282,48 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
 
         // Establecer el consecutivo y deshabilitar las opciones de guardado.
         txtRecnumeActionPerformed(null);
-        
+
         btnGuardar.setEnabled(false);
         mnuGuardar.setEnabled(false);
         txtProcode.setEditable(true);
         mnuBuscar.setEnabled(true);
-        
+
         txtProcode.requestFocusInWindow();
-        
+
         // Bosco agregado 25/07/2015
         new ImpresionReciboCaja(
                 new java.awt.Frame(),
-                true,                           // Modal
-                conn,                           // Conexión
-                recnume+"",                     // Número de recibo
-                false)                          // Se manda como recibo de CXP
+                true, // Modal
+                conn, // Conexión
+                recnume + "", // Número de recibo
+                false) // Se manda como recibo de CXP
                 .setVisible(true);
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void txtRecnumeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRecnumeActionPerformed
         // Si hay número lo valido y si no los establezco de una vez.
         boolean validar = false;
-        if (!txtRecnume.getText().trim().isEmpty()){
+        if (!txtRecnume.getText().trim().isEmpty()) {
             validar = true;
         } // end if
-        
+
         int recnume = Integer.parseInt(txtRecnume.getText());
         String sqlSent = "Select recnume from cxppage where recnume = ?";
         PreparedStatement ps;
         ResultSet rs;
-                
+
         try {
-            if (validar){
+            if (validar) {
                 ps = conn.prepareStatement(sqlSent);
                 ps.setInt(1, recnume);
                 // Si el recibo no existe lo doy por válido sin verificar el
                 // consecutivo.
-                if (!UtilBD.existeRegistro(ps)){
+                if (!UtilBD.existeRegistro(ps)) {
                     txtRecnume.transferFocus();
                     return;
                 } // end if
             } // end if
-            
+
             // Si no hay que validar (porque está en blanco) o el recibo ya 
             // existe entonces traigo el siguiente número y lo establezco.
             rs = stat.executeQuery("SELECT ConsecutivoReciboCXP()");
@@ -1316,18 +1347,18 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
     private void DatFechaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_DatFechaPropertyChange
         // Si este if no se ejecuta en tiempo de inicialización de los componenetes
         // se produce un error que impide que se muestre el form.
-        if (DatFecha == null || DatFecha.getDate() == null){
+        if (DatFecha == null || DatFecha.getDate() == null) {
             return;
         } // end if
-        
+
         String facfech = Ut.fechaSQL(DatFecha.getDate());
 
         fechaCorrecta = true;
         try {
-            if (!UtilBD.isValidDate(conn,facfech)){
+            if (!UtilBD.isValidDate(conn, facfech)) {
                 JOptionPane.showMessageDialog(null,
-                        "No puede utilizar esta fecha.  " +
-                        "\nCorresponde a un período ya cerrado.",
+                        "No puede utilizar esta fecha.  "
+                        + "\nCorresponde a un período ya cerrado.",
                         "Validar fecha..",
                         JOptionPane.ERROR_MESSAGE);
                 btnGuardar.setEnabled(false);
@@ -1350,12 +1381,12 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
         fechaA.setTime(DatFecha.getDate());
 
         // Este código no debe correr cuando se está cargado el form
-        if (!inicio){
+        if (!inicio) {
             // Establecer el tipo de cambio
             cboMonedaActionPerformed(null);
             Float tc = Float.valueOf(txtTipoca.getText());
 
-            if (tc <= 0){
+            if (tc <= 0) {
                 JOptionPane.showMessageDialog(null,
                         "No hay tipo de cambio registrado para esta fecha.",
                         "Validar tipo de cambio..",
@@ -1374,15 +1405,15 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
     }//GEN-LAST:event_DatFechaFocusGained
 
     private void cboMonedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboMonedaActionPerformed
-        if (inicio || fin){
+        if (inicio || fin) {
             return;
         } // end if
 
-        Float tc =  0.F;
-        if (txtTipoca.getText() != null && !txtTipoca.getText().trim().equals("")){
+        Float tc = 0.F;
+        if (txtTipoca.getText() != null && !txtTipoca.getText().trim().equals("")) {
             tc = Float.valueOf(txtTipoca.getText().trim());
         } // end if
-        
+
         // Localizo en en ResultSet el código correspondiente a la
         // descripción que está en el combo. Este método deja el código del TC
         // en la variable codigoTC.
@@ -1391,7 +1422,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
             // Verifico si el tipo de cambio ya está configurado para la fecha del doc.
             txtTipoca.setText(
                     String.valueOf(UtilBD.tipoCambio(
-                    codigoTC, DatFecha.getDate(), conn)));
+                            codigoTC, DatFecha.getDate(), conn)));
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
@@ -1404,20 +1435,20 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
         // Bosco agregado 22/08/2011.
         // Si ya se había cargado los datos vuelvo a hacerlo para que se aplique
         // el filtro de la moneda.
-        if (!txtProcode.getText().isEmpty()){
+        if (!txtProcode.getText().isEmpty()) {
             txtProcodeActionPerformed(null);
         } // end if
         // Fin Bosco agregado 22/08/2011.
 
-        // Si el usuario cambio la moneda y ya se había realizado
+        // Si el usuario cambió la moneda y ya se había realizado
         // la distribución entonces recalculo todo.
-        if (Float.valueOf(txtTipoca.getText().trim()) != tc &&
+        if (Float.parseFloat(txtTipoca.getText().trim()) != tc &&
                 Float.valueOf(txtTipoca.getText().trim()) > 0){
             txtMontoFocusLost(null);
         }
 
         // Si el tc es cero advierto sobre el error
-        if (Float.valueOf(txtTipoca.getText().trim()) <= 0){
+        if (Float.valueOf(txtTipoca.getText().trim()) <= 0) {
             JOptionPane.showMessageDialog(null,
                     "No se ha establecido el TC para esta moneda.",
                     "Advertencia",
@@ -1431,33 +1462,33 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
 
     private void txtMontoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMontoFocusLost
         try {
-            if (txtMonto.getText().trim().equals("") ||
-                    Double.parseDouble(Ut.quitarFormato(
-                    txtMonto.getText())) == 0.00){
+            if (txtMonto.getText().trim().equals("")
+                    || Double.parseDouble(Ut.quitarFormato(
+                            txtMonto.getText())) == 0.00) {
                 txtProcode.setEditable(true);
                 mnuBuscar.setEnabled(true);
                 return;
             } // end if
-            
-            boolean continuar = true;
-            Double aplicar =
-                    Double.parseDouble(
-                    Ut.quitarFormato(txtMonto.getText()));
-            Double prosald =
-                    Double.parseDouble(
-                    Ut.quitarFormato(txtProsald.getText()));
 
-            if (aplicar > prosald){
+            boolean continuar = true;
+            Double aplicar
+                    = Double.parseDouble(
+                            Ut.quitarFormato(txtMonto.getText()));
+            Double prosald
+                    = Double.parseDouble(
+                            Ut.quitarFormato(txtProsald.getText()));
+
+            if (aplicar > prosald) {
                 // Fin Bosco modificado 22/08/2011.
                 JOptionPane.showMessageDialog(null,
-                        "El monto es mayor al saldo del proveedor" +
-                        "[ " + prosald + " ]",
+                        "El monto es mayor al saldo del proveedor"
+                        + "[ " + prosald + " ]",
                         "Mensaje",
                         JOptionPane.ERROR_MESSAGE);
                 continuar = false;
             } // end if
 
-            if (aplicar <= 0.00){
+            if (aplicar <= 0.00) {
                 JOptionPane.showMessageDialog(null,
                         "Debe digitar un monto mayor que cero.",
                         "Mensaje",
@@ -1469,13 +1500,13 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
                     Ut.setDecimalFormat(aplicar.toString(), "#,##0.0000"));
             txtAplicado.setText("0.0000");
             txtRemanente.setText(txtAplicar.getText());
-            
+
             // Tomar acciones para no permitir el ingreso al grid
             // en caso de entrar en la validación anterior.
             tblDetalle.setVisible(continuar);
 
             // Distribuyo el monto a aplicar (si hay distribución automática).
-            if (this.DistPago){
+            if (this.DistPago) {
                 distribuir(aplicar);
             } // end if
 
@@ -1484,7 +1515,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
             btnGuardar.setEnabled(remanente == 0.00);
             mnuGuardar.setEnabled(remanente == 0.00);
             txtProcode.setEditable(remanente != 0.00);
-            
+
             // La búsqueda está sujeta al estado del txtField txtClicode
             mnuBuscar.setEnabled(txtProcode.isEditable());
 
@@ -1493,22 +1524,21 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
             // Si al llegar aquí todavía hay remanente significa que el saldo de
             // las facturas/NC que se presentan en la pantalla es inferior al monto
             // digitado y por tanto no se podrá aplicar.
-
             // Esta condición solo se da si hay distribución automática.
-            if (remanente > 0 && this.DistPago){
+            if (remanente > 0 && this.DistPago) {
                 JOptionPane.showMessageDialog(null,
-                        "El saldo de las facturas en esta moneda es inferior\n" +
-                        "al monto digitado.\n" +
-                        "El pago no se aplicará.",
+                        "El saldo de las facturas en esta moneda es inferior\n"
+                        + "al monto digitado.\n"
+                        + "El pago no se aplicará.",
                         "Advertencia",
                         JOptionPane.ERROR_MESSAGE);
             } // end if
         } catch (Exception ex) {
             Logger.getLogger(RegistroPagosCXP.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
-                        ex.getMessage(),
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     }//GEN-LAST:event_txtMontoFocusLost
@@ -1519,36 +1549,36 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
 
     private void tblDetalleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDetalleMouseClicked
         int row = tblDetalle.getSelectedRow();
-        if (row == -1){ // No row is selected
+        if (row == -1) { // No row is selected
             return;
         } // end if
-        
+
         Double saldo, remanente;
         String monto;
 
-        try{
-            saldo =
-                    Double.valueOf(
-                    Ut.quitarFormato(
-                    tblDetalle.getValueAt(row, 3).toString()));
-            remanente =
-                    Double.valueOf(
-                    Ut.quitarFormato(this.txtRemanente.getText().trim()));
+        try {
+            saldo
+                    = Double.valueOf(
+                            Ut.quitarFormato(
+                                    tblDetalle.getValueAt(row, 3).toString()));
+            remanente
+                    = Double.valueOf(
+                            Ut.quitarFormato(this.txtRemanente.getText().trim()));
             if (remanente < saldo) {
                 saldo = remanente;
             } // end if
-            
+
             monto = JOptionPane.showInputDialog("Monto a aplicar", saldo);
-            
-            if (Double.parseDouble(monto) > saldo){
+
+            if (Double.parseDouble(monto) > saldo) {
                 JOptionPane.showMessageDialog(null,
                         "No puede aplicar un monto mayor al saldo de la factura.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
             } // end if
-            
-        }catch (Exception ex){
+
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,
                     ex + "Debe digitar un número válido",
                     "Error",
@@ -1556,7 +1586,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
-        
+
         tblDetalle.setValueAt(Double.parseDouble(monto), row, 4);
 
         // Este método recalcula y decide si se puede guardar o no.
@@ -1572,7 +1602,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuSalirActionPerformed
 
     private void mnuGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuGuardarActionPerformed
-        if (btnGuardar.isEnabled()){
+        if (btnGuardar.isEnabled()) {
             btnGuardarActionPerformed(evt);
         } // end if
     }//GEN-LAST:event_mnuGuardarActionPerformed
@@ -1583,17 +1613,17 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         JOptionPane.showMessageDialog(null,
-                "Si el saldo que se muestra en esta pantalla es menor" +
-                "\n" +
-                "que la suma de las facturas pendientes es porque hay" +
-                "\n" +
-                "notas de débito sin aplicar." +
-                "\n\n" +
-                "Todos los montos se presentan con una precición de 4" +
-                "\n" +
-                "decimales." +
-                "\n" +
-                "Estos montos se muestran en la moneda seleccionada.",
+                "Si el saldo que se muestra en esta pantalla es menor"
+                + "\n"
+                + "que la suma de las facturas pendientes es porque hay"
+                + "\n"
+                + "notas de débito sin aplicar."
+                + "\n\n"
+                + "Todos los montos se presentan con una precición de 4"
+                + "\n"
+                + "decimales."
+                + "\n"
+                + "Estos montos se muestran en la moneda seleccionada.",
                 "Información",
                 JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -1609,7 +1639,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
     private void cboTipoPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTipoPagoActionPerformed
         String item = cboTipoPago.getSelectedItem().toString();
 
-        if (item.equals("Efectivo")){
+        if (item.equals("Efectivo")) {
             txtRef.setText("");
             txtRef.setEditable(false);
         } else {
@@ -1621,7 +1651,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
         // Si se trata de una tarajeta hago el llamado a la pantalla de
         // mantenimiento de tarjetas con los parámetros necesarios para
         // su debida inicialización y actualización.
-        if (item.equals("Tarjeta")){
+        if (item.equals("Tarjeta")) {
             TarjetaDC.main(conn, this.txtIdtarjeta, this.txtRef);
             return;
         } // end if
@@ -1642,22 +1672,22 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
     /**
      * @param c
      * @param procode
-    */
+     */
     public static void main(final Connection c, final String procode) {
         try {
             // Bosco agregado 23/07/2011
             // Integración del segundo nivel de seguridad.
-            if (!UtilBD.tienePermiso(c,"RegistroPagosCXP")){
+            if (!UtilBD.tienePermiso(c, "RegistroPagosCXP")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
                 return;
             } // end if
-            
+
         } catch (Exception ex) {
             Logger.getLogger(RegistroPagosCXP.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, 
+            JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
@@ -1673,15 +1703,15 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
 
                     Statement s = c.createStatement();
                     ResultSet r = s.executeQuery("Select facnume from config");
-                    if (r == null){
+                    if (r == null) {
                         JOptionPane.showMessageDialog(null,
-                                "Todavía no se ha establecido la " +
-                                "configuración del sistema.",
+                                "Todavía no se ha establecido la "
+                                + "configuración del sistema.",
                                 "Configuración",
                                 JOptionPane.ERROR_MESSAGE);
                         return;
                     } // end if
-                    new RegistroPagosCXP(c, (procode == null ? "":procode)).setVisible(true);
+                    new RegistroPagosCXP(c, (procode == null ? "" : procode)).setVisible(true);
                 } catch (CurrencyExchangeException | SQLException | NumberFormatException | HeadlessException ex) {
                     JOptionPane.showMessageDialog(null,
                             ex.getMessage(),
@@ -1737,14 +1767,12 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField txtVencido;
     // End of variables declaration//GEN-END:variables
 
-    
-
     private void datosdelProveedor() {
         String procode = txtProcode.getText().trim();
-        if (procode.equals("0") || procode.isEmpty()){
+        if (procode.equals("0") || procode.isEmpty()) {
             return;
         } // end if
-        
+
         // Recalcular el saldo del proveedor.
         // Este proceso se hace aquí para garantizar que el saldo
         // está correcto y evitar que se ingrese un monto mayor al saldo.
@@ -1756,7 +1784,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
 
         double monto; // Se usa para la conversión de monedas
         float tc = Float.parseFloat(txtTipoca.getText().trim());
-        
+
         ResultSet rs;
 
         txtProdesc.setText(""); // Este campo será la referencia para continuar con el pago.
@@ -1766,12 +1794,12 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
 
         try {
             psUpdate = conn.prepareStatement(sqlUpdate);
-            psUpdate.setString(1,procode);
+            psUpdate.setString(1, procode);
             //psUpdate.executeUpdate();
             CMD.update(psUpdate);
             //psUpdate = null;
             psUpdate.close();
-            
+
             //psSelect = conn.prepareStatement(sqlSent);
             psSelect = conn.prepareStatement(sqlSent,
                     ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -1782,19 +1810,19 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
             // error se debió a que en el preparedStatment no estaba usando
             // el parámetro de ResultSet.TYPE_SCROLL_SENSITIVE y el rs.first() lo requiere.
             //psSelect.setString(1,procode);
-            
+
             //rsProveedor = psSelect.executeQuery(sqlSent);
             psSelect.setString(1, procode);
             rs = CMD.select(psSelect);
-            if (!rs.first()){
+            if (!rs.first()) {
                 psSelect.close();
                 return;
             } // end if
             txtProdesc.setText(rs.getString("prodesc"));
 
-            monto = rs.getDouble("prosald")/tc ;
+            monto = rs.getDouble("prosald") / tc;
             txtProsald.setText(monto + "");
-            monto = rs.getDouble("Vencido")/tc ;
+            monto = rs.getDouble("Vencido") / tc;
             txtVencido.setText(monto + "");
 
             // Formateo los datos numéricos
@@ -1806,7 +1834,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
             txtMonto.setEnabled(rs.getFloat("prosald") > 0);
             psSelect.close();
 
-            if (!txtMonto.isEnabled()){
+            if (!txtMonto.isEnabled()) {
                 JOptionPane.showMessageDialog(null,
                         "A Este proveedor no se le debe nada.",
                         "Mensaje",
@@ -1822,22 +1850,21 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
 
     } // end datosdelProveedor
 
-
     @SuppressWarnings("unchecked")
     private void cargarComboMonedas() {
         try {
             rsMoneda = nav.cargarRegistro(Navegador.TODOS, "", "monedas", "codigo");
-            if (rsMoneda == null){
+            if (rsMoneda == null) {
                 return;
             } // end if
             //this.cboMoneda.removeAllItems();
             rsMoneda.beforeFirst();
-            while (rsMoneda.next()){
+            while (rsMoneda.next()) {
                 cboMoneda.addItem(rsMoneda.getString("descrip"));
             } // end while
         } catch (SQLException | SQLInjectionException ex) {
             JOptionPane.showMessageDialog(null,
-                    ex.getMessage(), 
+                    ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
@@ -1853,7 +1880,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
 
             rsMoneda.beforeFirst();
             while (rsMoneda.next()) {
-                if (cboMoneda.getSelectedItem().toString().trim().equals(rsMoneda.getString("descrip").trim())){
+                if (cboMoneda.getSelectedItem().toString().trim().equals(rsMoneda.getString("descrip").trim())) {
                     codigoTC = rsMoneda.getString("codigo").trim();
                     break;
                 } // end if
@@ -1868,41 +1895,42 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
         }
     } // end ubicarCodigo
 
-    private void distribuir(Double monto){
+    private void distribuir(Double monto) {
         try {
-            if (monto == null || monto == 0){ return;}
+            if (monto == null || monto == 0) {
+                return;
+            }
 
             Double facsald;
-            Float tipoca     = 0.0F;
-            Double aplicado  = 0.00;
-            Double remanente = 
-                    Double.parseDouble(
-                    Ut.quitarFormato(txtRemanente.getText()));
+            Float tipoca = 0.0F;
+            Double aplicado = 0.00;
+            Double remanente
+                    = Double.parseDouble(
+                            Ut.quitarFormato(txtRemanente.getText()));
             int row = 0;
 
-            while (row < tblDetalle.getRowCount() && remanente > 0){
-                if (tblDetalle.getValueAt(row, 3) == null){
+            while (row < tblDetalle.getRowCount() && remanente > 0) {
+                if (tblDetalle.getValueAt(row, 3) == null) {
                     row++;
                     continue;
                 } // end if
-                
-                facsald = 
-                        Double.parseDouble(
-                        Ut.quitarFormato(
-                        tblDetalle.getValueAt(row, 3).toString()));
 
-                tipoca  = Float.parseFloat(tblDetalle.getValueAt(row, 5).toString());
+                facsald
+                        = Double.parseDouble(
+                                Ut.quitarFormato(
+                                        tblDetalle.getValueAt(row, 3).toString()));
+
+                tipoca = Float.parseFloat(tblDetalle.getValueAt(row, 5).toString());
 
                 // Convertir a moneda local (con el tc del día de la compra)
                 // Bosco modificado 22/08/2011. Elimino la conversión.
                 // end if
                 // Fin Bosco modificado 22/08/2011.
-
-                if (facsald > remanente){
+                if (facsald > remanente) {
                     facsald = remanente;
                 } // end if
 
-                aplicado  += facsald;
+                aplicado += facsald;
                 remanente -= facsald;
 
                 // Convertir nuevamente a la moneda de la factura
@@ -1912,16 +1940,16 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
                 tblDetalle.setValueAt(facsald, row, 4);
                 row++;
             } // end while
-            
+
             // Si todavía row no es la última fila entonces continúo
             // poniendo en cero el resto de las filas.
-            while (row < tblDetalle.getRowCount()){
+            while (row < tblDetalle.getRowCount()) {
                 tblDetalle.setValueAt(0.0000, row, 4);
                 row++;
             } // end while
 
-            txtAplicado.setText(Ut.setDecimalFormat(aplicado.toString(),"#,##0.0000"));
-            txtRemanente.setText(Ut.setDecimalFormat(remanente.toString(),"#,##0.0000"));
+            txtAplicado.setText(Ut.setDecimalFormat(aplicado.toString(), "#,##0.0000"));
+            txtRemanente.setText(Ut.setDecimalFormat(remanente.toString(), "#,##0.0000"));
         } // end distribuir
         catch (Exception ex) {
             Logger.getLogger(RegistroPagosCXP.class.getName()).log(Level.SEVERE, null, ex);
@@ -1934,50 +1962,50 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
         }
     } // end distribuir
 
-    private boolean recalcular(){
+    private boolean recalcular() {
         boolean guardar = false;
         Float tipocaReg = 0.0F;
         Double aplicado = 0.00;
-        Double aplicar  = 0.00; // Monto del pago
-        Double montoAp  = 0.00; // Monto aplicado
+        Double aplicar = 0.00; // Monto del pago
+        Double montoAp = 0.00; // Monto aplicado
 
-        int row         = 0;
+        int row = 0;
 
-        while (row < tblDetalle.getRowCount()){
-            if (tblDetalle.getValueAt(row, 4) == null ||
-                    tblDetalle.getValueAt(row, 5) == null){
-                 row++;
+        while (row < tblDetalle.getRowCount()) {
+            if (tblDetalle.getValueAt(row, 4) == null
+                    || tblDetalle.getValueAt(row, 5) == null) {
+                row++;
                 continue;
             } // end if
-            try{
+            try {
                 tipocaReg = Float.parseFloat(
                         tblDetalle.getValueAt(row, 5).toString());
-                if (!this.codigoTCP.equals(this.codigoTC)){
+                if (!this.codigoTCP.equals(this.codigoTC)) {
                     tipocaReg = Float.parseFloat(txtTipoca.getText().trim());
                 } // end if
                 montoAp = Double.parseDouble(
                         tblDetalle.getValueAt(row, 4).toString());
-            }catch (NumberFormatException ex){
+            } catch (NumberFormatException ex) {
                 // No se hace nada con el error.
                 row++;
                 b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 continue;
             } // end try-catch
-            
+
             aplicado += montoAp;
             row++;
         } // end while
         try {
             aplicar = Double.parseDouble(
                     Ut.quitarFormato(txtAplicar.getText()));
-            aplicar  = Ut.redondear(aplicar, 4, 3);
+            aplicar = Ut.redondear(aplicar, 4, 3);
             aplicado = Ut.redondear(aplicado, 4, 3);
 
             txtAplicado.setText(
-                    Ut.setDecimalFormat(aplicado.toString(),"#,##0.0000"));
+                    Ut.setDecimalFormat(aplicado.toString(), "#,##0.0000"));
             txtRemanente.setText(
                     Ut.setDecimalFormat(
-                    String.valueOf(aplicar - aplicado),"#,##0.0000"));
+                            String.valueOf(aplicar - aplicado), "#,##0.0000"));
         } catch (Exception ex) {
             Logger.getLogger(RegistroPagosCXP.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
@@ -1991,42 +2019,41 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
 
         guardar = (aplicar - aplicado == 0);
 
-        if (!guardar){
+        if (!guardar) {
             JOptionPane.showMessageDialog(null,
-                    "La distribución del pago está desbalanceada." +
-                    "\nObserve el remanente.",
+                    "La distribución del pago está desbalanceada."
+                    + "\nObserve el remanente.",
                     "Advertencia",
                     JOptionPane.WARNING_MESSAGE);
         } // end if
-        
+
         return guardar;
     } // end recalcular
 
-    public void setProcode(String pClicode){
+    public void setProcode(String pClicode) {
         this.txtProcode.setText(pClicode);
         this.txtProcodeActionPerformed(null);
     } // end setProcode
 
     private String getOldestProcode() throws SQLException {
-        String sqlSent = 
-                "Select procode from cxpfacturas " +
-                "Where factura = (Select MIN(factura) from cxpfacturas" +
-                "		  Where saldo > 0 and tipo = 'FAC')   " +
-                "and saldo > 0";
+        String sqlSent
+                = "Select procode from cxpfacturas "
+                + "Where factura = (Select MIN(factura) from cxpfacturas"
+                + "		  Where saldo > 0 and tipo = 'FAC')   "
+                + "and saldo > 0";
         String procode = "";
         PreparedStatement ps;
-        ps = conn.prepareStatement(sqlSent, 
+        ps = conn.prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
         ResultSet rs;
         rs = CMD.select(ps);
-        if (rs != null && rs.first()){
+        if (rs != null && rs.first()) {
             procode = rs.getString(1);
         } // end if
         ps.close();
-        return procode; 
+        return procode;
     } // end getOldestProcode
-    
-    
+
     private String registrarCaja(int recnume) {
         int tipopago;           // 0 = Desconocido, 1 = Efectivo, 2 = cheque, 3 = tarjeta, 4 = Transferencia
         double monto;           // Monto de la transacción
@@ -2040,16 +2067,16 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
         String errorMsg;        // Mensajes de error
         Cacaja caja;            // Objeto para el manejo de la caja
         Catransa tran;          // Objeto para el registro de la transacción en cajas
-        
+
         errorMsg = "";
-        
+
         // Determinar a cual caja esta asignado el usuario
         int cajaN; // Numero de caja
         try {
             cajaN = getCajaForThisUser(Usuario.USUARIO, conn);
         } catch (SQLException ex) {
             Logger.getLogger(RegistroPagosCXC.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, 
+            JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
@@ -2057,63 +2084,63 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
             cajaN = -1;
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
-        
+
         // Crear el objeto caja con el número correspondiente al usuario
         caja = new Cacaja(cajaN, conn);
-        
-        if (errorMsg.isEmpty()){
-            if (caja.isError()){
+
+        if (errorMsg.isEmpty()) {
+            if (caja.isError()) {
                 errorMsg = caja.getMensaje_error();
             } else {
                 // Abrir la caja y determinar cualquier tipo de error como
                 // que el usuario no esté asignado a la caja o que esté inactivo.
                 caja.abrir(conn);
-                
-                if (caja.isError()){
+
+                if (caja.isError()) {
                     errorMsg = caja.getMensaje_error();
                 } // end if
             } // end if - else
-            
+
         } // end if (errorMsg.isEmpty())
-        
-        if (!errorMsg.isEmpty()){
+
+        if (!errorMsg.isEmpty()) {
             return errorMsg;
         } // end if
-        
+
         // Crear el objeto de transacciones
         tran = new Catransa(conn);
-        
+
         // Obtener el consecutivo de cajas
         recnumeca = tran.getSiguienteRecibo();
-        
-        if (tran.isError()){
+
+        if (tran.isError()) {
             return tran.getMensaje_error();
         } // end if
-        
+
         // Obtener los datos del recibo
-        sqlSent = 
-                "Select tipopago, monto, idbanco, idtarjeta " +
-                "From cxppage " +
-                "Where recnume = ?";
-        
-        monto    = 0;
+        sqlSent
+                = "Select tipopago, monto, idbanco, idtarjeta "
+                + "From cxppage "
+                + "Where recnume = ?";
+
+        monto = 0;
         tipopago = 0;
-        idbanco  = 0;
-        idtarjeta= 0;
-        
+        idbanco = 0;
+        idtarjeta = 0;
+
         try {
             ps = conn.prepareStatement(sqlSent,
                     ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ps.setInt(1, recnume);
             rsx = CMD.select(ps);
-            if (rsx == null || !rsx.first()){
+            if (rsx == null || !rsx.first()) {
                 errorMsg = "Ocurrió un error al tratar de localizar el recibo para cajas.";
             } // end if
-            
-            if (errorMsg.isEmpty()){
+
+            if (errorMsg.isEmpty()) {
                 tipopago = rsx.getInt("tipopago");
-                monto    = rsx.getDouble("monto");
-                idbanco  = rsx.getInt("idbanco");
+                monto = rsx.getDouble("monto");
+                idbanco = rsx.getInt("idbanco");
                 idtarjeta = rsx.getInt("idtarjeta");
             } // end if
             ps.close();
@@ -2122,20 +2149,20 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
             errorMsg = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
-        
-        if (!errorMsg.isEmpty()){
+
+        if (!errorMsg.isEmpty()) {
             return errorMsg;
         } // end if
-        
+
         tran.setMonto(monto);
         tran.setRecnume(recnumeca);
         tran.setDocumento(recnume + "");
         tran.setTipodoc("REC");
         tran.setTipomov("R");
-        
+
         cal = GregorianCalendar.getInstance();
-        
-        tran.setFecha(new Date(cal.getTimeInMillis())); 
+
+        tran.setFecha(new Date(cal.getTimeInMillis()));
         tran.setCedula(this.txtProcode.getText());
         tran.setNombre(this.txtProdesc.getText());
         tran.setTipopago(tipopago);
@@ -2145,53 +2172,53 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
         tran.setModulo("CXP");
         tran.setIdbanco(idbanco);
         tran.setIdtarjeta(idtarjeta);
-        
+
         // Continuar con el try para registrar la transacción (ver RegistroTransaccionesCaja)
         // Actualizar la tabla de transacciones. El parámetro false indica que no es depósito.
         tran.registrar(false); // Hace el insert en catransa
-        if (tran.isError()){
+        if (tran.isError()) {
             errorMsg = tran.getMensaje_error();
         } // end if
-        
+
         // Actualizar el saldo en caja
-        if (errorMsg.isEmpty()){
+        if (errorMsg.isEmpty()) {
             caja.setRetiros(caja.getRetiros() + tran.getMonto());
             caja.setSaldoactual(caja.getSaldoactual() - tran.getMonto());
 
             // Si el pago es en efectivo se debe actualizar este rubro
-            if (tipopago == 1){
+            if (tipopago == 1) {
                 caja.setEfectivo(caja.getEfectivo() - monto);
             } // end if
-            
+
             caja.actualizarTransacciones(); // Saldos y fechas
-            
-            if (caja.isError()){
+
+            if (caja.isError()) {
                 errorMsg = caja.getMensaje_error();
             } // end if
         } // end if
-        
+
         // Si ha ocurrido algún error envío el mensaje y termino la ejecución
-        if (!errorMsg.isEmpty()){
+        if (!errorMsg.isEmpty()) {
             return errorMsg;
         } // end if
-        
+
         // Actualizo la referencia de caja en la tabla pagos
-        sqlSent = 
-                "Update cxppage set  " +
-                "   reccaja = ?    " +
-                "Where recnume = ? ";
-        
+        sqlSent
+                = "Update cxppage set  "
+                + "   reccaja = ?    "
+                + "Where recnume = ? ";
+
         try {
             ps = conn.prepareStatement(sqlSent);
             ps.setInt(1, tran.getRecnume());
             ps.setInt(2, recnume);
-            
+
             // Solo un registro puede ser actualizado
             int reg = CMD.update(ps);
-            if (reg != 1){
-                errorMsg = 
-                        "Error! Se esperaba actualizar 1 registro en el auxiliar\n" +
-                        "pero se actualizaron " + reg + ".";
+            if (reg != 1) {
+                errorMsg
+                        = "Error! Se esperaba actualizar 1 registro en el auxiliar\n"
+                        + "pero se actualizaron " + reg + ".";
             } // end if
             ps.close();
         } catch (SQLException ex) {
@@ -2199,15 +2226,15 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
             errorMsg = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
-        
-        if (!errorMsg.isEmpty()){
+
+        if (!errorMsg.isEmpty()) {
             return errorMsg;
         } // end if
-        
+
         // Actualizo el consecutivo de recibos de caja
-        sqlSent = 
-                "Update config set " +
-                "   recnumeca = ?";
+        sqlSent
+                = "Update config set "
+                + "   recnumeca = ?";
         try {
             ps = conn.prepareStatement(sqlSent);
             ps.setInt(1, tran.getRecnume());
@@ -2217,10 +2244,173 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
             errorMsg = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
-        
-        
+
         return errorMsg;
     } // end registrarCaja
-    
-    
+
+    /**
+     * Genera el asiento contable. Este método genera el asiento contable para
+     * un recibo o pago a un proveedor.
+     *
+     * @param recnume int número de recibo
+     * @return boolean true=El asiento se generó, false=El asiento no se generó
+     */
+    private String generarAsiento(int recnume) throws SQLException {
+        String ctaProveedor;    // Cuenta del proveedor.
+        String transitoria;     // Cuenta transitoria.
+        String no_comprob;      // Número de asiento
+        short tipo_comp;        // Tipo de asiento
+        Timestamp fecha_comp;   // Fecha del asiento
+        double monto;           // Monto del recibo
+        Cuenta cta;             // Estructura de la cuenta contable
+        byte db_cr;             // Débito o crédito
+        short movtido = 15;     // Tipo de movimiento para recibos CXP
+
+        String sqlSent;
+        ResultSet rsE, rsX;
+        PreparedStatement ps;
+
+        CoasientoE encab;       // Encabezado de asientos
+        CoasientoD detal;       // Detalle de asientos
+
+        cta = new Cuenta();
+        cta.setConn(conn);
+
+        if (cta.isError()) {
+            return "WARNING " + cta.getMensaje_error();
+        } // end if
+
+        // El campo se llama transitoria pero se guarda la cuenta del banco
+        // El tipo_comp se usa no solo para clasificar el asiento sino
+        // también para obtener el consecutivo del asiento (que es por tipo).
+        sqlSent = "Select transitoria, tipo_comp_PP from configcuentas";
+        ps = conn.prepareStatement(sqlSent,
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        rsX = CMD.select(ps);
+        if (!Ut.goRecord(rsX, Ut.FIRST)) {
+            return "WARNING aún no se han configurado las cuentas\n "
+                    + "para el asiento de ventas.";
+        } // end if
+
+        transitoria = rsX.getString("transitoria");
+        tipo_comp = rsX.getShort("tipo_comp_PP");
+        ps.close();
+
+        // Cargar el último número registrado en la tabla de tipos de asiento
+        Cotipasient tipo = new Cotipasient(conn);
+        tipo.setTipo_comp(tipo_comp);
+        no_comprob = tipo.getConsecutivo() + "";
+        no_comprob = Ut.lpad(no_comprob.trim(), "0", 10);
+
+        // Si el consecutivo ya existe se le asigna el siguiente automáticamente
+        encab = new CoasientoE(conn);
+        if (encab.existeEnBaseDatos(no_comprob, tipo_comp)) {
+            no_comprob = tipo.getSiguienteConsecutivo(tipo_comp) + "";
+            no_comprob = Ut.lpad(no_comprob.trim(), "0", 10);
+        } // end if
+
+        // Datos para el proveedor y el encabezado del asiento
+        sqlSent
+                = "SELECT  "
+                + "	cxppage.procode, "
+                + "	CONCAT(TRIM(inproved.mayor), TRIM(inproved.sub_cta), TRIM(inproved.sub_sub), TRIM(inproved.colect)) as cuenta, "
+                + "	cxppage.monto, "
+                + "	cxppage.user   "
+                + "FROM cxppage "
+                + "INNER JOIN inproved ON cxppage.procode = inproved.procode "
+                + "WHERE cxppage.recnume = ? "
+                + "AND cxppage.estado = ''";
+
+        ps = conn.prepareStatement(sqlSent,
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        ps.setInt(1, recnume);
+        rsE = CMD.select(ps);
+        if (!Ut.goRecord(rsE, Ut.FIRST)) {
+            return "ERROR recibo no encontrado para asiento.";
+        } // end if
+
+        // Si la cuenta está vacía no se puede hacer el asiento
+        if (rsE.getString("cuenta") == null || rsE.getString("cuenta").trim().isEmpty()) {
+            ps.close();
+            return "ERROR Este proveedor aún no tiene una cuenta contable asignada.";
+        } // end if
+
+        ctaProveedor = rsE.getString("cuenta");
+
+        cta.setCuentaString(ctaProveedor);
+
+        if (cta.isError()) {
+            ps.close();
+            return "ERROR " + cta.getMensaje_error();
+        } // end if
+
+        monto = rsE.getDouble("monto");
+
+        fecha_comp = new Timestamp(this.DatFecha.getDate().getTime());
+
+        // Agregar el encabezado del asiento
+        encab = new CoasientoE(no_comprob, tipo_comp, conn);
+        encab.setFecha_comp(fecha_comp);
+        encab.setDescrip("Registro de pago (CXP) # " + recnume + " - " + this.cboTipoPago.getSelectedItem());
+        encab.setUsuario(rsE.getString("user"));
+        encab.setModulo("CXP");
+        encab.setDocumento(recnume + "");
+        encab.setMovtido(movtido); // No es tan relevante en recibos.
+        encab.setEnviado(false);
+        encab.insert();
+        if (encab.isError()) {
+            return "ERROR " + encab.getMensaje_error();
+        } // end if
+        ps.close();
+
+        // Agregar el detalle del asiento
+        detal = new CoasientoD(no_comprob, tipo_comp, conn);
+        detal.setDescrip("Pagos (CXP) del " + fecha_comp);
+
+        /*
+         * Primera línea del asiento (proveedor) - monto del recibo, débito
+         */
+        detal.setCuenta(cta);
+        db_cr = 1;
+        detal.setDb_cr(db_cr);
+        detal.setMonto(monto);
+        detal.insert();
+        if (detal.isError()) {
+            ps.close();
+            return "ERROR " + detal.getMensaje_error();
+        } // end if
+
+        /*
+         * Segunda línea del asiento (banco) - monto del recibo, crédito
+         */
+        cta.setCuentaString(transitoria);
+        detal.setCuenta(cta);
+        db_cr = 0;
+        detal.setDb_cr(db_cr);
+        detal.setMonto(monto);
+        detal.insert();
+        if (detal.isError()) {
+            return "ERROR " + detal.getMensaje_error();
+        } // end if
+
+        // Actualizar la tabla de pagos
+        sqlSent
+                = "Update cxppage Set "
+                + "no_comprob = ?, tipo_comp = ? "
+                + "Where recnume = ?";
+        ps = conn.prepareStatement(sqlSent);
+
+        ps.setString(1, no_comprob);
+        ps.setShort(2, tipo_comp);
+        ps.setInt(3, recnume);
+        CMD.update(ps);
+        ps.close();
+
+        // Actualizar el consecutivo del asiento de pagos CXP
+        // Se registra el último número utilizado
+        tipo.setConsecutivo(Integer.parseInt(no_comprob));
+        tipo.update();
+        return ""; // Vacío significa que todo salió bien.
+    } // end generarAsiento
+
 }

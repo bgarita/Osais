@@ -3,27 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Java%20Programs/osais/src/interfase/mantenimiento/TiposAsiento.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/logica/xmls/DetalleNotaCredito.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/interfase/transacciones/AnulacionRecibosCXC.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/interfase/menus/Menu.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/interfase/reportes/Reportes.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/logica/contabilidad/CoasientoE.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/interfase/transacciones/RegistroFacturasV.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/logica/xmls/LineaFactura.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/logica/DocumentoElectronico.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/interfase/reportes/RepEstadoResultados.java</file>
-            <file>file:/C:/Java%20Programs/osais/UserConfig.txt</file>
-            <file>file:/C:/Java%20Programs/osais/src/interfase/otros/FacturaXML.java</file>
             <file>file:/C:/Java%20Programs/osais/src/logica/contabilidad/Cotipasient.java</file>
             <file>file:/C:/Java%20Programs/osais/src/interfase/transacciones/RegistroAsientos.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/interfase/consultas/DetalleNotificacionXml.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/logica/contabilidad/CoasientoD.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/logica/xmls/FacturaElectronica.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/interfase/transacciones/AnulacionFacturasCXC.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/logica/xmls/DetalleFactura.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/interfase/transacciones/RegistroNCCXC.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/interfase/menus/Menu.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/interfase/transacciones/RegistroFacturasV.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/logica/utilitarios/Ut.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/interfase/transacciones/RegistroPagosCXC.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/interfase/transacciones/RegistroPagosCXP.java</file>
             <file>file:/C:/Java%20Programs/osais/Pendientes.txt</file>
+            <file>file:/C:/Java%20Programs/osais/src/interfase/mantenimiento/Inproved.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/interfase/transacciones/RegistroFacturasC.java</file>
         </group>
     </open-files>
 </project-private>

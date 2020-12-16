@@ -69,7 +69,9 @@
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="menuBar" type="java.lang.String" value="jMenuBar1"/>
-    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="formSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,-93,0,0,2,-30"/>
+    <SyntheticProperty name="formSizePolicy" type="int" value="0"/>
+    <SyntheticProperty name="generateSize" type="boolean" value="true"/>
     <SyntheticProperty name="generateCenter" type="boolean" value="true"/>
   </SyntheticProperties>
   <AuxValues>
@@ -91,7 +93,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace min="83" max="32767" attributes="0"/>
                       <Component id="btnGuardar" linkSize="4" min="-2" pref="56" max="-2" attributes="2"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="cmdSalir" linkSize="4" min="-2" pref="56" max="-2" attributes="2"/>
@@ -105,14 +107,13 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-              <Component id="jTabbedPane1" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
+              <Component id="jTabbedPane1" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="btnGuardar" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="cmdSalir" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -174,7 +175,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="txtCtaCierre" pref="205" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="lblNom_cta16" pref="308" max="32767" attributes="0"/>
+                              <Component id="lblNom_cta_cierre" pref="308" max="32767" attributes="0"/>
                               <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
@@ -211,7 +212,7 @@
                       <Component id="chkmostrarfechaRep" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lblNom_cta16" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblNom_cta_cierre" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtCtaCierre" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel19" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -240,7 +241,7 @@
                 <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtCtaCierreKeyPressed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JLabel" name="lblNom_cta16">
+            <Component class="javax.swing.JLabel" name="lblNom_cta_cierre">
               <Properties>
                 <Property name="text" type="java.lang.String" value="cta"/>
               </Properties>
@@ -318,7 +319,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="panelFactCredito" max="32767" attributes="0"/>
                           <Component id="jPanel3" alignment="0" max="32767" attributes="0"/>
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="cboDescripAsientoV" min="-2" pref="364" max="-2" attributes="0"/>
@@ -335,12 +336,12 @@
                       <Component id="panelFactCredito" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="117" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel16" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="cboDescripAsientoV" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace pref="159" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -378,10 +379,17 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="lblNom_cta1" alignment="0" pref="410" max="32767" attributes="0"/>
-                              <Component id="lblNom_cta2" alignment="0" max="32767" attributes="0"/>
-                              <Component id="lblNom_cta3" alignment="0" max="32767" attributes="0"/>
-                              <Component id="lblNom_cta4" alignment="0" max="32767" attributes="0"/>
+                              <Component id="lblNom_cta_ventas_gravadas_cred" alignment="0" pref="410" max="32767" attributes="0"/>
+                              <Component id="lblNom_cta_descuento_VG_cred" alignment="0" max="32767" attributes="0"/>
+                              <Component id="lblNom_cta_ventas_exentas_cred" alignment="0" max="32767" attributes="0"/>
+                              <Component id="lblNom_cta_descuento_VE_cred" alignment="0" max="32767" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jLabel25" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel26" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -393,37 +401,39 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="txtCtaCliente" linkSize="16" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel25" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="2" attributes="0">
-                              <Component id="lblNom_cta1" alignment="2" min="-2" pref="20" max="-2" attributes="0"/>
-                              <Component id="txtVentas_g" linkSize="16" alignment="2" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel2" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtVentas_g" linkSize="16" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblNom_cta_ventas_gravadas_cred" alignment="2" min="-2" pref="20" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="2" attributes="0">
-                              <Component id="lblNom_cta2" alignment="2" min="-2" pref="20" max="-2" attributes="0"/>
-                              <Component id="txtDescuento_vg" linkSize="16" alignment="2" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel3" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtDescuento_vg" linkSize="16" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblNom_cta_descuento_VG_cred" alignment="2" min="-2" pref="20" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtVentas_e" linkSize="16" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblNom_cta3" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="2" attributes="0">
+                              <Component id="jLabel4" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtVentas_e" linkSize="16" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblNom_cta_ventas_exentas_cred" alignment="2" min="-2" pref="20" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="2" attributes="0">
                               <Component id="jLabel5" alignment="2" min="-2" max="-2" attributes="0"/>
                               <Component id="txtDescuento_ve" linkSize="16" alignment="2" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblNom_cta4" alignment="2" min="-2" pref="20" max="-2" attributes="0"/>
+                              <Component id="lblNom_cta_descuento_VE_cred" alignment="2" min="-2" pref="20" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="2" attributes="0">
                               <Component id="jLabel6" alignment="2" min="-2" max="-2" attributes="0"/>
                               <Component id="txtImpuesto_v" linkSize="16" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel26" alignment="2" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -486,7 +496,7 @@
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="lblNom_cta1">
+                <Component class="javax.swing.JLabel" name="lblNom_cta_ventas_gravadas_cred">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="cta"/>
                   </Properties>
@@ -508,7 +518,7 @@
                     <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtDescuento_vgKeyPressed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JLabel" name="lblNom_cta2">
+                <Component class="javax.swing.JLabel" name="lblNom_cta_descuento_VG_cred">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="cta"/>
                   </Properties>
@@ -530,7 +540,7 @@
                     <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtVentas_eKeyPressed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JLabel" name="lblNom_cta3">
+                <Component class="javax.swing.JLabel" name="lblNom_cta_ventas_exentas_cred">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="cta"/>
                   </Properties>
@@ -552,7 +562,7 @@
                     <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtDescuento_veKeyPressed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JLabel" name="lblNom_cta4">
+                <Component class="javax.swing.JLabel" name="lblNom_cta_descuento_VE_cred">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="cta"/>
                   </Properties>
@@ -562,6 +572,16 @@
                     <Property name="columns" type="int" value="12"/>
                     <Property name="text" type="java.lang.String" value="[Tarifa]"/>
                     <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel25">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="* Cuenta definida en el cat&#xe1;lo de clientes"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel26">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="* Cuenta definida en el cat&#xe1;logo de tarifas o impuestos"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -598,11 +618,15 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="lblNom_cta6" alignment="0" pref="410" max="32767" attributes="0"/>
-                              <Component id="lblNom_cta7" alignment="0" max="32767" attributes="0"/>
-                              <Component id="lblNom_cta12" max="32767" attributes="0"/>
-                              <Component id="lblNom_cta13" max="32767" attributes="0"/>
-                              <Component id="lblNom_cta14" max="32767" attributes="0"/>
+                              <Component id="lblNom_cta_banco" alignment="0" pref="410" max="32767" attributes="0"/>
+                              <Component id="lblNom_cta_ventas_gravadas_con" alignment="0" max="32767" attributes="0"/>
+                              <Component id="lblNom_cta_descuento_VG_con" max="32767" attributes="0"/>
+                              <Component id="lblNom_cta_ventas_exentas_con" max="32767" attributes="0"/>
+                              <Component id="lblNom_cta_descuento_VE_con" max="32767" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Component id="jLabel27" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -611,43 +635,42 @@
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabel22" min="-2" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="txtBanco" linkSize="18" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblNom_cta6" linkSize="14" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                          <Group type="103" groupAlignment="2" attributes="0">
+                              <Component id="jLabel22" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtBanco" linkSize="18" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblNom_cta_banco" linkSize="14" alignment="2" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtVentas_g1" linkSize="18" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblNom_cta7" linkSize="14" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="2" attributes="0">
+                              <Component id="jLabel7" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtVentas_g1" linkSize="18" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblNom_cta_ventas_gravadas_con" linkSize="14" alignment="2" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtDescuento_vg1" linkSize="18" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblNom_cta12" linkSize="14" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="2" attributes="0">
+                              <Component id="jLabel8" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtDescuento_vg1" linkSize="18" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblNom_cta_descuento_VG_con" linkSize="14" alignment="2" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel15" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtVentas_e1" linkSize="18" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblNom_cta13" linkSize="14" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="2" attributes="0">
+                              <Component id="jLabel15" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtVentas_e1" linkSize="18" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblNom_cta_ventas_exentas_con" linkSize="14" alignment="2" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel23" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtDescuento_ve1" linkSize="18" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblNom_cta14" linkSize="14" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="2" attributes="0">
+                              <Component id="jLabel23" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtDescuento_ve1" linkSize="18" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblNom_cta_descuento_VE_con" linkSize="14" alignment="2" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel24" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtImpuesto_v2" linkSize="18" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="2" attributes="0">
+                              <Component id="jLabel24" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtImpuesto_v2" linkSize="18" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel27" alignment="2" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="0" pref="22" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="8" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -672,7 +695,7 @@
                     <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtBancoKeyPressed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JLabel" name="lblNom_cta6">
+                <Component class="javax.swing.JLabel" name="lblNom_cta_banco">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="cta"/>
                   </Properties>
@@ -688,7 +711,7 @@
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="lblNom_cta7">
+                <Component class="javax.swing.JLabel" name="lblNom_cta_ventas_gravadas_con">
                   <Properties>
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="70" green="4b" red="24" type="rgb"/>
@@ -710,7 +733,7 @@
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="lblNom_cta12">
+                <Component class="javax.swing.JLabel" name="lblNom_cta_descuento_VG_con">
                   <Properties>
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="70" green="4b" red="24" type="rgb"/>
@@ -739,7 +762,7 @@
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="lblNom_cta13">
+                <Component class="javax.swing.JLabel" name="lblNom_cta_ventas_exentas_con">
                   <Properties>
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="70" green="4b" red="24" type="rgb"/>
@@ -753,7 +776,7 @@
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="lblNom_cta14">
+                <Component class="javax.swing.JLabel" name="lblNom_cta_descuento_VE_con">
                   <Properties>
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="70" green="4b" red="24" type="rgb"/>
@@ -766,6 +789,11 @@
                     <Property name="columns" type="int" value="12"/>
                     <Property name="text" type="java.lang.String" value="[Tarifa]"/>
                     <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel27">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="* Cuenta definida en el cat&#xe1;logo de tarifas o impuestos"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -819,12 +847,12 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="182" max="-2" attributes="0"/>
                       <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel17" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="cboDescripAsientoC" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="190" max="32767" attributes="0"/>
+                      <EmptySpace pref="174" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -858,11 +886,17 @@
                           </Group>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="lblNom_cta8" alignment="1" pref="331" max="32767" attributes="0"/>
-                              <Component id="lblNom_cta9" alignment="1" pref="260" max="32767" attributes="0"/>
-                              <Component id="lblNom_cta10" alignment="1" pref="260" max="32767" attributes="0"/>
+                              <Component id="lblNom_cta_compras_g" alignment="1" pref="331" max="32767" attributes="0"/>
+                              <Component id="lblNom_cta_compras_e" alignment="1" pref="260" max="32767" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jLabel28" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel29" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
-                          <EmptySpace min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -872,24 +906,25 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="txtCtaProveedor" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel28" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="2" attributes="0">
                               <Component id="jLabel10" alignment="2" min="-2" max="-2" attributes="0"/>
                               <Component id="txtCompras_g" alignment="2" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblNom_cta8" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblNom_cta_compras_g" alignment="2" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="2" attributes="0">
                               <Component id="jLabel11" alignment="2" min="-2" max="-2" attributes="0"/>
                               <Component id="txtCompras_e" alignment="2" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblNom_cta9" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblNom_cta_compras_e" alignment="2" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="2" attributes="0">
                               <Component id="jLabel12" alignment="2" min="-2" max="-2" attributes="0"/>
                               <Component id="txtImpuesto_c" alignment="2" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblNom_cta10" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel29" alignment="2" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -920,13 +955,13 @@
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtCompras_gActionPerformed"/>
                     <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtCompras_gFocusGained"/>
                     <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtCompras_gFocusLost"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtCompras_gActionPerformed"/>
                     <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtCompras_gKeyPressed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JLabel" name="lblNom_cta8">
+                <Component class="javax.swing.JLabel" name="lblNom_cta_compras_g">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="cta"/>
                   </Properties>
@@ -950,7 +985,7 @@
                     <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtCompras_eKeyPressed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JLabel" name="lblNom_cta9">
+                <Component class="javax.swing.JLabel" name="lblNom_cta_compras_e">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="cta"/>
                   </Properties>
@@ -964,19 +999,25 @@
                   <Properties>
                     <Property name="columns" type="int" value="12"/>
                     <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
-                      <Format format="############" subtype="-1" type="5"/>
+                      <Format format="************" subtype="-1" type="5"/>
                     </Property>
+                    <Property name="text" type="java.lang.String" value="[Tafifa]"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtImpuesto_cActionPerformed"/>
                     <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtImpuesto_cFocusGained"/>
-                    <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtImpuesto_cFocusLost"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtImpuesto_cActionPerformed"/>
                     <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtImpuesto_cKeyPressed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JLabel" name="lblNom_cta10">
+                <Component class="javax.swing.JLabel" name="jLabel28">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="cta"/>
+                    <Property name="text" type="java.lang.String" value="* Cuenta definida en el cat&#xe1;logo de proveedores"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel29">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="* Cuenta definida en el cat&#xe1;logo de tarifas o impuestos"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -1001,8 +1042,8 @@
         <Container class="javax.swing.JPanel" name="panelRecibosCXC">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Pagos (CXC)">
-                <Property name="tabTitle" type="java.lang.String" value="Pagos (CXC)"/>
+              <JTabbedPaneConstraints tabName="Pagos">
+                <Property name="tabTitle" type="java.lang.String" value="Pagos"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -1013,13 +1054,8 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="cboDescripAsientoP" min="-2" pref="364" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          </Group>
+                          <Component id="jPanel4" max="32767" attributes="0"/>
+                          <Component id="jPanel2" alignment="1" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -1028,14 +1064,11 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="206" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="120" max="-2" attributes="0"/>
+                      <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                       <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel18" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="cboDescripAsientoP" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace pref="136" max="32767" attributes="0"/>
+                      <EmptySpace pref="159" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1045,7 +1078,7 @@
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                    <TitledBorder title="Asiento de recibos de cuentas por cobrar"/>
+                    <TitledBorder title="Asiento de recibos de cuentas por pagar"/>
                   </Border>
                 </Property>
               </Properties>
@@ -1056,18 +1089,31 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
+                      <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabel13" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel14" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jLabel13" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel14" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace pref="48" max="32767" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="txtCtaProveedor2" alignment="0" pref="181" max="32767" attributes="0"/>
+                                      <Component id="txtBanco_pagos_cxp" alignment="0" pref="181" max="32767" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="lblNom_cta_banco_pagos_cxp" min="-2" pref="279" max="-2" attributes="0"/>
+                                      <Component id="jLabel30" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="cboDescripAsientoPP" min="-2" pref="364" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
-                          <EmptySpace pref="56" max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="txtCtaCliente2" alignment="0" pref="150" max="32767" attributes="0"/>
-                              <Component id="txtTransitoria1" alignment="0" pref="189" max="32767" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="lblNom_cta11" min="-2" pref="279" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -1077,13 +1123,19 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtCtaCliente2" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtCtaProveedor2" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel30" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="2" attributes="0">
                               <Component id="jLabel14" alignment="2" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtTransitoria1" alignment="2" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblNom_cta11" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtBanco_pagos_cxp" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblNom_cta_banco_pagos_cxp" alignment="2" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLabel18" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cboDescripAsientoPP" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
@@ -1093,12 +1145,12 @@
               <SubComponents>
                 <Component class="javax.swing.JLabel" name="jLabel13">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Cuentas por cobrar cliente"/>
+                    <Property name="text" type="java.lang.String" value="Cuentas por pagar proveedor"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="txtCtaCliente2">
+                <Component class="javax.swing.JTextField" name="txtCtaProveedor2">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="[Cliente]"/>
+                    <Property name="text" type="java.lang.String" value="[Proveedor]"/>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
@@ -1110,7 +1162,7 @@
                     <Property name="text" type="java.lang.String" value="Banco"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JFormattedTextField" name="txtTransitoria1">
+                <Component class="javax.swing.JFormattedTextField" name="txtBanco_pagos_cxp">
                   <Properties>
                     <Property name="columns" type="int" value="12"/>
                     <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
@@ -1119,7 +1171,7 @@
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="lblNom_cta11">
+                <Component class="javax.swing.JLabel" name="lblNom_cta_banco_pagos_cxp">
                   <Properties>
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="70" green="4b" red="24" type="rgb"/>
@@ -1127,23 +1179,152 @@
                     <Property name="text" type="java.lang.String" value="cta"/>
                   </Properties>
                 </Component>
+                <Component class="javax.swing.JLabel" name="jLabel30">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="* Cuenta definida en el cat&#xe1;lo de proveedores"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel18">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Tipo de asiento"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="cboDescripAsientoPP">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="0"/>
+                    </Property>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                  </AuxValues>
+                </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JLabel" name="jLabel18">
+            <Container class="javax.swing.JPanel" name="jPanel4">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Tipo de asiento"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JComboBox" name="cboDescripAsientoP">
-              <Properties>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="0"/>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                    <TitledBorder title="Asiento de recibos de cuentas por cobrar"/>
+                  </Border>
                 </Property>
               </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-              </AuxValues>
-            </Component>
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jLabel31" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel32" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace pref="56" max="32767" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="txtCtaCliente3" alignment="0" pref="189" max="32767" attributes="0"/>
+                                      <Component id="txtBanco_pagos_cxc" alignment="0" pref="189" max="32767" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="lblNom_cta_banco_pagos_cxc" alignment="0" min="-2" pref="279" max="-2" attributes="0"/>
+                                      <Component id="jLabel33" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="jLabel34" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="cboDescripAsientoPC" min="-2" pref="364" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLabel31" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtCtaCliente3" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel33" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="2" attributes="0">
+                              <Component id="jLabel32" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtBanco_pagos_cxc" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblNom_cta_banco_pagos_cxc" alignment="2" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLabel34" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cboDescripAsientoPC" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+              <SubComponents>
+                <Component class="javax.swing.JLabel" name="jLabel31">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Cuentas por cobrar cliente"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtCtaCliente3">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="[Cliente]"/>
+                    <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel32">
+                  <Properties>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="70" green="4b" red="24" type="rgb"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Banco"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JFormattedTextField" name="txtBanco_pagos_cxc">
+                  <Properties>
+                    <Property name="columns" type="int" value="12"/>
+                    <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
+                      <Format format="############" subtype="-1" type="5"/>
+                    </Property>
+                    <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblNom_cta_banco_pagos_cxc">
+                  <Properties>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="70" green="4b" red="24" type="rgb"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="cta"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel33">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="* Cuenta definida en el cat&#xe1;lo de clientes"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel34">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Tipo de asiento"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="cboDescripAsientoPC">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="0"/>
+                    </Property>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                  </AuxValues>
+                </Component>
+              </SubComponents>
+            </Container>
           </SubComponents>
         </Container>
       </SubComponents>

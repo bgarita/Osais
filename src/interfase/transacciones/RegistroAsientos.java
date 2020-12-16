@@ -119,7 +119,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
         txtDescrip = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        cboDescrip = new javax.swing.JComboBox();
+        cboDescrip = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -2062,7 +2062,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JButton btnSalir;
-    private javax.swing.JComboBox cboDescrip;
+    private javax.swing.JComboBox<String> cboDescrip;
     private com.toedter.calendar.JDateChooser datFecha_comp;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

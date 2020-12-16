@@ -227,8 +227,8 @@ public class Notificacionxml extends Thread {
 
     /**
      * Este método toma todos los documentos electrónicos cuyo estado no sea 4 ó
-     * 5 (Aceptado, rechazado), ejecuta la consulta en Hacienda y vuelve a
-     * actualizar la tabla faestadoDocElect (se genera el xml firmado).
+     * 5 (Aceptado, rechazado) de hace un mes, ejecuta la consulta en Hacienda y
+     * vuelve a actualizar la tabla faestadoDocElect (se genera el xml firmado).
      */
     private void actualizarEstados() {
         // Este proceso es únicamente windows por lo que no debe correr en Linux
@@ -238,17 +238,19 @@ public class Notificacionxml extends Thread {
         } // end if
 
         String sqlSent
-                = "Select    "
-                + "     a.facnume,    "
-                + "	a.referencia, "
-                + "	CASE   "
-                + "		When a.facnd = 0 then 'FAC'   "
-                + "		When a.facnd > 0 then 'NCR'   "
-                + "		When a.facnd < 0 then 'NDB'   "
-                + "		Else 'N/A'   "
-                + "	END as tipo "
-                + "from faestadoDocElect a "
-                + "Where estado not in (4,5)";
+                = "Select     "
+                + "   a.facnume,     "
+                + " 	a.referencia, "
+                + " 	CASE    "
+                + " 		When a.facnd = 0 then 'FAC'    "
+                + " 		When a.facnd > 0 then 'NCR'    "
+                + " 		When a.facnd < 0 then 'NDB'    "
+                + " 		Else 'N/A'    "
+                + " 	END as tipo  "
+                + " from faestadoDocElect a   "
+                + " INNER JOIN faencabe b ON a.facnume = b.facnume AND a.facnd = b.facnd "
+                + " WHERE a.estado not in (4,5) "
+                + " AND b.facfechac >= DATE_SUB(CURDATE(),INTERVAL 1 MONTH)";
 
         PreparedStatement ps;
         ResultSet rs;
@@ -272,14 +274,23 @@ public class Notificacionxml extends Thread {
         String cmd;
 
         try {
+            // Hacer una pausa de 1 segundo cada 10 ejecuciones para evitar
+            // que se sature la memoria (en máquinas de poca capacidad).
+            int count = 0;
             while (rs != null && rs.next()) {
+                count++;
+                if (count == 10){
+                    Thread.sleep(1000);
+                    count = 0;
+                } // end if
+                
                 cmd = dirXMLS + "EnviarFactura2.exe "
                         + rs.getString("referencia") + " "
                         + rs.getString("facnume") + " 2 " + rs.getString("tipo");
                 Process p = Runtime.getRuntime().exec(cmd);
             } // end while
             ps.close();
-        } catch (SQLException | IOException ex) {
+        } catch (SQLException | IOException | InterruptedException ex) {
             Logger.getLogger(Notificacionxml.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
