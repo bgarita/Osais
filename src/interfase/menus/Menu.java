@@ -398,6 +398,8 @@ public class Menu extends javax.swing.JFrame {
         mnuVtasD151 = new javax.swing.JMenuItem();
         mnuVtasxarticulo = new javax.swing.JMenuItem();
         mnuVtasxClienteDet = new javax.swing.JMenuItem();
+        jSeparator26 = new javax.swing.JPopupMenu.Separator();
+        mnuVtasximpuesto = new javax.swing.JMenuItem();
         mnuPedidos = new javax.swing.JMenu();
         mnuDetallePYA = new javax.swing.JMenuItem();
         mnuDirEncom = new javax.swing.JMenuItem();
@@ -1337,6 +1339,15 @@ public class Menu extends javax.swing.JFrame {
             }
         });
         mnuVentas.add(mnuVtasxClienteDet);
+        mnuVentas.add(jSeparator26);
+
+        mnuVtasximpuesto.setText("Resumen de ventas por impuesto");
+        mnuVtasximpuesto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuVtasximpuestoActionPerformed(evt);
+            }
+        });
+        mnuVentas.add(mnuVtasximpuesto);
 
         mnuReportes.add(mnuVentas);
 
@@ -3873,6 +3884,10 @@ public class Menu extends javax.swing.JFrame {
         
     }//GEN-LAST:event_mnuCabysActionPerformed
 
+    private void mnuVtasximpuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuVtasximpuestoActionPerformed
+        RepVentasxImpuesto.main(new String[1]);
+    }//GEN-LAST:event_mnuVtasximpuestoActionPerformed
+
     public static void main(final DataBaseConnection c, final boolean disponible, final String url) {
 
         /* Set the Nimbus look and feel */
@@ -3922,6 +3937,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator23;
     private javax.swing.JPopupMenu.Separator jSeparator24;
     private javax.swing.JPopupMenu.Separator jSeparator25;
+    private javax.swing.JPopupMenu.Separator jSeparator26;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
@@ -4112,6 +4128,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuVtasxarticulo;
     private javax.swing.JMenuItem mnuVtasxcliente;
     private javax.swing.JMenuItem mnuVtasxfamilia;
+    private javax.swing.JMenuItem mnuVtasximpuesto;
     private javax.swing.JMenuItem mnuVtasxproveedor;
     private javax.swing.JMenuItem mnuVtasxvendedor;
     private javax.swing.JMenuItem mnuVtasxzona;

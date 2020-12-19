@@ -51,9 +51,9 @@ ORDER BY 1,2;
 SELECT 
 	tarifa_iva.descrip,
 	fadetall.facpive,
-	SUM(fadetall.facimve) AS IVA,
+	SUM(fadetall.facmont) AS subtotal,
 	SUM(fadetall.facdesc) AS facdesc,
-	SUM(fadetall.facmont) AS facmont,
+	SUM(fadetall.facimve) AS IVA,
 	SUM(fadetall.facmont - fadetall.facdesc + fadetall.facimve) AS Total
 FROM fadetall
 INNER JOIN faencabe ON fadetall.facnume = faencabe.facnume AND fadetall.facnd = faencabe.facnd
