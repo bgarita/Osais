@@ -56,16 +56,10 @@ Contabilidad #4 (parqueo don Mincho)
 -   Solo está pendiente realizar más pruebas...
 *******************************************************************************
 Notas:
-1. El asiento 0000000000, tipo 19 aparece desbalanceado
-    a. Hay que modificar el código para que los impuestos vayan al débito       LISTO
-    b. Hay que restar el impuesto (gravado) al monto gravado para que cuadre.   LISTO
-2. El asiento aparece como anulado por otro.
-    Hay que revisar el código para ver si es que no se está considerando el     LISTO
-    tipo de asiento 
-3. Se hizo la anulación desde el auxiliar pero no generó el asiento de anulació.
-    - Hay que revisar, seguramente no se le ha puesto la funcionalidad.         LISTO, ya se incluyó la funcionalidad.
-4. Revisar y ajustar la interfaz para cuando se registra una compra desde
+1. Revisar y ajustar la interfaz para cuando se registra una compra desde
     la pantalla de registro de entradas de inventario (por compra).             LISTO, pero queda para otra etapa enviar el detalle de los impuestos.
+2. Incluir funcionalidad para las cuentas restringidas.
+3. Incluir toda la parte de seguridad para contabilidad.
 *******************************************************************************
 
 
