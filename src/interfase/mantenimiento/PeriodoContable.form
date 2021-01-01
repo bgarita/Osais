@@ -94,9 +94,9 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      <Component id="cmdGuardar" linkSize="1" min="-2" pref="69" max="-2" attributes="2"/>
+                      <Component id="btnGuardar" linkSize="1" min="-2" pref="69" max="-2" attributes="2"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="cmdBorrar" linkSize="1" min="-2" pref="69" max="-2" attributes="2"/>
+                      <Component id="btnBorrar" linkSize="1" min="-2" pref="69" max="-2" attributes="2"/>
                   </Group>
                   <Component id="txtDescrip" pref="0" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
@@ -147,8 +147,8 @@
               </Group>
               <EmptySpace pref="47" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="cmdGuardar" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="cmdBorrar" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnGuardar" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnBorrar" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
           </Group>
@@ -169,7 +169,7 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="cmdGuardar">
+    <Component class="javax.swing.JButton" name="btnGuardar">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/Icons/WZSAVE.png"/>
@@ -180,10 +180,10 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmdGuardarActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGuardarActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="cmdBorrar">
+    <Component class="javax.swing.JButton" name="btnBorrar">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/Icons/WZDELETE.png"/>
@@ -194,7 +194,7 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmdBorrarActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBorrarActionPerformed"/>
       </Events>
     </Component>
     <Component class="com.toedter.calendar.JMonthChooser" name="datMes">

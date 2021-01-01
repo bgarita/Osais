@@ -429,9 +429,10 @@ public class UtilBD {
     } // end hayDatos
 
     /**
-     * Obtener el valor de un campo de una tabla en base de datos.
-     * Si la tabla posee más de un registro para el valor consultado,
-     * el método mostrará solo el primero que aparezca.
+     * Obtener el valor de un campo de una tabla en base de datos. Si la tabla
+     * posee más de un registro para el valor consultado, el método mostrará
+     * solo el primero que aparezca.
+     *
      * @throws java.sql.SQLException
      * @Author: Bosco Garita 15/09/2010 Sintaxis de MySQL -- Esto se cambió,
      * ahora es genérico Bosco 19/03/2013
@@ -445,9 +446,9 @@ public class UtilBD {
     public static String getFieldValue(
             Connection c,
             String tabla,
-            String nombreCampo,         // Campo que se consultará
-            String campoWhere,          // Llave para el Where
-            String valorCampoWhere)     // Valor para el Where
+            String nombreCampo, // Campo que se consultará
+            String campoWhere, // Llave para el Where
+            String valorCampoWhere) // Valor para el Where
             throws SQLException {
 
         String returnValue = null;
@@ -588,7 +589,8 @@ public class UtilBD {
         ResultSet rs;
         PreparedStatement ps;
 
-        ps = c.prepareStatement(sqlSelect, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        ps = c.prepareStatement(sqlSelect,
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
         rs = CMD.select(ps);
         rs.first();
         userLogged = rs.getString(1).toLowerCase().trim();
@@ -611,13 +613,18 @@ public class UtilBD {
         // la arroba.
         sqlSelect
                 = "Select * from autoriz Where user = GetDBUser() and programa = ?";
-        ps = c.prepareStatement(sqlSelect, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        ps = c.prepareStatement(sqlSelect,
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
         ps.setString(1, programa);
         rs = CMD.select(ps);
         if (rs != null && rs.first()) {
             existe = true;
         } // end if
         ps.close();
+        // El objeto de conexión no se debe cerrar porque por lo general
+        // es el mismo que utilizará la clase de la cual se está intentando
+        // tener permisos.
+        //c.close();
         return existe;
     } // end tienePermiso
 
@@ -635,7 +642,8 @@ public class UtilBD {
         ResultSet rs;
         PreparedStatement ps;
         try {
-            ps = c.prepareStatement(sqlSelect, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            ps = c.prepareStatement(sqlSelect,
+                    ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             rs = CMD.select(ps);
             rs.first();
             userLogged = rs.getString(1).toLowerCase().trim();
@@ -655,7 +663,8 @@ public class UtilBD {
             // la arroba.
             sqlSelect
                     = "Select * from usuario Where user = GetDBUser()";
-            ps = c.prepareStatement(sqlSelect, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            ps = c.prepareStatement(sqlSelect,
+                    ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             rs = CMD.select(ps);
             if (rs != null && rs.first()) {
                 tienePermiso = rs.getBoolean(permiso);
@@ -669,6 +678,28 @@ public class UtilBD {
         } // end try-catch
         return tienePermiso;
     } // end tienePermisoEspecial
+
+    /**
+     * Agrega una opción de menú a la tabla programa y en caso de que ya exista
+     * actualiza su descripción.
+     * @param c         Connection conexión a la base de datos
+     * @param opcion    String nombre de la clase java
+     * @param descrip   String descripción de la tarea que realiza
+     * @throws SQLException 
+     */
+    public static void AgregarOpcionDeMenu(Connection c, String opcion, String descrip) throws SQLException {
+        String sqlSent 
+                = "INSERT INTO `programa`(`programa`, `descrip`) "
+                + "	VALUES(?, ?) "
+                + "     ON DUPLICATE KEY UPDATE descrip = ?";
+        try (PreparedStatement ps = c.prepareStatement(sqlSent)) {
+            ps.setString(1, opcion);
+            ps.setString(2, descrip);
+            ps.setString(3, descrip);
+            CMD.update(ps);
+            c.close();
+        }
+    } // end AgregarOpcionDeMenu
 
     /**
      * Carga las existencia de las diferentes bodegas en una tabla. Los campos
@@ -2650,14 +2681,14 @@ public class UtilBD {
 
     public static boolean validarCabys(Connection conn, String codigoTarifa, String codigoCabys) throws SQLException {
         boolean sonIguales;
-        
+
         String sqlSent
                 = "SELECT "
                 + "	("
                 + "		(SELECT impuesto FROM cabys WHERE codigoCabys = ?) -  "
                 + "		(SELECT porcentaje FROM tarifa_iva WHERE codigoTarifa = ?) "
                 + "	) AS diferencia";
-        PreparedStatement ps = conn.prepareStatement(sqlSent, 
+        PreparedStatement ps = conn.prepareStatement(sqlSent,
                 ResultSet.CONCUR_READ_ONLY, ResultSet.TYPE_SCROLL_SENSITIVE);
         ps.setString(1, codigoCabys);
         ps.setString(2, codigoTarifa);
@@ -2665,7 +2696,7 @@ public class UtilBD {
         rs.first();
         sonIguales = (rs.getDouble("diferencia") == 0.00);
         ps.close();
-        
+
         return sonIguales;
     } // end validarCabys
 

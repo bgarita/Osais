@@ -22,8 +22,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import logica.contabilidad.Cocatalogo;
 import logica.contabilidad.PeriodoContable;
 import logica.utilitarios.FormatoTabla;
 import logica.utilitarios.Ut;
@@ -46,10 +44,7 @@ public class RepEstadoResultados extends javax.swing.JFrame {
 
     private static final long serialVersionUID = 23L;
     private final Connection conn;
-    private final JTextField txtCuent;
     private final Bitacora b = new Bitacora();
-    private final Cocatalogo coca;
-    private boolean init;
     private List<ParametrosER> listPar;
     private FormatoTabla formatoTabla;
     private String numberFormat;
@@ -59,13 +54,9 @@ public class RepEstadoResultados extends javax.swing.JFrame {
      */
     public RepEstadoResultados() {
         initComponents();
-        this.init = true;
         this.numberFormat = "#,##0.00";
         this.conn = Menu.CONEXION.getConnection();
-        this.coca = new Cocatalogo(conn);
-        this.txtCuent = new JTextField("000");
         setCurrentPeriod();
-        this.init = false;
         this.listPar = new ArrayList<>();
         this.formatoTabla = new FormatoTabla();
 

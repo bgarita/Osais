@@ -2046,11 +2046,8 @@ public class RegistroAsientos extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new RegistroAsientos(c).setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new RegistroAsientos(c).setVisible(true);
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -512,25 +512,6 @@ public class RepMovimCta extends JFrame {
     */
     public static void main(Connection c) {
         try {
-            // Bosco agregado 23/07/2011
-            // Integración del segundo nivel de seguridad.
-            if (!UtilBD.tienePermiso(c,"RepMovimCta")){
-                JOptionPane.showMessageDialog(null,
-                        "Usted no está autorizado para ejecutar este proceso",
-                        "Error - Permisos",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
-            } // end if
-        } catch (Exception ex) {
-            Logger.getLogger(RepMovimCta.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, 
-                    ex.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        //JFrame.setDefaultLookAndFeelDecorated(true);
-        try {
             RepMovimCta run = new RepMovimCta(c);
             run.setVisible(true);
         } catch (SQLException ex) {

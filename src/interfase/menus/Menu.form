@@ -1317,6 +1317,9 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Mes actual Vs promedio anual"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuPromedioAnualActionPerformed"/>
+                  </Events>
                 </MenuItem>
                 <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator21">
                 </MenuItem>
@@ -1420,12 +1423,12 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuCiereContaMensualActionPerformed"/>
                   </Events>
                 </MenuItem>
-                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem3">
+                <MenuItem class="javax.swing.JMenuItem" name="mnuCierreAnual">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Anual"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem3ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuCierreAnualActionPerformed"/>
                   </Events>
                 </MenuItem>
               </SubComponents>
@@ -1604,7 +1607,7 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="mnuActuCat">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Actualizar movimientos contables"/>
+                    <Property name="text" type="java.lang.String" value="Aplicar asientos"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuActuCatActionPerformed"/>
@@ -1612,7 +1615,7 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="mnuSumarizarCtasMayor">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Sumarizar cuentas de mayor"/>
+                    <Property name="text" type="java.lang.String" value="Mayorizaci&#xf3;n"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuSumarizarCtasMayorActionPerformed"/>
@@ -1622,6 +1625,9 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Re-abrir periodos cerrados"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuReabrirPerActionPerformed"/>
+                  </Events>
                 </MenuItem>
               </SubComponents>
             </Menu>

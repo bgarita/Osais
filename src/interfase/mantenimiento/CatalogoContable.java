@@ -1287,22 +1287,6 @@ public class CatalogoContable extends JFrame {
      */
     public static void main(Connection c) {
         try {
-            if (!UtilBD.tienePermiso(c, "CatalogoContable")) {
-                JOptionPane.showMessageDialog(null,
-                        "Usted no está autorizado para ejecutar este proceso",
-                        "Error - Permisos",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
-            } // end if
-        } catch (Exception ex) {
-            Logger.getLogger(CatalogoContable.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null,
-                    ex.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        try {
             CatalogoContable run = new CatalogoContable(c);
             run.setVisible(true);
         } catch (Exception ex) {
