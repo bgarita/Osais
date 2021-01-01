@@ -9,8 +9,10 @@ package interfase.mantenimiento;
 import Exceptions.EmptyDataSourceException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
-import accesoDatos.UtilBD;
+import interfase.menus.Menu;
 import java.awt.HeadlessException;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,16 +37,23 @@ public class PeriodoContable extends JFrame {
     private final Bitacora b = new Bitacora();
 
     /** Creates new form PeriodoContable
-     * @param c
      * @throws java.sql.SQLException
      * @throws logica.utilitarios.SQLInjectionException
      * @throws Exceptions.EmptyDataSourceException */
     @SuppressWarnings({"unchecked"})
-    public PeriodoContable(Connection c) 
+    public PeriodoContable() 
             throws SQLException, SQLInjectionException, EmptyDataSourceException {
         initComponents();
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                mnuSalirActionPerformed(null);
+            } // end windowClosing
+        } // end inner class
+        ); // end Listener
                 
-        conn = c;
+        conn = Menu.CONEXION.getConnection();
 
         periodo = new Coperiodoco(conn);
         periodo.cargarUltimo();
@@ -70,8 +79,8 @@ public class PeriodoContable extends JFrame {
     private void initComponents() {
 
         txtDescrip = new javax.swing.JFormattedTextField();
-        cmdGuardar = new javax.swing.JButton();
-        cmdBorrar = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
+        btnBorrar = new javax.swing.JButton();
         datMes = new com.toedter.calendar.JMonthChooser();
         datAño = new com.toedter.calendar.JYearChooser();
         datfecha_in = new com.toedter.calendar.JDateChooser();
@@ -99,21 +108,21 @@ public class PeriodoContable extends JFrame {
         txtDescrip.setToolTipText("Descripción");
         txtDescrip.setDisabledTextColor(java.awt.Color.blue);
 
-        cmdGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZSAVE.png"))); // NOI18N
-        cmdGuardar.setToolTipText("Guardar registro");
-        cmdGuardar.setMaximumSize(new java.awt.Dimension(93, 29));
-        cmdGuardar.addActionListener(new java.awt.event.ActionListener() {
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZSAVE.png"))); // NOI18N
+        btnGuardar.setToolTipText("Guardar registro");
+        btnGuardar.setMaximumSize(new java.awt.Dimension(93, 29));
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdGuardarActionPerformed(evt);
+                btnGuardarActionPerformed(evt);
             }
         });
 
-        cmdBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZDELETE.png"))); // NOI18N
-        cmdBorrar.setToolTipText("Borrar registro");
-        cmdBorrar.setMaximumSize(new java.awt.Dimension(93, 29));
-        cmdBorrar.addActionListener(new java.awt.event.ActionListener() {
+        btnBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZDELETE.png"))); // NOI18N
+        btnBorrar.setToolTipText("Borrar registro");
+        btnBorrar.setMaximumSize(new java.awt.Dimension(93, 29));
+        btnBorrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdBorrarActionPerformed(evt);
+                btnBorrarActionPerformed(evt);
             }
         });
 
@@ -186,9 +195,9 @@ public class PeriodoContable extends JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(cmdGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmdBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtDescrip, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -210,7 +219,7 @@ public class PeriodoContable extends JFrame {
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmdBorrar, cmdGuardar});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnBorrar, btnGuardar});
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {datfecha_fi, datfecha_in});
 
@@ -233,22 +242,27 @@ public class PeriodoContable extends JFrame {
                     .addComponent(datfecha_fi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cmdGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmdBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(8, 8, 8))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmdBorrar, cmdGuardar});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnBorrar, btnGuardar});
 
         setSize(new java.awt.Dimension(506, 245));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void mnuGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuGuardarActionPerformed
-        cmdGuardarActionPerformed(evt);
+        btnGuardarActionPerformed(evt);
 }//GEN-LAST:event_mnuGuardarActionPerformed
 
     private void mnuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSalirActionPerformed
+        try {
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+        }
         dispose();
 }//GEN-LAST:event_mnuSalirActionPerformed
 
@@ -257,7 +271,7 @@ public class PeriodoContable extends JFrame {
         periodo.delete();
 }//GEN-LAST:event_mnuBorrarActionPerformed
 
-    private void cmdGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdGuardarActionPerformed
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         if (datfecha_in == null || datfecha_in.getDate() == null){
             JOptionPane.showMessageDialog(null, 
                     "Debe digitar o elegir la fecha inicial",
@@ -320,11 +334,11 @@ public class PeriodoContable extends JFrame {
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
-}//GEN-LAST:event_cmdGuardarActionPerformed
+}//GEN-LAST:event_btnGuardarActionPerformed
 
-    private void cmdBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdBorrarActionPerformed
+    private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
         eliminarRegistro();       
-}//GEN-LAST:event_cmdBorrarActionPerformed
+}//GEN-LAST:event_btnBorrarActionPerformed
 
     private void datMesPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_datMesPropertyChange
         txtDescrip.setText(periodo.toString(datMes.getMonth(), datAño.getValue()));
@@ -456,41 +470,9 @@ public class PeriodoContable extends JFrame {
     } // end eliminar
     
     
-
-    /**        "Mensaje",
-                    JOptionPane.INFORMATION_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
-            // Cierro el sistema para proteger la integridad
-            System.exit(0);
-        } // end try-catch
-        
-    } // end eliminar
-    
-    
-
-    /**
-     * @param c
-    */
-    public static void main(Connection c) {
+    public static void main() {
         try {
-            if (!UtilBD.tienePermiso(c,"PeriodosContables")){
-                JOptionPane.showMessageDialog(null,
-                        "Usted no está autorizado para ejecutar este proceso",
-                        "Error - Permisos",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
-            } // end if
-        } catch (Exception ex) {
-            Logger.getLogger(PeriodoContable.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, 
-                    ex.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-        try {
-            PeriodoContable run = new PeriodoContable(c);
+            PeriodoContable run = new PeriodoContable();
             run.setVisible(true);
         } catch (SQLException | SQLInjectionException | EmptyDataSourceException ex) {
             JOptionPane.showMessageDialog(
@@ -502,9 +484,9 @@ public class PeriodoContable extends JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBorrar;
+    private javax.swing.JButton btnGuardar;
     private javax.swing.JCheckBox chkcerrado;
-    private javax.swing.JButton cmdBorrar;
-    private javax.swing.JButton cmdGuardar;
     private com.toedter.calendar.JYearChooser datAño;
     private com.toedter.calendar.JMonthChooser datMes;
     private com.toedter.calendar.JDateChooser datfecha_fi;

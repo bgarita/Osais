@@ -8,7 +8,7 @@ package interfase.mantenimiento;
 import Exceptions.EmptyDataSourceException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
-import accesoDatos.UtilBD;
+import interfase.menus.Menu;
 import interfase.otros.Buscador;
 import interfase.otros.Navegador;
 import java.awt.HeadlessException;
@@ -45,13 +45,12 @@ public class TiposAsiento extends JFrame {
     /**
      * Creates new form Bodegas
      *
-     * @param c
      * @throws java.sql.SQLException
      * @throws logica.utilitarios.SQLInjectionException
      * @throws Exceptions.EmptyDataSourceException
      */
     @SuppressWarnings({"unchecked"})
-    public TiposAsiento(Connection c)
+    public TiposAsiento()
             throws SQLException, SQLInjectionException, EmptyDataSourceException {
         initComponents();
 
@@ -60,7 +59,7 @@ public class TiposAsiento extends JFrame {
         tabla = "cotipasient";
         nav = new Navegador();
 
-        conn = c;
+        conn = Menu.CONEXION.getConnection();
 
         nav.setConexion(conn);
         tipo = new Cotipasient(conn);
@@ -657,27 +656,10 @@ public class TiposAsiento extends JFrame {
     } // end eliminar
 
     /**
-     * @param c
      */
-    public static void main(Connection c) {
+    public static void main() {
         try {
-            if (!UtilBD.tienePermiso(c, "TiposAsiento")) {
-                JOptionPane.showMessageDialog(null,
-                        "Usted no está autorizado para ejecutar este proceso",
-                        "Error - Permisos",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
-            } // end if
-        } catch (Exception ex) {
-            Logger.getLogger(TiposAsiento.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null,
-                    ex.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        try {
-            TiposAsiento run = new TiposAsiento(c);
+            TiposAsiento run = new TiposAsiento();
             run.setVisible(true);
         } catch (SQLException | SQLInjectionException | EmptyDataSourceException ex) {
             JOptionPane.showMessageDialog(

@@ -2,9 +2,7 @@ package interfase.consultas;
 
 import Mail.Bitacora;
 import accesoDatos.CMD;
-import accesoDatos.UtilBD;
 import interfase.menus.Menu;
-import static interfase.menus.Menu.CONEXION;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,8 +10,6 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import logica.utilitarios.Ut;
 
@@ -510,24 +506,6 @@ public class ConsultaMovCierre extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(ConsultaMovCierre.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
-        try {
-            // Validación de permisos
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "ConsultaMovCierre")) {
-                JOptionPane.showMessageDialog(null,
-                        "Usted no está autorizado para ejecutar este proceso",
-                        "Error - Permisos",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
-            } // end if
-        } catch (Exception ex) {
-            Logger.getLogger(ConsultaMovCierre.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null,
-                    "Usted no está autorizado para ejecutar este proceso",
-                    "Error - Permisos",
-                    JOptionPane.ERROR_MESSAGE);
-            return;
-        } // end try-catch
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {

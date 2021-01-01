@@ -450,7 +450,7 @@ public class Menu extends javax.swing.JFrame {
         jSeparator22 = new javax.swing.JPopupMenu.Separator();
         mnuCierreConta = new javax.swing.JMenu();
         mnuCiereContaMensual = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        mnuCierreAnual = new javax.swing.JMenuItem();
         mnuHerramientas = new javax.swing.JMenu();
         mnuIntegridad = new javax.swing.JMenuItem();
         mnuRecodificarArticulos = new javax.swing.JMenuItem();
@@ -1592,6 +1592,11 @@ public class Menu extends javax.swing.JFrame {
         mnuRepConta.add(mnuCompMensual);
 
         mnuPromedioAnual.setText("Mes actual Vs promedio anual");
+        mnuPromedioAnual.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuPromedioAnualActionPerformed(evt);
+            }
+        });
         mnuRepConta.add(mnuPromedioAnual);
         mnuRepConta.add(jSeparator21);
 
@@ -1683,13 +1688,13 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuCierreConta.add(mnuCiereContaMensual);
 
-        jMenuItem3.setText("Anual");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        mnuCierreAnual.setText("Anual");
+        mnuCierreAnual.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                mnuCierreAnualActionPerformed(evt);
             }
         });
-        mnuCierreConta.add(jMenuItem3);
+        mnuCierreConta.add(mnuCierreAnual);
 
         mnuCierre.add(mnuCierreConta);
 
@@ -1841,7 +1846,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuHerramConta.add(mnuRecalcularConta);
 
-        mnuActuCat.setText("Actualizar movimientos contables");
+        mnuActuCat.setText("Aplicar asientos");
         mnuActuCat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuActuCatActionPerformed(evt);
@@ -1849,7 +1854,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuHerramConta.add(mnuActuCat);
 
-        mnuSumarizarCtasMayor.setText("Sumarizar cuentas de mayor");
+        mnuSumarizarCtasMayor.setText("Mayorización");
         mnuSumarizarCtasMayor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuSumarizarCtasMayorActionPerformed(evt);
@@ -1858,6 +1863,11 @@ public class Menu extends javax.swing.JFrame {
         mnuHerramConta.add(mnuSumarizarCtasMayor);
 
         mnuReabrirPer.setText("Re-abrir periodos cerrados");
+        mnuReabrirPer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuReabrirPerActionPerformed(evt);
+            }
+        });
         mnuHerramConta.add(mnuReabrirPer);
 
         mnuHerramientas.add(mnuHerramConta);
@@ -3070,31 +3080,72 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuLiquidacionDActionPerformed
 
     private void mnuCatalogoCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCatalogoCActionPerformed
-        TiposAsiento.main(CONEXION.getConnection());
-    }//GEN-LAST:event_mnuCatalogoCActionPerformed
-
-    private void mnuParmContActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuParmContActionPerformed
-        Configconta.main(CONEXION.getConnection());
-    }//GEN-LAST:event_mnuParmContActionPerformed
-
-    private void mnuImportCatalogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuImportCatalogoActionPerformed
+        String program = "TiposAsiento";
+        String descrip = "Mantenimiento de tipos de asiento";
         try {
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "ImportarCatalogo")) {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(),program)){
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null,
+            JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
+        TiposAsiento.main();
+    }//GEN-LAST:event_mnuCatalogoCActionPerformed
+
+    private void mnuParmContActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuParmContActionPerformed
+        String program = "ConfigConta";
+        String descrip = "Configurar interfase contable";
+        try {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(),program)){
+                JOptionPane.showMessageDialog(null,
+                        "Usted no está autorizado para ejecutar este proceso",
+                        "Error - Permisos",
+                        JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                return;
+            } // end if
+        } catch (Exception ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, 
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        Configconta.main(CONEXION.getConnection());
+    }//GEN-LAST:event_mnuParmContActionPerformed
+
+    private void mnuImportCatalogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuImportCatalogoActionPerformed
+        String program = "ImportarCatalogo";
+        String descrip = "Importar catálogo contable";
+        try {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(),program)){
+                JOptionPane.showMessageDialog(null,
+                        "Usted no está autorizado para ejecutar este proceso",
+                        "Error - Permisos",
+                        JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                return;
+            } // end if
+        } catch (Exception ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, 
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
 
         try {
             // Cargar el catálogo contable
@@ -3121,6 +3172,25 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuImportCatalogoActionPerformed
 
     private void mnuCatalogoContActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCatalogoContActionPerformed
+        String program = "CatalogoContable";
+        String descrip = "Mantenimiento del catálogo de cuentas";
+        try {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(),program)){
+                JOptionPane.showMessageDialog(null,
+                        "Usted no está autorizado para ejecutar este proceso",
+                        "Error - Permisos",
+                        JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                return;
+            } // end if
+        } catch (Exception ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, 
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         CatalogoContable.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuCatalogoContActionPerformed
 
@@ -3129,28 +3199,31 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jmnuNotifAutomActionPerformed
 
     private void mnuExportarAsientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuExportarAsientosActionPerformed
+        String program = "ExportarAsientos";
+        String descrip = "Exportar asientos";
         try {
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "ExportarAsientos")) {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(),program)){
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null,
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
+        
 
         try {
             ExportarAsientos.main(CONEXION.getConnection());
         } catch (JDBFException | IOException | SQLException ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -3160,7 +3233,26 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuExportarAsientosActionPerformed
 
     private void mnuPeriodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPeriodosActionPerformed
-        PeriodoContable.main(CONEXION.getConnection());
+        String program = "PeriodosContables";
+        String descrip = "Mantenimiento de periodos contables";
+        try {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(),program)){
+                JOptionPane.showMessageDialog(null,
+                        "Usted no está autorizado para ejecutar este proceso",
+                        "Error - Permisos",
+                        JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                return;
+            } // end if
+        } catch (Exception ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, 
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        PeriodoContable.main();
     }//GEN-LAST:event_mnuPeriodosActionPerformed
 
     private void mnuCierreCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCierreCajaActionPerformed
@@ -3335,7 +3427,25 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuCerrarSistemaActionPerformed
 
     private void mnuSumarizarCtasMayorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSumarizarCtasMayorActionPerformed
-        // Está pendiente la parte de seguridad
+        String program = "Mayorizacion";
+        String descrip = "Mayorizar cuentas";
+        try {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(),program)){
+                JOptionPane.showMessageDialog(null,
+                        "Usted no está autorizado para ejecutar este proceso",
+                        "Error - Permisos",
+                        JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                return;
+            } // end if
+        } catch (Exception ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, 
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         CoactualizCat actuCat = new CoactualizCat(CONEXION.getConnection());
         boolean exito = actuCat.sumarizarCuentas();
@@ -3351,7 +3461,25 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuSumarizarCtasMayorActionPerformed
 
     private void mnuRecalcularContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRecalcularContaActionPerformed
-        // Está pendiente la parte de seguridad
+        String program = "RecalcularMovConta";
+        String descrip = "Recalcular cuentas de movimiento";
+        try {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(),program)){
+                JOptionPane.showMessageDialog(null,
+                        "Usted no está autorizado para ejecutar este proceso",
+                        "Error - Permisos",
+                        JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                return;
+            } // end if
+        } catch (Exception ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, 
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         CoactualizCat actuCat = new CoactualizCat(CONEXION.getConnection());
         boolean exito = actuCat.recalcularSaldos();
@@ -3369,17 +3497,71 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuRecalcularContaActionPerformed
 
     private void mnuActuCatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuActuCatActionPerformed
-        // Está pendiente la parte de seguridad
+        String program = "AplicarAsientos";
+        String descrip = "Aplicar asientos";
+        try {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(),program)){
+                JOptionPane.showMessageDialog(null,
+                        "Usted no está autorizado para ejecutar este proceso",
+                        "Error - Permisos",
+                        JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                return;
+            } // end if
+        } catch (Exception ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, 
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         CoAplicaMov.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuActuCatActionPerformed
 
     private void mnuRepAsientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRepAsientosActionPerformed
-        // Está pendiente la parte de seguridad
+        String program = "RepAsientos";
+        String descrip = "Reporte de asientos";
+        try {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(),program)){
+                JOptionPane.showMessageDialog(null,
+                        "Usted no está autorizado para ejecutar este proceso",
+                        "Error - Permisos",
+                        JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                return;
+            } // end if
+        } catch (Exception ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, 
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         RepAsientos.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuRepAsientosActionPerformed
 
     private void mnuMovxctaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMovxctaActionPerformed
-        // Está pendiente la parte de seguridad
+        String program = "RepMovimCta";
+        String descrip = "Reporte de movimientos por cuenta";
+        try {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(),program)){
+                JOptionPane.showMessageDialog(null,
+                        "Usted no está autorizado para ejecutar este proceso",
+                        "Error - Permisos",
+                        JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                return;
+            } // end if
+        } catch (Exception ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, 
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         RepMovimCta.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuMovxctaActionPerformed
 
@@ -3634,6 +3816,25 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuAplicarSincActionPerformed
 
     private void mnuBalancesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBalancesActionPerformed
+        String program = "RepBalanceSituacion";
+        String descrip = "Reporte balance de situación";
+        try {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(),program)){
+                JOptionPane.showMessageDialog(null,
+                        "Usted no está autorizado para ejecutar este proceso",
+                        "Error - Permisos",
+                        JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                return;
+            } // end if
+        } catch (Exception ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, 
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         RepBalanceSituacion.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuBalancesActionPerformed
 
@@ -3663,6 +3864,25 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuImpAsientosActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        String program = "Balances";
+        String descrip = "Reporte balances";
+        try {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(),program)){
+                JOptionPane.showMessageDialog(null,
+                        "Usted no está autorizado para ejecutar este proceso",
+                        "Error - Permisos",
+                        JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                return;
+            } // end if
+        } catch (Exception ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, 
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         RepBalances.main(CONEXION.getConnection());
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
@@ -3772,6 +3992,25 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuConsXMLActionPerformed
 
     private void mnuMovAuxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMovAuxActionPerformed
+        String program = "ConsultaMovCierre";
+        String descrip = "Consulta de movimientos en los auxiliares";
+        try {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(),program)){
+                JOptionPane.showMessageDialog(null,
+                        "Usted no está autorizado para ejecutar este proceso",
+                        "Error - Permisos",
+                        JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                return;
+            } // end if
+        } catch (Exception ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, 
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         ConsultaMovCierre.main(new String[1]);
     }//GEN-LAST:event_mnuMovAuxActionPerformed
 
@@ -3807,18 +4046,95 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuImpPeriodosActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        String program = "RepCedulas";
+        String descrip = "Reporte de cédulas (contabilidad)";
+        try {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(),program)){
+                JOptionPane.showMessageDialog(null,
+                        "Usted no está autorizado para ejecutar este proceso",
+                        "Error - Permisos",
+                        JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                return;
+            } // end if
+        } catch (Exception ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, 
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         RepCedulas.main(new String[1]);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void mnuCompMensualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCompMensualActionPerformed
+        String program = "RepComparativoMensual";
+        String descrip = "Reporte comparativo mensual (contabilidad)";
+        try {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(),program)){
+                JOptionPane.showMessageDialog(null,
+                        "Usted no está autorizado para ejecutar este proceso",
+                        "Error - Permisos",
+                        JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                return;
+            } // end if
+        } catch (Exception ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, 
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         RepComparativoMensual.main(new String[1]);
     }//GEN-LAST:event_mnuCompMensualActionPerformed
 
     private void mnuCiereContaMensualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCiereContaMensualActionPerformed
+        String program = "CierreConta";
+        String descrip = "Ejecutar el cierre mensual contable";
+        try {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(),program)){
+                JOptionPane.showMessageDialog(null,
+                        "Usted no está autorizado para ejecutar este proceso",
+                        "Error - Permisos",
+                        JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                return;
+            } // end if
+        } catch (Exception ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, 
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         CierreConta.main(new String[1]);
     }//GEN-LAST:event_mnuCiereContaMensualActionPerformed
 
     private void mnuRegistroContableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRegistroContableActionPerformed
+        String program = "ConsultaPeriodoContable";
+        String descrip = "Consultar el período contable en proceso";
+        try {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(),program)){
+                JOptionPane.showMessageDialog(null,
+                        "Usted no está autorizado para ejecutar este proceso",
+                        "Error - Permisos",
+                        JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                return;
+            } // end if
+        } catch (Exception ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, 
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         logica.contabilidad.PeriodoContable per = new logica.contabilidad.PeriodoContable(CONEXION.getConnection());
         javax.swing.ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource("/Icons/calendar-day.png"));
         String periodo = "El periodo contable en proceso es " + per.getMesLetras() + " " + per.getAño();
@@ -3831,43 +4147,97 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuRegistroContableActionPerformed
 
     private void mnuAsientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAsientosActionPerformed
+        String program = "RegistroAsientos";
+        String descrip = "Registro de asientos";
         try {
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "RegistroAsientos")) {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(),program)){
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null,
+            JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
-
+        
         RegistroAsientos.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuAsientosActionPerformed
 
     private void mnuParERActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuParERActionPerformed
+        String program = "CuentasER";
+        String descrip = "Configurar estado de resultados";
+        try {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(),program)){
+                JOptionPane.showMessageDialog(null,
+                        "Usted no está autorizado para ejecutar este proceso",
+                        "Error - Permisos",
+                        JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                return;
+            } // end if
+        } catch (Exception ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, 
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         CocuentasER.main(new String[1]);
     }//GEN-LAST:event_mnuParERActionPerformed
 
     private void mnuEstResultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuEstResultActionPerformed
-
+        String program = "RepEstadoResultados";
+        String descrip = "Reporte estado de resultados";
+        try {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(),program)){
+                JOptionPane.showMessageDialog(null,
+                        "Usted no está autorizado para ejecutar este proceso",
+                        "Error - Permisos",
+                        JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                return;
+            } // end if
+        } catch (Exception ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, 
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         RepEstadoResultados.main(new String[1]);
-        //WriteXLSXFile w = new WriteXLSXFile(null, "/temp/test.xlsx", "Test", true);
-        //CreateXLSXFile.main(new String[1]);
-
-
     }//GEN-LAST:event_mnuEstResultActionPerformed
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+    private void mnuCierreAnualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCierreAnualActionPerformed
+        String program = "CierreContaAnual";
+        String descrip = "Ejecutar el cierre anual contable";
+        try {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(),program)){
+                JOptionPane.showMessageDialog(null,
+                        "Usted no está autorizado para ejecutar este proceso",
+                        "Error - Permisos",
+                        JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                return;
+            } // end if
+        } catch (Exception ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, 
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         CierreContaAnual.main(new String[1]);
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    }//GEN-LAST:event_mnuCierreAnualActionPerformed
 
     private void mnuCabysActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCabysActionPerformed
         // Poner un mensaje de confirmación
@@ -3887,6 +4257,14 @@ public class Menu extends javax.swing.JFrame {
     private void mnuVtasximpuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuVtasximpuestoActionPerformed
         RepVentasxImpuesto.main(new String[1]);
     }//GEN-LAST:event_mnuVtasximpuestoActionPerformed
+
+    private void mnuPromedioAnualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPromedioAnualActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mnuPromedioAnualActionPerformed
+
+    private void mnuReabrirPerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuReabrirPerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mnuReabrirPerActionPerformed
 
     public static void main(final DataBaseConnection c, final boolean disponible, final String url) {
 
@@ -3918,7 +4296,6 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JCheckBoxMenuItem chkMenuSistemaDisp;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator10;
     private javax.swing.JPopupMenu.Separator jSeparator11;
@@ -3986,6 +4363,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuCerrarSistema;
     private javax.swing.JMenuItem mnuCiereContaMensual;
     private javax.swing.JMenu mnuCierre;
+    private javax.swing.JMenuItem mnuCierreAnual;
     private javax.swing.JMenuItem mnuCierreCaja;
     private javax.swing.JMenu mnuCierreConta;
     private javax.swing.JMenu mnuCierreInventario;

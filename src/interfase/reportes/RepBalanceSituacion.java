@@ -61,7 +61,7 @@ public class RepBalanceSituacion extends JFrame {
         btnImprimir = new javax.swing.JButton();
         btnCerrar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        cboMes = new javax.swing.JComboBox();
+        cboMes = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         txtAno = new javax.swing.JFormattedTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -121,7 +121,7 @@ public class RepBalanceSituacion extends JFrame {
         jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel1.setText("Mes a procesar");
 
-        cboMes.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
+        cboMes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
 
         jLabel2.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel2.setText("Año");
@@ -586,23 +586,6 @@ public class RepBalanceSituacion extends JFrame {
     */
     public static void main(Connection c) {
         try {
-            if (!UtilBD.tienePermiso(c,"RepBalances")){
-                JOptionPane.showMessageDialog(null,
-                        "Usted no está autorizado para ejecutar este proceso",
-                        "Error - Permisos",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
-            } // end if
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, 
-                    ex.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-
-        try {
             RepBalanceSituacion run = new RepBalanceSituacion(c);
             run.setVisible(true);
         } catch (SQLException ex) { 
@@ -617,7 +600,7 @@ public class RepBalanceSituacion extends JFrame {
     private javax.swing.JButton btnCerrar;
     private javax.swing.JButton btnImprimir;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JComboBox cboMes;
+    private javax.swing.JComboBox<String> cboMes;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

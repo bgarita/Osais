@@ -635,23 +635,6 @@ public class RepAsientos extends JFrame {
     */
     public static void main(Connection c) {
         try {
-            if (!UtilBD.tienePermiso(c,"RepAsientos")){
-                JOptionPane.showMessageDialog(null,
-                        "Usted no está autorizado para ejecutar este proceso",
-                        "Error - Permisos",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
-            } // end if
-        } catch (Exception ex) {
-            Logger.getLogger(RepAsientos.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, 
-                    ex.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-        try {
             RepAsientos run = new RepAsientos(c);
             run.setVisible(true);
         } catch (SQLException ex) {
