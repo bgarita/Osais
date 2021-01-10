@@ -82,8 +82,8 @@ public class Menu extends javax.swing.JFrame {
      con las direcciones desde la 9 hasta la 3.
      Todo este proceso es transparente para el usuario.
      */
-    public static final String VERSIONN = "5.0r2";
-    private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Dic 2020";
+    public static final String VERSIONN = "5.0r3";
+    private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Ene 2021";
     public static String USUARIO;
     public static String PASS;
     private static String SERVIDOR;
@@ -2160,24 +2160,23 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuFacturacionActionPerformed
 
     private void mnuIntegridadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuIntegridadActionPerformed
+        String program = "Integridad";
+        String descrip = "Revisar integridad de base de datos";
         try {
-            // Bosco agregado 23/07/2011
-            // Integración del segundo nivel de seguridad.
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "Integridad")) {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(),program)){
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
-            }
-            // Fin Bosco agregado 23/07/2011
+            } // end if
         } catch (Exception ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null,
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         }
 
@@ -4263,7 +4262,29 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuPromedioAnualActionPerformed
 
     private void mnuReabrirPerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuReabrirPerActionPerformed
-        // TODO add your handling code here:
+        String program = "ReaperturaConta";
+        String descrip = "Re-abrir periodos contables";
+        try {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(),program)){
+                JOptionPane.showMessageDialog(null,
+                        "Usted no está autorizado para ejecutar este proceso",
+                        "Error - Permisos",
+                        JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                return;
+            } // end if
+        } catch (Exception ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, 
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        } // end try-catch
+        
+        
+        ReaperturaConta.main(new String[1]);
+        
     }//GEN-LAST:event_mnuReabrirPerActionPerformed
 
     public static void main(final DataBaseConnection c, final boolean disponible, final String url) {

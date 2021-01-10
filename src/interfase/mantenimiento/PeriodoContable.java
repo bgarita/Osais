@@ -35,6 +35,9 @@ public class PeriodoContable extends JFrame {
     
     private final Coperiodoco periodo;
     private final Bitacora b = new Bitacora();
+    
+    private boolean fin;
+    private boolean principio;
 
     /** Creates new form PeriodoContable
      * @throws java.sql.SQLException
@@ -53,6 +56,9 @@ public class PeriodoContable extends JFrame {
         } // end inner class
         ); // end Listener
                 
+        fin = false;
+        principio = true;
+        
         conn = Menu.CONEXION.getConnection();
 
         periodo = new Coperiodoco(conn);
@@ -64,6 +70,8 @@ public class PeriodoContable extends JFrame {
         this.txtDescrip.setText(periodo.getDescrip());
         this.datfecha_in.setDate(periodo.getFecha_in());
         this.datfecha_fi.setDate(periodo.getFecha_fi());
+        
+        principio = false;
         
     } // end constructor
 
@@ -258,6 +266,8 @@ public class PeriodoContable extends JFrame {
 }//GEN-LAST:event_mnuGuardarActionPerformed
 
     private void mnuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSalirActionPerformed
+        fin = true;
+        
         try {
             conn.close();
         } catch (SQLException ex) {
@@ -341,7 +351,16 @@ public class PeriodoContable extends JFrame {
 }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void datMesPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_datMesPropertyChange
+        if (this.fin){
+            return;
+        }
         txtDescrip.setText(periodo.toString(datMes.getMonth(), datAño.getValue()));
+        
+        if (this.principio){
+            return;
+        }
+        
+        // Esta parte solo debe correr cuando el usurio manipula los datos.
         int mes = datMes.getMonth();
         int año = datAño.getValue();
         periodo.setMes(mes);
@@ -391,7 +410,7 @@ public class PeriodoContable extends JFrame {
                 return;
             } // end if
         } catch (SQLException ex) {
-            Logger.getLogger(PeriodoContable.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                         ex.getMessage(),
                         "Error",
