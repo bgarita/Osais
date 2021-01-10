@@ -7,7 +7,7 @@ LANGUAGE SQL
 NOT DETERMINISTIC
 CONTAINS SQL
 SQL SECURITY DEFINER
-COMMENT ''
+COMMENT 'Reconstruir las tablas'
 BEGIN
 	/*
 	Autor:    Bosco Garita año 2010.
@@ -31,16 +31,22 @@ BEGIN
 	ALTER TABLE autoriz  		ENGINE = 'InnoDB'; 
 	ALTER TABLE babanco  		ENGINE = 'InnoDB'; 
 	ALTER TABLE bodexis  		ENGINE = 'InnoDB';
+	ALTER TABLE hbodexis  		ENGINE = 'InnoDB';
 	ALTER TABLE cadesglocem  	ENGINE = 'InnoDB'; 
 	ALTER TABLE cadesglocem2 	ENGINE = 'InnoDB'; 
 	ALTER TABLE caja    		ENGINE = 'InnoDB'; 
+	ALTER TABLE hcaja    		ENGINE = 'InnoDB'; 
 	ALTER TABLE cajero  		ENGINE = 'InnoDB'; 
 	ALTER TABLE casaldo 		ENGINE = 'InnoDB'; 
 	ALTER TABLE catransa    		ENGINE = 'InnoDB';
+	ALTER TABLE hcatransa   		ENGINE = 'InnoDB';
 	ALTER TABLE centrocosto 		ENGINE = 'InnoDB';
 	ALTER TABLE coasientod  		ENGINE = 'InnoDB';
 	ALTER TABLE coasientoe  		ENGINE = 'InnoDB'; 
+	ALTER TABLE hcoasientod  	ENGINE = 'InnoDB';
+	ALTER TABLE hcoasientoe  	ENGINE = 'InnoDB'; 
 	ALTER TABLE cocatalogo  		ENGINE = 'InnoDB';
+	ALTER TABLE hcocatalogo  	ENGINE = 'InnoDB';
 	ALTER TABLE coconsecutivo 	ENGINE = 'InnoDB';
 	ALTER TABLE comordencomprad 	ENGINE = 'InnoDB';
 	ALTER TABLE comOrdenCompraDDel ENGINE = 'InnoDB';
@@ -49,6 +55,7 @@ BEGIN
 	ALTER TABLE config 			ENGINE = 'InnoDB';
 	ALTER TABLE configcuentas 	ENGINE = 'InnoDB';
 	ALTER TABLE conteo   		ENGINE = 'InnoDB';
+	ALTER TABLE hconteo   		ENGINE = 'InnoDB';
 	ALTER TABLE coperiodoco 		ENGINE = 'InnoDB';
 	ALTER TABLE cotipasient 		ENGINE = 'InnoDB';
 	ALTER TABLE cxcotros 		ENGINE = 'InnoDB';
@@ -61,14 +68,18 @@ BEGIN
 	ALTER TABLE faencabe 		ENGINE = 'InnoDB';
 	ALTER TABLE faexpress 		ENGINE = 'InnoDB';
 	ALTER TABLE fatext   		ENGINE = 'InnoDB';
+	ALTER TABLE faestadodocelect	ENGINE = 'InnoDB';
 	ALTER TABLE inarticu 		ENGINE = 'InnoDB';
+	ALTER TABLE hinarticu 		ENGINE = 'InnoDB';
 	ALTER TABLE inarticu_sinc 	ENGINE = 'InnoDB';
 	ALTER TABLE inclient 		ENGINE = 'InnoDB';
+	ALTER TABLE hinclient 		ENGINE = 'InnoDB';
 	ALTER TABLE inconsecutivo 	ENGINE = 'InnoDB';
 	ALTER TABLE infamily   		ENGINE = 'InnoDB';
 	ALTER TABLE inmovimd   		ENGINE = 'InnoDB';
 	ALTER TABLE inmovime   		ENGINE = 'InnoDB';
 	ALTER TABLE inproved   		ENGINE = 'InnoDB'; 
+	ALTER TABLE hinproved   		ENGINE = 'InnoDB'; 
 	ALTER TABLE inservice  		ENGINE = 'InnoDB';
 	ALTER TABLE intiposdoc 		ENGINE = 'InnoDB';
 	ALTER TABLE liquidaciondiaria ENGINE = 'InnoDB';
@@ -97,6 +108,7 @@ BEGIN
 	ALTER TABLE wrk_fadetall 	ENGINE = 'InnoDB';
 	ALTER TABLE wrk_faencabe 	ENGINE = 'InnoDB';
 	ALTER TABLE tarifa_iva		ENGINE = 'InnoDB';
+	ALTER TABLE htarifa_iva		ENGINE = 'InnoDB';
 	ALTER TABLE saisystem.notificado ENGINE = 'InnoDB'; 
 END$$
 

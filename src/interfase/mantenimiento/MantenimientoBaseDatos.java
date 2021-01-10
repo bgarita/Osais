@@ -97,7 +97,7 @@ public class MantenimientoBaseDatos extends Thread {
                 try {
                     CMD.transaction(conn, CMD.ROLLBACK);
                 } catch (SQLException ex) {
-                    Logger.getLogger(MantenimientoBaseDatos.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                     ma.setMessage(ex.getMessage());
                     b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 }

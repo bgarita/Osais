@@ -427,6 +427,7 @@ public class CoactualizCat {
         try {
             if (exito){
                 CMD.transaction(conn, CMD.COMMIT);
+                this.mensaje_err = "";
             } else {
                 CMD.transaction(conn, CMD.ROLLBACK);
             } // end if
@@ -540,6 +541,10 @@ public class CoactualizCat {
                 b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             }
         } // end if
+        
+        if (exito){
+            this.mensaje_err = "";
+        }
         
         return exito;
     } // end recalcularSaldos

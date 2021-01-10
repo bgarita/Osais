@@ -52,14 +52,12 @@ PENDIENTE
 
 
 --- CONTABILIDAD ---
-Contabilidad #4 (parqueo don Mincho)
--   Solo está pendiente realizar más pruebas...
-*******************************************************************************
-Notas:
+Pendiente:
 1. Revisar y ajustar la interfaz para cuando se registra una compra desde
     la pantalla de registro de entradas de inventario (por compra).             LISTO, pero queda para otra etapa enviar el detalle de los impuestos.
 2. Incluir funcionalidad para las cuentas restringidas.
-3. Incluir toda la parte de seguridad para contabilidad.
+3. Crear proceso de reapertura de periodos cerrados                             LISTO
+5. Crear proceso comparativo anual
 *******************************************************************************
 
 

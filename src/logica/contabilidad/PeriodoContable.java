@@ -80,8 +80,8 @@ public class PeriodoContable {
             rs = CMD.select(ps);
             if (rs == null || !rs.first() || rs.getInt("mesActual") != this.mes || rs.getInt("añoActual") != this.año){
                 ps.close();
-                throw new SQLException(
-                        "Hay una incongruencia entre la configuración de los periodos contables y el mes de proceso actual.");
+                this.error_msg = "Hay una incongruencia entre la configuración de los periodos contables y el mes de proceso actual.";
+                throw new SQLException(error_msg);
             } // end if
             ps.close();
         } catch (SQLException ex) {

@@ -19,7 +19,7 @@ import logica.utilitarios.Ut;
  * @author Bosco Garita A. 07/11/2013
  */
 public class Coperiodoco implements IEstructuraBD {
-    private int mes;            // Mes contable
+    private int mes;            // Mes contable (mes java 0-11)
     private int año;            // Año contable
     private String descrip;     // Descripción
     private Date fecha_in;      // Fecha inicial del mes contable
@@ -57,6 +57,10 @@ public class Coperiodoco implements IEstructuraBD {
     // </editor-fold>  
     
     // <editor-fold defaultstate="collapsed" desc="Métodos accesorios">
+    /**
+     * Obtener el mes según java (0-11)
+     * @return 
+     */
     public int getMes() {
         return mes;
     }
@@ -82,6 +86,10 @@ public class Coperiodoco implements IEstructuraBD {
         return this.periodoco;
     }
 
+    /**
+     * Establecer el mes (tipo java 0-11)
+     * @param mes int (0-11)
+     */
     public void setMes(int mes) {
         this.mes = mes;
         cargar();
@@ -187,7 +195,7 @@ public class Coperiodoco implements IEstructuraBD {
                 for (int i = 0; i < periodoco.length; i++){
                     rs.absolute(i+1);
                     periodoco[i] = new Coperiodoco(conn);
-                    periodoco[i].mes = rs.getInt("mes") + 1;
+                    periodoco[i].mes = rs.getInt("mes") - 1; // Mes java
                     periodoco[i].año = rs.getInt("año");
                     periodoco[i].descrip = rs.getString("descrip");
                     periodoco[i].fecha_in = rs.getDate("fecha_in");
@@ -388,6 +396,8 @@ public class Coperiodoco implements IEstructuraBD {
                 fecha_in = rs.getDate("fecha_in");
                 fecha_fi = rs.getDate("fecha_fi");
                 cerrado = rs.getBoolean("cerrado");
+                mes = Ut.getDatePart(fecha_in, Ut.MES);
+                año = Ut.getDatePart(fecha_in, Ut.AÑO);
             } // end if
             ps.close();
         } catch (SQLException ex) {
@@ -400,6 +410,41 @@ public class Coperiodoco implements IEstructuraBD {
         
     } // end cargarUltimo
     
+    public void cargarUltimoCerrado() {
+        String sqlSent = 
+                "Select * from " + tabla + " " +
+                "Where fecha_fi = (Select max(fecha_fi) from " + tabla + " WHERE cerrado = 1)" +
+                "AND mes < 13";
+        PreparedStatement ps;
+        ResultSet rs;
+        try {
+            ps = conn.prepareStatement(sqlSent, 
+                    ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            rs = CMD.select(ps);
+            
+            setDefaultValues();
+            
+            if (rs != null && rs.first()){
+                descrip = rs.getString("descrip");
+                fecha_in = rs.getDate("fecha_in");
+                fecha_fi = rs.getDate("fecha_fi");
+                cerrado = rs.getBoolean("cerrado");
+                mes = Ut.getDatePart(fecha_in, Ut.MES);
+                año = Ut.getDatePart(fecha_in, Ut.AÑO);
+            } // end if
+            ps.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Coperiodoco.class.getName()).log(Level.SEVERE, null, ex);
+            this.error = true;
+            this.mensaje_error = ex.getMessage();
+            this.descrip = "";
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+        } // end try-catch
+        
+    } // end cargarUltimoCerrado
+    
+    
+    // IMPORTANTE: La función Ut.mesLetras() recibe mes java (0-11).
     @Override
     public String toString(){
         String mesLetras = Ut.mesLetras(mes) + ", " + año;
