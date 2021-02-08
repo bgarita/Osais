@@ -289,7 +289,9 @@ public class DocumentoElectronico {
                 logFile = dir + facnume + "_C.log";
             } // end if
 
-            String cmd = dir + "EnviarFactura2.exe " + xmlFile + " " + facnume + " 1 " + tipoDoc;
+            String cmd 
+                    = dir + "EnviarFactura2.exe " + xmlFile + " " + facnume + " 1 " 
+                    + tipoDoc + " " + Menu.BASEDATOS;
 
             Process p = Runtime.getRuntime().exec(cmd);
 

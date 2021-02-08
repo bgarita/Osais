@@ -245,8 +245,13 @@ public class ConsultaFacturasXML extends javax.swing.JFrame {
                 return;
             } // end if
         } // end if
-
-        String cmd = dirXMLS + "EnviarFactura2.exe " + ref + " " + documento + " 2 " + tipo;
+        
+        // Menu.BASEDATOS representa el homedir para cada compañía.  Nota: tomar en cuenta
+        // que no es una ruta completa sino el nombre de la subcarpeta que está dentro de
+        // la carpeta de instalación del sistema.
+        
+        //String cmd = dirXMLS + "EnviarFactura2.exe " + ref + " " + documento + " 2 " + tipo;
+        String cmd = dirXMLS + "EnviarFactura2.exe " + ref + " " + documento + " 2 " + tipo + " " + Menu.BASEDATOS;
         try {
             // Este proceso es únicamente windows por lo que no debe correr en Linux
             String os = Ut.getProperty(Ut.OS_NAME).toLowerCase();

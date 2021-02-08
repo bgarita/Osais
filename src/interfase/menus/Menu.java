@@ -147,15 +147,15 @@ public class Menu extends javax.swing.JFrame {
         } // end try-catch
         // Fin Bosco agregado 19/07/2019
 
-        // Estructura de carpetas del sistema.
-        DIR = new DirectoryStructure();
-
         CONEXION = c;
         Menu.USUARIO = c.getUserID();
         Menu.BASEDATOS = c.getDataBaseName();
         Menu.url = url;
         Menu.OS_NAME = Ut.getProperty(Ut.OS_NAME);
         Menu.PORT = Ut.getConnectionPort(url);
+        
+        // Estructura de carpetas del sistema.
+        DIR = new DirectoryStructure();
 
         this.setExtendedState(Frame.MAXIMIZED_BOTH);
 

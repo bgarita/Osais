@@ -30,6 +30,8 @@ import logica.DocumentoElectronico;
  */
 public class ImpresionFactura extends java.awt.Dialog {
 
+    private static final long serialVersionUID = 111L;
+
     private Connection conn;  // Conexión a la base de datos
     private String documento; // Factura, ND, NC (corresponde al campo FACNUME)
     private String facnd;     // Corres ponde al campo (FACND)

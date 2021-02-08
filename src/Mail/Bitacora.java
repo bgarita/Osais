@@ -30,7 +30,22 @@ public class Bitacora {
 
     public Bitacora() {
         this.error_message = "";
-        this.logFile = new File("log.txt");
+        
+        // Cuando el sistema recién inicia el menú aún no ha sido instanciado.  Por esa
+        // razón es necesario que la bitácora del sistema se cree en el home y no en el
+        // companyHone. (solo se da cuando ocurre un error antes del menú).
+        try {
+            this.logFile = new File(Menu.DIR.getSystemLog() + Ut.getProperty(Ut.FILE_SEPARATOR)+ "log.txt");
+            
+            // Si la carpeta no existe se crea.
+            File folder = new File(Menu.DIR.getSystemLog());
+            if (!folder.exists()) {
+                folder.mkdir();
+            } // end if
+        } catch (Exception ex){
+            this.logFile = new File("log.txt");
+        }
+        
         setLogFile();
         this.logLevel = Bitacora.ERROR; // Nivel default
 

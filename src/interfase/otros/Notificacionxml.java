@@ -286,7 +286,8 @@ public class Notificacionxml extends Thread {
                 
                 cmd = dirXMLS + "EnviarFactura2.exe "
                         + rs.getString("referencia") + " "
-                        + rs.getString("facnume") + " 2 " + rs.getString("tipo");
+                        + rs.getString("facnume") + " 2 " + rs.getString("tipo") 
+                        + " " + Menu.BASEDATOS;
                 Process p = Runtime.getRuntime().exec(cmd);
             } // end while
             ps.close();

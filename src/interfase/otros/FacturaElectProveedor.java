@@ -25,8 +25,6 @@ import javax.swing.JFileChooser;
 import static javax.swing.JFileChooser.OPEN_DIALOG;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
-//import javax.xml.bind.JAXBContext;
-//import javax.xml.bind.Marshaller;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import logica.utilitarios.Ut;
@@ -338,7 +336,9 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
         
         // Bosco modificado 21/07/2019
         //String cmd = dirXMLS + "EnviarFactura.exe " + xmlEnviar + " " + respuestaHacienda + " 3"; // Enviar respuesta
-        String cmd = dirXMLS + "EnviarFactura2.exe " + xmlEnviar + " " + this.getTipoCedulaEmisor(f) + " 3"; // Enviar respuesta
+        String cmd 
+                = dirXMLS + "EnviarFactura2.exe " + xmlEnviar + " " 
+                + this.getTipoCedulaEmisor(f) + " 3" + " " + Menu.BASEDATOS; // Enviar respuesta
 
         // DEBUG:
         //JOptionPane.showMessageDialog(null, "CMD = " + cmd);
@@ -418,7 +418,9 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
         try {
             String dirXMLS = Menu.DIR.getXmls() + Ut.getProperty(Ut.FILE_SEPARATOR);
 
-            String cmd = dirXMLS + "EnviarFactura2.exe " + documento + " " + documento + " 4 " + tipoXML;
+            String cmd 
+                    = dirXMLS + "EnviarFactura2.exe " + documento + " " + documento 
+                    + " 4 " + tipoXML + " " + Menu.BASEDATOS;
 
             //JOptionPane.showMessageDialog(null, cmd);
             // Este proceso es únicamente windows por lo que no debe correr en Linux

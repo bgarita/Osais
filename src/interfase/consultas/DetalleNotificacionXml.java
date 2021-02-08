@@ -706,7 +706,7 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
         DocumentoElectronico doc = new DocumentoElectronico(0, 0, "", conn);
         String tipo = doc.getTipoDoc(ref);
         String documento = tblDocumentosXML.getValueAt(row, 0).toString();
-        String cmd = dirXMLS + "EnviarFactura2.exe " + ref + " " + documento + " 2 " + tipo;
+        String cmd = dirXMLS + "EnviarFactura2.exe " + ref + " " + documento + " 2 " + tipo + " " + Menu.BASEDATOS;
         try {
             // Este proceso es únicamente windows por lo que no debe correr en Linux
             String os = Ut.getProperty(Ut.OS_NAME).toLowerCase();
