@@ -5,6 +5,12 @@
  */
 package interfase.otros;
 
+import MVC.controller.geofrafia.CantonC;
+import MVC.controller.geofrafia.DistritoC;
+import MVC.controller.geofrafia.ProvinciaC;
+import MVC.model.geografia.CantonM;
+import MVC.model.geografia.DistritoM;
+import MVC.model.geografia.ProvinciaM;
 import Mail.Bitacora;
 import accesoDatos.UtilBD;
 import java.sql.Connection;
@@ -17,12 +23,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import MVC.controller.geofrafia.CantonC;
-import MVC.controller.geofrafia.DistritoC;
-import MVC.controller.geofrafia.ProvinciaC;
-import MVC.model.geografia.CantonM;
-import MVC.model.geografia.DistritoM;
-import MVC.model.geografia.ProvinciaM;
 import logica.utilitarios.SQLInjectionException;
 import logica.utilitarios.Ut;
 
@@ -44,7 +44,7 @@ public class Empresa extends JFrame {
     private int codigoP;    // Código de provincia
     private int codigoC;    // Código de cantón
     private int codigoD;    // Código de distrito
-
+    
     private boolean inicio;
 
     /**
@@ -61,7 +61,7 @@ public class Empresa extends JFrame {
         String sqlSelect
                 = "Select "
                 + "     Empresa, Direccion, CedulaJur, Cierre, telefono1, "
-                + "     provincia, canton, distrito, tipoID "
+                + "     provincia, canton, distrito, tipoID, codigoAtividadEconomica "
                 + "From config";
         try {
             ps = conn.prepareStatement(sqlSelect);
@@ -84,6 +84,7 @@ public class Empresa extends JFrame {
             this.codigoP = rs.getInt("provincia");
             this.codigoC = rs.getInt("canton");
             this.codigoD = rs.getInt("distrito");
+            this.txtCodigoActividadEconomica.setText(rs.getString("codigoAtividadEconomica"));
             
             cboIdTipo.setSelectedIndex(rs.getInt("tipoID") - 1);
 
@@ -154,7 +155,10 @@ public class Empresa extends JFrame {
         cboCanton = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         cboDistrito = new javax.swing.JComboBox<>();
-        cboIdTipo = new javax.swing.JComboBox();
+        cboIdTipo = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
+        txtCodigoActividadEconomica = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuArchivo = new javax.swing.JMenu();
         mnuGuardar = new javax.swing.JMenuItem();
@@ -163,9 +167,9 @@ public class Empresa extends JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Datos de la empresa");
 
-        txtEmpresa.setColumns(40);
+        txtEmpresa.setColumns(80);
         try {
-            txtEmpresa.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("U************************************************************")));
+            txtEmpresa.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("U*****************************************************************************************************************************************************")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
@@ -287,9 +291,17 @@ public class Empresa extends JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        cboIdTipo.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        cboIdTipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Cédula Persona Física", "Cédula Persona Jurídica", "Documento de Identificación Migratorio para Extranjeros (DIMEX)", "Número de Identificación Tributario Especial (NITE) " }));
+        cboIdTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cédula Persona Física", "Cédula Persona Jurídica", "Documento de Identificación Migratorio para Extranjeros (DIMEX)", "Número de Identificación Tributario Especial (NITE) " }));
         cboIdTipo.setToolTipText("Tipo de identificación segun Hacienda");
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel7.setText("Actividad económica");
+
+        txtCodigoActividadEconomica.setText("0");
+        txtCodigoActividadEconomica.setToolTipText("Código de actividad económica");
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel8.setText("Tipo");
 
         mnuArchivo.setText("Archivo");
 
@@ -321,40 +333,46 @@ public class Empresa extends JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(433, Short.MAX_VALUE)
+                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addComponent(jLabel2)
-                        .addGap(22, 22, 22)
-                        .addComponent(txtCedulaJur, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
+                        .addGap(44, 44, 44)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtEmpresa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(22, 22, 22)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cboIdTipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(txtCierre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtCodigoActividadEconomica, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cboIdTipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtCedulaJur, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel3)
-                                .addGap(22, 22, 22)
-                                .addComponent(txtTelefono1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(20, 20, 20))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                                .addGap(10, 10, 10)
+                                .addComponent(txtTelefono1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(txtEmpresa, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
+                        .addGap(10, 10, 10))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnGuardar, btnSalir});
@@ -368,28 +386,34 @@ public class Empresa extends JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtCedulaJur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cboIdTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCierre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(txtCedulaJur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
                     .addComponent(txtTelefono1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 49, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cboIdTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel7)
+                        .addComponent(txtCodigoActividadEconomica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtCierre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(4, 4, 4))
+                .addContainerGap())
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnGuardar, btnSalir});
 
-        setSize(new java.awt.Dimension(603, 472));
+        setSize(new java.awt.Dimension(603, 477));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -492,7 +516,7 @@ public class Empresa extends JFrame {
     private javax.swing.JButton btnSalir;
     private javax.swing.JComboBox<String> cboCanton;
     private javax.swing.JComboBox<String> cboDistrito;
-    private javax.swing.JComboBox cboIdTipo;
+    private javax.swing.JComboBox<String> cboIdTipo;
     private javax.swing.JComboBox<String> cboProvincia;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -500,6 +524,8 @@ public class Empresa extends JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
@@ -509,20 +535,23 @@ public class Empresa extends JFrame {
     private javax.swing.JTextArea txaDireccion;
     private javax.swing.JTextField txtCedulaJur;
     private javax.swing.JTextField txtCierre;
+    private javax.swing.JTextField txtCodigoActividadEconomica;
     private javax.swing.JFormattedTextField txtEmpresa;
     private javax.swing.JFormattedTextField txtTelefono1;
     // End of variables declaration//GEN-END:variables
 
     private void guardarRegistro() {
         int regAfectados = 0;
-        String empresa = this.txtEmpresa.getText().trim();
+        String empresa   = this.txtEmpresa.getText().trim();
         String direccion = this.txaDireccion.getText().trim();
         String cedulajur = this.txtCedulaJur.getText().trim();
         String telefono1 = this.txtTelefono1.getText().trim();
+        String codActEc  = this.txtCodigoActividadEconomica.getText().trim();
         String sqlUpdate
                 = "Update config "
                 + "     Set empresa = ?, direccion = ?, cedulajur = ?, "
-                + "     telefono1 = ?, provincia = ?, canton = ?, distrito = ?, tipoID = ?";
+                + "     telefono1 = ?, provincia = ?, canton = ?, distrito = ?, "
+                + "     tipoID = ?, codigoAtividadEconomica = ? ";
         // *** ================================================== ***
         // Validaciones
         if (empresa.isEmpty()) {
@@ -535,14 +564,14 @@ public class Empresa extends JFrame {
             return;
         } // end if
 
-        if (empresa.length() > 60) {
+        if (empresa.length() > 150) {
             JOptionPane.showMessageDialog(
                     null,
-                    "La longitud máxima para el nombre de la empresa es 60.\n"
-                    + "Solo se guardarán los primeros 60 caracteres.",
+                    "La longitud máxima para el nombre de la empresa es 150.\n"
+                    + "Solo se guardarán los primeros 150 caracteres.",
                     "Advertencia",
                     JOptionPane.WARNING_MESSAGE);
-            empresa = empresa.substring(0, 59);
+            empresa = empresa.substring(0, 149);
             txtEmpresa.setText(empresa);
         } // end if
 
@@ -614,6 +643,8 @@ public class Empresa extends JFrame {
             ps.setInt(7, codigoD);
             short idtipo = (short) (cboIdTipo.getSelectedIndex() + 1);
             ps.setShort(8, idtipo);
+            ps.setString(9, codActEc);
+            
             regAfectados = ps.executeUpdate();
         } catch (SQLInjectionException | SQLException ex) {
             JOptionPane.showMessageDialog(

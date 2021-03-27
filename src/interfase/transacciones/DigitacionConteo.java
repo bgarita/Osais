@@ -730,36 +730,39 @@ public class DigitacionConteo extends JFrame {
         if (row < 0 || col != 3){
             return;
         } // end if
-        
         // Si el usuario presionó ENTER o DOWN...
-        if(evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER || 
-                evt.getKeyCode() == java.awt.event.KeyEvent.VK_DOWN){
-            // ... sumo 1 a la fila.
-            row++;
-            if (row >= tblConteo.getRowCount()){
+        switch (evt.getKeyCode()) {
+            case java.awt.event.KeyEvent.VK_ENTER:
+            case java.awt.event.KeyEvent.VK_DOWN:
+                // ... sumo 1 a la fila.
+                row++;
+                if (row >= tblConteo.getRowCount()){
+                    return;
+                } // end if
+                // Si el usuario presionó ARRIBA...
+                break;
+            case java.awt.event.KeyEvent.VK_UP:
+                // ... resto 1 a la fila.
+                row--;
+                if (row < 0){
+                    return;
+                } // end if
+                // Si el usuario presionó CTRL...
+                break;
+            case java.awt.event.KeyEvent.VK_CONTROL:
+                // ... guardo el valor de la celda correspondiente para que el
+                // usuario vea el valo anterior y luego la seteo con null
+                if (tblConteo.getValueAt(row, col) != null){
+                    lblCantidadAnterior.setText(tblConteo.getValueAt(row, col).toString());
+                } else {
+                    lblCantidadAnterior.setText("0");
+                }
+                tblConteo.setValueAt(null, row, col);
                 return;
-            } // end if
-            // Si el usuario presionó ARRIBA...
-        } else if(evt.getKeyCode() == java.awt.event.KeyEvent.VK_UP){
-            // ... resto 1 a la fila.
-            row--;
-            if (row < 0){
+            default:
+                // Si el usuario no presionó ENTER, UP, DOWN o CTRL
                 return;
-            } // end if
-            // Si el usuario presionó CTRL...
-        } else if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_CONTROL){
-            // ... guardo el valor de la celda correspondiente para que el
-            // usuario vea el valo anterior y luego la seteo con null
-            if (tblConteo.getValueAt(row, col) != null){
-                lblCantidadAnterior.setText(tblConteo.getValueAt(row, col).toString());
-            } else {
-                lblCantidadAnterior.setText("0");
-            }
-            tblConteo.setValueAt(null, row, col);
-            return;
-        } else { // Si el usuario no presionó ENTER, UP, DOWN o CTRL
-            return;
-        } // end if-else-if
+        }
         
         // Guardo el valor anterior de la celda.
         if (tblConteo.getValueAt(row, col) != null){

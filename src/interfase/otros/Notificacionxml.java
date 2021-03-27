@@ -4,7 +4,6 @@ import Mail.Bitacora;
 import accesoDatos.CMD;
 import interfase.consultas.DetalleNotificacionXml;
 import interfase.menus.Menu;
-import java.io.IOException;
 import static java.lang.Thread.sleep;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,6 +12,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import logica.DocumentoElectronico;
 import logica.utilitarios.Ut;
 
 /**
@@ -240,6 +240,7 @@ public class Notificacionxml extends Thread {
         String sqlSent
                 = "Select     "
                 + "   a.facnume,     "
+                + "   a.facnd,       "
                 + " 	a.referencia, "
                 + " 	CASE    "
                 + " 		When a.facnd = 0 then 'FAC'    "
@@ -270,27 +271,14 @@ public class Notificacionxml extends Thread {
             return;
         } // end try-catch
 
-        String dirXMLS = Menu.DIR.getXmls() + Ut.getProperty(Ut.FILE_SEPARATOR);
-        String cmd;
-
         try {
-            // Hacer una pausa de 1 segundo cada 10 ejecuciones para evitar
-            // que se sature la memoria (en máquinas de poca capacidad).
-            int count = 0;
+            DocumentoElectronico docEl;
             while (rs != null && rs.next()) {
-                count++;
-                if (count == 10){
-                    Thread.sleep(1000);
-                    count = 0;
-                } // end if
-                
-                cmd = dirXMLS + "EnviarFactura2.exe "
-                        + rs.getString("referencia") + " "
-                        + rs.getString("facnume") + " 2 " + rs.getString("tipo");
-                Process p = Runtime.getRuntime().exec(cmd);
+                docEl = new DocumentoElectronico(rs.getInt("facnume"), rs.getInt("facnd"), "V", conn, "2");
+                docEl.enviarXML();
             } // end while
             ps.close();
-        } catch (SQLException | IOException | InterruptedException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(Notificacionxml.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),

@@ -26,18 +26,36 @@ PENDIENTE
     con el nombre de la base de datos.
     Esto permite que se ajuste el resto de las variables que definen la estructura
     de carpetas que usa el sistema para efectos de mantener todos los archivos separados
-    especialmente los xmls.
+    especialmente los xmls. 
+    Ver C:\Java Programs\osais\Documentación\Estructuras y manuales\Estructura de directorios.dia   LISTO
 
-2.  Agregar función a esta misma clase para que guarde en un archivo de texto todos
+2.  Agregar función a esta misma clase para que guarde en un archivo de Json todos                  LISTO
     los valores de las constantes para que la herramienta de FE en windows lo pueda leer.
 
-3.  Agregar otra constante systemLog a esa misma clase y modificar la clase Bitacorja.java 
+3.  Agregar otra constante systemLog a esa misma clase y modificar la clase Bitacorja.java          LISTO (Depurar facturación para validar que se busque el módulo de FE y el xml en el lugar correcto).  Luego habrá que probar que el módulo de FE lea correctamente la carpeta de los xmls
     para que utilice esa constante.  También se debe modificar esa misma clase para que
     el nombre del archivo que se genera ya no sea log.txt sino que sea el nombre de la
     base de datos.
     En base de datos no se requieren cambios ya que lo que se guarda en saisystem,
     específicamente en la tabla notificado ya lleva una columna llamada basedatos,
     que en la práctica es lo mismo que compañía.
+
+
+    NOTAS: (Pendiente por resolver)
+    1. El .exe está tomando la carpeta del .jar como la carpeta default y por esa razón no está encontrando 
+       el json con la estructurea de directorios.  Pero esta estructura debe estar en el companyHome.   RESUELTO
+    2. Si se corre el programa .exe desde el companyHome si encuentra el archivo json pero no se puede 
+       hacer eso desde java además no encuentra el archivo UserConfig.txt 
+       (que en realidad también debería estar en el companyHome)                            RESUELTO
+       Ese archivo es utilizado por el ejecutable de C# para conectarse a la base de datos (clase Configuracion.cs)  Lo que habría que hacer
+       es modificar la clase Configuracion.cs para que en el constructor reciba la carpeta home (o jsonFileLocation).  
+       Ese string se le envía desde la clase Enviarfactura.cs que ya lo tiene listo.
+    3. Ejemplo de consulta: C:\Java Programs\osais\laflor\xmls\EnviarFactura2.exe 442748 10006096 2 FAC laflor
+       Esta prueba resultó existosa.  Ahora hay que modificar el sistema para que envíe ese último parámetro (companyHome) 
+       y validar los resultados.                    VALIDACIÓN EXITOSA.
+    4. Revisar el programa en C# y luego hacer pruebas pero sin conexión a internet para que el error que se produzca
+       sea el de autenticación únicamente.          VALIDACIÓN EXITOSA. Solo falta hacer pruebas en producción y validar resultados.
+    
 
 4.  Analizar el sistema de Factura electrónica (windows) para para que utilice los valores 
     guardados por la clase del punto 2.  Estos valores serán siempre relativos al home
@@ -59,10 +77,6 @@ Pendiente:
 3. Crear proceso de reapertura de periodos cerrados                             LISTO
 5. Crear proceso comparativo anual
 *******************************************************************************
-
-
-USAR EL ASIENTO 112011 TIPO 1 COMO EJEMPLO PARA VER QUÉ CUENTA VA AL HABER Y CUAL AL DEBE
-- Reabrir periodos
 
 Mejora: Hacer que la contabilidad sea multi-moneda
     1.  Agregar el codigo de moneda y el tipo de cambio en las tablas transaccionales
@@ -117,14 +131,20 @@ se debe hacer lo siguiente:
    el código cabys. (Pendiente Cálculo de utilidades y AGREGAR UN NUEVO ARTÍCULO) 
    para el cálculo debe decidir cuál porcentaje tomar.
 7. Modificar los SPs ReservarFactura y AgregarFactura para que decidan que valor usar                       2 horas         LISTO   Factura # 83
-8. Modificar la pantalla de facturación para que decida cuando usar cabys y cuando tarifa                   2 horas         LISTO
+8. Modificar la pantalla de facturación para que decida cuando usar cabys y cuando tarifa                   2 horas         LISTO   Factura # 86
    dependiendo del parámetro usaCabys que está en config
-9. Modificar el proceso de generación del XML para que incluya el nuevo campo en facturas y tiquetes y      4 horas         LISTO
+9. Modificar el proceso de generación del XML para que incluya el nuevo campo en facturas y tiquetes y      4 horas         LISTO   Factura # 86
    use el valor de cabys. (Ya el código cabys aparece en el xml) Faltan las pruebas con Hacienda.
-10.Modificar el proceso de generación del XML para que incluya el nuevo campo en NC/ND y                    2 horas         LISTO
+10.Modificar el proceso de generación del XML para que incluya el nuevo campo en NC/ND y                    2.25 horas      LISTO   Factura # 90
    use el valor de cabys. (Ya el código cabys aparece en el xml) Faltan las pruebas con Hacienda
-10. Pruebas y depuración con el ambiente de pruebas de Hacienda                                             4 horas         LISTO
+10. Pruebas y depuración con el ambiente de pruebas de Hacienda                                             4 horas         LISTO   Factura # 90
 
 
+
+
+MEJORAS:
+1. Poner el código de actividad y el tipo de cédula como un parámetro en config. 
+   (Se modifica la tabla, la pantalla y el sistema de FE en C#)
+2. 
 
 NOTA: El precio de actualización para la contabilidad es de 170 dólares.

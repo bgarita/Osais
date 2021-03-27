@@ -2,6 +2,7 @@ package Mail;
 
 import accesoDatos.CMD;
 import interfase.menus.Menu;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,7 +29,7 @@ public class EnviarCorreoFE {
     private boolean error;
     private String error_msg;
     Bitacora b = new Bitacora();
-    
+
     public EnviarCorreoFE() {
         this.facnume = 0;
         this.facnd = 0;
@@ -42,9 +43,6 @@ public class EnviarCorreoFE {
         this.error_msg = "";
         this.setPdfFolder();
         this.setXmlFolder();
-
-        /*PENDING*/
-        // Agregar la variable de signedXmlFolder y sus setter y getter
     } // end constructor
 
     public int getFacnume() {
@@ -132,9 +130,8 @@ public class EnviarCorreoFE {
      * Enviar el pdf y el xml al cliente.
      *
      * @author Bosco Garita, Octubre 2018
-     * @param senderMask String se usa para enmascarar el remitente para que
-     * quien reciba el correo responda a esta dirección y no al que realmente
-     * está enviando.
+     * @param senderMask String se usa para enmascarar el remitente para que quien reciba
+     * el correo responda a esta dirección y no al que realmente está enviando.
      * @param conn Connection Conexón con la base de datos.
      * @return boolean true=Exito, false=Fallido
      */
@@ -144,6 +141,7 @@ public class EnviarCorreoFE {
         String pdfFile = this.pdfFolder + Ut.getProperty(Ut.FILE_SEPARATOR);
         String xmlFile = this.xmlFolder + Ut.getProperty(Ut.FILE_SEPARATOR);
         String signedXmlFile = this.signedXmlFolder + Ut.getProperty(Ut.FILE_SEPARATOR);
+        int nIdenvio = 1; // Esto debe parametrizarse
 
         // Número de NC o ND (las facturas aparecerán con un cero, 
         // las NC con un número positivo y las ND con un número negativo)
@@ -159,11 +157,9 @@ public class EnviarCorreoFE {
         } // end if-else
         pdfFile += ".pdf";
         xmlFile += ".xml";
-        
+
         // El nombre del xml sin firmar también se puede obtener de esta misma
         // forma por lo que si se quisiera se puede estandarizar.
-        
-        
         signedXmlFile += getSignedXmlFileName(conn);
 
         // Si ocurró un error a la hora de obtener el nombre del xml firmado
@@ -177,20 +173,30 @@ public class EnviarCorreoFE {
         archivos[1] = xmlFile;
         archivos[2] = signedXmlFile;
 
-        int nIdenvio = 1; // Esto debe parametrizarse
-        MailSender envioCorreo = new MailSender();
-
-        if (Correo.malformado(destinatario)) {
-            b.setLogLevel(Bitacora.ERROR);
-            b.writeToLog(
-                    "\nCorreo mal formado " + destinatario + ". No fue enviado. "
-                    + GregorianCalendar.getInstance().getTime(), nIdenvio);
-            this.error = true;
-            this.error_msg = "Correo mal formado " + destinatario + ". No fue enviado.";
-            return false;
-        } // end if
-
         try {
+            // Validar que estos archivos existan
+            for (String s : archivos) {
+                if (!new File(s).exists()) {
+                    this.error = true;
+                    this.error_msg
+                            = "El archivo " + s + ". No fue encontrado."
+                            + "\nPuede ser que no se haya generado o lo hayan eliminado.";
+                    throw new Exception(this.error_msg);
+                } // end if
+            } // end for
+
+            MailSender envioCorreo = new MailSender();
+
+            if (Correo.malformado(destinatario)) {
+                b.setLogLevel(Bitacora.ERROR);
+                b.writeToLog(
+                        "\nCorreo mal formado " + destinatario + ". No fue enviado. "
+                        + GregorianCalendar.getInstance().getTime(), nIdenvio);
+                this.error = true;
+                this.error_msg = "Correo mal formado " + destinatario + ". No fue enviado.";
+                throw new Exception(this.error_msg);
+            } // end if
+
             envioCorreo.initGMail();
             // Si hay máscara cambio el remitente
             if (!senderMask.trim().isEmpty()) {
@@ -198,11 +204,11 @@ public class EnviarCorreoFE {
             } // end if
             envioCorreo.sendAttachmentMail_GM(
                     destinatario, titulo, texto, archivos);
-            if (envioCorreo.isError()){
+            if (envioCorreo.isError()) {
                 // Aquí no se escribe en bitácora porque la clase MailSender ya lo hizo
                 this.error = true;
                 this.error_msg = envioCorreo.getErrorMessage();
-                return false;
+                throw new Exception(this.error_msg);
             } // end if
         } catch (Exception ex) {
             b.setLogLevel(Bitacora.ERROR);
@@ -222,25 +228,25 @@ public class EnviarCorreoFE {
     private String getSignedXmlFileName(Connection conn) {
         String name = "";
         try {
-            
+
             String sqlSent
                     = "Select xmlFirmado from faestadoDocElect "
                     + "Where facnume = ? "
                     + "and facnd = ?";
             PreparedStatement ps;
             ResultSet rs;
-            
-            ps = conn.prepareStatement(sqlSent, 
-                    ResultSet.TYPE_SCROLL_SENSITIVE, 
+
+            ps = conn.prepareStatement(sqlSent,
+                    ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
             ps.setInt(1, facnume);
             ps.setInt(2, facnd);
-            
+
             rs = CMD.select(ps);
             rs.first();
             name = rs.getString(1);
             ps.close();
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             b.setLogLevel(Bitacora.ERROR);
@@ -252,8 +258,8 @@ public class EnviarCorreoFE {
                     + "ERROR: " + ex.getMessage() + "\n " + destinatario + ". "
                     + "Documento electrónico no enviado.";
         } // end try-catch
-        
+
         return name;
     } // end getSignedXmlFileName
-    
+
 } // end class

@@ -68,7 +68,7 @@ public class Reportes {
 
     /**
      * Impresión de Facturas, NC y ND.
-     *
+     * 
      * @param facnume número de factura/NC/ND
      * @param facnd indicador de tipo (0=fact,>0=NC,<0=ND)
      * @param formatoPOS
@@ -92,15 +92,7 @@ public class Reportes {
             lblDocum = "NC #";
         } // end if
 
-        // Testing Jasper Studio
-        //masterFileName = "C:\\Users\\bgari\\JaspersoftWorkspace\\OsaisReports\\";
-        
-        // Bosco agregado 11/02/2012.
-        // El formulario de impresión para notas de crédito es diferente.
         if (lblDocum.equals("NC #")) {
-            // Bosco modificado 17/12/2018
-            // Ahora con la Fact. Elect. solo se usa este formato
-            //masterFileName += "NotaCXC";
             masterFileName += "NotaCXC_normal";
         } else if (formulario) {
             masterFileName += "formulario";
@@ -109,30 +101,27 @@ public class Reportes {
         } else {
             masterFileName += "FacturaIVI";
         } // end if
-        
+
         // Bosco agregado 02/10/2018
-        if (!formatoPOS){
+        if (!formatoPOS) {
             masterFileName += "_normal";
         } // end if
         masterFileName += ".jasper";
         // Fin Bosco agregado 02/10/2018
-        
+
         File f = new File(masterFileName);
 
-        if (!f.exists() || f.isDirectory()) {
-            JOptionPane.showMessageDialog(null,
-                    "No encuentro el archivo de impresión. "
-                    + "\nDebería estar en la siguiente dirección:"
-                    + "\n" + masterFileName,
-                    "Error de configuración",
-                    JOptionPane.ERROR_MESSAGE);
-            return;
-        } // end if
-
         try {
+            if (!f.exists() || f.isDirectory()) {
+                throw new Exception(
+                        "No encuentro el archivo de impresión. "
+                        + "\nDebería estar en la siguiente dirección:"
+                        + "\n" + masterFileName);
+            } // end if
+            
             masterReport = (JasperReport) JRLoader.loadObject(f);
 
-            Map parametro = new HashMap();
+            Map<String, Object> parametro = new HashMap<>();
             if (lblDocum.equals("NC #")) {
                 parametro.put("pNotanume", facnume);
             } else {
@@ -151,13 +140,13 @@ public class Reportes {
                 if (facnd == 0) {
                     file += "Fac_" + facnume;
                 } else if (facnd > 0) {
-                    file += "NC_" + facnd; 
+                    file += "NC_" + facnd;
                 } else {
                     file += "ND_" + facnume;
                 } // end if-else
 
                 file += ".pdf";
-
+                
                 JasperExportManager.exportReportToPdfFile(jasperPrint, file);
                 return;
             } // end if
@@ -167,14 +156,13 @@ public class Reportes {
             //            JasperViewer jviewer = new JasperViewer(jasperPrint,false);
             //            jviewer.setTitle("Facturación");
             //            jviewer.setVisible(true);
-        } catch (JRException | HeadlessException ex) {
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
-            System.out.println("Error cargando el reporte maestro: "
-                    + ex.getMessage());
+            System.out.println(ex.getMessage());
         } // end try-catch
 
     } // end imprimirFacNDNC
@@ -208,7 +196,7 @@ public class Reportes {
             parametro.put("pRecnume", recnume);
             JasperPrint jasperPrint
                     = JasperFillManager.fillReport(masterFileName, parametro, conn);
-            
+
             if (this.exportToPDF) {
                 String file = this.pdfFolfer + Ut.getProperty(Ut.FILE_SEPARATOR);
                 file += "CXCRec_" + recnume + ".pdf";
@@ -263,7 +251,7 @@ public class Reportes {
             parametro.put("pRecnume", recnume);
             JasperPrint jasperPrint
                     = JasperFillManager.fillReport(masterFileName, parametro, conn);
-            
+
             if (this.exportToPDF) {
                 String file = this.pdfFolfer + Ut.getProperty(Ut.FILE_SEPARATOR);
                 file += "CajRec_" + recnume + ".pdf";
@@ -321,7 +309,7 @@ public class Reportes {
 
             JasperPrint jasperPrint
                     = JasperFillManager.fillReport(masterFileName, parametro, conn);
-            
+
             if (this.exportToPDF) {
                 String file = this.pdfFolfer + Ut.getProperty(Ut.FILE_SEPARATOR);
                 file += "Existencias.pdf";
@@ -422,8 +410,8 @@ public class Reportes {
     } // end generico
 
     /**
-     * Autor: Bosco Garita. 14/08/2016 Este método se usa para la mayoría de los
-     * reportes contables.
+     * Autor: Bosco Garita. 14/08/2016 Este método se usa para la mayoría de los reportes
+     * contables.
      *
      * @param select String Sentencia SELECT
      * @param where String Sentencia WHERE
@@ -486,7 +474,7 @@ public class Reportes {
 
             JasperPrint jasperPrint
                     = JasperFillManager.fillReport(masterFileName, parametro, conn);
-            
+
             if (this.exportToPDF) {
                 String file = this.pdfFolfer + Ut.getProperty(Ut.FILE_SEPARATOR);
                 file += titulo + ".pdf";
@@ -494,7 +482,7 @@ public class Reportes {
                 JasperExportManager.exportReportToPdfFile(jasperPrint, file);
                 return;
             } // end if
-            
+
             JasperViewer jviewer = new JasperViewer(jasperPrint, false);
             jviewer.setTitle(titulo);
             jviewer.setVisible(true);
@@ -511,8 +499,8 @@ public class Reportes {
     } // end CGgenerico
 
     /**
-     * Autor: Bosco Garita. 28/12/2016 Balance de comprobación (varios niveles)
-     * o balance de mayor
+     * Autor: Bosco Garita. 28/12/2016 Balance de comprobación (varios niveles) o balance
+     * de mayor
      *
      * @param select String Sentencia SELECT
      * @param where String Sentencia WHERE
@@ -566,7 +554,7 @@ public class Reportes {
 
             JasperPrint jasperPrint
                     = JasperFillManager.fillReport(masterFileName, parametro, conn);
-            
+
             if (this.exportToPDF) {
                 String file = this.pdfFolfer + Ut.getProperty(Ut.FILE_SEPARATOR);
                 file += titulo + ".pdf";
@@ -574,11 +562,11 @@ public class Reportes {
                 JasperExportManager.exportReportToPdfFile(jasperPrint, file);
                 return;
             } // end if
-            
+
             JasperViewer jviewer = new JasperViewer(jasperPrint, false);
             jviewer.setTitle(titulo);
             jviewer.setVisible(true);
-        } catch (HeadlessException | JRException | SQLInjectionException ex ){
+        } catch (HeadlessException | JRException | SQLInjectionException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -589,7 +577,7 @@ public class Reportes {
         } // end try-catch
 
     } // end CGBalance
-    
+
     /**
      * Autor: Bosco Garita.10/09/2020 Cédulas por cuenta
      *
@@ -636,12 +624,12 @@ public class Reportes {
 
             masterReport = (JasperReport) JRLoader.loadObject(f);
 
-            Map<String,Object> parametro = new HashMap<>();
+            Map<String, Object> parametro = new HashMap<>();
 
             parametro.put("pQuery", select);
             parametro.put("pWhere", where);
             parametro.put("pOrderBy", orderby);
-            
+
             parametro.put("pFiltro", filtro);
             parametro.put("pCuenta", cuenta);
             parametro.put("pSaldo", saldo);
@@ -650,8 +638,8 @@ public class Reportes {
             parametro.put("pEmpresa", Menu.EMPRESA);
 
             JasperPrint jasperPrint
-                    = JasperFillManager.fillReport(masterFileName, parametro, conn); 
-            
+                    = JasperFillManager.fillReport(masterFileName, parametro, conn);
+
             if (this.exportToPDF) {
                 String file = this.pdfFolfer + Ut.getProperty(Ut.FILE_SEPARATOR);
                 file += "cedulas.pdf";
@@ -659,11 +647,11 @@ public class Reportes {
                 JasperExportManager.exportReportToPdfFile(jasperPrint, file);
                 return;
             } // end if
-            
+
             JasperViewer jviewer = new JasperViewer(jasperPrint, false);
             jviewer.setTitle("Cédulas");
             jviewer.setVisible(true);
-        } catch (HeadlessException | JRException | SQLInjectionException ex ){
+        } catch (HeadlessException | JRException | SQLInjectionException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -676,7 +664,7 @@ public class Reportes {
     } // end CGCedula
 
     void CGComparativoMensual(
-            String select, String where, String orderby, 
+            String select, String where, String orderby,
             String filtro, String formJasper,
             String periodo1, String periodo2) {
         // Defino el nombre del formulario de impresión.
@@ -700,21 +688,21 @@ public class Reportes {
 
             masterReport = (JasperReport) JRLoader.loadObject(f);
 
-            Map<String,Object> parametro = new HashMap<>();
+            Map<String, Object> parametro = new HashMap<>();
 
             parametro.put("pQuery", select);
             parametro.put("pWhere", where);
             parametro.put("pOrderBy", orderby);
-            
+
             parametro.put("pFiltro", filtro);
             parametro.put("pEmpresa", Menu.EMPRESA);
-            
+
             parametro.put("pPeriodo1", periodo1);
             parametro.put("pPeriodo2", periodo2);
 
             JasperPrint jasperPrint
-                    = JasperFillManager.fillReport(masterFileName, parametro, conn); 
-            
+                    = JasperFillManager.fillReport(masterFileName, parametro, conn);
+
             if (this.exportToPDF) {
                 String file = this.pdfFolfer + Ut.getProperty(Ut.FILE_SEPARATOR);
                 file += "comparativoMensual.pdf";
@@ -722,11 +710,11 @@ public class Reportes {
                 JasperExportManager.exportReportToPdfFile(jasperPrint, file);
                 return;
             } // end if
-            
+
             JasperViewer jviewer = new JasperViewer(jasperPrint, false);
             jviewer.setTitle("Comparativo Mensual");
             jviewer.setVisible(true);
-        } catch (HeadlessException | JRException | SQLInjectionException ex ){
+        } catch (HeadlessException | JRException | SQLInjectionException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",

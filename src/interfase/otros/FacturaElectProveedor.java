@@ -25,15 +25,16 @@ import javax.swing.JFileChooser;
 import static javax.swing.JFileChooser.OPEN_DIALOG;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
-//import javax.xml.bind.JAXBContext;
-//import javax.xml.bind.Marshaller;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import logica.utilitarios.Ut;
 import logica.xmls.MensajeReceptor;
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -45,6 +46,7 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
     private final Connection conn;
     private ArrayList<String> validFiles;
     private final Bitacora b = new Bitacora();
+    private String cedulaEmisor;
 
     /**
      * Creates new form FacturaElectProveedor
@@ -56,6 +58,24 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
         this.conn = conn;
         loadDocumentList();
     }
+
+    private String[] getCedulaJ() throws SQLException {
+        String[] cedulaytipo = new String[2];
+        String sqlSent 
+                = "SELECT "
+                + "     lpad(replace(cedulajur, '-', ''), 12, '0') AS cedulajur,  "
+                + "     lpad(tipoID, 2, '0') AS tipoID "
+                + "FROM config ";
+        PreparedStatement ps = conn.prepareStatement(
+                sqlSent, ResultSet.TYPE_SCROLL_SENSITIVE, 
+                ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs = CMD.select(ps);
+        rs.first();
+        cedulaytipo[0] = rs.getString(1);
+        cedulaytipo[1] = rs.getString(2);
+        ps.close();
+        return cedulaytipo;
+    } // end getCedulaJ
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -301,8 +321,8 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
         } // end if
 
         // Valido (por si acaso) que el archivo exista.
-        File f = new File(this.lblArchivo.getText().trim());
-        if (!f.exists()) {
+        File xmlProveedor = new File(this.lblArchivo.getText().trim());
+        if (!xmlProveedor.exists()) {
             JOptionPane.showMessageDialog(null,
                     "El archivo ya no existe.",
                     "Error",
@@ -311,7 +331,6 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
         } // end if
 
         String respuestaHacienda; // Código de respuesta para el xml
-        String dirXMLS = Menu.DIR.getXmls() + Ut.getProperty(Ut.FILE_SEPARATOR);
 
         if (this.radAceptado.isSelected()) {
             respuestaHacienda = "1";
@@ -322,11 +341,12 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
         } // end if-else
 
         // Este archivo queda en la ruta de xmls de proveedores según la clase DirectoryStructure.java
-        String xmlEnviar = crearXML(f, respuestaHacienda); // Retorna solo el nombre, no la ruta.
+        String xmlEnviar = crearXML(xmlProveedor, respuestaHacienda); // Retorna solo el nombre, no la ruta.
 
         // Bosco agregado 31/07/2019
         if (xmlEnviar == null || xmlEnviar.trim().isEmpty()) {
-            String msg = "Sucedió un error que impidió que se generara el xml.\n"
+            String msg 
+                    = "Sucedió un error que impidió que se generara el xml.\n"
                     + "No fue pusible realizar la confirmación del mismo.";
             JOptionPane.showMessageDialog(null,
                     msg,
@@ -336,12 +356,32 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
             return;
         } // end if
         
-        // Bosco modificado 21/07/2019
-        //String cmd = dirXMLS + "EnviarFactura.exe " + xmlEnviar + " " + respuestaHacienda + " 3"; // Enviar respuesta
-        String cmd = dirXMLS + "EnviarFactura2.exe " + xmlEnviar + " " + this.getTipoCedulaEmisor(f) + " 3"; // Enviar respuesta
-
-        // DEBUG:
-        //JOptionPane.showMessageDialog(null, "CMD = " + cmd);
+        String[] cedulaytipo; //Pos0=Cédula, Pos1=Tipo cédula
+        try {
+            cedulaytipo = getCedulaJ();
+        } catch(SQLException ex){
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            return;
+        }
+        
+        String exe = Menu.DIR.getXmls() + "\\FE2.exe";
+        String accion = " 3 ";
+        String cmd
+                = exe    + " "
+                + xmlEnviar + " "
+                + this.cedulaEmisor + " "   // Cédula del proveedor
+                + accion + " "              // 1=Enviar, 2=Consultar, 3=Confirmar xml
+                + cedulaytipo[0] + " "      // Cédula del receptor (nosotros)
+                + Menu.BASEDATOS + " "
+                + this.getClaveFromXML(xmlProveedor) + " "
+                + cedulaytipo[1] + " "      // Tipo de cédula del receptor
+                + this.getTipoCedulaEmisor(xmlProveedor);
+        
         // Fin Bosco modificado 21/07/2019
         String os = Ut.getProperty(Ut.OS_NAME).toLowerCase();
         try {
@@ -418,7 +458,11 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
         try {
             String dirXMLS = Menu.DIR.getXmls() + Ut.getProperty(Ut.FILE_SEPARATOR);
 
-            String cmd = dirXMLS + "EnviarFactura2.exe " + documento + " " + documento + " 4 " + tipoXML;
+            // Nota: Esto se debe ajustar a la nueva forma del API
+            // También hay que ver lo que hacía el API anterior con la opción 4---------------------------------------------------
+            String cmd 
+                    = dirXMLS + "EnviarFactura2.exe " + documento + " " + documento 
+                    + " 4 " + tipoXML + " " + Menu.BASEDATOS;
 
             //JOptionPane.showMessageDialog(null, cmd);
             // Este proceso es únicamente windows por lo que no debe correr en Linux
@@ -525,7 +569,7 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
     private String crearXML(File f, String respuestaHacienda) {
         String fileName = "";
         String clave;
-        String cedulaEmisor;
+        //String cedulaEmisor;
         //String tipoCedulaEmisor;
         String cedulaReceptor;
         String impuesto;
@@ -788,4 +832,32 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
 
         return tipoCedulaEmisor;
     } // end getTipoIDFromXML
+    
+    
+    private String getClaveFromXML(File xmlFile) {
+        String claveDocumento = "";
+
+        // Leo el archivo xml recibido para obtener el tipo de cédula del emisor.
+        try {
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(xmlFile);
+            doc.getDocumentElement().normalize();
+
+            // Obtengo la clave del documento
+            NodeList nList = doc.getElementsByTagName("Clave");
+            Node node = nList.item(0);
+            claveDocumento = node.getTextContent();
+
+        } catch (IOException | ParserConfigurationException | DOMException | SAXException ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+        } // end try-catch
+
+        return claveDocumento;
+    } // end getClaveFromXML
 } // end class

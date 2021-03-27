@@ -12,7 +12,7 @@ SQL SECURITY DEFINER
 COMMENT 'Author: Bosco Garita'
 BEGIN
 	-- Autor: Bosco Garita Azofeifa
-  	Declare vcEmpresa  varchar(60);
+  	Declare vcEmpresa  VARCHAR(150);
 	Declare vcTelefono varchar(30);
 	Declare vcCedulaJu varchar(50);
 	Declare vcDireccio varchar(200);

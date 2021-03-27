@@ -1804,7 +1804,7 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="mnuXml">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Generar documentos XML"/>
+                <Property name="text" type="java.lang.String" value="Enviar documentos electr&#xf3;nicos"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuXmlActionPerformed"/>

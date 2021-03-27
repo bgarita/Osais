@@ -101,6 +101,7 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         tabGeneral = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -162,8 +163,6 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         cboVariarPrecios = new javax.swing.JComboBox<>();
-        jLabel17 = new javax.swing.JLabel();
-        txtTimbre = new javax.swing.JTextField();
         chkGenAsienFac = new javax.swing.JCheckBox();
         chkfactcomoPOS = new javax.swing.JCheckBox();
         txtClicode = new javax.swing.JFormattedTextField();
@@ -179,6 +178,9 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
         chkGenMovCaja = new javax.swing.JCheckBox();
         chkenviarFacturaE = new javax.swing.JCheckBox();
         chkUsarCabys = new javax.swing.JCheckBox();
+        jPanel6 = new javax.swing.JPanel();
+        radEnviarXML = new javax.swing.JRadioButton();
+        radEnviarDatos = new javax.swing.JRadioButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel25 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
@@ -324,7 +326,7 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(chkSincronizar)
                     .addComponent(jLabel24))
-                .addContainerGap(81, Short.MAX_VALUE))
+                .addContainerGap(156, Short.MAX_VALUE))
         );
 
         tabGeneral.addTab("General", jPanel1);
@@ -451,7 +453,7 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
                 .addComponent(chkBloquearConsDi)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(chkasignarprovaut)
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addContainerGap(167, Short.MAX_VALUE))
         );
 
         tabGeneral.addTab("Inventarios", jPanel2);
@@ -604,7 +606,7 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(chkDistPago)))
-                .addContainerGap(123, Short.MAX_VALUE))
+                .addContainerGap(198, Short.MAX_VALUE))
         );
 
         tabGeneral.addTab("Cuentas por cobrar", jPanel4);
@@ -676,13 +678,6 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
         cboVariarPrecios.setForeground(new java.awt.Color(255, 0, 51));
         cboVariarPrecios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Permitir variación hacia arriba", "Permitir variación hacia abajo", "No permitir variación de precios", "Permitir cualquier variación" }));
 
-        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel17.setForeground(java.awt.Color.blue);
-        jLabel17.setText("Timbre");
-
-        txtTimbre.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        txtTimbre.setToolTipText("Timbre para punto de ventas (facturas)");
-
         chkGenAsienFac.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         chkGenAsienFac.setText("Generar los asisentos contables");
 
@@ -749,6 +744,36 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
         chkUsarCabys.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         chkUsarCabys.setText("Usar CABYS");
 
+        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Modo de envío de los documentos electrónicos"));
+
+        buttonGroup1.add(radEnviarXML);
+        radEnviarXML.setText("Enviar XML");
+
+        buttonGroup1.add(radEnviarDatos);
+        radEnviarDatos.setSelected(true);
+        radEnviarDatos.setText("Enviar datos");
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(radEnviarXML)
+                    .addComponent(radEnviarDatos))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(radEnviarXML)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(radEnviarDatos)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -757,73 +782,59 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(chkUsarIvi)
-                            .addComponent(chkBloquearCatP)
-                            .addComponent(chkBloquearNpag)
-                            .addComponent(chkBloquearFechaF)
-                            .addComponent(chkBloquearConsF)
-                            .addComponent(chkRedond5)
-                            .addComponent(chkPrecio0)))
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(28, 28, 28)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtBloqDias, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtDescAutom, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(spndiasFactTemp, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(chkBloquearCatP)
+                    .addComponent(chkUsarIvi)
+                    .addComponent(chkPrecio0)
+                    .addComponent(chkRedond5)
+                    .addComponent(chkBloquearConsF)
+                    .addComponent(chkBloquearFechaF)
+                    .addComponent(chkBloquearNpag)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel20)
-                                .addGap(18, 18, 18)
-                                .addComponent(spnPrecioOferta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                                .addComponent(cboDiaOferta, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.TRAILING))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtDescAutom, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
-                                    .addComponent(txtBloqDias, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(spndiasFactTemp, javax.swing.GroupLayout.Alignment.TRAILING))))
-                        .addGap(31, 31, 31)))
+                        .addComponent(jLabel20)
+                        .addGap(18, 18, 18)
+                        .addComponent(spnPrecioOferta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(cboDiaOferta, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(29, 29, 29)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel16)
-                            .addComponent(jLabel18)
-                            .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                        .addComponent(jLabel16)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 138, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cboVariarPrecios, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cboformatoCant, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cboformatoPrecio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(12, 12, 12))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel17)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(chkimprimirFactura)
+                                    .addComponent(chkExist0)
+                                    .addComponent(chkGenAsienFac)
+                                    .addComponent(chkGenMovCaja)
+                                    .addComponent(chkenviarFacturaE)
+                                    .addComponent(chkUsarCabys)
+                                    .addComponent(jLabel18)
+                                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(chkfactcomoPOS)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtClicode, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtTimbre, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(chkenviarFacturaE)
-                            .addComponent(chkUsarCabys))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(316, 316, 316)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(chkGenAsienFac)
-                    .addComponent(chkimprimirFactura)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(chkfactcomoPOS)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtClicode, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(chkExist0)
-                    .addComponent(chkGenMovCaja))
-                .addContainerGap(177, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblClidesc, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15))
+                                .addComponent(lblClidesc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addContainerGap())))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -851,7 +862,7 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
                     .addComponent(jLabel20)
                     .addComponent(spnPrecioOferta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cboDiaOferta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(13, 13, 13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(chkimprimirFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(chkPrecio0, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -859,7 +870,7 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(chkExist0)
                     .addComponent(chkRedond5, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
+                .addGap(4, 4, 4)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(chkfactcomoPOS, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtClicode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -869,7 +880,7 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(chkGenAsienFac, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(chkBloquearFechaF, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(4, 4, 4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(chkBloquearNpag, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(chkGenMovCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -881,11 +892,9 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(chkUsarIvi, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(chkUsarCabys, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(5, 5, 5)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel17)
-                    .addComponent(txtTimbre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(70, Short.MAX_VALUE))
         );
 
         tabGeneral.addTab("Facturación", jPanel3);
@@ -967,7 +976,7 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(chkAuth)
                     .addComponent(chkstarttls))
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addContainerGap(142, Short.MAX_VALUE))
         );
 
         tabGeneral.addTab("Correo electrónico", jPanel5);
@@ -1007,9 +1016,9 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(tabGeneral)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(tabGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(btnSalir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1196,6 +1205,7 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnSalir;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cboDescrip;
     private javax.swing.JComboBox<String> cboDiaOferta;
     private javax.swing.JComboBox<String> cboImpresion;
@@ -1242,7 +1252,6 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
@@ -1267,7 +1276,10 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JLabel lblClidesc;
+    private javax.swing.JRadioButton radEnviarDatos;
+    private javax.swing.JRadioButton radEnviarXML;
     private javax.swing.JSpinner spnNotifComInt;
     private javax.swing.JSpinner spnPrecioOferta;
     private javax.swing.JSpinner spndiasFactTemp;
@@ -1283,7 +1295,6 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
     private javax.swing.JFormattedTextField txtMora;
     private javax.swing.JTextField txtPassword;
     private javax.swing.JFormattedTextField txtPort;
-    private javax.swing.JTextField txtTimbre;
     private javax.swing.JTextField txtUser;
     private javax.swing.JTextField txtWallPaper;
     // End of variables declaration//GEN-END:variables
@@ -1420,7 +1431,6 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
             this.chkUsarCabys.setSelected(rs.getBoolean("usarCabys"));
             this.spndiasFactTemp.setValue(rs.getObject("diasFactTemp"));
             this.cboVariarPrecios.setSelectedIndex(rs.getInt("variarprecios") - 1);
-            this.txtTimbre.setText(rs.getString("timbre"));
             this.chkGenAsienFac.setSelected(rs.getBoolean("genasienfac"));
             this.chkGenMovCaja.setSelected(rs.getBoolean("genmovcaja")); // Agregado 08/07/2015
             // Bosco agregado 24/12/2013
@@ -1440,6 +1450,11 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
             // Bosco agregado 17/07/2019. Este campo decide si se envían o no los documentos electrónicos.
             this.chkenviarFacturaE.setSelected(rs.getBoolean("enviarFacturaE"));
             // Fin Bosco agregado 17/07/2019
+            
+            this.radEnviarDatos.setSelected(true);
+            if (rs.getInt("modoFacturaE") == 1){
+                this.radEnviarXML.setSelected(true);
+            }
 
             // Cejilla Cuentas por cobrar
             this.txtDiasDevol.setText(Integer.toString(rs.getInt("DiasDevol")));
@@ -1603,7 +1618,6 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
         usarCabys   = (short) (this.chkUsarCabys.isSelected() ? 1 : 0);
         diasFactTemp = Short.parseShort(this.spndiasFactTemp.getValue().toString());
         variarprecios = (short) (this.cboVariarPrecios.getSelectedIndex() + 1);
-        timbre = this.txtTimbre.getText();
         genasienfac = (short) (this.chkGenAsienFac.isSelected() ? 1 : 0);
         genmovcaja = (short) (this.chkGenMovCaja.isSelected() ? 1 : 0); // Bosco agregado 08/07/2015
 
@@ -1701,7 +1715,8 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
                     "genmovcaja     = ?," + // 45  Bosco agregado 08/07/2015
                     "enviarFacturaE = ?," + // 46  Bosco agregado 17/07/2019
                     "sincronizarTablas = ?, " + // 47  Bosco agregado 16/08/2016
-                    "usarCabys = ? ";           // 48
+                    "usarCabys = ?, " +         // 48
+                    "modoFacturaE = ? ";        // 49 
 
         } else {
             // Falta codificar para cuando es la primera vez que se crea
@@ -1743,11 +1758,12 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
             ps.setShort(21, usarIvi);
             ps.setShort(22, diasFactTemp);
             ps.setShort(23, variarprecios);
-            ps.setString(24, timbre);
+            ps.setString(24, ""); // Timbre, ya no se usa
             ps.setShort(25, genasienfac);
             ps.setShort(45, genmovcaja);
             ps.setShort(46, enviarFacturaE);
             ps.setShort(48, usarCabys);
+            ps.setInt(49, this.radEnviarXML.isSelected() ? 1:2);
 
             // Cejilla Cuentas por cobrar
             ps.setShort(26, diasDevol);

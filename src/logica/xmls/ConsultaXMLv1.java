@@ -1,11 +1,11 @@
 package logica.xmls;
 
+import interfase.menus.Menu;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JProgressBar;
-import logica.utilitarios.Ut;
 
 
 /**
@@ -67,7 +67,8 @@ public class ConsultaXMLv1 extends Thread {
     
     
     private void loadDocumentList() {
-        String dir = Ut.getProperty(Ut.USER_DIR) + Ut.getProperty(Ut.FILE_SEPARATOR) + "xmls" + Ut.getProperty(Ut.FILE_SEPARATOR);
+        String dir = Menu.DIR.getXmls();
+        //String dir = Ut.getProperty(Ut.USER_DIR) + Ut.getProperty(Ut.FILE_SEPARATOR) + "xmls" + Ut.getProperty(Ut.FILE_SEPARATOR);
         File f = new File(dir);
         File[] files = f.listFiles();
         pb.setValue(0);

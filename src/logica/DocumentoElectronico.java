@@ -8,6 +8,7 @@ import Mail.Bitacora;
 import Mail.EnviarCorreoFE;
 import accesoDatos.CMD;
 import interfase.menus.Menu;
+import interfase.otros.FacturaXML;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -19,7 +20,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import logica.utilitarios.Ut;
 
 /**
@@ -38,23 +38,34 @@ public class DocumentoElectronico {
 
     private String sucursal;        // 
     private String terminal;        //
-    private String tipoComprobante; // 01=FAC, 02=NDB, 03=NCR, 04=Tiquete, 08=Fact Compra
+    private String tipoComprobante; // 01=FAC, 02=NDB, 03=NCR, 04=Tiquete, 08=Fact Compra, 09=FacturaExportacion
     private int situacionComprobante; // 1=Normal,2=Contingencia,3=Sin internet
+    private String codigoActividad; // Código de actividad económica.
+    private String tipoCedula;      // Tipo de cédula
+
+    private String accion;          // 1=Enviar documento electrónico, 2=Consultar documento electrónco
 
     // Conexión a la base de datos (no se debe cerrar en esta clase).
     private final Connection conn;
 
     private final Bitacora b = new Bitacora();
 
-    public DocumentoElectronico(int facnume, int facnd, String tipoXML, Connection conn) {
+    public DocumentoElectronico(int facnume, int facnd, String tipoXML, Connection conn, String accion) throws SQLException {
         this.facnume = facnume;
         this.facnd = facnd;
         this.tipoXML = tipoXML;
         this.sucursal = "001";          // Solo existe un local.
         this.terminal = "00001";        // Servidor centralizado.
+        this.codigoActividad = "";      // Código de actividad económica
+        this.tipoCedula = "";
+        this.accion = accion;
         this.conn = conn;
         this.error = false;
         this.error_msg = "";
+        loadCompanyData();
+        if (facnume != 0) {
+            loadData();
+        }
     }
 
     public boolean isError() {
@@ -71,6 +82,30 @@ public class DocumentoElectronico {
 
     public void setError_msg(String error_msg) {
         this.error_msg = error_msg;
+    }
+
+    public String getCodigoActividad() {
+        return codigoActividad;
+    }
+
+    public void setCodigoActividad(String codigoActividad) {
+        this.codigoActividad = codigoActividad;
+    }
+
+    public String getTipoCedula() {
+        return tipoCedula;
+    }
+
+    public void setTipoCedula(String tipoCedula) {
+        this.tipoCedula = tipoCedula;
+    }
+
+    public String getAccion() {
+        return accion;
+    }
+
+    public void setAccion(String accion) {
+        this.accion = accion;
     }
 
     /**
@@ -155,10 +190,6 @@ public class DocumentoElectronico {
 
         boolean enviado = correo.sendMail("", conn); // Si se pone algo en el primer parámetro es para cambiar el remitente (funciona como una máscara)
         if (!enviado) {
-            JOptionPane.showMessageDialog(null,
-                    correo.getError_msg(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
             this.error = true;
             this.error_msg = correo.getError_msg();
         } else {
@@ -193,8 +224,8 @@ public class DocumentoElectronico {
     } // end actualizarDocumentoElectronico
 
     /**
-     * Obtener el tipo de documento tomando la referencia como criterio de
-     * búsqueda en la tabla de documentos electrónicos.
+     * Obtener el tipo de documento tomando la referencia como criterio de búsqueda en la
+     * tabla de documentos electrónicos.
      *
      * @param ref String número de referencia dado por Hacienda
      * @return String Tipo de documento
@@ -273,13 +304,13 @@ public class DocumentoElectronico {
             String dir = Menu.DIR.getXmls() + Ut.getProperty(Ut.FILE_SEPARATOR);
 
             // Si el ejecutable no existe no continúo.
-            // Se incluye esta validación antes del try para enviar un
-            String exe = dir + "EnviarFactura2.exe";
+            String exe = Menu.DIR.getXmls() + "\\FE2.exe";
+
             File f = new File(exe);
             if (!f.exists()) {
                 throw new Exception("El módulo de envío de la factura electrónica no fue encontrado");
             } // end if
-            
+
             String xmlFile = facnume + ".xml";      // Solo va el nombre del archivo, no la ruta.
             String logFile = dir + facnume + ".log";
 
@@ -289,7 +320,16 @@ public class DocumentoElectronico {
                 logFile = dir + facnume + "_C.log";
             } // end if
 
-            String cmd = dir + "EnviarFactura2.exe " + xmlFile + " " + facnume + " 1 " + tipoDoc;
+            String cmd
+                    = exe + " "
+                    + xmlFile + " "
+                    + facnume + " "
+                    + this.accion + " "
+                    + tipoDoc + " "
+                    + Menu.BASEDATOS + " "
+                    + FacturaXML.claveDocumento + " "
+                    + this.tipoCedula + " "
+                    + "00"; // tipo cédula proveedor (Solo es útil en el proceso de confirmación de XMLs).
 
             Process p = Runtime.getRuntime().exec(cmd);
 
@@ -317,8 +357,8 @@ public class DocumentoElectronico {
     } // end enviarXML
 
     /**
-     * Obtener el path completo para el documento que tiene la información de la
-     * respuesta de Hacienda para un XML.
+     * Obtener el path completo para el documento que tiene la información de la respuesta
+     * de Hacienda para un XML.
      *
      * @param documento
      * @return
@@ -434,11 +474,9 @@ public class DocumentoElectronico {
     } // end existeDoc
 
     /**
-     * Obtiene el consecutivo para un documento electrónico nuevo o generado
-     * previamente.
+     * Obtiene el consecutivo para un documento electrónico nuevo o generado previamente.
      *
-     * @param tipoDoc String FAC=Factura, NDB=Nota de débido, NCR=Nota de
-     * crédito
+     * @param tipoDoc String FAC=Factura, NDB=Nota de débido, NCR=Nota de crédito
      * @return
      * @throws SQLException
      */
@@ -500,4 +538,134 @@ public class DocumentoElectronico {
         } // end try
         return consecutivo;
     } // end getConsecutivoDocElectronico
+
+    private void loadCompanyData() {
+        String sqlSent
+                = "Select codigoAtividadEconomica, LPAD(tipoID, 2,'0') as tipoID from config";
+
+        try (PreparedStatement ps = conn.prepareStatement(sqlSent,
+                ResultSet.TYPE_SCROLL_SENSITIVE,
+                ResultSet.CONCUR_READ_ONLY)) {
+            ResultSet rs = CMD.select(ps);
+            if (rs != null && rs.first()) {
+                this.codigoActividad = rs.getString(1);
+                this.tipoCedula = rs.getString(2);
+            } // end if
+            ps.close();
+        } catch (SQLException ex) {
+            this.error = true;
+            this.error_msg = ex.getMessage();
+        } // end try
+    }
+
+    // Cargar los datos necesarios para el envío
+    private void loadData() throws SQLException {
+        PreparedStatement ps;
+        ResultSet rs;
+
+        String sqlSent
+                = "SELECT  "
+                + "	a.xmlFile, "
+                + "	b.claveHacienda "
+                + "FROM faestadodocelect a "
+                + "INNER JOIN faencabe b ON a.facnume = b.facnume AND a.facnd = b.facnd "
+                + "WHERE a.facnume = ? "
+                + "AND a.facnd = ? "
+                + "AND a.tipoxml = 'V' "
+                + "AND b.facestado = ''";
+        ps = conn.prepareStatement(sqlSent, 
+                ResultSet.TYPE_SCROLL_SENSITIVE,
+                ResultSet.CONCUR_READ_ONLY);
+        ps.setInt(1, facnume);
+        ps.setInt(2, facnd);
+        
+        rs = CMD.select(ps);
+        
+        rs.first();
+        ParametrosXML.xmlFileName = rs.getString("xmlFile");
+        ParametrosXML.documentKey = rs.getString("claveHacienda");
+        ParametrosXML.companyHome = Menu.BASEDATOS;
+        ParametrosXML.document = facnume + "";
+        
+        ParametrosXML.documentType = getDocumentType();
+        
+        ParametrosXML.ourIdType = tipoCedula;
+        ParametrosXML.supplierIdType = "00";
+        ParametrosXML.todoAction = this.accion; // 1=Enviar, 2=Consultar
+        ps.close();
+    } // end loadData
+    
+    private String getDocumentType(){
+        String documentType = "";
+        if (facnume > 0 && facnd == 0){
+            documentType = "FAC";
+        } else if (facnume > 0 && facnd < 0){
+            documentType = "NDB";
+        } else if (facnume < 0 && facnd > 0){
+            documentType = "NCR";
+        }
+        return documentType;
+    } // end getDocumentType
+    
+    
+    /**
+     * Enviar un xml a Hacienda.
+     *
+     */
+    public void enviarXML() {
+        // Este proceso es únicamente windows por lo que no debe correr en Linux
+        String os = Ut.getProperty(Ut.OS_NAME).toLowerCase();
+        if (!os.contains("win") || !Menu.enviarDocumentosElectronicos) {
+            return;
+        } // end if
+
+        try {
+            String dir = Menu.DIR.getXmls() + Ut.getProperty(Ut.FILE_SEPARATOR);
+
+            // Si el ejecutable no existe no continúo.
+            String exe = Menu.DIR.getXmls() + "\\FE2.exe";
+
+            File f = new File(exe);
+            if (!f.exists()) {
+                throw new Exception("El módulo de envío de la factura electrónica no fue encontrado");
+            } // end if
+
+            String logFile = dir + facnume + ".log";
+
+            String cmd
+                    = exe + " "
+                    + ParametrosXML.xmlFileName + " "
+                    + ParametrosXML.document + " "
+                    + ParametrosXML.todoAction + " "
+                    + ParametrosXML.documentType + " "
+                    + ParametrosXML.companyHome + " "
+                    + ParametrosXML.documentKey + " "
+                    + ParametrosXML.ourIdType + " "
+                    + ParametrosXML.supplierIdType; // tipo cédula proveedor (Solo es útil en el proceso de confirmación de XMLs).
+
+            Process p = Runtime.getRuntime().exec(cmd);
+
+            int size = 1000;
+            InputStream is = p.getInputStream();
+            byte[] buffer = new byte[size];
+            int len;
+            FileOutputStream fos = new FileOutputStream(logFile);
+            len = is.read(buffer);
+
+            while (len > 0) {
+                fos.write(buffer, 0, len);
+                len = is.read(buffer);
+            } // end while
+
+            fos.close();
+            is.close();
+
+        } catch (Exception ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            this.error = true;
+            this.error_msg = ex.getMessage();
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+        } // end try-catch
+    } // end enviarXML
 } // end Class
+
