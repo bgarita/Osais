@@ -235,6 +235,7 @@ public class Menu extends javax.swing.JFrame {
                 FONDO.setImagen(rs.getString("WallPaper").trim());
             } // end if
             Menu.enviarDocumentosElectronicos = rs.getBoolean("enviarFacturaE");
+            //Menu.modalidadFacturaElectronica  = rs.getInt("modoFacturaE");
             rs.close();
 
             rs = NAV.ejecutarQuery("select @@hostname");
@@ -2005,7 +2006,7 @@ public class Menu extends javax.swing.JFrame {
 
         mnuHacienda.setText("Hacienda");
 
-        mnuXml.setText("Generar documentos XML");
+        mnuXml.setText("Enviar documentos electrónicos");
         mnuXml.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuXmlActionPerformed(evt);
@@ -3926,6 +3927,12 @@ public class Menu extends javax.swing.JFrame {
             return;
         } // end try-catch
 
+        //        if (Menu.modalidadFacturaElectronica == 2){
+        //            EnviarFactura.main(new String[1]);
+        //            return;
+        //        }
+        
+        // El código que sigue corresponde a la modalidad 1 de factura electrónica.
         /*
         Nota:
             Este formulario corriendo desde un acceso directo en Windows 7 con
@@ -3940,7 +3947,7 @@ public class Menu extends javax.swing.JFrame {
             fact.setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, ex);
+            JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         }
     }//GEN-LAST:event_mnuXmlActionPerformed

@@ -52,7 +52,7 @@
 		<fieldDescription><![CDATA[Número de factura, ND, NC]]></fieldDescription>
 	</field>
 	<field name="faccant" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[Cantidad ]]></fieldDescription>
+		<fieldDescription><![CDATA[Cantidad]]></fieldDescription>
 	</field>
 	<field name="codigo" class="java.lang.String"/>
 	<field name="artdesc" class="java.lang.String"/>
@@ -240,8 +240,8 @@
 			</textField>
 			<textField>
 				<reportElement x="317" y="72" width="252" height="15" uuid="b8073214-8e09-44c1-8755-30bb35ee2802"/>
-				<textElement textAlignment="Center">
-					<font fontName="Tahoma"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{claveHacienda}]]></textFieldExpression>
 			</textField>

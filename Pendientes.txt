@@ -141,4 +141,10 @@ se debe hacer lo siguiente:
 
 
 
+
+MEJORAS:
+1. Poner el código de actividad y el tipo de cédula como un parámetro en config. 
+   (Se modifica la tabla, la pantalla y el sistema de FE en C#)
+2. 
+
 NOTA: El precio de actualización para la contabilidad es de 170 dólares.

@@ -1,26 +1,23 @@
 package interfase.otros;
 
 import Mail.Bitacora;
-import accesoDatos.CMD;
 import interfase.menus.Menu;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import logica.DocumentoElectronico;
 import logica.utilitarios.Ut;
 import logica.xmls.ConsultaXMLv1;
 
 /**
  *
  * @author bosco, 29/09/2018 Consultar el estado de los documentos electrónicos.
+ * Esta clase no hace uso del API para consultar ni enviar documentos electrónicos.
+ * Su funcionalidad se basa en obtener los datos de los archivos de texto generados por el API.
  */
 public class ConsultaFacturasXML extends javax.swing.JFrame {
 
@@ -81,7 +78,7 @@ public class ConsultaFacturasXML extends javax.swing.JFrame {
         txaReporteHacienda.setLineWrap(true);
         txaReporteHacienda.setRows(5);
         txaReporteHacienda.setWrapStyleWord(true);
-        txaReporteHacienda.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Validación de Hacienda", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+        txaReporteHacienda.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Respuesta de Hacienda", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
         jScrollPane2.setViewportView(txaReporteHacienda);
 
         txaEstadoEnvio.setColumns(20);
@@ -89,7 +86,7 @@ public class ConsultaFacturasXML extends javax.swing.JFrame {
         txaEstadoEnvio.setLineWrap(true);
         txaEstadoEnvio.setRows(5);
         txaEstadoEnvio.setWrapStyleWord(true);
-        txaEstadoEnvio.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Estado del envío", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+        txaEstadoEnvio.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos del envío", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
         jScrollPane3.setViewportView(txaEstadoEnvio);
 
         pgbAvance.setStringPainted(true);
@@ -168,114 +165,14 @@ public class ConsultaFacturasXML extends javax.swing.JFrame {
 
         Path path = Paths.get(this.validFiles.get(selectedIndex));
 
+        // El método Ut.fileToString() siempre devuelve algo.
+        // Si no existiera el archivo devuelve "Archivo no encontrado."
         this.txaEstadoEnvio.setText(Ut.fileToString(path));
-
-        // Obtengo la referencia, si no existe no hago la consulta.
-        int pos = Ut.getPosicionIgnoreCase(this.txaEstadoEnvio.getText(), "Referencia:");
-        if (pos < 0) {
-            return;
-        } // end if
-
-        String ref
-                = this.txaEstadoEnvio.getText().substring(pos, Ut.getPosicionIgnoreCase(this.txaEstadoEnvio.getText(), "Mensaje:") - 1);
-
-        ref = ref.substring(Ut.getPosicion(ref, " ") + 1);
-
-        String documento = this.lstDocumentos.getSelectedValue().replace(".txt", "");
         
-        // La referencia no puede ser cero, vacío o negativo
-        if (ref.trim().isEmpty() || Integer.parseInt(ref.trim()) == 0) {
-            String msg = "No se pudo obtener la referencia para el documento " + documento;
-            JOptionPane.showMessageDialog(null,
-                    msg,
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + msg);
-            return;
-        } // end if
-
-        String dirXMLS = Menu.DIR.getXmls() + Ut.getProperty(Ut.FILE_SEPARATOR);
-        DocumentoElectronico docEl = new DocumentoElectronico(0, 0, "", conn);
-        /*
-        Tipos de documento:
-            FAC=Factura
-            NCR=Nota de crédito
-            NDB=Nota de débio
-            FCO=Factura de compra
-            Vacío=No existe referencia aún
-         */
-        String tipo = docEl.getTipoDoc(Integer.parseInt(ref));
-
-        /*
-        Nota: Cuando EnviarFactura2.exe no pudo actualizar la base de datos,
-        después de corregir el problema (generarlmente el login) se debe:
-        1. Correr el siguiente script (con los parámetros correspondientes):
-            UPDATE `laflor`.`faestadodocelect` 
-                    SET `estado`='1', `descrip`='Enviado', `referencia`='261069' 
-            WHERE  `facnume`=77503 AND `facnd`=0 AND `tipoxml`='V';
-        2.  Consultar de nuevo usando la versión 1 de consulta.
-        3.  Si el caso anterior no funcionó se debe anular la factura mediante
-            nota de crédito y hacer una nueva.
-        
-        Bosco 25/08/2019
-        
-        RECUPERAR UN XML FIRMADO Bosco 22/07/2020
-        Si por alguna razón el XML firmado no se guardó en la carpeta correspondiente
-        se debe hacer lo siguiente:
-        1.  Buscar el archivo correspondiente en la carpeta de logs 
-            por ejemplo C:\InfoT\OSAIS\System\xmls\logs\1179669_Hac.log
-        2.  Abrir el archivo y modificar el estado y el texto de la siguiente
-            manera: 
-            Estado: 4 ACEPTADO
-            Cambiar a: Estado: 1 Enviado
-        3.  Ejecutar la consulta de estado de documentos con la versión 1
-            Hacienda/Consultar documentos enviados V1
-            Con esto se habrá recuperado el XML perdido y ya se puede realizar
-            el envío del correo.
-            Ya para este momento el log tendrá de nuevo el estado de ACEPTADO.
-        */
-        // Si el archivo que contiene la información existe, y tiene alguno de los
-        // estados ACEPTADO o RECHAZADO, se muestran los datos; caso contrario 
-        // continúo con la generación del archivo.
-        path = docEl.getLogPath(documento);
-        if (path != null && path.toFile().exists()) {
-            String contenido = Ut.fileToString(path);
-            if (contenido.contains("RECHAZADO") || contenido.contains("ACEPTADO")){
-                this.txaReporteHacienda.setText(contenido);
-                return;
-            } // end if
-        } // end if
-        
-        // Menu.BASEDATOS representa el homedir para cada compañía.  Nota: tomar en cuenta
-        // que no es una ruta completa sino el nombre de la subcarpeta que está dentro de
-        // la carpeta de instalación del sistema.
-        
-        //String cmd = dirXMLS + "EnviarFactura2.exe " + ref + " " + documento + " 2 " + tipo;
-        String cmd = dirXMLS + "EnviarFactura2.exe " + ref + " " + documento + " 2 " + tipo + " " + Menu.BASEDATOS;
-        try {
-            // Este proceso es únicamente windows por lo que no debe correr en Linux
-            String os = Ut.getProperty(Ut.OS_NAME).toLowerCase();
-            if (os.contains("win") && Menu.enviarDocumentosElectronicos) {
-                Process p = Runtime.getRuntime().exec(cmd);
-            } // end if
-
-        } catch (IOException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null,
-                    ex.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
-            return;
-        } // end try-catch
-
-        path = docEl.getLogPath(documento);
-        
-        String texto = Ut.fileToString(path);
-        if (texto.contains("Archivo no encontrado")) {
-            texto = "Ocurrió un error. Falta el archivo " + path.toFile().getAbsolutePath();
-        } // end if  
-        this.txaReporteHacienda.setText(texto);
+        String logHacienda = Menu.DIR.getLogs() + "\\" + lstDocumentos.getSelectedValue();
+        logHacienda = logHacienda.replace(".txt", "_Hac.log"); //"C:\\Java Programs\\osais\\laflor\\xmls\\logs\\10006327_Hac.log";
+        path = Paths.get(logHacienda);
+        this.txaReporteHacienda.setText(Ut.fileToString(path));
     }//GEN-LAST:event_lstDocumentosMouseClicked
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
@@ -363,40 +260,4 @@ public class ConsultaFacturasXML extends javax.swing.JFrame {
         cxml.start();
     } // end loadDocumentList
 
-    /**
-     * Obtener el tipo de documento tomando la referencia como criterio de
-     * búsqueda en la tabla de documentos electrónicos.
-     *
-     * @param ref String número de referencia dado por Hacienda
-     * @return String Tipo de documento
-     */
-    private String getTipo(int ref) {
-        String tipo = "";
-        String sqlSent
-                = "Select "
-                + "	CASE        "
-                + "		When a.facnd = 0 and tipoxml = 'V' then 'FAC' "
-                + "		When a.facnd > 0 and tipoxml = 'V' then 'NCR' "
-                + "		When a.facnd < 0 and tipoxml = 'V' then 'NDB' "
-                + "		When a.facnd = 0 and tipoxml = 'C' then 'FCO' "
-                + "		Else 'N/A'   "
-                + "	END as tipo  "
-                + "from faestadoDocElect a  "
-                + "Where referencia = ?";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sqlSent,
-                    ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY);
-            ps.setInt(1, ref);
-            ResultSet rs = CMD.select(ps);
-            if (rs != null && rs.first()) {
-                tipo = rs.getString("tipo");
-            } // end if
-            ps.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(ConsultaFacturasXML.class.getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
-        }
-        return tipo;
-    } // end getTipo
 }

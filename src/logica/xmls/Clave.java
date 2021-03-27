@@ -225,11 +225,14 @@ public class Clave {
         clave += this.consecutivoDoc;          // 20 dígitos
         clave += this.situacionComprobante;    // 1 dígitos
         
+        
         // Generar el código de seguridad
         int max = 99999999;
         int min = 1;
         Random rand = new Random();
         this.codigoSeguridad = Ut.lpad((rand.nextInt((max - min) + 1) + min), "0", 8);
+        
+        //this.codigoSeguridad = "00782415";
         
         clave += this.codigoSeguridad; // Debe ser de 8 posiciones
     } // end generarClave

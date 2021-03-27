@@ -111,7 +111,7 @@
             <Property name="wrapStyleWord" type="boolean" value="true"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder justification="2" title="Validaci&#xf3;n de Hacienda"/>
+                <TitledBorder justification="2" title="Respuesta de Hacienda"/>
               </Border>
             </Property>
           </Properties>
@@ -136,7 +136,7 @@
             <Property name="wrapStyleWord" type="boolean" value="true"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder justification="2" title="Estado del env&#xed;o"/>
+                <TitledBorder justification="2" title="Datos del env&#xed;o"/>
               </Border>
             </Property>
           </Properties>
