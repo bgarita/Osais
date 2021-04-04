@@ -2,9 +2,7 @@ package interfase.consultas;
 
 import Mail.Bitacora;
 import accesoDatos.CMD;
-import accesoDatos.UtilBD;
 import interfase.menus.Menu;
-import interfase.otros.FacturaXML;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -17,10 +15,13 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import logica.DocumentoElectronico;
 import logica.ParametrosXML;
 import logica.utilitarios.Ut;
-import logica.xmls.ProcesoProgressBar;
+import logica.xmls.CorreoFacturaElectronica;
+import logica.xmls.EnvioFacturaElectronica;
+import logica.xmls.TablaFacturaElectronica;
 
 /**
  *
@@ -613,63 +614,10 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private void cargarTabla() {
-        ProcesoProgressBar pb 
-                = new ProcesoProgressBar(this, "Documentos electrónicos");
+        TablaFacturaElectronica pb 
+                = new TablaFacturaElectronica(this, "Documentos electrónicos");
         pb.setBorderTitle("Cargando...");
         pb.start();
-//        // Limpiar la tabla.
-//        Ut.clearJTable(tblDocumentosXML);
-//        ResultSet rs;
-//        try {
-//            PreparedStatement ps = conn.prepareStatement(query,
-//                    ResultSet.TYPE_SCROLL_SENSITIVE,
-//                    ResultSet.CONCUR_READ_ONLY);
-//            rs = CMD.select(ps);
-//            if (rs == null || !rs.first()) {
-//                ps.close();
-//                return;
-//            } // end if
-//
-//            int rows, row;
-//            rs.last();
-//            rows = rs.getRow();
-//            try {
-//                this.lblTotalRegistros.setText("Total registros: " + Ut.setDecimalFormat(rows + "", 0));
-//            } catch (Exception ex) {
-//                this.lblTotalRegistros.setText("Total registros: N/A");
-//            }
-//
-//            // Ampliar la tabla si fuera necesario
-//            DefaultTableModel dtm = (DefaultTableModel) tblDocumentosXML.getModel();
-//            if (dtm.getRowCount() < rows) {
-//                dtm.setRowCount(rows);
-//                tblDocumentosXML.setModel(dtm);
-//            } // end if
-//            rs.beforeFirst();
-//            row = 0;
-//            while (rs.next()) {
-//                tblDocumentosXML.setValueAt(rs.getInt("facnume"), row, 0);
-//                tblDocumentosXML.setValueAt(rs.getString("tipo"), row, 1);
-//                tblDocumentosXML.setValueAt(rs.getString("xmlFile"), row, 2);
-//                tblDocumentosXML.setValueAt(rs.getString("descrip"), row, 3);
-//                tblDocumentosXML.setValueAt(rs.getString("clidesc"), row, 4);
-//                tblDocumentosXML.setValueAt(rs.getString("estado"), row, 5);
-//                tblDocumentosXML.setValueAt(rs.getString("xmlEnviado"), row, 6);
-//                tblDocumentosXML.setValueAt(rs.getString("emailDestino"), row, 7);
-//                tblDocumentosXML.setValueAt(rs.getString("fechaEnviado"), row, 8);
-//                tblDocumentosXML.setValueAt(rs.getInt("facnd"), row, 9);
-//                tblDocumentosXML.setValueAt(rs.getString("tipoxml"), row, 10);
-//                row++;
-//            } // end while
-//            ps.close();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-//            JOptionPane.showMessageDialog(null,
-//                    ex.getMessage(),
-//                    "Error",
-//                    JOptionPane.ERROR_MESSAGE);
-//            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
-//        } // end try-catch
     } // end cargarTabla
 
     private void setQuery() {
@@ -780,6 +728,12 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
             return;
         } // end if
 
+        CorreoFacturaElectronica pb 
+                = new CorreoFacturaElectronica(this, "Enviar correos electrónicos");
+        pb.setBorderTitle("Enviando...");
+        pb.start();
+        
+        /*
         // Determino cuántos registros hay seleccionados en la tabla
         int[] rows = this.tblDocumentosXML.getSelectedRows();
         int count = 0;
@@ -858,6 +812,7 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
                 msg,
                 "Información",
                 JOptionPane.INFORMATION_MESSAGE);
+        */
     } // end enviarPDFyXML
 
     private boolean validRow() {
@@ -987,6 +942,12 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
             return;
         } // end if
 
+        EnvioFacturaElectronica pb 
+                = new EnvioFacturaElectronica(this, "Enviar documentos electrónicos");
+        pb.setBorderTitle("Enviando...");
+        pb.start();
+        
+        /*
         // Determino cuántos registros hay seleccionados en la tabla
         int[] rows = this.tblDocumentosXML.getSelectedRows();
 
@@ -1071,7 +1032,7 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
                 count + " de " + rows.length + " XMLs enviados satisfactoriamente.",
                 "Mensaje",
                 JOptionPane.INFORMATION_MESSAGE);
-
+        */
     } // end enviarHacienda
     
     public JTable getTable(){
@@ -1098,4 +1059,7 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
         return init;
     }
     
+    public JTextArea getEstado(){
+        return this.txaEstado;
+    }
 }

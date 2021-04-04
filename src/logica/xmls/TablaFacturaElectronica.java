@@ -4,9 +4,9 @@ import Mail.Bitacora;
 import accesoDatos.CMD;
 import interfase.consultas.DetalleNotificacionXml;
 import interfase.menus.Menu;
+import interfase.otros.GeneralFrame;
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.Window.Type;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,7 +14,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
@@ -24,39 +23,30 @@ import javax.swing.table.DefaultTableModel;
 import logica.utilitarios.Ut;
 
 /**
- * Esta clase se encarga de cargar todos los registros 
- * de facturación electrónica según los criterios elegidos
- * por el usuario (dentro de un hilo separado).
+ * Esta clase carga todos los registros de facturación electrónica 
+ * según los criterios elegidos por el usuario (dentro de un hilo separado).
  * @author Bosco Garita Azofeifa 27/03/2021 
  * 
  */
-public class ProcesoProgressBar extends Thread {
+public class TablaFacturaElectronica extends Thread {
 
     private final DetalleNotificacionXml dn;
-    private final JFrame frame;
+    private final GeneralFrame frame;
     private final Container content;
     private final JProgressBar progressBar;
     private Border border;
     private final Connection conn;
     private final String windowTitle;
     
-    public ProcesoProgressBar(DetalleNotificacionXml dn, String windowTitle) {
+    public TablaFacturaElectronica(DetalleNotificacionXml dn, String windowTitle) {
         this.dn = dn;
         this.windowTitle = windowTitle;
         this.conn = Menu.CONEXION.getConnection();
 
-        this.frame = new JFrame(windowTitle);
-        this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        this.frame.setType(Type.UTILITY);
+        this.frame = new GeneralFrame(windowTitle);
         this.content = this.frame.getContentPane();
         this.progressBar = new JProgressBar();
-        int height = Ut.getProperty(Ut.OS_NAME).equals("Linux") ? 90 : 85;
-        int width = 400;
-        this.frame.setSize(width, height);
-        java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        this.frame.setBounds((screenSize.width - width) / 2, (screenSize.height - height) / 2, width, height);
         this.progressBar.setIndeterminate(true);
-        frame.setLocationRelativeTo(null);
     } // end main
 
     public void setMaximumValue(int value) {
@@ -96,11 +86,6 @@ public class ProcesoProgressBar extends Thread {
         JLabel lblRecords = dn.getLblRecords();
         Bitacora b = dn.getBitacora();
         String query = dn.getQuery();
-        Boolean init = dn.getInit();
-        Boolean destroy = dn.getDestroy();
-        
-        init = true;
-        destroy = false;
         
         // Limpiar la tabla.
         Ut.clearJTable(table);
@@ -156,6 +141,5 @@ public class ProcesoProgressBar extends Thread {
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
         
-        init = false;
     } // end loadData
 } // end ProgressBar
