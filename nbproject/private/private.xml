@@ -4,18 +4,16 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Java%20Programs/osais/src/interfase/otros/ConsultaFacturasXML.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/interfase/menus/Menu.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/interfase/reportes/RepVentasxcliente.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/interfase/reportes/RepComparativoMensual.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/logica/DocumentoElectronico.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/interfase/consultas/ConsultaMovCierre.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/interfase/transacciones/DigitacionConteo.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/interfase/otros/FacturaXML.java</file>
             <file>file:/C:/Java%20Programs/osais/src/interfase/consultas/DetalleNotificacionXml.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/logica/xmls/ProcesoProgressBar.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/interfase/otros/FacturaElectProveedor.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/logica/xmls/DetalleFactura.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/interfase/menus/Menu.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/logica/xmls/TablaFacturaElectronica.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/logica/xmls/CorreoFacturaElectronica.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/interfase/reportes/RepComparativoMensual.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/logica/xmls/EnvioFacturaElectronica.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/interfase/consultas/ConsultaMovCierre.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/interfase/otros/GeneralFrame.java</file>
             <file>file:/C:/Java%20Programs/osais/Pendientes.txt</file>
+            <file>file:/C:/Java%20Programs/osais/src/interfase/otros/FacturaXML.java</file>
         </group>
     </open-files>
 </project-private>

@@ -2,7 +2,6 @@ package interfase.consultas;
 
 import Mail.Bitacora;
 import accesoDatos.CMD;
-import accesoDatos.UtilBD;
 import interfase.menus.Menu;
 import java.io.File;
 import java.nio.file.Path;
@@ -20,6 +19,7 @@ import javax.swing.JTextArea;
 import logica.DocumentoElectronico;
 import logica.ParametrosXML;
 import logica.utilitarios.Ut;
+import logica.xmls.CorreoFacturaElectronica;
 import logica.xmls.EnvioFacturaElectronica;
 import logica.xmls.TablaFacturaElectronica;
 
@@ -728,6 +728,12 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
             return;
         } // end if
 
+        CorreoFacturaElectronica pb 
+                = new CorreoFacturaElectronica(this, "Enviar correos electrónicos");
+        pb.setBorderTitle("Enviando...");
+        pb.start();
+        
+        /*
         // Determino cuántos registros hay seleccionados en la tabla
         int[] rows = this.tblDocumentosXML.getSelectedRows();
         int count = 0;
@@ -806,6 +812,7 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
                 msg,
                 "Información",
                 JOptionPane.INFORMATION_MESSAGE);
+        */
     } // end enviarPDFyXML
 
     private boolean validRow() {
