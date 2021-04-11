@@ -378,7 +378,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
         });
 
         btnBajar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/24x24 png icons/Down.png"))); // NOI18N
-        btnBajar.setToolTipText("Buscar cuenta");
+        btnBajar.setToolTipText("Agregar línea");
         btnBajar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBajarActionPerformed(evt);
@@ -1760,7 +1760,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
          * < 0 = Registro nuevo en este asiento pero ya en la tabla
          */
         int idReg = Integer.parseInt(lblidReg.getText().trim());
-        int fila = 0;
+        int fila;
 
         if (idReg == 0) {
             // Antes de trasladar el valor a la tabla hay que verificar si hay
