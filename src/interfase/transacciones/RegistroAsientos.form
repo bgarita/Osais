@@ -517,7 +517,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Icons/24x24 png icons/Down.png"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Buscar cuenta"/>
+            <Property name="toolTipText" type="java.lang.String" value="Agregar l&#xed;nea"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBajarActionPerformed"/>

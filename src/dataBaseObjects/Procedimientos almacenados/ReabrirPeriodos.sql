@@ -2,7 +2,7 @@ DROP PROCEDURE if EXISTS ReabrirPeriodos;
 
 Delimiter $$
 
-CREATE PROCEDURE `ReabrirPeriodos`(
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ReabrirPeriodos`(
 	IN `yearx` INT,
 	IN `monthx` INT
 )
@@ -21,7 +21,7 @@ BEGIN
 	
 	DECLARE vError INT;
 	DECLARE vMensajeErr VARCHAR(5000);
-	DECLARE vEtapa INT;
+	DECLARE vEtapa INT; -- Se usa en el mensaje de error para indicar la etapa en donde se dio el error
 	
 	DECLARE EXIT HANDLER FOR SQLEXCEPTION
 	BEGIN
@@ -203,7 +203,7 @@ BEGIN
 			c.db_mes = h.db_mes,
 			c.cr_mes = h.cr_mes,
 			c.nivelc = h.nivelc,
-			c.nom_cta = h.nombre,
+			c.nombre = h.nombre,
 			c.fecha_c = h.fecha_c,
 			c.activa = h.activa
 		WHERE h.mayor = c.mayor

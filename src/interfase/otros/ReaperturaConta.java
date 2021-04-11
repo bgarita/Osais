@@ -186,7 +186,7 @@ public class ReaperturaConta extends javax.swing.JFrame {
             Este SP devuelve un rs con dos columnas err de tipo integer y msg de tipo String
             Si err es mayor que cero es porque se produjo un error y por lo tanto msg tendrá el mensaje del error.
             No se necesita hacer rollback porque el mismo SP controla la transacción.
-        2. Si todo salió bien correr el proceso de recalcular cuentas de movimiento,
+        2. Si todo salió bien, correr el proceso de recalcular cuentas de movimiento,
             y mayorizar (mismos procesos que se encuentran en el menú Herramientas).
         3. Mostrar el nuevo periodo actual.
         */
