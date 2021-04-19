@@ -1,6 +1,0 @@
-
-EXTRA:
-Crear branch: "Duplicated keys Update"
-Buscar todos los códigos insert into para tablas con campo llave y sustituir el
-código por INSERT ... ON DUPLICATE KEY UPDATE
-Ver: https://chartio.com/resources/tutorials/how-to-insert-if-row-does-not-exist-upsert-in-mysql/#using-insert-on-duplicate-key-update
