@@ -11,8 +11,8 @@ import javax.mail.internet.*;
 import logica.utilitarios.Ut;
 
 /**
- * Esta clase tiene los métodos necesarios para enviar correos de TEXTO, HTML y
- * con archivo adjunto.
+ * Esta clase tiene los métodos necesarios para enviar correos de TEXTO, HTML y con
+ * archivo adjunto.
  *
  * @author bgarita
  */
@@ -37,7 +37,6 @@ public class MailSender {
         return error;
     }
 
-    
     public void initGMail() throws FileNotFoundException, IOException {
         //        File mailConfig = new File(CONFIG_FILE);
         //        Properties props = new Properties();
@@ -73,9 +72,9 @@ public class MailSender {
     } // end setsCorreoOrigen
 
     /**
-     * Método público y estático que envía un correo a las direcciones indicadas
-     * en el fichero de propiedades, desde la dirección indicada también en el
-     * mismo fichero con el asunto y el contenido que se pasan como parámetros.
+     * Método público y estático que envía un correo a las direcciones indicadas en el
+     * fichero de propiedades, desde la dirección indicada también en el mismo fichero con
+     * el asunto y el contenido que se pasan como parámetros.
      *
      * @param sAsunto String asutno del mensaje
      * @param sTexto String cuerpo del mensaje
@@ -115,10 +114,10 @@ public class MailSender {
 
     /**
      *
-     * Método público y estático que envía un correo a las direcciones indicadas
-     * en el parámetro sendTo, desde la dirección indicada en el archivo de
-     * propiedades que se carga en la variable CONFIG_FILE con el asunto y el
-     * contenido que se pasan como parámetros.
+     * Método público y estático que envía un correo a las direcciones indicadas en el
+     * parámetro sendTo, desde la dirección indicada en el archivo de propiedades que se
+     * carga en la variable CONFIG_FILE con el asunto y el contenido que se pasan como
+     * parámetros.
      *
      * @author Bosco Garita 31/10/2011
      * @param sAsunto String
@@ -158,40 +157,50 @@ public class MailSender {
     } // end sendTextMail sobrecargado
 
     /**
-     * Método público y estático que envía un correo a las direcciones indicadas
-     * en el fichero de propiedades, desde la dirección indicada también en el
-     * mismo fichero con el asunto y el contenido que se pasan como parámetros.
+     * Método público y estático que envía un correo a las direcciones indicadas en el
+     * fichero de propiedades, desde la dirección indicada también en el mismo fichero con
+     * el asunto y el contenido que se pasan como parámetros.
      *
      * @param addressx String dirección de correo electrónico
      * @param sAsunto String título del correo
-     * @param sTexto String mensaje del correo
+     * @param sTextoHTML String mensaje del correo
      * @return boolean true=Exitoso, false=fallido
      * @throws java.lang.Exception
      */
-    public boolean sendHTMLMail(String addressx, String sAsunto, String sTexto) throws Exception {
+    public boolean sendHTMLMail(String addressx, String sAsunto, String sTextoHTML) throws Exception {
 
-        Properties props = new Properties();
-        props.put("mail.smtp.host", sServidorCorreo);
-        Session mailSesion = Session.getDefaultInstance(props, null);
+        try {
+            Session session = Session.getDefaultInstance(this.gmailProps,
+                    new javax.mail.Authenticator() {
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(gmailProps.getProperty("mail.smtp.user"), gmailProps.getProperty("mail.smtp.clave"));
+                }
+            });
 
-        Message msg = new MimeMessage(mailSesion);
+            Message message = new MimeMessage(session);
 
-        msg.setFrom(new InternetAddress(remitente));
-        msg.setSubject(sAsunto);
-        msg.setSentDate(new java.util.Date());
+            // Puede ser una máscara (por alguna razón en GMail este from lo está ignorando, usa el user de la session. 22/10/2018)
+            message.setFrom(new InternetAddress(remitente));
 
-        msg.setContent(sTexto, "text/html");
+            InternetAddress address[] = new InternetAddress[1];
+            address[0] = new InternetAddress(addressx);
 
-        InternetAddress address[] = new InternetAddress[1];
-        address[0] = new InternetAddress(addressx);
+            message.setRecipients(Message.RecipientType.TO, address);
+            message.setSubject(sAsunto);
+            message.setSentDate(new java.util.Date());
 
-        msg.setRecipients(Message.RecipientType.TO, address);
-        //msg.addHeader("X-Priority", "1"); // Prioridad alta
-        //msg.addHeader("Dispostion-Notification", "bgarita@coopecaja.fi.cr"); // Acuse de recibo
+            message.setContent(sTextoHTML, "text/html");
 
-        Transport.send(msg);
-
+            Transport.send(message);
+        } catch (Exception ex) {
+            System.out.println(ex);
+            error = true;
+            errorMessage = ex.getMessage();
+            return false;
+        } // end try-catch
         return true;
+
     } // sendHTMLMail
 
     public boolean sendAttachmentMail(String addressx, String sAsunto, String sTexto, String sArchivo) {
@@ -236,23 +245,20 @@ public class MailSender {
     public boolean sendAttachmentMail_GM(String destinatarios, String sAsunto, String sTexto, String[] archivos) {
         MimeMultipart multiParte;
         BodyPart texto = new MimeBodyPart();
-        //BodyPart adjunto = new MimeBodyPart();
 
         try {
-
-            //Session session = Session.getDefaultInstance(this.gmailProps);
             Session session = Session.getDefaultInstance(this.gmailProps,
                     new javax.mail.Authenticator() {
-                        @Override
-                        protected PasswordAuthentication getPasswordAuthentication() {
-                            return new PasswordAuthentication(gmailProps.getProperty("mail.smtp.user"), gmailProps.getProperty("mail.smtp.clave"));
-                        }
-                    });
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(gmailProps.getProperty("mail.smtp.user"), gmailProps.getProperty("mail.smtp.clave"));
+                }
+            });
 
             Message message = new MimeMessage(session);
 
             // Puede ser una máscara (por alguna razón en GMail este from lo está ignorando, usa el user de la session. 22/10/2018)
-            message.setFrom(new InternetAddress(remitente)); 
+            message.setFrom(new InternetAddress(remitente));
 
             InternetAddress address[] = new InternetAddress[1];
             address[0] = new InternetAddress(destinatarios);
@@ -267,7 +273,6 @@ public class MailSender {
             multiParte.addBodyPart(texto);
 
             // Agregar los adjuntos
-            //List<BodyPart> adjuntos = new ArrayList<>();
             for (String archivo : archivos) {
                 File f = new File(archivo);
                 BodyPart adj = new MimeBodyPart();
@@ -276,11 +281,6 @@ public class MailSender {
                 multiParte.addBodyPart(adj);
             } // end for
 
-            //            adjunto.setDataHandler(new DataHandler(new FileDataSource(archivos[0])));
-            //            adjunto.setFileName(archivos[0]);                
-            //            multiParte = new MimeMultipart();
-            //            multiParte.addBodyPart(texto);
-            //            multiParte.addBodyPart(adjunto);
             message.setContent(multiParte);
 
             Transport.send(message);
@@ -291,7 +291,7 @@ public class MailSender {
             return false;
         } // end try-catch
         return true;
-    } // sendAttachmentMail
+    } // sendAttachmentMail_GM
 
     public String getRemitente() {
         return remitente;

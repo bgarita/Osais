@@ -881,6 +881,9 @@ public class ImpresionFactura extends java.awt.Dialog {
             return;
         } // end if
 
+        // Se usa para evitar que la ventana tape los mensajes de error.
+        this.setAlwaysOnTop(false);
+        
         // Generar el xml para Hacienda
         if (this.chkXML.isSelected()) {
             int factura = Integer.parseInt(this.txtFacnume1.getText().trim());
@@ -927,8 +930,6 @@ public class ImpresionFactura extends java.awt.Dialog {
                 b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             }
         } // end if
-
-        this.setAlwaysOnTop(false);
 
         // Proceso de impresión.
         Reportes rpt = new Reportes(this.conn);
