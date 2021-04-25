@@ -8,9 +8,12 @@ package interfase.consultas;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
+import static interfase.menus.Menu.DIR;
 import interfase.otros.Buscador;
 import interfase.otros.FacturaXML;
 import interfase.reportes.Reportes;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,6 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import logica.DocumentoElectronico;
+import logica.utilitarios.Ut;
 
 /**
  *
@@ -52,6 +56,17 @@ public class ImpresionFactura extends java.awt.Dialog {
         tipodoc = tipo;
         this.datFecha1.setDate(new Date());
         this.datFecha2.setDate(new Date());
+        
+        // Control de módulos
+        Path path = Paths.get(
+                DIR.getCompanyHome() + Ut.getProperty(Ut.FILE_SEPARATOR) + "CompanyM.txt");
+        if (!Ut.isModuleAvailable("FE", path)){
+            this.chkXML.setEnabled(false);
+            this.chkXML.setSelected(false);
+            this.chkSendMail.setEnabled(false);
+            this.chkSendMail.setSelected(false);
+        } // end if
+        
 
         try {
             stat = conn.createStatement(

@@ -3283,4 +3283,14 @@ public class Ut {
             table.setValueAt(null, row, col);
         } // end for
     } // end setRowNull
+
+    public static boolean isModuleAvailable(String module, Path path) {
+        String modules = "";
+        try {
+            modules = Encripcion.decrypt(Ut.fileToString(path));
+        } catch (Exception ex) {
+            Logger.getLogger(Ut.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return modules.contains(module);
+    } // end isModuleAvailable
 } // end utlitarios
