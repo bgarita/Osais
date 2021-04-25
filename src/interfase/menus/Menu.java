@@ -51,7 +51,9 @@ import logica.Fondo;
 import logica.Usuario;
 import logica.backup.BackupFiles;
 import logica.contabilidad.CoactualizCat;
+import logica.utilitarios.Archivos;
 import logica.utilitarios.DirectoryStructure;
+import logica.utilitarios.Encripcion;
 import logica.utilitarios.Ut;
 
 /**
@@ -98,6 +100,7 @@ public class Menu extends javax.swing.JFrame {
     public static DataBaseConnection CONEXION;
     public static String engineVersion;
     public static String dataBaseVersion;
+    private Path modulos;  // Archivo donde se encuentran los módulos habilitados
 
     /**
      * Creates new form Menu
@@ -166,6 +169,7 @@ public class Menu extends javax.swing.JFrame {
         this.chkMenuSistemaDisp.setSelected(disponible);
         this.mnuDesconectarUsers.setVisible(false);
         this.mnuImportarInvw.setVisible(false);
+        this.mnuModulos.setVisible(false);
 
         // Estas opciones solamente las pueden ver estos usuarios
         if (c.getUserID().equalsIgnoreCase("OWNER")
@@ -173,38 +177,37 @@ public class Menu extends javax.swing.JFrame {
             this.chkMenuSistemaDisp.setVisible(true);
             this.mnuDesconectarUsers.setVisible(true);
             this.mnuImportarInvw.setVisible(true);
+            this.mnuModulos.setVisible(true);
         } // end if
         // Fin Bosco agregado 07/05/2011
 
         // Ocultar los menús de los módulos que no fueron adquiridos
         // Nota: solo se ocultan los que son clave.
-        Path path = Paths.get(
+        modulos = Paths.get(
                 DIR.getCompanyHome() + Ut.getProperty(Ut.FILE_SEPARATOR) + "CompanyM.txt");
-        
-        this.mnuRepInv.setVisible(Ut.isModuleAvailable("INV", path));
-        this.mnuMovimientos.setVisible(Ut.isModuleAvailable("INV", path));
-        
-        this.mnuRepFact.setVisible(Ut.isModuleAvailable("FAC", path));
-        this.mnuVentas.setVisible(Ut.isModuleAvailable("FAC", path));
-        
-        this.mnuCXC.setVisible(Ut.isModuleAvailable("CXC", path));
-        
-        this.mnuCXP.setVisible(Ut.isModuleAvailable("CXP", path));
-        this.mnuRecibosCXP.setVisible(Ut.isModuleAvailable("CXP", path));
-        
-        this.mnuCatalosConta.setVisible(Ut.isModuleAvailable("CON", path));
-        this.mnuRepConta.setVisible(Ut.isModuleAvailable("CON", path));
-        
-        this.mnuHacienda.setVisible(Ut.isModuleAvailable("FE", path));
-        
-        this.mnuOrdenesC.setVisible(Ut.isModuleAvailable("COM", path));
-        
-        this.mnuCajas.setVisible(Ut.isModuleAvailable("CAJ", path));
-        
-        this.mnuPedidosV.setVisible(Ut.isModuleAvailable("PED", path));
-        
-        
-        
+
+        this.mnuRepInv.setVisible(Ut.isModuleAvailable("INV", modulos));
+        this.mnuMovimientos.setVisible(Ut.isModuleAvailable("INV", modulos));
+
+        this.mnuRepFact.setVisible(Ut.isModuleAvailable("FAC", modulos));
+        this.mnuVentas.setVisible(Ut.isModuleAvailable("FAC", modulos));
+
+        this.mnuCXC.setVisible(Ut.isModuleAvailable("CXC", modulos));
+
+        this.mnuCXP.setVisible(Ut.isModuleAvailable("CXP", modulos));
+        this.mnuRecibosCXP.setVisible(Ut.isModuleAvailable("CXP", modulos));
+
+        this.mnuCatalosConta.setVisible(Ut.isModuleAvailable("CON", modulos));
+        this.mnuRepConta.setVisible(Ut.isModuleAvailable("CON", modulos));
+
+        this.mnuHacienda.setVisible(Ut.isModuleAvailable("FE", modulos));
+
+        this.mnuOrdenesC.setVisible(Ut.isModuleAvailable("COM", modulos));
+
+        this.mnuCajas.setVisible(Ut.isModuleAvailable("CAJ", modulos));
+
+        this.mnuPedidosV.setVisible(Ut.isModuleAvailable("PED", modulos));
+
         // Bosco agregado 23/04/2015
         // Agrego estos valores en variables estáticas para poder
         // tener acceso a ellas desde cualquier clase.
@@ -316,6 +319,7 @@ public class Menu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuItem3 = new javax.swing.JMenuItem();
         mnuPrincipal = new javax.swing.JMenuBar();
         mnuArchivo = new javax.swing.JMenu();
         mnuInarticu = new javax.swing.JMenuItem();
@@ -515,6 +519,8 @@ public class Menu extends javax.swing.JFrame {
         jSeparator14 = new javax.swing.JPopupMenu.Separator();
         mnuParmCont = new javax.swing.JMenuItem();
         mnuParER = new javax.swing.JMenuItem();
+        jSeparator27 = new javax.swing.JPopupMenu.Separator();
+        mnuModulos = new javax.swing.JMenuItem();
         mnuAdmin = new javax.swing.JMenu();
         chkMenuSistemaDisp = new javax.swing.JCheckBoxMenuItem();
         mnuUsuarios = new javax.swing.JMenuItem();
@@ -534,6 +540,8 @@ public class Menu extends javax.swing.JFrame {
         mnuSalir = new javax.swing.JMenu();
         mnuCerrarSesion = new javax.swing.JMenuItem();
         mnuCerrarSistema = new javax.swing.JMenuItem();
+
+        jMenuItem3.setText("jMenuItem3");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -1949,6 +1957,15 @@ public class Menu extends javax.swing.JFrame {
             }
         });
         mnuConfig.add(mnuParER);
+        mnuConfig.add(jSeparator27);
+
+        mnuModulos.setText("Habilitar/deshabilitar módulos");
+        mnuModulos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuModulosActionPerformed(evt);
+            }
+        });
+        mnuConfig.add(mnuModulos);
 
         mnuPrincipal.add(mnuConfig);
 
@@ -4317,6 +4334,24 @@ public class Menu extends javax.swing.JFrame {
 
     }//GEN-LAST:event_mnuReabrirPerActionPerformed
 
+    private void mnuModulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuModulosActionPerformed
+        try {
+            String availableModulos = Encripcion.decrypt(Ut.fileToString(modulos));
+            availableModulos = JOptionPane.showInputDialog("Modulos autorizados: ", availableModulos);
+            String encriptedModules = Encripcion.encript(availableModulos);
+            boolean append = false;
+            Archivos archivo = new Archivos();
+            archivo.stringToFile(encriptedModules, modulos.toFile().getAbsolutePath(), append);
+            JOptionPane.showMessageDialog(null, 
+                    "Módulos guardados.","Módulos",JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            JOptionPane.showMessageDialog(null, 
+                    ex.getMessage(),"Módulos",JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_mnuModulosActionPerformed
+
     public static void main(final DataBaseConnection c, final boolean disponible, final String url) {
 
         /* Set the Nimbus look and feel */
@@ -4347,6 +4382,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JCheckBoxMenuItem chkMenuSistemaDisp;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator10;
     private javax.swing.JPopupMenu.Separator jSeparator11;
@@ -4366,6 +4402,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator24;
     private javax.swing.JPopupMenu.Separator jSeparator25;
     private javax.swing.JPopupMenu.Separator jSeparator26;
+    private javax.swing.JPopupMenu.Separator jSeparator27;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
@@ -4489,6 +4526,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuListadoToma;
     private javax.swing.JMenuItem mnuMaestroArt;
     private javax.swing.JMenuItem mnuMinAut;
+    private javax.swing.JMenuItem mnuModulos;
     private javax.swing.JMenuItem mnuMonedas;
     private javax.swing.JMenuItem mnuMovAux;
     private javax.swing.JMenuItem mnuMovCXP;
