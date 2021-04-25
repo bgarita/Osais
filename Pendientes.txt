@@ -87,14 +87,14 @@ Ejemplo:  UtilBD.public static String actualizarCabys()
 
 
 AJUSTES PARA USAR FACTURA ELECTRÓNICA COMERCIAL:
-1.  Crear tabla que lleve el control de documentos enviados:    LISTO
+1.  Crear tabla que lleve el control de documentos enviados:                                    LISTO
     a. Cantidad
     b. Permitidos (-1 = Sin límite)
     c. Tolerancia
     
     Nota: Esta tabla no tendrá mantenimiento, será configurada manualmente.
 
-2.  El sistema debe enviar un mensaje al usuario cuando el número de documentos    LISTO
+2.  El sistema debe enviar un mensaje al usuario cuando el número de documentos                 LISTO
     haya sido alcanzado (si tiene límite). El mensaje debe indicar lo siguiente:
     Advertencia: Se ha alcanzado el número máximo de documentos permitidos para 
     enviar al Ministerio de Hacienda. Se permitirá el envío adicional de ${Tolerancia}.
@@ -109,37 +109,45 @@ AJUSTES PARA USAR FACTURA ELECTRÓNICA COMERCIAL:
     Nota: Si lo que se está haciendo es actualizando el estado del envío no se
         debe contabilizar.
 
-3.  Modificar el sistema para que los módulos que no se han comprado no se puedan usar.  CONTINUAR ACÁ...
+3.  Modificar el sistema para que los módulos que no se han comprado no se puedan usar.             LISTO
     - Crear un archivo encriptado en la carpeta company home con una sola línea de texto
       que tenga una lista de módulos autorizados separados por coma.
-      Ejemplo: INV, CXC, CXP, FAC, CON, PED, COM, CAJ, FE
+      Ejemplo: INV, CXC, CXP, FAC, CON, PED, COM, CAJ, FE, COM
     
     - Crear una función en los utilitarios para que lea y desencripte ese archivo.
         - Si el archivo no existe debe enviar el mensaje de error y no continuar.
         - Debe cargar los valores en una lista.
         - Debe tener un método que se llame getModulo(String modulo) que devuelva
-          true si el módulo existe en el archivo encriptado o false si no existe.
+          true si el módulo existe en el archivo encriptado o false si no existe.                   LISTO
 4.  Modificar las opciones del menú de la siguiente forma:
-    - Restringir todos los reportes de inventarios si el módulo INV no está autorizado.
+    - Restringir todos los reportes de inventarios si el módulo INV no está autorizado.             LISTO
       También se restringen todos los movimientos de inventarios.  Pero se debe confi-
       gurar el sistema para que se pueda facturar sin existencia.
-      Se permite la creación de artículos porque se necesita para facturación.
+      Se permite la creación de artículos porque se necesita para facturación.                      LISTO
 
-    - Restringir todos los reportes de facturación y ventas si el módulo FAC no está autorizado.
-      Se permite la creación de facturas, ND y NC porque se necesita para facturación electrónica.
+    - Restringir todos los reportes de facturación y ventas si el módulo FAC no está autorizado.    LISTO
+      Se permite la creación de facturas, ND y NC porque se necesita para facturación electrónica.  LISTO
 
-    - Restringir todos los reportes de CXC si el módulo CXC no está autorizado.
+    - Restringir todos los reportes de CXC si el módulo CXC no está autorizado.                     LISTO
       También se restringe el registro de pagos.
       Se permite la creación de clientes porque se necesita para facturación electrónica.
 
-    - Restringir todos los reportes de CXP si el módulo CXP no está autorizado.
-      También se restringe el registro de pagos.
+    - Restringir todos los reportes de CXP si el módulo CXP no está autorizado.                     LISTO
+      También se restringe el registro de pagos.                                                    LISTO
       Se permite la creación de proveedores porque se necesita para crear artículos de inventario.
 
-    - Restringir el mantenimiento de cuentas y el registro de asientos si el módulo de CON no está autorizado.
+    - Restringir el mantenimiento de cuentas y el registro de asientos si el 
+      módulo de CON no está autorizado.                                                             LISTO
 
-    - Restringir la generación y envío de XMLs si el módulo de FE no está autorizado.
+    - Restringir la generación y envío de XMLs si el módulo de FE no está autorizado.               LISTO   
+      Hay que validar el menú pero también hay que validar las siguientes pantallas:
+      * Impresión de facturas
+      * Pantalla de estado de documentos electrónicos (solo la parte del menú)
 
-    - Restringir la generación de órdenes de compra si el módulo de CON no está autorizado.
+    - Restringir la generación de órdenes de compra si el módulo de COM no está autorizado.         LISTO
 
-    - Restringir la creación de cajas si el módulo de CAJ no está autorizado.
+    - Restringir la creación de cajas si el módulo de CAJ no está autorizado.                       LISTO
+
+    - Restringir la creación de pedidos de venta si el módulo de PED no está autorizado.            LISTO
+
+    - Preparar el string de La Flor para cuando se pase la actualización
