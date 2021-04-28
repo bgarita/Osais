@@ -2,10 +2,7 @@
 
 NOTA: Jasper Reports (el plugin) no funciona con java14. Solo funciona con java 8
 
-Factura electrónica (V4.3): (VERSIÓN = "4.0r7")
-Buscar la forma de relacionar la respueta de Hacienda con el proveedor para que se puedan hacer búsquedas en la pantalla de consulta.
-
-Notas Generales:
+Notas Generales FE:
 1. IMPLEMENTACIÓN:
    Usuario y clave del anexo (para envío de facturas electrónicas):
         Usuario:    osais_FE
@@ -150,4 +147,4 @@ AJUSTES PARA USAR FACTURA ELECTRÓNICA COMERCIAL:
 
     - Restringir la creación de pedidos de venta si el módulo de PED no está autorizado.            LISTO
 
-    - Preparar el string de La Flor para cuando se pase la actualización
+    - Preparar el string de La Flor para cuando se pase la actualización                            Se puede generar en el momento mediante una opción de menú

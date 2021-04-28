@@ -4337,18 +4337,28 @@ public class Menu extends javax.swing.JFrame {
     private void mnuModulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuModulosActionPerformed
         try {
             String availableModulos = Encripcion.decrypt(Ut.fileToString(modulos));
-            availableModulos = JOptionPane.showInputDialog("Modulos autorizados: ", availableModulos);
-            String encriptedModules = Encripcion.encript(availableModulos);
+            availableModulos = JOptionPane.showInputDialog("Módulos autorizados: ", availableModulos);
+            
+            // Si el usuario (yo) presiona cancelar, availableModulos queda null.
+            if (availableModulos == null){
+                return;
+            }
+            
+            String encriptedModules = Encripcion.encrypt(availableModulos);
             boolean append = false;
             Archivos archivo = new Archivos();
             archivo.stringToFile(encriptedModules, modulos.toFile().getAbsolutePath(), append);
             JOptionPane.showMessageDialog(null, 
-                    "Módulos guardados.","Módulos",JOptionPane.INFORMATION_MESSAGE);
+                    "Módulos guardados.",
+                    "Módulos",
+                    JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             JOptionPane.showMessageDialog(null, 
-                    ex.getMessage(),"Módulos",JOptionPane.ERROR_MESSAGE);
+                    ex.getMessage(),
+                    "Módulos",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_mnuModulosActionPerformed
 

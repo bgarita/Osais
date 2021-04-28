@@ -18,7 +18,7 @@ public class Encripcion {
     private static String encryptKey;
     
 
-    public static String encript(String text) throws Exception {
+    public static String encrypt(String text) throws Exception {
         encryptKey = getMd5(TEXTFORMD5);
         Key aesKey = new SecretKeySpec(encryptKey.getBytes(), "AES");
 
@@ -28,7 +28,7 @@ public class Encripcion {
         byte[] encrypted = cipher.doFinal(text.getBytes());
 
         return Base64.encodeBytes(encrypted);
-    } // end encript
+    } // end encrypt
 
     public static String decrypt(String encrypted) throws Exception {
         encryptKey = getMd5(TEXTFORMD5);
