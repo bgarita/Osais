@@ -3287,6 +3287,10 @@ public class Ut {
     public static boolean isModuleAvailable(String module, Path path) {
         String modules = "";
         try {
+            if (!path.toFile().exists()){
+                Archivos a = new Archivos();
+                a.stringToFile(Encripcion.encrypt("Enter module info:"), path.toFile().getAbsolutePath(), false);
+            }
             modules = Encripcion.decrypt(Ut.fileToString(path));
         } catch (Exception ex) {
             Logger.getLogger(Ut.class.getName()).log(Level.SEVERE, null, ex);

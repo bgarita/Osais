@@ -13,7 +13,7 @@ public class TestEncripcion {
      */
     public static void main(String[] args) throws Exception {
         String laflor = "INV,CXP,FAC,COM,FE";
-        System.out.println(Encripcion.encript(laflor));
+        System.out.println(Encripcion.encrypt(laflor));
         //System.out.println(Encripcion.decrypt("MCrdYLWhGHiDwK+1o59pnpFeUXvQ3uAlf+qg7xiTwbKt4ClgTSdDoiRMjT6q/pkC"));
     }
     
