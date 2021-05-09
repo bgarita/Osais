@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -511,7 +512,13 @@ public class RepCedulas extends javax.swing.JFrame {
 
         // Elegir la tabla.
         tabla = txtAno.getText().trim().equals("0") ? "cocatalogo" : "hcocatalogo";
-
+        if (!txtAno.getText().trim().equals("0")){
+            int year = Integer.parseInt(txtAno.getText().trim());
+            int month = this.cboMes.getSelectedIndex();
+            Date fecha_cierre = Ut.lastDate(year, month);
+            where += " and fecha_cierre = " + Ut.fechaSQL(fecha_cierre);
+        } // end if
+        
         sqlSent
                 = "   Select     "
                 + "    mayor,    "

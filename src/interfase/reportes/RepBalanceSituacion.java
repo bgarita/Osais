@@ -310,16 +310,6 @@ public class RepBalanceSituacion extends JFrame {
             nivelc = 4;
         } // end if-else
         
-        formJasper = "RepBalanceSit" + nivelc;
-        
-        // El formulario es igual para los niveles 2 y 3.
-        // Son diferentes el nivel 1 y el cuatro.
-        if (nivelc == 3) {
-            formJasper = "RepBalanceSit" + "2";
-        } // end if
-        
-        formJasper += ".jasper";
-        
         // Elegir la tabla.
         tabla = txtAno.getText().trim().equals("0") ? "cocatalogo":"hcocatalogo";
         boolean hist = !txtAno.getText().trim().equals("0");
@@ -360,6 +350,10 @@ public class RepBalanceSituacion extends JFrame {
         cal.set(Calendar.DAY_OF_MONTH, dia);
         java.sql.Date fecha_cierre = new java.sql.Date(cal.getTimeInMillis());
         
+        if (!txtAno.getText().trim().equals("0")){
+            where += " and fecha_cierre = ? ";
+        }
+        
         double utilidad, utilidadMes, utilidadMesA;
         
         try {
@@ -388,6 +382,9 @@ public class RepBalanceSituacion extends JFrame {
         PreparedStatement ps;
         try {
             ps = conn.prepareStatement(sqlSent);
+            if (!txtAno.getText().trim().equals("0")){
+                ps.setDate(1, fecha_cierre);
+            }
             CMD.update(ps);
             ps.close();
             
@@ -457,17 +454,6 @@ public class RepBalanceSituacion extends JFrame {
                 cr_mes    = rs.getDouble("cr_mes");
             } // end if
             
-//            sqlSent = 
-//                    "Insert into balancesit " +
-//                    "   (ano_anter, db_fecha, cr_fecha, db_mes, cr_mes, orden, " +
-//                    "    nom_cta, mayor, sub_cta, sub_sub, colect, nivel, nivelc) " +
-//                    "values(0, 0, 0, 0, 0, 1, '','000','001','','',0,0)";
-//            
-//            // Primero agrego un registro en blanco
-//            ps = conn.prepareStatement(sqlSent);
-//            CMD.update(ps);
-//            ps.close();
-            
             // Ahora inserto un registro con los totales
             sqlSent = 
                     "Insert into balancesit " +
@@ -505,19 +491,6 @@ public class RepBalanceSituacion extends JFrame {
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
-        
-        // Crear los formularios:
-        //  BalanceSituacion1, BalanceSituacion2, BalanceSituacion4
-        // El #3 es el mismo que el #2.
-        
-        // NOTAS:
-        // El reporte debe salir ordenado por la columna orden+la cuenta
-        // para que se pueda agrupar y obtener los totales según el tipo 
-        // de cuenta.
-
-        //Tambièn hay que valorar la funcion: EstablecerNivel(sub_cta, sub_sub, colect)
-        
-        // El formulario debe recibir el parámetro de utilidad.
         
         String per = this.cboMes.getSelectedItem().toString();
         String año = txtAno.getText().trim();

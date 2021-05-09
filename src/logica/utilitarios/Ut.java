@@ -239,9 +239,9 @@ public class Ut {
      * @return valor numérico (int) que representa el último día.
      */
     public static int lastDay(Date dFecha) {
-        Calendar fecha = GregorianCalendar.getInstance();
-        fecha.setTime(dFecha);
-        return lastDay(fecha);
+        Calendar cal = GregorianCalendar.getInstance();
+        cal.setTime(dFecha);
+        return lastDay(cal);
     } // lastDay
 
     /**
@@ -284,9 +284,9 @@ public class Ut {
         short meses = 1;
 
         // Agregar un mes a la fecha recibida
-        Date d = Ut.goMonth(dFecha, meses);
+        Date date = Ut.goMonth(dFecha, meses);
         Calendar cal = GregorianCalendar.getInstance();
-        cal.setTime(d);
+        cal.setTime(date);
 
         // A la nueva fecha se le cambia el día por el primer día del mes
         cal.set(Calendar.DAY_OF_MONTH, 1);
@@ -294,8 +294,22 @@ public class Ut {
         // A la nueva fecha se le resta un día y de esta manera se obtiene
         // el último día del mes para la fecha recibida.
         cal.add(Calendar.DAY_OF_MONTH, -1);
-        d.setTime(cal.getTimeInMillis());
-        return d;
+        date.setTime(cal.getTimeInMillis());
+        return date;
+    } // lastDate
+    
+    /**
+     * @author: Bosco Garita May 2021 Calcular la última fecha para un mes basándose en el
+     * año y mes recibido por parámetro.
+     * @param year int año
+     * @param month int mes (Mes java)
+     * @return Date. Fecha que contiene el último día del mes.
+     */
+    public static Date lastDate(int year, int month) {
+        Calendar cal = GregorianCalendar.getInstance();
+        cal.set(year, month, 1);
+
+        return lastDate(cal.getTime());
     } // lastDate
 
     public static String fechaSQL(String fechaSPF) {
@@ -502,17 +516,17 @@ public class Ut {
      * de cal que utiliza SQL para convertir de caracter a cal. Ejemplo
      * convert(datetime,'25/01/2009',103)
      *
-     * @param Dfecha
+     * @param dFecha
      * @return convert(datetime,'dd/mm/aaaa',103)
      */
-    public static String fechaSQLSPF(Date Dfecha) {
+    public static String fechaSQLSPF(Date dFecha) {
         Calendar cal = GregorianCalendar.getInstance();
 
-        if (Dfecha == null) {
+        if (dFecha == null) {
             return "null";
         } // end if
 
-        cal.setTime(Dfecha);
+        cal.setTime(dFecha);
 
         String dia, mes, año, Sfecha;
         dia = String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
@@ -730,17 +744,17 @@ public class Ut {
     /**
      * Autor: Bosco Garita 12/09/2009 Este método convierte de cal a caracter.
      *
-     * @param Dfecha objeto de tipo Date
+     * @param dFecha objeto de tipo Date
      * @return String con el formato "dd/mm/aaaa"
      */
-    public static String dtoc(Date Dfecha) {
+    public static String dtoc(Date dFecha) {
         Calendar cal = GregorianCalendar.getInstance();
 
-        if (Dfecha == null) {
+        if (dFecha == null) {
             return "  /  /    ";
         } // end if
 
-        cal.setTime(Dfecha);
+        cal.setTime(dFecha);
 
         String dia, mes, año;
         dia = String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
@@ -766,6 +780,7 @@ public class Ut {
         if (fechaSPF.equalsIgnoreCase("NULL")) {
             return null;
         } // end if
+        
         String dia, mes, año;
         fechaSPF = fechaSPF.trim();
         dia = fechaSPF.substring(0, Ut.AT(fechaSPF, "/"));
@@ -773,10 +788,9 @@ public class Ut {
         mes = fechaSPF.substring((Ut.AT(fechaSPF, "/") + 1), Ut.AT(fechaSPF, "/", 2));
         mes = mes.length() == 1 ? "0" + mes : mes;
         año = fechaSPF.substring((Ut.AT(fechaSPF, "/", 2) + 1));
+        
         Calendar cal = GregorianCalendar.getInstance();
-        cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dia));
-        cal.set(Calendar.MONTH, Integer.parseInt(mes) - 1);
-        cal.set(Calendar.YEAR, Integer.parseInt(año));
+        cal.set(Integer.parseInt(año), Integer.parseInt(mes) - 1, Integer.parseInt(dia));
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
@@ -796,7 +810,7 @@ public class Ut {
      * @return Date Fecha aumentada o disminuida.
      */
     public static Date goMonth(Date dFecha, short meses) {
-        Date d = new Date();
+        Date date = new Date();
         Calendar cal = GregorianCalendar.getInstance();
 
         if (dFecha == null) {
@@ -805,8 +819,8 @@ public class Ut {
 
         cal.setTime(dFecha);
         cal.add(Calendar.MONTH, meses);
-        d.setTime(cal.getTimeInMillis());
-        return d;
+        date.setTime(cal.getTimeInMillis());
+        return date;
     } // end goMonth
 
     /**
@@ -2744,12 +2758,12 @@ public class Ut {
      * Este método devuelve el día de hoy en español para una fecha dada <br/>
      * Ejemplo: Lunes
      *
-     * @param d date fecha desde donde se obtendrá el día
+     * @param date date fecha desde donde se obtendrá el día
      * @return String hoy
      */
-    public static String hoy(Date d) {
+    public static String hoy(Date date) {
         Calendar cal = GregorianCalendar.getInstance();
-        cal.setTime(d);
+        cal.setTime(date);
         String day = "";
         switch (cal.get(Calendar.DAY_OF_WEEK)) {
             case 1:

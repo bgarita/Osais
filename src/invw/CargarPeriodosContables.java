@@ -10,9 +10,8 @@ import logica.contabilidad.PeriodoContable;
 
 /**
  * Esta clase carga los periodos contables del sistema CG en fox. Debe abrir el
- * archivo aslcgpe.dbf y ejecutar el siguiente comando en FOX: COPY TO
- * Z:\home\bosco\PER2.DBF TYPE FOX2X para que esta clase pueda procesar la
- * tabla. 
+ * archivo aslcgpe.dbf y ejecutar el siguiente comando en FOX: COPY TO C:\VCONTA\Migration\PER2.DBF TYPE FOX2X
+ * para que esta clase pueda procesar la tabla. 
  *
  * @author Bosco Garita 30/08/2020
  */

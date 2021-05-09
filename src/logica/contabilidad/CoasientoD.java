@@ -16,6 +16,7 @@ import logica.utilitarios.Ut;
 /**
  *
  * @author Bosco Garita 07/09/2013
+ * 01/05/2021 incluyo el método setTabla para poder usar la clase en la migración de datos.
  */
 public class CoasientoD {
     private int idReg;              // Llave primaria. No debe tener set, solo get.
@@ -33,7 +34,7 @@ public class CoasientoD {
     private final Connection conn;
     private boolean error;
     private String mensaje_error;
-    private final String tabla = "coasientod";
+    private String tabla = "coasientod";
     
     private final Bitacora b = new Bitacora();
 
@@ -84,7 +85,10 @@ public class CoasientoD {
         return totalCredito;
     }
 
-    
+    public void setTabla(String tabla) {
+        this.tabla = tabla;
+    }
+
     
     /**
      * Este método, además de setear el valor del número de asiento
@@ -114,7 +118,7 @@ public class CoasientoD {
      * la condición es que tanto el tipo como el número de asiento sean válidos. 
      * Solo se considera válido un tipo de asiento cuando es mayor que cero y
      * un número de asiento cuando no esté en blanco o null
-     * @param no_comprob String número de asiento
+     * @param tipo_comp short tipo de asiento
      */
     public void setTipo_comp(short tipo_comp) {
         this.tipo_comp = tipo_comp;
@@ -328,7 +332,7 @@ public class CoasientoD {
     private void cargarDetalle(){
         String sqlSent =
                 "Select concat(mayor,sub_cta,sub_sub,colect) as cuenta," +
-                "coasientod.* from coasientod " +
+                tabla + ".* from " + tabla + " " +
                 "Where no_comprob = ? and tipo_comp = ?";
         
         try {

@@ -11,6 +11,11 @@ import logica.contabilidad.CoasientoD;
 import logica.contabilidad.CoasientoE;
 import logica.contabilidad.Cuenta;
 
+
+// NOTA IMPORTANTE:
+// Todo lo que aparece en estos comentarios se encuentra en un PRG que se llama catalogoc.prg
+// que también prepara otros datos.  Solo se debe correr en VFP 9.0
+// El archivo aslcg02a.dbf se debe cargar en los históricos y el otro al actual.
 /**
  * REQUISITOS PREVIOS:
  * 1.   Debe haber importado el catálogo contable y no puede haber ningún movimiento
@@ -19,12 +24,13 @@ import logica.contabilidad.Cuenta;
  * 3.   Asegurarse de que todos los asientos tiene un tipo válido.
  *      Select * from aslcg02a where tipo_comp not in(Select tipo_comp from tiposa)
  * 4.   Crear todos los periodos contables que existen en la tabla aslcgpe en FOX 
- *      y dejarlos abiertos.
+ *      y dejarlos abiertos. Ahora no se dejan abiertos, quedan tal y como están en FOX. 01/05/2021
  * 5.   Se debe correr un proceso que garantice que los números de asiento son
  *      únicos antes de realizar la importación de datos. Esto se debe hacer en
  *      las tablas de Fox generadas para la migración.
  *      Ver más abajo los comandos de fox.
  * 
+ * Estos requisitos posteriores ya no aplican, eran para la etapa de depuración. 01/05/2021
  * REQUISITOS POSTERIORES:
  * 1.   Correr proceso de recalcular cuentas de movimientos para el primer mes 
  *      que viene en la tabla (recalcula las cuentas de movimientos en base a
@@ -40,7 +46,7 @@ import logica.contabilidad.Cuenta;
  * Repetir todos los procesos de los requisitos posteriores para cada periodo
  * existente excepto para el último si aún está abierto.
  * 
- * Es necesario validar bien si en cada proceso recalculado qudan las cuentas
+ * Es necesario validar bien si en cada proceso recalculado quedan las cuentas
  * de ingresos y gastos en cero, así deben quedar.  Pero sería bueno eliminar
  * el asiento de cierre para que este nuevo sistema lo genere.
  * 
@@ -49,13 +55,14 @@ import logica.contabilidad.Cuenta;
  * Debe abrir el archivo aslcg02a.dbf y ejecutar el siguiente comando
  * en FOX: COPY TO ..\migration\aslcg02a.DBF TYPE FOX2X 
  * Ahora hay que revisar la estructura de la tabla aslcg02.dbf y si el campo
- * fecha_comp esta primero que no_refer hay que modificar la estructura para
+ * fecha_comp está primero que no_refer hay que modificar la estructura para
  * que quede primero no_refer.
  * Luego abrir el archivo aslcg02.dbf y ejecutar el siguiente comando
  * en FOX: COPY TO ..\migration\aslcg02.DBF TYPE FOX2X para que esta
  * clase pueda procesar ambas tablas. Quedarán todos los períodos abiertos
  * por lo que luego hay que proceder a cerrar mes a mes.
  * 
+ * Ya no se eliminan los asientos de cierre 01/05/2021.
  * Ahora hay que eliminar todos los asientos de cierre anual para hacer que
  * luego el sistema sea el que los realiza:
  * DELETE FROM ..\migration\aslcg02a WHERE ALLTRIM(no_comprob) == '99999' AND tipo_comp == 99
@@ -93,6 +100,12 @@ public class CargarAsientos {
         this.cta = new Cuenta(c);
         asientoE = new CoasientoE(conn);
         asientoD = new CoasientoD(conn);
+        
+        // Como este proceso se debe correr dos veces hay que diferenciar cuando es histórico y cuando no
+        if (tablaFox.contains("aslcg02a")) {
+            asientoE.setTabla("hcoasientoe");
+            asientoD.setTabla("hcoasientod");
+        }
         cargar();
     } // end constructor
     
@@ -147,10 +160,10 @@ public class CargarAsientos {
                 
                 System.out.println("Comprobante: " + no_comprob);
                 
-                if (no_comprob.equals("7600828")){
-                    System.out.println("Descrip: " + descrip);
-                    System.out.println("Pagado_a: " + pagado_a);
-                }
+                //if (no_comprob.equals("7600828")){
+                //    System.out.println("Descrip: " + descrip);
+                //    System.out.println("Pagado_a: " + pagado_a);
+                //}
 
                 // Si el encabezado de asiento no existe lo agrego
                 if (!asientoE.existeEnBaseDatos(no_comprob, tipo_comp)){

@@ -3,18 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Java%20Programs/osais/src/interfase/otros/ConsultaFacturasXML.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/interfase/mantenimiento/MantenimientoSistema.java</file>
             <file>file:/C:/Java%20Programs/osais/src/interfase/menus/Menu.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/logica/xmls/TablaFacturaElectronica.java</file>
-            <file>file:/C:/Java%20Programs/osais/test/testing/TestEncripcion.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/interfase/reportes/RepBalanceSituacion.java</file>
             <file>file:/C:/Java%20Programs/osais/src/interfase/reportes/RepComparativoMensual.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/logica/xmls/EnvioFacturaElectronica.java</file>
             <file>file:/C:/Java%20Programs/osais/src/interfase/consultas/ConsultaMovCierre.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/interfase/otros/FacturaXML.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/interfase/consultas/DetalleNotificacionXml.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/logica/utilitarios/Encripcion.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/logica/xmls/CorreoFacturaElectronica.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/logica/utilitarios/Ut.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/accesoDatos/UtilBD.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/MVC/model/Cocuentasres_m.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/MVC/controller/Cocuentasres_c.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/MVC/view/Cocuentasres_v.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/interfase/reportes/RepCedulas.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/interfase/mantenimiento/MantenimientoBaseDatos.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/accesoDatos/UpdateVersion.java</file>
             <file>file:/C:/Java%20Programs/osais/ProyectoJavaFX.txt</file>
             <file>file:/C:/Java%20Programs/osais/Pendientes.txt</file>
         </group>
