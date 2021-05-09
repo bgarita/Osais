@@ -38,17 +38,6 @@ public class DataBaseConnection {
         servidor  = servidor.substring(0, servidor.lastIndexOf("/"));
         user = pUser.trim();
         pass = pPassword.trim();
-        /*
-         * Ahora solo se carga una conexión y será la conexión compartida.
-         * Esta conexión debe usarse únicamente para consultas y reportes
-         * o cualquier otro proceso que no actualice datos.
-         */
-        // Cargar una pila de conexiones.
-        //        for (int i = 0; i < aConn.length; i++){
-        //            aConn[i] = conectar(URL,USER, PASS);
-        //            usedBy[i] = "";
-        //        } // end for
-        
         aConn[0] = conectar(url,user, pass);
     } // end setConnection con sobrecarga
 

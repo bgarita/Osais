@@ -32,6 +32,10 @@ public class UpdateVersion {
         if (Menu.VERSIONN.equals("4.5r2")) {
             update45r2(conn);
         } // end if
+        
+        if (Menu.VERSIONN.equals("5.1r1")) {
+            update5145r1(conn);
+        } // end if
     } // end update
 
     
@@ -383,5 +387,14 @@ public class UpdateVersion {
         sqlSent = "INSERT INTO `programa` (`programa`, `descrip`) VALUES ('Impuestos', 'Mantenimiento de impuestos')";
         ps = conn.prepareStatement(sqlSent);
         CMD.update(ps);
+        ps.close();
     } // end update45r2
+
+    private static void update5145r1(Connection conn) throws SQLException {
+        // Este procedimiento almacenado no se usa más.  En su lugar se usará UtilBD.optimizarBasedatos()
+        String sqlSent = "Drop procedure if EXISTS `OptimizarTablas`";
+        try (PreparedStatement ps = conn.prepareStatement(sqlSent)) {
+            CMD.update(ps);
+        }
+    } // end update5145r1
 } // end UpdateVersion

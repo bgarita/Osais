@@ -18,7 +18,7 @@ import logica.utilitarios.Ut;
 public class Indent {
     /**
      * 
-     * @param nomCta        tring nombre de la cuenta
+     * @param nomCta        String nombre de la cuenta
      * @param nivel         int nivel de la cuenta
      * @param formatoNombre boolean true=Debe tratase como nombre personal, false=No debe tratarse como nombre persoal
      * @param indent        int número de espacios para la indentación

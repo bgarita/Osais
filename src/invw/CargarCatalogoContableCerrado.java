@@ -5,26 +5,28 @@ import com.svcon.jdbf.JDBFException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Date;
 import logica.contabilidad.Cuenta;
 
 /**
- * Esta clase carga el catálogo contable del sistema CG en fox Debe abrir el
- * archivo aslcg01.dbf y ejecutar el siguiente comando en FOX: COPY TO
- * ..\Migration\CAT2.DBF TYPE FOX2X para que esta clase pueda procesar la
- * tabla. Después de haber cargado el catálogo se debe ejecutar el siguiente SP
+ * Esta clase carga el catálogo contable del sistema CG en fox para cada mes cerrado.
+ * Correr (en VFP) el programa CatalogoC.prg que está en la carpeta C:\VCONTA\Migration
+ * También hay una copia en este proyecto, en el paquete invw
+ * 
+ * Después de haber cargado el catálogo cerrado se debe ejecutar el siguiente SP
  * en base de datos: Call calcularNivelDeCuenta();
  *
- * @author Bosco Garita 07/09/2013
+ * @author Bosco Garita 30/04/2021
  */
-public class CargarCatalogoContable {
+public class CargarCatalogoContableCerrado {
 
     private final String tablaFox;
-    private final String tablaMysql = "cocatalogo";
+    private final String tablaMysql = "hcocatalogo";
     private final Cuenta cuenta;
 
     private final Connection conn;
 
-    public CargarCatalogoContable(Connection c, String tablaFox)
+    public CargarCatalogoContableCerrado(Connection c, String tablaFox)
             throws JDBFException, InstantiationException,
             IllegalAccessException, SQLException {
         this.conn = c;
@@ -41,28 +43,32 @@ public class CargarCatalogoContable {
         PreparedStatement pr;
         String sqlUpdate;
         boolean existe;
+        Date fecha_cierre;
+        cuenta.setTabla(tablaMysql);
 
-        //CMD.transaction(conn, CMD.START_TRANSACTION);
         while (dbfReader.hasNextRecord()) {
             registro = dbfReader.nextRecord();
+            fecha_cierre = (java.util.Date) registro[25];
             cuenta.setMayor(registro[1].toString());
             cuenta.setSub_cta(registro[2].toString());
             cuenta.setSub_sub(registro[3].toString());
             cuenta.setColect(registro[4].toString());
+            cuenta.setFecha_cierre(new java.sql.Timestamp(fecha_cierre.getTime()));
             cuenta.cargarRegistro(conn);
 
             // Degug:
-            //if (cuenta.getMayor().equals("650")) {
-            //    System.out.println(cuenta.getNom_cta());
-            //}
-            
             System.out.println(cuenta.getCuentaString());
+            if (cuenta.getCuentaString().equals("110005002052")){
+                System.out.println("Check values");
+            }
             
             existe = !cuenta.getNom_cta().isEmpty();
 
             cuenta.setNom_cta(convertOldChar(registro[5].toString()));
             cuenta.setNivel(Short.parseShort(registro[6].toString()));
             cuenta.setTipo_cta(Short.parseShort(registro[7].toString()));
+            
+            //System.out.println("Cuenta a guardar: " + cuenta.getMayor() + "-" + cuenta.getSub_cta() + "-" + cuenta.getSub_sub() + "-" + cuenta.getColect() + " Fecha: " + fecha_cierre);
 
             if (existe) {
                 sqlUpdate
@@ -74,7 +80,8 @@ public class CargarCatalogoContable {
                         + "   db_fecha  = ?, "
                         + "   cr_fecha  = ?, "
                         + "   db_mes    = ?, "
-                        + "   cr_mes    = ?  "
+                        + "   cr_mes    = ?, "
+                        + "   fecha_cierre = ? "
                         + "Where mayor = ? and sub_cta = ? and sub_sub = ? and colect  = ?";
                 pr = conn.prepareStatement(sqlUpdate);
                 pr.setString(1, cuenta.getNom_cta());
@@ -91,6 +98,8 @@ public class CargarCatalogoContable {
                 pr.setString(10, cuenta.getSub_cta());
                 pr.setString(11, cuenta.getSub_sub());
                 pr.setString(12, cuenta.getColect());
+                pr.setTimestamp(13, new java.sql.Timestamp(fecha_cierre.getTime()));
+                
             } else {
                 sqlUpdate
                         = "Insert into " + tablaMysql
@@ -106,9 +115,10 @@ public class CargarCatalogoContable {
                         + " db_fecha, "
                         + " cr_fecha, "
                         + " db_mes  , "
-                        + " cr_mes    "
+                        + " cr_mes,   "
+                        + " fecha_cierre "
                         + ") "
-                        + "values(?,?,?,?,?,?,?,?,?,?,?,?)";
+                        + "values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
                 pr = conn.prepareStatement(sqlUpdate);
                 pr.setString(1, cuenta.getMayor());
                 pr.setString(2, cuenta.getSub_cta());
@@ -122,10 +132,10 @@ public class CargarCatalogoContable {
                 pr.setDouble(10, Double.parseDouble(registro[11].toString()));
                 pr.setDouble(11, Double.parseDouble(registro[12].toString()));
                 pr.setDouble(12, Double.parseDouble(registro[13].toString()));
+                pr.setTimestamp(13, new java.sql.Timestamp(fecha_cierre.getTime()));
             }
             pr.executeUpdate();
         } // end while
-        //CMD.transaction(conn, CMD.COMMIT);
         dbfReader.close();
     } // end main
 

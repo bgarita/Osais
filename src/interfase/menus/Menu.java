@@ -5,11 +5,13 @@
  */
 package interfase.menus;
 
-import Catalogos.CathalogDriver;
+import Catalogos.CatalogueDriver;
+import MVC.view.Cocuentasres_v;
 import MVC.view.Impuestos_v;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.DataBaseConnection;
+import accesoDatos.DatabaseEngine;
 import accesoDatos.UpdateVersion;
 import accesoDatos.UtilBD;
 import com.svcon.jdbf.JDBFException;
@@ -21,6 +23,7 @@ import interfase.seguridad.*;
 import interfase.transacciones.*;
 import invw.CargarAsientos;
 import invw.CargarCatalogoContable;
+import invw.CargarCatalogoContableCerrado;
 import invw.CargarPeriodosContables;
 import invw.ExportarAsientos;
 import java.awt.Dialog;
@@ -120,29 +123,9 @@ public class Menu extends javax.swing.JFrame {
         // Establecer la versión del motor de base de datos
         // y la versión de la base de datos.
         try {
-            String sqlSent
-                    = "SHOW VARIABLES LIKE '%VERSION%'";
-            PreparedStatement ps = c.getConnection().prepareStatement(
-                    sqlSent, ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY);
-            ResultSet rs = CMD.select(ps);
-            Menu.engineVersion = "N/A";
-            Menu.dataBaseVersion = "N/A";
-            if (rs.first()) {
-                rs.beforeFirst();
-                while (rs.next()) {
-                    if (rs.getString("variable_name").trim().equals("innodb_version")) {
-                        Menu.dataBaseVersion = rs.getString("value");
-                        continue;
-                    } // end if
-
-                    if (rs.getString("variable_name").trim().equals("version")) {
-                        Menu.engineVersion = rs.getString("value");
-                    } // end if
-                } // end while
-            } // end if
-            ps.close();
-
+            DatabaseEngine databaseEngine = new DatabaseEngine(c.getConnection());
+            Menu.engineVersion = databaseEngine.getEngineVersion();
+            Menu.dataBaseVersion = databaseEngine.getDataBaseVersion();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
@@ -319,10 +302,9 @@ public class Menu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jMenuItem3 = new javax.swing.JMenuItem();
         mnuPrincipal = new javax.swing.JMenuBar();
-        mnuArchivo = new javax.swing.JMenu();
-        mnuInarticu = new javax.swing.JMenuItem();
+        mnuCatalogos = new javax.swing.JMenu();
+        mnuProductos = new javax.swing.JMenuItem();
         mnuIVA = new javax.swing.JMenuItem();
         mnuBarcode = new javax.swing.JMenuItem();
         mnuInfamily = new javax.swing.JMenuItem();
@@ -342,6 +324,7 @@ public class Menu extends javax.swing.JFrame {
         mnuPeriodos = new javax.swing.JMenuItem();
         mnuCatalogoC = new javax.swing.JMenuItem();
         mnuCatalogoCont = new javax.swing.JMenuItem();
+        mnuCtasRestringidas = new javax.swing.JMenuItem();
         jSeparator15 = new javax.swing.JPopupMenu.Separator();
         mnuCajas = new javax.swing.JMenuItem();
         mnuBancos = new javax.swing.JMenuItem();
@@ -464,10 +447,10 @@ public class Menu extends javax.swing.JFrame {
         mnuRepAsientos = new javax.swing.JMenuItem();
         mnuMovxcta = new javax.swing.JMenuItem();
         mnuEstFin = new javax.swing.JMenu();
-        mnuBalances = new javax.swing.JMenuItem();
+        mnuBalanceSit = new javax.swing.JMenuItem();
         mnuEstResult = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        mnuBalances = new javax.swing.JMenuItem();
+        mnuCedulas = new javax.swing.JMenuItem();
         mnuCompMensual = new javax.swing.JMenuItem();
         mnuPromedioAnual = new javax.swing.JMenuItem();
         jSeparator21 = new javax.swing.JPopupMenu.Separator();
@@ -494,16 +477,17 @@ public class Menu extends javax.swing.JFrame {
         mnuCambiarDatosFact = new javax.swing.JMenuItem();
         mnuBorrarFacturasCXCAnuladas = new javax.swing.JMenuItem();
         mnuBorrarRecibosCXCAnulados = new javax.swing.JMenuItem();
-        jmnuNotifAutom = new javax.swing.JMenuItem();
-        jSeparator8 = new javax.swing.JPopupMenu.Separator();
-        mnuImportarInvw = new javax.swing.JMenuItem();
+        mnuNotifAutom = new javax.swing.JMenuItem();
         jSeparator13 = new javax.swing.JPopupMenu.Separator();
         mnuClienteFrec = new javax.swing.JMenuItem();
         mnuGenArchSinc = new javax.swing.JMenuItem();
         mnuAplicarSinc = new javax.swing.JMenuItem();
         jSeparator23 = new javax.swing.JPopupMenu.Separator();
         mnuHerramConta = new javax.swing.JMenu();
+        mnuContaMigracion = new javax.swing.JMenu();
+        mnuImportarInvw = new javax.swing.JMenuItem();
         mnuImportCatalogo = new javax.swing.JMenuItem();
+        mnuImportaCatCerrado = new javax.swing.JMenuItem();
         mnuImpPeriodos = new javax.swing.JMenuItem();
         mnuImpAsientos = new javax.swing.JMenuItem();
         mnuExportarAsientos = new javax.swing.JMenuItem();
@@ -541,25 +525,23 @@ public class Menu extends javax.swing.JFrame {
         mnuCerrarSesion = new javax.swing.JMenuItem();
         mnuCerrarSistema = new javax.swing.JMenuItem();
 
-        jMenuItem3.setText("jMenuItem3");
-
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setLocationByPlatform(true);
         setName("frameMenu"); // NOI18N
 
-        mnuArchivo.setMnemonic('M');
-        mnuArchivo.setText("Catálogos");
+        mnuCatalogos.setMnemonic('M');
+        mnuCatalogos.setText("Catálogos");
 
-        mnuInarticu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
-        mnuInarticu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/database_lightning.png"))); // NOI18N
-        mnuInarticu.setText("Productos");
-        mnuInarticu.addActionListener(new java.awt.event.ActionListener() {
+        mnuProductos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
+        mnuProductos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/database_lightning.png"))); // NOI18N
+        mnuProductos.setText("Productos");
+        mnuProductos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuInarticuActionPerformed(evt);
+                mnuProductosActionPerformed(evt);
             }
         });
-        mnuArchivo.add(mnuInarticu);
+        mnuCatalogos.add(mnuProductos);
 
         mnuIVA.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
         mnuIVA.setText("Impuestos");
@@ -568,7 +550,7 @@ public class Menu extends javax.swing.JFrame {
                 mnuIVAActionPerformed(evt);
             }
         });
-        mnuArchivo.add(mnuIVA);
+        mnuCatalogos.add(mnuIVA);
 
         mnuBarcode.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_MASK));
         mnuBarcode.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/application-text.png"))); // NOI18N
@@ -578,7 +560,7 @@ public class Menu extends javax.swing.JFrame {
                 mnuBarcodeActionPerformed(evt);
             }
         });
-        mnuArchivo.add(mnuBarcode);
+        mnuCatalogos.add(mnuBarcode);
 
         mnuInfamily.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
         mnuInfamily.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Familias3.jpg"))); // NOI18N
@@ -588,7 +570,7 @@ public class Menu extends javax.swing.JFrame {
                 mnuInfamilyActionPerformed(evt);
             }
         });
-        mnuArchivo.add(mnuInfamily);
+        mnuCatalogos.add(mnuInfamily);
 
         mnuBodegas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
         mnuBodegas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/database.png"))); // NOI18N
@@ -598,7 +580,7 @@ public class Menu extends javax.swing.JFrame {
                 mnuBodegasActionPerformed(evt);
             }
         });
-        mnuArchivo.add(mnuBodegas);
+        mnuCatalogos.add(mnuBodegas);
 
         mnuMinAut.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.ALT_MASK));
         mnuMinAut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/book--pencil.png"))); // NOI18N
@@ -608,8 +590,8 @@ public class Menu extends javax.swing.JFrame {
                 mnuMinAutActionPerformed(evt);
             }
         });
-        mnuArchivo.add(mnuMinAut);
-        mnuArchivo.add(jSeparator2);
+        mnuCatalogos.add(mnuMinAut);
+        mnuCatalogos.add(jSeparator2);
 
         mnuInproved.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         mnuInproved.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/shopcartapply_16x16.png"))); // NOI18N
@@ -619,7 +601,7 @@ public class Menu extends javax.swing.JFrame {
                 mnuInprovedActionPerformed(evt);
             }
         });
-        mnuArchivo.add(mnuInproved);
+        mnuCatalogos.add(mnuInproved);
 
         mnuClientes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         mnuClientes.setText("Clientes");
@@ -628,7 +610,7 @@ public class Menu extends javax.swing.JFrame {
                 mnuClientesActionPerformed(evt);
             }
         });
-        mnuArchivo.add(mnuClientes);
+        mnuCatalogos.add(mnuClientes);
 
         mnuVendedores.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         mnuVendedores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Vendedor.jpg"))); // NOI18N
@@ -638,7 +620,7 @@ public class Menu extends javax.swing.JFrame {
                 mnuVendedoresActionPerformed(evt);
             }
         });
-        mnuArchivo.add(mnuVendedores);
+        mnuCatalogos.add(mnuVendedores);
 
         mnuTerritorios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         mnuTerritorios.setText("Zonas");
@@ -647,8 +629,8 @@ public class Menu extends javax.swing.JFrame {
                 mnuTerritoriosActionPerformed(evt);
             }
         });
-        mnuArchivo.add(mnuTerritorios);
-        mnuArchivo.add(jSeparator3);
+        mnuCatalogos.add(mnuTerritorios);
+        mnuCatalogos.add(jSeparator3);
 
         mnuTariasExpress.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_MASK));
         mnuTariasExpress.setText("Tarifas Express");
@@ -657,7 +639,7 @@ public class Menu extends javax.swing.JFrame {
                 mnuTariasExpressActionPerformed(evt);
             }
         });
-        mnuArchivo.add(mnuTariasExpress);
+        mnuCatalogos.add(mnuTariasExpress);
 
         mnuMonedas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_MASK));
         mnuMonedas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/currency.png"))); // NOI18N
@@ -667,7 +649,7 @@ public class Menu extends javax.swing.JFrame {
                 mnuMonedasActionPerformed(evt);
             }
         });
-        mnuArchivo.add(mnuMonedas);
+        mnuCatalogos.add(mnuMonedas);
 
         mnuCentroCosto.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         mnuCentroCosto.setText("Centros de costo");
@@ -676,8 +658,8 @@ public class Menu extends javax.swing.JFrame {
                 mnuCentroCostoActionPerformed(evt);
             }
         });
-        mnuArchivo.add(mnuCentroCosto);
-        mnuArchivo.add(jSeparator12);
+        mnuCatalogos.add(mnuCentroCosto);
+        mnuCatalogos.add(jSeparator12);
 
         mnuCatalosConta.setText("Contabilidad");
 
@@ -709,8 +691,16 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuCatalosConta.add(mnuCatalogoCont);
 
-        mnuArchivo.add(mnuCatalosConta);
-        mnuArchivo.add(jSeparator15);
+        mnuCtasRestringidas.setText("Cuentas restringidas");
+        mnuCtasRestringidas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuCtasRestringidasActionPerformed(evt);
+            }
+        });
+        mnuCatalosConta.add(mnuCtasRestringidas);
+
+        mnuCatalogos.add(mnuCatalosConta);
+        mnuCatalogos.add(jSeparator15);
 
         mnuCajas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/pos-terminal-16.png"))); // NOI18N
         mnuCajas.setText("Cajas");
@@ -719,7 +709,7 @@ public class Menu extends javax.swing.JFrame {
                 mnuCajasActionPerformed(evt);
             }
         });
-        mnuArchivo.add(mnuCajas);
+        mnuCatalogos.add(mnuCajas);
 
         mnuBancos.setText("Bancos");
         mnuBancos.addActionListener(new java.awt.event.ActionListener() {
@@ -727,7 +717,7 @@ public class Menu extends javax.swing.JFrame {
                 mnuBancosActionPerformed(evt);
             }
         });
-        mnuArchivo.add(mnuBancos);
+        mnuCatalogos.add(mnuBancos);
 
         mnuTarjetas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/mastercard-16.png"))); // NOI18N
         mnuTarjetas.setText("Tarjetas");
@@ -736,9 +726,9 @@ public class Menu extends javax.swing.JFrame {
                 mnuTarjetasActionPerformed(evt);
             }
         });
-        mnuArchivo.add(mnuTarjetas);
+        mnuCatalogos.add(mnuTarjetas);
 
-        mnuPrincipal.add(mnuArchivo);
+        mnuPrincipal.add(mnuCatalogos);
 
         mnuRegistro.setMnemonic('R');
         mnuRegistro.setText("Registro");
@@ -1589,13 +1579,13 @@ public class Menu extends javax.swing.JFrame {
 
         mnuEstFin.setText("Estados financieros");
 
-        mnuBalances.setText("Balance de situación");
-        mnuBalances.addActionListener(new java.awt.event.ActionListener() {
+        mnuBalanceSit.setText("Balance de situación");
+        mnuBalanceSit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuBalancesActionPerformed(evt);
+                mnuBalanceSitActionPerformed(evt);
             }
         });
-        mnuEstFin.add(mnuBalances);
+        mnuEstFin.add(mnuBalanceSit);
 
         mnuEstResult.setText("Estado de resultados");
         mnuEstResult.addActionListener(new java.awt.event.ActionListener() {
@@ -1607,21 +1597,21 @@ public class Menu extends javax.swing.JFrame {
 
         mnuRepConta.add(mnuEstFin);
 
-        jMenuItem1.setText("Balances");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        mnuBalances.setText("Balances");
+        mnuBalances.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                mnuBalancesActionPerformed(evt);
             }
         });
-        mnuRepConta.add(jMenuItem1);
+        mnuRepConta.add(mnuBalances);
 
-        jMenuItem2.setText("Cédulas");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        mnuCedulas.setText("Cédulas");
+        mnuCedulas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                mnuCedulasActionPerformed(evt);
             }
         });
-        mnuRepConta.add(jMenuItem2);
+        mnuRepConta.add(mnuCedulas);
 
         mnuCompMensual.setText("Comparativo mensual");
         mnuCompMensual.addActionListener(new java.awt.event.ActionListener() {
@@ -1797,23 +1787,14 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuHerramientas.add(mnuBorrarRecibosCXCAnulados);
 
-        jmnuNotifAutom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/bell.png"))); // NOI18N
-        jmnuNotifAutom.setText("Notificaciones automáticas");
-        jmnuNotifAutom.addActionListener(new java.awt.event.ActionListener() {
+        mnuNotifAutom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/bell.png"))); // NOI18N
+        mnuNotifAutom.setText("Notificaciones automáticas");
+        mnuNotifAutom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmnuNotifAutomActionPerformed(evt);
+                mnuNotifAutomActionPerformed(evt);
             }
         });
-        mnuHerramientas.add(jmnuNotifAutom);
-        mnuHerramientas.add(jSeparator8);
-
-        mnuImportarInvw.setText("Importar INVW");
-        mnuImportarInvw.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuImportarInvwActionPerformed(evt);
-            }
-        });
-        mnuHerramientas.add(mnuImportarInvw);
+        mnuHerramientas.add(mnuNotifAutom);
         mnuHerramientas.add(jSeparator13);
 
         mnuClienteFrec.setText("Cálculo de bonificación cliente frecuente");
@@ -1843,13 +1824,31 @@ public class Menu extends javax.swing.JFrame {
 
         mnuHerramConta.setText("Contabilidad");
 
+        mnuContaMigracion.setText("Migración");
+
+        mnuImportarInvw.setText("Importar INVW");
+        mnuImportarInvw.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuImportarInvwActionPerformed(evt);
+            }
+        });
+        mnuContaMigracion.add(mnuImportarInvw);
+
         mnuImportCatalogo.setText("Importar catálogo contable");
         mnuImportCatalogo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuImportCatalogoActionPerformed(evt);
             }
         });
-        mnuHerramConta.add(mnuImportCatalogo);
+        mnuContaMigracion.add(mnuImportCatalogo);
+
+        mnuImportaCatCerrado.setText("Importar catálogo cerrado");
+        mnuImportaCatCerrado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuImportaCatCerradoActionPerformed(evt);
+            }
+        });
+        mnuContaMigracion.add(mnuImportaCatCerrado);
 
         mnuImpPeriodos.setText("Importar períodos contables");
         mnuImpPeriodos.addActionListener(new java.awt.event.ActionListener() {
@@ -1857,7 +1856,7 @@ public class Menu extends javax.swing.JFrame {
                 mnuImpPeriodosActionPerformed(evt);
             }
         });
-        mnuHerramConta.add(mnuImpPeriodos);
+        mnuContaMigracion.add(mnuImpPeriodos);
 
         mnuImpAsientos.setText("Importar asientos contables");
         mnuImpAsientos.addActionListener(new java.awt.event.ActionListener() {
@@ -1865,7 +1864,7 @@ public class Menu extends javax.swing.JFrame {
                 mnuImpAsientosActionPerformed(evt);
             }
         });
-        mnuHerramConta.add(mnuImpAsientos);
+        mnuContaMigracion.add(mnuImpAsientos);
 
         mnuExportarAsientos.setText("Exportar asientos contables");
         mnuExportarAsientos.setToolTipText("Exportar con formato DBX");
@@ -1874,7 +1873,9 @@ public class Menu extends javax.swing.JFrame {
                 mnuExportarAsientosActionPerformed(evt);
             }
         });
-        mnuHerramConta.add(mnuExportarAsientos);
+        mnuContaMigracion.add(mnuExportarAsientos);
+
+        mnuHerramConta.add(mnuContaMigracion);
         mnuHerramConta.add(jSeparator6);
 
         mnuRecalcularConta.setText("Recalcular cuentas de movimiento");
@@ -2126,9 +2127,9 @@ public class Menu extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void mnuInarticuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuInarticuActionPerformed
+    private void mnuProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuProductosActionPerformed
         Inarticu.main("", CONEXION.getConnection());
-}//GEN-LAST:event_mnuInarticuActionPerformed
+}//GEN-LAST:event_mnuProductosActionPerformed
 
     private void mnuInfamilyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuInfamilyActionPerformed
         Infamily.main(CONEXION.getConnection());
@@ -2164,10 +2165,10 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuClientesActionPerformed
 
     private void mnuEntradasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuEntradasActionPerformed
-        Catalogos.CathalogDriver driver;
-        int[] catalogo = {CathalogDriver.BODEGAS, CathalogDriver.TIPOS_DOCUMENTO};
+        Catalogos.CatalogueDriver driver;
+        int[] catalogo = {CatalogueDriver.BODEGAS, CatalogueDriver.TIPOS_DOCUMENTO};
         try {
-            driver = new CathalogDriver(CONEXION.getConnection(), catalogo);
+            driver = new CatalogueDriver(CONEXION.getConnection(), catalogo);
         } catch (SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
@@ -3241,9 +3242,9 @@ public class Menu extends javax.swing.JFrame {
         CatalogoContable.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuCatalogoContActionPerformed
 
-    private void jmnuNotifAutomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmnuNotifAutomActionPerformed
+    private void mnuNotifAutomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuNotifAutomActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jmnuNotifAutomActionPerformed
+    }//GEN-LAST:event_mnuNotifAutomActionPerformed
 
     private void mnuExportarAsientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuExportarAsientosActionPerformed
         String program = "ExportarAsientos";
@@ -3768,7 +3769,7 @@ public class Menu extends javax.swing.JFrame {
          Ejemplo:
          15655*Pruebas de sincronización*312354657*003*0.0000*500.0000*500.0000*0.0000*0.0000*625.0000*25*625.0000*25*625.0000*25*625.0000*25*625.0000*25*0026*0.0000*0.0000*0.0000*0.00*2016-08-16 09:37:36.0*null*null*0.000*0.0000*0.0000*0.0000* *0*0*1* * *0
          */
- /*
+        /*
          1.  Crear la nueva instancia del maestro de artículos
          2.  Setear todos los campos y ejecutar todos eventos ordenadamente 
          3.  Guardar el dato sin mostrar mensajes (excepto si hay errores)
@@ -3861,7 +3862,7 @@ public class Menu extends javax.swing.JFrame {
         } // end if
     }//GEN-LAST:event_mnuAplicarSincActionPerformed
 
-    private void mnuBalancesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBalancesActionPerformed
+    private void mnuBalanceSitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBalanceSitActionPerformed
         String program = "RepBalanceSituacion";
         String descrip = "Reporte balance de situación";
         try {
@@ -3882,7 +3883,7 @@ public class Menu extends javax.swing.JFrame {
             return;
         }
         RepBalanceSituacion.main(CONEXION.getConnection());
-    }//GEN-LAST:event_mnuBalancesActionPerformed
+    }//GEN-LAST:event_mnuBalanceSitActionPerformed
 
     private void mnuImpAsientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuImpAsientosActionPerformed
         try {
@@ -3909,7 +3910,7 @@ public class Menu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mnuImpAsientosActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void mnuBalancesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBalancesActionPerformed
         String program = "Balances";
         String descrip = "Reporte balances";
         try {
@@ -3930,7 +3931,7 @@ public class Menu extends javax.swing.JFrame {
             return;
         }
         RepBalances.main(CONEXION.getConnection());
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_mnuBalancesActionPerformed
 
     private void mnuBackupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBackupActionPerformed
         try {
@@ -4096,7 +4097,7 @@ public class Menu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mnuImpPeriodosActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void mnuCedulasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCedulasActionPerformed
         String program = "RepCedulas";
         String descrip = "Reporte de cédulas (contabilidad)";
         try {
@@ -4117,7 +4118,7 @@ public class Menu extends javax.swing.JFrame {
             return;
         }
         RepCedulas.main(new String[1]);
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_mnuCedulasActionPerformed
 
     private void mnuCompMensualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCompMensualActionPerformed
         String program = "RepComparativoMensual";
@@ -4362,6 +4363,80 @@ public class Menu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mnuModulosActionPerformed
 
+    private void mnuImportaCatCerradoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuImportaCatCerradoActionPerformed
+        /*
+        Previo a ejecutar este paso se debe hacer el proceso indicado en los comentarios
+        de la clase CargarCatalogoContableCerrado.java ya que se debe preparar un solo 
+        archivo uniendo todos los cierres de mes.
+        */
+        String program = "ImportarCatalogo";
+        String descrip = "Importar catálogo contable";
+        try {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
+                JOptionPane.showMessageDialog(null,
+                        "Usted no está autorizado para ejecutar este proceso",
+                        "Error - Permisos",
+                        JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                return;
+            } // end if
+        } catch (Exception ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            // Cargar el catálogo contable cerrado (CAT2C.DBF)
+            JFileChooser archivo = new JFileChooser();
+            archivo.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            int boton = archivo.showOpenDialog(null);
+
+            // Si el usuario hizo clic en el botón Cancelar del cuadro de diálogo, regresar
+            if (boton == JFileChooser.CANCEL_OPTION) {
+                return;
+            } // end if
+
+            // obtener el archivo seleccionado
+            File nombreArchivo = archivo.getSelectedFile();
+            String srcFile = nombreArchivo.getAbsolutePath();
+            new CargarCatalogoContableCerrado(CONEXION.getConnection(), srcFile);
+        } catch (HeadlessException | JDBFException | InstantiationException | IllegalAccessException | SQLException ex) {
+            JOptionPane.showMessageDialog(null,
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+        }
+    }//GEN-LAST:event_mnuImportaCatCerradoActionPerformed
+
+    private void mnuCtasRestringidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCtasRestringidasActionPerformed
+        String program = "Cocuentasres";
+        String descrip = "Cuentas restringidas";
+        try {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
+                JOptionPane.showMessageDialog(null,
+                        "Usted no está autorizado para ejecutar este proceso",
+                        "Error - Permisos",
+                        JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                return;
+            } // end if
+        } catch (Exception ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        Cocuentasres_v.main(CONEXION.getConnection());
+    }//GEN-LAST:event_mnuCtasRestringidasActionPerformed
+
     public static void main(final DataBaseConnection c, final boolean disponible, final String url) {
 
         /* Set the Nimbus look and feel */
@@ -4390,9 +4465,6 @@ public class Menu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBoxMenuItem chkMenuSistemaDisp;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator10;
     private javax.swing.JPopupMenu.Separator jSeparator11;
@@ -4418,9 +4490,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JPopupMenu.Separator jSeparator7;
-    private javax.swing.JPopupMenu.Separator jSeparator8;
     private javax.swing.JPopupMenu.Separator jSeparator9;
-    private javax.swing.JMenuItem jmnuNotifAutom;
     private javax.swing.JMenuItem mnuActuCat;
     private javax.swing.JMenu mnuAdmin;
     private javax.swing.JMenuItem mnuAnalisisPed;
@@ -4436,11 +4506,11 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuAplicarNCCXC;
     private javax.swing.JMenuItem mnuAplicarNDB;
     private javax.swing.JMenuItem mnuAplicarSinc;
-    private javax.swing.JMenu mnuArchivo;
     private javax.swing.JMenuItem mnuArtMenosV;
     private javax.swing.JMenuItem mnuArticulosxprov;
     private javax.swing.JMenuItem mnuAsientos;
     private javax.swing.JMenuItem mnuBackup;
+    private javax.swing.JMenuItem mnuBalanceSit;
     private javax.swing.JMenuItem mnuBalances;
     private javax.swing.JMenuItem mnuBancos;
     private javax.swing.JMenuItem mnuBarcode;
@@ -4455,7 +4525,9 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuCambiarDatosFact;
     private javax.swing.JMenuItem mnuCatalogoC;
     private javax.swing.JMenuItem mnuCatalogoCont;
+    private javax.swing.JMenu mnuCatalogos;
     private javax.swing.JMenu mnuCatalosConta;
+    private javax.swing.JMenuItem mnuCedulas;
     private javax.swing.JMenuItem mnuCentroCosto;
     private javax.swing.JMenuItem mnuCerrarSesion;
     private javax.swing.JMenuItem mnuCerrarSistema;
@@ -4484,6 +4556,8 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuConsultarMov;
     private javax.swing.JMenuItem mnuConsultarPrecios;
     private javax.swing.JMenuItem mnuConsultarRegCXC;
+    private javax.swing.JMenu mnuContaMigracion;
+    private javax.swing.JMenuItem mnuCtasRestringidas;
     private javax.swing.JMenuItem mnuD151CXP;
     private javax.swing.JMenuItem mnuDatosEmpresa;
     private javax.swing.JMenuItem mnuDesconectarUsers;
@@ -4520,11 +4594,11 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuImpPag;
     private javax.swing.JMenuItem mnuImpPeriodos;
     private javax.swing.JMenuItem mnuImportCatalogo;
+    private javax.swing.JMenuItem mnuImportaCatCerrado;
     private javax.swing.JMenuItem mnuImportarInvw;
     private javax.swing.JMenuItem mnuImprimirFactura;
     private javax.swing.JMenuItem mnuImprimirRecibosCXC;
     private javax.swing.JMenuItem mnuImprimirRecibosCaja;
-    private javax.swing.JMenuItem mnuInarticu;
     private javax.swing.JMenuItem mnuIncongruencia;
     private javax.swing.JMenuItem mnuInfamily;
     private javax.swing.JMenuItem mnuInproved;
@@ -4548,6 +4622,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuNCCXC;
     private javax.swing.JMenuItem mnuNCPendientes;
     private javax.swing.JMenuItem mnuNDCXC;
+    private javax.swing.JMenuItem mnuNotifAutom;
     private javax.swing.JMenuItem mnuOrdenesC;
     private javax.swing.JMenuItem mnuOtrasCXC;
     private javax.swing.JMenuItem mnuPagaresCXC;
@@ -4566,6 +4641,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuPermisos;
     private javax.swing.JMenuItem mnuPrepararTabla;
     private javax.swing.JMenuBar mnuPrincipal;
+    private javax.swing.JMenuItem mnuProductos;
     private javax.swing.JMenuItem mnuPromedioAnual;
     private javax.swing.JMenuItem mnuRClientes;
     private javax.swing.JMenuItem mnuReabrirPer;

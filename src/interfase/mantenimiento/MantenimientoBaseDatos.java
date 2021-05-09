@@ -533,6 +533,7 @@ public class MantenimientoBaseDatos extends Thread {
         boolean procesoOK = true;
         try {
             PreparedStatement ps;
+            /*
             // Este SP se deja fuera de la transacción porque si se ejecuta
             // junto con los demás, MySQL confirma todas las transacciones
             // aunque se ejecute un ROLLBACK
@@ -540,7 +541,10 @@ public class MantenimientoBaseDatos extends Thread {
             ps = conn.prepareStatement(sqlUpdate);
             CMD.update(ps);
             ps.close();
+            */
 
+            UtilBD.optimizeDatabase();
+            
             // Bosco agregado 10/07/2014
             // Bajo todo a disco y libero todas las tablas que estén bloqueadas.
             sqlUpdate = "Flush Tables";

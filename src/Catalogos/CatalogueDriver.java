@@ -17,7 +17,7 @@ import java.util.List;
  * @author bosco, 30/09/2018
  *
  */
-public class CathalogDriver {
+public class CatalogueDriver {
 
     private final Connection conn;
 
@@ -36,7 +36,7 @@ public class CathalogDriver {
     private int[] catalogo;   // Arreglo que indica cuáles catálogos se cargarán.
 
     // <editor-fold defaultstate="collapsed" desc="Constructor">
-    public CathalogDriver(Connection conn, int[] catalogo) throws SQLException {
+    public CatalogueDriver(Connection conn, int[] catalogo) throws SQLException {
         this.conn = conn;
         this.catalogo = catalogo;
         loadCatalogos();
@@ -383,4 +383,4 @@ public class CathalogDriver {
     } // end loadVendedores
     // </editor-fold>
 
-} // end CathalogDriver class
+} // end CatalogueDriver class

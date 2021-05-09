@@ -41,7 +41,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
 
     private static final long serialVersionUID = 13L;
 
-    private Catalogos.CathalogDriver driver;  // Catálogos
+    private Catalogos.CatalogueDriver driver;  // Catálogos
 
     private Buscador bd;
     private Connection conn;
@@ -75,7 +75,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
      * @param driver
      * @throws java.sql.SQLException
      */
-    public RegistroEntradas(Connection c, Catalogos.CathalogDriver driver) throws SQLException {
+    public RegistroEntradas(Connection c, Catalogos.CatalogueDriver driver) throws SQLException {
         initComponents();
 
         addWindowListener(new WindowAdapter() {
@@ -3044,7 +3044,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
      * @param c
      * @param driver
      */
-    public static void main(final Connection c, final Catalogos.CathalogDriver driver) {
+    public static void main(final Connection c, final Catalogos.CatalogueDriver driver) {
         //final Connection c = DataBaseConnection.getConnection("temp");
         try {
             // Bosco agregado 18/07/2011

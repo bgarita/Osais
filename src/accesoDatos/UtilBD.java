@@ -402,12 +402,19 @@ public class UtilBD {
             String tabla,
             String condicion,
             String expresion) throws SQLException {
+        if (condicion == null) {
+            condicion = "";
+        }
         // No hago ninguna validación para que el programador pueda ver
         // el error cuando alguno de los parámetros es incorrecto.
         // Si la expresión contiene un alias ese es el que se usará como nombre
         // de columna a la hora de consultar el RS.
         String sqlSent
                 = "Select " + expresion + " from " + tabla + " Where " + condicion;
+
+        if (condicion.trim().isEmpty()) {
+            sqlSent = sqlSent.replace("Where", "");
+        }
         PreparedStatement ps;
 
         ps = c.prepareStatement(sqlSent,
@@ -2709,4 +2716,32 @@ public class UtilBD {
         records = CMD.update(ps);
         return records;
     }
+
+    public static void optimizeDatabase() throws SQLException {
+        String sqlSent = "SHOW FULL TABLES FROM " + Menu.BASEDATOS; // Trae todas las tablas y vistas.
+        PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
+                ResultSet.TYPE_SCROLL_SENSITIVE,
+                ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs = CMD.select(ps);
+        List<String> tables = new ArrayList<>();
+
+        while (rs.next()) {
+            if (rs.getString(2).trim().equals("BASE TABLE")) {
+                tables.add(rs.getString(1).trim());
+            } // end if
+        } // end while
+        ps.close();
+
+        for (String table : tables) {
+            sqlSent = "ALTER TABLE " + table + " ENGINE = 'InnoDB'";
+            ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent);
+            CMD.update(ps);
+        } // end for
+        
+        sqlSent = "ALTER TABLE saisystem.notificado ENGINE = 'InnoDB'";
+        ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent);
+        CMD.update(ps);
+        
+        ps.close();
+    } // end optimizeDatabase
 } // end class UtilBD

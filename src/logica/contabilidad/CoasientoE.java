@@ -19,6 +19,7 @@ import logica.utilitarios.Ut;
  * hacerlo revirtiéndolo con otro.
  *
  * @author Bosco Garita 03/09/2013
+ * 01/05/2021 incluyo el método setTabla para poder usar la clase en la migración de datos.
  */
 public class CoasientoE {
 
@@ -48,7 +49,7 @@ public class CoasientoE {
     private final Connection conn;
     private boolean error;
     private String mensaje_error;
-    private final String tabla = "coasientoe";
+    private String tabla = "coasientoe";
     private String asientodeanulacion; // Número de asiento que se generó al anular otro asiento
 
     private final Bitacora b = new Bitacora();
@@ -96,6 +97,10 @@ public class CoasientoE {
      */
     public String getAnuladoPor() {
         return anuladoPor;
+    }
+
+    public void setTabla(String tabla) {
+        this.tabla = tabla;
     }
 
     public void setNo_comprob(String no_comprob) {
