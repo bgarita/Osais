@@ -1559,62 +1559,6 @@
                 <Property name="text" type="java.lang.String" value="Contabilidad"/>
               </Properties>
               <SubComponents>
-                <Menu class="javax.swing.JMenu" name="mnuContaMigracion">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Migraci&#xf3;n"/>
-                  </Properties>
-                  <SubComponents>
-                    <MenuItem class="javax.swing.JMenuItem" name="mnuImportarInvw">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Importar INVW"/>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuImportarInvwActionPerformed"/>
-                      </Events>
-                    </MenuItem>
-                    <MenuItem class="javax.swing.JMenuItem" name="mnuImportCatalogo">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Importar cat&#xe1;logo contable"/>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuImportCatalogoActionPerformed"/>
-                      </Events>
-                    </MenuItem>
-                    <MenuItem class="javax.swing.JMenuItem" name="mnuImportaCatCerrado">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Importar cat&#xe1;logo cerrado"/>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuImportaCatCerradoActionPerformed"/>
-                      </Events>
-                    </MenuItem>
-                    <MenuItem class="javax.swing.JMenuItem" name="mnuImpPeriodos">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Importar per&#xed;odos contables"/>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuImpPeriodosActionPerformed"/>
-                      </Events>
-                    </MenuItem>
-                    <MenuItem class="javax.swing.JMenuItem" name="mnuImpAsientos">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Importar asientos contables"/>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuImpAsientosActionPerformed"/>
-                      </Events>
-                    </MenuItem>
-                    <MenuItem class="javax.swing.JMenuItem" name="mnuExportarAsientos">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Exportar asientos contables"/>
-                        <Property name="toolTipText" type="java.lang.String" value="Exportar con formato DBX"/>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuExportarAsientosActionPerformed"/>
-                      </Events>
-                    </MenuItem>
-                  </SubComponents>
-                </Menu>
                 <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator6">
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="mnuRecalcularConta">
@@ -1648,6 +1592,62 @@
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuReabrirPerActionPerformed"/>
+                  </Events>
+                </MenuItem>
+              </SubComponents>
+            </Menu>
+            <Menu class="javax.swing.JMenu" name="mnuContaMigracion">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Migraci&#xf3;n"/>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="mnuImportarInvw">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Importar INVW"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuImportarInvwActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="mnuImportCatalogo">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Importar cat&#xe1;logo contable"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuImportCatalogoActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="mnuImportaCatCerrado">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Importar cat&#xe1;logo cerrado"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuImportaCatCerradoActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="mnuImpPeriodos">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Importar per&#xed;odos contables"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuImpPeriodosActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="mnuImpAsientos">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Importar asientos contables"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuImpAsientosActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="mnuExportarAsientos">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Exportar asientos contables"/>
+                    <Property name="toolTipText" type="java.lang.String" value="Exportar con formato DBX"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuExportarAsientosActionPerformed"/>
                   </Events>
                 </MenuItem>
               </SubComponents>
@@ -1820,10 +1820,30 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuRespArchivos">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+Alt+F8"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Icons/disc-blue.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Respaldar archivos del sistema"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuRespArchivosActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="mnuCompanies">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+Alt+F9"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Icons/copybook.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Crear compa&#xf1;&#xed;as"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuCompaniesActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>

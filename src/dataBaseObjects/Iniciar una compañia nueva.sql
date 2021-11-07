@@ -3,4 +3,5 @@ CREATE DATABASE contaxyz;
 
 USE contaxyz;
 
--- Ejecutar C:\Java Programs\osais\src\dataBaseObjects\Iniciar compañía\Iniciar compañía 29-04-2021 05 00 16 PM_.sql
+-- Ejecutar C:\Java Programs\osais\src\dataBaseObjects\InitCompany\InitCompany.sql
+-- Ya no es necesario ejecutar ese script, el sistema lo hace todo.

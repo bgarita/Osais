@@ -7,7 +7,7 @@
 		<defaultValueExpression><![CDATA[new Integer(1)]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[Call ImprimirNotaCXC($P!{pNotanume}); ]]>
+		<![CDATA[Call ImprimirNotaCXC($P!{pNotanume});]]>
 	</queryString>
 	<field name="empresa" class="java.lang.String"/>
 	<field name="telefono" class="java.lang.String"/>
@@ -77,7 +77,7 @@
 				<textElement textAlignment="Right">
 					<font fontName="Tahoma" size="11" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{facnume}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{notanume}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
 				<reportElement x="501" y="11" width="69" height="15" uuid="ce0b5b26-5221-4842-b47d-bbfb250e3490"/>

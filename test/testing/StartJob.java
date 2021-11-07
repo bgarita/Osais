@@ -2,7 +2,7 @@ package testing;
 
 import Exceptions.EmptyDataSourceException;
 import accesoDatos.CMD;
-import logica.backup.BackupJob;
+import logica.backup.BackupResoreJob;
 import interfase.otros.BackupPassw;
 import java.io.File;
 import java.io.FileInputStream;
@@ -466,7 +466,7 @@ public class StartJob extends javax.swing.JFrame {
             dataBases.add(tblConfig.getValueAt(i, 1).toString().trim());
         } // end for
 
-        BackupJob bk = new BackupJob();
+        BackupResoreJob bk = new BackupResoreJob();
         bk.setPassw(password);
         bk.setDataBases(dataBases);
         bk.setTargetFolder(this.txtDestino.getText().trim());

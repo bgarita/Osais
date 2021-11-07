@@ -1,3 +1,54 @@
+Ajustes para la versión 4.4 de Factura Electrónica según Hacienda
+1. Análisis     3 horas
+2. Cédula o identificación YA ES DE 20.  No hay cambios.
+3. Tipo de identificación.
+   Agregar la opción de "Proveedor no domiciliado" al combo de la pantalla 
+   de mantenimiento de proveedores      1 hora
+4. Crear un nuevo catálogo para el tipo de registro fiscal con los siguientes valores:
+    Tipo de Registro Fiscal                 Código  
+    Importador                              01 
+    Fabricante                              02 
+    Distribuidor o vendedor                 03 
+    Importador – Fabricante - Distribuidor  04 
+    Importador - Fabricante                 05 
+    Importador - Distribuidor               06         
+    Fabricante - Distribuidor               07
+   Esto implica:
+   - una nueva pantalla de mantenimiento para el nuevo catálogo                 3 horas
+   - un nuevo campo en el maestro de artículos que relacione la nueva tabla.    1 hora
+   - modificar la pantalla de mantenimiento de artículos.                       2 horas
+   - modificar la generación del xml para todos los documentos electrónicos:    3 horas
+     - Factura
+     - Nota de crédito
+     - Tiquete electrónico
+     - Factura electrónica de compra
+   - Pruebas y depuración                                                       4 horas
+5. Plazo del crédito.  No hay cambio, ya el sistema lo permite.
+6. Medios de pago. 
+   Incluir: 
+   - Recaudado por terceros y SINPE MOVIL en el combo de Formas de pago 
+     en la pantalla de registro de facturas de venta.                           1 hora
+   - Modificar la lógica de la generación de los xmls para que incluya
+     estos valores según los códigos de Hacienda (05 y 06 respectivamente)      2 horas
+7. Código de actividad económica.
+    - Se mueve del encabezado hacia el detalle de la factura y además cambia    1 hora
+      el nombre por CodigoActividadEmisor
+    - Incluir nuevo campo CodigoActividadReceptor en el detalle de la factura   6 horas
+      Esto implica agregar ese campo también en la tabla de clientes y en la
+      pantalla de mantenimiento de clientes.  Además de la lógica para la 
+      generación de los xmls.
+8. NúmeroVIN: nuevo campo en la tabla de productos y en la generación de los
+   xmls                                                                         3 horas
+9. Clasificación de las Unidades de Medida.  No se requiere cambio, el sisema ya lo contempla.
+10. Nodo de desagregación de productos.  No se requiere cambio, por ahora.  La Flor no tiene productos en combo.
+11. Impuestos.
+    - Actualizar la tabla de impuestos (tarifa_iva) según la Nota 8.1           1 hora
+12. RESUMEN DEL COMPROBANTE. Unidad de pago (moneda).
+    - Agregar todo el nodo CodigoTipoUnidaddePago a los xmls                    3 horas
+13. Regalías y bonificaciones.  No se incluye por ahora.
+
+   
+
 
 
 NOTA: Jasper Reports (el plugin) no funciona con java14. Solo funciona con java 8
@@ -7,7 +58,53 @@ Notas Generales FE:
    Usuario y clave del anexo (para envío de facturas electrónicas):
         Usuario:    osais_FE
         Clave:      FE2018$
+
+EN PROCESO...
+1. Escribir el procedimiento (documento) para crear una nueva compañía. 
+    - Explicar que se debe crear un respaldo sin datos y luego restaurarlo con un nuevo nombre de BD.
+      Y luego ir a la pantalla de creación de compañías y crear una nueva con el mismo nombre de la nueva BD.
+      LISTO: Procedimiento escrito en el documento de procedimientos del sistema.
+2. Crear proceso que importe algunos datos que son comunes en todas las compañías. LISTO
+    Se debe informar al usuario que debe revisar y corregir los datos predeterminados de estas tablas:
+    babanco
+    barrio
+    bodegas
+    cabys
+    cajero
+    coconsecutivo
+    config
+    configcuentas
+    coparametroser
+    cotipasient
+    distrito
+    faexpress
+    fecontrol
+    htarifa_iva
+    inconsecutivo
+    intiposdoc
+    modulo
+    monedas
+    paramusuario
+    programa
+    provincia
+    tarifa_iva
+    tarjeta
+    territor
+    usuario
+    cocatalogo
     
+3. Crear proceso que agregue una línea al archivo de compañías. LISTO
+4. Crear proceso que duplique la carpeta home modelo.  Debe eliminar (en la carpeta duplicada) todos los archivos de las carpetas LISTO
+    - pdfs
+    - systemLogs
+    - xmls (.txt, .log, xml [excepto MySql.Data.xml]) No se eliminan los .dll ni los .EXE
+    - xmls/firmados
+    - xmls/logs
+    - xmls/errores
+    - xmls/proveedores
+    - xmls/estados
+5.  Crear una pantalla para crear una nueva compañía que ejecute todos los pasos del 2 en adelante. LISTO
+
 --- CONTABILIDAD ---
 Pendiente:
 1. Revisar y ajustar la interfaz para cuando se registra una compra desde

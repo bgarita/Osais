@@ -484,6 +484,11 @@ public class Menu extends javax.swing.JFrame {
         mnuAplicarSinc = new javax.swing.JMenuItem();
         jSeparator23 = new javax.swing.JPopupMenu.Separator();
         mnuHerramConta = new javax.swing.JMenu();
+        jSeparator6 = new javax.swing.JPopupMenu.Separator();
+        mnuRecalcularConta = new javax.swing.JMenuItem();
+        mnuActuCat = new javax.swing.JMenuItem();
+        mnuSumarizarCtasMayor = new javax.swing.JMenuItem();
+        mnuReabrirPer = new javax.swing.JMenuItem();
         mnuContaMigracion = new javax.swing.JMenu();
         mnuImportarInvw = new javax.swing.JMenuItem();
         mnuImportCatalogo = new javax.swing.JMenuItem();
@@ -491,11 +496,6 @@ public class Menu extends javax.swing.JFrame {
         mnuImpPeriodos = new javax.swing.JMenuItem();
         mnuImpAsientos = new javax.swing.JMenuItem();
         mnuExportarAsientos = new javax.swing.JMenuItem();
-        jSeparator6 = new javax.swing.JPopupMenu.Separator();
-        mnuRecalcularConta = new javax.swing.JMenuItem();
-        mnuActuCat = new javax.swing.JMenuItem();
-        mnuSumarizarCtasMayor = new javax.swing.JMenuItem();
-        mnuReabrirPer = new javax.swing.JMenuItem();
         mnuConfig = new javax.swing.JMenu();
         mnuConfiguracion = new javax.swing.JMenuItem();
         mnuDatosEmpresa = new javax.swing.JMenuItem();
@@ -514,6 +514,7 @@ public class Menu extends javax.swing.JFrame {
         mnuSeguridad = new javax.swing.JMenuItem();
         mnuBackup = new javax.swing.JMenuItem();
         mnuRespArchivos = new javax.swing.JMenuItem();
+        mnuCompanies = new javax.swing.JMenuItem();
         mnuHacienda = new javax.swing.JMenu();
         mnuXml = new javax.swing.JMenuItem();
         mnuConsXML = new javax.swing.JMenuItem();
@@ -1823,6 +1824,42 @@ public class Menu extends javax.swing.JFrame {
         mnuHerramientas.add(jSeparator23);
 
         mnuHerramConta.setText("Contabilidad");
+        mnuHerramConta.add(jSeparator6);
+
+        mnuRecalcularConta.setText("Recalcular cuentas de movimiento");
+        mnuRecalcularConta.setToolTipText("Para el periodo actual");
+        mnuRecalcularConta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuRecalcularContaActionPerformed(evt);
+            }
+        });
+        mnuHerramConta.add(mnuRecalcularConta);
+
+        mnuActuCat.setText("Aplicar asientos");
+        mnuActuCat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuActuCatActionPerformed(evt);
+            }
+        });
+        mnuHerramConta.add(mnuActuCat);
+
+        mnuSumarizarCtasMayor.setText("Mayorización");
+        mnuSumarizarCtasMayor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuSumarizarCtasMayorActionPerformed(evt);
+            }
+        });
+        mnuHerramConta.add(mnuSumarizarCtasMayor);
+
+        mnuReabrirPer.setText("Re-abrir periodos cerrados");
+        mnuReabrirPer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuReabrirPerActionPerformed(evt);
+            }
+        });
+        mnuHerramConta.add(mnuReabrirPer);
+
+        mnuHerramientas.add(mnuHerramConta);
 
         mnuContaMigracion.setText("Migración");
 
@@ -1875,43 +1912,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuContaMigracion.add(mnuExportarAsientos);
 
-        mnuHerramConta.add(mnuContaMigracion);
-        mnuHerramConta.add(jSeparator6);
-
-        mnuRecalcularConta.setText("Recalcular cuentas de movimiento");
-        mnuRecalcularConta.setToolTipText("Para el periodo actual");
-        mnuRecalcularConta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuRecalcularContaActionPerformed(evt);
-            }
-        });
-        mnuHerramConta.add(mnuRecalcularConta);
-
-        mnuActuCat.setText("Aplicar asientos");
-        mnuActuCat.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuActuCatActionPerformed(evt);
-            }
-        });
-        mnuHerramConta.add(mnuActuCat);
-
-        mnuSumarizarCtasMayor.setText("Mayorización");
-        mnuSumarizarCtasMayor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuSumarizarCtasMayorActionPerformed(evt);
-            }
-        });
-        mnuHerramConta.add(mnuSumarizarCtasMayor);
-
-        mnuReabrirPer.setText("Re-abrir periodos cerrados");
-        mnuReabrirPer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuReabrirPerActionPerformed(evt);
-            }
-        });
-        mnuHerramConta.add(mnuReabrirPer);
-
-        mnuHerramientas.add(mnuHerramConta);
+        mnuHerramientas.add(mnuContaMigracion);
 
         mnuPrincipal.add(mnuHerramientas);
 
@@ -2043,6 +2044,8 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuAdmin.add(mnuBackup);
 
+        mnuRespArchivos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F8, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        mnuRespArchivos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/disc-blue.png"))); // NOI18N
         mnuRespArchivos.setText("Respaldar archivos del sistema");
         mnuRespArchivos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2050,6 +2053,16 @@ public class Menu extends javax.swing.JFrame {
             }
         });
         mnuAdmin.add(mnuRespArchivos);
+
+        mnuCompanies.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F9, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        mnuCompanies.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/copybook.png"))); // NOI18N
+        mnuCompanies.setText("Crear compañías");
+        mnuCompanies.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuCompaniesActionPerformed(evt);
+            }
+        });
+        mnuAdmin.add(mnuCompanies);
 
         mnuPrincipal.add(mnuAdmin);
 
@@ -4437,6 +4450,30 @@ public class Menu extends javax.swing.JFrame {
         Cocuentasres_v.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuCtasRestringidasActionPerformed
 
+    private void mnuCompaniesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCompaniesActionPerformed
+        String program = "Companies";
+        String descrip = "Crear compañías";
+        try {
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
+                JOptionPane.showMessageDialog(null,
+                        "Usted no está autorizado para ejecutar este proceso",
+                        "Error - Permisos",
+                        JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                return;
+            } // end if
+        } catch (Exception ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        Companies.main(new String[1]);
+    }//GEN-LAST:event_mnuCompaniesActionPerformed
+
     public static void main(final DataBaseConnection c, final boolean disponible, final String url) {
 
         /* Set the Nimbus look and feel */
@@ -4542,6 +4579,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuClienteFrec;
     private javax.swing.JMenuItem mnuClientes;
     private javax.swing.JMenuItem mnuCompMensual;
+    private javax.swing.JMenuItem mnuCompanies;
     private javax.swing.JMenu mnuConfig;
     private javax.swing.JMenuItem mnuConfiguracion;
     private javax.swing.JMenu mnuConsCajas;

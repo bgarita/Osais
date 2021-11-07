@@ -43,7 +43,7 @@ public class Company extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        cmbCompany = new javax.swing.JComboBox();
+        cmbCompany = new javax.swing.JComboBox<>();
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -159,6 +159,10 @@ public class Company extends javax.swing.JFrame {
     private void cargarComboCompany(){
         // Adevertencia: El archivo osais.txt no debe llevar tildes
         //               porque la clase Scanner no detecta la líneas.
+        // Actualización: 16/05/2021 - Ya en la versión 8 de java si las acepta
+        // pero si diera algún problema se puede hacer uso de la clase 
+        // CompanyPropertiesController.java que está en el paquete logica para
+        // la obtención de los datos.
         String company ;
         String txtFile;
         File file;
@@ -242,7 +246,7 @@ public class Company extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
-    private javax.swing.JComboBox cmbCompany;
+    private javax.swing.JComboBox<String> cmbCompany;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 

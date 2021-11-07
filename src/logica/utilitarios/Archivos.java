@@ -25,16 +25,25 @@ import java.util.zip.ZipOutputStream;
 import org.apache.commons.io.FileUtils;
 
 /**
- * @author: Crysfel Villa Created: Friday, June 03, 2005 4:54:59 PM Modified:
- * Friday, June 03, 2005 4:54:59 PM Modified: Sunday, Sept 08, 2013 6:52:00 PM
- * Bosco Garita
+ * @author: Crysfel Villa Created: Friday, June 03, 2005 4:54:59 PM Modified: Friday, June
+ * 03, 2005 4:54:59 PM Modified: Sunday, Sept 08, 2013 6:52:00 PM Bosco Garita
  */
 public class Archivos {
 
     private boolean error;
     private String mensaje_error;
+    private boolean directoriesOnly;
     private final Bitacora b = new Bitacora();
 
+    
+    // Default constructor
+    public Archivos() {
+        this.error = false;
+        this.mensaje_error = "";
+        this.directoriesOnly = false;
+    }
+    
+    
     public boolean isError() {
         return error;
     }
@@ -43,6 +52,15 @@ public class Archivos {
         return mensaje_error;
     }
 
+    public boolean isDirectoriesOnly() {
+        return directoriesOnly;
+    }
+
+    public void setDirectoriesOnly(boolean directoriesOnly) {
+        this.directoriesOnly = directoriesOnly;
+    }
+
+    
     /**
      * Copia un directorio con todo y su contendido
      *
@@ -50,18 +68,23 @@ public class Archivos {
      * @param dstDir
      */
     public void copyDirectory(File srcDir, File dstDir) {
-        if (srcDir.isDirectory()) {
-            if (!dstDir.exists()) {
-                dstDir.mkdir();
+        if (srcDir.isFile()) {
+            if (!directoriesOnly){
+                copyFilex(srcDir, dstDir);
             } // end if
+            return;
+        } // end if
 
-            String[] children = srcDir.list();
-            for (String children1 : children) {
-                copyDirectory(new File(srcDir, children1), new File(dstDir, children1));
-            } // end for
-        } else {
-            copyFilex(srcDir, dstDir);
-        } // end if-else
+        // Directories
+        if (!dstDir.exists()) {
+            dstDir.mkdir();
+        } // end if
+
+        String[] children = srcDir.list();
+        for (String children1 : children) {
+            copyDirectory(new File(srcDir, children1), new File(dstDir, children1));
+        } // end for
+
     } // copyDirectory
 
     /**
@@ -191,8 +214,7 @@ public class Archivos {
     } // end compareFile
 
     /**
-     * Cuenta la cantidad de archivos y carpetas contenidas en una ruta
-     * específica.
+     * Cuenta la cantidad de archivos y carpetas contenidas en una ruta específica.
      *
      * @author Bosco Garita
      * @param folder
@@ -222,10 +244,8 @@ public class Archivos {
      * Guardar texto en un archivo ASCII
      *
      * @param text String - texto a almacenar
-     * @param path String - nombre del archivo a guardar (incluye la ruta
-     * completa)
-     * @param append boolean - true=Agrega el texto, false=Reemplaza el texto
-     * existente
+     * @param path String - nombre del archivo a guardar (incluye la ruta completa)
+     * @param append boolean - true=Agrega el texto, false=Reemplaza el texto existente
      * @throws IOException
      * @author Bosco Garita Azofeifa, 13/07/2019
      */
@@ -243,11 +263,10 @@ public class Archivos {
      * @author Bosco Garita Azofeifa
      * @since 20/03/2020
      * @param sourceFile File puede ser un archivo o una carpeta.
-     * @param targetFile File debe ser el nombre de un archivo que es donde se
-     * guardarán los archivos comprimidos. Si viene nulo el sistema asumirá el
-     * mismo nombre que el origen.
-     * @param monitor ProgressMonitor muestra el avance y los mensajes como en
-     * consola
+     * @param targetFile File debe ser el nombre de un archivo que es donde se guardarán
+     * los archivos comprimidos. Si viene nulo el sistema asumirá el mismo nombre que el
+     * origen.
+     * @param monitor ProgressMonitor muestra el avance y los mensajes como en consola
      * @throws FileNotFoundException
      * @throws IOException
      */
@@ -304,35 +323,36 @@ public class Archivos {
             zos.write(bytes, 0, bytes.length);
         } // end if
     } // end addZipFile
-    
-    public void downloadFile(URL url, File target) throws IOException{
+
+    public void downloadFile(URL url, File target) throws IOException {
         FileUtils.copyURLToFile(url, target);
     } // end downloadFile
-    
-    public void downloadFile(URL url, String file) throws IOException{
+
+    public void downloadFile(URL url, String file) throws IOException {
         ReadableByteChannel rbc = Channels.newChannel(url.openStream());
         FileOutputStream fos = new FileOutputStream(file);
         fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
         fos.close();
     } // downloadFile
-    
-    public boolean renameFile(File oldFile, File newFile){
+
+    public boolean renameFile(File oldFile, File newFile) {
         return oldFile.renameTo(newFile);
     } // renameFile
-    
+
     /**
-     * Get the size in bytes for a specific file.  If it does not exist or
-     * it is a directory the return value will be 0.
+     * Get the size in bytes for a specific file. If it does not exist or it is a
+     * directory the return value will be 0.
+     *
      * @param file
-     * @return 
+     * @return
      */
-    public long getFileSize(File file){
+    public long getFileSize(File file) {
         long size = 0;
-        
-        if (file.exists() && file.isFile()){
+
+        if (file.exists() && file.isFile()) {
             size = file.length();
         } // end if
-        
+
         return size;
     } // end getFileSize
 } // end class

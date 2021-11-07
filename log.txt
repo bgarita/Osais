@@ -30,3 +30,29 @@ Vaya al menú Registro y elija Tipo de cambio.]
 Vaya al menú Registro y elija Tipo de cambio.]
 [Sat May 08 11:41:11 CST 2021][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
 Vaya al menú Registro y elija Tipo de cambio.]
+[Sun May 09 09:47:42 CST 2021][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.]
+[Sun May 09 13:05:10 CST 2021][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.]
+[Sun May 16 07:28:06 CST 2021][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.]
+[Sun May 16 13:29:40 CST 2021][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.]
+[Sun May 16 14:28:33 CST 2021][ERROR][Usuario: null][accesoDatos.DataBaseConnection--> Could not create connection to database server. Attempted reconnect 3 times. Giving up.]
+[Sun May 16 14:30:31 CST 2021][ERROR][Usuario: null][interfase.seguridad.CambioClave--> For input string: ""]
+[Sun May 16 14:30:37 CST 2021][ERROR][Usuario: null][interfase.seguridad.CambioClave--> For input string: ""]
+[Sun May 16 14:30:41 CST 2021][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.]
+[Sun May 16 14:30:46 CST 2021][ERROR][Usuario: null][interfase.mantenimiento.Tipocambio--> Fuente de datos vacía]
+[Sat May 22 16:36:38 CST 2021][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.]
+[Sun May 30 07:34:56 CST 2021][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.]
+[Sun Jul 18 12:13:14 CST 2021][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.]
+[Sat Oct 30 07:03:47 CST 2021][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.]
+[Sat Oct 30 07:04:56 CST 2021][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.]
+[Sun Nov 07 15:31:23 CST 2021][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.]

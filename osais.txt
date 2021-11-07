@@ -1,4 +1,3 @@
 //127.0.0.1:3308/laflor@Bosco (Pruebas La Flor)
 //127.0.0.1:3308/contaxyz@Bosco (Pruebas Conta)
-//192.168.1.43:3307/LaFlor@La Flor Ubuntu
-//127.0.0.1:3308/pulange@Pulperia Real Windows
+//127.0.0.1:3308/prueba@Prueba (eliminar)

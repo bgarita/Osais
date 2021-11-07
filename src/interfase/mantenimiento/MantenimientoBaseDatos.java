@@ -64,6 +64,7 @@ public class MantenimientoBaseDatos extends Thread {
 
     @Override
     public void run() {
+        b.setLogLevel(Bitacora.INFO);
         b.writeToLog(this.getClass().getName() + "--> " 
                 + "Inicia proceso de mantenimiento de la base de datos...");
         
@@ -97,6 +98,7 @@ public class MantenimientoBaseDatos extends Thread {
                 try {
                     CMD.transaction(conn, CMD.ROLLBACK);
                 } catch (SQLException ex) {
+                    b.setLogLevel(Bitacora.ERROR);
                     Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                     ma.setMessage(ex.getMessage());
                     b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
@@ -140,6 +142,7 @@ public class MantenimientoBaseDatos extends Thread {
                 try {
                     CMD.transaction(conn, CMD.ROLLBACK);
                 } catch (SQLException ex) {
+                    b.setLogLevel(Bitacora.ERROR);
                     Logger.getLogger(MantenimientoBaseDatos.class.getName()).log(Level.SEVERE, null, ex);
                     ma.setMessage(ex.getMessage());
                     b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
@@ -176,6 +179,7 @@ public class MantenimientoBaseDatos extends Thread {
                 try {
                     CMD.transaction(conn, CMD.ROLLBACK);
                 } catch (SQLException ex) {
+                    b.setLogLevel(Bitacora.ERROR);
                     Logger.getLogger(MantenimientoBaseDatos.class.getName()).log(Level.SEVERE, null, ex);
                     ma.setMessage(ex.getMessage());
                     b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
@@ -218,6 +222,7 @@ public class MantenimientoBaseDatos extends Thread {
                 try {
                     CMD.transaction(conn, CMD.ROLLBACK);
                 } catch (SQLException ex) {
+                    b.setLogLevel(Bitacora.ERROR);
                     Logger.getLogger(MantenimientoBaseDatos.class.getName()).log(Level.SEVERE, null, ex);
                     ma.setMessage(ex.getMessage());
                     b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
@@ -260,6 +265,7 @@ public class MantenimientoBaseDatos extends Thread {
                 try {
                     CMD.transaction(conn, CMD.ROLLBACK);
                 } catch (SQLException ex) {
+                    b.setLogLevel(Bitacora.ERROR);
                     Logger.getLogger(MantenimientoBaseDatos.class.getName()).log(Level.SEVERE, null, ex);
                     ma.setMessage(ex.getMessage());
                     b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
@@ -298,6 +304,7 @@ public class MantenimientoBaseDatos extends Thread {
             try {
                 recalcularExistencias();
             } catch (SQLException ex) {
+                b.setLogLevel(Bitacora.ERROR);
                 b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
                 procesoOK = false;
             }
@@ -309,6 +316,7 @@ public class MantenimientoBaseDatos extends Thread {
                 try {
                     CMD.transaction(conn, CMD.ROLLBACK);
                 } catch (SQLException ex) {
+                    b.setLogLevel(Bitacora.ERROR);
                     Logger.getLogger(MantenimientoBaseDatos.class.getName()).log(Level.SEVERE, null, ex);
                     ma.setMessage(ex.getMessage());
                     b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
@@ -351,6 +359,7 @@ public class MantenimientoBaseDatos extends Thread {
                 try {
                     CMD.transaction(conn, CMD.ROLLBACK);
                 } catch (SQLException ex) {
+                    b.setLogLevel(Bitacora.ERROR);
                     Logger.getLogger(MantenimientoBaseDatos.class.getName()).log(Level.SEVERE, null, ex);
                     ma.setMessage(ex.getMessage());
                     b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
@@ -393,6 +402,7 @@ public class MantenimientoBaseDatos extends Thread {
                 try {
                     CMD.transaction(conn, CMD.ROLLBACK);
                 } catch (SQLException ex) {
+                    b.setLogLevel(Bitacora.ERROR);
                     Logger.getLogger(MantenimientoBaseDatos.class.getName()).log(Level.SEVERE, null, ex);
                     ma.setMessage(ex.getMessage());
                     b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
@@ -435,6 +445,7 @@ public class MantenimientoBaseDatos extends Thread {
                 try {
                     CMD.transaction(conn, CMD.ROLLBACK);
                 } catch (SQLException ex) {
+                    b.setLogLevel(Bitacora.ERROR);
                     Logger.getLogger(MantenimientoBaseDatos.class.getName()).log(Level.SEVERE, null, ex);
                     ma.setMessage(ex.getMessage());
                     b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
@@ -477,6 +488,7 @@ public class MantenimientoBaseDatos extends Thread {
                 try {
                     CMD.transaction(conn, CMD.ROLLBACK);
                 } catch (SQLException ex) {
+                    b.setLogLevel(Bitacora.ERROR);
                     Logger.getLogger(MantenimientoBaseDatos.class.getName()).log(Level.SEVERE, null, ex);
                     ma.setMessage(ex.getMessage());
                     b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());

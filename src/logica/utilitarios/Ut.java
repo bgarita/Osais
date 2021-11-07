@@ -1048,8 +1048,8 @@ public class Ut {
             // Concateno los valores de las columnas de acuerdo con los índices que vienen en el arreglo
             tValores = "";
             for (int col = 0; col < table.getColumnCount(); col++) {
-                for (int i = 0; i < columns.length; i++) {
-                    if (columns[i] == col) {
+                for (Integer column : columns) {
+                    if (column == col) {
                         tValores += table.getValueAt(row, col);
                     } // end if
                 } // end for
@@ -3099,6 +3099,43 @@ public class Ut {
         }
         return sb.toString();
     } // end fileToString
+    /**
+     * Guardar un string en un archivo de texto.
+     * @param text String texto a guardar.
+     * @param path String archivo con la ruta completa.
+     * @param append boolean true=Agregar, false=No agregar
+     * @throws java.io.IOException
+     */
+    public static void stringToFile(String text, String path, boolean append) throws IOException{
+        Archivos archivo = new Archivos();
+        archivo.stringToFile(text, path, append);
+    } // end stringToFile
+    
+    public static String[] fileToArray(Path path) {
+        String[] fileContent = null;
+        try {
+            if (path.toFile().exists()) {
+                // Primero intento leer el archivo con UTF-8 y si se da un error
+                // lo intento con ISO-8859-1
+                Object[] content;
+                try {
+                    Stream<String> stream = Files.lines(path, Charset.forName("UTF-8"));
+                    content = stream.toArray();
+                } catch (IOException ex) {
+                    Stream<String> stream = Files.lines(path, Charset.forName("ISO-8859-1"));
+                    content = stream.toArray();
+                } // end try-catch interno
+                
+                fileContent = new String[content.length];
+                for (int i = 0; i < fileContent.length; i++){
+                    fileContent[i] = content[i].toString();
+                } // end for
+            } // end if-else
+        } catch (IOException ex) {
+            Logger.getLogger(Ut.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return fileContent;
+    } // end fileToArray
 
     /**
      * Prepara un string de texto con los códigos adecuados para los símbolos más comunes.
@@ -3288,6 +3325,12 @@ public class Ut {
         return datePart;
     } // end getDatePart
 
+    /**
+     * Poner todas las celdas de una fila con valor null.
+     * @param table JTable que contiene la fila a poner en null
+     * @param row  int Numero de fila que se pondrá en null
+     * @author Bosco Garita
+     */
     public static void setRowNull(JTable table, int row) {
         if (row < 0) {
             return;
