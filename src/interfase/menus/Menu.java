@@ -89,8 +89,8 @@ public class Menu extends javax.swing.JFrame {
      con las direcciones desde la 9 hasta la 3.
      Todo este proceso es transparente para el usuario.
      */
-    public static final String VERSIONN = "5.1r1";
-    private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - May 2021";
+    public static final String VERSIONN = "5.1r2";
+    private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Dic 2021";
     public static String USUARIO;
     public static String PASS;
     private static String SERVIDOR;

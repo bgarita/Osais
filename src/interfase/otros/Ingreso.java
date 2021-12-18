@@ -84,7 +84,7 @@ public class Ingreso extends javax.swing.JFrame {
         txtPassword = new javax.swing.JPasswordField();
         jLabel3 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        cmdAceptar = new javax.swing.JButton();
+        btnAceptar = new javax.swing.JButton();
         cmdCancelar = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
 
@@ -115,12 +115,12 @@ public class Ingreso extends javax.swing.JFrame {
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Security_key.png"))); // NOI18N
         jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        cmdAceptar.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
-        cmdAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/llave.png"))); // NOI18N
-        cmdAceptar.setText("Aceptar");
-        cmdAceptar.addActionListener(new java.awt.event.ActionListener() {
+        btnAceptar.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/llave.png"))); // NOI18N
+        btnAceptar.setText("Aceptar");
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdAceptarActionPerformed(evt);
+                btnAceptarActionPerformed(evt);
             }
         });
 
@@ -139,18 +139,18 @@ public class Ingreso extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addComponent(cmdAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
                 .addComponent(cmdCancelar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmdAceptar, cmdCancelar});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAceptar, cmdCancelar});
 
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(cmdAceptar)
+                .addComponent(btnAceptar)
                 .addComponent(cmdCancelar))
         );
 
@@ -212,7 +212,7 @@ public class Ingreso extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_cmdCancelarActionPerformed
 
-    private void cmdAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdAceptarActionPerformed
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
         String usuario = txtUser.getText().trim();
         char[] pass = txtPassword.getPassword();
@@ -450,14 +450,14 @@ public class Ingreso extends javax.swing.JFrame {
         // Bosco agregado 23/02/2013
         // Hago una revisión del TC y si el usuario está autorizado a cambiar
         // este parámetro le presento la pantalla para que lo haga.
-        Tipocambio tipoC;
-        float tc;
+        Tipocambio tipoCambio;
+        float tcDolar;
         
         try {
-            tc = UtilBD.tipoCambioDolar(conn);
+            tcDolar = UtilBD.tipoCambioDolar(conn);
         } catch (CurrencyExchangeException | SQLException ex) {
-            Logger.getLogger(Ingreso.class.getName()).log(Level.SEVERE, null, ex);
-            tc = 0;
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            tcDolar = 0;
             String tituloM = "Advertencia";
             int tipoM = JOptionPane.WARNING_MESSAGE;
             
@@ -473,12 +473,13 @@ public class Ingreso extends javax.swing.JFrame {
                     tipoM);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
         } // end try-catch
+        
         try {
-            if (tc == 0 && UtilBD.tienePermiso(conexion.getConnection(),"Tipocambio")){
+            if (tcDolar == 0 && UtilBD.tienePermiso(conexion.getConnection(),"Tipocambio")){
                 try{
-                    tipoC = new Tipocambio(conexion.getConnection());
-                    tipoC.setVisible(true);
-                    tipoC.setAlwaysOnTop(true);
+                    tipoCambio = new Tipocambio(conexion.getConnection());
+                    tipoCambio.setVisible(true);
+                    tipoCambio.setAlwaysOnTop(true);
                 } catch(SQLException ex){
                     JOptionPane.showMessageDialog(null, 
                             ex.getMessage(), 
@@ -513,7 +514,7 @@ public class Ingreso extends javax.swing.JFrame {
         String[] args = {};
         //MainFX.main(args); 
         //FXSwingMain.main(args);
-    }//GEN-LAST:event_cmdAceptarActionPerformed
+    }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void txtUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserActionPerformed
         txtUser.transferFocus();
@@ -521,7 +522,7 @@ public class Ingreso extends javax.swing.JFrame {
 
     private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
         txtPassword.transferFocus();
-        cmdAceptarActionPerformed(null);
+        btnAceptarActionPerformed(null);
     }//GEN-LAST:event_txtPasswordActionPerformed
 
 //    /**
@@ -567,7 +568,7 @@ public class Ingreso extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton cmdAceptar;
+    private javax.swing.JButton btnAceptar;
     private javax.swing.JButton cmdCancelar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
