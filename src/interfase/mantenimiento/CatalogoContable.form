@@ -353,7 +353,7 @@
         <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
           <Format format="###" subtype="-1" type="5"/>
         </Property>
-        <Property name="toolTipText" type="java.lang.String" value="Mayor"/>
+        <Property name="toolTipText" type="java.lang.String" value="Sub cuenta"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtSub_ctaActionPerformed"/>
@@ -367,7 +367,7 @@
         <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
           <Format format="###" subtype="-1" type="5"/>
         </Property>
-        <Property name="toolTipText" type="java.lang.String" value="Mayor"/>
+        <Property name="toolTipText" type="java.lang.String" value="Sub - Subcuenta"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtSub_subActionPerformed"/>
@@ -381,7 +381,7 @@
         <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
           <Format format="###" subtype="-1" type="5"/>
         </Property>
-        <Property name="toolTipText" type="java.lang.String" value="Mayor"/>
+        <Property name="toolTipText" type="java.lang.String" value="Colectivo"/>
       </Properties>
       <Events>
         <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtColectFocusGained"/>

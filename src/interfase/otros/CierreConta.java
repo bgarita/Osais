@@ -20,7 +20,7 @@ public class CierreConta extends javax.swing.JFrame {
     private static final long serialVersionUID = 20L;
     private final Bitacora b = new Bitacora();
     private final Connection conn;
-    private PeriodoContable per;
+    private final PeriodoContable per;
 
     /**
      * Creates new form CierreConta

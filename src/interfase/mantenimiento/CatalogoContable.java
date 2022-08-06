@@ -268,7 +268,7 @@ public class CatalogoContable extends JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        txtSub_cta.setToolTipText("Mayor");
+        txtSub_cta.setToolTipText("Sub cuenta");
         txtSub_cta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtSub_ctaActionPerformed(evt);
@@ -289,7 +289,7 @@ public class CatalogoContable extends JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        txtSub_sub.setToolTipText("Mayor");
+        txtSub_sub.setToolTipText("Sub - Subcuenta");
         txtSub_sub.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtSub_subActionPerformed(evt);
@@ -310,7 +310,7 @@ public class CatalogoContable extends JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        txtColect.setToolTipText("Mayor");
+        txtColect.setToolTipText("Colectivo");
         txtColect.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtColectFocusGained(evt);

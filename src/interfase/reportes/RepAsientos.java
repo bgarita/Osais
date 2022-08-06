@@ -478,8 +478,8 @@ public class RepAsientos extends JFrame {
                 "                b.descrip, " +
                 "                d.nom_cta, " +
                 "                Concat(d.mayor,'-',d.sub_cta,'-',d.sub_sub,'-',d.colect) as cuenta, " +
-                "                If(a.db_cr = 0, a.monto, 0) as debe,  " +
-                "                If(a.db_cr = 1, a.monto, 0) as haber " +
+                "                If(a.db_cr = 1, a.monto, 0) as debe,  " +
+                "                If(a.db_cr = 0, a.monto, 0) as haber " +
                 "        from coasientod a " +
                 "        Inner join coasientoe b on a.no_comprob = b.no_comprob " +
                 "                and a.tipo_comp = b.tipo_comp " +
@@ -499,8 +499,8 @@ public class RepAsientos extends JFrame {
                 "                b.descrip, " +
                 "                d.nom_cta, " +
                 "                Concat(d.mayor,'-',d.sub_cta,'-',d.sub_sub,'-',d.colect) as cuenta, " +
-                "                If(a.db_cr = 0, a.monto, 0) as debe,  " +
-                "                If(a.db_cr = 1, a.monto, 0) as haber " +
+                "                If(a.db_cr = 1, a.monto, 0) as debe,  " +
+                "                If(a.db_cr = 0, a.monto, 0) as haber " +
                 "        from hcoasientod a " +
                 "        Inner join hcoasientoe b on a.no_comprob = b.no_comprob " +
                 "                and a.tipo_comp = b.tipo_comp " +

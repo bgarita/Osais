@@ -190,7 +190,7 @@ public class MailSender {
             message.setSubject(sAsunto);
             message.setSentDate(new java.util.Date());
 
-            message.setContent(sTextoHTML, "text/html");
+            message.setContent(sTextoHTML, "text/html; charset=UTF-8");
 
             Transport.send(message);
         } catch (Exception ex) {

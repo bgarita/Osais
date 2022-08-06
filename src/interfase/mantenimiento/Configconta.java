@@ -1546,7 +1546,7 @@ public class Configconta extends JFrame {
     } // end checkLength
 
     private void setNombreCuenta(JFormattedTextField field, JLabel nombreCuenta) {
-        // Se permite una cuenta vacía.  Poreso se omite el resto de la
+        // Se permite una cuenta vacía.  Por eso se omite el resto de la
         // validación.
         if (field.getText().trim().isEmpty()){
             return;
