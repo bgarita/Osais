@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RepMov" pageWidth="612" pageHeight="792" columnWidth="592" leftMargin="18" rightMargin="2" topMargin="6" bottomMargin="6" uuid="07a34ec9-66fb-4b10-9e39-bc611f2d494a">
-	<property name="ireport.zoom" value="3.0"/>
-	<property name="ireport.x" value="509"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="48"/>
 	<parameter name="pQuery" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["Select   " +
 "   (Select mostrarFechaRep from configcuentas) as mostrarFecha,   " +
@@ -12,8 +12,8 @@
                 "		date(b.fecha_comp) as fecha_comp,  " +
                 "		year(b.fecha_comp) as year,  " +
                 "		month(b.fecha_comp) as month,  " +
-                "		If(a.db_cr = 0, a.monto, 0) as debe,  " +
-                "		If(a.db_cr = 1, a.monto, 0) as haber, " +
+                "		If(a.db_cr = 1, a.monto, 0) as debe,  " +
+                "		If(a.db_cr = 0, a.monto, 0) as haber, " +
                 "		a.descrip  " +
                 "from coasientod a  " +
                 "Inner join coasientoe b on a.no_comprob = b.no_comprob  " +

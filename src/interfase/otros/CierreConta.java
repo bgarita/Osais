@@ -139,13 +139,6 @@ public class CierreConta extends javax.swing.JFrame {
                 return;
             } // end if
 
-            /*
-            NOTA:
-            Falta probar este proceso y verificar que el registro de asientos
-            carga correctamente el periodo siguiente.
-            Continuar probando hasta realizar el cierre anual.  Pero ese proceso
-            no se ha creado aún.
-             */
             // 1. Mover los asientos del periodo actual a la tabla histórica
             // 2. Cerrar el periodo actual
             // 3. Establecer el nuevo periodo

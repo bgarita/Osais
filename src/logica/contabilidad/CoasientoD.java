@@ -24,6 +24,8 @@ public class CoasientoD {
     private short tipo_comp;        // Tipo de asiento
     private String descrip;         // Descripción del registro (cada línea)
     private byte db_cr;             // Indica si es débido o crédito (0,1)
+    // Nota: el registro de asientos indica 1 para débitos y 0 para créditos
+    // Esto es diferente al de fox.  Voy a estar validando 18/08/2022 (1=db, 0=cr)
     private double monto;           // Monto del movimiento (cada línea)
     private double totalDebito;     // Totaliza los débitos
     private double totalCredito;    // Totaliza los créditos

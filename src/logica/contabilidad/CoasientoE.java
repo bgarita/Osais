@@ -399,9 +399,15 @@ public class CoasientoE {
             return false;
         } // end if
 
+        // Se cambia esta sentencia por compatibilidad con MySQL 5.1 (24/08/2022)
+        // MariaDB interpreta bien ambos parámetros.
+        //        sqlSent
+        //                = "SELECT MAX(cast(no_comprob AS INTEGER)) as max "
+        //                + "FROM coasientoe WHERE tipo_comp = ?";
         sqlSent
-                = "SELECT MAX(cast(no_comprob AS INTEGER)) as max "
+                = "SELECT MAX(cast(no_comprob AS signed)) as max "
                 + "FROM coasientoe WHERE tipo_comp = ?";
+        
         try {
             no_comprob2 = "";
             ps = conn.prepareStatement(sqlSent,

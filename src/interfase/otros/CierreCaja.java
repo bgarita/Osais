@@ -884,16 +884,17 @@ public class CierreCaja extends javax.swing.JFrame {
      * @param c
      */
     public static void main(final Connection c) {
-        //Connection c = DataBaseConnection.getConnection("temp");
+        String program = "CierreCaja";
+        String descrip = "Cierre de caja";
         try {
-            if (!UtilBD.tienePermiso(c,"CierreCaja")){
+            if (!UtilBD.tienePermiso(c,program)){
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(c, program, descrip);
                 return;
             } // end if
-            //DataBaseConnection.setFreeConnection("temp");
         } catch (Exception ex) {
             Logger.getLogger(CierreCaja.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 

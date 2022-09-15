@@ -1565,8 +1565,8 @@ public class UtilBD {
         // Obtener la sumatoria de los datos para el rango establecido
         sqlSent
                 = "Select  "
-                + "	IfNull(sum(If(d.db_cr = 0, monto, 0)),0) as debito, "
-                + "	IfNull(sum(If(d.db_cr = 1, monto, 0)),0) as credito "
+                + "	IfNull(sum(If(d.db_cr = 1, monto, 0)),0) as debito, "
+                + "	IfNull(sum(If(d.db_cr = 0, monto, 0)),0) as credito "
                 + "from hcoasientod d "
                 + "Inner join hcoasientoe e on  "
                 + "	d.no_comprob = e.no_comprob and d.tipo_comp = e.tipo_comp "
@@ -1575,8 +1575,8 @@ public class UtilBD {
                 + "and d.colect = ? "
                 + "Union all "
                 + "Select    "
-                + "	IfNull(sum(If(d.db_cr = 0, monto, 0)),0) as debito, "
-                + "	IfNull(sum(If(d.db_cr = 1, monto, 0)),0) as credito "
+                + "	IfNull(sum(If(d.db_cr = 1, monto, 0)),0) as debito, "
+                + "	IfNull(sum(If(d.db_cr = 0, monto, 0)),0) as credito "
                 + "from coasientod d "
                 + "Inner join coasientoe e on  "
                 + "	d.no_comprob = e.no_comprob and d.tipo_comp = e.tipo_comp "
