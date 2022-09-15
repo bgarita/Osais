@@ -89,8 +89,8 @@ public class Menu extends javax.swing.JFrame {
      con las direcciones desde la 9 hasta la 3.
      Todo este proceso es transparente para el usuario.
      */
-    public static final String VERSIONN = "5.1r2";
-    private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Dic 2021";
+    public static final String VERSIONN = "5.1r3";
+    private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Ago 2022";
     public static String USUARIO;
     public static String PASS;
     private static String SERVIDOR;
@@ -2249,16 +2249,19 @@ public class Menu extends javax.swing.JFrame {
 
     private void mnuImprimirFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuImprimirFacturaActionPerformed
         try {
-            // Por ahora se deja la validación de los permisos aquí pero habrá que
+            // Por ahora se deja la validación de los permisos aquí pero habrá
             // que encontrar la forma de hacerlo igual que todos los demás ya que
             // de lo contrario habría que modificar también los menúes contextuales.
             // Bosco agregado 23/07/2011
             // Integración del segundo nivel de seguridad.
+            String program = "ImpresionFactura";
+            String descrip = "Imprimir facturas";
             if (!UtilBD.tienePermiso(CONEXION.getConnection(), "ImpresionFactura")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no posee privilegios para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -2332,11 +2335,14 @@ public class Menu extends javax.swing.JFrame {
         try {
             // Bosco agregado 18/07/2011
             // Integración del segundo nivel de seguridad.
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "AnulacionRecibosCXC")) {
+            String program = "AnulacionRecibosCXC";
+            String descrip = "Anular recibos de cuentas por cobrar";
+            if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // Fin Bosco agregado 18/07/2011
             // Fin Bosco agregado 18/07/2011
@@ -2364,11 +2370,14 @@ public class Menu extends javax.swing.JFrame {
             // que encontrar la forma de hacerlo igual que todos los demás.
             // Bosco agregado 18/07/2011
             // Integración del segundo nivel de seguridad.
+            String program = "AnulacionDocInv";
+            String descrip = "Anular documentos de inventario";
             if (!UtilBD.tienePermiso(CONEXION.getConnection(), "AnulacionDocInv")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // Fin Bosco agregado 18/07/2011
             // Fin Bosco agregado 18/07/2011
@@ -2396,11 +2405,14 @@ public class Menu extends javax.swing.JFrame {
             // que encontrar la forma de hacerlo igual que todos los demás.
             // Bosco agregado 18/07/2011
             // Integración del segundo nivel de seguridad.
+            String program = "AnulacionFacturasCXC";
+            String descrip = "Anular facturas CXC";
             if (!UtilBD.tienePermiso(CONEXION.getConnection(), "AnulacionFacturasCXC")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // Fin Bosco agregado 18/07/2011
             // Fin Bosco agregado 18/07/2011
@@ -2458,11 +2470,14 @@ public class Menu extends javax.swing.JFrame {
         try {
             // Bosco agregado 18/07/2011
             // Integración del segundo nivel de seguridad.
+            String program = "GenerarInteresMoratorio";
+            String descrip = "Generar intereses moratorios CXC";
             if (!UtilBD.tienePermiso(CONEXION.getConnection(), "GenerarInteresMoratorio")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // Fin Bosco agregado 18/07/2011
             // Fin Bosco agregado 18/07/2011
@@ -2541,11 +2556,14 @@ public class Menu extends javax.swing.JFrame {
         try {
             // Bosco agregado 18/07/2011
             // Integración del segundo nivel de seguridad.
+            String program = "RepNCPendientes";
+            String descrip = "Reporte de notas de crédito pendientes";
             if (!UtilBD.tienePermiso(CONEXION.getConnection(), "RepNCPendientes")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // Fin Bosco agregado 18/07/2011
             // Fin Bosco agregado 18/07/2011
@@ -2636,11 +2654,14 @@ public class Menu extends javax.swing.JFrame {
         try {
             // Bosco agregado 23/07/2011
             // Integración del segundo nivel de seguridad.
+            String program = "RepDirEncom";
+            String descrip = "Reporte de direcciones de encomienda";
             if (!UtilBD.tienePermiso(CONEXION.getConnection(), "RepDirEncom")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // Fin Bosco agregado 23/07/2011
             // Fin Bosco agregado 23/07/2011
@@ -2958,11 +2979,14 @@ public class Menu extends javax.swing.JFrame {
 
         filtro += "Todos los artículos.";
         try {
+            String program = "RepMaestroArt";
+            String descrip = "Reporte maestro de artículos";
             if (!UtilBD.tienePermiso(CONEXION.getConnection(), "RepMaestroArt")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3026,11 +3050,14 @@ public class Menu extends javax.swing.JFrame {
 
     private void mnuAnulaRCXPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAnulaRCXPActionPerformed
         try {
+            String program = "AnulacionRecibosCXP";
+            String descrip = "Anular recibos de cuentas por pagar";
             if (!UtilBD.tienePermiso(CONEXION.getConnection(), "AnulacionRecibosCXP")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3057,11 +3084,14 @@ public class Menu extends javax.swing.JFrame {
             // que encontrar la forma de hacerlo igual que todos los demás.
             // Bosco agregado 18/07/2011
             // Integración del segundo nivel de seguridad.
+            String program = "AnulacionFacturasCXP";
+            String descrip = "Anular facturas de cuentas por pagar";
             if (!UtilBD.tienePermiso(CONEXION.getConnection(), "AnulacionFacturasCXP")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // Fin Bosco agregado 18/07/2011
             // Fin Bosco agregado 18/07/2011
@@ -3386,11 +3416,14 @@ public class Menu extends javax.swing.JFrame {
     private void mnuAnularCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAnularCajaActionPerformed
         try {
             // Integración del segundo nivel de seguridad.
+            String program = "AnulacionRecibosCaja";
+            String descrip = "Anular recibos de caja";
             if (!UtilBD.tienePermiso(CONEXION.getConnection(), "AnulacionRecibosCaja")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3417,11 +3450,14 @@ public class Menu extends javax.swing.JFrame {
             // que encontrar la forma de hacerlo ingual que todos los demás ya que
             // de lo contrario habría que modificar también los menúes contextuales.
             // Bosco agregado 23/07/2011
+            String program = "ImpresionReciboCaja";
+            String descrip = "Imprimir recibos de caja";
             if (!UtilBD.tienePermiso(CONEXION.getConnection(), "ImpresionReciboCaja")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3447,11 +3483,14 @@ public class Menu extends javax.swing.JFrame {
         // Por ahora se validará igual que los recibos de caja porque
         // utilizan el mismo programa.
         try {
+            String program = "ImpresionReciboCaja";
+            String descrip = "Imprimir recibos de caja";
             if (!UtilBD.tienePermiso(CONEXION.getConnection(), "ImpresionReciboCaja")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3948,11 +3987,14 @@ public class Menu extends javax.swing.JFrame {
 
     private void mnuBackupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBackupActionPerformed
         try {
+            String program = "BackupInterface";
+            String descrip = "Respaldar base de datos";
             if (!UtilBD.tienePermiso(CONEXION.getConnection(), "BackupInterface")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
+                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -4158,7 +4200,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void mnuCiereContaMensualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCiereContaMensualActionPerformed
         String program = "CierreConta";
-        String descrip = "Ejecutar el cierre mensual contable";
+        String descrip = "Cierre mensual contable";
         try {
             if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
                 JOptionPane.showMessageDialog(null,
@@ -4283,7 +4325,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void mnuCierreAnualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCierreAnualActionPerformed
         String program = "CierreContaAnual";
-        String descrip = "Ejecutar el cierre anual contable";
+        String descrip = "Cierre anual contable";
         try {
             if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
                 JOptionPane.showMessageDialog(null,

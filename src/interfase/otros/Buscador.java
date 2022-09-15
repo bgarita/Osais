@@ -300,7 +300,7 @@ public class Buscador extends java.awt.Dialog {
             sqlSent = SP;
         } else {
             sqlSent = "Select " + campos + " from " + tabla +
-                    " Where ";
+                    " Where (";
 
             switch (opcion){
                 case 0: // Contiene...
@@ -340,7 +340,17 @@ public class Buscador extends java.awt.Dialog {
                     "<> '" + texto + "'";
                     break;
             } // end switch
+            
+            // Incluyo el primer campo como parte de la búsqueda
+            String additionalOR = "";
+            if (campos.contains(",")) {
+                String temp[] = campos.split(",");
+                additionalOR = temp[0];
+            }
 
+            sqlSent += " or " + additionalOR + " like '%" + texto + "%'";
+            sqlSent += ")";
+            
             if (!this.additionalWhere.isEmpty()){
                 sqlSent += " and " + additionalWhere;
             }

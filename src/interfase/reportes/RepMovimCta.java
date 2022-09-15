@@ -374,8 +374,8 @@ public class RepMovimCta extends JFrame {
                 "		date(b.fecha_comp) as fecha_comp,  " +
                 "		year(b.fecha_comp) as year,  " +
                 "		month(b.fecha_comp) as month,  " +
-                "		If(a.db_cr = 0, a.monto, 0) as debe,  " +
-                "		If(a.db_cr = 1, a.monto, 0) as haber, " +
+                "		If(a.db_cr = 1, a.monto, 0) as debe,  " +
+                "		If(a.db_cr = 0, a.monto, 0) as haber, " +
                 "		a.descrip  " +
                 "from coasientod a  " +
                 "Inner join coasientoe b on a.no_comprob = b.no_comprob  " +
@@ -393,8 +393,8 @@ public class RepMovimCta extends JFrame {
                 "		date(b.fecha_comp) as fecha_comp,  " +
                 "		year(b.fecha_comp) as year,  " +
                 "		month(b.fecha_comp) as month,  " +
-                "		If(a.db_cr = 0, a.monto, 0) as debe,  " +
-                "		If(a.db_cr = 1, a.monto, 0) as haber, " +
+                "		If(a.db_cr = 1, a.monto, 0) as debe,  " +
+                "		If(a.db_cr = 0, a.monto, 0) as haber, " +
                 "		a.descrip  " +
                 "from hcoasientod a  " +
                 "Inner join hcoasientoe b on a.no_comprob = b.no_comprob  " +

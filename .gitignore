@@ -1,7 +1,6 @@
 log.txt
 UserConfig.txt
 build/
-build/classes/reports/*.*
 *.log
 *.xml
 *.class

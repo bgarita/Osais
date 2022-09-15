@@ -76,7 +76,7 @@ public class CierreContaAnual extends javax.swing.JFrame {
 
         jTextPane1.setEditable(false);
         jTextPane1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jTextPane1.setText("Este proceso traslada todos los saldos del ejercicio contable a los acumulados anuales y limpia todas las cuentas de ingresos y gastos para iniciar un nuevo ejercicio contable.\nDe igual forma, los asientos contables son trasladados al histórico y no permitirá que sean modificados.\nDurante el proceso se genera el asiento de cierre.\nEl tipo de asiento utilizado para este movimiento es el 99. El sistema lo asignará automáticamente por lo que hay que asegurarse de que el tipo esté creado.\n\n\nAsegúrese de:\n1.  Realizar un buen respaldo de la base de datos.\n2.  Que no haya más usuarios en el sistema.\n3.  Asegurarse de que el tipo de asiento 99 exista.");
+        jTextPane1.setText("Este proceso traslada todos los saldos del ejercicio contable a los acumulados anuales y limpia todas las cuentas de ingresos y gastos para iniciar un nuevo ejercicio contable.\nDe igual forma, los asientos contables son trasladados al histórico y no permitirá que sean modificados.\nDurante el proceso se genera el asiento de cierre.\nEl tipo de asiento utilizado para este movimiento es el 99. El sistema lo asignará automáticamente, por lo que debe asegurarse de que el tipo esté creado.\n\n\nAntes de ejecutar este proceso asegúrese de:\n1.  Realizar un buen respaldo de la base de datos.\n2.  Que no haya más usuarios en el sistema.\n3.  Que el tipo de asiento 99 exista.");
         jScrollPane1.setViewportView(jTextPane1);
 
         btnSalir.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -88,8 +88,9 @@ public class CierreContaAnual extends javax.swing.JFrame {
             }
         });
 
-        lblPeriodo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        lblPeriodo.setForeground(new java.awt.Color(51, 51, 255));
+        lblPeriodo.setBackground(new java.awt.Color(255, 255, 204));
+        lblPeriodo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblPeriodo.setForeground(java.awt.Color.blue);
         lblPeriodo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblPeriodo.setText("Periodo a cerrar:");
 

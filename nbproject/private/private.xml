@@ -6,8 +6,11 @@
             <file>file:/C:/Java%20Programs/osais/src/interfase/transacciones/RegistroAsientos.java</file>
             <file>file:/C:/Java%20Programs/osais/src/interfase/mantenimiento/MantenimientoSistema.java</file>
             <file>file:/C:/Java%20Programs/osais/src/interfase/menus/Menu.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/logica/contabilidad/CoasientoD.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/interfase/reportes/RepMovimCta.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/interfase/otros/CierreConta.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/logica/contabilidad/CoasientoE.java</file>
             <file>file:/C:/Java%20Programs/osais/ProyectoJavaFX.txt</file>
+            <file>file:/C:/Java%20Programs/osais/src/accesoDatos/UtilBD.java</file>
             <file>file:/C:/Java%20Programs/osais/Pendientes.txt</file>
         </group>
     </open-files>
