@@ -39,7 +39,7 @@ public class TiposAsiento extends JFrame {
 
     private boolean init; // Cuando está en true el evento del combo no corre.
 
-    private final Cotipasient tipo;
+    private final Cotipasient cotipasient;
     private final Bitacora b = new Bitacora();
 
     /**
@@ -62,7 +62,7 @@ public class TiposAsiento extends JFrame {
         conn = Menu.CONEXION.getConnection();
 
         nav.setConexion(conn);
-        tipo = new Cotipasient(conn);
+        cotipasient = new Cotipasient(conn);
 
         rs = nav.cargarRegistro(Navegador.TODOS, 0, tabla, "tipo_comp");
 
@@ -73,7 +73,7 @@ public class TiposAsiento extends JFrame {
         txtTipo_comp.setText(rs.getString("tipo_comp"));
         txtDescrip.setText(rs.getString("descrip"));
         txtConsecutivo.setText(rs.getString("consecutivo"));
-        tipo.setTipo_comp(rs.getShort("tipo_comp")); // Esta clase carga todos los campos
+        cotipasient.setTipo_comp(rs.getShort("tipo_comp")); // Esta clase carga todos los campos
 
         rs3 = nav.cargarRegistro(Navegador.TODOS, 0, tabla, "tipo_comp");
         rs3.beforeFirst();
@@ -211,11 +211,7 @@ public class TiposAsiento extends JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setText("Último asiento");
 
-        try {
-            txtConsecutivo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##########")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
+        txtConsecutivo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         txtConsecutivo.setToolTipText("Último asiento registrado");
         txtConsecutivo.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -503,7 +499,7 @@ public class TiposAsiento extends JFrame {
         try {
             CMD.transaction(conn, CMD.START_TRANSACTION);
             guardarRegistro();
-            if (tipo.isError()) {
+            if (cotipasient.isError()) {
                 CMD.transaction(conn, CMD.ROLLBACK);
             } else {
                 CMD.transaction(conn, CMD.COMMIT);
@@ -546,7 +542,7 @@ public class TiposAsiento extends JFrame {
                         + "Se asignará automáticamente el número siguiente.",
                         "Advertencia",
                         JOptionPane.INFORMATION_MESSAGE);
-                no_comprob = tipo.getUltimoConsecutivo(tipo_comp) + "";
+                no_comprob = cotipasient.getUltimoConsecutivo(tipo_comp) + "";
                 no_comprob = Ut.lpad(no_comprob, "0", 10);
                 txtConsecutivo.setText(no_comprob);
             } // end if
@@ -602,8 +598,8 @@ public class TiposAsiento extends JFrame {
             return;
         }
 
-        tipo.setTipo_comp(Short.parseShort(txtTipo_comp.getText().trim()));
-        int sqlResult = tipo.delete();
+        cotipasient.setTipo_comp(Short.parseShort(txtTipo_comp.getText().trim()));
+        int sqlResult = cotipasient.delete();
 
         if (sqlResult > 0) {
 
@@ -633,10 +629,10 @@ public class TiposAsiento extends JFrame {
             } // end try-catch
         } // end if
 
-        if (tipo.isError()) {
+        if (cotipasient.isError()) {
             JOptionPane.showMessageDialog(
                     null,
-                    tipo.getMensaje_error(),
+                    cotipasient.getMensaje_error(),
                     "Error",
                     JOptionPane.INFORMATION_MESSAGE);
             if (transaccion) {
@@ -720,21 +716,28 @@ public class TiposAsiento extends JFrame {
             txtDescrip.requestFocusInWindow();
             return;
         }
-
+        
         boolean registroActualizado;
         short tipo_comp = Short.parseShort(txtTipo_comp.getText().trim());
         String descrip = txtDescrip.getText().trim();
         int no_comprob = Integer.parseInt(txtConsecutivo.getText().trim());
+        
+        // Validar si el consecutivo de asientos para el tipo
+        // ya existe en base de datos.
+        if (cotipasient.existeConsecutivo(no_comprob, tipo_comp)) {
+            no_comprob = cotipasient.getSiguienteConsecutivo(tipo_comp);
+            txtConsecutivo.setText(no_comprob + "");
+        }
 
-        tipo.setTipo_comp(tipo_comp);
-        tipo.setDescrip(descrip);
-        tipo.setConsecutivo(no_comprob);
+        cotipasient.setTipo_comp(tipo_comp);
+        cotipasient.setDescrip(descrip);
+        cotipasient.setConsecutivo(no_comprob);
 
         this.init = true;
         if (!consultarRegistro(tipo_comp)) {
-            registroActualizado = tipo.insert();
+            registroActualizado = cotipasient.insert();
         } else {
-            registroActualizado = tipo.update() > 0;
+            registroActualizado = cotipasient.update() > 0;
         } // end if
         this.init = false;
 
@@ -769,9 +772,9 @@ public class TiposAsiento extends JFrame {
             return;
         } // end if
 
-        tipo.setTipo_comp(Short.parseShort(txtTipo_comp.getText().trim()));
-        txtDescrip.setText(tipo.getDescrip());
-        txtConsecutivo.setText(tipo.getConsecutivo() + "");
+        cotipasient.setTipo_comp(Short.parseShort(txtTipo_comp.getText().trim()));
+        txtDescrip.setText(cotipasient.getDescrip());
+        txtConsecutivo.setText(cotipasient.getConsecutivo() + "");
         
     } // end refrescartxtTipo_comp
 
@@ -785,7 +788,7 @@ public class TiposAsiento extends JFrame {
     public boolean consultarRegistro(Short tipo_comp) {
         boolean existe = false;
         try {
-            existe = tipo.existeEnBaseDatos(tipo_comp);
+            existe = cotipasient.existeEnBaseDatos(tipo_comp);
         } catch (SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,

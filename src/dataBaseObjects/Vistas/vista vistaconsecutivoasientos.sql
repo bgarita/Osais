@@ -1,12 +1,11 @@
--- Visa vistaconsecutivoasientos
-CREATE OR REPLACE VIEW vistaconsecutivoasientos
-AS 
+-- Vista vistaconsecutivoasientos
+CREATE OR REPLACE VIEW vistaconsecutivoasientos AS 
 SELECT 
-	no_comprob, 
-	tipo_comp
-FROM coasientoe
+	`coasientoe`.`no_comprob` AS `no_comprob`,
+	`coasientoe`.`tipo_comp` AS `tipo_comp` 
+FROM `coasientoe` 
 UNION 
 SELECT 
-	no_comprob, 
-	tipo_comp
-FROM hcoasientoe;
+	`hcoasientoe`.`no_comprob` AS `no_comprob`,
+	`hcoasientoe`.`tipo_comp` AS `tipo_comp` 
+FROM `hcoasientoe`;

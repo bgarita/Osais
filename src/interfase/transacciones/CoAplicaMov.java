@@ -160,7 +160,7 @@ public class CoAplicaMov extends javax.swing.JFrame {
             CMD.update(ps);
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(CoAplicaMov.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             huboError = true;
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(), 
@@ -173,7 +173,7 @@ public class CoAplicaMov extends javax.swing.JFrame {
             try {
                 CMD.transaction(conn, CMD.ROLLBACK);
             } catch (SQLException ex) {
-                Logger.getLogger(CoAplicaMov.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                 // Si se produce un error aquí lo más sabio es salir del sistema
                 // para proteger la integridad.
                 JOptionPane.showMessageDialog(null, 

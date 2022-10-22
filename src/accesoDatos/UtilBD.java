@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import logica.Column;
+import logica.contabilidad.Coperiodoco;
 import logica.contabilidad.Cuenta;
 import logica.contabilidad.PeriodoContable;
 import logica.utilitarios.DirectoryStructure;
@@ -1918,19 +1919,21 @@ public class UtilBD {
         Establecer el siguiente periodo.
         Cuando el cierre es setiembre es distinto de cuando es diciembre.
          */
-        int mesactual = 0, mesCierreA = 0, nextYear = 0, nextPer = 0;
+        int mesactual = 0, mesCierreA = 0, nextYear = 0, nextPer = 0, currentYear = 0;
 
         sqlSent
                 = "SELECT mesactual, mesCierreA, añoactual "
                 + "FROM configcuentas";
         try (PreparedStatement ps
-                = conn.prepareStatement(sqlSent, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+                = conn.prepareStatement(sqlSent, 
+                        ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
 
             ResultSet rs = CMD.select(ps);
             if (rs != null && rs.first()) {
                 mesactual = rs.getInt(1);
                 mesCierreA = rs.getInt(2);
                 nextYear = rs.getInt(3);
+                currentYear = rs.getInt(3);
             } // end if
             ps.close();
         } // end try with resources
@@ -1977,6 +1980,18 @@ public class UtilBD {
             return false;
         } // end if
 
+        // El periodo 13 no se puede crear por medio de la interfaz, entonces, cuando
+        // este proceso alcanza el último periodo normal, debe agregar el periodo de cierre
+        // anual, el periodo 13.
+        if (mesactual == mesCierreA) {
+            Coperiodoco periodo = new Coperiodoco(conn);
+            periodo.setDefaultValues();
+            periodo.insertarPeriodoCierre(currentYear, mesCierreA);
+            if (periodo.isError()) {
+                reg = 0;
+            }
+        }
+        
         return (reg > 0);
     } // end CGcerrarPeriodoActual
 
@@ -2375,7 +2390,10 @@ public class UtilBD {
                 + "and nivel = 0";
 
         try {
-            ps = conn.prepareStatement(sqlSent, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY); // Contultar el catálogo
+            // Contultar el catálogo
+            ps = conn.prepareStatement(sqlSent, 
+                    ResultSet.TYPE_SCROLL_SENSITIVE, 
+                    ResultSet.CONCUR_READ_ONLY); 
 
             // Recorrer todo String de cuenta para ir procesando cada cuenta de mayor
             while (x < lcCta.length()) {

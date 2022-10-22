@@ -1398,6 +1398,7 @@ public class CatalogoContable extends JFrame {
                         result[1],
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
+                b.writeToLog(this.getClass().getName() + "--> " + result[1]);
                 return;
             } // end if
         } // end if
@@ -1409,6 +1410,7 @@ public class CatalogoContable extends JFrame {
                     catalogo.getMensaje_error(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
+            b.writeToLog(this.getClass().getName() + "--> " + catalogo.getMensaje_error());
             return;
         } // end if
 
@@ -1419,6 +1421,7 @@ public class CatalogoContable extends JFrame {
                     account.getMensaje_error(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
+            b.writeToLog(this.getClass().getName() + "--> " + account.getMensaje_error());
             return;
         } // end if
 
@@ -1451,6 +1454,7 @@ public class CatalogoContable extends JFrame {
                     catalogo.getMensaje_error(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
+            b.writeToLog(this.getClass().getName() + "--> " + catalogo.getMensaje_error());
             return;
         } // end if
 
@@ -1470,10 +1474,10 @@ public class CatalogoContable extends JFrame {
      */
     public boolean consultarRegistro(String cuenta) {
         boolean existe = false;
-        Cuenta c = new Cuenta(conn);
-        c.setCuentaString(cuenta);
+        Cuenta cta = new Cuenta(conn);
+        cta.setCuentaString(cuenta);
         try {
-            existe = catalogo.existeEnBaseDatos(c);
+            existe = catalogo.existeEnBaseDatos(cta);
         } catch (SQLException ex) {
             Logger.getLogger(CatalogoContable.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,

@@ -2,6 +2,7 @@ package logica.contabilidad;
 
 import Mail.Bitacora;
 import accesoDatos.CMD;
+import accesoDatos.UtilBD;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -114,8 +115,8 @@ public class CoactualizCat {
             "	d.sub_cta,   " +
             "	d.sub_sub,   " +
             "	d.colect,    " +
-            "	If(d.db_cr = 0, d.monto,0) as debito, " +
-            "	If(d.db_cr = 1, d.monto,0) as credito " +
+            "	If(d.db_cr = 1, d.monto,0) as debito, " +
+            "	If(d.db_cr = 0, d.monto,0) as credito " +
             "from coasientod d " +
             "inner join coasientoe e on d.no_comprob = e.no_comprob and d.tipo_comp = e.tipo_comp ";
         
@@ -355,6 +356,41 @@ public class CoactualizCat {
         
         return exito;
     } // end Mayorizar
+
+    private boolean revisarIntegridadCuentas() {
+        b.setLogLevel(Bitacora.INFO);
+        b.writeToLog("Validando estructura lógica del catálogo...");
+        
+        boolean correcto = false;
+        PreparedStatement ps;
+        ResultSet rs;
+        String sqlSent =
+                "Select cuenta from vistacocatalogo Where nivel = 1";
+        try {
+            ps = conn.prepareStatement(sqlSent, 
+                    ResultSet.TYPE_SCROLL_SENSITIVE, 
+                    ResultSet.CONCUR_READ_ONLY);
+            rs = CMD.select(ps);
+            
+            while (rs.next()){
+                String[] result = UtilBD.validarEstructuraLogica(conn, rs.getString(1));
+                if (result[0].equals("S")) {
+                    rs.close();
+                    throw new Exception(result[0]);
+                }
+            }
+            rs.close();
+            
+            // Solo si pasa todas las validaciones se considera exitoso.
+            correcto = true;
+            b.writeToLog("Estructura lógica del catálogo de cuentas validada, correcta.");
+        } catch (Exception ex) {
+            this.mensaje_err = ex.getMessage();
+            b.setLogLevel(Bitacora.ERROR);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+        }
+        return correcto;
+    }
     
     /**
      * Este metodo recalcula los saldos de todas las cuentas de mayor; es decir siempre mayoriza.
@@ -456,11 +492,18 @@ public class CoactualizCat {
      * @return boolean true=Exito, false=Falló
      */
     public boolean recalcularSaldos(){
-        boolean exito = true;
+        boolean exito;
         Calendar cal = GregorianCalendar.getInstance();
         java.sql.Date fecha1;
         java.sql.Timestamp fecha2;
         PreparedStatement ps1, ps2;
+        
+        // Antes de realizar cualquier movimiento, reviso la integridad de las cuentas.
+        exito = revisarIntegridadCuentas();
+        
+        if (!exito) {
+            return false;
+        }
         
         /*
         Obtener las fechas de proceso mediante la clase PeriodoContable
@@ -492,7 +535,7 @@ public class CoactualizCat {
                 "		and d.sub_cta = cocatalogo.sub_cta " +
                 "		and d.sub_sub = cocatalogo.sub_sub " +
                 "		and d.colect  = cocatalogo.colect  " +
-                "		and d.db_cr = 0 " +
+                "		and d.db_cr = 1 " +
                 "	),0), " +
                 "	cr_mes = IfNull(( " +
                 "		Select sum(d.monto) " +
@@ -503,7 +546,7 @@ public class CoactualizCat {
                 "		and d.sub_cta = cocatalogo.sub_cta " +
                 "		and d.sub_sub = cocatalogo.sub_sub " +
                 "		and d.colect  = cocatalogo.colect  " +
-                "		and d.db_cr = 1 " +
+                "		and d.db_cr = 0 " +
                 "	),0) " +
                 "Where nivel = 1";
         
