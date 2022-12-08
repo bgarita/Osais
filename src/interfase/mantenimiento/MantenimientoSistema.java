@@ -8,6 +8,7 @@ package interfase.mantenimiento;
 
 import java.sql.Connection;
 import java.util.GregorianCalendar;
+import logica.DatabaseOptions;
 
 /**
  *
@@ -15,13 +16,14 @@ import java.util.GregorianCalendar;
  */
 @SuppressWarnings("serial")
 public class MantenimientoSistema extends javax.swing.JFrame {
-    Connection conn;
-    /** Creates new form MantenimientoSistema
-     * @param c */
+    private final Connection conn;
+    private final DatabaseOptions databaseOptions;
+    
     public MantenimientoSistema(Connection c) {
         initComponents();
         this.conn = c;
         this.DatFecha.setDate(GregorianCalendar.getInstance().getTime());
+        databaseOptions = new DatabaseOptions();
     } // end constructor
 
     /** This method is called from within the constructor to
@@ -47,6 +49,8 @@ public class MantenimientoSistema extends javax.swing.JFrame {
         chkCostoProm = new javax.swing.JCheckBox();
         chkSaldoProveedores = new javax.swing.JCheckBox();
         chkInvTransito = new javax.swing.JCheckBox();
+        chkCuentasMov = new javax.swing.JCheckBox();
+        chkMayorizar = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Mantenimiento del sistema");
@@ -108,6 +112,14 @@ public class MantenimientoSistema extends javax.swing.JFrame {
         chkInvTransito.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         chkInvTransito.setText("Recalcular inventario en tránsito");
 
+        chkCuentasMov.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        chkCuentasMov.setSelected(true);
+        chkCuentasMov.setText("Recalcular cuentas de movimiento");
+
+        chkMayorizar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        chkMayorizar.setSelected(true);
+        chkMayorizar.setText("Mayorizar catálogo contable");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -129,7 +141,9 @@ public class MantenimientoSistema extends javax.swing.JFrame {
                             .addComponent(chkIntegridadFacturas)
                             .addComponent(chkCostoProm)
                             .addComponent(chkSaldoProveedores)
-                            .addComponent(chkInvTransito)))
+                            .addComponent(chkInvTransito)
+                            .addComponent(chkCuentasMov)
+                            .addComponent(chkMayorizar)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(42, 42, 42)
                         .addComponent(jLabel1))
@@ -138,7 +152,7 @@ public class MantenimientoSistema extends javax.swing.JFrame {
                         .addComponent(btnEjecutar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnSalir)))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnEjecutar, btnSalir});
@@ -170,7 +184,11 @@ public class MantenimientoSistema extends javax.swing.JFrame {
                 .addComponent(chkSaldoProveedores)
                 .addGap(4, 4, 4)
                 .addComponent(chkInvTransito)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(chkCuentasMov)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(chkMayorizar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEjecutar)
                     .addComponent(btnSalir))
@@ -179,26 +197,26 @@ public class MantenimientoSistema extends javax.swing.JFrame {
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnEjecutar, btnSalir});
 
-        setSize(new java.awt.Dimension(425, 404));
+        setSize(new java.awt.Dimension(425, 462));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjecutarActionPerformed
+        this.databaseOptions.setViasAcceso(this.chkViasAcceso.isSelected());
+        this.databaseOptions.setInconsist(this.chkInconsist.isSelected());
+        this.databaseOptions.setReservado(this.chkReservado.isSelected());
+        this.databaseOptions.setSaldoFact(this.chkSaldoFact.isSelected());
+        this.databaseOptions.setSaldoClientes(this.chkSaldoClientes.isSelected());
+        this.databaseOptions.setExistencias(this.chkExistencias.isSelected());
+        this.databaseOptions.setCostoPromedio(this.chkCostoProm.isSelected());
+        this.databaseOptions.setFactVsInv(this.chkIntegridadFacturas.isSelected());
+        this.databaseOptions.setFecha(this.DatFecha.getDate());
+        this.databaseOptions.setSaldoProv(this.chkSaldoProveedores.isSelected());
+        this.databaseOptions.setTransito(this.chkInvTransito.isSelected());
+        this.databaseOptions.setCuentasMov(this.chkCuentasMov.isSelected());
+        this.databaseOptions.setMayorizar(this.chkMayorizar.isSelected());
         MantenimientoBaseDatos man = 
-                new MantenimientoBaseDatos(
-                this.conn,
-                this.chkViasAcceso.isSelected(),
-                this.chkInconsist.isSelected(),
-                this.chkReservado.isSelected(),
-                this.chkSaldoFact.isSelected(),
-                this.chkSaldoClientes.isSelected(),
-                this.chkExistencias.isSelected(),
-                this.chkCostoProm.isSelected(),
-                this.chkIntegridadFacturas.isSelected(),
-                this.DatFecha.getDate(),
-                this.chkSaldoProveedores.isSelected(),
-                this.chkInvTransito.isSelected()
-                );
+                new MantenimientoBaseDatos(conn, databaseOptions);
 
         man.start();
 
@@ -225,10 +243,12 @@ public class MantenimientoSistema extends javax.swing.JFrame {
     private javax.swing.JButton btnEjecutar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JCheckBox chkCostoProm;
+    private javax.swing.JCheckBox chkCuentasMov;
     private javax.swing.JCheckBox chkExistencias;
     private javax.swing.JCheckBox chkInconsist;
     private javax.swing.JCheckBox chkIntegridadFacturas;
     private javax.swing.JCheckBox chkInvTransito;
+    private javax.swing.JCheckBox chkMayorizar;
     private javax.swing.JCheckBox chkReservado;
     private javax.swing.JCheckBox chkSaldoClientes;
     private javax.swing.JCheckBox chkSaldoFact;

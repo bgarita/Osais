@@ -605,7 +605,7 @@ public class FacturaXML extends javax.swing.JFrame {
             try {
                 actualizarConteoEnvios();
                 processLog(facnume);
-            } catch (Exception ex) {
+            } catch (IOException | SQLException ex) {
                 // Muestro el error pero dejo que continúe el proceso.
                 JOptionPane.showMessageDialog(null,
                         ex.getMessage(),

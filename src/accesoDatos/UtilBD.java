@@ -2751,6 +2751,9 @@ public class UtilBD {
         ps.close();
 
         for (String table : tables) {
+            if (table.endsWith("_bk")) { // skip tables ending by _bk
+                continue;
+            }
             sqlSent = "ALTER TABLE " + table + " ENGINE = 'InnoDB'";
             ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent);
             CMD.update(ps);
