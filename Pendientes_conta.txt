@@ -1,0 +1,6 @@
+1.  Revisar en qué momento puede quedar un asiento desbalanceado.
+2.  Hacer proceso que localice asientos desbalanceados.
+3.  Hacer proceso que busque errores en la lógica de la estructura contable, igual que el de fox.
+4.  Hacer que el registro de asientos valide el número de asiento contra el histórico y el actual.
+    Ya agregué la funcionalidad en el mantenimiento de tipos de asiento, que incluye el consecutivo
+    Falta revisar si es necesario aplicar esta validación a la hora de insertar un asiento.

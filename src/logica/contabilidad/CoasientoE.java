@@ -14,12 +14,12 @@ import java.util.logging.Logger;
 import logica.utilitarios.Ut;
 
 /**
- * Clase de encabezados de asiento. Es igual que la tabla coasientoe. Esta clase
- * no tiene un método Delete. Si el usuario quiere eliminar un asiento debe
- * hacerlo revirtiéndolo con otro.
+ * Clase de encabezados de asiento. Es igual que la tabla coasientoe. Esta clase no tiene
+ * un método Delete. Si el usuario quiere eliminar un asiento debe hacerlo revirtiéndolo
+ * con otro.
  *
- * @author Bosco Garita 03/09/2013
- * 01/05/2021 incluyo el método setTabla para poder usar la clase en la migración de datos.
+ * @author Bosco Garita 03/09/2013 01/05/2021 incluyo el método setTabla para poder usar
+ * la clase en la migración de datos.
  */
 public class CoasientoE {
 
@@ -49,20 +49,23 @@ public class CoasientoE {
     private final Connection conn;
     private boolean error;
     private String mensaje_error;
-    private String tabla = "coasientoe";
-    private String asientodeanulacion; // Número de asiento que se generó al anular otro asiento
+    private String coasientoe = "coasientoe";
+    private String asientoDeAnulacion; // Número de asiento que se generó al anular otro asiento
 
     private final Bitacora b = new Bitacora();
+    private final Cotipasient cotipasient;
 
     // <editor-fold defaultstate="collapsed" desc="Constructores"> 
     public CoasientoE(Connection conn) {
         this.conn = conn;
+        this.cotipasient = new Cotipasient(conn);
     }
 
     public CoasientoE(String no_comprob, short tipo_comp, Connection conn) {
         this.no_comprob = no_comprob;
         this.tipo_comp = tipo_comp;
         this.conn = conn;
+        this.cotipasient = new Cotipasient(conn);
     }
 
     // </editor-fold>
@@ -72,13 +75,12 @@ public class CoasientoE {
     }
 
     /**
-     * Devuelve el númereo de asiento que se produjo al reversar (anular) un
-     * asiento.
+     * Devuelve el númereo de asiento que se produjo al reversar (anular) un asiento.
      *
      * @return String consecutivo del asiento nuevo
      */
-    public String getAsientodeanulacion() {
-        return asientodeanulacion;
+    public String getAsientoDeAnulacion() {
+        return asientoDeAnulacion;
     }
 
     /**
@@ -100,7 +102,7 @@ public class CoasientoE {
     }
 
     public void setTabla(String tabla) {
-        this.tabla = tabla;
+        this.coasientoe = tabla;
     }
 
     public void setNo_comprob(String no_comprob) {
@@ -131,9 +133,9 @@ public class CoasientoE {
     }
 
     /**
-     * No se pone el setNo_refer() como público para evitar que se ponga
-     * cualquier cosa. Este campo siempre estará formado por Mes+tipo+año, pero
-     * si se trata del asiento de cierre anual el mes será 13.
+     * No se pone el setNo_refer() como público para evitar que se ponga cualquier cosa.
+     * Este campo siempre estará formado por Mes+tipo+año, pero si se trata del asiento de
+     * cierre anual el mes será 13.
      */
     private void setNo_refer() {
         if (fecha_comp == null) {
@@ -253,9 +255,8 @@ public class CoasientoE {
     // </editor-fold>
 
     /**
-     * @author Bosco Garita 03/09/2013 Este método trae todos los campos de la
-     * tabla para un registro y actualiza los campos correspondientes en la
-     * clase.
+     * @author Bosco Garita 03/09/2013 Este método trae todos los campos de la tabla para
+     * un registro y actualiza los campos correspondientes en la clase.
      */
     private void cargarRegistro() {
         if (this.no_comprob == null || this.no_comprob.trim().isEmpty()) {
@@ -263,7 +264,7 @@ public class CoasientoE {
         } // end if
 
         String sqlSent
-                = "Select * from coasientoe Where no_comprob = ? and tipo_comp = ?";
+                = "Select * from " + coasientoe + " Where no_comprob = ? and tipo_comp = ?";
 
         try {
             try (PreparedStatement ps = conn.prepareStatement(sqlSent,
@@ -286,7 +287,7 @@ public class CoasientoE {
                 enviado = false;
                 this.asientoAnulado = "";
 
-                this.asientodeanulacion = ""; // Este no se carga, no existe.
+                this.asientoDeAnulacion = ""; // Este no se carga, no existe.
 
                 if (rs == null || !rs.first()) {
                     ps.close();
@@ -305,7 +306,7 @@ public class CoasientoE {
                 asientoAnulado = rs.getString("asientoAnulado");
 
                 ps.close();
-            } // end try with resources
+            } // end try with resources // end try with resources
 
             // Busco si el asiento fue reversado por algún otro
             this.anuladoPor = this.anuladoPor();
@@ -319,7 +320,8 @@ public class CoasientoE {
     } // end cargarRegistro
 
     /**
-     * Este método consulta la base de datos para ver si el asiento existe o no.
+     * Este método usa la vista de consecutivo de asientos para determina si un número
+     * de asiento ya fue usado o no.
      *
      * @author Bosco Garita 06/09/2013 SD
      * @param no_comprob String número de asiento
@@ -328,36 +330,35 @@ public class CoasientoE {
      * @throws SQLException
      */
     public boolean existeEnBaseDatos(String no_comprob, short tipo_comp) throws SQLException {
-        boolean existe = false;
-        String sqlSent
-                = "Select no_comprob from vistaconsecutivoasientos "
-                + "Where no_comprob = ? and tipo_comp = ?";
-        try (PreparedStatement ps = conn.prepareStatement(sqlSent,
-                ResultSet.TYPE_FORWARD_ONLY,
-                ResultSet.CONCUR_READ_ONLY)) {
-            ps.setString(1, no_comprob);
-            ps.setShort(2, tipo_comp);
-            ResultSet rs = CMD.select(ps);
-            if (rs != null && rs.first()) {
-                existe = true;
-            } // end if
-            ps.close();
-        } // end try with resources
-        return existe;
+        return this.cotipasient.existeConsecutivo(Integer.parseInt(no_comprob), tipo_comp);
+//        boolean existe = false;
+//        String sqlSent
+//                = "Select no_comprob from vistaconsecutivoasientos "
+//                + "Where no_comprob = ? and tipo_comp = ?";
+//        try (PreparedStatement ps = conn.prepareStatement(sqlSent,
+//                ResultSet.TYPE_FORWARD_ONLY,
+//                ResultSet.CONCUR_READ_ONLY)) {
+//            ps.setString(1, no_comprob);
+//            ps.setShort(2, tipo_comp);
+//            ResultSet rs = CMD.select(ps);
+//            if (rs != null && rs.first()) {
+//                existe = true;
+//            } // end if
+//            ps.close();
+//        } // end try with resources
+//        return existe;
     } // end existeEnBaseDatos
 
     /**
-     * Este método anula un asiento. La forma de hacerlo es generando otro
-     * totalmente al inverso. Requiere que los campos no_comprob y tipo_comp
-     * estén incializados con el asiento y tipo que se usarán para anular el
-     * asiento. En caso de que ocurra algún error deberá consultar los campos
-     * error y mensaje_error de esta misma clase. Nota: Este método no aumenta
-     * el consecutivo pero todos los métodos que generan asientos están
-     * preparados para esta situación.
+     * Este método anula un asiento. La forma de hacerlo es generando otro totalmente al
+     * inverso. Requiere que los campos no_comprob y tipo_comp estén incializados con el
+     * asiento y tipo que se usarán para anular el asiento. En caso de que ocurra algún
+     * error deberá consultar los campos error y mensaje_error de esta misma clase. Nota:
+     * Este método no aumenta el consecutivo pero todos los métodos que generan asientos
+     * están preparados para esta situación.
      *
      * @author Bosco Garita 06/10/2013
-     * @return boolean true=El asiento se anuló satisfactoriamente, false=No se
-     * anuló.
+     * @return boolean true=El asiento se anuló satisfactoriamente, false=No se anuló.
      */
     public boolean anular() {
         String no_comprob2;     // Número de asiento que se generará
@@ -399,34 +400,17 @@ public class CoasientoE {
             return false;
         } // end if
 
-        // Se cambia esta sentencia por compatibilidad con MySQL 5.1 (24/08/2022)
-        // MariaDB interpreta bien ambos parámetros.
-        //        sqlSent
-        //                = "SELECT MAX(cast(no_comprob AS INTEGER)) as max "
-        //                + "FROM coasientoe WHERE tipo_comp = ?";
-        sqlSent
-                = "SELECT MAX(cast(no_comprob AS signed)) as max "
-                + "FROM coasientoe WHERE tipo_comp = ?";
-        
         try {
-            no_comprob2 = "";
-            ps = conn.prepareStatement(sqlSent,
-                    ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            ps.setShort(1, tipo_comp);
-            rs = CMD.select(ps);
-            if (Ut.goRecord(rs, Ut.FIRST)) {
-                no_comprob2 = (rs.getInt("max") + 1) + "";
-                no_comprob2 = Ut.lpad(no_comprob2.trim(), "0", 10);
-            } // end if
-            ps.close();
+            no_comprob2 = cotipasient.getSiguienteConsecutivo(tipo_comp) + "";
+            no_comprob2 = Ut.lpad(no_comprob2.trim(), "0", 10);
 
             // Inserto el asiento de anulación
             descripA = "Anula asiento " + this.no_comprob.trim() + ", tipo " + this.tipo_comp;
             sqlSent
-                    = "Insert into " + tabla
+                    = "Insert into " + coasientoe
                     + "   Select ?, fecha_comp, no_refer, tipo_comp, ?, "
                     + "   Trim(user()), periodo, modulo, documento, movtido, 0, ? "
-                    + "   From " + tabla + " a "
+                    + "   From " + coasientoe + " a "
                     + "   Where a.no_comprob = ? and a.tipo_comp = ?";
             ps = conn.prepareStatement(sqlSent);
             ps.setString(1, no_comprob2);
@@ -445,7 +429,7 @@ public class CoasientoE {
                 this.mensaje_error = det.getMensaje_error();
                 return false;
             } // end if
-            this.asientodeanulacion = no_comprob2;
+            this.asientoDeAnulacion = no_comprob2;
         } catch (SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             this.error = true;
@@ -458,9 +442,9 @@ public class CoasientoE {
     } // end anular
 
     /**
-     * Este método cambia el número y/o tipo de asiento y si es exitoso va a la
-     * base de datos y trae todos los datos y los carga en la clase. Si el valor
-     * de retorno es falso se debe consultar el método getMensaje_error()
+     * Este método cambia el número y/o tipo de asiento y si es exitoso va a la base de
+     * datos y trae todos los datos y los carga en la clase. Si el valor de retorno es
+     * falso se debe consultar el método getMensaje_error()
      *
      * @author Bosco Garita 21/11/2013
      * @param old_comprob String número de asiento anterior
@@ -475,7 +459,7 @@ public class CoasientoE {
 
         boolean exitoso = false;
         String sqlSent
-                = "Update " + tabla + " Set "
+                = "Update " + coasientoe + " Set "
                 + "   no_comprob = ?, tipo_comp = ? "
                 + "Where no_comprob = ? and tipo_comp = ?";
         PreparedStatement ps;
@@ -526,20 +510,20 @@ public class CoasientoE {
     } // end rename
 
     /**
-     * Determina si este asiento fue reversado por otro y devuelve el número del
-     * asiento que lo reversó.
+     * Determina si este asiento fue reversado por otro y devuelve el número del asiento
+     * que lo reversó.
      *
      * @return String número de asiento con el que fue reversado.
      */
     private String anuladoPor() {
         String no_comprobA = "";
-        String historica = "h" + tabla;
+        String historica = "h" + coasientoe;
         String sqlSent;
         PreparedStatement ps;
         ResultSet rs;
 
         sqlSent
-                = "Select no_comprob from " + tabla + " "
+                = "Select no_comprob from " + coasientoe + " "
                 + "Where asientoAnulado = ? "
                 + "AND tipo_comp = ? "
                 + "Union "
@@ -573,20 +557,20 @@ public class CoasientoE {
 
     // <editor-fold defaultstate="collapsed" desc="Métodos de mantenimiento"> 
     /**
-     * Este método agrega un registro a la base de datos. Requiere que todos los
-     * campos de la clase estén inicializados con los valores que se guardarán.
-     * Nota: No controla transacciones ni verifica si el registro existe. Esto
-     * es una labor que debe hacer antes el programa que lo invoque.
+     * Este método agrega un registro a la base de datos. Requiere que todos los campos de
+     * la clase estén inicializados con los valores que se guardarán. Nota: No controla
+     * transacciones ni verifica si el registro existe. Esto es una labor que debe hacer
+     * antes el programa que lo invoque.
      *
      * @author Bosco Garita 06/09/2013
-     * @return true=El registro se agregó, false=El registro no se agregó - debe
-     * verificar el mensaje de error (getMensaje_error())
+     * @return true=El registro se agregó, false=El registro no se agregó - debe verificar
+     * el mensaje de error (getMensaje_error())
      */
     public boolean insert() {
         setNo_refer();
         try {
             String sqlSent
-                    = "Insert into " + this.tabla + "("
+                    = "Insert into " + this.coasientoe + "("
                     + "   no_comprob,fecha_comp,no_refer,tipo_comp,descrip, "
                     + "   usuario,periodo,modulo,documento,movtido,enviado) "
                     + "Values(?,?,?,?,?,Trim(user()),?,?,?,?,?)";
@@ -616,21 +600,20 @@ public class CoasientoE {
     } // end insert
 
     /**
-     * Este método actualiza un registro en la base de datos. Requiere que todos
-     * los campos de la clase estén inicializados con los valores que se
-     * guardarán. Nota: No controla transacciones ni verifica si el registro
-     * existe. Esto es una labor que debe hacer antes el programa que lo
-     * invoque.
+     * Este método actualiza un registro en la base de datos. Requiere que todos los
+     * campos de la clase estén inicializados con los valores que se guardarán. Nota: No
+     * controla transacciones ni verifica si el registro existe. Esto es una labor que
+     * debe hacer antes el programa que lo invoque.
      *
      * @author Bosco Garita 06/09/2013
-     * @return int número de registros afectados. Si hay error debe verificar el
-     * mensaje de error (getMensaje_error())
+     * @return int número de registros afectados. Si hay error debe verificar el mensaje
+     * de error (getMensaje_error())
      */
     public int update() {
         int registros = 0;
         setNo_refer();
         String sqlSent
-                = "Update " + tabla + " Set "
+                = "Update " + coasientoe + " Set "
                 + "   fecha_comp = ?,"
                 + // 1
                 "   no_refer = ?,  "
@@ -674,20 +657,19 @@ public class CoasientoE {
     } // end update
 
     /**
-     * Este método elimina el encabezado de un asiento contable. Requiere que el
-     * detalle del asiento haya sido eliminado también, caso contrario se
-     * producirá un error de integridad de llave foránea. Debe utilizarse
-     * únicamente en casos especiales ya que la forma de anular asientos es
-     * mediante el método anular()
+     * Este método elimina el encabezado de un asiento contable. Requiere que el detalle
+     * del asiento haya sido eliminado también, caso contrario se producirá un error de
+     * integridad de llave foránea. Debe utilizarse únicamente en casos especiales ya que
+     * la forma de anular asientos es mediante el método anular()
      *
      * @author Bosco Garita A. 19/11/2013
-     * @return int número de registros afectados. Si hay error debe verificar el
-     * mensaje de error (getMensaje_error())
+     * @return int número de registros afectados. Si hay error debe verificar el mensaje
+     * de error (getMensaje_error())
      */
     public int delete() {
         int registros = 0;
         String sqlSent
-                = "Delete from " + tabla + " "
+                = "Delete from " + coasientoe + " "
                 + "Where no_comprob = ? and tipo_comp = ?";
         PreparedStatement ps;
         try {

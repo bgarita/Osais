@@ -5,10 +5,11 @@ import accesoDatos.CMD;
 import accesoDatos.UtilBD;
 import interfase.otros.Incongruecias;
 import java.sql.*;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import logica.DatabaseOptions;
+import logica.contabilidad.CoactualizCat;
 import logica.utilitarios.ProcessProgressBar;
 import logica.utilitarios.Ut;
 
@@ -20,38 +21,15 @@ import logica.utilitarios.Ut;
 public class MantenimientoBaseDatos extends Thread {
 
     private final Connection conn;
-    private final boolean viasAcceso;     // Reconstruir vías de acceso
-    private final boolean inconsist;      // Corregir inconsistencias
-    private final boolean reservado;      // Recalcular inventario reservado
-    private final boolean saldoFact;      // Recalcular saldo de facturas
-    private final boolean saldoClientes;  // Recalcular saldo de clientes
-    private final boolean existencias;    // Recalcular existencias
-    private final boolean costoPromedio;  // Recalcular el costo promedio
-    private final boolean factVsInv;      // Integridad de facturación vs inventarios
-    private final Date fecha;             // Fecha para calcular inventario
-    private final boolean saldoProv;      // Recalcular saldo de proveedores
-    private final boolean transito;       // Recalcular inventario en tránsito
+    private final DatabaseOptions databaseOptions;
     private boolean closeConnectionWhenFinished;
     private boolean showMessage;           // Decide si se muestra el mensaje al final de la tarea.
     private final Bitacora b = new Bitacora();
 
-    public MantenimientoBaseDatos(Connection conn, boolean viasAcceso, boolean inconsist,
-            boolean reservado, boolean saldoFact, boolean saldoClientes,
-            boolean existencias, boolean costoPromedio, boolean factVsInv,
-            Date fecha, boolean saldoProv, boolean transito) {
+    public MantenimientoBaseDatos(Connection conn, DatabaseOptions databaseOptions) {
         this.conn = conn;
-        this.viasAcceso = viasAcceso;
-        this.inconsist = inconsist;
-        this.reservado = reservado;
-        this.saldoFact = saldoFact;
-        this.saldoClientes = saldoClientes;
-        this.existencias = existencias;
-        this.costoPromedio = costoPromedio;
-        this.factVsInv = factVsInv;
-        this.fecha = fecha;
-        this.saldoProv = saldoProv;
-        this.transito = transito;
         this.closeConnectionWhenFinished = true;
+        this.databaseOptions = databaseOptions;
     } // end constructor
 
     public void setCloseConnectionWhenFinished(boolean closeConnectionWhenFinished) {
@@ -65,9 +43,9 @@ public class MantenimientoBaseDatos extends Thread {
     @Override
     public void run() {
         b.setLogLevel(Bitacora.INFO);
-        b.writeToLog(this.getClass().getName() + "--> " 
+        b.writeToLog(this.getClass().getName() + "--> "
                 + "Inicia proceso de mantenimiento de la base de datos...");
-        
+
         MensajesAvance ma = new MensajesAvance();
         ma.setTitle("Mantenimiento de la base de datos");
         ma.setVisible(true);
@@ -84,9 +62,9 @@ public class MantenimientoBaseDatos extends Thread {
         pp.setLblInfoText("Reconstruyendo las vias de acceso..");
 
         // Reconstruir las vías de acceso de la base de datos
-        if (viasAcceso) {
+        if (databaseOptions.isViasAcceso()) {
             b.writeToLog(this.getClass().getName() + "--> " + "Optimizando vías de acceso...");
-            
+
             ma.setMessage("Optimizando vías de acceso...");
             inicio = System.currentTimeMillis();
             procesoOK = optimizarTablas();
@@ -127,9 +105,9 @@ public class MantenimientoBaseDatos extends Thread {
         pp.setLblInfoText("Verificando posibles inconsistencias...");
 
         // Eliminar o corregir inconsistencias
-        if (inconsist) {
+        if (databaseOptions.isInconsist()) {
             b.writeToLog(this.getClass().getName() + "--> " + "Verificando posibles inconsistencias...");
-            
+
             ma.setMessage("Verificando posibles inconsistencias...");
             duracion = "Duración:";
             inicio = System.currentTimeMillis();
@@ -164,9 +142,9 @@ public class MantenimientoBaseDatos extends Thread {
         pp.setLblInfoText("Recalculando inventario reservado...");
 
         // Recalcular el inventario reservado
-        if (reservado) {
+        if (databaseOptions.isReservado()) {
             b.writeToLog(this.getClass().getName() + "--> " + "Recalculando inventario reservado...");
-            
+
             ma.setMessage("Recalculando inventario reservado...");
             duracion = "Duración:";
             inicio = System.currentTimeMillis();
@@ -207,9 +185,9 @@ public class MantenimientoBaseDatos extends Thread {
         pp.setLblInfoText("Recalculando facturas...");
 
         // Recalcular el saldo de las facturas
-        if (saldoFact) {
+        if (databaseOptions.isSaldoFact()) {
             b.writeToLog(this.getClass().getName() + "--> " + "Recalculando facturas...");
-            
+
             ma.setMessage("Recalculando facturas...");
             duracion = "Duración:";
             inicio = System.currentTimeMillis();
@@ -250,9 +228,9 @@ public class MantenimientoBaseDatos extends Thread {
         pp.setLblInfoText("Recalculando el saldo de los clientes...");
 
         // Recalcular el saldo de los clientes
-        if (saldoClientes) {
+        if (databaseOptions.isSaldoClientes()) {
             b.writeToLog(this.getClass().getName() + "--> " + "Recalculando saldo de clientes...");
-            
+
             ma.setMessage("Recalculando el saldo de los clientes...");
             duracion = "Duración:";
             inicio = System.currentTimeMillis();
@@ -293,13 +271,13 @@ public class MantenimientoBaseDatos extends Thread {
         pp.setLblInfoText("Recalculando existencias...");
 
         // Recalcular las existencias del inventario
-        if (existencias) {
+        if (databaseOptions.isExistencias()) {
             b.writeToLog(this.getClass().getName() + "--> " + "Recalculando inventarios...");
-            
+
             ma.setMessage("Recalculando existencias...");
             duracion = "Duración:";
             procesoOK = true;
-            
+
             inicio = System.currentTimeMillis();
             try {
                 recalcularExistencias();
@@ -344,9 +322,9 @@ public class MantenimientoBaseDatos extends Thread {
         pp.setLblInfoText("Recalculando el costo promedio...");
 
         // Recalcular el costo promedio del inventario
-        if (costoPromedio) {
+        if (databaseOptions.isCostoPromedio()) {
             b.writeToLog(this.getClass().getName() + "--> " + "Recalculando costo promedio de los inventarios...");
-            
+
             ma.setMessage("Recalculando el costo promedio...");
             duracion = "Duración:";
             inicio = System.currentTimeMillis();
@@ -387,9 +365,9 @@ public class MantenimientoBaseDatos extends Thread {
         pp.setLblInfoText("Comprobando integridad facturación e inventarios...");
 
         // Integridad facturación vs inventario
-        if (factVsInv) {
+        if (databaseOptions.isFactVsInv()) {
             b.writeToLog(this.getClass().getName() + "--> " + "Comprobando integridad de facturas en inventarios...");
-            
+
             ma.setMessage("Comprobando integridad facturación e inventarios...");
             duracion = "Duración:";
             inicio = System.currentTimeMillis();
@@ -430,9 +408,9 @@ public class MantenimientoBaseDatos extends Thread {
         pp.setLblInfoText("Recalculando el saldo de los proveedores...");
 
         // Recalcular el saldo de los proveedores
-        if (saldoProv) {
+        if (databaseOptions.isSaldoProv()) {
             b.writeToLog(this.getClass().getName() + "--> " + "Recalculando saldo proveedores...");
-            
+
             ma.setMessage("Recalculando el saldo de los proveedores...");
             duracion = "Duración:";
             inicio = System.currentTimeMillis();
@@ -470,12 +448,123 @@ public class MantenimientoBaseDatos extends Thread {
         } // end if (saldoProv)
 
         pp.setValue(pp.getValue() + 1);
+        pp.setLblInfoText("Recalculando cuentas de movimientos...");
+
+        // Revisar integridad de cuentas y recalcular cuentas de movimientos
+        // actuCat.recalcularSaldos() hace ambas cosas.
+        if (databaseOptions.isCuentasMov()) {
+            b.writeToLog(this.getClass().getName() + "--> " + "Recalculando cuentas de movimientos...");
+
+            ma.setMessage("Recalculando cuentas de movimientos...");
+            duracion = "Duración:";
+            inicio = System.currentTimeMillis();
+            String mensaje;
+
+            try {
+                CoactualizCat actuCat = new CoactualizCat(conn);
+                procesoOK = actuCat.recalcularSaldos();
+                mensaje = actuCat.getMensaje_err();
+                if (mensaje.length() > 0) {
+                    procesoOK = false;
+                }
+            } catch (Exception e) {
+                procesoOK = false;
+                mensaje = e.getMessage();
+            }
+
+            if (!procesoOK) {
+                ma.setMessage("... FALLIDO. " + mensaje);
+                ma.setDefaultCloseOperation(
+                        javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+                // En el caso de estas revisiones contables no se ejecuta
+                // rollback porque el proceso incluye sentencias SQL que
+                // llevan implícito el auto comit.
+                JOptionPane.showMessageDialog(null,
+                        mensaje,
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                
+                ma.setVisible(false);
+                ma.dispose();
+                pp.setVisible(false);
+                pp.close();
+
+                return;
+            } // end if
+
+            finalx = System.currentTimeMillis();
+            int[][] tiempo = Ut.timeDiff(finalx, inicio);
+            duracion += tiempo[0][0]
+                    + ":" + tiempo[0][1]
+                    + ":" + tiempo[0][2]
+                    + "." + tiempo[0][3];
+
+            ma.setMessage(duracion);
+        } // end if (cuentas de movimiento)
+
+        pp.setValue(pp.getValue() + 1);
+        pp.setLblInfoText("Mayorizando...");
+
+        // Ejecutar proceso de mayorización.
+        if (databaseOptions.isMayorizar()) {
+            b.writeToLog(this.getClass().getName() + "--> " + "Mayorizando...");
+
+            ma.setMessage("Mayorizando...");
+            duracion = "Duración:";
+            inicio = System.currentTimeMillis();
+            String mensaje;
+
+            try {
+                CoactualizCat actuCat = new CoactualizCat(conn);
+                procesoOK = actuCat.sumarizarCuentas();
+                mensaje = actuCat.getMensaje_err();
+                if (mensaje.length() > 0) {
+                    procesoOK = false;
+                }
+            } catch (Exception e) {
+                procesoOK = false;
+                mensaje = e.getMessage();
+            }
+
+            if (!procesoOK) {
+                ma.setMessage("... FALLIDO. " + mensaje);
+                ma.setDefaultCloseOperation(
+                        javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+                try {
+                    CMD.transaction(conn, CMD.ROLLBACK);
+                } catch (SQLException ex) {
+                    b.setLogLevel(Bitacora.ERROR);
+                    Logger.getLogger(MantenimientoBaseDatos.class.getName()).log(Level.SEVERE, null, ex);
+                    ma.setMessage(ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                }
+
+                ma.setVisible(false);
+                ma.dispose();
+                pp.setVisible(false);
+                pp.close();
+
+                return;
+            } // end if
+
+            finalx = System.currentTimeMillis();
+            int[][] tiempo = Ut.timeDiff(finalx, inicio);
+            duracion += tiempo[0][0]
+                    + ":" + tiempo[0][1]
+                    + ":" + tiempo[0][2]
+                    + "." + tiempo[0][3];
+
+            ma.setMessage(duracion);
+        } // end if (mayorizar)
+
+        pp.setValue(pp.getValue() + 1);
         pp.setLblInfoText("Recalculando inventario en tránsito...");
 
         // Recalcular inventario en tránsito
-        if (transito) {
+        if (databaseOptions.isTransito()) {
             b.writeToLog(this.getClass().getName() + "--> " + "Recalculando inventario en tránsito...");
-            
+
             ma.setMessage("Recalculando inventario en tránsito...");
             duracion = "Duración:";
             inicio = System.currentTimeMillis();
@@ -535,8 +624,8 @@ public class MantenimientoBaseDatos extends Thread {
                 b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             }
         }
-        
-        b.writeToLog(this.getClass().getName() + "--> " 
+
+        b.writeToLog(this.getClass().getName() + "--> "
                 + "Fin del proceso de mantenimiento de la base de datos.");
     }
 
@@ -553,10 +642,10 @@ public class MantenimientoBaseDatos extends Thread {
             ps = conn.prepareStatement(sqlUpdate);
             CMD.update(ps);
             ps.close();
-            */
+             */
 
             UtilBD.optimizeDatabase();
-            
+
             // Bosco agregado 10/07/2014
             // Bajo todo a disco y libero todas las tablas que estén bloqueadas.
             sqlUpdate = "Flush Tables";
@@ -802,14 +891,14 @@ public class MantenimientoBaseDatos extends Thread {
 
     private void recalcularExistencias() throws SQLException {
         //boolean procesoOK;
-        String fechaS = Ut.fechaSQL2(fecha);
+        String fechaS = Ut.fechaSQL2(databaseOptions.getFecha());
         fechaS = "'" + fechaS + " 23:59:59'";
 
         //procesoOK = UtilBD.recalcularExistencias(conn, fechaS);
         /*
         Se corre este método en modalidad de cierre para que no haga control
         transaccional ya que este proceso ya lo hace.
-        */
+         */
         UtilBD.recalcularExistencias(conn, fechaS, 1);
 
         //return procesoOK;

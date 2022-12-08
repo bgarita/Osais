@@ -367,8 +367,8 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
             cal.set(Calendar.SECOND, 59);
             java.sql.Timestamp fecha_fi = new java.sql.Timestamp(cal.getTimeInMillis());
             sqlSent = "SELECT  "
-                    + "	SUM(if(d.db_cr = 0, d.monto, 0)) AS debitos, "
-                    + "	SUM(if(d.db_cr = 1, d.monto, 0)) AS creditos "
+                    + "	SUM(if(d.db_cr = 1, d.monto, 0)) AS debitos, "
+                    + "	SUM(if(d.db_cr = 0, d.monto, 0)) AS creditos "
                     + "FROM coasientod d "
                     + "INNER JOIN coasientoe e ON e.no_comprob = d.no_comprob AND e.tipo_comp = d.tipo_comp "
                     + "WHERE e.fecha_comp > ? "

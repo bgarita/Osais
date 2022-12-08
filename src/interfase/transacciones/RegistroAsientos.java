@@ -198,6 +198,9 @@ public class RegistroAsientos extends javax.swing.JFrame {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 cboDescripFocusGained(evt);
             }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                cboDescripFocusLost(evt);
+            }
         });
         cboDescrip.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1126,12 +1129,12 @@ public class RegistroAsientos extends javax.swing.JFrame {
         } // end if
 
         // Establecer el consecutivo de asientos para el tipo de asiento elegido
-        Cotipasient tipoAs = new Cotipasient(conn);
-        tipoAs.setTipo_comp(this.getTipo_comp());
+        Cotipasient cotipasient = new Cotipasient(conn);
+        cotipasient.setTipo_comp(this.getTipo_comp());
         String no_comprob;
 
-        //no_comprob = tipoAs.getSiguienteConsecutivo(getTipo_comp()) + "";
-        no_comprob = tipoAs.getConsecutivo() + "";
+        // No permitir el consecutivo cero.
+        no_comprob = (cotipasient.getConsecutivo() == 0 ? 1 : cotipasient.getConsecutivo() + 1) + "";
         no_comprob = Ut.lpad(no_comprob, "0", 10);
 
         txtNo_comprob.setText(no_comprob);
@@ -1217,6 +1220,8 @@ public class RegistroAsientos extends javax.swing.JFrame {
         String no_comprob = this.txtNo_comprob.getText().trim();
         short tipo = 0;
         String descrip = cboDescrip.getSelectedItem().toString();
+        Timestamp fecha_comp = new Timestamp(this.datFecha_comp.getDate().getTime());
+        short movtido = 0; // Tipo de movimiento para Contabilidad en inventarios
 
         for (String s : this.aTipo_comp) {
             if (s.contains(descrip)) {
@@ -1228,135 +1233,81 @@ public class RegistroAsientos extends javax.swing.JFrame {
         try {
             // Iniciar la transacción
             CMD.transaction(conn, CMD.START_TRANSACTION);
+
+            if (!old_comprob.isEmpty() && (!old_comprob.trim().equals(no_comprob)
+                    || old_tipo != tipo)) {
+                asientoE.rename(old_comprob, no_comprob, old_tipo, tipo);
+                if (asientoE.isError()) {
+                    CMD.transaction(conn, CMD.ROLLBACK);
+                    throw new SQLException(asientoE.getMensaje_error());
+                } // end if
+            } // end if
+
+            asientoE.setNo_comprob(no_comprob);
+            asientoE.setTipo_comp(tipo);
+            asientoE.setDescrip(this.txtDescrip.getText().trim());
+            asientoE.setFecha_comp(fecha_comp);
+
+            // Si esta etiqueta existe es porque se está generando el asiento de
+            // cierre anual. El método setCierreAnual cambia el periodo y la refernecia.
+            if (this.lblDescripA != null) {
+                asientoE.setCierreAnual(true);
+            } // end if
+            asientoE.setUsuario(Menu.USUARIOBD);
+
+            // Si el asiento ya existe no se deben modificar estos campos
+            if (old_comprob.isEmpty()) {
+                asientoE.setModulo("CON"); // Contabilidad General
+                asientoE.setDocumento("");
+                asientoE.setMovtido(movtido);
+                asientoE.setEnviado(false);
+            } // end if
+
+            // Si ocurrió algún error durante la inicialización de campos
+            // entonces cancelo la transacción.
+            if (asientoE.isError()) {
+                CMD.transaction(conn, CMD.ROLLBACK);
+                throw new SQLException(asientoE.getMensaje_error());
+            } // end if (asientoE.isError())
+
+            // Si old_comprob está vacío es porque se trata de un asiento nuevo.
+            if (old_comprob.isEmpty()) {
+                // Inserta un registro en la tabla encabezado de asientos
+                // Una última revisión del consecutivo antes de guardar el asiento.
+                if (asientoE.existeEnBaseDatos(no_comprob, tipo)) {
+                    Cotipasient cotipasient = new Cotipasient(conn);
+                    no_comprob = cotipasient.getSiguienteConsecutivo(tipo) + "";
+                    no_comprob = Ut.lpad(no_comprob, "0", 10);
+                    asientoE.setNo_comprob(no_comprob);
+                    txtNo_comprob.setText(no_comprob);
+                }
+                asientoE.insert();
+            } else {
+                // Actualiza los datos del encabezado del asiento
+                asientoE.update();
+
+                // Hay que actualizarCuentasMov antes de guardar el nuevo detalle
+                if (actuCat.actualizarCuentasMov(fecha_comp, fecha_comp, no_comprob, tipo, "-") == false) {
+                    CMD.transaction(conn, CMD.ROLLBACK);
+                    throw new SQLException(actuCat.getMensaje_err());
+                } // end if actuCat.actualizarCuentasMov...
+            } // end if
+
+            // Si ocurrió algún error durante la actualización del encabezado...
+            if (asientoE.isError()) {
+                CMD.transaction(conn, CMD.ROLLBACK);
+                throw new SQLException(asientoE.getMensaje_error());
+            } // end if (asientoE.isError())
+            
         } catch (SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showConfirmDialog(null,
+            JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             return;
         } // end try-catch
-
-        if (!old_comprob.isEmpty() && (!old_comprob.trim().equals(no_comprob)
-                || old_tipo != tipo)) {
-            asientoE.rename(old_comprob, no_comprob, old_tipo, tipo);
-            if (asientoE.isError()) {
-                JOptionPane.showMessageDialog(null,
-                        asientoE.getMensaje_error(),
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                try {
-                    CMD.transaction(conn, CMD.ROLLBACK);
-                } catch (SQLException ex) {
-                    Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                    JOptionPane.showConfirmDialog(null,
-                            ex.getMessage()
-                            + "El sistema se cerrará para proteger la integridad de los datos.",
-                            "Error",
-                            JOptionPane.ERROR_MESSAGE);
-                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
-                    System.exit(0);
-                } // end try-catch
-                return;
-            } // end if
-        } // end if
-
-        Timestamp fecha_comp = new Timestamp(this.datFecha_comp.getDate().getTime());
-        short movtido = 0; // Tipo de movimiento para Contabilidad
-
-        asientoE.setNo_comprob(no_comprob);
-        asientoE.setTipo_comp(tipo);
-        asientoE.setDescrip(this.txtDescrip.getText().trim());
-        asientoE.setFecha_comp(fecha_comp);
-
-        // Si esta etiqueta existe es porque se está generando el asiento de
-        // cierre anual. El método setCierreAnual cambia el periodo y la refernecia.
-        if (this.lblDescripA != null) {
-            asientoE.setCierreAnual(true);
-        } // end if
-        asientoE.setUsuario(Menu.USUARIOBD);
-
-        // Si el asiento ya existe no se deben modificar estos campos
-        if (old_comprob.isEmpty()) {
-            asientoE.setModulo("CON"); // Contabilidad General
-            asientoE.setDocumento("");
-            asientoE.setMovtido(movtido);
-            asientoE.setEnviado(false);
-        } // end if
-
-        // Si ocurrió algún error durante la inicialización de campos
-        // entonces cancelo la transacción.
-        if (asientoE.isError()) {
-            JOptionPane.showMessageDialog(null,
-                    asientoE.getMensaje_error(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            try {
-                CMD.transaction(conn, CMD.ROLLBACK);
-            } catch (SQLException ex) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JOptionPane.showConfirmDialog(null,
-                        ex.getMessage()
-                        + "El sistema se cerrará para proteger la integridad de los datos.",
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
-                System.exit(0);
-            } // end try-catch
-            return;
-        } // end if (asientoE.isError())
-
-        // Si old_comprob está vacío es porque se trata de un asiento nuevo.
-        if (old_comprob.isEmpty()) {
-            // Inserta un registro en la tabla encabezado de asientos
-            asientoE.insert();
-        } else {
-            // Actualiza los datos del encabezado del asiento
-            asientoE.update();
-
-            // Hay que actualizarCuentasMov antes de guardar el nuevo detalle
-            if (actuCat.actualizarCuentasMov(fecha_comp, fecha_comp, no_comprob, tipo, "-") == false) {
-                JOptionPane.showMessageDialog(null,
-                        actuCat.getMensaje_err(),
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                try {
-                    CMD.transaction(conn, CMD.ROLLBACK);
-                } catch (SQLException ex) {
-                    Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                    JOptionPane.showConfirmDialog(null,
-                            ex.getMessage()
-                            + "El sistema se cerrará para proteger la integridad de los datos.",
-                            "Error",
-                            JOptionPane.ERROR_MESSAGE);
-                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
-                    System.exit(0);
-                } // end try-catch
-                return;
-            } // end if actuCat.actualizarCuentasMov...
-        } // end if
-
-        // Si ocurrió algún error durante la actualización del encabezado...
-        if (asientoE.isError()) {
-            JOptionPane.showMessageDialog(null,
-                    asientoE.getMensaje_error(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            try {
-                CMD.transaction(conn, CMD.ROLLBACK);
-            } catch (SQLException ex) {
-                Logger.getLogger(RegistroAsientos.class.getName()).log(Level.SEVERE, null, ex);
-                JOptionPane.showConfirmDialog(null,
-                        ex.getMessage()
-                        + "El sistema se cerrará para proteger la integridad de los datos.",
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
-                System.exit(0);
-            } // end try-catch
-            return;
-        } // end if (asientoE.isError())
 
         // Si id del registro en la tabla es negativo se trata de un registro 
         // nuevo por lo que debe ejecutarse un insert; caso contrario será un update.
@@ -1489,8 +1440,15 @@ public class RegistroAsientos extends javax.swing.JFrame {
             return;
         } // end if actuCat.actualizarCuentasMov...
 
-        // Si todo está bien confirmo la transacción.
+        // Si todo está bien actualizo el consecutivo y confirmo la transacción.
         try {
+            if (old_comprob.isEmpty()) { // Old está vacío cuando es un asiento nuevo
+                Cotipasient cotipasient = new Cotipasient(conn);
+                cotipasient.setTipo_comp(tipo);
+                cotipasient.cargar();
+                cotipasient.setConsecutivo(Integer.parseInt(no_comprob));
+                cotipasient.update();
+            }
             CMD.transaction(conn, CMD.COMMIT);
         } catch (SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
@@ -1990,7 +1948,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
                 boolean exito
                         = actuCat.actualizarCuentasMov(
                                 cal.getTime(), cal.getTime(),
-                                asientoE.getAsientodeanulacion(),
+                                asientoE.getAsientoDeAnulacion(),
                                 this.old_tipo, "+");
                 if (!exito) {
                     JOptionPane.showMessageDialog(null,
@@ -2046,6 +2004,10 @@ public class RegistroAsientos extends javax.swing.JFrame {
             this.btnBajarActionPerformed(null);
         } // end if
     }//GEN-LAST:event_btnBajarKeyPressed
+
+    private void cboDescripFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cboDescripFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cboDescripFocusLost
 
     /**
      * @param c

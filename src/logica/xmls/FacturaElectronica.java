@@ -71,9 +71,6 @@ public class FacturaElectronica {
     @XmlElement(name = "Normativa")
     private Normativa normativa;
     
-//    @XmlElement(name = "Otros")
-//    private Otros otros;
-    
     
     public FacturaElectronica(){
         

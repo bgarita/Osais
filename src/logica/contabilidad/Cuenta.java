@@ -137,23 +137,23 @@ public class Cuenta {
      * afecta en nada a los valores propios de la clase. El campo solo puede ser válido si
      * viene vacío o si sus tres caracteres son números.
      *
-     * @param f
+     * @param accountPart
      * @return
      */
-    public boolean isAValidField(String f) {
+    public boolean isAValidField(String accountPart) {
         boolean valid = true;
 
-        if (f == null) {
+        if (accountPart == null) {
             valid = false;
-        } else if (f.trim().isEmpty()) {
+        } else if (accountPart.trim().isEmpty()) {
             valid = true;
-        } else if (f.trim().length() != 3) {
+        } else if (accountPart.trim().length() != 3) {
             valid = false;
         } else {
-            f = f.trim();
+            accountPart = accountPart.trim();
             try {
-                for (int i = 0; i < f.length(); i++) {
-                    Integer.parseInt(f.substring(i, i + 1));
+                for (int i = 0; i < accountPart.length(); i++) {
+                    Integer.parseInt(accountPart.substring(i, i + 1));
                 } // end for
             } catch (Exception ex) {
                 valid = false;

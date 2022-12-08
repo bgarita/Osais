@@ -184,6 +184,33 @@ public class Cotipasient implements IEstructuraBD {
         return existe;
     } // end existeEnBaseDatos
     
+    /**
+     * Este método consulta la base de datos para ver si el consecutivo de asientos,
+     * para un tipo de asiento específico existe o no.
+     * @author Bosco Garita 18/08/2013 SD
+     * @param no_comprob int número de asiento a consultar
+     * @param tipo_comp short tipo de asiento
+     * @return true=existe, false=no existe
+     * @throws SQLException 
+     */
+    public boolean existeConsecutivo(int no_comprob, short tipo_comp) throws SQLException{
+        boolean existe = false;
+        String sqlSent = 
+                "Select tipo_comp from vistaconsecutivoasientos " +
+                "Where no_comprob = ? and tipo_comp = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sqlSent, 
+                                    ResultSet.TYPE_FORWARD_ONLY, 
+                                    ResultSet.CONCUR_READ_ONLY)) {
+            ps.setInt(1, no_comprob);
+            ps.setShort(2, tipo_comp);
+            ResultSet rs = CMD.select(ps);
+            if (rs != null && rs.first()){
+                existe = true;
+            }
+        }
+        return existe;
+    } // end existeConsecutivo
+    
     
     // <editor-fold defaultstate="collapsed" desc="Métodos de mantenimiento"> 
     
@@ -302,7 +329,7 @@ public class Cotipasient implements IEstructuraBD {
         int siguienteConsecutivo = 0;
         
         String sqlSent 
-                = "SELECT MAX(cast(no_comprob AS INTEGER)) as max "
+                = "SELECT MAX(cast(no_comprob AS signed)) as max "
                 + "FROM vistaconsecutivoasientos "
                 + "WHERE tipo_comp = ?";
         try (PreparedStatement ps = conn.prepareStatement(sqlSent, 

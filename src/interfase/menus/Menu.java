@@ -3597,7 +3597,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void mnuActuCatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuActuCatActionPerformed
         String program = "AplicarAsientos";
-        String descrip = "Aplicar asientos";
+        String descrip = "Aplicar asientos contables";
         try {
             if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
                 JOptionPane.showMessageDialog(null,
