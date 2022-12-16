@@ -9,6 +9,8 @@
                 "                a.no_comprob, " +
                 "                c.descrip as tipo, " +
                 "                date(b.fecha_comp) as fecha_comp, " +
+                "                YEAR(b.fecha_comp) AS YEAR, " +
+                "                MONTH(b.fecha_comp) AS MONTH, " +
                 "                b.no_refer, " +
                 "                b.modulo,  " +
                 "                a.descrip, " +
@@ -21,7 +23,8 @@
                 "                and a.tipo_comp = b.tipo_comp " +
                 "        Inner join cotipasient c on a.tipo_comp = c.tipo_comp " +
                 "        Inner join cocatalogo d on a.mayor = d.mayor and a.sub_cta = d.sub_cta " +
-                "                and a.sub_sub = d.sub_sub and a.colect = d.colect "]]></defaultValueExpression>
+                "                and a.sub_sub = d.sub_sub and a.colect = d.colect " +
+                "        ORDER BY 1, 2, 3"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="pWhere" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -38,7 +41,7 @@
 	<parameter name="pUtilidadMes" class="java.lang.Double" isForPrompting="false"/>
 	<parameter name="pUtilidadMesA" class="java.lang.Double" isForPrompting="false"/>
 	<queryString>
-		<![CDATA[$P!{pQuery} ]]>
+		<![CDATA[$P!{pQuery}]]>
 	</queryString>
 	<field name="mostrarFecha" class="java.lang.Integer"/>
 	<field name="no_comprob" class="java.lang.String">
@@ -46,6 +49,8 @@
 	</field>
 	<field name="tipo" class="java.lang.String"/>
 	<field name="fecha_comp" class="java.sql.Date"/>
+	<field name="YEAR" class="java.lang.Integer"/>
+	<field name="MONTH" class="java.lang.Integer"/>
 	<field name="no_refer" class="java.lang.Integer">
 		<fieldDescription><![CDATA[Número de referencia]]></fieldDescription>
 	</field>
@@ -79,7 +84,7 @@
 		<initialValueExpression><![CDATA[]]></initialValueExpression>
 	</variable>
 	<group name="asiento">
-		<groupExpression><![CDATA[$F{no_comprob} + $F{fecha_comp}]]></groupExpression>
+		<groupExpression><![CDATA[$F{no_comprob} + $F{tipo} + $F{fecha_comp}]]></groupExpression>
 		<groupHeader>
 			<band height="13">
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">

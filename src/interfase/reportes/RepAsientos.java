@@ -473,6 +473,8 @@ public class RepAsientos extends JFrame {
                 "                a.no_comprob, " +
                 "                c.descrip as tipo, " +
                 "                date(b.fecha_comp) as fecha_comp, " +
+                "                YEAR(b.fecha_comp) AS YEAR, " +
+                "                MONTH(b.fecha_comp) AS MONTH, " +
                 "                b.no_refer, " +
                 "                b.modulo,  " +
                 "                b.descrip, " +
@@ -494,6 +496,8 @@ public class RepAsientos extends JFrame {
                 "                a.no_comprob, " +
                 "                c.descrip as tipo, " +
                 "                date(b.fecha_comp) as fecha_comp, " +
+                "                YEAR(b.fecha_comp) AS YEAR, " +
+                "                MONTH(b.fecha_comp) AS MONTH, " +
                 "                b.no_refer, " +
                 "                b.modulo,  " +
                 "                b.descrip, " +
@@ -554,7 +558,7 @@ public class RepAsientos extends JFrame {
         select1 += where;
         select2 += where;
         
-        query = select1 + select2 + " order by 1, 3";
+        query = select1 + select2 + " order by 1, 2, 3";
         
         formato = chkFormato.isSelected() ? "2" : "";
         formJasper = "RepAsientos" + formato + ".jasper";

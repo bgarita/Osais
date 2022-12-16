@@ -656,7 +656,7 @@ public class Tipocambio extends JFrame {
 
         // Si el registro a guardar corresponde a la moneda local, no se debe permitir
         // guardar un valor distinto de 1 (uno).
-        if (this.codigo.equals(this.codigoTC)) {
+        if (this.codigo.equals(this.codigoTC) && Float.parseFloat(tipoca) != 1f) {
             tipoca = "1.00";
             this.txtTipoca.setText(tipoca);
             JOptionPane.showMessageDialog(cmdGuardar,
