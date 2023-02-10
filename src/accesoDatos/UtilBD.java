@@ -1925,7 +1925,7 @@ public class UtilBD {
                 = "SELECT mesactual, mesCierreA, añoactual "
                 + "FROM configcuentas";
         try (PreparedStatement ps
-                = conn.prepareStatement(sqlSent, 
+                = conn.prepareStatement(sqlSent,
                         ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
 
             ResultSet rs = CMD.select(ps);
@@ -1991,7 +1991,7 @@ public class UtilBD {
                 reg = 0;
             }
         }
-        
+
         return (reg > 0);
     } // end CGcerrarPeriodoActual
 
@@ -2391,9 +2391,9 @@ public class UtilBD {
 
         try {
             // Contultar el catálogo
-            ps = conn.prepareStatement(sqlSent, 
-                    ResultSet.TYPE_SCROLL_SENSITIVE, 
-                    ResultSet.CONCUR_READ_ONLY); 
+            ps = conn.prepareStatement(sqlSent,
+                    ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
 
             // Recorrer todo String de cuenta para ir procesando cada cuenta de mayor
             while (x < lcCta.length()) {
@@ -2568,109 +2568,134 @@ public class UtilBD {
             return msg;
         } // end if
 
-        FileInputStream file = new FileInputStream(cabys);
+        try (FileInputStream file = new FileInputStream(cabys)) {
+            // Create Workbook instance holding reference to .xlsx file
+            XSSFWorkbook workbook = new XSSFWorkbook(file);
 
-        // Create Workbook instance holding reference to .xlsx file
-        XSSFWorkbook workbook = new XSSFWorkbook(file);
+            // Get first/desired sheet from the workbook
+            XSSFSheet sheet = workbook.getSheetAt(0);
+            pp.setMaximum(sheet.getPhysicalNumberOfRows());
 
-        // Get first/desired sheet from the workbook
-        XSSFSheet sheet = workbook.getSheetAt(0);
-        pp.setMaximum(sheet.getPhysicalNumberOfRows());
+            int count = 0;      // Contar los artículos procesados.
+            String codigoCabys;
+            String descrip;
+            String impuesto;
+            String sqlSent
+                    = "INSERT INTO cabys (codigocabys, descrip, impuesto) "
+                    + "	VALUES(?,?,?) "
+                    + "ON DUPLICATE KEY UPDATE "
+                    + "	descrip  = ?,"
+                    + "	impuesto = ? ";
 
-        int count = 0;      // Contar los artículos procesados.
-        String codigoCabys;
-        String descrip;
-        String impuesto;
-        String sqlSent
-                = "INSERT INTO cabys (codigocabys, descrip, impuesto) "
-                + "	VALUES(?,?,?) "
-                + "ON DUPLICATE KEY UPDATE "
-                + "	descrip  = ?,"
-                + "	impuesto = ? ";
+            PreparedStatement ps = conn.prepareStatement(sqlSent);
 
-        PreparedStatement ps = conn.prepareStatement(sqlSent);
+            lblInfo.setText("Calculando datos...");
 
-        lblInfo.setText("Actualizando datos...");
+            pp.setMaximum(0);
+            sheet.iterator().forEachRemaining(element -> {
+                pp.setMaximum(pp.getMaximum() + 1);
+            });
 
-        // Iterate through each rows one by one
-        Iterator<Row> rowIterator = sheet.iterator();
-        while (rowIterator.hasNext()) {
-            pp.setValue(count);
+            lblInfo.setText("Actualizando datos...");
+            // Iterate through each rows one by one
+            Iterator<Row> rowIterator = sheet.iterator();
+            while (rowIterator.hasNext()) {
+                count++;
+                pp.setValue(count);
 
-            Row row = rowIterator.next();
+                Row row = rowIterator.next();
 
-            codigoCabys = "";
-            descrip = "";
-            impuesto = "";
+                codigoCabys = "";
+                descrip = "";
+                impuesto = "";
 
-            // Las tres primeras filas son encabezados
-            if (row.getRowNum() < 2) {
-                continue;
-            }
-
-            Iterator<Cell> cellIterator = row.cellIterator();
-            while (cellIterator.hasNext()) {
-                Cell cell = cellIterator.next();
-                if (cell.getColumnIndex() < 16 || cell.getColumnIndex() > 18) {
-                    continue;
-                } // end if
-
-                switch (cell.getColumnIndex()) {
-                    case 16: {
-                        codigoCabys = cell.toString();
-                        if (codigoCabys.contains("cell.toString()")) {
-                            System.out.println("Debug here");
-                        }
-                        break;
-                    }
-                    case 17: {
-                        descrip = cell.toString();
-                        break;
-                    }
-                    case 18: {
-                        //impuesto = cell.getStringCellValue();
-                        impuesto = cell.toString();
-                        if (impuesto.equalsIgnoreCase("Exento")) {
-                            impuesto = "0%";
-                        }
-                        // Elimino el caracter final (%)
-                        impuesto = impuesto.replace("%", "");
-                        break;
-                    }
-                } // end switch
-
-                // Aquí se dispara la actualización del cabys
-                // Solo lo hace cuando impuesto no esté vacío.
-                if (impuesto.isEmpty()) {
+                // Las tres primeras filas son encabezados
+                if (row.getRowNum() < 2) {
                     continue;
                 }
 
-                descrip = remove8203Char(descrip);
+                Iterator<Cell> cellIterator = row.cellIterator();
+                while (cellIterator.hasNext()) {
+                    Cell cell = cellIterator.next();
+                    if (cell.getColumnIndex() < 16 || cell.getColumnIndex() > 18) {
+                        continue;
+                    } // end if
 
-                ps.setString(1, codigoCabys);
-                ps.setString(2, descrip);
-                ps.setDouble(3, Double.parseDouble(impuesto));
-                ps.setString(4, descrip);
-                ps.setDouble(5, Double.parseDouble(impuesto));
+                    switch (cell.getColumnIndex()) {
+                        case 16: {
+                            codigoCabys = cell.toString();
+                            if (codigoCabys.contains("cell.toString()")) {
+                                System.out.println("Debug here");
+                            }
+                            break;
+                        }
+                        case 17: {
+                            descrip = cell.toString();
+                            lblInfo.setText("Actualizando " + descrip + "...");
+                            break;
+                        }
+                        case 18: {
+                            impuesto = cell.toString().trim();
 
-                // Este try se usa solo para mostrar un mensaje más específico.
-                try {
-                    CMD.update(ps);
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null,
-                            "Cabys: " + codigoCabys + ", descrip: " + descrip,
-                            "Error",
-                            JOptionPane.ERROR_MESSAGE);
-                    throw ex;
-                } // end try-catch
+                            if (impuesto.equalsIgnoreCase("Exento")) {
+                                impuesto = "0%";
+                            }
+                            // Elimino el caracter final (%) y posibles espacios en blanco
+                            impuesto = impuesto.replace("%", "").trim();
+                            break;
+                        }
+                    } // end switch
+
+                    // Aquí se dispara la actualización del cabys
+                    // Solo lo hace cuando impuesto no esté vacío.
+                    if (impuesto.isEmpty()) {
+                        continue;
+                    }
+
+                    descrip = remove8203Char(descrip);
+
+                    double iva;
+                    // Este try se usa únicamente para controlar errores de conversión numérica.
+                    try {
+                        iva = Double.parseDouble(impuesto);
+                    } catch (Exception e) {
+                        // Si se produce un error de conversión numérica no actualizo el registro.
+                        System.out.println(
+                                "El código " + codigoCabys + " viene con un error en el impuesto.[" + impuesto + "]\n"
+                                + "El valor no será modificado.");
+                        continue;
+                    }
+
+                    // Si el valor viene en porcentaje, lo convierto a número normal
+                    if (iva < 1) {
+                        iva = iva * 100;
+                    }
+
+                    // Falta incluir acá un control para cuando el número viene malo.
+                    // Luego hay que probar porque tampoco está cerrando la barra de progreso al finalizar
+                    ps.setString(1, codigoCabys);
+                    ps.setString(2, descrip);
+                    ps.setDouble(3, iva);
+                    ps.setString(4, descrip);
+                    ps.setDouble(5, iva);
+
+                    // Este try se usa solo para mostrar un mensaje más específico.
+                    try {
+                        CMD.update(ps);
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null,
+                                "Cabys: " + codigoCabys + ", descrip: " + descrip,
+                                "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                        throw ex;
+                    } // end try-catch
+                } // end while
+
+                count++;
             } // end while
 
-            count++;
-        } // end while
-
-        msg = "Se procesaron " + count + " registros del CABYS.";
-
-        file.close();
+            msg = "Se procesaron " + count + " registros del CABYS.";
+        }
         return msg;
     } // end actualizarCabys
 
@@ -2702,14 +2727,14 @@ public class UtilBD {
                 + "		(SELECT impuesto FROM cabys WHERE codigoCabys = ?) -  "
                 + "		(SELECT porcentaje FROM tarifa_iva WHERE codigoTarifa = ?) "
                 + "	) AS diferencia";
-        PreparedStatement ps = conn.prepareStatement(sqlSent,
-                ResultSet.CONCUR_READ_ONLY, ResultSet.TYPE_SCROLL_SENSITIVE);
-        ps.setString(1, codigoCabys);
-        ps.setString(2, codigoTarifa);
-        ResultSet rs = CMD.select(ps);
-        rs.first();
-        sonIguales = (rs.getDouble("diferencia") == 0.00);
-        ps.close();
+        try (PreparedStatement ps = conn.prepareStatement(sqlSent,
+                ResultSet.CONCUR_READ_ONLY, ResultSet.TYPE_SCROLL_SENSITIVE)) {
+            ps.setString(1, codigoCabys);
+            ps.setString(2, codigoTarifa);
+            ResultSet rs = CMD.select(ps);
+            rs.first();
+            sonIguales = (rs.getDouble("diferencia") == 0.00);
+        }
 
         return sonIguales;
     } // end validarCabys
@@ -2758,11 +2783,11 @@ public class UtilBD {
             ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent);
             CMD.update(ps);
         } // end for
-        
+
         sqlSent = "ALTER TABLE saisystem.notificado ENGINE = 'InnoDB'";
         ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent);
         CMD.update(ps);
-        
+
         ps.close();
     } // end optimizeDatabase
 } // end class UtilBD

@@ -102,9 +102,9 @@
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="datMes" min="-2" max="-2" attributes="0"/>
+                              <Component id="datMonth" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="datAño" min="-2" pref="61" max="-2" attributes="0"/>
+                              <Component id="datYear" min="-2" pref="61" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                               <Component id="chkcerrado" min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -131,8 +131,8 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="datMes" min="-2" max="-2" attributes="0"/>
-                      <Component id="datAño" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="datMonth" min="-2" max="-2" attributes="0"/>
+                      <Component id="datYear" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="chkcerrado" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -197,17 +197,17 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBorrarActionPerformed"/>
       </Events>
     </Component>
-    <Component class="com.toedter.calendar.JMonthChooser" name="datMes">
+    <Component class="com.toedter.calendar.JMonthChooser" name="datMonth">
       <Events>
-        <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="datMesPropertyChange"/>
+        <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="datMonthPropertyChange"/>
       </Events>
     </Component>
-    <Component class="com.toedter.calendar.JYearChooser" name="datA&#xf1;o">
+    <Component class="com.toedter.calendar.JYearChooser" name="datYear">
       <Properties>
         <Property name="startYear" type="int" value="2000"/>
       </Properties>
       <Events>
-        <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="datA&#xf1;oPropertyChange"/>
+        <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="datYearPropertyChange"/>
       </Events>
     </Component>
     <Component class="com.toedter.calendar.JDateChooser" name="datfecha_in">

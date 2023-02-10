@@ -64,8 +64,8 @@ public class PeriodoContable extends JFrame {
         periodo = new Coperiodoco(conn);
         periodo.cargarUltimo();
         
-        this.datMes.setMonth(periodo.getMes());
-        this.datAño.setYear(periodo.getAño() == 0 ? 2013:periodo.getAño());
+        this.datMonth.setMonth(periodo.getMonth());
+        this.datYear.setYear(periodo.getYear() == 0 ? 2013:periodo.getYear());
         
         this.txtDescrip.setText(periodo.getDescrip());
         this.datfecha_in.setDate(periodo.getFecha_in());
@@ -89,8 +89,8 @@ public class PeriodoContable extends JFrame {
         txtDescrip = new javax.swing.JFormattedTextField();
         btnGuardar = new javax.swing.JButton();
         btnBorrar = new javax.swing.JButton();
-        datMes = new com.toedter.calendar.JMonthChooser();
-        datAño = new com.toedter.calendar.JYearChooser();
+        datMonth = new com.toedter.calendar.JMonthChooser();
+        datYear = new com.toedter.calendar.JYearChooser();
         datfecha_in = new com.toedter.calendar.JDateChooser();
         datfecha_fi = new com.toedter.calendar.JDateChooser();
         jLabel1 = new javax.swing.JLabel();
@@ -134,16 +134,16 @@ public class PeriodoContable extends JFrame {
             }
         });
 
-        datMes.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+        datMonth.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                datMesPropertyChange(evt);
+                datMonthPropertyChange(evt);
             }
         });
 
-        datAño.setStartYear(2000);
-        datAño.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+        datYear.setStartYear(2000);
+        datYear.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                datAñoPropertyChange(evt);
+                datYearPropertyChange(evt);
             }
         });
 
@@ -210,9 +210,9 @@ public class PeriodoContable extends JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(datMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(datMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(datAño, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(datYear, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(36, 36, 36)
                                 .addComponent(chkcerrado))
                             .addGroup(layout.createSequentialGroup()
@@ -237,8 +237,8 @@ public class PeriodoContable extends JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(datMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(datAño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(datMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(datYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(chkcerrado))
                 .addGap(8, 8, 8)
                 .addComponent(txtDescrip, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -300,12 +300,12 @@ public class PeriodoContable extends JFrame {
             return;
         } // end if
         
-        int mes = datMes.getMonth();
-        int año = datAño.getValue();
+        int month = datMonth.getMonth();
+        int year = datYear.getValue();
         String descrip = txtDescrip.getText().trim();
 
-        periodo.setMes(mes);
-        periodo.setAño(año);
+        periodo.setMonth(month);
+        periodo.setYear(year);
         periodo.setDescrip(descrip);
         periodo.setCerrado(false);
         java.sql.Date d = new java.sql.Date(datfecha_in.getDate().getTime());
@@ -315,7 +315,7 @@ public class PeriodoContable extends JFrame {
         
         try {
             CMD.transaction(conn, CMD.START_TRANSACTION);
-            if (!periodo.existeEnBaseDatos(mes+1, año)){
+            if (!periodo.existeEnBaseDatos(month+1, year)){
                 periodo.insert();
             }else{
                 periodo.update();
@@ -350,28 +350,28 @@ public class PeriodoContable extends JFrame {
         eliminarRegistro();       
 }//GEN-LAST:event_btnBorrarActionPerformed
 
-    private void datMesPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_datMesPropertyChange
+    private void datMonthPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_datMonthPropertyChange
         if (this.fin){
             return;
         }
-        txtDescrip.setText(periodo.toString(datMes.getMonth(), datAño.getValue()));
+        txtDescrip.setText(periodo.toString(datMonth.getMonth(), datYear.getValue()));
         
         if (this.principio){
             return;
         }
         
         // Esta parte solo debe correr cuando el usurio manipula los datos.
-        int mes = datMes.getMonth();
-        int año = datAño.getValue();
-        periodo.setMes(mes);
-        periodo.setAño(año);
+        int mes = datMonth.getMonth();
+        int año = datYear.getValue();
+        periodo.setMonth(mes);
+        periodo.setYear(año);
         datfecha_in.setDate(periodo.getFecha_in());
         datfecha_fi.setDate(periodo.getFecha_fi());
-    }//GEN-LAST:event_datMesPropertyChange
+    }//GEN-LAST:event_datMonthPropertyChange
 
-    private void datAñoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_datAñoPropertyChange
-        datMesPropertyChange(evt);
-    }//GEN-LAST:event_datAñoPropertyChange
+    private void datYearPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_datYearPropertyChange
+        datMonthPropertyChange(evt);
+    }//GEN-LAST:event_datYearPropertyChange
 
     /**
      * Este método elimina un registro de la base de datos para la tabla
@@ -396,11 +396,11 @@ public class PeriodoContable extends JFrame {
             return;
         } // end if
         
-        int mes = datMes.getMonth();
-        int año = datAño.getValue();
+        int mes = datMonth.getMonth();
+        int año = datYear.getValue();
 
-        periodo.setMes(mes);
-        periodo.setAño(año);
+        periodo.setMonth(mes);
+        periodo.setYear(año);
         try {
             if (!periodo.existeEnBaseDatos(mes, año)){
                 JOptionPane.showMessageDialog(null, 
@@ -506,8 +506,8 @@ public class PeriodoContable extends JFrame {
     private javax.swing.JButton btnBorrar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JCheckBox chkcerrado;
-    private com.toedter.calendar.JYearChooser datAño;
-    private com.toedter.calendar.JMonthChooser datMes;
+    private com.toedter.calendar.JMonthChooser datMonth;
+    private com.toedter.calendar.JYearChooser datYear;
     private com.toedter.calendar.JDateChooser datfecha_fi;
     private com.toedter.calendar.JDateChooser datfecha_in;
     private javax.swing.JLabel jLabel1;

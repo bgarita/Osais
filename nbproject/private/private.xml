@@ -5,15 +5,16 @@
         <group>
             <file>file:/C:/Java%20Programs/osais/src/interfase/menus/Menu.java</file>
             <file>file:/C:/Java%20Programs/osais/src/logica/xmls/FacturaElectronica.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/interfase/mantenimiento/Tipocambio.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/logica/xmls/CorreoFacturaElectronica.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/logica/utilitarios/Ut.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/logica/xmls/NotaCreditoElectronica.java</file>
             <file>file:/C:/Java%20Programs/osais/src/logica/contabilidad/CoactualizCat.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/logica/contabilidad/Coperiodoco.java</file>
             <file>file:/C:/Java%20Programs/osais/Pendientes_conta.txt</file>
             <file>file:/C:/Java%20Programs/osais/src/interfase/reportes/RepAsientos.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/interfase/mantenimiento/PeriodoContable.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/accesoDatos/UtilBD.java</file>
             <file>file:/C:/Java%20Programs/osais/src/logica/xmls/DetalleFactura.java</file>
             <file>file:/C:/Java%20Programs/osais/Pendientes.txt</file>
-            <file>file:/C:/Java%20Programs/osais/src/interfase/consultas/ImpresionFactura.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/logica/xmls/ResumenFactura.java</file>
         </group>
     </open-files>
 </project-private>

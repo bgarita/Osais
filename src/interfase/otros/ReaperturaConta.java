@@ -39,8 +39,8 @@ public class ReaperturaConta extends javax.swing.JFrame {
 
         periodo = new Coperiodoco(conn);
         periodo.cargarUltimoCerrado();
-        this.datMes.setMonth(periodo.getMes());
-        this.datAño.setYear(periodo.getAño() == 0 ? 2013 : periodo.getAño());
+        this.datMes.setMonth(periodo.getMonth());
+        this.datAño.setYear(periodo.getYear() == 0 ? 2013 : periodo.getYear());
         principio = false;
     }
 
@@ -157,8 +157,8 @@ public class ReaperturaConta extends javax.swing.JFrame {
             return;
         }
         try {
-            periodo.setMes(datMes.getMonth());
-            periodo.setAño(datAño.getValue());
+            periodo.setMonth(datMes.getMonth());
+            periodo.setYear(datAño.getValue());
         } catch (Exception ex) {
             // No se hace nada, es solo para evitar que se caiga
         }

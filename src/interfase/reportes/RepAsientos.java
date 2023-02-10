@@ -380,7 +380,7 @@ public class RepAsientos extends JFrame {
         
         switch (objetoBusqueda){
             case RepAsientos.ASIENTO:
-                table = "coasientoe";
+                table = "vistacoasientoe";
                 tableColumns = "no_comprob,Trim(descrip) as descrip,fecha_comp,tipo_comp";
                 objeto = txtNo_comprob;
                 windowTitle = "Buscar asientos";
