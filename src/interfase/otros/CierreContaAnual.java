@@ -76,7 +76,7 @@ public class CierreContaAnual extends javax.swing.JFrame {
 
         jTextPane1.setEditable(false);
         jTextPane1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jTextPane1.setText("Este proceso traslada todos los saldos del ejercicio contable a los acumulados anuales y limpia todas las cuentas de ingresos y gastos para iniciar un nuevo ejercicio contable.\nDe igual forma, los asientos contables son trasladados al histórico y no permitirá que sean modificados.\nDurante el proceso se genera el asiento de cierre.\nEl tipo de asiento utilizado para este movimiento es el 99. El sistema lo asignará automáticamente, por lo que debe asegurarse de que el tipo esté creado.\n\n\nAntes de ejecutar este proceso asegúrese de:\n1.  Realizar un buen respaldo de la base de datos.\n2.  Que no haya más usuarios en el sistema.\n3.  Que el tipo de asiento 99 exista.");
+        jTextPane1.setText("Este proceso traslada todos los saldos del ejercicio contable a los acumulados anuales y limpia todas las cuentas de ingresos y gastos para iniciar un nuevo ejercicio contable.\nDe igual forma, los asientos contables son trasladados al histórico y no permitirá que sean modificados.\nDurante el proceso se genera el asiento de cierre.\nEl tipo de asiento utilizado para este movimiento es el 99. El sistema lo asignará automáticamente, por lo que debe asegurarse de que el tipo esté creado.\n\n\nAntes de ejecutar este proceso asegúrese de:\n1.  Haber creado el primer periodo contable del siguiente año\n2.  Realizar un buen respaldo de la base de datos.\n3.  Que no haya más usuarios en el sistema.\n4.  Que el tipo de asiento 99 exista.");
         jScrollPane1.setViewportView(jTextPane1);
 
         btnSalir.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -131,8 +131,6 @@ public class CierreContaAnual extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblPeriodo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(29, 29, 29)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -147,7 +145,11 @@ public class CierreContaAnual extends javax.swing.JFrame {
                                 .addComponent(chkListo2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 251, Short.MAX_VALUE)
                                 .addComponent(btnSalir))))
-                    .addComponent(lblAsiento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(lblPeriodo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblAsiento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -156,22 +158,25 @@ public class CierreContaAnual extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblPeriodo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblAsiento)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnGenerarAsiento, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(chkListo1))
+                        .addGap(17, 17, 17)
+                        .addComponent(lblAsiento))
+                    .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnIniciarEjercicio)
-                            .addComponent(chkListo2)))
+                        .addComponent(lblPeriodo)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnGenerarAsiento, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(chkListo1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnIniciarEjercicio)
+                        .addComponent(chkListo2))
                     .addComponent(btnSalir))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnGenerarAsiento, btnIniciarEjercicio});
@@ -191,7 +196,7 @@ public class CierreContaAnual extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnGenerarAsientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarAsientoActionPerformed
-        String tipo_comp_descrip;   // Descripcipón que incluye el número de asiento y el tipo.
+        String tipo_comp_descrip;   // Descripción que incluye el número de asiento y el tipo.
         String ctaCierre;           // Cuenta de cierre
         try {
             // Validaciones

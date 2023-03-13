@@ -1274,7 +1274,9 @@ public class RegistroAsientos extends javax.swing.JFrame {
             if (old_comprob.isEmpty()) {
                 // Inserta un registro en la tabla encabezado de asientos
                 // Una última revisión del consecutivo antes de guardar el asiento.
-                if (asientoE.existeEnBaseDatos(no_comprob, tipo)) {
+                // Solo el asiento de cierre debe ser el mismo número y tipo de asiento
+                // todos los meses.
+                if (!asientoE.isCierreAnual() && asientoE.existeEnBaseDatos(no_comprob, tipo)) {
                     Cotipasient cotipasient = new Cotipasient(conn);
                     no_comprob = cotipasient.getSiguienteConsecutivo(tipo) + "";
                     no_comprob = Ut.lpad(no_comprob, "0", 10);

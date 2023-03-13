@@ -720,7 +720,8 @@ public class TiposAsiento extends JFrame {
         boolean registroActualizado;
         short tipo_comp = Short.parseShort(txtTipo_comp.getText().trim());
         String descrip = txtDescrip.getText().trim();
-        int no_comprob = Integer.parseInt(txtConsecutivo.getText().trim());
+        long no_comprob = Long.parseLong(txtConsecutivo.getText().trim());
+        
         
         // Validar si el consecutivo de asientos para el tipo
         // ya existe en base de datos.

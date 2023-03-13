@@ -17,7 +17,7 @@ import logica.IEstructuraBD;
 public class Cotipasient implements IEstructuraBD {
     private short tipo_comp;    // Tipo de asiento
     private String descrip;     // Descripción
-    private int consecutivo;
+    private long consecutivo;
     
     private final Connection conn;
     private boolean error;
@@ -67,11 +67,11 @@ public class Cotipasient implements IEstructuraBD {
         this.descrip = descrip;
     }
 
-    public int getConsecutivo() {
+    public long getConsecutivo() {
         return consecutivo;
     }
 
-    public void setConsecutivo(int consecutivo) {
+    public void setConsecutivo(long consecutivo) {
         this.consecutivo = consecutivo;
     }
     
@@ -193,7 +193,7 @@ public class Cotipasient implements IEstructuraBD {
      * @return true=existe, false=no existe
      * @throws SQLException 
      */
-    public boolean existeConsecutivo(int no_comprob, short tipo_comp) throws SQLException{
+    public boolean existeConsecutivo(long no_comprob, short tipo_comp) throws SQLException{
         boolean existe = false;
         String sqlSent = 
                 "Select tipo_comp from vistaconsecutivoasientos " +
@@ -201,7 +201,7 @@ public class Cotipasient implements IEstructuraBD {
         try (PreparedStatement ps = conn.prepareStatement(sqlSent, 
                                     ResultSet.TYPE_FORWARD_ONLY, 
                                     ResultSet.CONCUR_READ_ONLY)) {
-            ps.setInt(1, no_comprob);
+            ps.setLong(1, no_comprob);
             ps.setShort(2, tipo_comp);
             ResultSet rs = CMD.select(ps);
             if (rs != null && rs.first()){
@@ -233,7 +233,7 @@ public class Cotipasient implements IEstructuraBD {
             try (PreparedStatement ps = conn.prepareStatement(sqlSent)) {
                 ps.setShort(1, tipo_comp);
                 ps.setString(2, descrip);
-                ps.setInt(3, consecutivo);
+                ps.setLong(3, consecutivo);
                 CMD.update(ps);
                 ps.close();
             } // end try with resources
@@ -267,7 +267,7 @@ public class Cotipasient implements IEstructuraBD {
         try {
             try (PreparedStatement ps = conn.prepareStatement(sqlSent)) {
                 ps.setString(1, descrip);
-                ps.setInt(2, consecutivo);
+                ps.setLong(2, consecutivo);
                 ps.setShort(3, tipo_comp);
                 registros = CMD.update(ps);
                 ps.close();
@@ -322,11 +322,11 @@ public class Cotipasient implements IEstructuraBD {
     /**
      * Traer el siguiente (consecutivo) número de asiento para un tipo de asiento específico.
      * @param tipo short tipo de asiento
-     * @return int número de asiento disponible
+     * @return long número de asiento disponible
      * @throws SQLException 
      */
-    public int getSiguienteConsecutivo(short tipo) throws SQLException{
-        int siguienteConsecutivo = 0;
+    public long getSiguienteConsecutivo(short tipo) throws SQLException{
+        long siguienteConsecutivo = 0;
         
         String sqlSent 
                 = "SELECT MAX(cast(no_comprob AS signed)) as max "
@@ -337,15 +337,15 @@ public class Cotipasient implements IEstructuraBD {
             ps.setShort(1, tipo);
             ResultSet rs = CMD.select(ps);
             if (rs != null && rs.first()){
-                siguienteConsecutivo = rs.getInt("max") + 1;
+                siguienteConsecutivo = rs.getLong("max") + 1;
             } // end if
             ps.close();
         } // end try
         return siguienteConsecutivo;
     } // end getSiguienteConsecutivo
     
-    public int getUltimoConsecutivo(short tipo) throws SQLException{
-        int siguienteConsecutivo = getSiguienteConsecutivo(tipo);
+    public long getUltimoConsecutivo(short tipo) throws SQLException{
+        long siguienteConsecutivo = getSiguienteConsecutivo(tipo);
         return (siguienteConsecutivo - 1);
     } // end getUltimoConsecutivo
 } // end TipoAsiento

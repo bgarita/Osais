@@ -129,6 +129,8 @@ public class CierreConta extends javax.swing.JFrame {
 
         try {
             // Valida que no haya movimientos desbalanceados
+            b.setLogLevel(Bitacora.INFO);
+            b.writeToLog(this.getClass().getName() + "--> Buscando asientos desbalanceados...");
             if (!UtilBD.CGestaBalanceado(conn)) {
                 JOptionPane.showMessageDialog(null,
                         "Existen movimientos desbalanceados.\n"
@@ -144,13 +146,16 @@ public class CierreConta extends javax.swing.JFrame {
             // 4. Establecer el nuevo periodo
             CMD.transaction(conn, CMD.START_TRANSACTION);
 
+            b.writeToLog(this.getClass().getName() + "--> Guardando copia del catálogo...");
             boolean correcto = UtilBD.CGguardarCatalogo(conn, per.getFecha_fi());
 
             if (correcto) {
+                b.writeToLog(this.getClass().getName() + "--> Moviendo cuentas y asientos a periodos cerrados...");
                 correcto = UtilBD.CGmoverAsientosHistorico(conn);
             }
 
             if (correcto) {
+                b.writeToLog(this.getClass().getName() + "--> Estableciendo nuevo periodo...");
                 correcto = UtilBD.CGcerrarPeriodoActual(conn, per);
             } // end if
 
@@ -160,6 +165,7 @@ public class CierreConta extends javax.swing.JFrame {
                         "Cierre contable completado exitosamente!",
                         "Mensaje",
                         JOptionPane.INFORMATION_MESSAGE);
+                b.writeToLog(this.getClass().getName() + "--> Cierre contable completado satisfactoriamente.");
                 this.dispose();
             } else {
                 CMD.transaction(conn, CMD.ROLLBACK);
@@ -171,6 +177,7 @@ public class CierreConta extends javax.swing.JFrame {
                         JOptionPane.ERROR_MESSAGE);
             } // end if-else
         } catch (SQLException ex) {
+            b.setLogLevel(Bitacora.ERROR);
             // Si se produjo un error y ya se había iniciado la transacción...
             try {
                 CMD.transaction(conn, CMD.ROLLBACK);

@@ -136,7 +136,8 @@ public class ProcessBackground extends Thread {
         this.setValue(0);
         this.setVisible(true);
         this.setLblInfoText("Cargando hoja de cálculo...");
-
+        
+        // Pendiente revisar esto porque sólo está mostrando hasta 76%
         return UtilBD.actualizarCabys(this.conn, this.progressBar, this.lblInfo);
     } // end cabys
 } // end ProgressBar

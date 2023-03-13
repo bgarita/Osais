@@ -27,8 +27,6 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="lblPeriodo" alignment="1" max="32767" attributes="0"/>
-                  <Component id="jScrollPane1" alignment="0" pref="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -48,7 +46,12 @@
                           </Group>
                       </Group>
                   </Group>
-                  <Component id="lblAsiento" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="lblPeriodo" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="lblAsiento" max="32767" attributes="0"/>
+                  </Group>
+                  <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -57,26 +60,31 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Component id="jScrollPane1" min="-2" pref="209" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="lblPeriodo" min="-2" max="-2" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="226" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                      <Component id="lblAsiento" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="lblPeriodo" min="-2" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace pref="9" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="btnGenerarAsiento" linkSize="4" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                  <Component id="chkListo1" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="lblAsiento" min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="btnGenerarAsiento" linkSize="4" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                          <Component id="chkListo1" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="btnIniciarEjercicio" linkSize="4" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="chkListo2" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                  <Group type="103" alignment="1" groupAlignment="3" attributes="0">
+                      <Component id="btnIniciarEjercicio" linkSize="4" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="chkListo2" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="btnSalir" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -95,7 +103,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="12" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Este proceso traslada todos los saldos del ejercicio contable a los acumulados anuales y limpia todas las cuentas de ingresos y gastos para iniciar un nuevo ejercicio contable.&#xa;De igual forma, los asientos contables son trasladados al hist&#xf3;rico y no permitir&#xe1; que sean modificados.&#xa;Durante el proceso se genera el asiento de cierre.&#xa;El tipo de asiento utilizado para este movimiento es el 99. El sistema lo asignar&#xe1; autom&#xe1;ticamente, por lo que debe asegurarse de que el tipo est&#xe9; creado.&#xa;&#xa;&#xa;Antes de ejecutar este proceso aseg&#xfa;rese de:&#xa;1.  Realizar un buen respaldo de la base de datos.&#xa;2.  Que no haya m&#xe1;s usuarios en el sistema.&#xa;3.  Que el tipo de asiento 99 exista."/>
+            <Property name="text" type="java.lang.String" value="Este proceso traslada todos los saldos del ejercicio contable a los acumulados anuales y limpia todas las cuentas de ingresos y gastos para iniciar un nuevo ejercicio contable.&#xa;De igual forma, los asientos contables son trasladados al hist&#xf3;rico y no permitir&#xe1; que sean modificados.&#xa;Durante el proceso se genera el asiento de cierre.&#xa;El tipo de asiento utilizado para este movimiento es el 99. El sistema lo asignar&#xe1; autom&#xe1;ticamente, por lo que debe asegurarse de que el tipo est&#xe9; creado.&#xa;&#xa;&#xa;Antes de ejecutar este proceso aseg&#xfa;rese de:&#xa;1.  Haber creado el primer periodo contable del siguiente a&#xf1;o&#xa;2.  Realizar un buen respaldo de la base de datos.&#xa;3.  Que no haya m&#xe1;s usuarios en el sistema.&#xa;4.  Que el tipo de asiento 99 exista."/>
           </Properties>
         </Component>
       </SubComponents>
