@@ -306,7 +306,7 @@ public class CoasientoE {
                 asientoAnulado = rs.getString("asientoAnulado");
 
                 ps.close();
-            } // end try with resources // end try with resources
+            } // end try with resources
 
             // Busco si el asiento fue reversado por algún otro
             this.anuladoPor = this.anuladoPor();

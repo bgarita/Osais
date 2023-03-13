@@ -304,7 +304,7 @@ public class PeriodoContable extends JFrame {
         int year = datYear.getValue();
         String descrip = txtDescrip.getText().trim();
 
-        periodo.setMonth(month);
+        periodo.setMonth(month); // Mes java (0-11)
         periodo.setYear(year);
         periodo.setDescrip(descrip);
         periodo.setCerrado(false);

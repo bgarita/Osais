@@ -279,7 +279,7 @@ public class Coperiodoco implements IEstructuraBD {
                 ps.setBoolean(10, cerrado);
                 CMD.update(ps);
                 ps.close();
-            } // end try with resources // end try with resources // end try with resources // end try with resources
+            } // end try with resources
         } catch (SQLException ex) {
             Logger.getLogger(Coperiodoco.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
@@ -316,7 +316,7 @@ public class Coperiodoco implements IEstructuraBD {
                 ps.setDate(2, fecha_in);
                 ps.setDate(3, fecha_fi);
                 ps.setBoolean(4, cerrado);
-                ps.setInt(5, month);
+                ps.setInt(5, month + 1); // Mes SQL
                 ps.setInt(6, year);
                 registros = CMD.update(ps);
                 ps.close();
