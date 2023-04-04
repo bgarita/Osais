@@ -3,16 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Java%20Programs/osais/src/interfase/transacciones/RegistroAsientos.java</file>
             <file>file:/C:/Java%20Programs/osais/src/interfase/menus/Menu.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/logica/contabilidad/CoasientoD.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/interfase/otros/CierreConta.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/logica/contabilidad/Coperiodoco.java</file>
             <file>file:/C:/Java%20Programs/osais/Pendientes_conta.txt</file>
-            <file>file:/C:/Java%20Programs/osais/src/interfase/reportes/RepAsientos.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/interfase/mantenimiento/PeriodoContable.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/logica/DocumentoElectronico.java</file>
             <file>file:/C:/Java%20Programs/osais/Pendientes.txt</file>
-            <file>file:/C:/Java%20Programs/osais/src/interfase/otros/CierreContaAnual.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/interfase/consultas/ImpresionFactura.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/interfase/otros/FacturaXML.java</file>
         </group>
     </open-files>
 </project-private>

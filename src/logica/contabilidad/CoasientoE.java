@@ -288,6 +288,10 @@ public class CoasientoE {
                 this.asientoAnulado = "";
 
                 this.asientoDeAnulacion = ""; // Este no se carga, no existe.
+                
+                // También inicializo la bandera de error
+                this.error = false;
+                this.mensaje_error = "";
 
                 if (rs == null || !rs.first()) {
                     ps.close();

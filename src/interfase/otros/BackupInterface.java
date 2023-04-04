@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,15 +30,16 @@ import logica.utilitarios.Ut;
  *
  * @author bosco
  */
-public class BackupInterface extends javax.swing.JFrame {
+public class BackupInterface extends javax.swing.JFrame implements Serializable {
 
     private static final long serialVersionUID = 21L;
-    private Properties prop, prop2;
-    private InputStream input, input2;
-    private FileOutputStream output, output2;
-    private String sourceFile, targetFile;
-    private Connection conn;
-    private javax.swing.JPasswordField txtPassword;
+    private Properties prop;
+    private Properties prop2;
+    private transient InputStream input;
+    private transient InputStream input2;
+    private String sourceFile;
+    private String targetFile;
+    private transient Connection conn;
     private final Bitacora b = new Bitacora();
 
     /**
@@ -48,7 +50,6 @@ public class BackupInterface extends javax.swing.JFrame {
     public BackupInterface(Connection conn) {
         initComponents();
         this.lblProceso.setVisible(false);
-        this.txtPassword = new javax.swing.JPasswordField();
         this.conn = conn;
         this.sourceFile = "backupDB.properties";
         this.targetFile = "destinoF.properties";
@@ -492,23 +493,23 @@ public class BackupInterface extends javax.swing.JFrame {
             return;
         } // end if
 
-        int ID = Integer.parseInt(lblID.getText().trim());
+        int id = Integer.parseInt(lblID.getText().trim());
 
         // Si el ID es negativo se trata de una línea nueva y por tanto se agrega
         // una nueva línea.
-        if (ID < 0) {
+        if (id < 0) {
             int row = Ut.seekNull(tblConfig, 0);
             // Si esta función devuelve un -1 es porque no hay líneas vacías
             if (row < 0) {
                 Ut.resizeTable(tblConfig, 1, "Filas");
                 row = Ut.seekNull(tblConfig, 0);
             } // end if
-            ID = row;
+            id = row;
         } // end if
 
-        tblConfig.setValueAt(this.txtProp.getText().trim(), ID, 0);
-        tblConfig.setValueAt(lblBDSeleccionada.getText().trim(), ID, 1);
-        this.lblID.setText(ID + "");
+        tblConfig.setValueAt(this.txtProp.getText().trim(), id, 0);
+        tblConfig.setValueAt(lblBDSeleccionada.getText().trim(), id, 1);
+        this.lblID.setText(id + "");
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void tblConfigMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblConfigMouseClicked
@@ -537,9 +538,9 @@ public class BackupInterface extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         try {
-            output = new FileOutputStream(sourceFile); // Escritura
+            FileOutputStream output = new FileOutputStream(sourceFile);  // Escritura
+            FileOutputStream output2 = new FileOutputStream(targetFile); // Escritura
             prop.clear();
-            output2 = new FileOutputStream(targetFile); // Escritura
             prop2.clear();
             for (int i = 0; i < this.tblConfig.getModel().getRowCount(); i++) {
                 if (tblConfig.getValueAt(i, 0) == null) {
@@ -555,7 +556,7 @@ public class BackupInterface extends javax.swing.JFrame {
             prop2.setProperty("backup_folder", this.txtDestino.getText().trim());
             prop2.store(output2, "Carpeta donde quedarán los respaldos");
             output2.close();
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             Logger.getLogger(BackupInterface.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
@@ -595,10 +596,10 @@ public class BackupInterface extends javax.swing.JFrame {
             return;
         } // end if
 
-        int ID = Integer.parseInt(lblID.getText().trim());
-        this.tblConfig.setValueAt(null, ID, 0);
-        this.tblConfig.setValueAt(null, ID, 1);
-        this.tblConfig.setValueAt(null, ID, 2);
+        int is = Integer.parseInt(lblID.getText().trim());
+        this.tblConfig.setValueAt(null, is, 0);
+        this.tblConfig.setValueAt(null, is, 1);
+        this.tblConfig.setValueAt(null, is, 2);
         this.lblID.setText("-1");
     }//GEN-LAST:event_btnEliminarActionPerformed
 
@@ -612,29 +613,6 @@ public class BackupInterface extends javax.swing.JFrame {
             return;
         } // end if
 
-        /*
-        Se elimina esta parte del código pues se considera que si ya el usuario
-        ingresó al sistema, no es necesario que le pida de nuevo sus credenciales.
-        Sin embargo, el código no se elimina, se deja comentado por si en un
-        futuro algún cliente considera que si es importante.  Para entonces, la
-        decisión de si pide clave o no deberá parametrizarse en la configuración
-        y luego descomentar y ajustar este código. Bosco 15/03/2020.
-        
-        // Esta es una ventana modal que pide la clave el usuario conectado (por seguridad).
-        BackupPassw dialog = new BackupPassw(new javax.swing.JFrame(), true, this.txtPassword);
-        dialog.setVisible(true);
-        
-        char[] aPass = txtPassword.getPassword();
-        String password = "";
-        for (char p : aPass){
-            password += p;
-        } // end for
-        
-        // Si la clave viene vacía no continúo
-        if (password.isEmpty()){
-            return;
-        } // end if
-         */
         List<String> dataBases = new ArrayList<>();
         for (int i = 0; i < this.tblConfig.getModel().getRowCount(); i++) {
             if (tblConfig.getValueAt(i, 1) == null || tblConfig.getValueAt(i, 1).toString().trim().isEmpty()) {
@@ -644,7 +622,6 @@ public class BackupInterface extends javax.swing.JFrame {
         } // end for
 
         BackupResoreJob bk = new BackupResoreJob();
-        //bk.setPassw(password);
         bk.setPassw(Menu.PASS);
         bk.setDataBases(dataBases);
         bk.setIncludeData(this.chkIncludeData.isSelected());
@@ -725,7 +702,6 @@ public class BackupInterface extends javax.swing.JFrame {
         
         
         BackupResoreJob bk = new BackupResoreJob();
-        //bk.setPassw(password);
         bk.setPassw(Menu.PASS);
         bk.setRestore(true);
         bk.setNewDB(this.chkNueva.isSelected());
@@ -738,42 +714,6 @@ public class BackupInterface extends javax.swing.JFrame {
         bk.start();
     }//GEN-LAST:event_btnRestaurarActionPerformed
 
-//    /**
-//     * @param args the command line arguments
-//     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(StartJob.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(StartJob.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(StartJob.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(StartJob.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            @Override
-//            public void run() {
-//                new StartJob().setVisible(true);
-//            }
-//        });
-//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;

@@ -224,8 +224,8 @@ public class DocumentoElectronico {
     } // end actualizarDocumentoElectronico
 
     /**
-     * Obtener el tipo de documento tomando la referencia como criterio de búsqueda en la
-     * tabla de documentos electrónicos.
+     * Obtener el tipo de documento tomando la referencia como criterio de
+     * búsqueda en la tabla de documentos electrónicos.
      *
      * @param ref String número de referencia dado por Hacienda
      * @return String Tipo de documento
@@ -252,7 +252,6 @@ public class DocumentoElectronico {
             if (rs != null && rs.first()) {
                 tipoDoc = rs.getString("tipo");
             } // end if
-            ps.close();
         } catch (SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
@@ -357,8 +356,8 @@ public class DocumentoElectronico {
     } // end enviarXML
 
     /**
-     * Obtener el path completo para el documento que tiene la información de la respuesta
-     * de Hacienda para un XML.
+     * Obtener el path completo para el documento que tiene la información de la
+     * respuesta de Hacienda para un XML.
      *
      * @param documento
      * @return
@@ -467,16 +466,17 @@ public class DocumentoElectronico {
                     existe = true;
                 } // end if
             } // end if
-            ps.close();
         } // end try
 
         return existe;
     } // end existeDoc
 
     /**
-     * Obtiene el consecutivo para un documento electrónico nuevo o generado previamente.
+     * Obtiene el consecutivo para un documento electrónico nuevo o generado
+     * previamente.
      *
-     * @param tipoDoc String FAC=Factura, NDB=Nota de débido, NCR=Nota de crédito
+     * @param tipoDoc String FAC=Factura, NDB=Nota de débido, NCR=Nota de
+     * crédito
      * @return
      * @throws SQLException
      */
@@ -498,7 +498,6 @@ public class DocumentoElectronico {
             if (rs != null && rs.first()) {
                 consecutivo = rs.getInt(1);
             } // end if
-            ps.close();
         } // end try
 
         // Si se obtuvo un consecutivo entonces lo retorno porque significa
@@ -534,7 +533,6 @@ public class DocumentoElectronico {
             if (rs != null && rs.first()) {
                 consecutivo = rs.getInt(campo) + 1; // La tabla siempre guarda el último número usado.
             } // end if
-            ps.close();
         } // end try
         return consecutivo;
     } // end getConsecutivoDocElectronico
@@ -551,7 +549,6 @@ public class DocumentoElectronico {
                 this.codigoActividad = rs.getString(1);
                 this.tipoCedula = rs.getString(2);
             } // end if
-            ps.close();
         } catch (SQLException ex) {
             this.error = true;
             this.error_msg = ex.getMessage();
@@ -573,41 +570,47 @@ public class DocumentoElectronico {
                 + "AND a.facnd = ? "
                 + "AND a.tipoxml = 'V' "
                 + "AND b.facestado = ''";
-        ps = conn.prepareStatement(sqlSent, 
+        ps = conn.prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY);
         ps.setInt(1, facnume);
         ps.setInt(2, facnd);
-        
+
         rs = CMD.select(ps);
+
+        // Si los registros no existen en esta tabla es muy probable que 
+        // se haya eliminado el trigger faencabe_faestadoDocElect
+        if (!rs.first()) {
+            throw new SQLException(
+                    "El documento electrónico " + facnume
+                    + " no fue encontrado en la tabla de documentos electrónicos." 
+                    + "\nVerifique el el trigger 'faencabe_faestadoDocElect' se encuentre operativo.");
+        }
         
-        rs.first();
         ParametrosXML.xmlFileName = rs.getString("xmlFile");
         ParametrosXML.documentKey = rs.getString("claveHacienda");
         ParametrosXML.companyHome = Menu.BASEDATOS;
         ParametrosXML.document = facnume + "";
-        
+
         ParametrosXML.documentType = getDocumentType();
-        
+
         ParametrosXML.ourIdType = tipoCedula;
         ParametrosXML.supplierIdType = "00";
         ParametrosXML.todoAction = this.accion; // 1=Enviar, 2=Consultar
-        ps.close();
     } // end loadData
-    
-    private String getDocumentType(){
+
+    private String getDocumentType() {
         String documentType = "";
-        if (facnume > 0 && facnd == 0){
+        if (facnume > 0 && facnd == 0) {
             documentType = "FAC";
-        } else if (facnume > 0 && facnd < 0){
+        } else if (facnume > 0 && facnd < 0) {
             documentType = "NDB";
-        } else if (facnume < 0 && facnd > 0){
+        } else if (facnume < 0 && facnd > 0) {
             documentType = "NCR";
         }
         return documentType;
     } // end getDocumentType
-    
-    
+
     /**
      * Enviar un xml a Hacienda.
      *

@@ -30,13 +30,13 @@ import logica.xmls.TablaFacturaElectronica;
 public class DetalleNotificacionXml extends javax.swing.JDialog {
 
     private static final long serialVersionUID = 41L;
-    private final Connection conn;
+    private final transient Connection conn;
     private Boolean destroy;
     private String query;
     private String where;
     private final Bitacora b = new Bitacora();
 
-    private Boolean init;
+    private Boolean init = true;
 
     /**
      * Creates new form DetalleNotificacion
@@ -61,9 +61,9 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
     private String getCommand(int row, String accion) {
 
         try {
-            int facnume = Integer.parseInt(String.valueOf(tblDocumentosXML.getValueAt(row, 0)));
-            int facnd = Integer.parseInt(String.valueOf(tblDocumentosXML.getValueAt(row, 9)));
-            DocumentoElectronico docEl = new DocumentoElectronico(facnume, facnd, "V", conn, accion); // Esto carga todos los valores de la clase ParametrosXML
+            //int facnume = Integer.parseInt(String.valueOf(tblDocumentosXML.getValueAt(row, 0)));
+            //int facnd = Integer.parseInt(String.valueOf(tblDocumentosXML.getValueAt(row, 9)));
+            //DocumentoElectronico docEl = new DocumentoElectronico(facnume, facnd, "V", conn, accion); // Esto carga todos los valores de la clase ParametrosXML
 
             String exe = Menu.DIR.getXmls() + "\\FE2.exe";
             String cmd
@@ -78,7 +78,7 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
                     + ParametrosXML.supplierIdType;
 
             return cmd;
-        } catch (NumberFormatException | SQLException ex) {
+        } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -116,7 +116,7 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
         btnEjecutar = new javax.swing.JButton();
         radEnviarHacienda = new javax.swing.JRadioButton();
         jLabel3 = new javax.swing.JLabel();
-        snMeses = new com.toedter.components.JSpinField();
+        spnMeses = new com.toedter.components.JSpinField();
         lblTotalRegistros = new javax.swing.JLabel();
         chkProcesando = new javax.swing.JCheckBox();
         chkDesconocido = new javax.swing.JCheckBox();
@@ -125,7 +125,6 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Estado de los documentos electrónicos");
-        setModal(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -303,12 +302,12 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel3.setText("Meses");
 
-        snMeses.setToolTipText("Meses hacia atrás");
-        snMeses.setMinimum(1);
-        snMeses.setValue(3);
-        snMeses.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+        spnMeses.setToolTipText("Meses hacia atrás");
+        spnMeses.setMinimum(1);
+        spnMeses.setValue(3);
+        spnMeses.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                snMesesPropertyChange(evt);
+                spnMesesPropertyChange(evt);
             }
         });
 
@@ -338,11 +337,6 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
         txtDocumento.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtDocumentoFocusGained(evt);
-            }
-        });
-        txtDocumento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDocumentoActionPerformed(evt);
             }
         });
         txtDocumento.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -388,7 +382,7 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(snMeses, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(spnMeses, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -411,7 +405,7 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
                     .addComponent(chkError)
                     .addComponent(chkTodos)
                     .addComponent(jLabel3)
-                    .addComponent(snMeses, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spnMeses, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(chkProcesando)
                     .addComponent(chkDesconocido)
                     .addComponent(jLabel4)
@@ -469,7 +463,6 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
             // Bosco 31/07/2019.  Dado que esta pantalla se ejecuta automáticamente
             // no se debe cerrar la conexión.
             ps.close();
-            //conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
@@ -550,22 +543,18 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
         cargarTabla();
     }//GEN-LAST:event_chkDesconocidoActionPerformed
 
-    private void snMesesPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_snMesesPropertyChange
+    private void spnMesesPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_spnMesesPropertyChange
         if (init || destroy) {
             return;
         }
         setWhere();
         setQuery();
         cargarTabla();
-    }//GEN-LAST:event_snMesesPropertyChange
+    }//GEN-LAST:event_spnMesesPropertyChange
 
     private void txtDocumentoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDocumentoFocusGained
         txtDocumento.selectAll();
     }//GEN-LAST:event_txtDocumentoFocusGained
-
-    private void txtDocumentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDocumentoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDocumentoActionPerformed
 
     private void txtDocumentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDocumentoKeyPressed
         if (evt.getKeyCode() != java.awt.event.KeyEvent.VK_ENTER) {
@@ -607,7 +596,7 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
     private javax.swing.JRadioButton radActualizarEstado;
     private javax.swing.JRadioButton radEnviarHacienda;
     private javax.swing.JRadioButton radEnviarPDFyXML;
-    private com.toedter.components.JSpinField snMeses;
+    private com.toedter.components.JSpinField spnMeses;
     private javax.swing.JTable tblDocumentosXML;
     private javax.swing.JTextArea txaEstado;
     private javax.swing.JFormattedTextField txtDocumento;
@@ -684,9 +673,9 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
             estados = estados.isEmpty() ? "10" : estados + ",10";
         } // end if
         if (!estados.isEmpty()) {
-            estados += ") and b.facfechac >= DATE_SUB(CURDATE(),INTERVAL " + this.snMeses.getValue() + " MONTH)";
+            estados += ") and b.facfechac >= DATE_SUB(CURDATE(),INTERVAL " + this.spnMeses.getValue() + " MONTH)";
         } else {
-            this.where = " Where b.facfechac >= DATE_SUB(CURDATE(),INTERVAL " + this.snMeses.getValue() + " MONTH)";
+            this.where = " Where b.facfechac >= DATE_SUB(CURDATE(),INTERVAL " + this.spnMeses.getValue() + " MONTH)";
         } // end if-ese
 
         estados += " and b.facestado = '' ";
@@ -732,87 +721,6 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
                 = new CorreoFacturaElectronica(this, "Enviar correos electrónicos");
         pb.setBorderTitle("Enviando...");
         pb.start();
-        
-        /*
-        // Determino cuántos registros hay seleccionados en la tabla
-        int[] rows = this.tblDocumentosXML.getSelectedRows();
-        int count = 0;
-        String tipoXML;
-        int facnume;
-        int facnd;
-        String tipoDoc;
-        int row;
-        for (int index = 0; index < rows.length; index++) {
-            row = rows[index];
-            //int row = this.tblDocumentosXML.getSelectedRow();
-            tipoXML = tblDocumentosXML.getValueAt(row, 10).toString();
-            // Solo se usa en registros de venta.
-            if (!tipoXML.equals("V")) {
-                continue;
-            } // end if
-            facnume = Integer.parseInt(tblDocumentosXML.getValueAt(row, 0).toString());
-            facnd = Integer.parseInt(tblDocumentosXML.getValueAt(row, 9).toString());
-            tipoDoc = tblDocumentosXML.getValueAt(row, 1).toString();
-
-            String descrip = tblDocumentosXML.getValueAt(row, 3).toString();
-            // Si el estado no es aceptado no continúo (solo si es un solo documento).
-            if (!descrip.contains("ACEPTADO")) {
-                String msg
-                        = "El documento " + facnume + ", tipo " + tipoDoc + " "
-                        + "no fue enviado al cliente porque aun no ha sido aceptado por el Ministerio de Hacienda.";
-                b.writeToLog(this.getClass().getName() + "--> " + msg);
-                continue;
-            } // end if
-
-            String mailAddress;
-            try {
-                mailAddress = UtilBD.getCustomerMail(conn, facnume, facnd);
-            } catch (Exception ex) {
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
-                continue;
-            } // end try-catch
-
-            // Si el correo está vacío tomo el que esté registrado en la tabla
-            // y si también está vacío mando el mensaje de error.
-            if (mailAddress.isEmpty()) {
-                mailAddress = String.valueOf(tblDocumentosXML.getValueAt(row, 7));
-
-                if (mailAddress.isEmpty() || mailAddress.equalsIgnoreCase("null")) {
-                    String clidesc = String.valueOf(tblDocumentosXML.getValueAt(row, 4));
-                    String msg
-                            = "El cliente " + clidesc + "no tiene una dirección de correo asociada.";
-                    b.writeToLog(this.getClass().getName() + "--> " + msg);
-                    continue;
-                } // end if
-            } // end if
-
-            try {
-                DocumentoElectronico doc
-                        = new DocumentoElectronico(facnume, facnd, "V", conn, "2");
-                doc.enviarDocumentoCliente(mailAddress);
-                if (doc.isError()) {
-                    throw new Exception(doc.getError_msg());
-                } // end if
-                count++;
-                tblDocumentosXML.setValueAt(mailAddress, row, 7); // Solo es para que el usuario valide si se fue o no.
-            } catch (Exception ex) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
-            }
-        } // end for
-
-        // Informo al usuario.
-        String msg
-                = "Se enviaron " + count + " correos de " + rows.length;
-        if (count < rows.length) {
-            msg += "\nPero debe revisar en la tabla cuáles registros (seleccionados)"
-                    + "\nno tienen email registrado porque esos no se enviaron.";
-        }
-        JOptionPane.showMessageDialog(null,
-                msg,
-                "Información",
-                JOptionPane.INFORMATION_MESSAGE);
-        */
     } // end enviarPDFyXML
 
     private boolean validRow() {
@@ -946,93 +854,6 @@ public class DetalleNotificacionXml extends javax.swing.JDialog {
                 = new EnvioFacturaElectronica(this, "Enviar documentos electrónicos");
         pb.setBorderTitle("Enviando...");
         pb.start();
-        
-        /*
-        // Determino cuántos registros hay seleccionados en la tabla
-        int[] rows = this.tblDocumentosXML.getSelectedRows();
-
-        int row;
-        String tipoXML;
-        int factura;
-        String tipoDoc;
-        int count = 0;
-        for (int index = 0; index < rows.length; index++) {
-            row = rows[index];
-            tipoXML = tblDocumentosXML.getValueAt(row, 10).toString();
-            // Solo se usa en registros de venta.
-            if (!tipoXML.equals("V")) {
-                continue;
-            } // end if
-            factura = Integer.parseInt(tblDocumentosXML.getValueAt(row, 0).toString());
-            tipoDoc = tblDocumentosXML.getValueAt(row, 1).toString();
-
-            FacturaXML fact;
-            String resp;
-            try {
-                fact = new FacturaXML(this.conn);
-                fact.setMode(FacturaXML.UNATTENDED);
-
-                switch (tipoDoc) {
-                    case "FAC":
-                        // Las facturas se dividen (para efectos de los xml) en
-                        // facturas electrónicas y tiquetes electrónicos.
-                        // Para que una factura se considere tiquete depende del cliente,
-                        // si éste es genérico entonces la factura se considera tiquete.
-                        int tipo = FacturaXML.FACTURA;
-                        try {
-                            if (UtilBD.esClienteGenerico(conn, factura, 0)) {
-                                tipo = FacturaXML.TIQUETE;
-                            } // end if
-                        } catch (SQLException ex) {
-                            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
-                            continue;
-                        } // end try-catch
-                        fact.setTipo(tipo);
-                        break;
-                    case "NCR":
-                        fact.setTipo(FacturaXML.NOTACR);
-                        break;
-                    default:
-                        fact.setTipo(FacturaXML.NOTADB);
-                        break;
-                } // end switch
-
-                fact.setRangoDocumentos(factura, factura);
-                fact.runApp();
-
-                resp = fact.getRespuestaHacienda();
-
-                if (resp == null || resp.trim().isEmpty()) {
-                    String msg
-                            = "El XML " + factura + " no se pudo enviar.\n"
-                            + "Vaya al menú Hacienda y trate con la opción Generar documentos XML.";
-                    b.writeToLog(this.getClass().getName() + "--> " + msg);
-                    continue;
-                } // end if
-
-                // Si este archivo existe es mejor mostrar lo que tiene.
-                String logHacienda = Menu.DIR.getLogs() + "\\" + factura + "_Hac.log";
-                Path path = Paths.get(logHacienda);
-                resp = Ut.fileToString(path);
-
-                // Esto se pone solo para que el usuario vea el cambio 
-                // pero el estado real ya está en la tabla ya que el API
-                // se encargó de actualizar el registro.
-                tblDocumentosXML.setValueAt(resp, row, 3);
-                this.txaEstado.setText(resp);
-                count++;
-            } catch (Exception ex) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
-            }
-        } // end for
-
-        JOptionPane.showMessageDialog(null,
-                count + " de " + rows.length + " XMLs enviados satisfactoriamente.",
-                "Mensaje",
-                JOptionPane.INFORMATION_MESSAGE);
-        */
     } // end enviarHacienda
     
     public JTable getTable(){

@@ -538,7 +538,8 @@ public class FacturaXML extends javax.swing.JFrame {
     // Este método genera los XMLs por rango de documentos
     private void generateByDocument() {
         // Validación de los campos
-        int facnume1, facnume2;
+        int facnume1;
+        int facnume2;
 
         try {
             if (this.txtFacnume1.getText().trim().isEmpty()) {
@@ -597,6 +598,10 @@ public class FacturaXML extends javax.swing.JFrame {
                 envio = crearFacturaCompraXML(facnume);  // Julio 2019
             } // end if-else
 
+            // Si ocurrió un error no se debe realizar el resto del proceso
+            if (envio == -1) {
+                continue;
+            }
             // Refresco y guardo la estructura de directorios por si alguien los ha cambiado.
             DIR = new DirectoryStructure();
 
@@ -616,7 +621,7 @@ public class FacturaXML extends javax.swing.JFrame {
 
         } // end for
 
-        if (mode == INTERACTIVE) {
+        if (mode == INTERACTIVE && count > 0) {
             JOptionPane.showMessageDialog(null,
                     "Se generaron " + count + " documentos XML.",
                     "Error",
