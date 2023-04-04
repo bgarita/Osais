@@ -636,7 +636,7 @@ public class ImpresionFactura extends java.awt.Dialog {
                 b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
             } // end try-catch
         } else {
-            documentos.add(Integer.parseInt(this.txtFacnume1.getText().trim()));
+            documentos.add(Integer.valueOf(this.txtFacnume1.getText().trim()));
         } // end if-else
 
         try {
@@ -949,9 +949,8 @@ public class ImpresionFactura extends java.awt.Dialog {
         // Proceso de impresión.
         Reportes rpt = new Reportes(this.conn);
         rpt.setExportToPDF(this.chkExportToPDF.isSelected());
-        rpt.imprimirFacNDNC(
-                Integer.parseInt(documento),    // Facnume
-                Integer.parseInt(facnd),        // Facnd
+        rpt.imprimirFacNDNC(Integer.valueOf(documento),    // Facnume
+Integer.valueOf(facnd),        // Facnd
                 this.radPOS.isSelected(),       // Indica si se usa el formato POS
                 facConIV,
                 radFormulario.isSelected());

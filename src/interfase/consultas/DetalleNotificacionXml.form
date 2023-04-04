@@ -70,7 +70,7 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="snMeses" min="-2" pref="48" max="-2" attributes="0"/>
+                      <Component id="spnMeses" min="-2" pref="48" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -99,7 +99,7 @@
                   <Component id="chkError" alignment="2" min="-2" max="-2" attributes="0"/>
                   <Component id="chkTodos" alignment="2" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel3" alignment="2" min="-2" max="-2" attributes="0"/>
-                  <Component id="snMeses" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="spnMeses" alignment="2" min="-2" max="-2" attributes="0"/>
                   <Component id="chkProcesando" alignment="2" min="-2" max="-2" attributes="0"/>
                   <Component id="chkDesconocido" alignment="2" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel4" alignment="2" min="-2" max="-2" attributes="0"/>
@@ -396,14 +396,14 @@
         <Property name="text" type="java.lang.String" value="Meses"/>
       </Properties>
     </Component>
-    <Component class="com.toedter.components.JSpinField" name="snMeses">
+    <Component class="com.toedter.components.JSpinField" name="spnMeses">
       <Properties>
         <Property name="toolTipText" type="java.lang.String" value="Meses hacia atr&#xe1;s"/>
         <Property name="minimum" type="int" value="1"/>
         <Property name="value" type="int" value="3"/>
       </Properties>
       <Events>
-        <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="snMesesPropertyChange"/>
+        <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="spnMesesPropertyChange"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lblTotalRegistros">
@@ -450,7 +450,6 @@
       </Properties>
       <Events>
         <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtDocumentoFocusGained"/>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtDocumentoActionPerformed"/>
         <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtDocumentoKeyPressed"/>
       </Events>
     </Component>

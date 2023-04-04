@@ -376,9 +376,8 @@ public class EnviarFactura extends javax.swing.JFrame {
             // Generar el PDF
             Reportes rpt = new Reportes(conn);
             rpt.setExportToPDF(true);
-            rpt.imprimirFacNDNC(
-                    Integer.parseInt(facnume),
-                    Integer.parseInt(facnd),
+            rpt.imprimirFacNDNC(Integer.valueOf(facnume),
+                    Integer.valueOf(facnd),
                     false, // Indica si se usa el formato POS
                     facConIV, // Factura con impuesto incluido
                     false);     // formulario
