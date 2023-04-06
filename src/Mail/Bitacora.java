@@ -92,15 +92,13 @@ public class Bitacora {
     }
 
     /**
-     * Guarda la información de los distintos eventos ocurridos en una bitácora
-     * de texto y también en una bitácora de base de datos. Si el parámetro
-     * nIdenvio es negativo solo se guardará en la bitácora de texto.
+     * Guarda la bitácora de envío de correos electrónicos.
      *
      * @author Bosco Garita Azofeifa
      * @param text String mensaje del evento
      * @param nIdenvio int número de envío
      */
-    public void writeToLog(String text, int nIdenvio) {
+    public void logMail(String text, int nIdenvio) {
         // Si existe error no continúo
         if (!this.error_message.isEmpty()) {
             return;
@@ -117,45 +115,12 @@ public class Bitacora {
             log.write(contentInBytes);
             log.flush();
             log.close();
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             Logger.getLogger(Bitacora.class.getName()).log(Level.SEVERE, null, ex);
             this.error_message = ex.getMessage();
         } // end try-catch
 
-        // Si el tipo de envío es -1 es porque se trata de un envío que no
-        // logró guardarse en la tabla de control de envíos y por lo tanto
-        // este código no debe ejecutarse.
-        if (nIdenvio < 0) {
-            return;
-        } // end if
-        /*
-        String sqlSent;
-        PreparedStatement ps;
-        // No se usa control transaccional porque no es necesario
-        sqlSent = 
-                "INSERT INTO [scBitacoraEnvio] " +
-                "           ([nIdenvio]   " +
-                "           ,[cBitacora]) " +
-                "     VALUES(?, ?) ";
-        try {
-            Connection conn = Ingreso.conexion.getConnection();
-            ps = conn.prepareStatement(sqlSent);
-            ps.setInt(1, nIdenvio);
-            ps.setString(2, text);
-            CMD.update(ps);
-            ps.close();
-            conn.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(Bitacora.class.getName()).log(Level.SEVERE, null, ex);
-            this.error_message += " " + ex.getMessage() + "La bitácora de base de datos no se pudo actualizar.";
-            
-            // Guardo los errores en bitácora externa y no detengo la ejecusión.
-            this.writeToLog(this.error_message, nIdenvio);
-            this.error_message = "";
-        } // end try-catch
-         */
-
-    } // end writeToLog
+    } // end logMail
 
     /**
      * Guarda la información de los distintos eventos ocurridos en una bitácora
@@ -163,8 +128,9 @@ public class Bitacora {
      *
      * @author Bosco Garita Azofeifa
      * @param text String mensaje del evento
+     * @param logLevel int Bitacora constants (INFO, WARN, ERROR)
      */
-    public void writeToLog(String text) {
+    public void writeToLog(String text, int logLevel) {
         // Si existe error no continúo
         if (!this.error_message.isEmpty()) {
             System.err.println("No se puede escribir en disco: " + this.error_message);
@@ -172,7 +138,7 @@ public class Bitacora {
         } // end if
 
         String nivel;
-        switch (this.logLevel) {
+        switch (logLevel) {
             case Bitacora.INFO: {
                 nivel = "INFO";
                 break;
@@ -190,8 +156,8 @@ public class Bitacora {
                 break;
         } // end switch
 
-        Date d = new Date();
-        text = "[" + d + "][" + nivel + "]" + "[Usuario: " + Menu.USUARIO + "][" + text + "]\n";
+        Date date = new Date();
+        text = "[" + date + "][" + nivel + "]" + "[Usuario: " + Menu.USUARIO + "][" + text + "]\n";
         FileOutputStream log;
         byte[] contentInBytes;
         contentInBytes = text.getBytes();
@@ -205,7 +171,7 @@ public class Bitacora {
             Logger.getLogger(Bitacora.class.getName()).log(Level.SEVERE, null, ex);
             this.error_message = ex.getMessage();
         } // end try-catch
-    } // end writeToLog
+    } // end logMail
 
     /**
      * Carga todo el texto contenido en el archivo Log.txt

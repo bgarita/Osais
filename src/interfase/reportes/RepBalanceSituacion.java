@@ -279,7 +279,7 @@ public class RepBalanceSituacion extends JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(RepBalanceSituacion.class.getName()).log(Level.SEVERE, null, ex);
             // No es necesario darle tratamiento al error.
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
         dispose();
     }//GEN-LAST:event_btnCerrarActionPerformed
@@ -368,7 +368,7 @@ public class RepBalanceSituacion extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
         
@@ -488,7 +488,7 @@ public class RepBalanceSituacion extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
         
@@ -531,7 +531,7 @@ public class RepBalanceSituacion extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
             
     }//GEN-LAST:event_btnImprimirActionPerformed
@@ -656,7 +656,7 @@ public class RepBalanceSituacion extends JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             correcto = false;
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         
         return correcto;

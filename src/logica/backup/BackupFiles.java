@@ -73,7 +73,7 @@ public class BackupFiles extends Thread {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             progress.setVisible(false);
             progress.dispose();
             return;

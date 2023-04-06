@@ -343,7 +343,7 @@ public class Vendedores extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
 }//GEN-LAST:event_cmdPrimeroActionPerformed
 
@@ -364,7 +364,7 @@ public class Vendedores extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
 }//GEN-LAST:event_cmdAnteriorActionPerformed
 
@@ -385,7 +385,7 @@ public class Vendedores extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
 }//GEN-LAST:event_cmdSiguienteActionPerformed
 
@@ -407,7 +407,7 @@ public class Vendedores extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
 }//GEN-LAST:event_cmdUltimoActionPerformed
 
@@ -444,7 +444,7 @@ public class Vendedores extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
         
         if (sqlResult > 0){
@@ -560,7 +560,7 @@ public class Vendedores extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
 
         if (sqlResult <= 0){
@@ -579,7 +579,7 @@ public class Vendedores extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
 
@@ -614,7 +614,7 @@ public class Vendedores extends JFrame {
                      ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     } // end refrescartxtVend
 
@@ -642,7 +642,7 @@ public class Vendedores extends JFrame {
                      ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
         return existe;
     } // end consultarRegistro

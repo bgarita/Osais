@@ -148,7 +148,7 @@ public class CoAplicaMov extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
         
@@ -166,7 +166,7 @@ public class CoAplicaMov extends javax.swing.JFrame {
                     ex.getMessage(), 
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         
         if (huboError){
@@ -181,7 +181,7 @@ public class CoAplicaMov extends javax.swing.JFrame {
                         "El sistema se cerrará para proteger su integridad.", 
                         "Error", 
                         JOptionPane.ERROR_MESSAGE);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 System.exit(1);
             } // end try-catch
             return;
@@ -206,7 +206,7 @@ public class CoAplicaMov extends javax.swing.JFrame {
                         "El sistema se cerrará para proteger su integridad.", 
                         "Error", 
                         JOptionPane.ERROR_MESSAGE);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 System.exit(1);
             } // end try-catch
         } // end if

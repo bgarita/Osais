@@ -63,7 +63,7 @@ public class MinimoAutomatico extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     }
 
@@ -265,7 +265,7 @@ public class MinimoAutomatico extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         
     }//GEN-LAST:event_btnProcesarActionPerformed
@@ -275,7 +275,7 @@ public class MinimoAutomatico extends javax.swing.JFrame {
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(MinimoAutomatico.class.getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed

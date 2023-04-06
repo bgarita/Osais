@@ -216,7 +216,7 @@ public class DocumentoElectronico {
             }
         } catch (SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             error = true;
             error_msg = this.getClass().getName() + "--> " + ex.getMessage();
         } // end try-catch
@@ -254,7 +254,7 @@ public class DocumentoElectronico {
             } // end if
         } catch (SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
         return tipoDoc;
     } // end getTipo
@@ -351,7 +351,7 @@ public class DocumentoElectronico {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.error_msg = ex.getMessage();
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     } // end enviarXML
 
@@ -667,7 +667,7 @@ public class DocumentoElectronico {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.error_msg = ex.getMessage();
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     } // end enviarXML
 } // end Class

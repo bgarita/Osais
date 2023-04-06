@@ -126,7 +126,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         this.cboBanco.setVisible(false);
@@ -986,7 +986,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // try-catch
 
@@ -1210,7 +1210,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             try {
                 if (hayTransaccion) {
                     CMD.transaction(conn, CMD.ROLLBACK);
@@ -1220,7 +1220,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                         ex1.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             } // end catch
 
             return;
@@ -1296,7 +1296,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
 }//GEN-LAST:event_datFecha_facPropertyChange
 
@@ -1365,7 +1365,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
         txtMontoGravadoFocusLost(null);
@@ -1513,7 +1513,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     }//GEN-LAST:event_txtCodigoTarifaFocusLost
 
@@ -1563,7 +1563,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -1590,7 +1590,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     }//GEN-LAST:event_btnDeleteActionPerformed
 
@@ -1667,7 +1667,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                             ex.getMessage(),
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
-                    new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    new Bitacora().writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 } // end try-catch
             } // end run
         });
@@ -1751,7 +1751,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     } // end ubicarCodigo
 
@@ -1772,7 +1772,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     } // end cargarComboMonedas
 
@@ -1795,7 +1795,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
     } // end redondear
@@ -1835,7 +1835,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         return existe;
@@ -1873,7 +1873,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
 
         return existe;
@@ -1921,7 +1921,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         return existe;
@@ -1980,7 +1980,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             todoCorrecto = false;
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         try {
@@ -2051,7 +2051,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             todoCorrecto = false;
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         // Verifico que cuando el prveedor es de contado que el medio de pago
@@ -2083,7 +2083,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             todoCorrecto = false;
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         // Validar la tarjeta
@@ -2099,7 +2099,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 todoCorrecto = false;
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             } // end try-catch
         } // end if
 
@@ -2193,7 +2193,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
             errorMsg = ex.getMessage();
             cajaN = -1;
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         // Crear el objeto caja con el número correspondiente al usuario
@@ -2258,7 +2258,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(RegistroFacturasC.class.getName()).log(Level.SEVERE, null, ex);
             errorMsg = ex.getMessage();
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         if (!errorMsg.isEmpty()) {
@@ -2356,7 +2356,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             errorMsg = ex.getMessage();
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         if (!errorMsg.isEmpty()) {
@@ -2374,7 +2374,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             errorMsg = ex.getMessage();
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         return errorMsg;

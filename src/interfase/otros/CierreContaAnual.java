@@ -48,7 +48,7 @@ public class CierreContaAnual extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     } // end constructor
 
@@ -190,7 +190,7 @@ public class CierreContaAnual extends javax.swing.JFrame {
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
@@ -295,7 +295,7 @@ public class CierreContaAnual extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
 
@@ -358,7 +358,7 @@ public class CierreContaAnual extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     }//GEN-LAST:event_btnGenerarAsientoActionPerformed
 
@@ -395,7 +395,7 @@ public class CierreContaAnual extends javax.swing.JFrame {
             } // end if
         } catch (Exception ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
 
@@ -529,7 +529,7 @@ public class CierreContaAnual extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             try {
                 CMD.transaction(conn, CMD.ROLLBACK);
             } catch (SQLException ex1) {

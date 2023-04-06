@@ -225,7 +225,7 @@ public class Permiso extends javax.swing.JDialog {
             c.close();
         } catch (Exception ex) {
             Logger.getLogger(Permiso.class.getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
         btnSalirActionPerformed(evt);
 }//GEN-LAST:event_btnAceptarActionPerformed

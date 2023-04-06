@@ -301,7 +301,7 @@ public class AnulacionRecibosCXP extends java.awt.Dialog {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         
     }//GEN-LAST:event_txtRecnumeFocusLost
@@ -396,7 +396,7 @@ public class AnulacionRecibosCXP extends java.awt.Dialog {
             lblProdesc.setText("");
             txtFecha.setText("");
             txtMonto.setText("0.00");
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
 
             if (hayTransaccion){
                 try{
@@ -406,7 +406,7 @@ public class AnulacionRecibosCXP extends java.awt.Dialog {
                             ex1.getMessage(),
                             "Error", 
                             JOptionPane.ERROR_MESSAGE);
-                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 } // end try-catch
             } // end if
         } // end try-catch

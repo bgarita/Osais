@@ -88,9 +88,12 @@ public class Menu extends javax.swing.JFrame {
      desde la 11 hasta la 17 y si aún así no recibe respuesta intentará nuevamente
      con las direcciones desde la 9 hasta la 3.
      Todo este proceso es transparente para el usuario.
+     En la versión 5.3r0 se incorpora toda la funcionalidad de contabilidad ya
+     probada y en producción. Además se cambia la forma de conectar con la base
+     de datos y se comprueba la compatibilidad con MariaDB 10x y 11
      */
-    public static final String VERSIONN = "5.1r3";
-    private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Ago 2022";
+    public static final String VERSIONN = "5.3r0";
+    private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Abr 2023";
     public static String USUARIO;
     public static String PASS;
     private static String SERVIDOR;
@@ -131,7 +134,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         // Fin Bosco agregado 19/07/2019
 
@@ -147,12 +150,13 @@ public class Menu extends javax.swing.JFrame {
 
         this.setExtendedState(Frame.MAXIMIZED_BOTH);
 
-        // Bosco agregado 07/05/2011
+        // Deshabilitar algunas opciones del menú para luego condicionarlas
         this.chkMenuSistemaDisp.setVisible(false);
         this.chkMenuSistemaDisp.setSelected(disponible);
         this.mnuDesconectarUsers.setVisible(false);
         this.mnuImportarInvw.setVisible(false);
         this.mnuModulos.setVisible(false);
+        this.mnuConsultaXML.setVisible(false); // Se deshabilita permamentemente para luego evaluar si la borro totalmente 05/04/2023
 
         // Estas opciones solamente las pueden ver estos usuarios
         if (c.getUserID().equalsIgnoreCase("OWNER")
@@ -267,7 +271,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         // Bosco agregado 27/07/2013
@@ -534,7 +538,7 @@ public class Menu extends javax.swing.JFrame {
         mnuCatalogos.setMnemonic('M');
         mnuCatalogos.setText("Catálogos");
 
-        mnuProductos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
+        mnuProductos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuProductos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/database_lightning.png"))); // NOI18N
         mnuProductos.setText("Productos");
         mnuProductos.addActionListener(new java.awt.event.ActionListener() {
@@ -544,7 +548,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuCatalogos.add(mnuProductos);
 
-        mnuIVA.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
+        mnuIVA.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuIVA.setText("Impuestos");
         mnuIVA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -553,7 +557,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuCatalogos.add(mnuIVA);
 
-        mnuBarcode.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_MASK));
+        mnuBarcode.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_DOWN_MASK));
         mnuBarcode.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/application-text.png"))); // NOI18N
         mnuBarcode.setText("Códigos de barra");
         mnuBarcode.addActionListener(new java.awt.event.ActionListener() {
@@ -563,7 +567,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuCatalogos.add(mnuBarcode);
 
-        mnuInfamily.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
+        mnuInfamily.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuInfamily.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Familias3.jpg"))); // NOI18N
         mnuInfamily.setText("Familias");
         mnuInfamily.addActionListener(new java.awt.event.ActionListener() {
@@ -573,7 +577,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuCatalogos.add(mnuInfamily);
 
-        mnuBodegas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
+        mnuBodegas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuBodegas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/database.png"))); // NOI18N
         mnuBodegas.setText("Bodegas");
         mnuBodegas.addActionListener(new java.awt.event.ActionListener() {
@@ -583,7 +587,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuCatalogos.add(mnuBodegas);
 
-        mnuMinAut.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.ALT_MASK));
+        mnuMinAut.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.ALT_DOWN_MASK));
         mnuMinAut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/book--pencil.png"))); // NOI18N
         mnuMinAut.setText("Mínimos automáticos");
         mnuMinAut.addActionListener(new java.awt.event.ActionListener() {
@@ -594,7 +598,7 @@ public class Menu extends javax.swing.JFrame {
         mnuCatalogos.add(mnuMinAut);
         mnuCatalogos.add(jSeparator2);
 
-        mnuInproved.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        mnuInproved.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuInproved.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/shopcartapply_16x16.png"))); // NOI18N
         mnuInproved.setText("Proveedores");
         mnuInproved.addActionListener(new java.awt.event.ActionListener() {
@@ -604,7 +608,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuCatalogos.add(mnuInproved);
 
-        mnuClientes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        mnuClientes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuClientes.setText("Clientes");
         mnuClientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -613,7 +617,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuCatalogos.add(mnuClientes);
 
-        mnuVendedores.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        mnuVendedores.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuVendedores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Vendedor.jpg"))); // NOI18N
         mnuVendedores.setText("Vendedores");
         mnuVendedores.addActionListener(new java.awt.event.ActionListener() {
@@ -623,7 +627,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuCatalogos.add(mnuVendedores);
 
-        mnuTerritorios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        mnuTerritorios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuTerritorios.setText("Zonas");
         mnuTerritorios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -633,7 +637,7 @@ public class Menu extends javax.swing.JFrame {
         mnuCatalogos.add(mnuTerritorios);
         mnuCatalogos.add(jSeparator3);
 
-        mnuTariasExpress.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_MASK));
+        mnuTariasExpress.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuTariasExpress.setText("Tarifas Express");
         mnuTariasExpress.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -642,7 +646,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuCatalogos.add(mnuTariasExpress);
 
-        mnuMonedas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_MASK));
+        mnuMonedas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuMonedas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/currency.png"))); // NOI18N
         mnuMonedas.setText("Monedas");
         mnuMonedas.addActionListener(new java.awt.event.ActionListener() {
@@ -652,7 +656,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuCatalogos.add(mnuMonedas);
 
-        mnuCentroCosto.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
+        mnuCentroCosto.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.SHIFT_DOWN_MASK));
         mnuCentroCosto.setText("Centros de costo");
         mnuCentroCosto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -664,7 +668,7 @@ public class Menu extends javax.swing.JFrame {
 
         mnuCatalosConta.setText("Contabilidad");
 
-        mnuPeriodos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
+        mnuPeriodos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.SHIFT_DOWN_MASK));
         mnuPeriodos.setText("Períodos contables");
         mnuPeriodos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -673,7 +677,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuCatalosConta.add(mnuPeriodos);
 
-        mnuCatalogoC.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
+        mnuCatalogoC.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.SHIFT_DOWN_MASK));
         mnuCatalogoC.setText("Tipos de asiento");
         mnuCatalogoC.setToolTipText("");
         mnuCatalogoC.addActionListener(new java.awt.event.ActionListener() {
@@ -683,7 +687,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuCatalosConta.add(mnuCatalogoC);
 
-        mnuCatalogoCont.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
+        mnuCatalogoCont.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.SHIFT_DOWN_MASK));
         mnuCatalogoCont.setText("Cuentas");
         mnuCatalogoCont.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -734,7 +738,7 @@ public class Menu extends javax.swing.JFrame {
         mnuRegistro.setMnemonic('R');
         mnuRegistro.setText("Registro");
 
-        mnuTipocambio.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, java.awt.event.InputEvent.CTRL_MASK));
+        mnuTipocambio.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuTipocambio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/money_dollar.png"))); // NOI18N
         mnuTipocambio.setText("Tipo de cambio");
         mnuTipocambio.addActionListener(new java.awt.event.ActionListener() {
@@ -781,7 +785,7 @@ public class Menu extends javax.swing.JFrame {
 
         mnuRegistro.add(mnuMovimientos);
 
-        mnuPedidosV.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, java.awt.event.InputEvent.CTRL_MASK));
+        mnuPedidosV.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuPedidosV.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/application_edit.png"))); // NOI18N
         mnuPedidosV.setText("Pedidos (Venta)");
         mnuPedidosV.addActionListener(new java.awt.event.ActionListener() {
@@ -791,7 +795,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuRegistro.add(mnuPedidosV);
 
-        mnuFacturacion.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, java.awt.event.InputEvent.CTRL_MASK));
+        mnuFacturacion.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuFacturacion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/blogs--plus.png"))); // NOI18N
         mnuFacturacion.setText("Facturación venta");
         mnuFacturacion.addActionListener(new java.awt.event.ActionListener() {
@@ -849,7 +853,7 @@ public class Menu extends javax.swing.JFrame {
         mnuPagos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/money.png"))); // NOI18N
         mnuPagos.setText("Pagos");
 
-        mnuPagosCXC.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, java.awt.event.InputEvent.CTRL_MASK));
+        mnuPagosCXC.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuPagosCXC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/money.png"))); // NOI18N
         mnuPagosCXC.setText("Pagos de clientes");
         mnuPagosCXC.addActionListener(new java.awt.event.ActionListener() {
@@ -1098,7 +1102,7 @@ public class Menu extends javax.swing.JFrame {
         mnuRepInv.add(mnuArtMenosV);
         mnuRepInv.add(jSeparator20);
 
-        mnuConsultarMov.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F7, java.awt.event.InputEvent.ALT_MASK));
+        mnuConsultarMov.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F7, java.awt.event.InputEvent.ALT_DOWN_MASK));
         mnuConsultarMov.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Properties24.png"))); // NOI18N
         mnuConsultarMov.setText("Consultar Mov. Inventario");
         mnuConsultarMov.addActionListener(new java.awt.event.ActionListener() {
@@ -1146,7 +1150,7 @@ public class Menu extends javax.swing.JFrame {
         mnuRepFact.add(mnuFactExpress);
         mnuRepFact.add(jSeparator19);
 
-        mnuConsultarFactNDNC.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, java.awt.event.InputEvent.ALT_MASK));
+        mnuConsultarFactNDNC.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, java.awt.event.InputEvent.ALT_DOWN_MASK));
         mnuConsultarFactNDNC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/database_lightning.png"))); // NOI18N
         mnuConsultarFactNDNC.setText("Consultar Facturas, ND y NC (CXC)");
         mnuConsultarFactNDNC.addActionListener(new java.awt.event.ActionListener() {
@@ -1165,7 +1169,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuRepFact.add(mnuConsultaSumarizada);
 
-        mnuConsultarPrecios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, java.awt.event.InputEvent.ALT_MASK));
+        mnuConsultarPrecios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, java.awt.event.InputEvent.ALT_DOWN_MASK));
         mnuConsultarPrecios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Dollar.jpg"))); // NOI18N
         mnuConsultarPrecios.setText("Precios, existencias y localizaciones");
         mnuConsultarPrecios.addActionListener(new java.awt.event.ActionListener() {
@@ -1175,7 +1179,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuRepFact.add(mnuConsultarPrecios);
 
-        mnuImprimirFactura.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F11, java.awt.event.InputEvent.ALT_MASK));
+        mnuImprimirFactura.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F11, java.awt.event.InputEvent.ALT_DOWN_MASK));
         mnuImprimirFactura.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Print24.png"))); // NOI18N
         mnuImprimirFactura.setText("Imprimir Fact, ND y NC");
         mnuImprimirFactura.addActionListener(new java.awt.event.ActionListener() {
@@ -1272,7 +1276,7 @@ public class Menu extends javax.swing.JFrame {
         mnuCXC.add(mnuEstadodelasCXC);
         mnuCXC.add(jSeparator17);
 
-        mnuConsultarClientes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F8, java.awt.event.InputEvent.ALT_MASK));
+        mnuConsultarClientes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F8, java.awt.event.InputEvent.ALT_DOWN_MASK));
         mnuConsultarClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/user_suit.png"))); // NOI18N
         mnuConsultarClientes.setText("Consultar clientes");
         mnuConsultarClientes.addActionListener(new java.awt.event.ActionListener() {
@@ -1282,7 +1286,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuCXC.add(mnuConsultarClientes);
 
-        mnuConsultarRegCXC.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, java.awt.event.InputEvent.ALT_MASK));
+        mnuConsultarRegCXC.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, java.awt.event.InputEvent.ALT_DOWN_MASK));
         mnuConsultarRegCXC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Find24.png"))); // NOI18N
         mnuConsultarRegCXC.setText("Consultar registros de CXC");
         mnuConsultarRegCXC.addActionListener(new java.awt.event.ActionListener() {
@@ -1292,7 +1296,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuCXC.add(mnuConsultarRegCXC);
 
-        mnuImprimirRecibosCXC.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F12, java.awt.event.InputEvent.ALT_MASK));
+        mnuImprimirRecibosCXC.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F12, java.awt.event.InputEvent.ALT_DOWN_MASK));
         mnuImprimirRecibosCXC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/printer.png"))); // NOI18N
         mnuImprimirRecibosCXC.setText("Imprimir recibos");
         mnuImprimirRecibosCXC.addActionListener(new java.awt.event.ActionListener() {
@@ -1426,7 +1430,7 @@ public class Menu extends javax.swing.JFrame {
         mnuPedidos.add(mnuPedidosxfamilia);
         mnuPedidos.add(jSeparator11);
 
-        mnuFacTransito.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F9, java.awt.event.InputEvent.ALT_MASK));
+        mnuFacTransito.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F9, java.awt.event.InputEvent.ALT_DOWN_MASK));
         mnuFacTransito.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Search24.png"))); // NOI18N
         mnuFacTransito.setText("Consultar facturación en tránsito");
         mnuFacTransito.addActionListener(new java.awt.event.ActionListener() {
@@ -1516,7 +1520,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuCXP.add(mnuRecibosCXP0);
 
-        mnuVisitaProveedores.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F11, java.awt.event.InputEvent.ALT_MASK));
+        mnuVisitaProveedores.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F11, java.awt.event.InputEvent.ALT_DOWN_MASK));
         mnuVisitaProveedores.setText("Consultar proveedores que nos visitan hoy");
         mnuVisitaProveedores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1525,7 +1529,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuCXP.add(mnuVisitaProveedores);
 
-        mnuConsultarFactNDNC1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F10, java.awt.event.InputEvent.ALT_MASK));
+        mnuConsultarFactNDNC1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F10, java.awt.event.InputEvent.ALT_DOWN_MASK));
         mnuConsultarFactNDNC1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/database_lightning.png"))); // NOI18N
         mnuConsultarFactNDNC1.setText("Consultar Facturas, ND y NC (CXP)");
         mnuConsultarFactNDNC1.addActionListener(new java.awt.event.ActionListener() {
@@ -1548,7 +1552,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuConsCajas.add(mnuConsCierreCaja);
 
-        mnuImprimirRecibosCaja.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
+        mnuImprimirRecibosCaja.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuImprimirRecibosCaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/printer.png"))); // NOI18N
         mnuImprimirRecibosCaja.setText("Imprimir recibos");
         mnuImprimirRecibosCaja.addActionListener(new java.awt.event.ActionListener() {
@@ -1973,7 +1977,7 @@ public class Menu extends javax.swing.JFrame {
 
         mnuAdmin.setText("Admin");
 
-        chkMenuSistemaDisp.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        chkMenuSistemaDisp.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
         chkMenuSistemaDisp.setSelected(true);
         chkMenuSistemaDisp.setText("Sistema disponible");
         chkMenuSistemaDisp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/marker.png"))); // NOI18N
@@ -1984,7 +1988,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuAdmin.add(chkMenuSistemaDisp);
 
-        mnuUsuarios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        mnuUsuarios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/user.png"))); // NOI18N
         mnuUsuarios.setText("Usuarios");
         mnuUsuarios.addActionListener(new java.awt.event.ActionListener() {
@@ -1994,7 +1998,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuAdmin.add(mnuUsuarios);
 
-        mnuPermisos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        mnuPermisos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuPermisos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/lock.png"))); // NOI18N
         mnuPermisos.setText("Permisos de usuario");
         mnuPermisos.addActionListener(new java.awt.event.ActionListener() {
@@ -2004,7 +2008,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuAdmin.add(mnuPermisos);
 
-        mnuDesconectarUsers.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        mnuDesconectarUsers.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuDesconectarUsers.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/disconnect.png"))); // NOI18N
         mnuDesconectarUsers.setText("Desconectar usuarios");
         mnuDesconectarUsers.addActionListener(new java.awt.event.ActionListener() {
@@ -2014,7 +2018,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuAdmin.add(mnuDesconectarUsers);
 
-        mnuClave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        mnuClave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuClave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/color.png"))); // NOI18N
         mnuClave.setText("Cambiar contraseña");
         mnuClave.addActionListener(new java.awt.event.ActionListener() {
@@ -2024,7 +2028,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuAdmin.add(mnuClave);
 
-        mnuSeguridad.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        mnuSeguridad.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuSeguridad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Seguridad.jpg"))); // NOI18N
         mnuSeguridad.setText("Seguridad");
         mnuSeguridad.addActionListener(new java.awt.event.ActionListener() {
@@ -2034,7 +2038,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuAdmin.add(mnuSeguridad);
 
-        mnuBackup.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F7, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        mnuBackup.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F7, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuBackup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/databases.png"))); // NOI18N
         mnuBackup.setText("Respaldar base de datos");
         mnuBackup.addActionListener(new java.awt.event.ActionListener() {
@@ -2044,7 +2048,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuAdmin.add(mnuBackup);
 
-        mnuRespArchivos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F8, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        mnuRespArchivos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F8, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuRespArchivos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/disc-blue.png"))); // NOI18N
         mnuRespArchivos.setText("Respaldar archivos del sistema");
         mnuRespArchivos.addActionListener(new java.awt.event.ActionListener() {
@@ -2054,7 +2058,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuAdmin.add(mnuRespArchivos);
 
-        mnuCompanies.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F9, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        mnuCompanies.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F9, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuCompanies.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/copybook.png"))); // NOI18N
         mnuCompanies.setText("Crear compañías");
         mnuCompanies.addActionListener(new java.awt.event.ActionListener() {
@@ -2076,7 +2080,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuHacienda.add(mnuXml);
 
-        mnuConsXML.setText("Consultar documentos XML enviados V2");
+        mnuConsXML.setText("Consultar documentos XML enviados");
         mnuConsXML.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuConsXMLActionPerformed(evt);
@@ -2114,7 +2118,7 @@ public class Menu extends javax.swing.JFrame {
         mnuSalir.setMnemonic('S');
         mnuSalir.setText("Salir");
 
-        mnuCerrarSesion.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.CTRL_MASK));
+        mnuCerrarSesion.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuCerrarSesion.setText("Cerrar sesión");
         mnuCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2123,7 +2127,7 @@ public class Menu extends javax.swing.JFrame {
         });
         mnuSalir.add(mnuCerrarSesion);
 
-        mnuCerrarSistema.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
+        mnuCerrarSistema.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuCerrarSistema.setText("Salir del sistema");
         mnuCerrarSistema.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2188,7 +2192,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
         RegistroEntradas.main(CONEXION.getConnection(), driver);
@@ -2270,7 +2274,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
         // Fin Bosco agregado 23/07/2011
@@ -2315,7 +2319,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
         // Fin Bosco agregado 23/07/2011
@@ -2352,7 +2356,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
 
@@ -2387,7 +2391,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
 
@@ -2422,7 +2426,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
 
@@ -2487,7 +2491,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
 
@@ -2520,7 +2524,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     }//GEN-LAST:event_mnuInteresMActionPerformed
 
@@ -2573,7 +2577,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
 
@@ -2671,7 +2675,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
 
@@ -2718,7 +2722,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
 
@@ -2766,7 +2770,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
 
@@ -2878,7 +2882,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Mensaje",
                     JOptionPane.INFORMATION_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     }//GEN-LAST:event_chkMenuSistemaDispActionPerformed
 
@@ -2950,7 +2954,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     }//GEN-LAST:event_mnuImportarInvwActionPerformed
 
@@ -2995,7 +2999,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
 
@@ -3066,7 +3070,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
 
@@ -3101,7 +3105,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
 
@@ -3156,7 +3160,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
 
@@ -3258,7 +3262,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     }//GEN-LAST:event_mnuImportCatalogoActionPerformed
 
@@ -3318,7 +3322,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     }//GEN-LAST:event_mnuExportarAsientosActionPerformed
 
@@ -3432,7 +3436,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
 
@@ -3466,7 +3470,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
         // Fin Bosco agregado 23/07/2011
@@ -3499,7 +3503,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
 
@@ -3774,7 +3778,7 @@ public class Menu extends javax.swing.JFrame {
                     "No hay datos para este reporte.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
 
@@ -3792,7 +3796,7 @@ public class Menu extends javax.swing.JFrame {
                     + "Debe comunicarse con su administrador de base de datos.",
                     "Advertencia",
                     JOptionPane.WARNING_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     }//GEN-LAST:event_mnuGenArchSincActionPerformed
 
@@ -3900,7 +3904,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             continuar = false;
         } // end try-catch
 
@@ -3958,7 +3962,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     }//GEN-LAST:event_mnuImpAsientosActionPerformed
 
@@ -4003,7 +4007,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
 
@@ -4025,7 +4029,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(), "Error",
                     JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
 
@@ -4049,11 +4053,14 @@ public class Menu extends javax.swing.JFrame {
         } catch (Exception ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     }//GEN-LAST:event_mnuXmlActionPerformed
 
     private void mnuConsultaXMLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsultaXMLActionPerformed
+        // Esta opción queda deshabilitada (invisible) por un tiempo ya que
+        // el sistema basado en archivos ya no se usa.
+        // Luego habrá que eliminar el código totalmente.
         try {
             if (!UtilBD.tienePermiso(CONEXION.getConnection(), "ConsultaFacturasXML")) {
                 JOptionPane.showMessageDialog(null,
@@ -4064,7 +4071,7 @@ public class Menu extends javax.swing.JFrame {
             } // end if
         } catch (Exception ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
         ConsultaFacturasXML.main(CONEXION.getConnection());
@@ -4081,7 +4088,7 @@ public class Menu extends javax.swing.JFrame {
             } // end if
         } catch (Exception ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
 
@@ -4132,7 +4139,7 @@ public class Menu extends javax.swing.JFrame {
             } // end if
         } catch (Exception ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
 
@@ -4410,7 +4417,7 @@ public class Menu extends javax.swing.JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Módulos",
@@ -4464,7 +4471,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     }//GEN-LAST:event_mnuImportaCatCerradoActionPerformed
 
@@ -4870,7 +4877,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         // Bosco agregado 07/08/2013
@@ -4886,7 +4893,7 @@ public class Menu extends javax.swing.JFrame {
             } // end if
 
         } catch (Exception e) {
-            b.writeToLog(this.getClass().getName() + "--> " + e.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + e.getMessage(), Bitacora.ERROR);
         } // end try-catch
     } // end close
 

@@ -206,7 +206,7 @@ public class CalculoCantidad extends java.awt.Dialog {
             this.txtCantidad.setText(cantidad + "");
         } catch (Exception ex) {
             Logger.getLogger(CalculoCantidad.class.getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
         
     }//GEN-LAST:event_txtVentaFocusLost

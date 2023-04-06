@@ -289,7 +289,7 @@ public class Ingreso extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
         
@@ -354,7 +354,7 @@ public class Ingreso extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             continuar = false;
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         
         // Si la variable continuar es false es porque no se ha asignado el
@@ -392,7 +392,7 @@ public class Ingreso extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             continuar = false;
             dispose();
             System.exit(0);
@@ -434,7 +434,7 @@ public class Ingreso extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 continuar = false;
             }
             
@@ -471,7 +471,7 @@ public class Ingreso extends javax.swing.JFrame {
                     ex.getMessage(), 
                     tituloM, 
                     tipoM);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         
         try {
@@ -486,7 +486,7 @@ public class Ingreso extends javax.swing.JFrame {
                             "Error", 
                             JOptionPane.ERROR_MESSAGE);
                     continuar = false;
-                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 } // end try-catch
             } // end if
             // Fin Bosco agregado 23/02/2013
@@ -497,7 +497,7 @@ public class Ingreso extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             continuar = false;
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
         
         if (!continuar){

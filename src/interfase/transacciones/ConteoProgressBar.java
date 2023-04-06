@@ -124,7 +124,7 @@ public class ConteoProgressBar extends Thread {
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 // Si se produjo un error paso al siguiente registro.
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 continue;
             } // end try-catch
             
@@ -163,7 +163,7 @@ public class ConteoProgressBar extends Thread {
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 break;
             } // catch
         } // end for
@@ -207,7 +207,7 @@ public class ConteoProgressBar extends Thread {
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 huboError = true;
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             } // end catch
             finally{
                 if (!guardado){
@@ -249,7 +249,7 @@ public class ConteoProgressBar extends Thread {
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             } // end try-catch
             dc.dispose();
         } // end if

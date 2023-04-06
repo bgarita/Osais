@@ -920,7 +920,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
@@ -1091,7 +1091,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
     }//GEN-LAST:event_btnBuscarAsActionPerformed
@@ -1183,7 +1183,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
 
@@ -1307,7 +1307,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
 
@@ -1332,7 +1332,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
                         + "El sistema se cerrará para proteger la integridad de los datos.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 System.exit(0);
             } // end try-catch
             return;
@@ -1359,7 +1359,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 try {
                     CMD.transaction(conn, CMD.ROLLBACK);
                 } catch (SQLException ex1) {
@@ -1369,7 +1369,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
                             + "El sistema se cerrará para proteger la integridad de los datos.",
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
-                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                     System.exit(0);
                     return;
                 } // end try-catch interno
@@ -1407,7 +1407,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
                             + "El sistema se cerrará para proteger la integridad de los datos.",
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
-                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                     System.exit(0);
                 } // end try-catch
                 return;
@@ -1436,7 +1436,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
                         + "El sistema se cerrará para proteger la integridad de los datos.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 System.exit(0);
             } // end try-catch
             return;
@@ -1459,7 +1459,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
                     + "El sistema se cerrará para proteger la integridad de los datos.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             System.exit(0);
             return;
         } // end try-catch
@@ -1511,7 +1511,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
 
@@ -1720,7 +1720,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
         // Fin validaciones
@@ -1794,7 +1794,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
 
@@ -1900,7 +1900,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 return;
             } // end try-catch
 
@@ -1971,7 +1971,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             try {
                 CMD.transaction(conn, CMD.ROLLBACK);
             } catch (SQLException ex1) {
@@ -1985,7 +1985,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
                         + "El sistema se cerrará para proteger la integridad.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 System.exit(2);
                 return;
             } // end try-catch
@@ -2123,7 +2123,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
     } // end cargarTipos

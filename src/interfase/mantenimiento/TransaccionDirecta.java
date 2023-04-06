@@ -229,7 +229,7 @@ public class TransaccionDirecta extends javax.swing.JFrame {
                 ex.getMessage(),
                 "Error",
                 JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch 
 
@@ -317,7 +317,7 @@ public class TransaccionDirecta extends javax.swing.JFrame {
                 ex.getMessage(),
                 "Error",
                 JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             if (transac){
                 try {
                     CMD.transaction(conn, CMD.ROLLBACK);
@@ -328,7 +328,7 @@ public class TransaccionDirecta extends javax.swing.JFrame {
                         "El sistema se cerrará para proteger la integridad.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                     System.exit(1);
                 } // end try-catch interno // end try-catch interno
             } // end if

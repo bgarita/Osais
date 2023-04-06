@@ -724,7 +724,7 @@ public class AplicacionNotaCXP extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
 
@@ -950,7 +950,7 @@ public class AplicacionNotaCXP extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             if (this.hayTransaccion){
                this.hayTransaccion = false;
                //UtilBD.SQLTransaction(conn, UtilBD.ROLLBACK);
@@ -961,7 +961,7 @@ public class AplicacionNotaCXP extends javax.swing.JFrame {
                             ex1.getMessage(),
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
-                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 }
             } // end if
             return;
@@ -1040,7 +1040,7 @@ public class AplicacionNotaCXP extends javax.swing.JFrame {
                     ex.getMessage(), 
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
 
@@ -1125,7 +1125,7 @@ public class AplicacionNotaCXP extends javax.swing.JFrame {
                         ex.getMessage(),
                         "Mensaje", 
                         JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     }//GEN-LAST:event_txtMontoFocusLost
 
@@ -1171,7 +1171,7 @@ public class AplicacionNotaCXP extends javax.swing.JFrame {
                     "Debe digitar un número válido " + ex.getMessage(),
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
         
@@ -1375,7 +1375,7 @@ public class AplicacionNotaCXP extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
 
     } // end datosdelProveedor
@@ -1393,7 +1393,7 @@ public class AplicacionNotaCXP extends javax.swing.JFrame {
                     ex.getMessage(), 
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     } // end cargarMonedas
 
@@ -1455,7 +1455,7 @@ public class AplicacionNotaCXP extends javax.swing.JFrame {
                     ex.getMessage(), 
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     } // end distribuir
 
@@ -1480,7 +1480,7 @@ public class AplicacionNotaCXP extends javax.swing.JFrame {
                 montoAp   = Double.parseDouble(
                         tblDetalle.getValueAt(row, 4).toString());
             } catch (NumberFormatException ex){
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 row++;
                 continue;
             }
@@ -1505,7 +1505,7 @@ public class AplicacionNotaCXP extends javax.swing.JFrame {
                     ex.getMessage(), 
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return guardar;
         } // end try-catch
 
@@ -1565,7 +1565,7 @@ public class AplicacionNotaCXP extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     } // end cargarNotasD
 }

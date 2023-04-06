@@ -93,7 +93,7 @@ public class CantonC {
             ps.close();
         } catch (SQLException ex) {
             Logger.getLogger(CantonC.class.getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         
     } // end setId
@@ -143,7 +143,7 @@ public class CantonC {
             this.error = true;
             this.errorMessage = ex.getMessage();
             Logger.getLogger(CantonC.class.getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     } // end loadCantones
 

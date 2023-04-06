@@ -285,7 +285,7 @@ public class RepBalances extends JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(RepBalances.class.getName()).log(Level.SEVERE, null, ex);
             // No es necesario darle tratamiento al error.
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
         dispose();
     }//GEN-LAST:event_btnCerrarActionPerformed
@@ -522,7 +522,7 @@ public class RepBalances extends JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             correcto = false;
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         
         // Si el reporte solicitado es del periodo actual se hace otra
@@ -542,7 +542,7 @@ public class RepBalances extends JFrame {
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 correcto = false;
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             } // end try-catch
             
             // Esto es una advertencia y por esa razón la ejecusión debe continuar

@@ -74,7 +74,7 @@ public class ConsultaCajaHist extends JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             b.setLogLevel(Bitacora.ERROR);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     } // end constructor
 
@@ -96,7 +96,7 @@ public class ConsultaCajaHist extends JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             b.setLogLevel(Bitacora.ERROR);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     } // end setFisico
 
@@ -833,7 +833,7 @@ public class ConsultaCajaHist extends JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             b.setLogLevel(Bitacora.ERROR);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     }//GEN-LAST:event_txtFisicoFocusLost
 
@@ -847,7 +847,7 @@ public class ConsultaCajaHist extends JFrame {
         } catch (Exception ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             b.setLogLevel(Bitacora.ERROR);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
         
         txtFisico.transferFocus();
@@ -900,7 +900,7 @@ public class ConsultaCajaHist extends JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             b.setLogLevel(Bitacora.ERROR);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         
     }//GEN-LAST:event_cboFechasActionPerformed
@@ -966,7 +966,7 @@ public class ConsultaCajaHist extends JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             b.setLogLevel(Bitacora.ERROR);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
         // FIN VALIDACIONES
@@ -995,7 +995,7 @@ public class ConsultaCajaHist extends JFrame {
                     JOptionPane.ERROR_MESSAGE);
             this.setCursor(null);
             b.setLogLevel(Bitacora.ERROR);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
         
@@ -1034,7 +1034,7 @@ public class ConsultaCajaHist extends JFrame {
                     JOptionPane.ERROR_MESSAGE);
             confirmar = false;
             b.setLogLevel(Bitacora.ERROR);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         
         if (!confirmar){
@@ -1043,7 +1043,7 @@ public class ConsultaCajaHist extends JFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                 b.setLogLevel(Bitacora.ERROR);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             }
             this.setCursor(null);
             return;
@@ -1067,7 +1067,7 @@ public class ConsultaCajaHist extends JFrame {
                     JOptionPane.ERROR_MESSAGE);
             confirmar = false;
             b.setLogLevel(Bitacora.ERROR);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
             
         if (!confirmar){
@@ -1076,7 +1076,7 @@ public class ConsultaCajaHist extends JFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                 b.setLogLevel(Bitacora.ERROR);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             }
             this.setCursor(null);
             return;
@@ -1165,7 +1165,7 @@ public class ConsultaCajaHist extends JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             b.setLogLevel(Bitacora.ERROR);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         
         if (!confirmar){
@@ -1174,7 +1174,7 @@ public class ConsultaCajaHist extends JFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                 b.setLogLevel(Bitacora.ERROR);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             }
             this.setCursor(null);
             return;
@@ -1210,7 +1210,7 @@ public class ConsultaCajaHist extends JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             b.setLogLevel(Bitacora.ERROR);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
             
         
@@ -1233,7 +1233,7 @@ public class ConsultaCajaHist extends JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             b.setLogLevel(Bitacora.ERROR);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             System.exit(1);
             return;
         } // end try-catch
@@ -1418,7 +1418,7 @@ public class ConsultaCajaHist extends JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             b.setLogLevel(Bitacora.ERROR);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     }
 
@@ -1515,7 +1515,7 @@ public class ConsultaCajaHist extends JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             b.setLogLevel(Bitacora.ERROR);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         
     } // end loadRecord

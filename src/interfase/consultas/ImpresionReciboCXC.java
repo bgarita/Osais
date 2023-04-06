@@ -48,7 +48,7 @@ public class ImpresionReciboCXC extends java.awt.Dialog {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
 
         // Si el número de documento recibido es un cero entonces habilito
@@ -254,7 +254,7 @@ public class ImpresionReciboCXC extends java.awt.Dialog {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             lblClidesc.setText("");
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } finally {
             this.setAlwaysOnTop(true);
         }

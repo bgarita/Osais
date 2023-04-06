@@ -654,7 +654,7 @@ public class ConsultaFactNDNC_CXC extends JFrame {
                     JOptionPane.ERROR_MESSAGE);
             Bitacora b = new Bitacora();
             b.setLogLevel(Bitacora.ERROR);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
 
 }//GEN-LAST:event_txtFacnumeActionPerformed

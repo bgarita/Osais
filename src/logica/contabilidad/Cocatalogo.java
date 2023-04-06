@@ -337,7 +337,7 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
                         this.fecha_upd = rs.getTimestamp("fecha_upd");
                     } catch (Exception ex) { // Entonces le asigno 01/01/1900
                         this.fecha_upd = new Timestamp(cal.getTimeInMillis());
-                        b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                        b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                     } // end try-catch
 
                     this.ano_anter = rs.getDouble("ano_anter");
@@ -352,7 +352,7 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
                         this.fecha_c = rs.getTimestamp("fecha_c");
                     } catch (Exception ex) { // Entonces le asigno 01/01/1900
                         this.fecha_c = new Timestamp(cal.getTimeInMillis());
-                        b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                        b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                     } // end try-catch
 
                     this.activa = rs.getShort("activa");
@@ -399,7 +399,7 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
             this.error = true;
             this.mensaje_error = ex.getMessage();
             setNom_cta("");
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     } // end cargarCuenta
 
@@ -451,7 +451,7 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
             this.error = true;
             this.mensaje_error = ex.getMessage();
             setNom_cta("");
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     } // end cargarTodo
 
@@ -561,7 +561,7 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
             Logger.getLogger(Cocatalogo.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         return !this.error;
 
@@ -628,7 +628,7 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
             Logger.getLogger(Cocatalogo.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // try-catch
         return registros;
     } // end update
@@ -670,7 +670,7 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
             Logger.getLogger(Cocatalogo.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // try-catch
         return registros;
     } // end delete
@@ -736,7 +736,7 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
                 } catch (SQLException ex) {
                     Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                     this.mensaje_error = ex.getMessage();
-                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                     return false;
                 } // end try-catch
 
@@ -770,7 +770,7 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
                 } catch (SQLException ex) {
                     Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                     mensaje_error = ex.getMessage();
-                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                     valid = false;
                 } // end try-catch
 
@@ -822,7 +822,7 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
             } catch (SQLException ex) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                 mensaje_error = ex.getMessage();
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 valid = false;
             } // end try-catch
 
@@ -856,7 +856,7 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             mensaje_error = ex.getMessage();
             valid = false;
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         if (!valid) {
@@ -911,7 +911,7 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
             ps.close();
         } catch (SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             this.error = true;
             this.mensaje_error = ex.getMessage();
             existe = null;

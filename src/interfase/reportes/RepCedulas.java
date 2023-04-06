@@ -552,7 +552,7 @@ public class RepCedulas extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             // No es necesario darle tratamiento al error.
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
         dispose();
     }//GEN-LAST:event_btnCerrarActionPerformed
@@ -754,7 +754,7 @@ public class RepCedulas extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             correcto = false;
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         // Si el reporte solicitado es del periodo actual se hace otra
@@ -774,7 +774,7 @@ public class RepCedulas extends javax.swing.JFrame {
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 correcto = false;
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             } // end try-catch
 
             // Esto es una advertencia y por esa razón la ejecusión debe continuar
@@ -823,7 +823,7 @@ public class RepCedulas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     } // end findAccount
 

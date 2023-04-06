@@ -394,7 +394,7 @@ public class ConsultaCliente extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
             Bitacora b = new Bitacora();
             b.setLogLevel(Bitacora.ERROR);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     } // end cargarCliente
 } // end class

@@ -1164,7 +1164,7 @@ public class Configconta extends JFrame {
         } catch (SQLException | SQLInjectionException ex) {
             try {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 JOptionPane.showMessageDialog(
                         null,
                         ex.getMessage(),
@@ -1175,7 +1175,7 @@ public class Configconta extends JFrame {
                 }
             } catch (SQLException ex1) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex1);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             }
         }
 }//GEN-LAST:event_btnGuardarActionPerformed
@@ -1716,7 +1716,7 @@ public class Configconta extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         
     } // end cargarRegistro

@@ -111,7 +111,7 @@ public class CorreoFacturaElectronica extends Thread {
                 String msg
                         = "El documento " + facnume + ", tipo " + tipoDoc + " "
                         + "no fue enviado al cliente porque aun no ha sido aceptado por el Ministerio de Hacienda.";
-                b.writeToLog(this.getClass().getName() + "--> " + msg);
+                b.writeToLog(this.getClass().getName() + "--> " + msg, Bitacora.INFO);
                 continue;
             } // end if
             
@@ -119,7 +119,7 @@ public class CorreoFacturaElectronica extends Thread {
             try {
                 mailAddress = UtilBD.getCustomerMail(conn, facnume, facnd);
             } catch (Exception ex) {
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 continue;
             } // end try-catch
 
@@ -132,7 +132,7 @@ public class CorreoFacturaElectronica extends Thread {
                     String clidesc = String.valueOf(table.getValueAt(row, 4));
                     String msg
                             = "El cliente " + clidesc + "no tiene una dirección de correo asociada.";
-                    b.writeToLog(this.getClass().getName() + "--> " + msg);
+                    b.writeToLog(this.getClass().getName() + "--> " + msg, Bitacora.INFO);
                     continue;
                 } // end if
             } // end if
@@ -148,7 +148,7 @@ public class CorreoFacturaElectronica extends Thread {
                 table.setValueAt(mailAddress, row, 7); // Solo es para que el usuario valide si se fue o no.
             } catch (Exception ex) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             }
             
         } // end for

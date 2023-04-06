@@ -689,7 +689,7 @@ public class CambioEnFacturaCXC extends JFrame {
         } catch (Exception ex){
             huboError = true;
             errorMessage = ex.getMessage();
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         
         if (huboError){
@@ -746,7 +746,7 @@ public class CambioEnFacturaCXC extends JFrame {
         } catch (Exception ex){
             huboError = true;
             errorMessage = ex.getMessage();
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         
         // Si ocurrió algún error realizo el rollback..
@@ -766,7 +766,7 @@ public class CambioEnFacturaCXC extends JFrame {
                     "\nEl sistema se cerrará para proteger la integridad.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             System.exit(1);
             return;
         } // end try-catch
@@ -837,7 +837,7 @@ public class CambioEnFacturaCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end catch
 }//GEN-LAST:event_btnGuardarActionPerformed
 
@@ -932,7 +932,7 @@ public class CambioEnFacturaCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
 
         if (facturaModificable()) {txtFacnumeOrigen.transferFocus();}
@@ -1116,7 +1116,7 @@ public class CambioEnFacturaCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return true;
         } // end try-catch
         
@@ -1154,7 +1154,7 @@ public class CambioEnFacturaCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return false;
         }
 
@@ -1179,7 +1179,7 @@ public class CambioEnFacturaCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return false;
         }
         if (lblVendedorDestino.getText().equals("")){
@@ -1214,7 +1214,7 @@ public class CambioEnFacturaCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return false;
         } // end try-catch
         
@@ -1247,7 +1247,7 @@ public class CambioEnFacturaCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 return false;
             } // end try-catch
             
@@ -1273,7 +1273,7 @@ public class CambioEnFacturaCXC extends JFrame {
                             ex.getMessage(),
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
-                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                     return false;
                 } // end try-catch
                 
@@ -1316,7 +1316,7 @@ public class CambioEnFacturaCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             esModificable = false;
         } // end try - catch
         
@@ -1390,7 +1390,7 @@ public class CambioEnFacturaCXC extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             esModificable = false;
         } // try-catch
         // Fin Bosco Agregado 22/11/2015
@@ -1442,7 +1442,7 @@ public class CambioEnFacturaCXC extends JFrame {
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return false;
         } // end try-catch
 

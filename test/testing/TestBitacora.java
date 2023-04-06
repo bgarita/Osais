@@ -14,7 +14,7 @@ public class TestBitacora {
     public static void main(String[] args) {
         Bitacora b = new Bitacora();
         b.setLogLevel(Bitacora.INFO);
-        b.writeToLog("TestBitacora" + "--> " + "Pruebas");
+        b.writeToLog("TestBitacora" + "--> " + "Pruebas", Bitacora.INFO);
     }
     
 }

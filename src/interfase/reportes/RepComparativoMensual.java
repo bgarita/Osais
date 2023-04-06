@@ -437,7 +437,7 @@ public class RepComparativoMensual extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     }//GEN-LAST:event_btnImprimirActionPerformed
 
@@ -447,7 +447,7 @@ public class RepComparativoMensual extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             // No es necesario darle tratamiento al error.
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
         dispose();
     }//GEN-LAST:event_btnCerrarActionPerformed

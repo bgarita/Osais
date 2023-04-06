@@ -299,7 +299,7 @@ public class Catransa {
             Logger.getLogger(Catransa.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = "Catransa.registrar - " + ex.getMessage();
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             
         } // end try-catch
         
@@ -368,7 +368,7 @@ public class Catransa {
             Logger.getLogger(Catransa.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
         
@@ -380,7 +380,7 @@ public class Catransa {
                 Logger.getLogger(Catransa.class.getName()).log(Level.SEVERE, null, ex);
                 this.error = true;
                 this.mensaje_error = ex.getMessage();
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 return;
             } // end try-catch
         } // end try
@@ -473,7 +473,7 @@ public class Catransa {
                 Logger.getLogger(Catransa.class.getName()).log(Level.SEVERE, null, ex);
                 this.error = true;
                 this.mensaje_error = ex.getMessage();
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             } // end try-catch
         } // end if (!this.modulo.equals("CAJ"))
         
@@ -497,7 +497,7 @@ public class Catransa {
                 Logger.getLogger(Catransa.class.getName()).log(Level.SEVERE, null, ex);
                 this.error = true;
                 this.mensaje_error = ex.getMessage();
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             } // end try-catch
         } // end !this.isError())
         
@@ -520,7 +520,7 @@ public class Catransa {
                 Logger.getLogger(Catransa.class.getName()).log(Level.SEVERE, null, ex);
                 this.error = true;
                 this.mensaje_error = ex.getMessage();
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             } // end try-catch
         } // end if
         
@@ -586,7 +586,7 @@ public class Catransa {
             Logger.getLogger(Catransa.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         
     } // end loadDep
@@ -634,7 +634,7 @@ public class Catransa {
             Logger.getLogger(Catransa.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         
     } // end loadRetCXC
@@ -695,7 +695,7 @@ public class Catransa {
             Logger.getLogger(Catransa.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         
     } // end loadRetCXP
@@ -726,7 +726,7 @@ public class Catransa {
             Logger.getLogger(Catransa.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         
         return rows;
@@ -765,7 +765,7 @@ public class Catransa {
             this.error = true;
             this.mensaje_error = ex.getMessage();
             recnumeca = 0;
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         
         return recnumeca;
@@ -824,7 +824,7 @@ public class Catransa {
             } // end if
         } catch (Exception ex) {
             Logger.getLogger(Catransa.class.getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
         
     } // end closeAllRS

@@ -86,7 +86,7 @@ public class Cuenta {
             Logger.getLogger(Cuenta.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     } // end Cuenta
 
@@ -157,7 +157,7 @@ public class Cuenta {
                 } // end for
             } catch (Exception ex) {
                 valid = false;
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             } // end try-catch
         } // end if-else
 
@@ -380,7 +380,7 @@ public class Cuenta {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             error = true;
             mensaje_error = ex.getMessage();
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     } // end cargarRegistro
 

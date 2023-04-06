@@ -118,3 +118,9 @@ Vaya al menú Registro y elija Tipo de cambio.]
 Vaya al menú Registro y elija Tipo de cambio.]
 [Thu Mar 30 21:03:01 CST 2023][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
 Vaya al menú Registro y elija Tipo de cambio.]
+[Tue Apr 04 07:42:18 CST 2023][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.]
+[Wed Apr 05 08:40:06 CST 2023][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.]
+[Thu Apr 06 10:55:42 CST 2023][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.]

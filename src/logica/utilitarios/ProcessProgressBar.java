@@ -226,10 +226,10 @@ public class ProcessProgressBar extends Thread {
             //                            ex1.getMessage(),
             //                            "Error",
             //                            JOptionPane.ERROR_MESSAGE);
-            //                    b.writeToLog(this.getClass().getName() + "--> " + ex1.getMessage());
+            //                    b.logMail(this.getClass().getName() + "--> " + ex1.getMessage());
             //                }
             //            } // end if
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             JOptionPane.showMessageDialog(
                      null,
                      ex.getMessage(),

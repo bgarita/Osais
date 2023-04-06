@@ -77,7 +77,7 @@ public class ImpresionFactura extends java.awt.Dialog {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         // Si el número de documento recibido es un cero entonces habilito
@@ -525,7 +525,7 @@ public class ImpresionFactura extends java.awt.Dialog {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             lblClidesc.setText("");
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } finally {
             this.setAlwaysOnTop(true);
         }
@@ -583,7 +583,7 @@ public class ImpresionFactura extends java.awt.Dialog {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } finally {
             this.setAlwaysOnTop(true);
         }
@@ -633,7 +633,7 @@ public class ImpresionFactura extends java.awt.Dialog {
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             } // end try-catch
         } else {
             documentos.add(Integer.valueOf(this.txtFacnume1.getText().trim()));
@@ -654,7 +654,7 @@ public class ImpresionFactura extends java.awt.Dialog {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
 
@@ -822,7 +822,7 @@ public class ImpresionFactura extends java.awt.Dialog {
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 this.setAlwaysOnTop(true);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 return false;
             } // end try-catch
         } // end if
@@ -883,7 +883,7 @@ public class ImpresionFactura extends java.awt.Dialog {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         this.setAlwaysOnTop(true);
@@ -924,7 +924,7 @@ public class ImpresionFactura extends java.awt.Dialog {
                                 ex.getMessage(),
                                 "Impresión",
                                 JOptionPane.ERROR_MESSAGE);
-                        b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                        b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                     } // end try-catch
 
                     fact.setTipo(tipo);
@@ -942,7 +942,7 @@ public class ImpresionFactura extends java.awt.Dialog {
                         ex.getMessage(),
                         "Impresión",
                         JOptionPane.ERROR_MESSAGE);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             }
         } // end if
 
@@ -979,7 +979,7 @@ Integer.valueOf(facnd),        // Facnd
                         ex.getMessage(),
                         "Impresión",
                         JOptionPane.ERROR_MESSAGE);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             } // end try-catch
 
         } // end enviar por correo
@@ -1019,7 +1019,7 @@ Integer.valueOf(facnd),        // Facnd
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
         this.setAlwaysOnTop(true);
     } // end printDocument

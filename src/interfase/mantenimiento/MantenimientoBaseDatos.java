@@ -44,7 +44,7 @@ public class MantenimientoBaseDatos extends Thread {
     public void run() {
         b.setLogLevel(Bitacora.INFO);
         b.writeToLog(this.getClass().getName() + "--> "
-                + "Inicia proceso de mantenimiento de la base de datos...");
+                + "Inicia proceso de mantenimiento de la base de datos...", Bitacora.INFO);
 
         MensajesAvance ma = new MensajesAvance();
         ma.setTitle("Mantenimiento de la base de datos");
@@ -63,7 +63,7 @@ public class MantenimientoBaseDatos extends Thread {
 
         // Reconstruir las vías de acceso de la base de datos
         if (databaseOptions.isViasAcceso()) {
-            b.writeToLog(this.getClass().getName() + "--> " + "Optimizando vías de acceso...");
+            b.writeToLog(this.getClass().getName() + "--> " + "Optimizando vías de acceso...", Bitacora.INFO);
 
             ma.setMessage("Optimizando vías de acceso...");
             inicio = System.currentTimeMillis();
@@ -79,7 +79,7 @@ public class MantenimientoBaseDatos extends Thread {
                     b.setLogLevel(Bitacora.ERROR);
                     Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                     ma.setMessage(ex.getMessage());
-                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 }
 
                 ma.setVisible(false);
@@ -106,7 +106,7 @@ public class MantenimientoBaseDatos extends Thread {
 
         // Eliminar o corregir inconsistencias
         if (databaseOptions.isInconsist()) {
-            b.writeToLog(this.getClass().getName() + "--> " + "Verificando posibles inconsistencias...");
+            b.writeToLog(this.getClass().getName() + "--> " + "Verificando posibles inconsistencias...", Bitacora.INFO);
 
             ma.setMessage("Verificando posibles inconsistencias...");
             duracion = "Duración:";
@@ -123,7 +123,7 @@ public class MantenimientoBaseDatos extends Thread {
                     b.setLogLevel(Bitacora.ERROR);
                     Logger.getLogger(MantenimientoBaseDatos.class.getName()).log(Level.SEVERE, null, ex);
                     ma.setMessage(ex.getMessage());
-                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 }
                 return;
             } // end if
@@ -143,7 +143,7 @@ public class MantenimientoBaseDatos extends Thread {
 
         // Recalcular el inventario reservado
         if (databaseOptions.isReservado()) {
-            b.writeToLog(this.getClass().getName() + "--> " + "Recalculando inventario reservado...");
+            b.writeToLog(this.getClass().getName() + "--> " + "Recalculando inventario reservado...", Bitacora.INFO);
 
             ma.setMessage("Recalculando inventario reservado...");
             duracion = "Duración:";
@@ -160,7 +160,7 @@ public class MantenimientoBaseDatos extends Thread {
                     b.setLogLevel(Bitacora.ERROR);
                     Logger.getLogger(MantenimientoBaseDatos.class.getName()).log(Level.SEVERE, null, ex);
                     ma.setMessage(ex.getMessage());
-                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 }
 
                 ma.setVisible(false);
@@ -186,7 +186,7 @@ public class MantenimientoBaseDatos extends Thread {
 
         // Recalcular el saldo de las facturas
         if (databaseOptions.isSaldoFact()) {
-            b.writeToLog(this.getClass().getName() + "--> " + "Recalculando facturas...");
+            b.writeToLog(this.getClass().getName() + "--> " + "Recalculando facturas...", Bitacora.INFO);
 
             ma.setMessage("Recalculando facturas...");
             duracion = "Duración:";
@@ -203,7 +203,7 @@ public class MantenimientoBaseDatos extends Thread {
                     b.setLogLevel(Bitacora.ERROR);
                     Logger.getLogger(MantenimientoBaseDatos.class.getName()).log(Level.SEVERE, null, ex);
                     ma.setMessage(ex.getMessage());
-                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 }
 
                 ma.setVisible(false);
@@ -229,7 +229,7 @@ public class MantenimientoBaseDatos extends Thread {
 
         // Recalcular el saldo de los clientes
         if (databaseOptions.isSaldoClientes()) {
-            b.writeToLog(this.getClass().getName() + "--> " + "Recalculando saldo de clientes...");
+            b.writeToLog(this.getClass().getName() + "--> " + "Recalculando saldo de clientes...", Bitacora.INFO);
 
             ma.setMessage("Recalculando el saldo de los clientes...");
             duracion = "Duración:";
@@ -246,7 +246,7 @@ public class MantenimientoBaseDatos extends Thread {
                     b.setLogLevel(Bitacora.ERROR);
                     Logger.getLogger(MantenimientoBaseDatos.class.getName()).log(Level.SEVERE, null, ex);
                     ma.setMessage(ex.getMessage());
-                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 }
 
                 ma.setVisible(false);
@@ -272,7 +272,7 @@ public class MantenimientoBaseDatos extends Thread {
 
         // Recalcular las existencias del inventario
         if (databaseOptions.isExistencias()) {
-            b.writeToLog(this.getClass().getName() + "--> " + "Recalculando inventarios...");
+            b.writeToLog(this.getClass().getName() + "--> " + "Recalculando inventarios...", Bitacora.INFO);
 
             ma.setMessage("Recalculando existencias...");
             duracion = "Duración:";
@@ -283,7 +283,7 @@ public class MantenimientoBaseDatos extends Thread {
                 recalcularExistencias();
             } catch (SQLException ex) {
                 b.setLogLevel(Bitacora.ERROR);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 procesoOK = false;
             }
 
@@ -297,7 +297,7 @@ public class MantenimientoBaseDatos extends Thread {
                     b.setLogLevel(Bitacora.ERROR);
                     Logger.getLogger(MantenimientoBaseDatos.class.getName()).log(Level.SEVERE, null, ex);
                     ma.setMessage(ex.getMessage());
-                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 }
 
                 ma.setVisible(false);
@@ -323,7 +323,7 @@ public class MantenimientoBaseDatos extends Thread {
 
         // Recalcular el costo promedio del inventario
         if (databaseOptions.isCostoPromedio()) {
-            b.writeToLog(this.getClass().getName() + "--> " + "Recalculando costo promedio de los inventarios...");
+            b.writeToLog(this.getClass().getName() + "--> " + "Recalculando costo promedio de los inventarios...", Bitacora.INFO);
 
             ma.setMessage("Recalculando el costo promedio...");
             duracion = "Duración:";
@@ -340,7 +340,7 @@ public class MantenimientoBaseDatos extends Thread {
                     b.setLogLevel(Bitacora.ERROR);
                     Logger.getLogger(MantenimientoBaseDatos.class.getName()).log(Level.SEVERE, null, ex);
                     ma.setMessage(ex.getMessage());
-                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 }
 
                 ma.setVisible(false);
@@ -366,7 +366,7 @@ public class MantenimientoBaseDatos extends Thread {
 
         // Integridad facturación vs inventario
         if (databaseOptions.isFactVsInv()) {
-            b.writeToLog(this.getClass().getName() + "--> " + "Comprobando integridad de facturas en inventarios...");
+            b.writeToLog(this.getClass().getName() + "--> " + "Comprobando integridad de facturas en inventarios...", Bitacora.INFO);
 
             ma.setMessage("Comprobando integridad facturación e inventarios...");
             duracion = "Duración:";
@@ -383,7 +383,7 @@ public class MantenimientoBaseDatos extends Thread {
                     b.setLogLevel(Bitacora.ERROR);
                     Logger.getLogger(MantenimientoBaseDatos.class.getName()).log(Level.SEVERE, null, ex);
                     ma.setMessage(ex.getMessage());
-                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 }
 
                 ma.setVisible(false);
@@ -409,7 +409,7 @@ public class MantenimientoBaseDatos extends Thread {
 
         // Recalcular el saldo de los proveedores
         if (databaseOptions.isSaldoProv()) {
-            b.writeToLog(this.getClass().getName() + "--> " + "Recalculando saldo proveedores...");
+            b.writeToLog(this.getClass().getName() + "--> " + "Recalculando saldo proveedores...", Bitacora.INFO);
 
             ma.setMessage("Recalculando el saldo de los proveedores...");
             duracion = "Duración:";
@@ -426,7 +426,7 @@ public class MantenimientoBaseDatos extends Thread {
                     b.setLogLevel(Bitacora.ERROR);
                     Logger.getLogger(MantenimientoBaseDatos.class.getName()).log(Level.SEVERE, null, ex);
                     ma.setMessage(ex.getMessage());
-                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 }
 
                 ma.setVisible(false);
@@ -453,7 +453,7 @@ public class MantenimientoBaseDatos extends Thread {
         // Revisar integridad de cuentas y recalcular cuentas de movimientos
         // actuCat.recalcularSaldos() hace ambas cosas.
         if (databaseOptions.isCuentasMov()) {
-            b.writeToLog(this.getClass().getName() + "--> " + "Recalculando cuentas de movimientos...");
+            b.writeToLog(this.getClass().getName() + "--> " + "Recalculando cuentas de movimientos...", Bitacora.INFO);
 
             ma.setMessage("Recalculando cuentas de movimientos...");
             duracion = "Duración:";
@@ -508,7 +508,7 @@ public class MantenimientoBaseDatos extends Thread {
 
         // Ejecutar proceso de mayorización.
         if (databaseOptions.isMayorizar()) {
-            b.writeToLog(this.getClass().getName() + "--> " + "Mayorizando...");
+            b.writeToLog(this.getClass().getName() + "--> " + "Mayorizando...", Bitacora.INFO);
 
             ma.setMessage("Mayorizando...");
             duracion = "Duración:";
@@ -537,7 +537,7 @@ public class MantenimientoBaseDatos extends Thread {
                     b.setLogLevel(Bitacora.ERROR);
                     Logger.getLogger(MantenimientoBaseDatos.class.getName()).log(Level.SEVERE, null, ex);
                     ma.setMessage(ex.getMessage());
-                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 }
 
                 ma.setVisible(false);
@@ -563,7 +563,7 @@ public class MantenimientoBaseDatos extends Thread {
 
         // Recalcular inventario en tránsito
         if (databaseOptions.isTransito()) {
-            b.writeToLog(this.getClass().getName() + "--> " + "Recalculando inventario en tránsito...");
+            b.writeToLog(this.getClass().getName() + "--> " + "Recalculando inventario en tránsito...", Bitacora.INFO);
 
             ma.setMessage("Recalculando inventario en tránsito...");
             duracion = "Duración:";
@@ -580,7 +580,7 @@ public class MantenimientoBaseDatos extends Thread {
                     b.setLogLevel(Bitacora.ERROR);
                     Logger.getLogger(MantenimientoBaseDatos.class.getName()).log(Level.SEVERE, null, ex);
                     ma.setMessage(ex.getMessage());
-                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 }
 
                 ma.setVisible(false);
@@ -621,12 +621,12 @@ public class MantenimientoBaseDatos extends Thread {
                 conn.close();
             } catch (SQLException ex) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             }
         }
 
         b.writeToLog(this.getClass().getName() + "--> "
-                + "Fin del proceso de mantenimiento de la base de datos.");
+                + "Fin del proceso de mantenimiento de la base de datos.", Bitacora.INFO);
     }
 
     private boolean optimizarTablas() {
@@ -663,7 +663,7 @@ public class MantenimientoBaseDatos extends Thread {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         return procesoOK;
@@ -700,7 +700,7 @@ public class MantenimientoBaseDatos extends Thread {
                             + "El sistema se cerrará para proteger la integridad de los datos.",
                             "Error grave",
                             JOptionPane.ERROR_MESSAGE);
-                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                     System.exit(1);
                     return false;
                 } // end try interno
@@ -733,7 +733,7 @@ public class MantenimientoBaseDatos extends Thread {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } //finally {
         return procesoOK;
         //}
@@ -757,7 +757,7 @@ public class MantenimientoBaseDatos extends Thread {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } //finally {
         return procesoOK;
         //}
@@ -794,7 +794,7 @@ public class MantenimientoBaseDatos extends Thread {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // catch(SQLException ex)
         return procesoOK;
     } // end recalcularSaldoClientes
@@ -883,7 +883,7 @@ public class MantenimientoBaseDatos extends Thread {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         return procesoOK;
@@ -937,7 +937,7 @@ public class MantenimientoBaseDatos extends Thread {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } finally {
             return procesoOK;
         }
@@ -963,7 +963,7 @@ public class MantenimientoBaseDatos extends Thread {
         } catch (SQLException ex) {
             Logger.getLogger(MantenimientoBaseDatos.class.getName()).log(Level.SEVERE, null, ex);
             corrio = false;
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         return corrio;

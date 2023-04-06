@@ -246,14 +246,14 @@ public class CambioClave extends javax.swing.JDialog {
                         ex1.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 return;
             }
             JOptionPane.showMessageDialog(this,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 }//GEN-LAST:event_cmdGuardarActionPerformed
 
@@ -308,7 +308,7 @@ public class CambioClave extends javax.swing.JDialog {
                 UtilBD.getDBString(conn, "paramUsuario", "1=1", "longitudClave"));
         } catch (Exception ex){
             // No es necesario hacer nada
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
 
         char[] clave = this.txtNuevaClave.getPassword();

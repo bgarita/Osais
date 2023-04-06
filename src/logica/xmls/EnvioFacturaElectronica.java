@@ -126,7 +126,7 @@ public class EnvioFacturaElectronica extends Thread {
                             } // end if
                         } catch (SQLException ex) {
                             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                             continue;
                         } // end try-catch
                         fact.setTipo(tipo);
@@ -148,7 +148,7 @@ public class EnvioFacturaElectronica extends Thread {
                     String msg
                             = "El XML " + factura + " no se pudo enviar.\n"
                             + "Vaya al menú Hacienda y trate con la opción Generar documentos XML.";
-                    b.writeToLog(this.getClass().getName() + "--> " + msg);
+                    b.writeToLog(this.getClass().getName() + "--> " + msg, Bitacora.INFO);
                     continue;
                 } // end if
 
@@ -165,7 +165,7 @@ public class EnvioFacturaElectronica extends Thread {
                 count++;
             } catch (Exception ex) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             }
         } // end for
 

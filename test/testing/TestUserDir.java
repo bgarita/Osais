@@ -26,7 +26,7 @@ public class TestUserDir {
         
         String destinatario = "bgarita@hotmail.com";
         if (Correo.malformado(destinatario)) {
-            b.writeToLog(
+            b.logMail(
                     "\nCorreo mal formado " + destinatario + ". no fue enviado. "
                     + GregorianCalendar.getInstance().getTime(), nIdenvio);
             return;
@@ -37,7 +37,7 @@ public class TestUserDir {
             envioCorreo.sendAttachmentMail_GM(
                     destinatario, titulo, texto, archivos);
         } catch (Exception ex) {
-            b.writeToLog(
+            b.logMail(
                     "ERROR: " + ex.getMessage() + destinatario + ". "
                     + "El estado de cuenta no fue enviado.", nIdenvio);
         } // end try-catch

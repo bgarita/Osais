@@ -373,7 +373,7 @@ public class ConsultaFacturas extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             b.setLogLevel(Bitacora.ERROR);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
     }//GEN-LAST:event_tblFacturasMouseClicked
@@ -406,7 +406,7 @@ public class ConsultaFacturas extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             b.setLogLevel(Bitacora.ERROR);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     }//GEN-LAST:event_mnuImprimirActionPerformed
     /**

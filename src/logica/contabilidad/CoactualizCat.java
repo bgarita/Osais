@@ -196,7 +196,7 @@ public class CoactualizCat {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             exito = false;
             this.mensaje_err = ex.getMessage();
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         return exito;
@@ -353,7 +353,7 @@ public class CoactualizCat {
             Logger.getLogger(CoactualizCat.class.getName()).log(Level.SEVERE, null, ex);
             exito = false;
             this.mensaje_err = ex.getMessage();
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         return exito;
@@ -361,7 +361,7 @@ public class CoactualizCat {
 
     public boolean revisarIntegridadCuentas() {
         b.setLogLevel(Bitacora.INFO);
-        b.writeToLog("Validando estructura lógica del catálogo...");
+        b.writeToLog("Validando estructura lógica del catálogo...", Bitacora.INFO);
 
         boolean correcto = false;
         PreparedStatement ps;
@@ -385,11 +385,11 @@ public class CoactualizCat {
 
             // Solo si pasa todas las validaciones se considera exitoso.
             correcto = true;
-            b.writeToLog("Estructura lógica del catálogo de cuentas validada, correcta.");
+            b.writeToLog("Estructura lógica del catálogo de cuentas validada, correcta.", Bitacora.INFO);
         } catch (Exception ex) {
             this.mensaje_err = ex.getMessage();
             b.setLogLevel(Bitacora.ERROR);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
         return correcto;
     }
@@ -460,7 +460,7 @@ public class CoactualizCat {
             Logger.getLogger(CoactualizCat.class.getName()).log(Level.SEVERE, null, ex);
             this.mensaje_err = ex.getMessage();
             exito = false;
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         try {
@@ -473,7 +473,7 @@ public class CoactualizCat {
         } catch (SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             this.mensaje_err = ex.getMessage();
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         return exito;
@@ -579,7 +579,7 @@ public class CoactualizCat {
             Logger.getLogger(CoactualizCat.class.getName()).log(Level.SEVERE, null, ex);
             this.mensaje_err = ex.getMessage();
             exito = false;
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         if (!exito) {
@@ -590,7 +590,7 @@ public class CoactualizCat {
                 // Si aquí se produce un error es mejor advertir al usuario para que
                 // cierre el sistema.
                 this.mensaje_err = "Se produjo un error inesperado, debe cerrar el sistema";
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             }
         } // end if
 
@@ -612,7 +612,7 @@ public class CoactualizCat {
         } catch (SQLException ex) {
             // No proceso el error porque no es necesario
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     } // end close
 
@@ -625,7 +625,7 @@ public class CoactualizCat {
      */
     public boolean revisarAsientosDescuadrados() {
         b.setLogLevel(Bitacora.INFO);
-        b.writeToLog("Buscando asientos descuadrados...");
+        b.writeToLog("Buscando asientos descuadrados...", Bitacora.INFO);
 
         boolean correcto = false;
         PreparedStatement ps;
@@ -672,18 +672,18 @@ public class CoactualizCat {
                 }
                 this.mensaje_err = msg.toString();
                 b.setLogLevel(Bitacora.ERROR);
-                b.writeToLog(this.getClass().getName() + "--> " + this.mensaje_err);
+                b.writeToLog(this.getClass().getName() + "--> " + this.mensaje_err, Bitacora.ERROR);
             }
 
             ps.close();
 
             if (correcto) {
-                b.writeToLog("Todos los asientos están cuadrados.");
+                b.writeToLog("Todos los asientos están cuadrados.", Bitacora.INFO);
             }
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             this.mensaje_err = ex.getMessage();
             b.setLogLevel(Bitacora.ERROR);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
         return correcto;
     }
