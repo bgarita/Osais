@@ -189,7 +189,7 @@ public class EnviarCorreoFE {
 
             if (Correo.malformado(destinatario)) {
                 b.setLogLevel(Bitacora.ERROR);
-                b.writeToLog(
+                b.logMail(
                         "\nCorreo mal formado " + destinatario + ". No fue enviado. "
                         + GregorianCalendar.getInstance().getTime(), nIdenvio);
                 this.error = true;
@@ -212,7 +212,7 @@ public class EnviarCorreoFE {
             } // end if
         } catch (Exception ex) {
             b.setLogLevel(Bitacora.ERROR);
-            b.writeToLog(
+            b.logMail(
                     "ERROR: " + ex.getMessage() + " " + destinatario + ". "
                     + "Documento electrónico no enviado.", nIdenvio);
             this.error = true;
@@ -250,7 +250,7 @@ public class EnviarCorreoFE {
         } catch (SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             b.setLogLevel(Bitacora.ERROR);
-            b.writeToLog(this.getClass().getName() + "--> "
+            b.logMail(this.getClass().getName() + "--> "
                     + "ERROR: " + ex.getMessage() + "\n " + destinatario + ". "
                     + "Documento electrónico no enviado.", 1);
             this.error = true;

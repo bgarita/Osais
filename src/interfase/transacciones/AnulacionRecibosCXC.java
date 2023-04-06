@@ -53,7 +53,7 @@ public class AnulacionRecibosCXC extends java.awt.Dialog {
                     ex.getMessage(),
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
 
         // Si el número de recibo recibido es un cero entonces habilito
@@ -311,7 +311,7 @@ public class AnulacionRecibosCXC extends java.awt.Dialog {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     }//GEN-LAST:event_txtRecnumeFocusLost
 
@@ -415,7 +415,7 @@ public class AnulacionRecibosCXC extends java.awt.Dialog {
             lblClidesc.setText("");
             txtFecha.setText("");
             txtMonto.setText("0.00");
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
 
             if (hayTransaccion){
                 try{
@@ -425,7 +425,7 @@ public class AnulacionRecibosCXC extends java.awt.Dialog {
                             ex1.getMessage(),
                             "Error", 
                             JOptionPane.ERROR_MESSAGE);
-                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 }
             } // end if
         }

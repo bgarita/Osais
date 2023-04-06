@@ -130,7 +130,7 @@ public class CierreConta extends javax.swing.JFrame {
         try {
             // Valida que no haya movimientos desbalanceados
             b.setLogLevel(Bitacora.INFO);
-            b.writeToLog(this.getClass().getName() + "--> Buscando asientos desbalanceados...");
+            b.writeToLog(this.getClass().getName() + "--> Buscando asientos desbalanceados...", Bitacora.INFO);
             if (!UtilBD.CGestaBalanceado(conn)) {
                 JOptionPane.showMessageDialog(null,
                         "Existen movimientos desbalanceados.\n"
@@ -146,16 +146,16 @@ public class CierreConta extends javax.swing.JFrame {
             // 4. Establecer el nuevo periodo
             CMD.transaction(conn, CMD.START_TRANSACTION);
 
-            b.writeToLog(this.getClass().getName() + "--> Guardando copia del catálogo...");
+            b.writeToLog(this.getClass().getName() + "--> Guardando copia del catálogo...", Bitacora.INFO);
             boolean correcto = UtilBD.CGguardarCatalogo(conn, per.getFecha_fi());
 
             if (correcto) {
-                b.writeToLog(this.getClass().getName() + "--> Moviendo cuentas y asientos a periodos cerrados...");
+                b.writeToLog(this.getClass().getName() + "--> Moviendo cuentas y asientos a periodos cerrados...", Bitacora.INFO);
                 correcto = UtilBD.CGmoverAsientosHistorico(conn);
             }
 
             if (correcto) {
-                b.writeToLog(this.getClass().getName() + "--> Estableciendo nuevo periodo...");
+                b.writeToLog(this.getClass().getName() + "--> Estableciendo nuevo periodo...", Bitacora.INFO);
                 correcto = UtilBD.CGcerrarPeriodoActual(conn, per);
             } // end if
 
@@ -165,7 +165,7 @@ public class CierreConta extends javax.swing.JFrame {
                         "Cierre contable completado exitosamente!",
                         "Mensaje",
                         JOptionPane.INFORMATION_MESSAGE);
-                b.writeToLog(this.getClass().getName() + "--> Cierre contable completado satisfactoriamente.");
+                b.writeToLog(this.getClass().getName() + "--> Cierre contable completado satisfactoriamente.", Bitacora.INFO);
                 this.dispose();
             } else {
                 CMD.transaction(conn, CMD.ROLLBACK);
@@ -187,7 +187,7 @@ public class CierreConta extends javax.swing.JFrame {
                         + "El sistema se cerrará para proteger la integridad.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                b.writeToLog(this.getClass().getName() + "--> " + ex1.getMessage() + " Error en el motor.  Se cierra el sistema");
+                b.writeToLog(this.getClass().getName() + "--> " + ex1.getMessage() + " Error en el motor.  Se cierra el sistema", Bitacora.INFO);
                 System.exit(-1);
             }
 
@@ -196,7 +196,7 @@ public class CierreConta extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     }//GEN-LAST:event_btnEjecutarActionPerformed
 
@@ -205,7 +205,7 @@ public class CierreConta extends javax.swing.JFrame {
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed

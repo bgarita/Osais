@@ -131,7 +131,7 @@ public class Archivos {
         } catch (Exception ex) {
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     }  // end copyFilex
 
@@ -207,7 +207,7 @@ public class Archivos {
             Logger.getLogger(Archivos.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
 
         return same;

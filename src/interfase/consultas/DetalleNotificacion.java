@@ -201,7 +201,7 @@ public class DetalleNotificacion extends javax.swing.JDialog {
                     JOptionPane.ERROR_MESSAGE);
             Bitacora b = new Bitacora();
             b.setLogLevel(Bitacora.ERROR);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     } // end cargarTabla
 }

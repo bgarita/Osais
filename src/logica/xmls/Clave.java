@@ -280,7 +280,7 @@ public class Clave {
             ps.close();
         } catch (SQLException ex) {
             Logger.getLogger(Clave.class.getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
         
     } // end saveClave
@@ -308,7 +308,7 @@ public class Clave {
             ps.close();
         } catch (SQLException ex) {
             Logger.getLogger(Clave.class.getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
         
         //if (reg = 0)

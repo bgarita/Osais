@@ -68,7 +68,7 @@ public class BackupInterface extends javax.swing.JFrame implements Serializable 
             System.out.println(f.getAbsolutePath());
             f = new File(targetFile);
             System.out.println(f.getAbsolutePath());
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             dispose();
         } // end try-catch 
 
@@ -84,7 +84,7 @@ public class BackupInterface extends javax.swing.JFrame implements Serializable 
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             dispose();
         } // end try-catch
 
@@ -562,7 +562,7 @@ public class BackupInterface extends javax.swing.JFrame implements Serializable 
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
 
@@ -802,14 +802,14 @@ public class BackupInterface extends javax.swing.JFrame implements Serializable 
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } catch (EmptyDataSourceException ex) {
             Logger.getLogger(BackupInterface.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     } // end loadDatabaseNames
 

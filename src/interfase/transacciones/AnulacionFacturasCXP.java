@@ -439,7 +439,7 @@ public class AnulacionFacturasCXP extends java.awt.Dialog {
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 return;
             } // end try-catch
 
@@ -499,7 +499,7 @@ public class AnulacionFacturasCXP extends java.awt.Dialog {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     }//GEN-LAST:event_txtFacturaFocusLost
 
@@ -656,7 +656,7 @@ public class AnulacionFacturasCXP extends java.awt.Dialog {
             lblProdesc.setText("");
             txtFecha.setText("");
             txtMonto.setText("0.00");
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
 
             if (hayTransaccion) {
                 try {
@@ -667,7 +667,7 @@ public class AnulacionFacturasCXP extends java.awt.Dialog {
                             + "El sistema se cerrará.",
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
-                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                     System.exit(1);
                 } // end catch
             } // end if
@@ -793,7 +793,7 @@ public class AnulacionFacturasCXP extends java.awt.Dialog {
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 todoCorrecto = false;
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             } // end try-catch
 
         } // end if

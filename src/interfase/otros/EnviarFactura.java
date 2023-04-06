@@ -436,7 +436,7 @@ public class EnviarFactura extends javax.swing.JFrame {
                         msg,
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                b.writeToLog(this.getClass().getName() + "--> " + msg);
+                b.writeToLog(this.getClass().getName() + "--> " + msg, Bitacora.ERROR);
                 return;
             } // end if
 
@@ -448,7 +448,7 @@ public class EnviarFactura extends javax.swing.JFrame {
                         msg,
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                b.writeToLog(this.getClass().getName() + "--> " + msg);
+                b.writeToLog(this.getClass().getName() + "--> " + msg, Bitacora.ERROR);
                 return;
             } // end if
 
@@ -460,7 +460,7 @@ public class EnviarFactura extends javax.swing.JFrame {
                         msg,
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                b.writeToLog(this.getClass().getName() + "--> " + msg);
+                b.writeToLog(this.getClass().getName() + "--> " + msg, Bitacora.ERROR);
                 return;
             } // end if
 
@@ -473,7 +473,7 @@ public class EnviarFactura extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         if (huboError) {
@@ -643,7 +643,7 @@ public class EnviarFactura extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Impresión",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
     } // end enviarCorreo

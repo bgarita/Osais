@@ -115,7 +115,7 @@ public class Companies extends javax.swing.JFrame {
                     setInitialData();
                 } catch (IOException | SQLException ex) {
                     Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 }
             } // end if
         } // end for
@@ -365,7 +365,7 @@ public class Companies extends javax.swing.JFrame {
                         message,
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                b.writeToLog(this.getClass().getName() + "--> " + message);
+                b.writeToLog(this.getClass().getName() + "--> " + message, Bitacora.ERROR);
                 return;
             } // end if
         } // end for
@@ -395,7 +395,7 @@ public class Companies extends javax.swing.JFrame {
                     message,
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + message);
+            b.writeToLog(this.getClass().getName() + "--> " + message, Bitacora.ERROR);
             return;
         }
 
@@ -507,7 +507,7 @@ public class Companies extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     } // end save
 

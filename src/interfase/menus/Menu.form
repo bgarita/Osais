@@ -1863,7 +1863,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuConsXML">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Consultar documentos XML enviados V2"/>
+                <Property name="text" type="java.lang.String" value="Consultar documentos XML enviados"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuConsXMLActionPerformed"/>

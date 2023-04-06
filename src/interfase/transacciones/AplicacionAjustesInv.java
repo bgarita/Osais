@@ -272,7 +272,7 @@ public class AplicacionAjustesInv extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
         
@@ -372,7 +372,7 @@ public class AplicacionAjustesInv extends JFrame {
                         "El sistema se cerrará para proteger la integridad.\n" +
                         "El ajuste no quedará aplicado.",
                         JOptionPane.ERROR_MESSAGE);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 System.exit(0);
             }
             Logger.getLogger(AplicacionAjustesInv.class.getName()).log(Level.SEVERE, null, ex);
@@ -380,7 +380,7 @@ public class AplicacionAjustesInv extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
         
@@ -438,7 +438,7 @@ public class AplicacionAjustesInv extends JFrame {
                     ex.getMessage(),
                     "Validar fecha..",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
 
@@ -549,7 +549,7 @@ public class AplicacionAjustesInv extends JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             existe = true;
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end catch
         
         return existe;

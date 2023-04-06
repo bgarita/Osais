@@ -286,7 +286,7 @@ public class RepListaparaConteo extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
         // La llamada a este método con el parámetro null indica que
         // se invocará al SP solo para traer los rangos de las líneas.
@@ -355,7 +355,7 @@ public class RepListaparaConteo extends JFrame {
                 JOptionPane.showMessageDialog(null, ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             }
         } // end if
 }//GEN-LAST:event_cmdImprimirActionPerformed

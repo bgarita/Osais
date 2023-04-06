@@ -186,7 +186,7 @@ public class Company extends javax.swing.JFrame {
                         msg,
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                b.writeToLog(this.getClass().getName() + "--> " + msg);
+                b.writeToLog(this.getClass().getName() + "--> " + msg, Bitacora.ERROR);
                 System.exit(0);
                 return;
             } // end if
@@ -212,7 +212,7 @@ public class Company extends javax.swing.JFrame {
                             msg,
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
-                    b.writeToLog(this.getClass().getName() + "--> " + msg);
+                    b.writeToLog(this.getClass().getName() + "--> " + msg, Bitacora.ERROR);
                     System.exit(0);
                 } // end if-else
             } // try with resources
@@ -222,7 +222,7 @@ public class Company extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             System.exit(0);
         }
     } // end cargarComboCompany

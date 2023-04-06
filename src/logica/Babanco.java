@@ -104,7 +104,7 @@ public class Babanco implements IEstructuraBD {
             this.error = true;
             this.mensaje_error = ex.getMessage();
             this.descrip = "";
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     } // end cargar
     
@@ -146,7 +146,7 @@ public class Babanco implements IEstructuraBD {
             this.error = true;
             this.mensaje_error = ex.getMessage();
             this.descrip = "";
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     } // end cargarTodo
     
@@ -209,7 +209,7 @@ public class Babanco implements IEstructuraBD {
             this.error = true;
             this.mensaje_error = ex.getMessage();
             this.descrip = "";
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         return !this.error;
         
@@ -243,7 +243,7 @@ public class Babanco implements IEstructuraBD {
             Logger.getLogger(Cacaja.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // try-catch
         return registros;
     } // end update
@@ -274,7 +274,7 @@ public class Babanco implements IEstructuraBD {
             Logger.getLogger(Cacaja.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // try-catch
         return registros;
     } // end delete

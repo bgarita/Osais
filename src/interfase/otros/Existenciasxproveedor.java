@@ -46,7 +46,7 @@ public class Existenciasxproveedor extends javax.swing.JFrame {
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
             setVisible(false);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             dispose();
             return;
         } // end try-catch
@@ -211,7 +211,7 @@ public class Existenciasxproveedor extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         
         setVisible(false);
@@ -366,7 +366,7 @@ public class Existenciasxproveedor extends javax.swing.JFrame {
                     ex.getMessage(), 
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         
     } // end cargarDatos

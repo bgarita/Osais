@@ -323,7 +323,7 @@ public class GetUnitCost extends javax.swing.JFrame {
             this.txtCostoxUnidad.setText(Ut.setDecimalFormat(costoUnidad + "", formatoPrecio));
         } catch (Exception ex) {
             Logger.getLogger(GetUnitCost.class.getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     } // end calcular
 

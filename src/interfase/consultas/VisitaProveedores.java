@@ -138,7 +138,7 @@ public class VisitaProveedores extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     }//GEN-LAST:event_btnOrdenActionPerformed
 
@@ -223,7 +223,7 @@ public class VisitaProveedores extends javax.swing.JFrame {
             this.lstProveedoresDeHoy.setModel(modelo);
         } catch (SQLException ex) {
             Logger.getLogger(VisitaProveedores.class.getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     } // end cargarProveedores
 }

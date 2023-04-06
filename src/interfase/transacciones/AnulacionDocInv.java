@@ -63,7 +63,7 @@ public class AnulacionDocInv extends java.awt.Dialog {
             // número entonces lo tomo como cero para que se pueda continuar.
             txtMovdocu.setEnabled(true);
             documento = "0";
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } finally {
             txtMovdocu.setText(documento);
 
@@ -318,7 +318,7 @@ public class AnulacionDocInv extends java.awt.Dialog {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     }//GEN-LAST:event_txtMovdocuFocusLost
 
@@ -422,7 +422,7 @@ public class AnulacionDocInv extends java.awt.Dialog {
                     JOptionPane.ERROR_MESSAGE);
             txaMovdesc.setText("");
             txtMovfech.setText("");
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
 
             if (hayTransaccion){
                 try{
@@ -432,7 +432,7 @@ public class AnulacionDocInv extends java.awt.Dialog {
                             ex1.getMessage(),
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
-                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 } // end try interno
             } // end if
         } // end catch externo
@@ -503,7 +503,7 @@ public class AnulacionDocInv extends java.awt.Dialog {
                     ex.getMessage(), 
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     } // end cargarComboTiposDoc
     

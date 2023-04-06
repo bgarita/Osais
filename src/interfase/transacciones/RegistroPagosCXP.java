@@ -94,7 +94,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
             initComponents();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex);
+            b.writeToLog(this.getClass().getName() + "--> " + ex, Bitacora.ERROR);
         }
 
         // Defino el escuchador con una clase anónima para controlar la
@@ -126,7 +126,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
             formato.formatColumn(tblDetalle, 5, FormatoTabla.H_RIGHT, Color.BLUE);
         } catch (Exception ex) {
             Logger.getLogger(RegistroPagosCXC.class.getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
 
         conn = c;
@@ -196,7 +196,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
             UtilBD.loadBancos(conn, cboBanco);
         } catch (EmptyDataSourceException ex) {
             Logger.getLogger(RegistroPagosCXP.class.getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -875,7 +875,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
 
@@ -997,7 +997,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
                     + "e intente nuevamente.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
 
@@ -1246,7 +1246,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
         } catch (Exception ex) {
             Logger.getLogger(RegistroPagosCXP.class.getName()).log(Level.SEVERE, null, ex);
             errorMessage = ex.getMessage();
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // catch externo
 
         if (!errorMessage.isEmpty()) {
@@ -1256,7 +1256,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(RegistroPagosCXP.class.getName()).log(Level.SEVERE, null, ex);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             }
 
             JOptionPane.showMessageDialog(null,
@@ -1335,7 +1335,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // try-catch
         txtRecnume.transferFocus();
     }//GEN-LAST:event_txtRecnumeActionPerformed
@@ -1374,7 +1374,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
 
@@ -1428,7 +1428,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
 
@@ -1539,7 +1539,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     }//GEN-LAST:event_txtMontoFocusLost
 
@@ -1583,7 +1583,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
                     ex + "Debe digitar un número válido",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
 
@@ -1845,7 +1845,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
     } // end datosdelProveedor
@@ -1867,7 +1867,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     } // end cargarComboMonedas
 
@@ -1891,7 +1891,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     } // end ubicarCodigo
 
@@ -1958,7 +1958,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     } // end distribuir
 
@@ -1988,7 +1988,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
             } catch (NumberFormatException ex) {
                 // No se hace nada con el error.
                 row++;
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 continue;
             } // end try-catch
 
@@ -2013,7 +2013,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return false;
         }
 
@@ -2082,7 +2082,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
             errorMsg = ex.getMessage();
             cajaN = -1;
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         // Crear el objeto caja con el número correspondiente al usuario
@@ -2147,7 +2147,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(RegistroPagosCXC.class.getName()).log(Level.SEVERE, null, ex);
             errorMsg = ex.getMessage();
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         if (!errorMsg.isEmpty()) {
@@ -2224,7 +2224,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(RegistroPagosCXP.class.getName()).log(Level.SEVERE, null, ex);
             errorMsg = ex.getMessage();
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         if (!errorMsg.isEmpty()) {
@@ -2242,7 +2242,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(RegistroPagosCXC.class.getName()).log(Level.SEVERE, null, ex);
             errorMsg = ex.getMessage();
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         return errorMsg;

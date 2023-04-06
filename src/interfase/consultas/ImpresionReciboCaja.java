@@ -280,7 +280,7 @@ public class ImpresionReciboCaja extends java.awt.Dialog {
                     JOptionPane.ERROR_MESSAGE);
             Bitacora b = new Bitacora();
             b.setLogLevel(Bitacora.ERROR);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         
         this.setAlwaysOnTop(true);

@@ -63,7 +63,7 @@ public class ConsultaMovimientosInv extends JFrame {
             formato.formatColumn(tblMovimientos, 4, FormatoTabla.H_CENTER, Color.RED);
         } catch (Exception ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     } // end constructor
 
@@ -405,7 +405,7 @@ public class ConsultaMovimientosInv extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     }//GEN-LAST:event_txtArtcodeActionPerformed
 

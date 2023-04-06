@@ -125,7 +125,7 @@ public class ProcessBackground extends Thread {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         
         close();

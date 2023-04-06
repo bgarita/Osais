@@ -98,7 +98,7 @@ public class Cantidad extends javax.swing.JDialog {
                     "Debe digitar una cantidad válida.", 
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-cacth
         

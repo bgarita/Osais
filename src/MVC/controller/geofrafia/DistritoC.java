@@ -112,7 +112,7 @@ public class DistritoC {
             this.error = true;
             this.errorMessage = ex.getMessage();
             Logger.getLogger(DistritoC.class.getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch 
     } // end loadDistrito
     
@@ -144,7 +144,7 @@ public class DistritoC {
             this.error = true;
             this.errorMessage = ex.getMessage();
             Logger.getLogger(DistritoC.class.getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     } // end loadDistritos
 

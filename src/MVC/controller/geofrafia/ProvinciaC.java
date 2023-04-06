@@ -90,7 +90,7 @@ public class ProvinciaC {
             this.error = true;
             this.errorMessage = ex.getMessage();
             Logger.getLogger(ProvinciaC.class.getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     } // end loadProvincia
 
@@ -129,7 +129,7 @@ public class ProvinciaC {
             this.error = true;
             this.errorMessage = ex.getMessage();
             Logger.getLogger(ProvinciaC.class.getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
 
         return l;

@@ -88,7 +88,7 @@ public class BackupResoreJob extends Thread {
             archivo.stringToFile("password=" + "\"" + passw.trim() + "\"", defaultsFileName, true);
         } catch (IOException ex) {
             Logger.getLogger(BackupResoreJob.class.getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -190,7 +190,7 @@ public class BackupResoreJob extends Thread {
                         JOptionPane.ERROR_MESSAGE);
                 label.setText(ex.getMessage());
                 error = true;
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             } // end try-catch
         } // end for
 
@@ -300,7 +300,7 @@ public class BackupResoreJob extends Thread {
             archivo.stringToFile("password=" + "\"" + passw.trim() + "\"", defaultsFileName, true);
         } catch (IOException ex) {
             Logger.getLogger(BackupResoreJob.class.getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -376,7 +376,7 @@ public class BackupResoreJob extends Thread {
                     JOptionPane.ERROR_MESSAGE);
             label.setText(ex.getMessage());
             error = true;
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         lblProceso.setVisible(false);

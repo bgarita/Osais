@@ -76,7 +76,7 @@ public class NotificacionFactCXC extends Thread{
                     "[Notificaciones automáticas] " + ex.getMessage(), 
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     } // end cargarIntervalo
     
@@ -126,7 +126,7 @@ public class NotificacionFactCXC extends Thread{
                 DetalleNotificacion2.main(rs);
                 // Guardar los registros de la notificación
                 rs.beforeFirst();
-                while (!detenido && rs != null && !rs.isClosed() && rs.next()){
+                while (!detenido && !rs.isClosed() && rs.next()){
                     UtilBD.actualizarNotificaciones(
                             conn, 
                             "Factura vencida o por vencer", 
@@ -143,7 +143,7 @@ public class NotificacionFactCXC extends Thread{
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     } // end notificar
     

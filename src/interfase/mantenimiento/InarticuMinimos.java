@@ -236,7 +236,7 @@ public class InarticuMinimos extends javax.swing.JFrame {
                         "Error", 
                         JOptionPane.ERROR_MESSAGE);
                 sqlresult = 0;
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 break;
             } // end try-catch
             

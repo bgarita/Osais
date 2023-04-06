@@ -637,7 +637,7 @@ public class ConsultaFactNDNC_CXP extends JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             b.setLogLevel(Bitacora.ERROR);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
         
@@ -711,7 +711,7 @@ public class ConsultaFactNDNC_CXP extends JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             b.setLogLevel(Bitacora.ERROR);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 }//GEN-LAST:event_txtFacnumeActionPerformed
 

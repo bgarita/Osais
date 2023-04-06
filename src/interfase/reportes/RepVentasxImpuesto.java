@@ -38,7 +38,7 @@ public class RepVentasxImpuesto extends javax.swing.JFrame {
             formatoTabla.formatColumn(tblVentas, 5, FormatoTabla.H_RIGHT, Color.BLACK);
         } catch (Exception ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     }
 
@@ -200,7 +200,7 @@ public class RepVentasxImpuesto extends javax.swing.JFrame {
             } // end for
             ps.close();
         } catch (Exception ex) {
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",

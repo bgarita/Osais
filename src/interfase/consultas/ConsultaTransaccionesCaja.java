@@ -71,7 +71,7 @@ public class ConsultaTransaccionesCaja extends javax.swing.JFrame {
             formato.formatColumn(tblTrans, 3, FormatoTabla.H_RIGHT, Color.BLUE);
         } catch (Exception ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
         this.cboCajaActionPerformed(null);
         
@@ -344,7 +344,7 @@ public class ConsultaTransaccionesCaja extends javax.swing.JFrame {
             documento = Integer.parseInt(tblTrans.getValueAt(row, 7).toString());
         } catch(Exception ex){
             // No se requiere hacer nada cuando esto ocurra
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
         modulo    = tblTrans.getValueAt(row, 8).toString();
         tipoD     = tblTrans.getValueAt(row, 9).toString();
@@ -363,7 +363,7 @@ public class ConsultaTransaccionesCaja extends javax.swing.JFrame {
                     ex.getMessage(), 
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
         
@@ -390,7 +390,7 @@ public class ConsultaTransaccionesCaja extends javax.swing.JFrame {
                          ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                 b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                 b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             } // end try-catch
             return;
         } // end if
@@ -415,7 +415,7 @@ public class ConsultaTransaccionesCaja extends javax.swing.JFrame {
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 return;
             }
         } // end if (modulo.equals("CXC"))
@@ -433,7 +433,7 @@ public class ConsultaTransaccionesCaja extends javax.swing.JFrame {
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             } // end try-catch
             
         } // end if (modulo.equals("CXP"))
@@ -608,7 +608,7 @@ public class ConsultaTransaccionesCaja extends javax.swing.JFrame {
                     ex.getMessage(), 
                     "Error", 
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         
     } // end loadData
@@ -637,7 +637,7 @@ public class ConsultaTransaccionesCaja extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     } // end loadTil
 }

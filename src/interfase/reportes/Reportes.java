@@ -161,7 +161,7 @@ public class Reportes {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             System.out.println(ex.getMessage());
         } // end try-catch
 
@@ -215,7 +215,7 @@ public class Reportes {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             System.out.println("Error cargando el reporte maestro: "
                     + ex.getMessage());
         } // end try-catch
@@ -273,7 +273,7 @@ public class Reportes {
                     JOptionPane.ERROR_MESSAGE);
             System.out.println("Error cargando el reporte maestro: "
                     + ex.getMessage());
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
     } // end imprimirReciboCaja
@@ -328,7 +328,7 @@ public class Reportes {
                     JOptionPane.ERROR_MESSAGE);
             System.out.println("Error cargando el reporte maestro: "
                     + ex.getMessage());
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
     } // end existenciasPB
@@ -404,7 +404,7 @@ public class Reportes {
                     JOptionPane.ERROR_MESSAGE);
             System.out.println("Error cargando el reporte maestro: "
                     + ex.getMessage());
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
     } // end generico
@@ -493,7 +493,7 @@ public class Reportes {
                     JOptionPane.ERROR_MESSAGE);
             System.out.println("Error cargando el reporte maestro: "
                     + ex.getMessage());
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
     } // end CGgenerico
@@ -573,7 +573,7 @@ public class Reportes {
                     JOptionPane.ERROR_MESSAGE);
             System.out.println("Error cargando el reporte maestro: "
                     + ex.getMessage());
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
     } // end CGBalance
@@ -658,7 +658,7 @@ public class Reportes {
                     JOptionPane.ERROR_MESSAGE);
             System.out.println("Error cargando el reporte maestro: "
                     + ex.getMessage());
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
     } // end CGCedula
@@ -721,7 +721,7 @@ public class Reportes {
                     JOptionPane.ERROR_MESSAGE);
             System.out.println("Error cargando el reporte maestro: "
                     + ex.getMessage());
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage());
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     } // end CGComparativoMensual
 } // end class Reportes
