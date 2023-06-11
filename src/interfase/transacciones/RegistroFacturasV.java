@@ -948,7 +948,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(12, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnSalir, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(cmdGuardar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -1242,7 +1242,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
 
         jTabbedPane.addTab("Cliente (F5)", paneCliente);
 
-        cboTipoPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Desconocido", "Efectivo", "Cheque", "Tarjeta", "Transferencia" }));
+        cboTipoPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Desconocido", "Efectivo", "Cheque", "Tarjeta", "Transferencia", "Recaudado por terceros", "SINPE MOVIL" }));
         cboTipoPago.setToolTipText("Elija el tipo de pago");
         cboTipoPago.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1714,7 +1714,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
 
         mnuArchivo.setText("Archivo");
 
-        mnuGuardar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
+        mnuGuardar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/disk.png"))); // NOI18N
         mnuGuardar.setText("Guardar");
         mnuGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -1724,7 +1724,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         });
         mnuArchivo.add(mnuGuardar);
 
-        mnuSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.CTRL_MASK));
+        mnuSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/control-power.png"))); // NOI18N
         mnuSalir.setText("Salir");
         mnuSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -1738,7 +1738,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
 
         mnuEdicion.setText("Edición");
 
-        mnuBuscar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
+        mnuBuscar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/binocular.png"))); // NOI18N
         mnuBuscar.setText("Buscar");
         mnuBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -1886,7 +1886,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                         .addGap(40, 40, 40)
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(123, 123, 123)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jTabbedPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
@@ -3286,7 +3286,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             idbanco = Ut.getNumericCode(this.cboBanco.getSelectedItem().toString(), "-");
         } // end if
 
-        // 0=Desconocido,1=Efectivo,2=Cheque,3=Tarjeta
+        // 0=Desconocido,1=Efectivo,2=Cheque,3=Tarjeta, 4=Recaudado por terceros, 5=SINPE MOVIL
         tipopago = this.cboTipoPago.getSelectedIndex(); // Bosco 14/06/2015
 
         if ((idtarjeta > 0 || idbanco > 0) && this.txtChequeoTarjeta.getText().trim().isEmpty()) {
@@ -3403,7 +3403,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 temp = txtMonExpress.getText().trim();
                 temp = temp.isEmpty() ? "0" : temp;
                 temp = Ut.quitarFormato(temp);
-                facmonexp = Double.parseDouble(temp);
+                facmonexp = Double.valueOf(temp);
                 sqlUpdate
                         = "Call ModificarEncabezadoFactura("
                         + "?,"
@@ -6095,7 +6095,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         // Validar el TC
         tc = 0;
         try {
-            tc = Float.valueOf(txtTipoca.getText());
+            tc = Float.parseFloat(txtTipoca.getText());
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),

@@ -209,6 +209,7 @@ public class CierreContaAnual extends javax.swing.JFrame {
                 return;
             } // end if
 
+            // Validar que el tipo de asiento correspondiente a cierre anual exista.
             String temp = UtilBD.getDBString(conn, "cotipasient", "tipo_comp = 99", "descrip");
             tipo_comp_descrip = temp;
 
@@ -226,6 +227,7 @@ public class CierreContaAnual extends javax.swing.JFrame {
 
             temp = UtilBD.getFieldValue(conn, "coasientoe", "no_comprob", "periodo", "13");
 
+            // Validar si el asiento de cierre fue generado previamente.
             if (temp != null && !temp.trim().isEmpty()) {
                 // Bosco 17/10/2020
                 // Todavía no existe un proceso de eliminación de asientos.
@@ -253,7 +255,6 @@ public class CierreContaAnual extends javax.swing.JFrame {
             int mesCierreAnual = Integer.parseInt(temp);
 
             // Si hay movimientos sin cerrar, el cierre no continúa
-            // LOCATE FOR periodo <= nMescierrea AND YEAR(fecha_comp) = YEAR(aslcgpe.fecha_fi)
             boolean hayDatosSinCerrar
                     = UtilBD.hayDatos(conn,
                             "coasientoe",
@@ -299,12 +300,13 @@ public class CierreContaAnual extends javax.swing.JFrame {
             return;
         } // end try-catch
 
+        // El asiento de cierre será siempre no_comprob = '99999' y el tipo_comp = 99
         RegistroAsientos ra = new RegistroAsientos(conn);
         ra.setVisible(true);
         ra.setDescripA(lblAsiento);
         ra.setDescrip("Asiento de cierre anual");
         ra.setTipo(tipo_comp_descrip);
-        ra.setComprobante("99999");
+        ra.setComprobante("99999"); // 5 nueves
         ra.setFecha(per.getFecha_in());
 
         // Recorrer el catálogo de cuentas filtrando las cuentas de ingresos y gastos
@@ -429,6 +431,9 @@ public class CierreContaAnual extends javax.swing.JFrame {
             ps.close();
 
             // Traslado el asiento de cierre al histórico y lo elimino del actual
+            // También puede que el usuario haya generado otros asiento de tipo 99, 
+            // que se usan para establecer saldos en algunas cuentas que normalmente
+            // no tienen movimientos (también son asientos de cierre).
             sqlSent
                     = "INSERT INTO coasientod( "
                     + "	no_comprob, "

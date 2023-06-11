@@ -147,6 +147,8 @@ public class CierreConta extends javax.swing.JFrame {
             CMD.transaction(conn, CMD.START_TRANSACTION);
 
             b.writeToLog(this.getClass().getName() + "--> Guardando copia del catálogo...", Bitacora.INFO);
+            
+            // Guardar una copia del catálogo y establece los saldos iniciales para el nuevo periodo.
             boolean correcto = UtilBD.CGguardarCatalogo(conn, per.getFecha_fi());
 
             if (correcto) {
@@ -156,6 +158,7 @@ public class CierreConta extends javax.swing.JFrame {
 
             if (correcto) {
                 b.writeToLog(this.getClass().getName() + "--> Estableciendo nuevo periodo...", Bitacora.INFO);
+                // Se deja el periodo actual como cerrado y se configuran los parámetros del nuevo periodo.
                 correcto = UtilBD.CGcerrarPeriodoActual(conn, per);
             } // end if
 

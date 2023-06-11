@@ -250,7 +250,7 @@
                       <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                       <Component id="jPanel1" max="32767" attributes="1"/>
                       <EmptySpace min="-2" pref="123" max="-2" attributes="0"/>
-                      <Component id="jPanel4" pref="338" max="32767" attributes="1"/>
+                      <Component id="jPanel4" pref="342" max="32767" attributes="1"/>
                       <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                       <Component id="jPanel3" min="-2" pref="65" max="-2" attributes="1"/>
                   </Group>
@@ -1360,12 +1360,14 @@
             <Component class="javax.swing.JComboBox" name="cboTipoPago">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="5">
+                  <StringArray count="7">
                     <StringItem index="0" value="Desconocido"/>
                     <StringItem index="1" value="Efectivo"/>
                     <StringItem index="2" value="Cheque"/>
                     <StringItem index="3" value="Tarjeta"/>
                     <StringItem index="4" value="Transferencia"/>
+                    <StringItem index="5" value="Recaudado por terceros"/>
+                    <StringItem index="6" value="SINPE MOVIL"/>
                   </StringArray>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" value="Elija el tipo de pago"/>

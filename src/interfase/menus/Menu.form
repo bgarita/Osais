@@ -1877,6 +1877,14 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuConsultaXMLActionPerformed"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="mnuDocumentoIndividual">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Consultar documento individual"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuDocumentoIndividualActionPerformed"/>
+              </Events>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuRecibirXML">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Recibir documentos XML"/>
