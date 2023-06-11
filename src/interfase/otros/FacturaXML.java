@@ -630,7 +630,7 @@ public class FacturaXML extends javax.swing.JFrame {
 
         // Si la bitácora contiene datos la muestro en pantalla.
         StringBuilder sb = new StringBuilder();
-        if (this.bitacora != null && this.bitacora.size() > 0) {
+        if (this.bitacora != null && !this.bitacora.isEmpty()) {
             bitacora.forEach((bit) -> {
                 sb.append(bit).append("\n");
             }); // end for
@@ -747,7 +747,9 @@ public class FacturaXML extends javax.swing.JFrame {
              comprobante electrónico se desconoce el medio de pago se debe de 
              indicar “Efectivo “.
              */
-            fac.setMedioPago(emisor.getTipoPago()); // 01=Efectivo, 02=Tarjeta, 03=Cheque, 04=Transferencia, 05=Recaudado por terceros, 99=Otros
+            
+            // 01=Efectivo, 02=Tarjeta, 03=Cheque, 04=Transferencia, 05=Recaudado por terceros, 06=SINPE MOVIL, 99=Otros
+            fac.setMedioPago(emisor.getTipoPago());
 
             // Detalle de la factura
             DetalleFactura detalle = new DetalleFactura();

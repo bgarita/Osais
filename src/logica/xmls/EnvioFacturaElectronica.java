@@ -147,7 +147,10 @@ public class EnvioFacturaElectronica extends Thread {
                 if (resp == null || resp.trim().isEmpty()) {
                     String msg
                             = "El XML " + factura + " no se pudo enviar.\n"
-                            + "Vaya al menú Hacienda y trate con la opción Generar documentos XML.";
+                            + "Vaya al menú Hacienda y trate con la opción Generar documentos XML.\n"
+                            + "Si vuelve a aprecer este error, vaya a la carpeta de xmls, abra el\n"
+                            + "archivo " + factura + ".log y reporte el error que aparezca ahí al\n"
+                            + "administrador del sistema.";
                     b.writeToLog(this.getClass().getName() + "--> " + msg, Bitacora.INFO);
                     continue;
                 } // end if

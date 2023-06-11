@@ -157,7 +157,6 @@ public class Emisor {
         this.identificacion.setNumero(rs.getString("cedulajur").replaceAll("-", "")); // Se eliminan los guiones
 
         this.ubicacion = new Ubicacion();
-        //        this.ubicacion.setProvincia(Ut.lpad(rs.getString("provincia"), "0", 2));
         this.ubicacion.setProvincia(rs.getInt("provincia") + "");
         this.ubicacion.setCanton(Ut.lpad(rs.getString("canton"), "0", 2));
         this.ubicacion.setDistrito(Ut.lpad(rs.getString("distrito"), "0", 2));
@@ -178,9 +177,9 @@ public class Emisor {
          Por esa razón las facturas de crédito también irán como efectivo
          aunque lo lógico debió ser "Desconocido".
          */
+        // 11/04/2023 se agregaron los medios de mago 05 y 06 según esquema de Hacienda v2.4
         sqlSent
                 = "Select "
-                //+ "     facfechac as facfech, "
                 + "     IF(DATE_SUB(now(), INTERVAL 45 MINUTE) > facfechac, now(), facfechac) AS facfech, "
                 + "	IF(facplazo = 0,'01','02') as tivoVenta, "
                 + "	facplazo, "
@@ -190,6 +189,8 @@ public class Emisor {
                 + "		When 2 THEN '03' " // -- Cheque 
                 + "		When 3 THEN '02' " // -- Tarjeta 
                 + "		When 4 THEN '04' " // -- Transferencia
+                + "		When 5 THEN '05' " // -- Recaudado por terceros
+                + "		When 6 THEN '06' " // -- SINPE MOVIL
                 + "	End as tipoPago, "
                 + "     codigoTC, "
                 + "     monedas.codigoHacienda, "
@@ -218,13 +219,6 @@ public class Emisor {
         this.codigoTC = rs.getString("codigoTC");
         this.codigoMonedaHacienda = rs.getString("codigoHacienda");
         this.descripMoneda = rs.getString("descrip");
-        // Esto ya no es necesario porque se corrió un script que establece los
-        // códigos de Hacienda en un campo nuevo.
-//        if (codigoTC.equals("001") || descrip.contains("Colones")) {
-//            this.codigoMonedaHacienda = "CRC";
-//        } else if (codigoTC.equals("002") || descrip.contains("Dólares")) {
-//            this.codigoMonedaHacienda = "USD";
-//        } // end if-else
         this.tipoCambio = rs.getFloat("tipoca");
         ps.close();
     } // end setData

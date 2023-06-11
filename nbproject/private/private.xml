@@ -3,13 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Java%20Programs/osais/src/interfase/consultas/DetalleNotificacionXml.java</file>
             <file>file:/C:/Java%20Programs/osais/src/interfase/menus/Menu.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/interfase/otros/Ingreso.java</file>
-            <file>file:/C:/Java%20Programs/osais/Pendientes_conta.txt</file>
-            <file>file:/C:/Java%20Programs/osais/src/accesoDatos/DataBaseConnection.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/Mail/EnviarCorreoFE.java</file>
-            <file>file:/C:/Java%20Programs/osais/src/Mail/Bitacora.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/interfase/transacciones/RegistroFacturasV.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/logica/utilitarios/Ut.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/interfase/consultas/ConsultaDocumentoElectronico.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/logica/DocumentoElectronico.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/logica/xmls/EnvioFacturaElectronica.java</file>
+            <file>file:/C:/Java%20Programs/osais/test/testing/EjecutarUnExe.java</file>
             <file>file:/C:/Java%20Programs/osais/Pendientes.txt</file>
+            <file>file:/C:/Java%20Programs/osais/src/logica/backup/BackupResoreJob.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/interfase/otros/BackupInterface.java</file>
+            <file>file:/C:/Java%20Programs/osais/src/interfase/otros/FacturaXML.java</file>
         </group>
     </open-files>
 </project-private>

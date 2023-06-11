@@ -24,7 +24,7 @@ Ajustes para la versión 4.4 de Factura Electrónica según Hacienda
      - Factura electrónica de compra
    - Pruebas y depuración                                                       4 horas
 5. Plazo del crédito.  No hay cambio, ya el sistema lo permite.
-6. Medios de pago. 
+6. Medios de pago. LISTO - 11/04/2023
    Incluir: 
    - Recaudado por terceros y SINPE MOVIL en el combo de Formas de pago 
      en la pantalla de registro de facturas de venta.                           1 hora

@@ -38,12 +38,12 @@ public class DocumentoElectronico {
 
     private String sucursal;        // 
     private String terminal;        //
-    private String tipoComprobante; // 01=FAC, 02=NDB, 03=NCR, 04=Tiquete, 08=Fact Compra, 09=FacturaExportacion
-    private int situacionComprobante; // 1=Normal,2=Contingencia,3=Sin internet
-    private String codigoActividad; // Código de actividad económica.
-    private String tipoCedula;      // Tipo de cédula
+    private String tipoComprobante;     // 01=FAC, 02=NDB, 03=NCR, 04=Tiquete, 08=Fact Compra, 09=FacturaExportacion
+    private int situacionComprobante;   // 1=Normal,2=Contingencia,3=Sin internet
+    private String codigoActividad;     // Código de actividad económica.
+    private String tipoCedula;          // Tipo de cédula
 
-    private String accion;          // 1=Enviar documento electrónico, 2=Consultar documento electrónco
+    private String accion;              // 1=Enviar documento electrónico, 2=Consultar documento electrónco
 
     // Conexión a la base de datos (no se debe cerrar en esta clase).
     private final Connection conn;
@@ -438,7 +438,7 @@ public class DocumentoElectronico {
     }
 
     /**
-     * Determinar si existe un documento de ventas.
+     * Determinar si existe un documento de ventas en la base de datos.
      *
      * @return
      * @throws java.sql.SQLException

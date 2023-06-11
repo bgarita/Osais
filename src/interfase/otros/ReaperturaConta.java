@@ -168,6 +168,10 @@ public class ReaperturaConta extends javax.swing.JFrame {
         datMesPropertyChange(evt);
     }//GEN-LAST:event_datAñoPropertyChange
 
+    /**
+     * Al reabrir un periodo contable se eliminan todos los asientos de cierre.
+     * @param evt 
+     */
     private void btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjecutarActionPerformed
         int resp
                 = JOptionPane.showConfirmDialog(null,
@@ -220,7 +224,8 @@ public class ReaperturaConta extends javax.swing.JFrame {
             error_msg = actuCat.getMensaje_err();
             if (error){
                 throw new SQLException(
-                        "El período fue re-abierto pero ocurrió luego este error: " + error_msg);
+                        "El período fue re-abierto pero ocurrió luego este error: " + error_msg + "\n" +
+                        "Debe recalcular saldos manualmente.");
             } // end if
             
             // Aplicar los asientos del periodo recien re-abierto
@@ -228,7 +233,8 @@ public class ReaperturaConta extends javax.swing.JFrame {
             error_msg = actuCat.getMensaje_err();
             if (error){
                 throw new SQLException(
-                        "El período fue re-abierto pero ocurrió luego este error: " + error_msg);
+                        "El período fue re-abierto pero ocurrió luego este error: " + error_msg + "\n" +
+                        "Debe los procesos de actualización de datos manualmente.");
             } // end if
         } catch (SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);

@@ -523,6 +523,7 @@ public class Menu extends javax.swing.JFrame {
         mnuXml = new javax.swing.JMenuItem();
         mnuConsXML = new javax.swing.JMenuItem();
         mnuConsultaXML = new javax.swing.JMenuItem();
+        mnuDocumentoIndividual = new javax.swing.JMenuItem();
         mnuRecibirXML = new javax.swing.JMenuItem();
         jSeparator25 = new javax.swing.JPopupMenu.Separator();
         mnuCabys = new javax.swing.JMenuItem();
@@ -2095,6 +2096,14 @@ public class Menu extends javax.swing.JFrame {
             }
         });
         mnuHacienda.add(mnuConsultaXML);
+
+        mnuDocumentoIndividual.setText("Consultar documento individual");
+        mnuDocumentoIndividual.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuDocumentoIndividualActionPerformed(evt);
+            }
+        });
+        mnuHacienda.add(mnuDocumentoIndividual);
 
         mnuRecibirXML.setText("Recibir documentos XML");
         mnuRecibirXML.addActionListener(new java.awt.event.ActionListener() {
@@ -4523,6 +4532,11 @@ public class Menu extends javax.swing.JFrame {
         Companies.main(new String[1]);
     }//GEN-LAST:event_mnuCompaniesActionPerformed
 
+    private void mnuDocumentoIndividualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDocumentoIndividualActionPerformed
+        ConsultaDocumentoElectronico consultaDocumentoElectronico =  new ConsultaDocumentoElectronico(this, false, CONEXION.getConnection());
+        consultaDocumentoElectronico.setVisible(true);
+    }//GEN-LAST:event_mnuDocumentoIndividualActionPerformed
+
     public static void main(final DataBaseConnection c, final boolean disponible, final String url) {
 
         /* Set the Nimbus look and feel */
@@ -4656,6 +4670,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuDocs;
     private javax.swing.JMenuItem mnuDocsXCobrar;
     private javax.swing.JMenuItem mnuDocsxtipo;
+    private javax.swing.JMenuItem mnuDocumentoIndividual;
     private javax.swing.JMenuItem mnuEliminarCXP;
     private javax.swing.JMenuItem mnuEntradas;
     private javax.swing.JMenu mnuEstFin;

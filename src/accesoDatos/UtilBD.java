@@ -1752,6 +1752,12 @@ public class UtilBD {
         return balanceado;
     } // end estaBalanceado
 
+    /**
+     * Mover los asientos del periodo actual a las tablas históricas.
+     * @param conn
+     * @return
+     * @throws SQLException 
+     */
     public static boolean CGmoverAsientosHistorico(Connection conn) throws SQLException {
         boolean trasladado;
 
@@ -1856,7 +1862,7 @@ public class UtilBD {
             return trasladado;
         } // end if
 
-        // Elimino los registros que se copiaron al histórico.
+        // Si todo salió bien, elimino los registros que se copiaron al histórico.
         // Elimino en order inverso, primero el detalle luego el encabezado.
         sqlSent = "DELETE FROM coasientod "
                 + "WHERE EXISTS( "
@@ -1897,6 +1903,13 @@ public class UtilBD {
         return trasladado;
     } // end CGmoverAsientosHistorico
 
+    /**
+     * Establecer el periodo actual como cerrado y configurar los datos del siguiente periodo.
+     * @param conn
+     * @param per PeriodoContable a cerrar
+     * @return
+     * @throws SQLException 
+     */
     public static boolean CGcerrarPeriodoActual(Connection conn, PeriodoContable per) throws SQLException {
         int reg;
         String sqlSent
@@ -1996,7 +2009,8 @@ public class UtilBD {
     } // end CGcerrarPeriodoActual
 
     /**
-     * Hace una copia del catálogo tal y como está en este momento.Se usa en el cierre
+     * Hace una copia del catálogo tal y como está en este momento y establece
+     * los saldos iniciales para el nuevo periodo (mes).Se usa en el cierre
      * mensual.
      *
      * @param conn
@@ -2005,7 +2019,7 @@ public class UtilBD {
      * @throws java.sql.SQLException
      */
     public static boolean CGguardarCatalogo(Connection conn, Date fecha_fi) throws SQLException {
-        boolean correcto = false;
+        boolean correcto;
         java.sql.Date fecha_cierre = new java.sql.Date(fecha_fi.getTime());
         String sqlSent
                 = "INSERT INTO hcocatalogo ( "
