@@ -68,8 +68,8 @@ public class PeriodoContable extends JFrame {
         this.datYear.setYear(periodo.getYear() == 0 ? 2013:periodo.getYear());
         
         this.txtDescrip.setText(periodo.getDescrip());
-        this.datfecha_in.setDate(periodo.getFecha_in());
-        this.datfecha_fi.setDate(periodo.getFecha_fi());
+        this.datfecha_in.setDate(periodo.getFechaInicial());
+        this.datfecha_fi.setDate(periodo.getFechaFinal());
         
         principio = false;
         
@@ -309,9 +309,9 @@ public class PeriodoContable extends JFrame {
         periodo.setDescrip(descrip);
         periodo.setCerrado(false);
         java.sql.Date d = new java.sql.Date(datfecha_in.getDate().getTime());
-        periodo.setFecha_in(d);
+        periodo.setFechaInicial(d);
         d = new java.sql.Date(datfecha_fi.getDate().getTime());
-        periodo.setFecha_fi(d);
+        periodo.setFechaFinal(d);
         
         try {
             CMD.transaction(conn, CMD.START_TRANSACTION);
@@ -351,22 +351,18 @@ public class PeriodoContable extends JFrame {
 }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void datMonthPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_datMonthPropertyChange
-        if (this.fin){
-            return;
-        }
-        txtDescrip.setText(periodo.toString(datMonth.getMonth(), datYear.getValue()));
-        
-        if (this.principio){
+        if (fin || principio || periodo == null){
             return;
         }
         
         // Esta parte solo debe correr cuando el usurio manipula los datos.
-        int mes = datMonth.getMonth();
-        int año = datYear.getValue();
-        periodo.setMonth(mes);
-        periodo.setYear(año);
-        datfecha_in.setDate(periodo.getFecha_in());
-        datfecha_fi.setDate(periodo.getFecha_fi());
+        txtDescrip.setText(periodo.toString(datMonth.getMonth(), datYear.getValue()));
+        int month = datMonth.getMonth();
+        int year = datYear.getValue();
+        periodo.setMonth(month);
+        periodo.setYear(year);
+        datfecha_in.setDate(periodo.getFechaInicial());
+        datfecha_fi.setDate(periodo.getFechaFinal());
     }//GEN-LAST:event_datMonthPropertyChange
 
     private void datYearPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_datYearPropertyChange

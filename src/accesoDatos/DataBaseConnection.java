@@ -4,7 +4,6 @@ import Mail.Bitacora;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
 
 /**
  *
@@ -29,7 +28,8 @@ public class DataBaseConnection {
 
     private void setConnection(String pUser, String pPassword, String url1) {
         aConn = new Connection[10];         // Arreglo de 10 conexiones
-        url = "jdbc:mysql:";
+        //url = "jdbc:mysql:";
+        url = "jdbc:mariadb:";
         servidor = url1;
         url += servidor;
         baseDatos = servidor.substring(servidor.lastIndexOf("/") + 1);
@@ -41,7 +41,6 @@ public class DataBaseConnection {
     } // end setConnection con sobrecarga
 
     public Connection getConnection() {
-        //return conectar(url, user, pass);
         return getConnection(url, user, pass);
     } // end getConnection
 
@@ -85,41 +84,20 @@ public class DataBaseConnection {
         return errorMessage;
     }
 
-    /**
-     * @deprecated 06/04/2023
-     * @param url
-     * @param user
-     * @param password
-     * @return 
-     */
-    private Connection conectar(String url, String user, String password) {
-        Connection conn;
-        url += "?autoReconnect=true&useSSL=false";
-        try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            conn = DriverManager.getConnection(url, user, password);
-        } catch (Exception ex) {
-            errorMessage = "[Conexión] " + ex.getMessage();
-            conn = null;
-            Bitacora b = new Bitacora();
-            b.setLogLevel(Bitacora.ERROR);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
-        } // end catch
-        if (conn != null) {
-            connected = true;
-        }
-        return conn;
-    } // end conectar
-
     private Connection getConnection(String url, String user, String password) {
+        /*
+        El siguiente código era necesario para acceder a MariaDB con el driver
+        de MySQL 5.x
         url += "?autoReconnect=true&useSSL=false";
-        Connection conn = null;
         Properties connectionProps = new Properties();
         connectionProps.put("user", user);
         connectionProps.put("password", password);
+        conn = DriverManager.getConnection(url,connectionProps);
+        */
         
+        Connection conn = null;
         try {
-            conn = DriverManager.getConnection(url,connectionProps);
+            conn = DriverManager.getConnection(url, user, password);
         } catch (SQLException ex) {
             this.errorMessage = ex.getMessage();
             Bitacora b = new Bitacora();

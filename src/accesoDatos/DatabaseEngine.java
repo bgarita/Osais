@@ -28,26 +28,26 @@ public class DatabaseEngine {
     private void loadData() throws SQLException {
         String sqlSent
                 = "SHOW VARIABLES LIKE '%VERSION%'";
-        PreparedStatement ps = conn.prepareStatement(
+        try (PreparedStatement ps = conn.prepareStatement(
                 sqlSent, ResultSet.TYPE_SCROLL_SENSITIVE,
-                ResultSet.CONCUR_READ_ONLY);
-        ResultSet rs = CMD.select(ps);
-        this.engineVersion = "N/A";
-        this.dataBaseVersion = "N/A";
-        if (rs.first()) {
-            rs.beforeFirst();
-            while (rs.next()) {
-                if (rs.getString("variable_name").trim().equals("innodb_version")) {
-                    this.dataBaseVersion = rs.getString("value");
-                    continue;
-                } // end if
-
-                if (rs.getString("variable_name").trim().equals("version")) {
-                    this.engineVersion = rs.getString("value");
-                } // end if
-            } // end while
-        } // end if
-        ps.close();
+                ResultSet.CONCUR_READ_ONLY)) {
+            ResultSet rs = CMD.select(ps);
+            this.engineVersion = "N/A";
+            this.dataBaseVersion = "N/A";
+            if (rs.first()) {
+                rs.beforeFirst();
+                while (rs.next()) {
+                    if (rs.getString("variable_name").trim().equals("innodb_version")) {
+                        this.dataBaseVersion = rs.getString("value");
+                        continue;
+                    } // end if
+                    
+                    if (rs.getString("variable_name").trim().equals("version")) {
+                        this.engineVersion = rs.getString("value");
+                    } // end if
+                } // end while
+            } // end if
+        }
 
     } // end loadData()
 

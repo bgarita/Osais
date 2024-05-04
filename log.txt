@@ -130,3 +130,8 @@ Vaya al menú Registro y elija Tipo de cambio.]
 Vaya al menú Registro y elija Tipo de cambio.]
 [Sun Jun 11 15:31:56 CST 2023][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
 Vaya al menú Registro y elija Tipo de cambio.]
+[Sat May 04 07:41:52 CST 2024][ERROR][Usuario: null][accesoDatos.DataBaseConnection--> Could not create connection to database server. Attempted reconnect 3 times. Giving up.]
+[Sat May 04 07:45:42 CST 2024][ERROR][Usuario: null][accesoDatos.DataBaseConnection--> Could not create connection to database server. Attempted reconnect 3 times. Giving up.]
+[Sat May 04 07:47:12 CST 2024][ERROR][Usuario: null][accesoDatos.DataBaseConnection--> Could not create connection to database server. Attempted reconnect 3 times. Giving up.]
+[Sat May 04 08:17:06 CST 2024][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.]
