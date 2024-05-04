@@ -121,6 +121,7 @@ public class DataBaseConnection {
         try {
             conn = DriverManager.getConnection(url,connectionProps);
         } catch (SQLException ex) {
+            this.errorMessage = ex.getMessage();
             Bitacora b = new Bitacora();
             b.setLogLevel(Bitacora.ERROR);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
