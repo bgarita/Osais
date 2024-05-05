@@ -342,7 +342,7 @@ public class AplicacionAjustesInv extends JFrame {
             rsAJ = CMD.select(ps);
             
             // Si hubo error realizo el ROLLBAK...
-            if (!Ut.goRecord(rsAJ, Ut.FIRST)){
+            if (!UtilBD.goRecord(rsAJ, UtilBD.FIRST)){
                 CMD.transaction(conn, CMD.ROLLBACK);
             } // end if
             

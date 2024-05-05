@@ -1426,7 +1426,7 @@ public class CambioEnFacturaCXC extends JFrame {
             
             // Si el registro no existe se da por buena la validación.
             // Esto se debe a que no se podrá procesar nada si el registro no existe.
-            if (!Ut.goRecord(rsTC, Ut.FIRST)){
+            if (!UtilBD.goRecord(rsTC, UtilBD.FIRST)){
                 return true;
             } // end if
             

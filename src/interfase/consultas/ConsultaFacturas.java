@@ -10,6 +10,7 @@
 package interfase.consultas;
 
 import Mail.Bitacora;
+import accesoDatos.UtilBD;
 import interfase.reportes.RepVentasxclienteDetalle;
 import java.awt.Color;
 import java.sql.CallableStatement;
@@ -340,19 +341,19 @@ public class ConsultaFacturas extends javax.swing.JFrame {
             rsDet = cs.executeQuery();
             
             // Si no hay datos...
-            if (!Ut.goRecord(rsDet, Ut.BEFORE_FIRST)){
+            if (!UtilBD.goRecord(rsDet, UtilBD.BEFORE_FIRST)){
                 return;
             } // end if
             
             // Redimensiono el JTable
-            Ut.goRecord(rsDet, Ut.LAST);
+            UtilBD.goRecord(rsDet, UtilBD.LAST);
             int rows = Ut.recNo(rsDet);
             DefaultTableModel dtm = (DefaultTableModel) tblDetalle.getModel();
             dtm.setRowCount(rows);
             tblDetalle.setModel(dtm);
             row = 0;
-            Ut.goRecord(rsDet, Ut.BEFORE_FIRST);
-            while (Ut.goRecord(rsDet, Ut.NEXT)){
+            UtilBD.goRecord(rsDet, UtilBD.BEFORE_FIRST);
+            while (UtilBD.goRecord(rsDet, UtilBD.NEXT)){
                 tblDetalle.setValueAt(
                         rsDet.getString("artcode"), row, 0);
                 tblDetalle.setValueAt(

@@ -33,7 +33,7 @@ public class Bitacora {
         
         // Cuando el sistema recién inicia el menú aún no ha sido instanciado.  Por esa
         // razón es necesario que la bitácora del sistema se cree en el home y no en el
-        // companyHone. (solo se da cuando ocurre un error antes del menú).
+        // companyHome. (solo se da cuando ocurre un error antes del menú).
         try {
             this.logFile = new File(Menu.DIR.getSystemLog() + Ut.getProperty(Ut.FILE_SEPARATOR)+ "log.txt");
             

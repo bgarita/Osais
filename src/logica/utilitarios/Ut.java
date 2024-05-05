@@ -49,22 +49,9 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Ut {
 
-    /**
-     * Obtener el número de puerto por el que está escuchando el motor de base de datos.
-     *
-     * @param url String texto que incluye parte de la conexión a base de datos.
-     * @return String número de puerto
-     */
-    public static String getConnectionPort(String url) {
-        int pos = getPosicion(url, ":");
-        String temp = url.substring(pos + 1);
-        pos = getPosicion(temp, "/");
-        return temp.substring(0, pos);
-    } // end getConnectionPort
-
-    public static final int DIA = 1;
-    public static final int MES = 2;
-    public static final int AÑO = 3;
+    public static final int DAY = 1;
+    public static final int MONTH = 2;
+    public static final int YEAR = 3;
 
     // Constantes para el método getProperty
     // Variables de entorno.
@@ -77,21 +64,13 @@ public class Ut {
     public static final int FILE_SEPARATOR = 7;
     public static final int PATH_SEPARATOR = 8;
     public static final int LINE_SEPARATOR = 9;
-    public static final int WINDIR = 10;      // Solo para windows
+    public static final int WINDIR = 10;        // Solo para windows
     public static final int SYSTEM32 = 11;      // Solo para windows
     public static final int COMPUTERNAME = 12;
     public static final int PROCESSOR_IDENTIFIER = 13;
     public static final int JAVA_VERSION = 14;
 
-    // Constantes para navegar en un Result Set
-    public static final int BEFORE_FIRST = 1;
-    public static final int FIRST = 2;
-    public static final int NEXT = 3;
-    public static final int PREVIOUS = 4;
-    public static final int LAST = 5;
-    public static final int AFTER_LAST = 6;
-    public static final int ABSOLUTE = 7;
-
+    
     /**
      * @author: Bosco Garita Azofeifa Este método recibe un objeto de tipo JTextField que
      * contiene un número formateado y devuelve otro objeto de tipo Number con el valor
@@ -545,16 +524,16 @@ public class Ut {
         int dia1 = 0, mes1 = 0, año1 = 0;
         int dia2 = 0, mes2 = 0, año2 = 0;
 
-        if (iniciaCon < DIA || iniciaCon > AÑO) {
-            iniciaCon = DIA;
+        if (iniciaCon < DAY || iniciaCon > YEAR) {
+            iniciaCon = DAY;
         } // end if
 
         // Determino con qué inicia la Sfecha.  Los valores aceptados son:
-        // DIA = 1 (dd/mm/aaaa)
-        // MES = 2 (mm/dd/aaaa)
-        // AÑO = 3 (aaaa/mm/dd)
+        // DAY = 1 (dd/mm/aaaa)
+        // MONTH = 2 (mm/dd/aaaa)
+        // YEAR = 3 (aaaa/mm/dd)
         switch (iniciaCon) {
-            case DIA:
+            case DAY:
                 dia1 = Integer.parseInt(fecha1.substring(0, 2));
                 mes1 = Integer.parseInt(fecha1.substring(3, 5));
                 año1 = Integer.parseInt(fecha1.substring(6, 10));
@@ -562,7 +541,7 @@ public class Ut {
                 mes2 = Integer.parseInt(fecha2.substring(3, 5));
                 año2 = Integer.parseInt(fecha2.substring(6, 10));
                 break;
-            case MES:
+            case MONTH:
                 mes1 = Integer.parseInt(fecha1.substring(0, 2));
                 dia1 = Integer.parseInt(fecha1.substring(3, 5));
                 año1 = Integer.parseInt(fecha1.substring(6, 10));
@@ -570,7 +549,7 @@ public class Ut {
                 dia2 = Integer.parseInt(fecha2.substring(3, 5));
                 año2 = Integer.parseInt(fecha2.substring(6, 10));
                 break;
-            case AÑO:
+            case YEAR:
                 año1 = Integer.parseInt(fecha1.substring(0, 4));
                 mes1 = Integer.parseInt(fecha1.substring(5, 7));
                 dia1 = Integer.parseInt(fecha1.substring(8, 10));
@@ -593,8 +572,8 @@ public class Ut {
     } // end getDays
 
     public int getDays(Long fecha1, Long fecha2, int iniciaCon) {
-        if (iniciaCon < DIA || iniciaCon > AÑO) {
-            iniciaCon = DIA;
+        if (iniciaCon < DAY || iniciaCon > YEAR) {
+            iniciaCon = DAY;
         } // end if
         Calendar xfecha1 = new GregorianCalendar();
         Calendar xfecha2 = new GregorianCalendar();
@@ -620,15 +599,15 @@ public class Ut {
             mes2 = "0" + mes2;
         } // end if
         switch (iniciaCon) {
-            case DIA:
+            case DAY:
                 yfecha1 = dia1 + "/" + mes1 + "/" + año1;
                 yfecha2 = dia2 + "/" + mes2 + "/" + año2;
                 break;
-            case MES:
+            case MONTH:
                 yfecha1 = mes1 + "/" + dia1 + "/" + año1;
                 yfecha2 = mes2 + "/" + dia2 + "/" + año2;
                 break;
-            case AÑO:
+            case YEAR:
                 yfecha1 = año1 + "/" + mes1 + "/" + dia1;
                 yfecha2 = año2 + "/" + mes2 + "/" + dia2;
                 break;
@@ -1958,52 +1937,6 @@ public class Ut {
     } // end fillComboBox
 
     /**
-     * Autor: Bosco Garita 08/02/2011 10:48 p.m.Objet: Mover el puntero a una posición
-     * relativa dentro del RS
-     *
-     * @param r ResultSet, debe venir con movilidad
-     * @param pos Posición a la que se moverá el puntero
-     * @return boolean true = Fue exitoso, false = No lo fue
-     * @throws java.sql.SQLException
-     */
-    public static boolean goRecord(ResultSet r, int pos) throws SQLException {
-        boolean exito = false;
-        if (r == null) {
-            return exito;
-        } // end if
-
-        switch (pos) {
-            case BEFORE_FIRST:
-                exito = true;
-                r.beforeFirst();
-                break;
-            case FIRST:
-                exito = r.first();
-                break;
-            case LAST:
-                exito = r.last();
-                break;
-            case NEXT:
-                exito = r.next();
-                break;
-            case PREVIOUS:
-                exito = r.previous();
-                break;
-            case AFTER_LAST:
-                exito = true;
-                r.afterLast();
-                break;
-            case ABSOLUTE:
-                exito = r.absolute(pos);
-                break;
-            default:
-                exito = false;
-        } // end switch
-
-        return exito;
-    } // end goRecord
-
-    /**
      * Autor: Bosco Garita 17/04/2011 Este método es similar a RECNO() en VisualFox,
      * devuelve el número de registro actual dentro de un ResultSet. Si el RS no tiene
      * datos o está nulo devuelve cero
@@ -3308,15 +3241,15 @@ public class Ut {
         Calendar cal = GregorianCalendar.getInstance();
         cal.setTime(date);
         switch (part) {
-            case Ut.DIA: {
+            case Ut.DAY: {
                 datePart = cal.get(Calendar.DAY_OF_MONTH);
                 break;
             }
-            case Ut.MES: {
+            case Ut.MONTH: {
                 datePart = cal.get(Calendar.MONTH);
                 break;
             }
-            case Ut.AÑO: {
+            case Ut.YEAR: {
                 datePart = cal.get(Calendar.YEAR);
                 break;
             }

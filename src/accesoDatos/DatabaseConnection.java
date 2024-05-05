@@ -4,6 +4,7 @@ import Mail.Bitacora;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import static logica.utilitarios.Ut.getPosicion;
 
 /**
  *
@@ -12,7 +13,7 @@ import java.sql.SQLException;
  * encuentra en una capa que no debe tener ningún tipo de relación con el
  * usuario.
  */
-public class DataBaseConnection {
+public class DatabaseConnection {
 
     // Pila de conexiones
     private static Connection[] aConn;
@@ -22,7 +23,7 @@ public class DataBaseConnection {
     private String errorMessage = "";  // Bosco agregado 17/03/2013.
     private String url, user, pass;    // Estas variables no deben ser static (Bosco 24/12/2014)
 
-    public DataBaseConnection(String pUser, String pPassword, String url) {
+    public DatabaseConnection(String pUser, String pPassword, String url) {
         setConnection(pUser, pPassword, url);
     } // end constructor sobrecargado
 
@@ -50,7 +51,6 @@ public class DataBaseConnection {
             aConn[0].getCatalog();
         } catch (SQLException ex) {
             // Si ocurrió un error significa que la conexión ya estaba cerrada.
-            //aConn[0] = conectar(url, user, pass);
             aConn[0] = getConnection(url, user, pass);
         }
         return aConn[0];
@@ -63,6 +63,19 @@ public class DataBaseConnection {
             }
         } // end for
     } // end closeAllConnections
+    
+    /**
+     * Obtener el número de puerto por el que está escuchando el motor de base de datos.
+     *
+     * @param url String texto que incluye parte de la conexión a base de datos.
+     * @return String número de puerto
+     */
+    public static String getConnectionPort(String url) {
+        int pos = getPosicion(url, ":");
+        String temp = url.substring(pos + 1);
+        pos = getPosicion(temp, "/");
+        return temp.substring(0, pos);
+    } // end getConnectionPort
 
     public String getServerName() {
         return servidor;

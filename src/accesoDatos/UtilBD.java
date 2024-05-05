@@ -51,6 +51,15 @@ public class UtilBD {
     public static final int SQL_INSERT = 2;
     public static final int SQL_UPDATE = 3;
     public static final int SQL_DELETE = 4;
+    
+    // Constantes para navegar en un Result Set
+    public static final int BEFORE_FIRST = 1;
+    public static final int FIRST = 2;
+    public static final int NEXT = 3;
+    public static final int PREVIOUS = 4;
+    public static final int LAST = 5;
+    public static final int AFTER_LAST = 6;
+    public static final int ABSOLUTE = 7;
 
     /**
      * Este método verifica si el sistema está configurado para redondear precios o no.
@@ -370,7 +379,7 @@ public class UtilBD {
                 ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
         ResultSet r = CMD.select(ps);
 
-        Ut.goRecord(r, Ut.LAST);
+        goRecord(r, LAST);
 
         int registros = Ut.recNo(r); // Cantidad de registros
         if (registros > 1) {
@@ -422,7 +431,7 @@ public class UtilBD {
                 ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
         ResultSet r = CMD.select(ps);
 
-        Ut.goRecord(r, Ut.LAST);
+        goRecord(r, LAST);
 
         int registros = Ut.recNo(r); // Cantidad de registros
 
@@ -1286,7 +1295,7 @@ public class UtilBD {
         String sqlUpdate, bodega, localiz;
         int pos;
         PreparedStatement ps;
-        //Connection conn = DataBaseConnection.getConnection();
+        //Connection conn = DatabaseConnection.getConnection();
 
         // Si la tabla viene vacía no continúo
         if (tblExistencias.getRowCount() == 0 || tblExistencias.getValueAt(0, 0) == null) {
@@ -2804,4 +2813,50 @@ public class UtilBD {
 
         ps.close();
     } // end optimizeDatabase
+    
+    /**
+     * Autor: Bosco Garita 08/02/2011 10:48 p.m.Objet: Mover el puntero a una posición
+     * relativa dentro del RS
+     *
+     * @param r ResultSet, debe venir con movilidad
+     * @param pos Posición a la que se moverá el puntero
+     * @return boolean true = Fue exitoso, false = No lo fue
+     * @throws java.sql.SQLException
+     */
+    public static boolean goRecord(ResultSet r, int pos) throws SQLException {
+        boolean exito = false;
+        if (r == null) {
+            return exito;
+        } // end if
+
+        switch (pos) {
+            case BEFORE_FIRST:
+                exito = true;
+                r.beforeFirst();
+                break;
+            case FIRST:
+                exito = r.first();
+                break;
+            case LAST:
+                exito = r.last();
+                break;
+            case NEXT:
+                exito = r.next();
+                break;
+            case PREVIOUS:
+                exito = r.previous();
+                break;
+            case AFTER_LAST:
+                exito = true;
+                r.afterLast();
+                break;
+            case ABSOLUTE:
+                exito = r.absolute(pos);
+                break;
+            default:
+                exito = false;
+        } // end switch
+
+        return exito;
+    } // end goRecord
 } // end class UtilBD

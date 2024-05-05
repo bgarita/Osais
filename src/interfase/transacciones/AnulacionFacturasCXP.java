@@ -7,6 +7,7 @@ package interfase.transacciones;
 
 import Mail.Bitacora;
 import accesoDatos.CMD;
+import accesoDatos.UtilBD;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -543,7 +544,7 @@ public class AnulacionFacturasCXP extends java.awt.Dialog {
             PreparedStatement ps = conn.prepareStatement(sqlSent,
                     ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ResultSet rsx = CMD.select(ps);
-            if (Ut.goRecord(rsx, Ut.FIRST)) {
+            if (UtilBD.goRecord(rsx, UtilBD.FIRST)) {
                 genasienfac = rsx.getBoolean("genasienfac");
             } // end if
             ps.close();

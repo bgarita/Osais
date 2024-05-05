@@ -387,7 +387,7 @@ public class ConsultaMovimientosInv extends JFrame {
             PreparedStatement ps = conn.prepareStatement(sqlSent);
             ps.setString(1, artcode);
             ResultSet rs = ps.executeQuery();
-            if (!Ut.goRecord(rs, Ut.FIRST)) {
+            if (!UtilBD.goRecord(rs, UtilBD.FIRST)) {
                 JOptionPane.showMessageDialog(null,
                         "Artículo no existe.\n"
                         + "Pruebe con el buscador (CTRL + B).",

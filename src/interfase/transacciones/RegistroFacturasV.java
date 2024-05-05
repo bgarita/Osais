@@ -5734,7 +5734,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         ps = conn.prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
         rsX = CMD.select(ps);
-        if (!Ut.goRecord(rsX, Ut.FIRST)) {
+        if (!UtilBD.goRecord(rsX, UtilBD.FIRST)) {
             return "WARNING aún no se han configurado las cuentas\n "
                     + "para el asiento de ventas.";
         } // end if
@@ -5777,7 +5777,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
         ps.setInt(1, facnume);
         rsE = CMD.select(ps);
-        if (!Ut.goRecord(rsE, Ut.FIRST)) {
+        if (!UtilBD.goRecord(rsE, UtilBD.FIRST)) {
             return "ERROR factura no encontrada para asiento.";
         } // end if
 
@@ -5849,7 +5849,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
         ps.setInt(1, facnume);
         rsD = CMD.select(ps);
-        if (!Ut.goRecord(rsD, Ut.FIRST)) {
+        if (!UtilBD.goRecord(rsD, UtilBD.FIRST)) {
             return "ERROR detalle de factura no encontrado para asiento.";
         } // end if
 
@@ -5968,7 +5968,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
         ps.setInt(1, facnume);
         rsD = CMD.select(ps);
-        if (!Ut.goRecord(rsD, Ut.FIRST)) {
+        if (!UtilBD.goRecord(rsD, UtilBD.FIRST)) {
             return "ERROR detalle de impuestos no encontrado.";
         } // end if
 
@@ -6570,7 +6570,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         ps = conn.prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
         rs = CMD.select(ps);
-        if (!Ut.goRecord(rs, Ut.FIRST)) {
+        if (!UtilBD.goRecord(rs, UtilBD.FIRST)) {
             this.genasienfac = false;
             String msg
                     = "WARNING Aún no se han configurado las cuentas\n "

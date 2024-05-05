@@ -10,7 +10,7 @@ import MVC.view.Cocuentasres_v;
 import MVC.view.Impuestos_v;
 import Mail.Bitacora;
 import accesoDatos.CMD;
-import accesoDatos.DataBaseConnection;
+import accesoDatos.DatabaseConnection;
 import accesoDatos.DatabaseEngine;
 import accesoDatos.UpdateVersion;
 import accesoDatos.UtilBD;
@@ -103,7 +103,7 @@ public class Menu extends javax.swing.JFrame {
     public static String OS_NAME;
     public static String PORT;
     public static DirectoryStructure DIR;
-    public static DataBaseConnection CONEXION;
+    public static DatabaseConnection CONEXION;
     public static String engineVersion;
     public static String dataBaseVersion;
     private Path modulos;  // Archivo donde se encuentran los módulos habilitados
@@ -111,7 +111,7 @@ public class Menu extends javax.swing.JFrame {
     /**
      * Creates new form Menu
      */
-    Menu(DataBaseConnection c, boolean disponible, String url) {
+    Menu(DatabaseConnection c, boolean disponible, String url) {
         initComponents();
         addWindowListener(new WindowAdapter() {
             @Override
@@ -143,7 +143,7 @@ public class Menu extends javax.swing.JFrame {
         Menu.BASEDATOS = c.getDataBaseName();
         Menu.url = url;
         Menu.OS_NAME = Ut.getProperty(Ut.OS_NAME);
-        Menu.PORT = Ut.getConnectionPort(url);
+        Menu.PORT = DatabaseConnection.getConnectionPort(url);
 
         // Estructura de carpetas del sistema.
         DIR = new DirectoryStructure();
@@ -4537,7 +4537,7 @@ public class Menu extends javax.swing.JFrame {
         consultaDocumentoElectronico.setVisible(true);
     }//GEN-LAST:event_mnuDocumentoIndividualActionPerformed
 
-    public static void main(final DataBaseConnection c, final boolean disponible, final String url) {
+    public static void main(final DatabaseConnection c, final boolean disponible, final String url) {
 
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -4882,7 +4882,7 @@ public class Menu extends javax.swing.JFrame {
              */
             //if (conn.isValid(5)) {
             //conn.close();
-            DataBaseConnection.closeAllConnections();
+            DatabaseConnection.closeAllConnections();
             if (sConn != null) {
                 sConn.close();
             } // end if

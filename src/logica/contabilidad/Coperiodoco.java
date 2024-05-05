@@ -160,7 +160,7 @@ public class Coperiodoco implements IEstructuraBD {
                     fechaFinal = rs.getDate("fecha_fi");
                     cerrado = rs.getBoolean("cerrado");
                 } // end if
-            } // end try with resources // end try with resources // end try with resources // end try with resources
+            } // end try with resources
         } catch (SQLException ex) {
             Logger.getLogger(Coperiodoco.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
@@ -168,7 +168,7 @@ public class Coperiodoco implements IEstructuraBD {
             this.descrip = "";
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
-    } // end cargarTipo_comp
+    } // end cargar
 
     /**
      * @author Bosco Garita 03/11/2013 Este método trae todos los campos de toda la tabla
@@ -202,7 +202,7 @@ public class Coperiodoco implements IEstructuraBD {
                     periodoco[i].cerrado = rs.getBoolean("cerrado");
                 } // end for
                 ps.close();
-            } // end try with resources // end try with resources // end try with resources // end try with resources
+            } // end try with resources
         } catch (SQLException ex) {
             Logger.getLogger(Coperiodoco.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
@@ -216,12 +216,12 @@ public class Coperiodoco implements IEstructuraBD {
      * Este método consulta la base de datos para ver si el periodo existe o no.
      *
      * @author Bosco Garita 03/11/2013 SD
-     * @param mes int número de month (no es como JCalendar, van de 1-12)
-     * @param año
+     * @param month int número de month (no es como JCalendar, van de 1-12)
+     * @param year
      * @return true=existe, false=no existe
      * @throws SQLException
      */
-    public boolean existeEnBaseDatos(int mes, int año) throws SQLException {
+    public boolean existeEnBaseDatos(int month, int year) throws SQLException {
         boolean existe = false;
         String sqlSent
                 = "Select mes from " + tabla + " "
@@ -229,8 +229,8 @@ public class Coperiodoco implements IEstructuraBD {
         try (PreparedStatement ps = conn.prepareStatement(sqlSent,
                 ResultSet.TYPE_FORWARD_ONLY,
                 ResultSet.CONCUR_READ_ONLY)) {
-            ps.setInt(1, mes);
-            ps.setInt(2, año);
+            ps.setInt(1, month);
+            ps.setInt(2, year);
             ResultSet rs = CMD.select(ps);
             if (rs != null && rs.first()) {
                 existe = true;
@@ -278,7 +278,7 @@ public class Coperiodoco implements IEstructuraBD {
                 ps.setBoolean(10, cerrado);
                 CMD.update(ps);
                 ps.close();
-            } // end try with resources // end try with resources // end try with resources // end try with resources
+            } // end try with resources
         } catch (SQLException ex) {
             Logger.getLogger(Coperiodoco.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
@@ -319,7 +319,7 @@ public class Coperiodoco implements IEstructuraBD {
                 ps.setInt(6, year);
                 registros = CMD.update(ps);
                 ps.close();
-            } // end try with resources // end try with resources // end try with resources // end try with resources
+            } // end try with resources
         } catch (SQLException ex) {
             Logger.getLogger(Coperiodoco.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
@@ -363,8 +363,8 @@ public class Coperiodoco implements IEstructuraBD {
 
     // </editor-fold>
     /**
-     * @author Bosco Garita 03/11/2013 Calcular la fecha inicial y la fecha final
- basándose en un month y year determinados.
+     * Calcular la fecha inicial y la fecha final basándose en un mes y año determinados.
+     * @author Bosco Garita 03/11/2013 
      */
     private void calcularFechas() {
         // Calcular la fecha inicial
@@ -398,8 +398,8 @@ public class Coperiodoco implements IEstructuraBD {
                 fechaInicial = rs.getDate("fecha_in");
                 fechaFinal = rs.getDate("fecha_fi");
                 cerrado = rs.getBoolean("cerrado");
-                month = Ut.getDatePart(fechaInicial, Ut.MES);
-                year = Ut.getDatePart(fechaInicial, Ut.AÑO);
+                month = Ut.getDatePart(fechaInicial, Ut.MONTH);
+                year = Ut.getDatePart(fechaInicial, Ut.YEAR);
             } // end if
             ps.close();
         } catch (SQLException ex) {
@@ -421,7 +421,8 @@ public class Coperiodoco implements IEstructuraBD {
         ResultSet rs;
         try {
             ps = conn.prepareStatement(sqlSent,
-                    ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+                    ResultSet.TYPE_SCROLL_SENSITIVE, 
+                    ResultSet.CONCUR_READ_ONLY);
             rs = CMD.select(ps);
 
             setDefaultValues();
@@ -431,8 +432,8 @@ public class Coperiodoco implements IEstructuraBD {
                 fechaInicial = rs.getDate("fecha_in");
                 fechaFinal = rs.getDate("fecha_fi");
                 cerrado = rs.getBoolean("cerrado");
-                month = Ut.getDatePart(fechaInicial, Ut.MES);
-                year = Ut.getDatePart(fechaInicial, Ut.AÑO);
+                month = Ut.getDatePart(fechaInicial, Ut.MONTH);
+                year = Ut.getDatePart(fechaInicial, Ut.YEAR);
             } // end if
             ps.close();
         } catch (SQLException ex) {

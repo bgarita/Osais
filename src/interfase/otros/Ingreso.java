@@ -9,7 +9,7 @@ package interfase.otros;
 import Exceptions.CurrencyExchangeException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
-import accesoDatos.DataBaseConnection;
+import accesoDatos.DatabaseConnection;
 import accesoDatos.UtilBD;
 import interfase.mantenimiento.Tipocambio;
 import interfase.menus.Menu;
@@ -41,7 +41,7 @@ import logica.utilitarios.Ut;
 public class Ingreso extends javax.swing.JFrame {
     private static final long serialVersionUID = 2L;
 
-    DataBaseConnection conexion = null;
+    DatabaseConnection conexion = null;
     private Connection conn = null;     // Conexión principal.
     private static SplashScreen mySplash;
     private static Double splashTextArea;
@@ -223,13 +223,13 @@ public class Ingreso extends javax.swing.JFrame {
         //JOptionPane.showMessageDialog(rootPane, this.getClass().getName());
         
         String IP = getIP(url);
-        //        if (Ut.jPing(IP)){
+        //        if (UtilBD.jPing(IP)){
         //            System.out.println(IP);
         //        }
         // Si el url es un localhost no se requiere todo el procesamiento
         // para cambiar dinámicamente al IP.
         if (url.contains("localhost")){
-            conexion = new DataBaseConnection(usuario,pass2,url);
+            conexion = new DatabaseConnection(usuario,pass2,url);
         } else {
             //String IP = getIP(url);
 
@@ -239,15 +239,15 @@ public class Ingreso extends javax.swing.JFrame {
                 El reintento de conectarse solo ha sido probado con urls que contienen
                 número de puerto.
             NOTA: este jPing no está funcionando con mysql8.  Se debe comentar y
-            habilitar //conexion = new DataBaseConnection(usuario,pass2,url);
+            habilitar //conexion = new DatabaseConnection(usuario,pass2,url);
             */
             
-//            if (Ut.jPing(IP)){
-//                CONEXION = new DataBaseConnection(usuario,pass2,url);
+//            if (UtilBD.jPing(IP)){
+//                CONEXION = new DatabaseConnection(usuario,pass2,url);
 //            } else {
 //                retryConnection(usuario,pass2,url);
 //            } // end if
-            conexion = new DataBaseConnection(usuario, pass2, url);
+            conexion = new DatabaseConnection(usuario, pass2, url);
             // Si el error persiste intento nuevamente.  Pero solo si se trata de 
             // un problema con la IP.
             if (!conexion.isConnected() &&
@@ -280,7 +280,7 @@ public class Ingreso extends javax.swing.JFrame {
                     ResultSet.TYPE_SCROLL_SENSITIVE, 
                     ResultSet.CONCUR_READ_ONLY);
             rs = CMD.select(ps);
-            if(Ut.goRecord(rs, Ut.FIRST)){
+            if(UtilBD.goRecord(rs, UtilBD.FIRST)){
                 continuar = rs.getBoolean("SistDisp");
             } // end if
         } catch (SQLException ex) {
@@ -344,7 +344,7 @@ public class Ingreso extends javax.swing.JFrame {
                  ResultSet.CONCUR_READ_ONLY);
             ps.setString(1, conexion.getUserID());
             rs = CMD.select(ps);
-            if (!Ut.goRecord(rs, Ut.FIRST)){
+            if (!UtilBD.goRecord(rs, UtilBD.FIRST)){
                 continuar = false;
             } // end if
         } catch (SQLInjectionException | SQLException ex) {
@@ -419,7 +419,7 @@ public class Ingreso extends javax.swing.JFrame {
                 
                 rs = CMD.select(ps);
                 
-                if (continuar && !Ut.goRecord(rs, Ut.FIRST)){
+                if (continuar && !UtilBD.goRecord(rs, UtilBD.FIRST)){
                     continuar = false;
                 } // end if
 
@@ -708,8 +708,8 @@ public class Ingreso extends javax.swing.JFrame {
             lastIPNumber++;
             urlx = urlx.substring(0, lastDot+1) + lastIPNumber + sinceColon;
 
-            //conexion = new DataBaseConnection(usuario,pass2);
-            conexion = new DataBaseConnection(usuario,pass2,urlx);
+            //conexion = new DatabaseConnection(usuario,pass2);
+            conexion = new DatabaseConnection(usuario,pass2,urlx);
             // Fin Bosco modificado 01/05/2011
 
             // Si ya hay conexión me saldo del ciclo
@@ -739,7 +739,7 @@ public class Ingreso extends javax.swing.JFrame {
                 } // end if
                 
                 urlx = urlx.substring(0, lastDot+1) + lastIPNumber + sinceColon;
-                conexion = new DataBaseConnection(usuario,pass2,urlx);
+                conexion = new DatabaseConnection(usuario,pass2,urlx);
 
                 // Si ya hay conexión o el número es negativo me saldo del ciclo
                 if (conexion.isConnected() || lastIPNumber < 0){

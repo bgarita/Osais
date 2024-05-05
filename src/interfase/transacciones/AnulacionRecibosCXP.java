@@ -8,6 +8,7 @@ package interfase.transacciones;
 
 import Mail.Bitacora;
 import accesoDatos.CMD;
+import accesoDatos.UtilBD;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -268,7 +269,7 @@ public class AnulacionRecibosCXP extends java.awt.Dialog {
             
             rs = CMD.select(ps);
             
-            if (Ut.goRecord(rs, Ut.FIRST)){
+            if (UtilBD.goRecord(rs, UtilBD.FIRST)){
                 lblProdesc.setText(rs.getString("prodesc"));
                 txtFecha.setText(rs.getString("Fecha"));
                 txtMonto.setText(

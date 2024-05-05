@@ -8,6 +8,7 @@ package interfase.transacciones;
 
 import Mail.Bitacora;
 import accesoDatos.CMD;
+import accesoDatos.UtilBD;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -280,7 +281,7 @@ public class AnulacionRecibosCXC extends java.awt.Dialog {
             //rs = UtilBD.SQLSelect(conn, sqlSelect);
             rs = CMD.select(ps);
         
-            if (Ut.goRecord(rs, Ut.FIRST)){
+            if (UtilBD.goRecord(rs, UtilBD.FIRST)){
                 lblClidesc.setText(rs.getString("clidesc"));
                 txtFecha.setText(rs.getString("Fecha"));
                 
@@ -350,7 +351,7 @@ public class AnulacionRecibosCXC extends java.awt.Dialog {
             PreparedStatement ps = conn.prepareStatement(sqlSent,
                     ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             rs = CMD.select(ps);
-            if (Ut.goRecord(rs, Ut.FIRST)) {
+            if (UtilBD.goRecord(rs, UtilBD.FIRST)) {
                 genasienfac = rs.getBoolean("genasienfac");
             } // end if
             ps.close();
@@ -385,7 +386,7 @@ public class AnulacionRecibosCXC extends java.awt.Dialog {
                 ps = conn.prepareStatement(sqlSent,
                         ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
                 rs = CMD.select(ps);
-                Ut.goRecord(rs, Ut.FIRST);
+                UtilBD.goRecord(rs, UtilBD.FIRST);
                 String no_comprob = rs.getString("no_comprob");
                 short tipo_comp = rs.getShort("tipo_comp");
                 ps.close();

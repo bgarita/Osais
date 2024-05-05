@@ -2094,7 +2094,7 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
         ps = conn.prepareStatement(sqlSent, 
                 ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
         rsX = CMD.select(ps);
-        if (!Ut.goRecord(rsX, Ut.FIRST)){
+        if (!UtilBD.goRecord(rsX, UtilBD.FIRST)){
             return "WARNING aún no se han configurado las cuentas\n " +
                     "para el asiento de ventas.";
         } // end if
@@ -2131,7 +2131,7 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
                 ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
         ps.setInt(1, recnume);
         rsE = CMD.select(ps);
-        if (!Ut.goRecord(rsE, Ut.FIRST)){
+        if (!UtilBD.goRecord(rsE, UtilBD.FIRST)){
             return "ERROR recibo no encontrado para asiento.";
         } // end if
         

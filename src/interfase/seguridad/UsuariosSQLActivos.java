@@ -192,9 +192,9 @@ public class UsuariosSQLActivos extends java.awt.Dialog {
                     ResultSet.CONCUR_READ_ONLY);
             RSUsers = ps.executeQuery();
 
-            Ut.goRecord(RSUsers, Ut.BEFORE_FIRST);
+            UtilBD.goRecord(RSUsers, UtilBD.BEFORE_FIRST);
 
-            while (Ut.goRecord(RSUsers, Ut.NEXT)){
+            while (UtilBD.goRecord(RSUsers, UtilBD.NEXT)){
                 // Evitar que el usuario se elimine a sí mismo
                 if (usuario.equalsIgnoreCase(
                         RSUsers.getString("User").trim())){
