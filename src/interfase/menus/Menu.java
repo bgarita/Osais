@@ -2244,7 +2244,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -2274,7 +2274,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no posee privilegios para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -2355,7 +2355,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // Fin Bosco agregado 18/07/2011
             // Fin Bosco agregado 18/07/2011
@@ -2390,7 +2390,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // Fin Bosco agregado 18/07/2011
             // Fin Bosco agregado 18/07/2011
@@ -2425,7 +2425,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // Fin Bosco agregado 18/07/2011
             // Fin Bosco agregado 18/07/2011
@@ -2490,7 +2490,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // Fin Bosco agregado 18/07/2011
             // Fin Bosco agregado 18/07/2011
@@ -2576,7 +2576,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // Fin Bosco agregado 18/07/2011
             // Fin Bosco agregado 18/07/2011
@@ -2674,7 +2674,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // Fin Bosco agregado 23/07/2011
             // Fin Bosco agregado 23/07/2011
@@ -2877,7 +2877,7 @@ public class Menu extends javax.swing.JFrame {
 
         mensaje += "satisfactoriamente.";
         try {
-            if (UtilBD.SQLUpdate(CONEXION.getConnection(), sqlUpdate) > 0) {
+            if (UtilBD.sqlUpdate(CONEXION.getConnection(), sqlUpdate) > 0) {
                 JOptionPane.showMessageDialog(
                         null,
                         mensaje,
@@ -2999,7 +2999,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3070,7 +3070,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3104,7 +3104,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // Fin Bosco agregado 18/07/2011
             // Fin Bosco agregado 18/07/2011
@@ -3193,7 +3193,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3216,7 +3216,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3239,7 +3239,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3284,7 +3284,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3311,7 +3311,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3344,7 +3344,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3436,7 +3436,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3470,7 +3470,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3503,7 +3503,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3547,7 +3547,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3581,7 +3581,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3617,7 +3617,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3640,7 +3640,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3663,7 +3663,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3936,7 +3936,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3984,7 +3984,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -4007,7 +4007,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -4123,7 +4123,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -4177,7 +4177,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -4200,7 +4200,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -4223,7 +4223,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -4246,7 +4246,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -4278,7 +4278,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -4302,7 +4302,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -4325,7 +4325,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -4348,7 +4348,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -4390,7 +4390,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -4448,7 +4448,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -4493,7 +4493,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -4517,7 +4517,7 @@ public class Menu extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {

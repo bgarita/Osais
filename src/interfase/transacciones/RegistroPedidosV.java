@@ -1439,7 +1439,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                     = "Update pedidoe set updatingbyuser = '' "
                     + "where clicode = " + clicodeActual;
             try {
-                UtilBD.SQLUpdate(conn, sqlUpdate);
+                UtilBD.sqlUpdate(conn, sqlUpdate);
             } catch (SQLException ex) {
                 Logger.getLogger(RegistroPedidosV.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(null,
@@ -1785,7 +1785,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                     = "Update pedidoe set updatingbyuser = '' "
                     + "where clicode = " + clicodeActual;
             try {
-                UtilBD.SQLUpdate(conn, sqlUpdate);
+                UtilBD.sqlUpdate(conn, sqlUpdate);
             } catch (SQLException ex) {
                 Logger.getLogger(RegistroPedidosV.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(null,

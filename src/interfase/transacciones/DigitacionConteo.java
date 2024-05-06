@@ -683,7 +683,7 @@ public class DigitacionConteo extends JFrame {
             // el filtro que existe al inicio de este evento es porque si
             // hay datos.  Por otra parte, si se produjera algún error
             // el mismo método tiene su propio mensaje que lo indicaría.
-            UtilBD.SQLUpdate(conn, sqlUpdate);
+            UtilBD.sqlUpdate(conn, sqlUpdate);
         } catch (SQLException ex) {
             Logger.getLogger(DigitacionConteo.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 

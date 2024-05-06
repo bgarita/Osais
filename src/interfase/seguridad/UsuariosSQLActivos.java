@@ -158,7 +158,7 @@ public class UsuariosSQLActivos extends java.awt.Dialog {
         String sqlUpdate = "Kill " + id;
         
         try {
-            UtilBD.SQLUpdate(conn, sqlUpdate);
+            UtilBD.sqlUpdate(conn, sqlUpdate);
         } catch (SQLException ex) {
             Logger.getLogger(UsuariosSQLActivos.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 

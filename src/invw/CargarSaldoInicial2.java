@@ -221,10 +221,9 @@ public class CargarSaldoInicial2 {
 
 
     private void generarMovimientosInv(){
-        PreparedStatement ps;
-        try {
+        
+        try (PreparedStatement ps = conn.prepareStatement("Call InsertarDocInvDesdeFact(?)")) {
             conn.setAutoCommit(false);
-            ps = conn.prepareStatement("Call InsertarDocInvDesdeFact(?)");
             ResultSet rs;
 
             for (Object o:facturas){
@@ -236,7 +235,6 @@ public class CargarSaldoInicial2 {
                         rs.getString(2),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                    //UtilBD.SQLTransaction(conn, UtilBD.ROLLBACK);
                     CMD.transaction(conn, CMD.ROLLBACK);
                     return;
                 } // end if

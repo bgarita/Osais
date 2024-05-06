@@ -953,7 +953,6 @@ public class AplicacionNotaCXP extends javax.swing.JFrame {
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             if (this.hayTransaccion){
                this.hayTransaccion = false;
-               //UtilBD.SQLTransaction(conn, UtilBD.ROLLBACK);
                try {
                     CMD.transaction(conn, CMD.ROLLBACK);
                 } catch (SQLException ex1){
