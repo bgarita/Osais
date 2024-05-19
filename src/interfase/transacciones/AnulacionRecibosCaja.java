@@ -8,6 +8,7 @@ package interfase.transacciones;
 
 import Mail.Bitacora;
 import accesoDatos.CMD;
+import accesoDatos.UtilBD;
 import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -290,7 +291,7 @@ public class AnulacionRecibosCaja extends java.awt.Dialog {
             
             rs = CMD.select(ps);
         
-            if (!Ut.goRecord(rs, Ut.FIRST)){
+            if (!UtilBD.goRecord(rs, UtilBD.FIRST)){
                 this.clearObjects();
                 JOptionPane.showMessageDialog(null,
                         "Recibo no encontrado." +

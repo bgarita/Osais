@@ -303,7 +303,7 @@ public class Seguridad extends javax.swing.JFrame {
                     ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             //rs = UtilBD.SQLSelect(conn, sqlSent);
             rs = CMD.select(ps);
-            if (!Ut.goRecord(rs, Ut.FIRST)){
+            if (!UtilBD.goRecord(rs, UtilBD.FIRST)){
                 primeraVez = true;
                 return;
             } // end if

@@ -2462,7 +2462,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
         ps = conn.prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
         rsX = CMD.select(ps);
-        if (!Ut.goRecord(rsX, Ut.FIRST)) {
+        if (!UtilBD.goRecord(rsX, UtilBD.FIRST)) {
             return "WARNING aún no se han configurado las cuentas\n "
                     + "para el asiento de compras.";
         } // end if
@@ -2507,7 +2507,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
         ps.setString(1, factura);
         ps.setString(2, tipoD);
         rsE = CMD.select(ps);
-        if (!Ut.goRecord(rsE, Ut.FIRST)) {
+        if (!UtilBD.goRecord(rsE, UtilBD.FIRST)) {
             return "ERROR factura no encontrada para asiento.";
         } // end if
 
@@ -2622,7 +2622,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
         ps.setString(1, factura);
         ps.setString(2, tipoD);
         rsD = CMD.select(ps);
-        if (!Ut.goRecord(rsD, Ut.FIRST)) {
+        if (!UtilBD.goRecord(rsD, UtilBD.FIRST)) {
             return "ERROR detalle de impuestos no encontrado.";
         } // end if
 

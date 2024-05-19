@@ -892,7 +892,7 @@ public class CierreCaja extends javax.swing.JFrame {
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.AgregarOpcionDeMenu(c, program, descrip);
+                UtilBD.agregarOpcionDeMenu(c, program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {

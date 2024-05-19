@@ -51,7 +51,7 @@ public class Autorizaciones extends javax.swing.JFrame {
             rs = ps.executeQuery();
             
             // Cargar el combo de usuarios
-            if (Ut.goRecord(rs, Ut.FIRST)){
+            if (UtilBD.goRecord(rs, UtilBD.FIRST)){
                 Ut.fillComboBox(cboUser, rs, 1, false);
             } // end if
 
@@ -62,7 +62,7 @@ public class Autorizaciones extends javax.swing.JFrame {
             int rows = Ut.recCount(rs);
             users = new String[rows];
             // Fin Bosco modificado 28/10/2011.
-            Ut.goRecord(rs, Ut.BEFORE_FIRST);
+            UtilBD.goRecord(rs, UtilBD.BEFORE_FIRST);
 
             // Cargar el arreglo de usuarios
             int i = 0;
@@ -76,10 +76,10 @@ public class Autorizaciones extends javax.swing.JFrame {
             sqlSent = "Select programa,descrip from programa";
             ps = conn.prepareStatement(sqlSent);
             rs = ps.executeQuery();
-            Ut.goRecord(rs, Ut.LAST);
+            UtilBD.goRecord(rs, UtilBD.LAST);
             rows = rs.getRow();
             tareas = new String[rows][2];
-            Ut.goRecord(rs, Ut.BEFORE_FIRST);
+            UtilBD.goRecord(rs, UtilBD.BEFORE_FIRST);
             i = 0;
             while(rs.next()){
                 tareas[i][0] = rs.getString("programa");

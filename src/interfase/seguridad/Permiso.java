@@ -7,7 +7,7 @@
 package interfase.seguridad;
 
 import Mail.Bitacora;
-import accesoDatos.DataBaseConnection;
+import accesoDatos.DatabaseConnection;
 import accesoDatos.UtilBD;
 import interfase.menus.Menu;
 import java.awt.event.WindowAdapter;
@@ -206,7 +206,7 @@ public class Permiso extends javax.swing.JDialog {
         } // end for
         
         // Crear un conexión para validar el usuario
-        DataBaseConnection conexion = new DataBaseConnection(usuario,pass2,Menu.url);
+        DatabaseConnection conexion = new DatabaseConnection(usuario,pass2,Menu.url);
         Connection c = conexion.getConnection();
         
         if (c == null){

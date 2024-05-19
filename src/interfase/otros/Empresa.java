@@ -68,7 +68,7 @@ public class Empresa extends JFrame {
 
             ResultSet rs = ps.executeQuery();
 
-            if (!Ut.goRecord(rs, Ut.FIRST)) {
+            if (!UtilBD.goRecord(rs, UtilBD.FIRST)) {
                 JOptionPane.showMessageDialog(
                         null,
                         "El DBA debe crear el primer registro de configuración.",

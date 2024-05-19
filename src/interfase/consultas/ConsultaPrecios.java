@@ -437,7 +437,7 @@ public class ConsultaPrecios extends JFrame {
             ps.setString(1, artcode);
             ResultSet rs;
             rs = CMD.select(ps);
-            if (!Ut.goRecord(rs, Ut.FIRST)){
+            if (!UtilBD.goRecord(rs, UtilBD.FIRST)){
                 JOptionPane.showMessageDialog(null,
                         "Artículo no existe.\n" +
                         "Pruebe con el buscador (CTRL + B).",

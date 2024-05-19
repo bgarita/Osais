@@ -256,10 +256,6 @@ public class EliminacionReciboAnuladoCXC extends javax.swing.JFrame {
         PreparedStatement pr;
         int registros;
 
-        //        if (!UtilBD.SQLTransaction(conn, UtilBD.START_TRANSACTION)){
-        //            return;
-        //        }
-
         boolean hayTransaccion = false;
 
         try {
@@ -296,7 +292,6 @@ public class EliminacionReciboAnuladoCXC extends javax.swing.JFrame {
 
             if (registros > 0){
                 // Confirmo la transacción
-                //UtilBD.SQLTransaction(conn, UtilBD.COMMIT);
                 CMD.transaction(conn, CMD.COMMIT);
                 JOptionPane.showMessageDialog(null,
                         "Recibo eliminado satisfactoriamente.",
@@ -309,7 +304,6 @@ public class EliminacionReciboAnuladoCXC extends javax.swing.JFrame {
                 this.txtFecha.setText("");
             } else {
                 // Descarto la transacción
-                //UtilBD.SQLTransaction(conn, UtilBD.ROLLBACK);
                 CMD.transaction(conn, CMD.ROLLBACK);
             } // end if-else
 

@@ -242,7 +242,7 @@ public class ConteoProgressBar extends Thread {
                     "Where bodega = " + "'" + bodega + "' " +
                     "and InUseByUser = user()";
             try {
-                UtilBD.SQLUpdate(conn, sqlUpdate);
+                UtilBD.sqlUpdate(conn, sqlUpdate);
             } catch (SQLException ex) {
                 Logger.getLogger(DigitacionConteo.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(null, 

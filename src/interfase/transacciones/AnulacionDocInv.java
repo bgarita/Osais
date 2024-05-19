@@ -8,6 +8,7 @@ package interfase.transacciones;
 
 import Mail.Bitacora;
 import accesoDatos.CMD;
+import accesoDatos.UtilBD;
 import interfase.otros.Navegador;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -296,7 +297,7 @@ public class AnulacionDocInv extends java.awt.Dialog {
             
             rs = CMD.select(ps);
             
-            if (Ut.goRecord(rs, Ut.FIRST)){
+            if (UtilBD.goRecord(rs, UtilBD.FIRST)){
                 txaMovdesc.setText(rs.getString("Movdesc"));
                 txtMovfech.setText(rs.getString("movfech"));
             } else {

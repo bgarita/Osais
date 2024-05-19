@@ -8,7 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import logica.IEstructuraBD;
@@ -24,8 +23,8 @@ public class Coperiodoco implements IEstructuraBD {
     private int month;          // Mes contable (month java 0-11)
     private int year;           // Año contable
     private String descrip;     // Descripción
-    private Date fecha_in;      // Fecha inicial del month contable
-    private Date fecha_fi;      // Fecha final del month contable
+    private Date fechaInicial;  // Fecha inicial del month contable
+    private Date fechaFinal;      // Fecha final del month contable
     private boolean cerrado;    // Indica si el periodo está cerrado o no.
 
     private final Connection conn;
@@ -51,7 +50,7 @@ public class Coperiodoco implements IEstructuraBD {
         this.tabla = "coperiodoco";
 
         cargar();
-        if (this.fecha_in == null) {
+        if (this.fechaInicial == null) {
             calcularFechas();
         } // end if
     }
@@ -71,12 +70,12 @@ public class Coperiodoco implements IEstructuraBD {
         return year;
     }
 
-    public Date getFecha_in() {
-        return fecha_in;
+    public Date getFechaInicial() {
+        return fechaInicial;
     }
 
-    public Date getFecha_fi() {
-        return fecha_fi;
+    public Date getFechaFinal() {
+        return fechaFinal;
     }
 
     public boolean isCerrado() {
@@ -111,12 +110,12 @@ public class Coperiodoco implements IEstructuraBD {
         this.descrip = descrip;
     }
 
-    public void setFecha_in(Date fecha_in) {
-        this.fecha_in = fecha_in;
+    public void setFechaInicial(Date fechaInicial) {
+        this.fechaInicial = fechaInicial;
     }
 
-    public void setFecha_fi(Date fecha_fi) {
-        this.fecha_fi = fecha_fi;
+    public void setFechaFinal(Date fechaFinal) {
+        this.fechaFinal = fechaFinal;
     }
 
     public void setCerrado(boolean cerrado) {
@@ -157,8 +156,8 @@ public class Coperiodoco implements IEstructuraBD {
 
                 if (rs != null && rs.first()) {
                     descrip = rs.getString("descrip");
-                    fecha_in = rs.getDate("fecha_in");
-                    fecha_fi = rs.getDate("fecha_fi");
+                    fechaInicial = rs.getDate("fecha_in");
+                    fechaFinal = rs.getDate("fecha_fi");
                     cerrado = rs.getBoolean("cerrado");
                 } // end if
             } // end try with resources
@@ -169,7 +168,7 @@ public class Coperiodoco implements IEstructuraBD {
             this.descrip = "";
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
-    } // end cargarTipo_comp
+    } // end cargar
 
     /**
      * @author Bosco Garita 03/11/2013 Este método trae todos los campos de toda la tabla
@@ -198,8 +197,8 @@ public class Coperiodoco implements IEstructuraBD {
                     periodoco[i].month = rs.getInt("mes") - 1; // Mes java
                     periodoco[i].year = rs.getInt("año");
                     periodoco[i].descrip = rs.getString("descrip");
-                    periodoco[i].fecha_in = rs.getDate("fecha_in");
-                    periodoco[i].fecha_fi = rs.getDate("fecha_fi");
+                    periodoco[i].fechaInicial = rs.getDate("fecha_in");
+                    periodoco[i].fechaFinal = rs.getDate("fecha_fi");
                     periodoco[i].cerrado = rs.getBoolean("cerrado");
                 } // end for
                 ps.close();
@@ -217,12 +216,12 @@ public class Coperiodoco implements IEstructuraBD {
      * Este método consulta la base de datos para ver si el periodo existe o no.
      *
      * @author Bosco Garita 03/11/2013 SD
-     * @param mes int número de month (no es como JCalendar, van de 1-12)
-     * @param año
+     * @param month int número de month (no es como JCalendar, van de 1-12)
+     * @param year
      * @return true=existe, false=no existe
      * @throws SQLException
      */
-    public boolean existeEnBaseDatos(int mes, int año) throws SQLException {
+    public boolean existeEnBaseDatos(int month, int year) throws SQLException {
         boolean existe = false;
         String sqlSent
                 = "Select mes from " + tabla + " "
@@ -230,8 +229,8 @@ public class Coperiodoco implements IEstructuraBD {
         try (PreparedStatement ps = conn.prepareStatement(sqlSent,
                 ResultSet.TYPE_FORWARD_ONLY,
                 ResultSet.CONCUR_READ_ONLY)) {
-            ps.setInt(1, mes);
-            ps.setInt(2, año);
+            ps.setInt(1, month);
+            ps.setInt(2, year);
             ResultSet rs = CMD.select(ps);
             if (rs != null && rs.first()) {
                 existe = true;
@@ -269,13 +268,13 @@ public class Coperiodoco implements IEstructuraBD {
                 ps.setInt(1, month + 1);
                 ps.setInt(2, year);
                 ps.setString(3, descrip);
-                ps.setDate(4, fecha_in);
-                ps.setDate(5, fecha_fi);
+                ps.setDate(4, fechaInicial);
+                ps.setDate(5, fechaFinal);
                 ps.setBoolean(6, cerrado);
                 // Update in case it exists
                 ps.setString(7, descrip);
-                ps.setDate(8, fecha_in);
-                ps.setDate(9, fecha_fi);
+                ps.setDate(8, fechaInicial);
+                ps.setDate(9, fechaFinal);
                 ps.setBoolean(10, cerrado);
                 CMD.update(ps);
                 ps.close();
@@ -313,8 +312,8 @@ public class Coperiodoco implements IEstructuraBD {
         try {
             try (PreparedStatement ps = conn.prepareStatement(sqlSent)) {
                 ps.setString(1, descrip);
-                ps.setDate(2, fecha_in);
-                ps.setDate(3, fecha_fi);
+                ps.setDate(2, fechaInicial);
+                ps.setDate(3, fechaFinal);
                 ps.setBoolean(4, cerrado);
                 ps.setInt(5, month + 1); // Mes SQL
                 ps.setInt(6, year);
@@ -364,21 +363,21 @@ public class Coperiodoco implements IEstructuraBD {
 
     // </editor-fold>
     /**
-     * @author Bosco Garita 03/11/2013 Calcular la fecha inicial y la fecha final
- basándose en un month y year determinados.
+     * Calcular la fecha inicial y la fecha final basándose en un mes y año determinados.
+     * @author Bosco Garita 03/11/2013 
      */
     private void calcularFechas() {
         // Calcular la fecha inicial
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.set(Calendar.DAY_OF_MONTH, 1);
         cal.set(Calendar.MONTH, month);
         cal.set(Calendar.YEAR, year);
-        this.fecha_in = new Date(cal.getTimeInMillis());
+        this.fechaInicial = new Date(cal.getTimeInMillis());
 
         // Calcular la fecha final
         int dia = Ut.lastDay(cal.getTimeInMillis());
         cal.set(Calendar.DAY_OF_MONTH, dia);
-        this.fecha_fi = new Date(cal.getTimeInMillis());
+        this.fechaFinal = new Date(cal.getTimeInMillis());
     } // end calcularFechas
 
     public void cargarUltimo() {
@@ -396,11 +395,11 @@ public class Coperiodoco implements IEstructuraBD {
 
             if (rs != null && rs.first()) {
                 descrip = rs.getString("descrip");
-                fecha_in = rs.getDate("fecha_in");
-                fecha_fi = rs.getDate("fecha_fi");
+                fechaInicial = rs.getDate("fecha_in");
+                fechaFinal = rs.getDate("fecha_fi");
                 cerrado = rs.getBoolean("cerrado");
-                month = Ut.getDatePart(fecha_in, Ut.MES);
-                year = Ut.getDatePart(fecha_in, Ut.AÑO);
+                month = Ut.getDatePart(fechaInicial, Ut.MONTH);
+                year = Ut.getDatePart(fechaInicial, Ut.YEAR);
             } // end if
             ps.close();
         } catch (SQLException ex) {
@@ -422,18 +421,19 @@ public class Coperiodoco implements IEstructuraBD {
         ResultSet rs;
         try {
             ps = conn.prepareStatement(sqlSent,
-                    ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+                    ResultSet.TYPE_SCROLL_SENSITIVE, 
+                    ResultSet.CONCUR_READ_ONLY);
             rs = CMD.select(ps);
 
             setDefaultValues();
 
             if (rs != null && rs.first()) {
                 descrip = rs.getString("descrip");
-                fecha_in = rs.getDate("fecha_in");
-                fecha_fi = rs.getDate("fecha_fi");
+                fechaInicial = rs.getDate("fecha_in");
+                fechaFinal = rs.getDate("fecha_fi");
                 cerrado = rs.getBoolean("cerrado");
-                month = Ut.getDatePart(fecha_in, Ut.MES);
-                year = Ut.getDatePart(fecha_in, Ut.AÑO);
+                month = Ut.getDatePart(fechaInicial, Ut.MONTH);
+                year = Ut.getDatePart(fechaInicial, Ut.YEAR);
             } // end if
             ps.close();
         } catch (SQLException ex) {
@@ -472,7 +472,7 @@ public class Coperiodoco implements IEstructuraBD {
         this.year = year;
         this.cerrado = false;
         this.descrip = "Cierre anual, " + year;
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, year);
 
         if (mesCierreFiscal == 9) {
@@ -484,8 +484,8 @@ public class Coperiodoco implements IEstructuraBD {
         }
 
         // El periodo de cierre anual (fiscal) solo tiene un día.
-        this.fecha_in.setTime(cal.getTimeInMillis());
-        this.fecha_fi.setTime(cal.getTimeInMillis());
+        this.fechaInicial.setTime(cal.getTimeInMillis());
+        this.fechaFinal.setTime(cal.getTimeInMillis());
         
         insert();
     } // end insertarPeriodoCierre
@@ -494,8 +494,8 @@ public class Coperiodoco implements IEstructuraBD {
     public void setDefaultValues() {
         java.util.Date defaultDate = new java.util.Date();
         descrip = "";
-        fecha_in = new Date(defaultDate.getTime());
-        fecha_fi = new Date(defaultDate.getTime());
+        fechaInicial = new Date(defaultDate.getTime());
+        fechaFinal = new Date(defaultDate.getTime());
         cerrado = false;
     } // end setDefaultValues
 

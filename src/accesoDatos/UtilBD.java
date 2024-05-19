@@ -52,9 +52,18 @@ public class UtilBD {
     public static final int SQL_UPDATE = 3;
     public static final int SQL_DELETE = 4;
 
+    // Constantes para navegar en un Result Set
+    public static final int BEFORE_FIRST = 1;
+    public static final int FIRST = 2;
+    public static final int NEXT = 3;
+    public static final int PREVIOUS = 4;
+    public static final int LAST = 5;
+    public static final int AFTER_LAST = 6;
+    public static final int ABSOLUTE = 7;
+
     /**
-     * Este método verifica si el sistema está configurado para redondear precios o no.
-     * (08/07/2009 - Bosco Garita)
+     * Este método verifica si el sistema está configurado para redondear
+     * precios o no. (08/07/2009 - Bosco Garita)
      *
      * @param c Conexión de base de datos
      * @return true = Si está configurado para redondear, false = no lo está.
@@ -69,8 +78,9 @@ public class UtilBD {
     } // end redondearPrecios
 
     /**
-     * Este método verifica si el sistema está configurado para redondear precios o no.
-     * Este redondeo es a enteros 5 y 10 (25/01/2014 - Bosco Garita)
+     * Este método verifica si el sistema está configurado para redondear
+     * precios o no. Este redondeo es a enteros 5 y 10 (25/01/2014 - Bosco
+     * Garita)
      *
      * @param c Conexión de base de datos
      * @return true = Si está configurado para redondear, false = no lo está.
@@ -85,11 +95,12 @@ public class UtilBD {
     } // end redondearPrecios5
 
     /**
-     * Autor: Bosco Garita 25/1/2014 Este método verifica si el sistema está configurado
-     * para realizar cambio de precios automático.
+     * Autor: Bosco Garita 25/1/2014 Este método verifica si el sistema está
+     * configurado para realizar cambio de precios automático.
      *
      * @param c Conexión de base de datos
-     * @return true = Si está configurado para camio automático, false = no lo está.
+     * @return true = Si está configurado para camio automático, false = no lo
+     * está.
      * @throws java.sql.SQLException
      */
     public static boolean cambioPrecioAutomatico(Connection c) throws SQLException {
@@ -101,10 +112,10 @@ public class UtilBD {
     } // end cambioPrecioAutomatico
 
     /**
-     * Este método hace una llamada al SP ConsultarTipoca que se encuentra en la base de
-     * datos que devuelve el tipo de cambio para la moneda y fecha solicitados. Si el SP
-     * no encuentra el tipo de cambio o el TC es cero ese será el valor de retorno de este
-     * método.
+     * Este método hace una llamada al SP ConsultarTipoca que se encuentra en la
+     * base de datos que devuelve el tipo de cambio para la moneda y fecha
+     * solicitados. Si el SP no encuentra el tipo de cambio o el TC es cero ese
+     * será el valor de retorno de este método.
      *
      * @param pCodigo Código de monea
      * @param pFecha Fecha para establecer el TC
@@ -133,8 +144,8 @@ public class UtilBD {
 
     /**
      * @author Bosco Garita 22/02/2013 Este método trae el último tipo de cambio
-     * registrado para la moneda solicitada. En caso de no haber registros el resultado
-     * será cero.
+     * registrado para la moneda solicitada. En caso de no haber registros el
+     * resultado será cero.
      * @param pCodigo String Código de monea
      * @param c Connection Conexión con la base de datos
      * @return float Tipo de Cambio
@@ -160,8 +171,8 @@ public class UtilBD {
     } // end tipoCambio
 
     /**
-     * Este método realiza una verificación en la base de datos para saber si está o no
-     * establecido el TC del dólar para hoy. Requiere tres parámetros:
+     * Este método realiza una verificación en la base de datos para saber si
+     * está o no establecido el TC del dólar para hoy. Requiere tres parámetros:
      *
      * @param c Conexión a la base de datos
      * @return float Tipo de cambio para el dólar
@@ -203,9 +214,9 @@ public class UtilBD {
     } // end tipoCambioDolar
 
     /**
-     * Autor: Bosco Garita 13/09/2009 Consultar la cantidad en existencia para un artículo
-     * y bodega específicos. Si el artículo no existe o no está asignado a la bodega
-     * indicada devuelve 0.00
+     * Autor: Bosco Garita 13/09/2009 Consultar la cantidad en existencia para
+     * un artículo y bodega específicos. Si el artículo no existe o no está
+     * asignado a la bodega indicada devuelve 0.00
      *
      * @param artcode Código del articulo a consultar
      * @param bodega Bodega en la cual está asignado el artículo
@@ -237,8 +248,8 @@ public class UtilBD {
     /**
      * @throws java.sql.SQLException
      * @Autor: Bosco Garita
-     * @Fecha: 14/03/2010 Este método verifica si una bodega se encuentra cerrada o no
-     * para una cal específica.
+     * @Fecha: 14/03/2010 Este método verifica si una bodega se encuentra
+     * cerrada o no para una cal específica.
      * @param c Conexión a la base de datos
      * @param bodega Bodega a verificar
      * @param fechaR Fecha a revisar
@@ -308,12 +319,13 @@ public class UtilBD {
     } // end getSaldoVencido
 
     /**
-     * Este método hace un llamado al SP PermitirFecha para determinar si la fecha
-     * introducida es permitida en la base de datos. Esta validación revisa la fecha del
-     * último cierre mensual.
+     * Este método hace un llamado al SP PermitirFecha para determinar si la
+     * fecha introducida es permitida en la base de datos. Esta validación
+     * revisa la fecha del último cierre mensual.
      *
      * @param c Conexión con la base de datos
-     * @param fechaSQL Fecha a validar contra el cierre mensual (ya viene formateada).
+     * @param fechaSQL Fecha a validar contra el cierre mensual (ya viene
+     * formateada).
      * @return true = la fecha es aceptada, false = la fecha no es aceptada.
      * @throws java.sql.SQLException
      */
@@ -335,16 +347,18 @@ public class UtilBD {
     } // isValidDate
 
     /**
-     * Autor: Bosco Garita 17/04/2011. Obtiene un valor de la base de datos. Este valor
-     * puede ser numérico. En el caso de que sea numérico lo convierte automáticamente a
-     * String. Sólo admite valores únicos por lo que el uso debe estar dirigido a tablas
-     * maestras. En caso de que se obtenga más de un valor para el compo solicitado se
-     * mostrará un error y retornará blancos.
+     * Autor: Bosco Garita 17/04/2011. Obtiene un valor de la base de datos.
+     * Este valor puede ser numérico. En el caso de que sea numérico lo
+     * convierte automáticamente a String. Sólo admite valores únicos por lo que
+     * el uso debe estar dirigido a tablas maestras. En caso de que se obtenga
+     * más de un valor para el compo solicitado se mostrará un error y retornará
+     * blancos.
      *
      * @param c Connection Conexión con la base de datos
      * @param tabla String nombre de la tabla a consultar
      * @param condicion String condición que se usará en el Where
-     * @param expresion String campo o expresión que tiene el valor a obtener (select).
+     * @param expresion String campo o expresión que tiene el valor a obtener
+     * (select).
      * @return String valor de la base de datos
      * @throws Exceptions.NotUniqueValueException
      * @throws java.sql.SQLException
@@ -370,7 +384,7 @@ public class UtilBD {
                 ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
         ResultSet r = CMD.select(ps);
 
-        Ut.goRecord(r, Ut.LAST);
+        goRecord(r, LAST);
 
         int registros = Ut.recNo(r); // Cantidad de registros
         if (registros > 1) {
@@ -388,13 +402,14 @@ public class UtilBD {
     } // end getDBString
 
     /**
-     * Autor: Bosco Garita 15/10/2020. Determina si existen datos de acuerdo con los
-     * parámetros recibidos.
+     * Autor: Bosco Garita 15/10/2020. Determina si existen datos de acuerdo con
+     * los parámetros recibidos.
      *
      * @param c Connection Conexión con la base de datos
      * @param tabla String nombre de la tabla a consultar
      * @param condicion String condición que se usará en el Where
-     * @param expresion String campo o expresión que tiene el valor a obtener (select).
+     * @param expresion String campo o expresión que tiene el valor a obtener
+     * (select).
      * @return boolean true=Hay datos, false=No hay
      * @throws java.sql.SQLException
      */
@@ -422,7 +437,7 @@ public class UtilBD {
                 ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
         ResultSet r = CMD.select(ps);
 
-        Ut.goRecord(r, Ut.LAST);
+        goRecord(r, LAST);
 
         int registros = Ut.recNo(r); // Cantidad de registros
 
@@ -432,13 +447,13 @@ public class UtilBD {
     } // end hayDatos
 
     /**
-     * Obtener el valor de un campo de una tabla en base de datos. Si la tabla posee más
-     * de un registro para el valor consultado, el método mostrará solo el primero que
-     * aparezca.
+     * Obtener el valor de un campo de una tabla en base de datos. Si la tabla
+     * posee más de un registro para el valor consultado, el método mostrará
+     * solo el primero que aparezca.
      *
      * @throws java.sql.SQLException
-     * @Author: Bosco Garita 15/09/2010 Sintaxis de MySQL -- Esto se cambió, ahora es
-     * genérico Bosco 19/03/2013
+     * @Author: Bosco Garita 15/09/2010 Sintaxis de MySQL -- Esto se cambió,
+     * ahora es genérico Bosco 19/03/2013
      * @param c Conexión
      * @param tabla Talba a consultar
      * @param nombreCampo Nombre del campo a consultar
@@ -460,22 +475,22 @@ public class UtilBD {
                 + "From   " + tabla + " "
                 + "Where  " + campoWhere + " = ? ";
 
-        PreparedStatement ps = c.prepareStatement(sqlSent,
-                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        ps.setString(1, valorCampoWhere);
-        ResultSet rs = CMD.select(ps);
-        if (rs != null && rs.first()) {
-            returnValue = rs.getString(1);
-        } // end if
-        ps.close();
+        try (PreparedStatement ps = c.prepareStatement(sqlSent,
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+            ps.setString(1, valorCampoWhere);
+            ResultSet rs = CMD.select(ps);
+            if (rs != null && rs.first()) {
+                returnValue = rs.getString(1);
+            } // end if
+        }
 
         return returnValue;
     } // end getFieldValue
 
     /**
-     * Busca en los tres campos principales del maestro de artículos y devuelve el código
-     * correspondiente a la llave principal. Si el artículo no es encontrado devolverá
-     * null.
+     * Busca en los tres campos principales del maestro de artículos y devuelve
+     * el código correspondiente a la llave principal. Si el artículo no es
+     * encontrado devolverá null.
      *
      * @throws java.sql.SQLException
      * @Author: Bosco Garita 03/03/2013
@@ -491,72 +506,35 @@ public class UtilBD {
                 + "from inarticu "
                 + "Where artcode = ? or barcode = ? or otroc = ?";
 
-        PreparedStatement ps;
-        ps = c.prepareStatement(sqlSent,
-                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        ps.setString(1, artcode);
-        ps.setString(2, artcode);
-        ps.setString(3, artcode);
-        ResultSet rs = CMD.select(ps);
-        if (rs != null && rs.first()) {
-            returnValue = rs.getString(1);
-        } // end if
-
-        ps.close();
+        try (PreparedStatement ps = c.prepareStatement(sqlSent,
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+            ps.setString(1, artcode);
+            ps.setString(2, artcode);
+            ps.setString(3, artcode);
+            ResultSet rs = CMD.select(ps);
+            if (rs != null && rs.first()) {
+                returnValue = rs.getString(1);
+            } // end if
+        }
         return returnValue;
 
     } // end getArtcode
 
     /**
-     * @throws java.sql.SQLException
-     * @Author: Bosco Garita 10/02/2011. Descrip: Ejecuta un START TRANSACTION, COMMIT o
-     * ROLLBACK dependiendo del parámetro recibido.
-     * @param c Conexión con la base de datos
-     * @param tipo 1=START TRANSACTION, 2=COMMIT, 3=ROLLBACK
-     * @return boolean true=Fue exitoso, false=No lo fue
-     * @deprecated 19/03/2013. Use CMD.transaction()
-     */
-    public static boolean SQLTransaction(Connection c, int tipo) throws SQLException {
-        boolean exitoso = false;
-        String sqlSent = "";
-        // Si el tipo no es adecuado devuelvo false para
-        // indicar que no se pudo realizar el comando.
-        if (tipo < 0 || tipo > 3) {
-            return exitoso;
-        } // end if
-
-        switch (tipo) {
-            case START_TRANSACTION:
-                sqlSent = "START TRANSACTION";
-                break;
-            case COMMIT:
-                sqlSent = "COMMIT";
-                break;
-            case ROLLBACK:
-                sqlSent = "ROLLBACK";
-        } // end switch
-
-        Statement st = c.createStatement();
-        st.executeUpdate(sqlSent);
-        exitoso = true;
-
-        return exitoso;
-    } // end SQLTransaction
-
-    /**
-     * @author Bosco Garita Actualiza la base de datos usando la sentencia que recibe por
-     * parámetro.
+     * @author Bosco Garita Actualiza la base de datos usando la sentencia que
+     * recibe por parámetro.
      * @param c
      * @param sqlSent
      * @return int Número de registros afectados
      * @throws java.sql.SQLException
      */
-    public static int SQLUpdate(Connection c, String sqlSent) throws SQLException {
+    public static int sqlUpdate(Connection c, String sqlSent) throws SQLException {
         int registrosAfectados;
-        Statement st = c.createStatement();
-        registrosAfectados = st.executeUpdate(sqlSent);
+        try (Statement st = c.createStatement()) {
+            registrosAfectados = st.executeUpdate(sqlSent);
+        }
         return registrosAfectados;
-    } // end SQLUpdate
+    } // end sqlUpdate
 
     /**
      * @author Bosco Garita
@@ -566,6 +544,7 @@ public class UtilBD {
      * @throws java.sql.SQLException
      * @deprecated 23/03/2013. Use CMD.select()
      */
+    @Deprecated
     public static ResultSet SQLSelect(Connection c, String sqlSent) throws SQLException {
         ResultSet r;
         Statement st;
@@ -579,8 +558,8 @@ public class UtilBD {
 
     /**
      * @throws java.lang.Exception
-     * @Author Bosco Garita 18/07/2011 Método que determina si un usuario está autorizado
-     * a usar el programa que recibe por parámetro.
+     * @Author Bosco Garita 18/07/2011 Método que determina si un usuario está
+     * autorizado a usar el programa que recibe por parámetro.
      * @param c Conexión a la base de datos.
      * @param programa Programa o procedimiento a validar
      * @return true=Está autorizado, false=No lo está.
@@ -590,21 +569,18 @@ public class UtilBD {
         String sqlSelect = "Select user()";
         String userLogged;
         ResultSet rs;
-        PreparedStatement ps;
 
-        ps = c.prepareStatement(sqlSelect,
-                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        rs = CMD.select(ps);
-        rs.first();
-        userLogged = rs.getString(1).toLowerCase().trim();
-        ps.close();
+        try (PreparedStatement ps = c.prepareStatement(sqlSelect,
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+            rs = CMD.select(ps);
+            rs.first();
+            userLogged = rs.getString(1).toLowerCase().trim();
+        }
 
-        // Bosco agregado 28/10/2011.
         // Dejo solo la parte que corresponde al login
-        if (userLogged.indexOf("@") > 0) {
+        if (userLogged.contains("@")) {
             userLogged = userLogged.substring(0, userLogged.indexOf("@"));
         } // end if
-        // Fin Bosco agregado 28/10/2011.
 
         // Estos usuarios no tienen restricción.
         if (userLogged.equals("bgarita") || userLogged.equals("root")) {
@@ -616,23 +592,21 @@ public class UtilBD {
         // la arroba.
         sqlSelect
                 = "Select * from autoriz Where user = GetDBUser() and programa = ?";
-        ps = c.prepareStatement(sqlSelect,
-                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        ps.setString(1, programa);
-        rs = CMD.select(ps);
-        if (rs != null && rs.first()) {
-            existe = true;
-        } // end if
-        ps.close();
-        // El objeto de conexión no se debe cerrar porque por lo general
-        // es el mismo que utilizará la clase de la cual se está intentando
-        // tener permisos.
-        //c.close();
+
+        try (PreparedStatement ps = c.prepareStatement(sqlSelect,
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+            ps.setString(1, programa);
+            rs = CMD.select(ps);
+            if (rs != null && rs.first()) {
+                existe = true;
+            } // end if
+        }
         return existe;
     } // end tienePermiso
 
     /**
-     * @Author Bosco Garita 23/07/2011 Método para verificar los permisos especiales
+     * @Author Bosco Garita 23/07/2011 Método para verificar los permisos
+     * especiales
      * @param c Conexión a la base de datos
      * @param permiso Campo que indica si tiene o no el permiso
      * @return boolean true=Tiene el permiso, false=No lo tiene
@@ -682,31 +656,33 @@ public class UtilBD {
     } // end tienePermisoEspecial
 
     /**
-     * Agrega una opción de menú a la tabla programa y en caso de que ya exista actualiza
-     * su descripción.
+     * Agrega una opción de menú a la tabla programa y en caso de que ya exista
+     * actualiza su descripción.
      *
      * @param c Connection conexión a la base de datos
      * @param opcion String nombre de la clase java
      * @param descrip String descripción de la tarea que realiza
      * @throws SQLException
      */
-    public static void AgregarOpcionDeMenu(Connection c, String opcion, String descrip) throws SQLException {
+    public static void agregarOpcionDeMenu(Connection c, String opcion, String descrip) throws SQLException {
         String sqlSent
-                = "INSERT INTO `programa`(`programa`, `descrip`) "
-                + "	VALUES(?, ?) "
-                + "     ON DUPLICATE KEY UPDATE descrip = ?";
-        try (PreparedStatement ps = c.prepareStatement(sqlSent)) {
+                = """
+                  INSERT INTO `programa`(`programa`, `descrip`)
+                  VALUES(?, ?)
+                  ON DUPLICATE KEY UPDATE descrip = ?
+                  """;
+        try (PreparedStatement ps = c.prepareStatement(sqlSent); c) {
             ps.setString(1, opcion);
             ps.setString(2, descrip);
             ps.setString(3, descrip);
             CMD.update(ps);
-            c.close();
         }
-    } // end AgregarOpcionDeMenu
+    } // end agregarOpcionDeMenu
 
     /**
-     * Carga las existencia de las diferentes bodegas en una tabla. Los campos que carga
-     * son: codigo + Nombre de la bodega, existencia, reservado y localización.
+     * Carga las existencia de las diferentes bodegas en una tabla. Los campos
+     * que carga son: codigo + Nombre de la bodega, existencia, reservado y
+     * localización.
      *
      * @author Bosco Garita Azofeifa 04/01/2014.
      * @param c Connection conexión a base de datos
@@ -759,8 +735,9 @@ public class UtilBD {
     } // end cargarExistencias
 
     /**
-     * Carga las existencia de las diferentes bodegas en una tabla. Los campos que carga
-     * son: codigo + Nombre de la bodega, existencia, reservado y localización.
+     * Carga las existencia de las diferentes bodegas en una tabla. Los campos
+     * que carga son: codigo + Nombre de la bodega, existencia, reservado y
+     * localización.
      *
      * @author Bosco Garita Azofeifa 04/01/2014.
      * @param c Connection conexión a base de datos
@@ -777,8 +754,8 @@ public class UtilBD {
     } // end cargarExistencias
 
     /**
-     * @author Bosco Garita 15/10/2011 Recalcular las existencias de inventario para una
-     * fecha específica
+     * @author Bosco Garita 15/10/2011 Recalcular las existencias de inventario
+     * para una fecha específica
      * @param c
      * @param SQLDate
      * @return
@@ -848,8 +825,8 @@ public class UtilBD {
     } // end recalcularExistencias
 
     /**
-     * @author Bosco Garita 23/08/2020 Recalcular las existencias de inventario para una
-     * fecha específica.
+     * @author Bosco Garita 23/08/2020 Recalcular las existencias de inventario
+     * para una fecha específica.
      * @param c Connection conexión a la base de datos
      * @param SQLDate String fecha SQL que se usará para recalcular los saldos
      * @param cierre int 1=Modalidad de cierre, 0=Modalidad independiente
@@ -869,7 +846,8 @@ public class UtilBD {
     } // end recalcularExistencias
 
     /**
-     * @author Bosco Garita 25/12/2011 Recalcular el costo promedio del inventario a hoy
+     * @author Bosco Garita 25/12/2011 Recalcular el costo promedio del
+     * inventario a hoy
      * @param c
      * @return
      */
@@ -946,10 +924,10 @@ public class UtilBD {
     } // end setMascaraT
 
     /**
-     * Este método lo único que hace es verificar si hay registros para la consultar que
-     * viene ya preparada en el parámetro ps. La sentencia preparada debe venir con
-     * ResultSet.TYPE_SCROLL_SENSITIVE. Nota: el objeto ps que recibe por parámetro se
-     * cierra aquí mismo.
+     * Este método lo único que hace es verificar si hay registros para la
+     * consultar que viene ya preparada en el parámetro ps. La sentencia
+     * preparada debe venir con ResultSet.TYPE_SCROLL_SENSITIVE. Nota: el objeto
+     * ps que recibe por parámetro se cierra aquí mismo.
      *
      * @author Bosco Garita 19/01/2012
      * @since 1.0
@@ -976,8 +954,8 @@ public class UtilBD {
     /**
      * @author Bosco Garita 28/01/2012
      * @param c Connection Objeto de conexión a la base de datos
-     * @param type int Tipo de transacción a ejecutar (1=UtilBD.START_TRANSACTION,
-     * 2=UtilBD.COMMIT, 3=UtilBD.ROLLBACK)
+     * @param type int Tipo de transacción a ejecutar
+     * (1=UtilBD.START_TRANSACTION, 2=UtilBD.COMMIT, 3=UtilBD.ROLLBACK)
      * @return
      */
     public static boolean authomaticSQLTransaction(Connection c, int type) {
@@ -1008,14 +986,14 @@ public class UtilBD {
 
     /**
      * @author Bosco Garita 29/01/2012. Este método hace un llamado al SP
-     * ConsultarDocumento para determinar si el documento digitado ya existe o no. Este
-     * método SOLO DEBE SER USADO por los programas o pantallas que registran movimientos
-     * en inventarios. En caso de ocurrir algún error durante la verificación el método
-     * devolvería true. Esto se hace para evitar que el documento sea ingresado ya que no
-     * se puede verificar.
+     * ConsultarDocumento para determinar si el documento digitado ya existe o
+     * no. Este método SOLO DEBE SER USADO por los programas o pantallas que
+     * registran movimientos en inventarios. En caso de ocurrir algún error
+     * durante la verificación el método devolvería true. Esto se hace para
+     * evitar que el documento sea ingresado ya que no se puede verificar.
      * @param c Connection Objeto de conexión a la base de datos.
-     * @param movdocu String Documento a validar contra el encabezado de documentos de
-     * inventa
+     * @param movdocu String Documento a validar contra el encabezado de
+     * documentos de inventa
      * @param movtimo String tipo de movimiento
      * @param rsMovtido ResultSet Tipos de documento (código y descripción)
      * @param cboMovtido JComboBox Tipos de documento (descripción solamente)
@@ -1148,8 +1126,8 @@ public class UtilBD {
     } // existeDocumento
 
     /**
-     * @author Bosco Garita 29/01/2012. Este método verifica si una bodega existe o no. En
-     * caso de error devolverá false.
+     * @author Bosco Garita 29/01/2012. Este método verifica si una bodega
+     * existe o no. En caso de error devolverá false.
      * @param c Connection conexión a la base de datos.
      * @param bodega String bodega a verificar.
      * @return boolean
@@ -1184,8 +1162,8 @@ public class UtilBD {
     } // existeBodega
 
     /**
-     * @author Bosco Garita 29/01/2012. Este método verifica si un artículo está asignado
-     * a una bodega o no. En caso de error devolverá false.
+     * @author Bosco Garita 29/01/2012. Este método verifica si un artículo está
+     * asignado a una bodega o no. En caso de error devolverá false.
      * @param c Connection conexión a la base de datos.
      * @param artcode String código de artículo a verificar
      * @param bodega String código de bodega a verificar
@@ -1220,12 +1198,12 @@ public class UtilBD {
     } // asignadoEnBodega
 
     /**
-     * Este método actualiza la tabla notificado.No debe usarse control de transacciones
-     * ya que el proceso no es controlado por el usuario, es automático y podría coincidir
-     * con alguna transacción de usuario ya que utiliza una conexión compartida. Si se
-     * produce un error simplemente se ignora para no interferir con cualquier posible
-     * transacción de usuario. Aunque esta actualización es importante no es de tipo
-     * crítico.
+     * Este método actualiza la tabla notificado.No debe usarse control de
+     * transacciones ya que el proceso no es controlado por el usuario, es
+     * automático y podría coincidir con alguna transacción de usuario ya que
+     * utiliza una conexión compartida. Si se produce un error simplemente se
+     * ignora para no interferir con cualquier posible transacción de usuario.
+     * Aunque esta actualización es importante no es de tipo crítico.
      *
      * @author Bosco Garita Azofeifa 28/07/2013
      * @param c Connection Conexión a la base de datos
@@ -1274,8 +1252,8 @@ public class UtilBD {
      *
      * @author Bosco Garita Azofeifa 01/05/2014
      * @param artcode String artículo de inventario
-     * @param tblExistencias JTable tabla con todas las bodegas donde se encuentra el
-     * artículo
+     * @param tblExistencias JTable tabla con todas las bodegas donde se
+     * encuentra el artículo
      * @param conn
      * @throws SQLException
      */
@@ -1286,7 +1264,7 @@ public class UtilBD {
         String sqlUpdate, bodega, localiz;
         int pos;
         PreparedStatement ps;
-        //Connection conn = DataBaseConnection.getConnection();
+        //Connection conn = DatabaseConnection.getConnection();
 
         // Si la tabla viene vacía no continúo
         if (tblExistencias.getRowCount() == 0 || tblExistencias.getValueAt(0, 0) == null) {
@@ -1319,8 +1297,8 @@ public class UtilBD {
      *
      * @param c Connection objeto de conexión a la base de datos
      * @param user String usuario logueado
-     * @return true=El usuario es un cajero y está activo, false=El usuario no es cajero o
-     * no estáctivo
+     * @return true=El usuario es un cajero y está activo, false=El usuario no
+     * es cajero o no estáctivo
      * @throws NotUniqueValueException
      * @throws SQLException
      */
@@ -1331,8 +1309,8 @@ public class UtilBD {
     } // end esCajeroActivo
 
     /**
-     * Devuelve la el formato numérico definido para precios y montos de facturas y
-     * recibos en general (en CXC).
+     * Devuelve la el formato numérico definido para precios y montos de
+     * facturas y recibos en general (en CXC).
      *
      * @author Bosco Garita 10/05/2015
      * @param c Connection Objeto de conexión a la base de datos
@@ -1401,8 +1379,8 @@ public class UtilBD {
     } // end loadBancos
 
     /**
-     * Verifica que un artículo no se venda con costo inferior al costo estándard o
-     * promedio (el que sea más alto).
+     * Verifica que un artículo no se venda con costo inferior al costo
+     * estándard o promedio (el que sea más alto).
      *
      * @param c Connection conexión a la base de datos
      * @param artcode String artículo a consultar
@@ -1660,10 +1638,10 @@ public class UtilBD {
     } // end CGgetUtilidad
 
     /**
-     * Este método se usa para comparar el total de las cuentas de mayor contra el total
-     * de las cuentas de detalle. Recibe una expresión a calcular. Esta expresión debe
-     * estar compuesta por al menos un nombre de campo. El resultado de este método debe
-     * ser cero, de lo contrario hay error.
+     * Este método se usa para comparar el total de las cuentas de mayor contra
+     * el total de las cuentas de detalle. Recibe una expresión a calcular. Esta
+     * expresión debe estar compuesta por al menos un nombre de campo. El
+     * resultado de este método debe ser cero, de lo contrario hay error.
      *
      * @param conn Connection conexión a la base de datos
      * @param expresion String nombre de campo o campos
@@ -1701,8 +1679,8 @@ public class UtilBD {
     } // end CGmayorVrsDetalle
 
     /**
-     * Este método se usa para determinar si los movimientos del periodo actual están
-     * balanceados.
+     * Este método se usa para determinar si los movimientos del periodo actual
+     * están balanceados.
      *
      * @param conn Connection Conexión a la base de datos
      * @return boolean true=Balanceado, false=Desbalanceado
@@ -1754,9 +1732,10 @@ public class UtilBD {
 
     /**
      * Mover los asientos del periodo actual a las tablas históricas.
+     *
      * @param conn
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static boolean CGmoverAsientosHistorico(Connection conn) throws SQLException {
         boolean trasladado;
@@ -1904,11 +1883,13 @@ public class UtilBD {
     } // end CGmoverAsientosHistorico
 
     /**
-     * Establecer el periodo actual como cerrado y configurar los datos del siguiente periodo.
+     * Establecer el periodo actual como cerrado y configurar los datos del
+     * siguiente periodo.
+     *
      * @param conn
      * @param per PeriodoContable a cerrar
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static boolean CGcerrarPeriodoActual(Connection conn, PeriodoContable per) throws SQLException {
         int reg;
@@ -2089,7 +2070,8 @@ public class UtilBD {
     } // end CGguardarCatalogo
 
     /**
-     * Se considera válida cualquier fecha que se encuentre en un periodo cerrado.
+     * Se considera válida cualquier fecha que se encuentre en un periodo
+     * cerrado.
      *
      * @param conn Connection Conexión a la base de datos.
      * @param fecha Date fecha a revisar
@@ -2121,10 +2103,10 @@ public class UtilBD {
     } // end CGfechaValida
 
     /**
-     * Crear una nueva tabla basada en otra + un campo de tipo varchar. Este método es
-     * "case sensitive" por lo que en una instalación de Windows podría generarse un error
-     * a la hora de crear una tabla ya que Windows no hace distinción de mayúsculas y
-     * minúsculas.
+     * Crear una nueva tabla basada en otra + un campo de tipo varchar. Este
+     * método es "case sensitive" por lo que en una instalación de Windows
+     * podría generarse un error a la hora de crear una tabla ya que Windows no
+     * hace distinción de mayúsculas y minúsculas.
      *
      * @author Bosco Garita Azofeifa, 16/08/2016 8:31 am
      * @param conn Connection Conexión a la base de datos
@@ -2343,12 +2325,13 @@ public class UtilBD {
     } // end indexInDB
 
     /**
-     * Validar la estructura lógica de una cuenta contable para garantizar que procesos
-     * como la mayorización sean exitosos.
+     * Validar la estructura lógica de una cuenta contable para garantizar que
+     * procesos como la mayorización sean exitosos.
      *
      * @author Bosco Garita Azofeifa, 12/09/2016
      * @param conn Connection conexión a la base de datos
-     * @param cuenta String cuenta de movimientos con los cuatro niveles concatenados
+     * @param cuenta String cuenta de movimientos con los cuatro niveles
+     * concatenados
      * @return String[2] [0]="S"=Error,[1]=Mensaje del error
      */
     public static String[] validarEstructuraLogica(Connection conn, String cuenta) {
@@ -2476,11 +2459,12 @@ public class UtilBD {
     } // end getCustomerMail
 
     /**
-     * Determina si un cliente es genérico o no. Se usa para, por lo general para decidir
-     * si se envía tiquete electrónico o factura. Es posible que el cliente sea de crédito
-     * pero si tiene habilitado el check de genérico entonces se comportará como cliente
-     * de contado a la hora de generar el xml. Recibe un documento y su tipo y en base a
-     * esos valores determina qué cliente es y de ahí el valor del campo cligenerico.
+     * Determina si un cliente es genérico o no. Se usa para, por lo general
+     * para decidir si se envía tiquete electrónico o factura. Es posible que el
+     * cliente sea de crédito pero si tiene habilitado el check de genérico
+     * entonces se comportará como cliente de contado a la hora de generar el
+     * xml. Recibe un documento y su tipo y en base a esos valores determina qué
+     * cliente es y de ahí el valor del campo cligenerico.
      *
      * @param c Connection conexión a la base de datos
      * @param facnume int número de factura
@@ -2515,8 +2499,8 @@ public class UtilBD {
     } // end esClienteGenerico
 
     /**
-     * Trae los datos más relevantes de un artículo de inventario para ser usados en los
-     * procesos de facturación, notas de crédito y pedidos.
+     * Trae los datos más relevantes de un artículo de inventario para ser
+     * usados en los procesos de facturación, notas de crédito y pedidos.
      *
      * @param conn Connection Conexión activa a la base de datos.
      * @param artcode String Código del producto
@@ -2714,8 +2698,8 @@ public class UtilBD {
     } // end actualizarCabys
 
     /**
-     * Eliminar el caracter invisible 8203 ya que genera un error si se intenta mandar a
-     * la base de datos.
+     * Eliminar el caracter invisible 8203 ya que genera un error si se intenta
+     * mandar a la base de datos.
      *
      * @param descrip String texto a revisar
      * @return String texto sin el caracter 8203
@@ -2754,12 +2738,13 @@ public class UtilBD {
     } // end validarCabys
 
     /**
-     * Actualiza una tabla con lo que se le ponga en la expresión y usando la expresión
-     * del where.
+     * Actualiza una tabla con lo que se le ponga en la expresión y usando la
+     * expresión del where.
      *
      * @param conn Connection conexión con la base de datos
      * @param table String tabla de base de datos
-     * @param updateExpression String campo o lista de campos con su respectivo valor.
+     * @param updateExpression String campo o lista de campos con su respectivo
+     * valor.
      * @param where String expresión que será usada como condición.
      * @return int cantidad de registros afectados.
      * @throws java.sql.SQLException
@@ -2804,4 +2789,50 @@ public class UtilBD {
 
         ps.close();
     } // end optimizeDatabase
+
+    /**
+     * Autor: Bosco Garita 08/02/2011 10:48 p.m.Objet: Mover el puntero a una
+     * posición relativa dentro del RS
+     *
+     * @param r ResultSet, debe venir con movilidad
+     * @param pos Posición a la que se moverá el puntero
+     * @return boolean true = Fue exitoso, false = No lo fue
+     * @throws java.sql.SQLException
+     */
+    public static boolean goRecord(ResultSet r, int pos) throws SQLException {
+        boolean exito = false;
+        if (r == null) {
+            return exito;
+        } // end if
+
+        switch (pos) {
+            case BEFORE_FIRST:
+                exito = true;
+                r.beforeFirst();
+                break;
+            case FIRST:
+                exito = r.first();
+                break;
+            case LAST:
+                exito = r.last();
+                break;
+            case NEXT:
+                exito = r.next();
+                break;
+            case PREVIOUS:
+                exito = r.previous();
+                break;
+            case AFTER_LAST:
+                exito = true;
+                r.afterLast();
+                break;
+            case ABSOLUTE:
+                exito = r.absolute(pos);
+                break;
+            default:
+                exito = false;
+        } // end switch
+
+        return exito;
+    } // end goRecord
 } // end class UtilBD

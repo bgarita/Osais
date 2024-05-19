@@ -255,10 +255,6 @@ public class EliminacionFacturaAnuladaCXC extends javax.swing.JFrame {
         PreparedStatement pr;
         int registros;
 
-        //if (!UtilBD.SQLTransaction(conn, UtilBD.START_TRANSACTION)){
-        //    return;
-        //}
-
         boolean hayTransaccion = false;
 
         try {
@@ -330,7 +326,6 @@ public class EliminacionFacturaAnuladaCXC extends javax.swing.JFrame {
 
             if (registros > 0){
                 // Confirmo la transacción
-                //UtilBD.SQLTransaction(conn, UtilBD.COMMIT);
                 CMD.transaction(conn, CMD.COMMIT);
                 JOptionPane.showMessageDialog(null,
                         "Factura eliminada satisfactoriamente.",
@@ -343,7 +338,6 @@ public class EliminacionFacturaAnuladaCXC extends javax.swing.JFrame {
                 this.txtFacfech.setText("");
             } else {
                 // Descarto la transacción
-                //UtilBD.SQLTransaction(conn, UtilBD.ROLLBACK);
                 CMD.transaction(conn, CMD.ROLLBACK);
             } // end if-else
 
@@ -356,7 +350,6 @@ public class EliminacionFacturaAnuladaCXC extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             if (hayTransaccion){
-                //UtilBD.SQLTransaction(conn, UtilBD.ROLLBACK);
                 try {
                     CMD.transaction(conn, CMD.ROLLBACK);
                 } catch (SQLException ex1) {

@@ -87,7 +87,7 @@ public class Tipocambio extends JFrame {
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
             ResultSet rsTC = CMD.select(ps);
-            if (Ut.goRecord(rsTC, Ut.FIRST)) {
+            if (UtilBD.goRecord(rsTC, UtilBD.FIRST)) {
                 this.codigoTC = rsTC.getString("codigoTC");
             } // end if
         }

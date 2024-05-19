@@ -5,6 +5,7 @@ package logica.contabilidad;
 
 import Mail.Bitacora;
 import accesoDatos.CMD;
+import accesoDatos.UtilBD;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -422,7 +423,7 @@ public class CoasientoD {
             ps.setString(1, no_comprob);
             ps.setShort(2, tipo_comp);
             rs = CMD.select(ps);
-            if (!Ut.goRecord(rs, Ut.FIRST)){
+            if (!UtilBD.goRecord(rs, UtilBD.FIRST)){
                 this.error = true;
                 this.mensaje_error = "No existe detalle para este asiento";
                 return false;

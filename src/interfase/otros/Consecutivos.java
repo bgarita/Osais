@@ -534,7 +534,7 @@ public class Consecutivos extends javax.swing.JFrame {
                 ps.setInt(1, facnume);
                 ps.setInt(2, tipo);
                 rs = CMD.select(ps);
-                if (Ut.goRecord(rs, Ut.FIRST) && rs.getBoolean("HayError")){
+                if (UtilBD.goRecord(rs, UtilBD.FIRST) && rs.getBoolean("HayError")){
                     JOptionPane.showMessageDialog(
                             null,
                             rs.getString("ErrorMessage"),
@@ -553,7 +553,7 @@ public class Consecutivos extends javax.swing.JFrame {
                 ps.setInt(1, formulario);
                 ps.setInt(2, tipo);
                 rs = CMD.select(ps);
-                if (Ut.goRecord(rs, Ut.FIRST) && rs.getBoolean("HayError")){
+                if (UtilBD.goRecord(rs, UtilBD.FIRST) && rs.getBoolean("HayError")){
                     JOptionPane.showMessageDialog(
                             null,
                             rs.getString("ErrorMessage"),
@@ -572,7 +572,7 @@ public class Consecutivos extends javax.swing.JFrame {
                 ps.setInt(1, recnume);
                 ps.setInt(2, tipo);
                 rs = CMD.select(ps);
-                if (Ut.goRecord(rs, Ut.FIRST) && rs.getBoolean("HayError")){
+                if (UtilBD.goRecord(rs, UtilBD.FIRST) && rs.getBoolean("HayError")){
                     JOptionPane.showMessageDialog(
                             null,
                             rs.getString("ErrorMessage"),
@@ -591,7 +591,7 @@ public class Consecutivos extends javax.swing.JFrame {
                 ps.setInt(1, ncred);
                 ps.setInt(2, tipo);
                 rs = CMD.select(ps);
-                if (Ut.goRecord(rs, Ut.FIRST) && rs.getBoolean("HayError")){
+                if (UtilBD.goRecord(rs, UtilBD.FIRST) && rs.getBoolean("HayError")){
                     JOptionPane.showMessageDialog(
                             null,
                             rs.getString("ErrorMessage"),
@@ -610,7 +610,7 @@ public class Consecutivos extends javax.swing.JFrame {
                 ps.setInt(1, ndeb);
                 ps.setInt(2, tipo);
                 rs = CMD.select(ps);
-                if (Ut.goRecord(rs, Ut.FIRST) && rs.getBoolean("HayError")){
+                if (UtilBD.goRecord(rs, UtilBD.FIRST) && rs.getBoolean("HayError")){
                     JOptionPane.showMessageDialog(
                             null,
                             rs.getString("ErrorMessage"),
@@ -629,7 +629,7 @@ public class Consecutivos extends javax.swing.JFrame {
                 ps.setInt(1, recnume1);
                 ps.setInt(2, tipo);
                 rs = CMD.select(ps);
-                if (Ut.goRecord(rs, Ut.FIRST) && rs.getBoolean("HayError")){
+                if (UtilBD.goRecord(rs, UtilBD.FIRST) && rs.getBoolean("HayError")){
                     JOptionPane.showMessageDialog(
                             null,
                             rs.getString("ErrorMessage"),
@@ -648,7 +648,7 @@ public class Consecutivos extends javax.swing.JFrame {
                 ps.setInt(1, pronume);
                 ps.setInt(2, tipo);
                 rs = CMD.select(ps);
-                if (Ut.goRecord(rs, Ut.FIRST) && rs.getBoolean("HayError")){
+                if (UtilBD.goRecord(rs, UtilBD.FIRST) && rs.getBoolean("HayError")){
                     JOptionPane.showMessageDialog(
                             null,
                             rs.getString("ErrorMessage"),
@@ -668,7 +668,7 @@ public class Consecutivos extends javax.swing.JFrame {
                 ps.setInt(1, doc);
                 ps.setInt(2, tipo);
                 rs = CMD.select(ps);
-                if (Ut.goRecord(rs, Ut.FIRST) && rs.getBoolean("HayError")){
+                if (UtilBD.goRecord(rs, UtilBD.FIRST) && rs.getBoolean("HayError")){
                     JOptionPane.showMessageDialog(
                             null,
                             rs.getString("ErrorMessage"),
@@ -688,7 +688,7 @@ public class Consecutivos extends javax.swing.JFrame {
                 ps.setString(1, ultordec);
                 ps.setInt(2, tipo);
                 rs = CMD.select(ps);
-                if (Ut.goRecord(rs, Ut.FIRST) && rs.getBoolean("HayError")){
+                if (UtilBD.goRecord(rs, UtilBD.FIRST) && rs.getBoolean("HayError")){
                     JOptionPane.showMessageDialog(
                             null,
                             rs.getString("ErrorMessage"),
@@ -708,7 +708,7 @@ public class Consecutivos extends javax.swing.JFrame {
                 ps.setInt(1, recnumeca);
                 ps.setInt(2, tipo);
                 rs = CMD.select(ps);
-                if (Ut.goRecord(rs, Ut.FIRST) && rs.getBoolean("HayError")){
+                if (UtilBD.goRecord(rs, UtilBD.FIRST) && rs.getBoolean("HayError")){
                     JOptionPane.showMessageDialog(
                             null,
                             rs.getString("ErrorMessage"),
@@ -909,7 +909,7 @@ public class Consecutivos extends javax.swing.JFrame {
         try{
             PreparedStatement ps = conn.prepareStatement(sqlSent);
             rs = CMD.select(ps);
-            if (!Ut.goRecord(rs, Ut.FIRST)){
+            if (!UtilBD.goRecord(rs, UtilBD.FIRST)){
                 return;
             } // end if
 
