@@ -544,6 +544,7 @@ public class UtilBD {
      * @throws java.sql.SQLException
      * @deprecated 23/03/2013. Use CMD.select()
      */
+    @Deprecated
     public static ResultSet SQLSelect(Connection c, String sqlSent) throws SQLException {
         ResultSet r;
         Statement st;

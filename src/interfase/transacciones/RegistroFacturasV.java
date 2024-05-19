@@ -37,6 +37,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JApplet;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
@@ -2340,14 +2342,12 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         // Bosco agregado 11/12/2013
         if (this.factcomoPOS) {
             // Emitir un sonido y regresar al campo de código
-            File f = new File("beep-06.wav");
-            URI u = f.toURI();
-            try {
-                URL u2 = u.toURL();
-                AudioClip sonido = JApplet.newAudioClip(u2);
-                sonido.play();
+            try (Clip clip = AudioSystem.getClip()) {
+                File f = new File("beep-06.wav");
+                clip.open(AudioSystem.getAudioInputStream(f));
+                clip.start();
                 Thread.sleep(100);
-            } catch (MalformedURLException | InterruptedException ex) {
+            } catch (Exception ex) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                 b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             }
