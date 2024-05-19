@@ -1,0 +1,14 @@
+- Dejar de trackear archivos
+1. Hacer una copia del archivo o archivos en otra ubicación.  Esto es necesario
+   ya que se necesitará más adelante.
+2. Ejecute el siguiente comando para eliminar el archivo del índice de git:
+    git rm --cached <archivo>
+3. Luego, agregue todos sus cambios y haga un commit:
+    git add -u .
+    git commit -m "Eliminado <archivo> del índice"
+4. Finalmente, verifique que git está ignorando el archivo correctamente con el siguiente comando:
+    git check-ignore -v -- <archivo>
+5. Si no aparece la regla que indica que el archivo está siendo ignorado entonces
+   modifique el archivo .gitignore agregando una línea al final con el nombre del archivo
+   y guarde los cambios.
+5. Vuelva a poner el archivo que copió en el paso # 1 en la carpeta que le corresponde.
