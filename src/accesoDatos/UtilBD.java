@@ -205,8 +205,9 @@ public class UtilBD {
 
         if (tc == 0.00) {
             throw new CurrencyExchangeException(
-                    "Aún no se ha configurado el TC del dólar para hoy.\n"
-                    + "Vaya al menú Registro y elija Tipo de cambio.");
+                    """
+                    A\u00fan no se ha configurado el TC del d\u00f3lar para hoy.
+                    Vaya al men\u00fa Registro y elija Tipo de cambio.""");
         } // end if
 
         return tc;
@@ -583,7 +584,9 @@ public class UtilBD {
         } // end if
 
         // Estos usuarios no tienen restricción.
-        if (userLogged.equals("bgarita") || userLogged.equals("root")) {
+        if (userLogged.equals("bgarita") 
+                || userLogged.equals("bgaritaa") 
+                || userLogged.equals("root")) {
             existe = true;
             return existe;
         } // end if

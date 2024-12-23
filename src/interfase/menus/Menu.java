@@ -160,7 +160,8 @@ public class Menu extends javax.swing.JFrame {
 
         // Estas opciones solamente las pueden ver estos usuarios
         if (c.getUserID().equalsIgnoreCase("OWNER")
-                || c.getUserID().equalsIgnoreCase("BGARITA")) {
+                || c.getUserID().equalsIgnoreCase("BGARITA")
+                || c.getUserID().equalsIgnoreCase("BGARITAA")) {
             this.chkMenuSistemaDisp.setVisible(true);
             this.mnuDesconectarUsers.setVisible(true);
             this.mnuImportarInvw.setVisible(true);
@@ -2860,7 +2861,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void chkMenuSistemaDispActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkMenuSistemaDispActionPerformed
         // Cuando el sistema inicia se hace una revisión del usuario. Si éste
-        // es BGARITA o OWNER entonces aparecerá esta opción.  Caso contrario
+        // es BGARITA, BGARITAA u OWNER entonces aparecerá esta opción.  Caso contrario
         // el usuario nisiquiera sabrá que existe.
         // MEJORA: Esto deberá ser por permisos especiales, no por usuario.
         String sqlUpdate;

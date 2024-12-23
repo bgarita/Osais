@@ -137,3 +137,24 @@ Vaya al menú Registro y elija Tipo de cambio.]
 Vaya al menú Registro y elija Tipo de cambio.]
 [Sun May 05 07:50:24 CST 2024][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
 Vaya al menú Registro y elija Tipo de cambio.]
+[Sun May 19 10:30:30 CST 2024][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.]
+[Sun Dec 22 12:23:36 CST 2024][ERROR][Usuario: null][accesoDatos.DatabaseConnection--> (conn=893) Access denied for user 'bgarita'@'localhost' (using password: YES)]
+[Sun Dec 22 12:26:54 CST 2024][ERROR][Usuario: null][accesoDatos.DatabaseConnection--> (conn=895) Access denied for user 'bgarita'@'localhost' (using password: YES)]
+[Sun Dec 22 12:29:00 CST 2024][ERROR][Usuario: null][accesoDatos.DatabaseConnection--> (conn=896) Access denied for user 'bgarita'@'localhost' (using password: YES)]
+[Sun Dec 22 12:29:21 CST 2024][ERROR][Usuario: null][accesoDatos.DatabaseConnection--> (conn=897) Access denied for user 'bgarita'@'localhost' (using password: YES)]
+[Sun Dec 22 12:32:25 CST 2024][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.]
+[Sun Dec 22 12:58:14 CST 2024][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.]
+[Sun Dec 22 12:59:17 CST 2024][ERROR][Usuario: bgarita][interfase.menus.Menu--> Null input buffer]
+[Mon Dec 23 06:30:51 CST 2024][ERROR][Usuario: null][accesoDatos.DatabaseConnection--> (conn=1265) Access denied for user 'bgarita'@'localhost' (using password: YES)]
+[Mon Dec 23 06:34:09 CST 2024][ERROR][Usuario: null][accesoDatos.DatabaseConnection--> (conn=1267) Access denied for user 'bgarita'@'localhost' (using password: YES)]
+[Mon Dec 23 07:11:22 CST 2024][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.]
+[Mon Dec 23 07:20:55 CST 2024][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.]
+[Mon Dec 23 07:25:26 CST 2024][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.]
+[Mon Dec 23 07:26:35 CST 2024][ERROR][Usuario: null][interfase.otros.Ingreso--> Aún no se ha configurado el TC del dólar para hoy.
+Vaya al menú Registro y elija Tipo de cambio.]
