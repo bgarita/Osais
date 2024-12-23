@@ -137,7 +137,6 @@ public class UtilBD {
             if (rs != null && rs.first()) {
                 tc = rs.getFloat(1);
             } // end if
-            ps.close();
         } // end try
         return tc;
     } // end tipoCambio
@@ -164,7 +163,6 @@ public class UtilBD {
                 tc = rs.getFloat(1);
             } // end if
 
-            ps.close();
         } // end try
 
         return tc;
@@ -232,17 +230,16 @@ public class UtilBD {
         String sqlSent;
         double existencia = 0.00;
         sqlSent = "Select ConsultarExistenciaDisponible(?,?)";
-        PreparedStatement ps = c.prepareStatement(sqlSent,
-                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        ps.setString(1, artcode);
-        ps.setString(2, bodega);
-        ResultSet rs = CMD.select(ps);
+        try (PreparedStatement ps = c.prepareStatement(sqlSent,
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)){
+            ps.setString(1, artcode);
+            ps.setString(2, bodega);
+            ResultSet rs = CMD.select(ps);
 
-        if (rs != null && rs.first()) {
-            existencia = rs.getDouble(1);
+            if (rs != null && rs.first()) {
+                existencia = rs.getDouble(1);
+            }
         }
-
-        ps.close();
         return existencia;
     } //end existencia
 
@@ -262,7 +259,7 @@ public class UtilBD {
     Nota:
         En la clase CathalogDriver.java existe un método "isBodegaCerrada()"
         que recibe la bodega y la fecha igual que este método.  Hace la misma
-        función pero más veloz ya que todo el catálogo de bodegas está en memoria.
+        función pero más veloz ya que el catálogo de bodegas completo está en memoria.
         Bosco 02/08/2019 17:35 pm
      */
     public static boolean bodegaCerrada(
@@ -271,19 +268,18 @@ public class UtilBD {
         boolean cerrada = false;
         java.sql.Date fecha = null;
         ResultSet rs;
-        PreparedStatement ps;
 
         sqlSent
                 = "Select cerrada from bodegas "
                 + "Where bodega = ?";
-        ps = c.prepareStatement(sqlSent,
-                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        ps.setString(1, bodega);
-        rs = CMD.select(ps);
-        if (rs != null && rs.first()) {
-            fecha = rs.getDate(1);
-        } // end if
-        ps.close();
+        try (PreparedStatement ps = c.prepareStatement(sqlSent,
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+            ps.setString(1, bodega);
+            rs = CMD.select(ps);
+            if (rs != null && rs.first()) {
+                fecha = rs.getDate(1);
+            } // end if
+        }
 
         // Si hay una fecha válida y la fecha solicitada no es mayor
         // a la fecha de cierre...
