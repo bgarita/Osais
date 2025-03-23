@@ -160,7 +160,8 @@ public class Menu extends javax.swing.JFrame {
 
         // Estas opciones solamente las pueden ver estos usuarios
         if (c.getUserID().equalsIgnoreCase("OWNER")
-                || c.getUserID().equalsIgnoreCase("BGARITA")) {
+                || c.getUserID().equalsIgnoreCase("BGARITA")
+                || c.getUserID().equalsIgnoreCase("BGARITAA")) {
             this.chkMenuSistemaDisp.setVisible(true);
             this.mnuDesconectarUsers.setVisible(true);
             this.mnuImportarInvw.setVisible(true);
@@ -2860,7 +2861,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void chkMenuSistemaDispActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkMenuSistemaDispActionPerformed
         // Cuando el sistema inicia se hace una revisión del usuario. Si éste
-        // es BGARITA o OWNER entonces aparecerá esta opción.  Caso contrario
+        // es BGARITA, BGARITAA u OWNER entonces aparecerá esta opción.  Caso contrario
         // el usuario nisiquiera sabrá que existe.
         // MEJORA: Esto deberá ser por permisos especiales, no por usuario.
         String sqlUpdate;
@@ -3231,6 +3232,12 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuParmContActionPerformed
 
     private void mnuImportCatalogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuImportCatalogoActionPerformed
+        /*
+        Solo para información:
+        Hay un projecto https://github.com/phorest/javadbf
+        que parece ser el origen de el DBFReader que se usa acá.
+        También hay lo que parece ser una versión más reciente: https://jar-download.com/artifacts/com.github.spyhunter99/jdbf/2.2.0/source-code
+        */
         String program = "ImportarCatalogo";
         String descrip = "Importar catálogo contable";
         try {

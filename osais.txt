@@ -1,4 +1,5 @@
-//DESKTOP-HMLO877:3308/laflor@Bosco (Pruebas La Flor)
+//localhost:3308/laflor@La Flor
 //127.0.0.1:3308/contaxyz@Bosco (Pruebas Conta)
 //127.0.0.1:3308/prueba@Prueba (eliminar)
-//DESKTOP-T8NBJH5:3308/contadm@Bosco (Don Mincho)
+//localhost:3308/contadm@Bosco (Don Mincho)
+//localhost:3308/contabosco@Contabilidad (pruebas)
