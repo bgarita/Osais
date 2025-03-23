@@ -50,6 +50,7 @@ import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import logica.CompanyPropertiesController;
 import logica.Fondo;
 import logica.Usuario;
 import logica.backup.BackupFiles;
@@ -267,6 +268,10 @@ public class Menu extends javax.swing.JFrame {
 
             // Esta conexión (sConn) se deja abierta porque los procesos de migración
             // de datos usan esta misma conexión.
+            
+            // Esta clase se instancia acá solo para que realice la validación
+            // de la estructura de carpetas y las bases de datos de las compañías instaladas.
+            CompanyPropertiesController co = new CompanyPropertiesController();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
