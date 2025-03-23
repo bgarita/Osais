@@ -13,19 +13,17 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import logica.CompanyPropertiesController;
 import logica.utilitarios.Archivos;
 import logica.utilitarios.Ut;
 
 /**
- * Crear una compañía nueva. Antes de usar esta clase, el usuario debe haber creado un
- * respaldo sin datos de la base de datos que usará como modelo para la nueva compañía.
- * También debe haber restaurado ese respaldo con el nombre que usará para la nueva
- * compañía. Ambos pasos se realizan desde la opción Respaldar base de datos del menú
- * principal.
+ * Crear una compañía nueva. Antes de usar esta clase, el usuario debe haber
+ * creado un respaldo sin datos de la base de datos que usará como modelo para
+ * la nueva compañía. También debe haber restaurado ese respaldo con el nombre
+ * que usará para la nueva compañía. Ambos pasos se realizan desde la opción
+ * Respaldar base de datos del menú principal.
  *
  * @author bgarita, mayo 2021
  */
@@ -55,76 +53,75 @@ public class Companies extends javax.swing.JFrame {
 
             companyHome = this.tblCompany.getValueAt(i, 2).toString();
             File f = new File(companyHome);
-            if (!f.exists()) {
-                archivo.copyDirectory(new File(model), new File(companyHome));
-                try {
-                    // Después de haber creado el árbol de directorios ahora copio los archivos
-                    // que son estrictamente necesarios.
-                    String sourceFileName
-                            = model + Ut.getProperty(Ut.FILE_SEPARATOR)
-                            + "xmls" + Ut.getProperty(Ut.FILE_SEPARATOR)
-                            + "FE2.exe";
-                    String targetFileName
-                            = companyHome + Ut.getProperty(Ut.FILE_SEPARATOR)
-                            + "xmls" + Ut.getProperty(Ut.FILE_SEPARATOR)
-                            + "FE2.exe";
-                    archivo.copyFile(new File(sourceFileName), new File(targetFileName));
+            if (f.exists()) {
+                continue;
+            }
 
-                    sourceFileName
-                            = model + Ut.getProperty(Ut.FILE_SEPARATOR)
-                            + "xmls" + Ut.getProperty(Ut.FILE_SEPARATOR)
-                            + "Google.Protobuf.dll";
-                    targetFileName
-                            = companyHome + Ut.getProperty(Ut.FILE_SEPARATOR)
-                            + "xmls" + Ut.getProperty(Ut.FILE_SEPARATOR)
-                            + "Google.Protobuf.dll";
-                    archivo.copyFile(new File(sourceFileName), new File(targetFileName));
+            // Si la estructura de carpetas no fue encontrada significa que se
+            // trata de una nueva compañía.
+            archivo.copyDirectory(new File(model), new File(companyHome));
+            try {
+                // Después de haber creado el árbol de directorios ahora copio los archivos
+                // que son estrictamente necesarios.
+                String sourceFileName
+                        = model + Ut.getProperty(Ut.FILE_SEPARATOR)
+                        + "xmls" + Ut.getProperty(Ut.FILE_SEPARATOR)
+                        + "FE2.exe";
+                String targetFileName
+                        = companyHome + Ut.getProperty(Ut.FILE_SEPARATOR)
+                        + "xmls" + Ut.getProperty(Ut.FILE_SEPARATOR)
+                        + "FE2.exe";
+                archivo.copyFile(new File(sourceFileName), new File(targetFileName));
 
-                    sourceFileName
-                            = model + Ut.getProperty(Ut.FILE_SEPARATOR)
-                            + "xmls" + Ut.getProperty(Ut.FILE_SEPARATOR)
-                            + "MySql.Data.dll";
-                    targetFileName
-                            = companyHome + Ut.getProperty(Ut.FILE_SEPARATOR)
-                            + "xmls" + Ut.getProperty(Ut.FILE_SEPARATOR)
-                            + "MySql.Data.dll";
-                    archivo.copyFile(new File(sourceFileName), new File(targetFileName));
+                sourceFileName
+                        = model + Ut.getProperty(Ut.FILE_SEPARATOR)
+                        + "xmls" + Ut.getProperty(Ut.FILE_SEPARATOR)
+                        + "Google.Protobuf.dll";
+                targetFileName
+                        = companyHome + Ut.getProperty(Ut.FILE_SEPARATOR)
+                        + "xmls" + Ut.getProperty(Ut.FILE_SEPARATOR)
+                        + "Google.Protobuf.dll";
+                archivo.copyFile(new File(sourceFileName), new File(targetFileName));
 
-                    sourceFileName
-                            = model + Ut.getProperty(Ut.FILE_SEPARATOR)
-                            + "xmls" + Ut.getProperty(Ut.FILE_SEPARATOR)
-                            + "MySql.Data.xml";
-                    targetFileName
-                            = companyHome + Ut.getProperty(Ut.FILE_SEPARATOR)
-                            + "xmls" + Ut.getProperty(Ut.FILE_SEPARATOR)
-                            + "MySql.Data.xml";
-                    archivo.copyFile(new File(sourceFileName), new File(targetFileName));
+                sourceFileName
+                        = model + Ut.getProperty(Ut.FILE_SEPARATOR)
+                        + "xmls" + Ut.getProperty(Ut.FILE_SEPARATOR)
+                        + "MySql.Data.dll";
+                targetFileName
+                        = companyHome + Ut.getProperty(Ut.FILE_SEPARATOR)
+                        + "xmls" + Ut.getProperty(Ut.FILE_SEPARATOR)
+                        + "MySql.Data.dll";
+                archivo.copyFile(new File(sourceFileName), new File(targetFileName));
 
-                    sourceFileName
-                            = model + Ut.getProperty(Ut.FILE_SEPARATOR)
-                            + "xmls" + Ut.getProperty(Ut.FILE_SEPARATOR)
-                            + "Newtonsoft.Json.dll";
-                    targetFileName
-                            = companyHome + Ut.getProperty(Ut.FILE_SEPARATOR)
-                            + "xmls" + Ut.getProperty(Ut.FILE_SEPARATOR)
-                            + "Newtonsoft.Json.dll";
-                    archivo.copyFile(new File(sourceFileName), new File(targetFileName));
+                sourceFileName
+                        = model + Ut.getProperty(Ut.FILE_SEPARATOR)
+                        + "xmls" + Ut.getProperty(Ut.FILE_SEPARATOR)
+                        + "Newtonsoft.Json.dll";
+                targetFileName
+                        = companyHome + Ut.getProperty(Ut.FILE_SEPARATOR)
+                        + "xmls" + Ut.getProperty(Ut.FILE_SEPARATOR)
+                        + "Newtonsoft.Json.dll";
+                archivo.copyFile(new File(sourceFileName), new File(targetFileName));
 
-                    // Si todo salió bien procedo a insertar los datos iniciales
-                    // desde la compañía modelo.
-                    setInitialData();
-                } catch (IOException | SQLException ex) {
-                    Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
-                }
-            } // end if
+                // Si todo salió bien procedo a insertar los datos iniciales
+                // desde la compañía modelo.
+                setInitialData(companyHome);
+            } catch (IOException | SQLException ex) {
+                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+                JOptionPane.showMessageDialog(null,
+                        ex.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                break;
+            }
+
         } // end for
     } // end createCompanyHome()
 
     /**
-     * This method is called from within the constructor to initialize the form. WARNING:
-     * Do NOT modify this code. The content of this method is always regenerated by the
-     * Form Editor.
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -375,7 +372,8 @@ public class Companies extends javax.swing.JFrame {
         this.txtBasedatos.setText("");
         this.txtCompany.setText("");
 
-        save(); // Guarda el archivo de texto.
+        // Guardar el archivo de texto y establecer los datos iniciales.
+        save();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
@@ -422,7 +420,7 @@ public class Companies extends javax.swing.JFrame {
         tblCompany.setValueAt(this.txtCompany.getText().trim(), row, 3);
     }//GEN-LAST:event_btnAgregarActionPerformed
 
-    private void setInitialData() throws SQLException {
+    private void setInitialData(String newDatabase) throws SQLException {
         String sqlSent;
         PreparedStatement ps;
         List<String> lstTablas = new ArrayList<>();
@@ -457,27 +455,27 @@ public class Companies extends javax.swing.JFrame {
         try (Connection conn = Menu.CONEXION.getConnection()) {
 
             for (String table : lstTablas) {
-                sqlSent = "INSERT INTO " + table
+                sqlSent = "INSERT INTO " + newDatabase + "." + table + " "
                         + "SELECT * FROM model." + table;
                 ps = conn.prepareStatement(sqlSent);
                 CMD.update(ps);
                 ps.close();
             } // end for
 
-            sqlSent = "UPDATE cotipasient SET consecutivo = 0";
+            sqlSent = "UPDATE " + newDatabase + "." + "cotipasient SET consecutivo = 0";
             ps = conn.prepareStatement(sqlSent);
             CMD.update(ps);
 
-            sqlSent = "UPDATE inconsecutivo SET docinv = 0";
+            sqlSent = "UPDATE " + newDatabase + "." + "inconsecutivo SET docinv = 0";
             ps = conn.prepareStatement(sqlSent);
             CMD.update(ps);
 
-            sqlSent = "UPDATE cocatalogo "
+            sqlSent = "UPDATE " + newDatabase + "." + "cocatalogo "
                     + "	SET ano_anter = 0, db_fecha = 0, cr_fecha = 0, db_mes = 0, cr_mes = 0";
             ps = conn.prepareStatement(sqlSent);
             CMD.update(ps);
         } // end try with resources
-        
+
     } // end setInitialData
 
     // Guardar los datos en osais.txt
@@ -487,6 +485,9 @@ public class Companies extends javax.swing.JFrame {
         try {
             try (PrintWriter writer = new PrintWriter(fileName, "UTF-8")) {
                 for (int i = 0; i < this.tblCompany.getModel().getRowCount(); i++) {
+                    if (this.tblCompany.getValueAt(i, 0) == null) {
+                        continue;
+                    }
                     line
                             = this.tblCompany.getValueAt(i, 0) + ":" // Servidor (IP Address)
                             + this.tblCompany.getValueAt(i, 1) + "/" // Puerto
@@ -570,6 +571,17 @@ public class Companies extends javax.swing.JFrame {
             return;
         } // end if
         Ut.setRowNull(tblCompany, row);
+
+        // Adevertencia
+        JOptionPane.showMessageDialog(null,
+                """
+                Por seguridad, la base de datos y la estructura de carpetas 
+                debe eliminarlas manualmente.
+                
+                Debe comunicarse con el administrador de bases de datos.
+                """,
+                "Advertencia",
+                JOptionPane.WARNING_MESSAGE);
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void btnInformacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformacionActionPerformed
@@ -581,9 +593,10 @@ public class Companies extends javax.swing.JFrame {
                 + "   se encuentre operando en este momento. \n"
                 + "2. Haber restaurado ese archivo recien creado con el respaldo sin \n"
                 + "   datos pero bajo un nuevo nombre de base de datos. \n"
-                + "3  En esta pantalla debe agregar un registro similiar a cualquiera de \n"
+                + "3. En esta pantalla debe agregar un registro similiar a cualquiera de \n"
                 + "   los que ya existen. \n\n"
                 + "   Debe asegurarse de que el nombre de base de datos ya existe. \n"
+                + "4. Debe asegurarse de que la compañía modelo existe y tiene los datos básicos.\n"
                 + "\n\n"
                 + "El sistema creará una estructura de carpetas similar al de la compañía \n"
                 + "modelo. Esta estructura quedará dentro de la carpeta de la nueva \n"

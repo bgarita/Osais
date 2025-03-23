@@ -2,7 +2,7 @@ DROP PROCEDURE if EXISTS calcularNivelDeCuenta;
 
 Delimiter $$
 
-CREATE PROCEDURE `calcularNivelDeCuenta`()
+CREATE DEFINER=`root`@`localhost` PROCEDURE `calcularNivelDeCuenta`()
 LANGUAGE SQL
 NOT DETERMINISTIC
 CONTAINS SQL
@@ -13,7 +13,7 @@ BEGIN
 	Creado por Bosco Garita, 26/12/2016
 	Hasta ahora solo se usa manualmente para recalcular el valor del campo Nivelc end la tabla cocatalogo.
 	*/
-	
+
 	UPDATE cocatalogo
 	SET nivelC =
 		If(sub_cta  = '000' AND sub_sub  = '000' AND colect  = '000', 1,
@@ -21,12 +21,14 @@ BEGIN
 		If(sub_cta != '000' AND sub_sub != '000' AND colect  = '000', 3,
 		If(sub_cta != '000' AND sub_sub != '000' AND colect != '000', 4, 0))));
 		
+
 	UPDATE hcocatalogo
 	SET nivelC =
 		If(sub_cta  = '000' AND sub_sub  = '000' AND colect  = '000', 1,
 		If(sub_cta != '000' AND sub_sub  = '000' AND colect  = '000', 2,
 		If(sub_cta != '000' AND sub_sub != '000' AND colect  = '000', 3,
 		If(sub_cta != '000' AND sub_sub != '000' AND colect != '000', 4, 0))));
+
 END$$
 
 delimiter ;

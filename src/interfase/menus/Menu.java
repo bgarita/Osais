@@ -3232,6 +3232,12 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuParmContActionPerformed
 
     private void mnuImportCatalogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuImportCatalogoActionPerformed
+        /*
+        Solo para información:
+        Hay un projecto https://github.com/phorest/javadbf
+        que parece ser el origen de el DBFReader que se usa acá.
+        También hay lo que parece ser una versión más reciente: https://jar-download.com/artifacts/com.github.spyhunter99/jdbf/2.2.0/source-code
+        */
         String program = "ImportarCatalogo";
         String descrip = "Importar catálogo contable";
         try {

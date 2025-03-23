@@ -7,29 +7,22 @@ package interfase.otros;
 
 import Exceptions.CurrencyExchangeException;
 import Mail.Bitacora;
-import accesoDatos.CMD;
 import accesoDatos.DatabaseConnection;
 import accesoDatos.UtilBD;
 import interfase.mantenimiento.Tipocambio;
 import interfase.menus.Menu;
-import interfase.seguridad.CambioClave;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.HeadlessException;
 import java.awt.SplashScreen;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Double;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import logica.utilitarios.SQLInjectionException;
-import logica.utilitarios.Ut;
 
 /**
  *
@@ -237,7 +230,8 @@ public class Ingreso extends javax.swing.JFrame {
             String mensaje = acciones.getErrorMsg();
             disponible = false;
             if (acciones.getUser().equalsIgnoreCase("OWNER")
-                    || acciones.getUser().equalsIgnoreCase("BGARITA")) {
+                    || acciones.getUser().equalsIgnoreCase("BGARITA")
+                    || acciones.getUser().equalsIgnoreCase("BGARITAA")) {
                 mensaje = """
                           El sistema se encuentra en una condici\u00f3n especial en
                           este momento.
@@ -322,7 +316,7 @@ public class Ingreso extends javax.swing.JFrame {
         } // end if
 
         dispose();
-        Menu.PASS = acciones.getUser();
+        Menu.PASS = acciones.getPassword();
         Menu.main(conexion, disponible, url);
 
         // Just to test

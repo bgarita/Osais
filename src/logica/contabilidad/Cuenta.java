@@ -153,9 +153,9 @@ public class Cuenta {
             accountPart = accountPart.trim();
             try {
                 for (int i = 0; i < accountPart.length(); i++) {
-                    Integer.parseInt(accountPart.substring(i, i + 1));
+                    Integer.valueOf(accountPart.substring(i, i + 1));
                 } // end for
-            } catch (Exception ex) {
+            } catch (NumberFormatException ex) {
                 valid = false;
                 b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             } // end try-catch

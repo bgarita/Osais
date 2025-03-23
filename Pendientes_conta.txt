@@ -1,11 +1,8 @@
-1.  Revisar en qué momento puede quedar un asiento desbalanceado.
-2.  Hacer proceso que localice asientos desbalanceados.
-3.  Hacer proceso que busque errores en la lógica de la estructura contable, igual que el de fox.
-4.  Hacer que el registro de asientos valide el número de asiento contra el histórico y el actual.
-    Ya agregué la funcionalidad en el mantenimiento de tipos de asiento, que incluye el consecutivo
-    Falta revisar si es necesario aplicar esta validación a la hora de insertar un asiento.
-
-
-Pendiente de aplicar en La Flor
-1. Archivo Scripts por aplicar.sql
-
+1. Hacer una validación general cuando el sistema arranca para verificar si alguna de las compañías
+   ya no existe.
+   Usar la clase Companies y agregar un método que haga esa función.
+   Hacer que ese método sea público para correrlo desde otras partes.
+   Hacer que también se corra cuando se entra propiamente a esa clase,
+   es decir cuando el usuario elige la opción "Crear compañías"
+2. Modificar el sistema para que se oculten todos los módulos cuando
+   solo se haya comprado la contabilidad.

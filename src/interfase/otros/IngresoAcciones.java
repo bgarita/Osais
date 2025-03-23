@@ -57,6 +57,10 @@ public class IngresoAcciones {
     public Connection getConn() {
         return conn;
     }
+    
+    public String getPassword() {
+        return this.password;
+    }
 
     public boolean setConnected() {
         String IP = getIP(url);
