@@ -1,8 +1,7 @@
 1. Hacer una validación general cuando el sistema arranca para verificar si alguna de las compañías
-   ya no existe.
-   Usar la clase Companies y agregar un método que haga esa función.
-   Hacer que ese método sea público para correrlo desde otras partes.
-   Hacer que también se corra cuando se entra propiamente a esa clase,
-   es decir cuando el usuario elige la opción "Crear compañías"
+   ya no existe. LISTO
 2. Modificar el sistema para que se oculten todos los módulos cuando
    solo se haya comprado la contabilidad.
+3. Buscar todos los lugares donde se usen los usuarios sin restricción (por ejemplo bgarita)
+   y cambiar el valor "hardcoded" por uno que venga de una variable de sistema.
+4. Continuar con la separación de código para evitar clases gigantes.

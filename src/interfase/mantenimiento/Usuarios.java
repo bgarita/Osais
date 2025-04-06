@@ -44,6 +44,10 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
     public Usuarios(Connection c, String BASEDATOS) {
         initComponents();
         conn = c;
+        // Agregar los usuarios que existen en la base de datos a la base de datos
+        // del sistema (saisystem.usuario)
+        this.syncUsers();
+
         this.BASEDATOS = BASEDATOS;
         tabla = "usuario a"; // Nombre de la tabla con alias
         nav = new Navegador();
@@ -52,8 +56,8 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
             stat = conn.createStatement();
             rs = nav.cargarRegistroJoin(
                     Navegador.PRIMERO, // Registro
-                    " ",        // Llave (valor)
-                    tabla,      // Nombre de la tabla con alias
+                    " ", // Llave (valor)
+                    tabla, // Nombre de la tabla con alias
                     "Inner join saisystem.usuario b on a.user = b.user ",
                     "a.user");
             if (rs == null || !rs.first()) {
@@ -63,7 +67,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
             if (rs.getRow() < 1) {
                 return;
             } // end if
-            
+
             // Nombre del campo llave
             cargarObjetos();
         } catch (SQLException | SQLInjectionException ex) {
@@ -943,7 +947,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
             // se produzca el error de valor no único ya que puede
             // haber más de un registro para cada usuario (por el esquema
             // - localhost y %)
-            userSQL = UtilBD.getDBString(conn, 
+            userSQL = UtilBD.getDBString(conn,
                     "mysql.user", "UPPER(user) = '"
                     + user.toUpperCase() + "'", "distinct user");
         } catch (NotUniqueValueException | SQLException ex) {
@@ -981,12 +985,13 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
         // En rsPermisosSQL se encuentra los permisos registrados en la BD
         String SQLGrant = "GRANT ";
         String SQLRevoke = "REVOKE ";
-        
+
         // En mysql server 8.0 estas dos tablas no existen.
         // Este permiso es requerido para que el usuario pueda ejecutar SPs.
+        // En MariaDB 11 si existen.
         String SQLGrantOnMySQL = "GRANT SELECT ON mysql.proc to " + user;
         String SQLRevokeOnMySQL = "REVOKE SELECT ON mysql.proc from " + user;
-        
+
         SQLGrant += chkSelect.isSelected() ? "SELECT," : "";
         SQLRevoke += chkSelect.isSelected() ? "" : "SELECT,";
         SQLGrant += chkInsert.isSelected() ? "INSERT," : "";
@@ -1027,13 +1032,12 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
             } // end if
 
             // Esto no aplica en mysql server 8.0
-            
             // Permiso o revocación de permiso para ejecutar SPs
             stat.execute(SQLGrantOnMySQL);
             if (!chkExecute.isSelected()) {
                 stat.execute(SQLRevokeOnMySQL);
             } // end if
-            
+
             stat.execute("FLUSH PRIVILEGES");
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,
@@ -1045,7 +1049,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
         } // end try-catch
         // Fin Bosco agregado 27/11/2011
 
-        int sqlresult = 0;
+        int affectedRecords = 0;
         boolean registroCargado;
         String User,
                 Nivel,
@@ -1110,11 +1114,11 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
         ultimaClave = Ut.fechaSQL(this.datFecha.getDate());
         // Fin Bosco agregado 06/11/2011
 
-        String UpdateSql;
+        String updateSQL;
 
         if (!consultarRegistro(User)) {
             // Este SP también agrega el usuario en saisystem
-            UpdateSql
+            updateSQL
                     = "CALL InsertarUsuario('"
                     + User + "'" + ","
                     + Nivel + ","
@@ -1147,7 +1151,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
                     + // Fin Bosco agregado 06/11/2011.
                     Firmas + ")";
         } else {
-            UpdateSql
+            updateSQL
                     = "Update usuario Set "
                     + "  Nivel = " + Nivel + ","
                     + "  N1    = " + N1 + ","
@@ -1177,30 +1181,41 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
                     + "Where user = " + "'" + User + "'";
         } // end if
 
-        try {
-            sqlresult = stat.executeUpdate(UpdateSql);
-            UpdateSql
-                    = "Update saisystem.usuario Set "
-                    + "  activo = " + "'" + activo + "'" + ","
-                    + "  ultimaClave = " + ultimaClave + " "
-                    + "Where user = " + "'" + User + "'";
-            sqlresult = stat.executeUpdate(UpdateSql);
+        try (PreparedStatement ps = conn.prepareStatement(updateSQL)) {
+            CMD.update(ps);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            return;
         } // end try-catch
 
-        // Bosco agregado 19/04/2015 (Cajero)
-        if (sqlresult > 0) {
-            // Activar / descactivar cajeros
-            sqlresult = activarCajero(this.chkCajeroActivo.isSelected());
-        } // end if
-        // Fin Bosco agregado 19/04/2015
+        updateSQL
+                = "INSERT INTO saisystem.usuario(user, ultimaClave, activo) "
+                + "	VALUES(?, NOW(), 'S') "
+                + "	ON DUPLICATE KEY UPDATE "
+                + "	ultimaClave = NOW(), activo = 'S'";
 
-        if (sqlresult <= 0) {
+        try (PreparedStatement ps = conn.prepareStatement(updateSQL)) {
+            ps.setString(1, User);
+            affectedRecords = CMD.update(ps);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            return;
+        } // end try-catch
+
+        if (affectedRecords > 0) {
+            // Activar / descactivar cajeros
+            affectedRecords = activarCajero(this.chkCajeroActivo.isSelected());
+        } // end if
+
+        if (affectedRecords <= 0) {
             JOptionPane.showMessageDialog(null,
                     "El registro no se pudo guardar.",
                     "Error",
@@ -1279,12 +1294,12 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
     }
 
     /**
-     * Elimina los rgistros de las tablas usuario, saisystem.usuario y cajero
-     * siempre y cuando no haya transacciones relacionadas.
+     * Solo se elimina el registro de la tablas usuario y cajero siempre y
+     * cuando no haya transacciones asociadas en la tabla catransa.
      *
      * @param pUser
      */
-    public void eliminarRegistro(String pUser) {
+    private void eliminarRegistro(String pUser) {
         if (pUser == null) {
             return;
         } // end if
@@ -1295,6 +1310,16 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
             return;
         } // end if
 
+        boolean dropUser = false;
+        if (JOptionPane.showConfirmDialog(null,
+                "¿Desea eliminar la cuenta de usuario del motor de base de datos también?")
+                == JOptionPane.YES_OPTION) {
+            dropUser = true;
+        } // end if
+
+        // El usuario se elimina solamente de la base de datos actual.
+        // Aunque el usuario está registrado en varias tablas no hay 
+        // integridad referencial por lo que se puede eliminar sin problema.
         String sqlDelete = "CALL EliminarUsuario('" + pUser + "')";
         int sqlResult;
         try {
@@ -1316,12 +1341,50 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
         // por completo ya que faltaría revocar los permisos de esas otras BD.
         // Aquí se produciría un error pero en realidad así debe ser.  Sólo se
         // eliminará por completo cuando ya no existan permisos en ningún lado.
+        String SQLGrants = "SHOW GRANTS FOR " + pUser;
         String SQLRevoke
-                = "REVOKE ALL ON " + BASEDATOS + ".* FROM " + txtUser.getText().trim();
-        String SQLDrop = "DROP USER " + txtUser.getText().trim();
+                = "REVOKE ALL ON " + BASEDATOS + ".* FROM " + pUser;
+
+        String SQLDrop = "DROP USER " + pUser;
         try {
-            stat.execute(SQLRevoke);
-            stat.execute(SQLDrop);
+            boolean tienePermisos = true;
+            try {
+                stat.execute(SQLGrants);
+            } catch (SQLException ex) {
+                // Si se produce un error es porque no tiene permisos referenciados
+                tienePermisos = false;
+            }
+
+            try {
+                // Si tiene permisos se le revocan
+                if (dropUser && tienePermisos) {
+                    stat.execute(SQLRevoke);
+                }
+            } catch (SQLException ex) {
+                // No se hace nada si ocurre un error acá
+            }
+
+            try {
+                if (dropUser) {
+                    // Podría hacerse esta revisión antes:
+                    // SELECT * FROM mysql.user WHERE User like 'bgarita';
+                    // Queda pendiente: 06/04/2025
+                    stat.execute(SQLDrop);
+                }
+            } catch (SQLException ex) {
+                // Si el usuario no existe se producirá un error.
+                // No es necesario hacer nada.
+            }
+
+            if (dropUser) {
+                stat.execute("DELETE FROM saisystem.usuario WHERE user = '" + pUser + "'");
+                // Si la cuenta SQL se va a eliminar no tiene sentido
+                // que siga existiendo un registro en saisystem.
+                // Aquí hay un potencial error: cuando se intente eliminar
+                // una cuenta de usuario que tiene permisos en otra base de datos
+                // aquí se producirá un error pero ya el registro estará eliminado
+                // de saisystem.
+            }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(btnBorrar,
                     ex.getMessage(),
@@ -1340,7 +1403,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
         txtUser.setText(" ");
     } // end eliminarRegistro
 
-    public void refrescarObjetos() {
+    private void refrescarObjetos() {
         if (txtUser.getText().trim().equals("")) {
             return;
         } // end if
@@ -1432,38 +1495,47 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
         String cajero = this.txtUser.getText().trim();
         String activo = (activar ? "S" : "N");
 
-        // Si el parámetro activar viene en true hay que verificar si el cajero
-        // ya existe en cuyo caso solo se debe afectar el campo activo.
-        String sqlSent = "Select * from cajero Where user = ?";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sqlSent);
+        String sqlUpdate
+                = "INSERT INTO cajero(user, activo) "
+                + "	VALUES(?, ?) "
+                + "	ON DUPLICATE KEY UPDATE "
+                + "	activo = ?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sqlUpdate)) {
             ps.setString(1, cajero);
-            if (UtilBD.existeRegistro(ps)) { // Esta función cierra el ps
-                sqlSent = "Update cajero Set activo = ? Where user = ?";
-                ps = conn.prepareStatement(sqlSent);
-                ps.setString(1, activo);
-                ps.setString(2, cajero);
-                registrosAfectados = CMD.update(ps);
-            } else {
-                sqlSent
-                        = "Insert into cajero("
-                        + "user, activo) "
-                        + "Values(?,?)";
-                ps = conn.prepareStatement(sqlSent);
-                ps.setString(1, cajero);
-                ps.setString(2, activo);
-                registrosAfectados = CMD.update(ps);
-            } // end if-else
-            ps.close();
+            ps.setString(2, activo);
+            ps.setString(3, activo);
+            registrosAfectados = CMD.update(ps);
         } catch (SQLException ex) {
-            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
+
         return registrosAfectados;
     } // end
+
+    /**
+     * Agregar los usuarios que falten en la base de datos de saisystem.
+     */
+    private void syncUsers() {
+        String sqlUpdate
+                = "INSERT INTO saisystem.usuario"
+                + "	SELECT user, ultimaclave, activo FROM usuario"
+                + "	WHERE NOT EXISTS(SELECT 1 FROM saisystem.usuario b"
+                + "				  WHERE b.user = usuario.user)";
+
+        try (PreparedStatement ps = conn.prepareStatement(sqlUpdate)) {
+            CMD.update(ps);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+        }
+    }
 
 } // end Inproved

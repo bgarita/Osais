@@ -706,7 +706,7 @@ public class Tipocambio extends JFrame {
     } // end guardar
 
     public void refrescartxtTipoca() {
-        if (codigo.trim().equals("")) {
+        if (codigo == null || codigo.trim().equals("")) {
             return;
         } // end if
         String fecha = Ut.fechaSQL(DatFecha.getDate());
