@@ -616,51 +616,50 @@ public class ConsultaMovCierre extends javax.swing.JFrame {
     } // end consltarServicios
 
     private void consultarBonificaciones() throws Exception {
-        Connection conn = Menu.CONEXION.getConnection();
-        String sqlSent
-                = "Select  "
-                + "	fechac as fecha, "
-                + "	Factura,  "
-                + "	total_fac as monto,  "
-                + "	observaciones "
-                + "from pulange.cxpfacturas "
-                + "Where fechac between ? and ? "
-                + "and (observaciones like '%bonifica%' or  "
-                + " observaciones like '%premio%' or "
-                + " observaciones like '%lugar%') "
-                + "order by 1";
-        PreparedStatement ps;
-        ResultSet rs;
-        double total = 0.00;
-        Ut.clearJTable(tblBonificaciones);
-
-        ps = conn.prepareStatement(sqlSent,
-                ResultSet.TYPE_SCROLL_SENSITIVE,
-                ResultSet.CONCUR_READ_ONLY);
-        ps.setTimestamp(1, this.fechaIn);
-        ps.setTimestamp(2, this.fechaFi);
-
-        rs = CMD.select(ps);
-        if (rs != null && rs.first()) {
-            rs.last();
-            int resultSetRows = rs.getRow();
-            int tableRows = tblBonificaciones.getModel().getRowCount();
-            if (resultSetRows > tableRows) {
-                Ut.resizeTable(tblBonificaciones, (resultSetRows - tableRows), "Filas");
+        double total;
+        try (Connection conn = Menu.CONEXION.getConnection()) {
+            String sqlSent
+                    = "Select  "
+                    + "	fechac as fecha, "
+                    + "	Factura,  "
+                    + "	total_fac as monto,  "
+                    + "	observaciones "
+                    + "from cxpfacturas "
+                    + "Where fechac between ? and ? "
+                    + "and (observaciones like '%bonifica%' or  "
+                    + " observaciones like '%premio%' or "
+                    + " observaciones like '%lugar%') "
+                    + "order by 1";
+            PreparedStatement ps;
+            ResultSet rs;
+            total = 0.00;
+            Ut.clearJTable(tblBonificaciones);
+            ps = conn.prepareStatement(sqlSent,
+                    ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
+            ps.setTimestamp(1, this.fechaIn);
+            ps.setTimestamp(2, this.fechaFi);
+            rs = CMD.select(ps);
+            if (rs != null && rs.first()) {
+                rs.last();
+                int resultSetRows = rs.getRow();
+                int tableRows = tblBonificaciones.getModel().getRowCount();
+                if (resultSetRows > tableRows) {
+                    Ut.resizeTable(tblBonificaciones, (resultSetRows - tableRows), "Filas");
+                } // end if
+                int row = 0;
+                rs.beforeFirst();
+                while (rs.next()) {
+                    this.tblBonificaciones.setValueAt(Ut.dtoc(rs.getDate("fecha")), row, 0);
+                    this.tblBonificaciones.setValueAt(rs.getString("factura"), row, 1);
+                    this.tblBonificaciones.setValueAt(Ut.setDecimalFormat(rs.getDouble("monto") + "", "#,##0.00"), row, 2);
+                    total += rs.getDouble("monto");
+                    this.tblBonificaciones.setValueAt(rs.getString("observaciones"), row, 3);
+                    row++;
+                } // end while
             } // end if
-            int row = 0;
-            rs.beforeFirst();
-            while (rs.next()) {
-                this.tblBonificaciones.setValueAt(Ut.dtoc(rs.getDate("fecha")), row, 0);
-                this.tblBonificaciones.setValueAt(rs.getString("factura"), row, 1);
-                this.tblBonificaciones.setValueAt(Ut.setDecimalFormat(rs.getDouble("monto") + "", "#,##0.00"), row, 2);
-                total += rs.getDouble("monto");
-                this.tblBonificaciones.setValueAt(rs.getString("observaciones"), row, 3);
-                row++;
-            } // end while
-        } // end if
-        ps.close();
-        conn.close();
+            ps.close();
+        }
         this.txtBonificaciones.setText(Ut.setDecimalFormat(total + "", "#,##0.00"));
     } // end consultarBonificaciones
 
