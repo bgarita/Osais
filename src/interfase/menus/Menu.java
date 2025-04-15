@@ -75,7 +75,7 @@ public class Menu extends javax.swing.JFrame {
     private final Notificacion NOTIF;         // Notificaciones
     public static String url;
     public static boolean enviarDocumentosElectronicos;
-    private final Bitacora b = new Bitacora();
+    private final Bitacora log = new Bitacora();
 
     /*
      Bosco 01/11/2015.
@@ -134,7 +134,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         // Fin Bosco agregado 19/07/2019
 
@@ -145,7 +145,7 @@ public class Menu extends javax.swing.JFrame {
         Menu.OS_NAME = Ut.getProperty(Ut.OS_NAME);
         Menu.PORT = DatabaseConnection.getConnectionPort(url);
 
-        // Estructura de carpetas del sistema.
+        // Estructura de carpetas del sistema. Si una carpeta no existe, se crea.
         DIR = new DirectoryStructure();
 
         this.setExtendedState(Frame.MAXIMIZED_BOTH);
@@ -188,53 +188,19 @@ public class Menu extends javax.swing.JFrame {
         NAV = new Navegador();
         NAV.setConexion(sConn);
 
-        // Bosco agregado 06/11/2010.
-        // Creo la carpeta que se usará como repositorio de
-        // las imágenes (fotos de artículos, clientes, etc.)
-        File folder = new File(DIR.getFotos());
-        if (!folder.exists()) {
-            folder.mkdir();
-        } // end if
-
-        // Bosco agregado 22/07/2018
-        // Creo la carpeta de los XML de Hacienda (si no existe)
-        folder = new File(DIR.getXmls());
-        if (!folder.exists()) {
-            folder.mkdir();
-        } // end if
-        // Fin Bosco agregado 22/07/2018
-
-        // Bosco agregado 08/09/2018
-        // Creo la carpeta de los PDFs de para los clientes (si no existe)
-        folder = new File(DIR.getPdfs());
-        if (!folder.exists()) {
-            folder.mkdir();
-        } // end if
-        // Fin Bosco agregado 08/09/2018
-        //JOptionPane.showMessageDialog(null, DIR);
-        // Fin Bosco agregado 06/11/2010.
-
         try {
             UpdateVersion.update(sConn);
-            ResultSet rs;
-
-            // Bosco agregado 23/11/2013
+            
             // Otengo el usuario de base de datos según el motor
-            rs = NAV.ejecutarQuery("Select user()");
-            if (rs.first()) {
-                Menu.USUARIOBD = rs.getString(1);
-                rs.close();
-            } // end if
-            // Fin Bosco agregado 23/11/2013
-
-            rs = NAV.ejecutarQuery("Select * from config");
+            Menu.USUARIOBD = UtilBD.getUserLogged(sConn);
+            
+            ResultSet rs = NAV.ejecutarQuery("Select * from config");
             rs.first();
             Menu.EMPRESA = rs.getString("empresa");
             if (!rs.getString("WallPaper").isEmpty()) {
                 FONDO.setImagen(rs.getString("WallPaper").trim());
             } // end if
             Menu.enviarDocumentosElectronicos = rs.getBoolean("enviarFacturaE");
-            //Menu.modalidadFacturaElectronica  = rs.getInt("modoFacturaE");
             rs.close();
 
             rs = NAV.ejecutarQuery("select @@hostname");
@@ -252,7 +218,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         // Bosco agregado 27/07/2013
@@ -2185,7 +2151,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
         RegistroEntradas.main(CONEXION.getConnection(), driver);
@@ -2267,7 +2233,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
         // Fin Bosco agregado 23/07/2011
@@ -2312,7 +2278,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
         // Fin Bosco agregado 23/07/2011
@@ -2349,7 +2315,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
 
@@ -2384,7 +2350,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
 
@@ -2419,7 +2385,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
 
@@ -2484,7 +2450,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
 
@@ -2517,7 +2483,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     }//GEN-LAST:event_mnuInteresMActionPerformed
 
@@ -2570,7 +2536,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
 
@@ -2668,7 +2634,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
 
@@ -2715,7 +2681,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
 
@@ -2763,7 +2729,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
 
@@ -2875,7 +2841,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Mensaje",
                     JOptionPane.INFORMATION_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     }//GEN-LAST:event_chkMenuSistemaDispActionPerformed
 
@@ -2947,7 +2913,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     }//GEN-LAST:event_mnuImportarInvwActionPerformed
 
@@ -2992,7 +2958,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
 
@@ -3063,7 +3029,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
 
@@ -3098,7 +3064,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
 
@@ -3153,7 +3119,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
 
@@ -3261,7 +3227,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     }//GEN-LAST:event_mnuImportCatalogoActionPerformed
 
@@ -3322,7 +3288,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     }//GEN-LAST:event_mnuExportarAsientosActionPerformed
 
@@ -3436,7 +3402,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
 
@@ -3470,7 +3436,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
         // Fin Bosco agregado 23/07/2011
@@ -3503,7 +3469,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
 
@@ -3778,7 +3744,7 @@ public class Menu extends javax.swing.JFrame {
                     "No hay datos para este reporte.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
 
@@ -3796,7 +3762,7 @@ public class Menu extends javax.swing.JFrame {
                     + "Debe comunicarse con su administrador de base de datos.",
                     "Advertencia",
                     JOptionPane.WARNING_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     }//GEN-LAST:event_mnuGenArchSincActionPerformed
 
@@ -3904,7 +3870,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             continuar = false;
         } // end try-catch
 
@@ -3962,7 +3928,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     }//GEN-LAST:event_mnuImpAsientosActionPerformed
 
@@ -4007,7 +3973,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
 
@@ -4029,7 +3995,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(), "Error",
                     JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
 
@@ -4053,7 +4019,7 @@ public class Menu extends javax.swing.JFrame {
         } catch (Exception ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     }//GEN-LAST:event_mnuXmlActionPerformed
 
@@ -4071,7 +4037,7 @@ public class Menu extends javax.swing.JFrame {
             } // end if
         } catch (Exception ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
         ConsultaFacturasXML.main(CONEXION.getConnection());
@@ -4088,7 +4054,7 @@ public class Menu extends javax.swing.JFrame {
             } // end if
         } catch (Exception ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
 
@@ -4139,7 +4105,7 @@ public class Menu extends javax.swing.JFrame {
             } // end if
         } catch (Exception ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
 
@@ -4417,7 +4383,7 @@ public class Menu extends javax.swing.JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Módulos",
@@ -4471,7 +4437,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     }//GEN-LAST:event_mnuImportaCatCerradoActionPerformed
 
@@ -4882,7 +4848,7 @@ public class Menu extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         // Bosco agregado 07/08/2013
@@ -4898,7 +4864,7 @@ public class Menu extends javax.swing.JFrame {
             } // end if
 
         } catch (Exception e) {
-            b.writeToLog(this.getClass().getName() + "--> " + e.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + e.getMessage(), Bitacora.ERROR);
         } // end try-catch
     } // end close
 

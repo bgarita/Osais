@@ -85,7 +85,6 @@ public class PeriodoContable {
             } // end if
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",

@@ -68,7 +68,7 @@ public class Inclient extends javax.swing.JFrame implements IMantenimiento {
     private Cuenta cuenta;
     // Fin Bosco agregado 11/08/2013
 
-    public Inclient(Connection c, String clicode) throws SQLException {
+    public Inclient(Connection c, String clicode) throws Exception {
         initComponents();
 
         // Bosco agregado 15/01/2012.
@@ -1954,7 +1954,7 @@ public class Inclient extends javax.swing.JFrame implements IMantenimiento {
             public void run() {
                 try {
                     new Inclient(c, clicode).setVisible(true);
-                } catch (SQLException ex) {
+                } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(),
                             "Error", JOptionPane.ERROR_MESSAGE);
                 }  // end try-catch

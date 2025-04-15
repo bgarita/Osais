@@ -63,7 +63,7 @@ public class Inproved extends javax.swing.JFrame implements IMantenimiento {
     private boolean inicio;
     private Bitacora b = new Bitacora();
 
-    public Inproved(Connection c) throws SQLException, SQLInjectionException {
+    public Inproved(Connection c) throws Exception {
         initComponents();
 
         inicio = true;
@@ -1410,7 +1410,7 @@ public class Inproved extends javax.swing.JFrame implements IMantenimiento {
             public void run() {
                 try {
                     new Inproved(c).setVisible(true);
-                } catch (SQLException | SQLInjectionException ex) {
+                } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null,
                             ex.getMessage(),
                             "Error",
