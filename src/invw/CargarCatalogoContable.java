@@ -5,7 +5,7 @@ import com.svcon.jdbf.JDBFException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import logica.contabilidad.Cuenta;
+import contabilidad.logica.Cuenta;
 
 /**
  * Esta clase carga el catálogo contable del sistema CG en fox Debe abrir el

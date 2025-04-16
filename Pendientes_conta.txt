@@ -1,7 +1,9 @@
 1. Hacer una validación general cuando el sistema arranca para verificar si alguna de las compañías
    ya no existe. LISTO
 2. Modificar el sistema para que se oculten todos los módulos cuando
-   solo se haya comprado la contabilidad.
+   solo se haya comprado la contabilidad. LISTO
 3. Buscar todos los lugares donde se usen los usuarios sin restricción (por ejemplo bgarita)
-   y cambiar el valor "hardcoded" por uno que venga de una variable de sistema.
-4. Continuar con la separación de código para evitar clases gigantes.
+   y cambiar el valor "hardcoded" por uno que venga de una variable de sistema. LISTO
+4. Revisar el proceso de entradas de inventario.  La conexión se está cerrando.
+    Debe haber varios casos iguales.
+5. Continuar con la separación de código para evitar clases gigantes.

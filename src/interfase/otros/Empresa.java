@@ -5,12 +5,12 @@
  */
 package interfase.otros;
 
-import MVC.controller.geofrafia.CantonC;
-import MVC.controller.geofrafia.DistritoC;
-import MVC.controller.geofrafia.ProvinciaC;
-import MVC.model.geografia.CantonM;
-import MVC.model.geografia.DistritoM;
-import MVC.model.geografia.ProvinciaM;
+import geografia.view.CantonC;
+import geografia.view.DistritoC;
+import geografia.view.ProvinciaC;
+import geografia.model.CantonM;
+import geografia.model.DistritoM;
+import geografia.model.ProvinciaM;
 import Mail.Bitacora;
 import accesoDatos.UtilBD;
 import java.sql.Connection;

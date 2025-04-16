@@ -7,9 +7,9 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import logica.contabilidad.CoasientoD;
-import logica.contabilidad.CoasientoE;
-import logica.contabilidad.Cuenta;
+import contabilidad.logica.CoasientoD;
+import contabilidad.logica.CoasientoE;
+import contabilidad.logica.Cuenta;
 
 
 // NOTA IMPORTANTE:

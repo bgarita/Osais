@@ -16,8 +16,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import logica.contabilidad.Cocatalogo;
-import logica.contabilidad.PeriodoContable;
+import contabilidad.logica.Cocatalogo;
+import contabilidad.model.PeriodoContable;
 import logica.utilitarios.Ut;
 
 /**

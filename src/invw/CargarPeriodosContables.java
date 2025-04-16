@@ -6,7 +6,7 @@ import com.svcon.jdbf.JDBFException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import logica.contabilidad.PeriodoContable;
+import contabilidad.model.PeriodoContable;
 
 /**
  * Esta clase carga los periodos contables del sistema CG en fox. Debe abrir el

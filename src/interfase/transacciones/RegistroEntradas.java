@@ -5,7 +5,7 @@
  */
 package interfase.transacciones;
 
-import Catalogos.Intiposdoc;
+import general.model.catalogues.Intiposdoc;
 import Exceptions.CurrencyExchangeException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
@@ -41,7 +41,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
 
     private static final long serialVersionUID = 13L;
 
-    private Catalogos.CatalogueDriver driver;  // Catálogos
+    private general.model.catalogues.CatalogueDriver driver;  // Catálogos
 
     private Buscador bd;
     private Connection conn;
@@ -75,7 +75,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
      * @param driver
      * @throws java.sql.SQLException
      */
-    public RegistroEntradas(Connection c, Catalogos.CatalogueDriver driver) throws SQLException {
+    public RegistroEntradas(Connection c, general.model.catalogues.CatalogueDriver driver) throws SQLException {
         initComponents();
 
         addWindowListener(new WindowAdapter() {
@@ -3044,7 +3044,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
      * @param c
      * @param driver
      */
-    public static void main(final Connection c, final Catalogos.CatalogueDriver driver) {
+    public static void main(final Connection c, final general.model.catalogues.CatalogueDriver driver) {
         //final Connection c = DataBaseConnection.getConnection("temp");
         try {
             // Bosco agregado 18/07/2011
@@ -3319,7 +3319,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                 } // end if
             } // end if
             // Fin Bosco agregado 23/07/2011.
-        } catch (HeadlessException ex) {
+        } catch (HeadlessException | SQLException ex) {
             Logger.getLogger(RegistroEntradas.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     null,

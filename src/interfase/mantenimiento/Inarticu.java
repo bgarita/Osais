@@ -111,18 +111,26 @@ public class Inarticu extends JFrame {
 
         this.interactive = true;
 
-        // Bosco agregado 23/07/2011
-        // Verificación de permisos especiales (modificar artículos de inv.)
-        if (!UtilBD.tienePermisoEspecial(c, "n5")) { // Modif. artículos
-            this.btnGuardar.setEnabled(false);
-            this.btnBorrar.setEnabled(false);
-            this.btnAgregarFoto.setEnabled(false);
-            this.btnQuitarFoto.setEnabled(false);
-            this.btnGuardar.setToolTipText("No tiene permisos.");
-            this.btnBorrar.setToolTipText("No tiene permisos.");
-            this.btnAgregarFoto.setToolTipText("No tiene permisos.");
-            this.btnQuitarFoto.setToolTipText("No tiene permisos.");
-        } // end if
+        try {
+            // Bosco agregado 23/07/2011
+            // Verificación de permisos especiales (modificar artículos de inv.)
+            if (!UtilBD.tienePermisoEspecial(c, "n5")) { // Modif. artículos
+                this.btnGuardar.setEnabled(false);
+                this.btnBorrar.setEnabled(false);
+                this.btnAgregarFoto.setEnabled(false);
+                this.btnQuitarFoto.setEnabled(false);
+                this.btnGuardar.setToolTipText("No tiene permisos.");
+                this.btnBorrar.setToolTipText("No tiene permisos.");
+                this.btnAgregarFoto.setToolTipText("No tiene permisos.");
+                this.btnQuitarFoto.setToolTipText("No tiene permisos.");
+            } // end if
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+        }
 
         asignarprovaut = false; // Bosco agregado 30/12/2013
         bodegaDefault = "";    // Bosco agregado 30/12/2013
@@ -130,11 +138,19 @@ public class Inarticu extends JFrame {
         // Cargar los formatos de precios, cantidades, etc.
         setNumericFieldsFormat();
 
-        // Verificación de permisos especiales (precios costos y márgenes)
-        if (!UtilBD.tienePermisoEspecial(c, "precios")) {
-            this.panelPrincipal.remove(panelCostosyUtilidades);
-        } // end if
-        // Fin Bosco agregado 23/07/2011
+        try {
+            // Verificación de permisos especiales (precios costos y márgenes)
+            if (!UtilBD.tienePermisoEspecial(c, "precios")) {
+                this.panelPrincipal.remove(panelCostosyUtilidades);
+            } // end if
+            // Fin Bosco agregado 23/07/2011
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+        }
 
         txtArtdesc.setForeground(Color.BLUE);
 

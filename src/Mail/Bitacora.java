@@ -139,21 +139,16 @@ public class Bitacora {
 
         String nivel;
         switch (logLevel) {
-            case Bitacora.INFO: {
+            case Bitacora.INFO ->  {
                 nivel = "INFO";
-                break;
             }
-            case Bitacora.WARN: {
+            case Bitacora.WARN ->  {
                 nivel = "WARN";
-                break;
             }
-            case Bitacora.ERROR: {
+            case Bitacora.ERROR ->  {
                 nivel = "ERROR";
-                break;
             }
-            default:
-                nivel = "INFO";
-                break;
+            default -> nivel = "INFO";
         } // end switch
 
         Date date = new Date();
@@ -161,6 +156,11 @@ public class Bitacora {
         FileOutputStream log;
         byte[] contentInBytes;
         contentInBytes = text.getBytes();
+        
+        // También se envía la salida a la consola cuando es un WAR o un ERROR
+        if (nivel.equals(WARN) || nivel.equals(ERROR)) {
+            System.err.println(text);
+        }
 
         try {
             log = new FileOutputStream(this.logFile, true);
