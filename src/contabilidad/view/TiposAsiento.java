@@ -3,7 +3,7 @@
  *
  * Created on 15/08/2013, 08:59:28 PM
  */
-package interfase.mantenimiento;
+package contabilidad.view;
 
 import Exceptions.EmptyDataSourceException;
 import Mail.Bitacora;
@@ -19,8 +19,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import logica.contabilidad.CoasientoE;
-import logica.contabilidad.Cotipasient;
+import contabilidad.logica.CoasientoE;
+import contabilidad.logica.Cotipasient;
 import logica.utilitarios.SQLInjectionException;
 import logica.utilitarios.Ut;
 
@@ -232,7 +232,7 @@ public class TiposAsiento extends JFrame {
 
         mnuArchivo.setText("Archivo");
 
-        mnuGuardar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
+        mnuGuardar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/disk.png"))); // NOI18N
         mnuGuardar.setText("Guardar");
         mnuGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -242,7 +242,7 @@ public class TiposAsiento extends JFrame {
         });
         mnuArchivo.add(mnuGuardar);
 
-        mnuSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.CTRL_MASK));
+        mnuSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/control-power.png"))); // NOI18N
         mnuSalir.setText("Salir");
         mnuSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -256,7 +256,7 @@ public class TiposAsiento extends JFrame {
 
         mnuEdicion.setText("Edición");
 
-        mnuBorrar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, java.awt.event.InputEvent.CTRL_MASK));
+        mnuBorrar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/cross.png"))); // NOI18N
         mnuBorrar.setText("Borrar");
         mnuBorrar.addActionListener(new java.awt.event.ActionListener() {
@@ -266,7 +266,7 @@ public class TiposAsiento extends JFrame {
         });
         mnuEdicion.add(mnuBorrar);
 
-        mnuBuscar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
+        mnuBuscar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/zoom.png"))); // NOI18N
         mnuBuscar.setText("Buscar");
         mnuBuscar.addActionListener(new java.awt.event.ActionListener() {

@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import logica.contabilidad.PeriodoContable;
+import contabilidad.model.PeriodoContable;
 import logica.utilitarios.FormatoTabla;
 import logica.utilitarios.Ut;
 import org.apache.poi.hssf.usermodel.HSSFFont;

@@ -1,10 +1,10 @@
-package MVC.model;
+package contabilidad.model;
 
 /**
  *
  * @author bosco, 03/05/2021
  */
-public class Cocuentasres_m {
+public class CocuentasresM {
     private String cuenta;      // Cuenta restringida
     private String nom_cta;     // Nombre de la cuenta
     private String user;
@@ -17,7 +17,7 @@ public class Cocuentasres_m {
     
     
     //<editor-fold defaultstate="collapsed" desc="Constructores">
-    public Cocuentasres_m(){
+    public CocuentasresM(){
         this.user = "";
         this.cuenta = "0";
         this.nom_cta = "";
@@ -25,7 +25,7 @@ public class Cocuentasres_m {
         this.error_msg = "";
     } // end empty constructor
 
-    public Cocuentasres_m(String cuenta, String nom_cta, String user, int recno) {
+    public CocuentasresM(String cuenta, String nom_cta, String user, int recno) {
         this.cuenta = cuenta;
         this.nom_cta = nom_cta;
         this.user = user;

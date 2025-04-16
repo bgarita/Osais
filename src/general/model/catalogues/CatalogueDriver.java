@@ -1,4 +1,4 @@
-package Catalogos;
+package general.model.catalogues;
 
 import accesoDatos.CMD;
 import java.sql.Connection;

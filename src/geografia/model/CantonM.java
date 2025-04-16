@@ -1,4 +1,4 @@
-package MVC.model.geografia;
+package geografia.model;
 
 /**
  *

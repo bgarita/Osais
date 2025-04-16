@@ -1,6 +1,6 @@
-package MVC.controller;
+package contabilidad.logica;
 
-import MVC.model.Cocuentasres_m;
+import contabilidad.model.CocuentasresM;
 import accesoDatos.CMD;
 import interfase.menus.Menu;
 import java.sql.PreparedStatement;
@@ -13,13 +13,13 @@ import java.util.List;
  *
  * @author bgarita, 03/05/2021
  */
-public class Cocuentasres_c {
+public class CocuentasresService {
 
-    private Cocuentasres_m cuentaRestringidas;
+    private CocuentasresM cuentaRestringidas;
 
     private int affectedRecords;
 
-    public Cocuentasres_c(Cocuentasres_m cuentaRestringidas) {
+    public CocuentasresService(CocuentasresM cuentaRestringidas) {
         this.cuentaRestringidas = cuentaRestringidas;
         this.affectedRecords = 0;
     } // end constructor
@@ -43,8 +43,8 @@ public class Cocuentasres_c {
         return existe;
     } // end existeReg
 
-    public Cocuentasres_m getCuentaRestringida(int recno) throws SQLException {
-        cuentaRestringidas = new Cocuentasres_m();
+    public CocuentasresM getCuentaRestringida(int recno) throws SQLException {
+        cuentaRestringidas = new CocuentasresM();
 
         String sqlSent
                 = "SELECT  "
@@ -78,8 +78,8 @@ public class Cocuentasres_c {
         return cuentaRestringidas;
     } // end getCuentaRestringida
 
-    public Cocuentasres_m getFirst() throws SQLException {
-        cuentaRestringidas = new Cocuentasres_m();
+    public CocuentasresM getFirst() throws SQLException {
+        cuentaRestringidas = new CocuentasresM();
         String sqlSent
                 = "Select min(recno) from cocuentasres";
         try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
@@ -95,7 +95,7 @@ public class Cocuentasres_c {
         return cuentaRestringidas;
     }
 
-    public Cocuentasres_m getNext(int recno) throws SQLException {
+    public CocuentasresM getNext(int recno) throws SQLException {
         String sqlSent
                 = "Select min(recno) from cocuentasres Where recno > ?";
         try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
@@ -114,7 +114,7 @@ public class Cocuentasres_c {
         return cuentaRestringidas;
     }
 
-    public Cocuentasres_m getPrevious(int recno) throws SQLException {
+    public CocuentasresM getPrevious(int recno) throws SQLException {
         String sqlSent
                 = "Select max(recno) from cocuentasres Where recno < ?";
         try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
@@ -133,8 +133,8 @@ public class Cocuentasres_c {
         return cuentaRestringidas;
     } // getPrevious
 
-    public Cocuentasres_m getLast() throws SQLException {
-        cuentaRestringidas = new Cocuentasres_m();
+    public CocuentasresM getLast() throws SQLException {
+        cuentaRestringidas = new CocuentasresM();
 
         String sqlSent
                 = "Select max(recno) from cocuentasres";
@@ -151,8 +151,8 @@ public class Cocuentasres_c {
         return cuentaRestringidas;
     }
 
-    public List<Cocuentasres_m> getAll() throws SQLException {
-        List<Cocuentasres_m> tmList = new ArrayList<>();
+    public List<CocuentasresM> getAll() throws SQLException {
+        List<CocuentasresM> tmList = new ArrayList<>();
 
         String sqlSent
                 = "SELECT  "
@@ -184,10 +184,10 @@ public class Cocuentasres_c {
         return tmList;
     } // end getAll
 
-    public List<Cocuentasres_m> getAll(String like) throws SQLException {
+    public List<CocuentasresM> getAll(String like) throws SQLException {
         like = '%' + like.trim() + '%';
 
-        List<Cocuentasres_m> tmList = new ArrayList<>();
+        List<CocuentasresM> tmList = new ArrayList<>();
 
         String sqlSent
                 = "SELECT  "
@@ -289,7 +289,7 @@ public class Cocuentasres_c {
         return deleted;
     } // end update
 
-    public boolean save(Cocuentasres_m cuentaRestringidas) throws SQLException {
+    public boolean save(CocuentasresM cuentaRestringidas) throws SQLException {
         this.cuentaRestringidas = cuentaRestringidas;
         boolean saved;
 

@@ -6,7 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Date;
-import logica.contabilidad.Cuenta;
+import contabilidad.logica.Cuenta;
 
 /**
  * Esta clase carga el catálogo contable del sistema CG en fox para cada mes cerrado.

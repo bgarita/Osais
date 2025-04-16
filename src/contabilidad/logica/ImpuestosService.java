@@ -1,6 +1,6 @@
-package MVC.controller;
+package contabilidad.logica;
 
-import MVC.model.Impuestos_m;
+import contabilidad.model.ImpuestosM;
 import accesoDatos.CMD;
 import interfase.menus.Menu;
 import java.sql.PreparedStatement;
@@ -13,13 +13,13 @@ import java.util.List;
  *
  * @author bgarita, 18/07/2020
  */
-public class Impuestos_c {
+public class ImpuestosService {
 
-    private Impuestos_m ivM;
+    private ImpuestosM ivM;
 
     private int affectedRecords;
 
-    public Impuestos_c(Impuestos_m ivM) {
+    public ImpuestosService(ImpuestosM ivM) {
         this.ivM = ivM;
         this.affectedRecords = 0;
     } // end constructor
@@ -43,8 +43,8 @@ public class Impuestos_c {
         return existe;
     } // end existeReg
 
-    public Impuestos_m getIv(String codigoTarifa) throws SQLException {
-        ivM = new Impuestos_m();
+    public ImpuestosM getIv(String codigoTarifa) throws SQLException {
+        ivM = new ImpuestosM();
 
         String sqlSent
                 = "SELECT  "
@@ -86,8 +86,8 @@ public class Impuestos_c {
         return ivM;
     } // end getIv
 
-    public Impuestos_m getFirst() throws SQLException {
-        ivM = new Impuestos_m();
+    public ImpuestosM getFirst() throws SQLException {
+        ivM = new ImpuestosM();
         String sqlSent
                 = "Select min(codigoTarifa) from tarifa_iva";
         try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
@@ -103,7 +103,7 @@ public class Impuestos_c {
         return ivM;
     }
 
-    public Impuestos_m getNext(String iv) throws SQLException {
+    public ImpuestosM getNext(String iv) throws SQLException {
         String sqlSent
                 = "Select min(codigoTarifa) from tarifa_iva Where codigoTarifa > ?";
         try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
@@ -122,7 +122,7 @@ public class Impuestos_c {
         return ivM;
     }
 
-    public Impuestos_m getPrevious(String iv) throws SQLException {
+    public ImpuestosM getPrevious(String iv) throws SQLException {
         String sqlSent
                 = "Select max(codigoTarifa) from tarifa_iva Where codigoTarifa < ?";
         try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
@@ -141,8 +141,8 @@ public class Impuestos_c {
         return ivM;
     } // getPrevious
 
-    public Impuestos_m getLast() throws SQLException {
-        ivM = new Impuestos_m();
+    public ImpuestosM getLast() throws SQLException {
+        ivM = new ImpuestosM();
 
         String sqlSent
                 = "Select max(codigoTarifa) from tarifa_iva";
@@ -159,8 +159,8 @@ public class Impuestos_c {
         return ivM;
     }
 
-    public List<Impuestos_m> getAll() throws SQLException {
-        List<Impuestos_m> tmList = new ArrayList<>();
+    public List<ImpuestosM> getAll() throws SQLException {
+        List<ImpuestosM> tmList = new ArrayList<>();
 
         String sqlSent
                 = "SELECT  "
@@ -184,7 +184,7 @@ public class Impuestos_c {
             }
             rs.beforeFirst();
             while (rs.next()) {
-                ivM = new Impuestos_m();
+                ivM = new ImpuestosM();
                 ivM.setCodigoTarifa(rs.getString("codigoTarifa"));
                 ivM.setDescrip(rs.getString("descrip"));
                 ivM.setPorcentaje(rs.getFloat("porcentaje"));
@@ -196,14 +196,14 @@ public class Impuestos_c {
                 tmList.add(ivM);
             } // end while
             ps.close();
-        } // end try
+        } // end try // end try
         return tmList;
     } // end getAll
 
-    public List<Impuestos_m> getAll(String like) throws SQLException {
+    public List<ImpuestosM> getAll(String like) throws SQLException {
         like = '%' + like.trim() + '%';
 
-        List<Impuestos_m> tmList = new ArrayList<>();
+        List<ImpuestosM> tmList = new ArrayList<>();
 
         String sqlSent
                 = "SELECT  "
@@ -230,7 +230,7 @@ public class Impuestos_c {
             }
             rs.beforeFirst();
             while (rs.next()) {
-                ivM = new Impuestos_m();
+                ivM = new ImpuestosM();
                 ivM.setCodigoTarifa(rs.getString("codigoTarifa"));
                 ivM.setDescrip(rs.getString("descrip"));
                 ivM.setPorcentaje(rs.getFloat("porcentaje"));
@@ -242,7 +242,7 @@ public class Impuestos_c {
                 tmList.add(ivM);
             } // end while
             ps.close();
-        } // end try
+        } // end try // end try
         return tmList;
     } // end getAll
 
@@ -318,7 +318,7 @@ public class Impuestos_c {
         return deleted;
     } // end update
 
-    public boolean save(Impuestos_m ivM) throws SQLException {
+    public boolean save(ImpuestosM ivM) throws SQLException {
         this.ivM = ivM;
         boolean saved;
 

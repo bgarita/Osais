@@ -17,7 +17,7 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import logica.contabilidad.CoasientoE;
+import contabilidad.logica.CoasientoE;
 import logica.utilitarios.Ut;
 
 /**

@@ -1,4 +1,4 @@
-package MVC.controller.geofrafia;
+package geografia.view;
 
 import Mail.Bitacora;
 import accesoDatos.CMD;
@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import MVC.model.geografia.CantonM;
-import MVC.model.geografia.DistritoM;
+import geografia.model.CantonM;
+import geografia.model.DistritoM;
 
 /**
  *
@@ -27,9 +27,8 @@ public class DistritoC {
     private final Connection conn;
     private boolean error;
     private String errorMessage;
-    private final Bitacora b = new Bitacora();
+    private final Bitacora log = new Bitacora();
 
-    
     public DistritoC(Connection conn, CantonM canton) {
         this.conn = conn;
         this.error = false;
@@ -51,7 +50,6 @@ public class DistritoC {
         return distritos;
     }
 
-
     public DistritoM getDistrito() {
         return distrito;
     }
@@ -64,7 +62,6 @@ public class DistritoC {
         return id;
     }
 
-    
     public final void setId(int id) {
         this.id = id;
         loadDistrito();
@@ -95,10 +92,10 @@ public class DistritoC {
                 + "     `distrito`"
                 + "FROM `distrito` "
                 + "WHERE id = ?";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sqlSent,
-                    ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY);
+        try (PreparedStatement ps = conn.prepareStatement(sqlSent,
+                ResultSet.TYPE_SCROLL_SENSITIVE,
+                ResultSet.CONCUR_READ_ONLY)) {
+
             ps.setInt(1, id);
             ResultSet rs = CMD.select(ps);
             if (rs != null && rs.first()) {
@@ -107,17 +104,15 @@ public class DistritoC {
                 this.error = true;
                 this.errorMessage = "No hay datos para el ID " + this.id;
             } // end if
-            ps.close();
         } catch (SQLException ex) {
             this.error = true;
             this.errorMessage = ex.getMessage();
-            Logger.getLogger(DistritoC.class.getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch 
     } // end loadDistrito
-    
-    private void loadDistritos(){
-         List<DistritoM> l = new ArrayList<>();
+
+    private void loadDistritos() {
+        List<DistritoM> distritosM = new ArrayList<>();
 
         String sqlSent
                 = "SELECT distrito.`id`, "
@@ -128,58 +123,54 @@ public class DistritoC {
                 + "Inner join canton on distrito.idCanton = canton.id "
                 + "WHERE canton.idProvincia = ? "
                 + "and canton.codigo = ?";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sqlSent,
-                    ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY);
+        try (PreparedStatement ps = conn.prepareStatement(sqlSent,
+                ResultSet.TYPE_SCROLL_SENSITIVE,
+                ResultSet.CONCUR_READ_ONLY)) {
             ps.setInt(1, this.canton.getIdProvincia());
             ps.setInt(2, this.canton.getCodigo());
             ResultSet rs = CMD.select(ps);
             if (rs != null && rs.first()) {
-                setData(rs, l);
+                setData(rs, distritosM);
             } // end if
-            ps.close();
-            this.distritos = l;
+            this.distritos = distritosM;
         } catch (SQLException ex) {
             this.error = true;
             this.errorMessage = ex.getMessage();
             Logger.getLogger(DistritoC.class.getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     } // end loadDistritos
 
-    
     // Este método asume que el ResultSet viene ubicado en el primer registro.
     private void setData(ResultSet rs) throws SQLException {
         this.error = false;
         this.errorMessage = "";
 
-        DistritoM dm = new DistritoM();
-        dm.setId(rs.getInt("id"));
-        dm.setCodigo(rs.getInt("codigo"));
-        dm.setIdCanton(rs.getInt("idCanton"));
-        dm.setDistrito(rs.getString("distrito"));
+        DistritoM distritoM = new DistritoM();
+        distritoM.setId(rs.getInt("id"));
+        distritoM.setCodigo(rs.getInt("codigo"));
+        distritoM.setIdCanton(rs.getInt("idCanton"));
+        distritoM.setDistrito(rs.getString("distrito"));
 
-        this.distrito = dm;
+        this.distrito = distritoM;
     } // end setData
 
-
-    private void setData(ResultSet rs, List<DistritoM> l) throws SQLException {
+    private void setData(ResultSet rs, List<DistritoM> distritos) throws SQLException {
         this.error = false;
         this.errorMessage = "";
 
         rs.beforeFirst();
 
         while (rs.next()) {
-            DistritoM dm = new DistritoM();
-            dm.setId(rs.getInt("id"));
-            dm.setCodigo(rs.getInt("codigo"));
-            dm.setIdCanton(rs.getInt("idCanton"));
-            dm.setDistrito(rs.getString("distrito"));
+            DistritoM distritoM = new DistritoM();
+            distritoM.setId(rs.getInt("id"));
+            distritoM.setCodigo(rs.getInt("codigo"));
+            distritoM.setIdCanton(rs.getInt("idCanton"));
+            distritoM.setDistrito(rs.getString("distrito"));
 
-            l.add(dm);
+            distritos.add(distritoM);
         } // end while
-        
+
     } // end setData
 
 } // end class

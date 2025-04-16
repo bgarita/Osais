@@ -1,5 +1,5 @@
 
-package logica.contabilidad;
+package contabilidad.logica;
 
 import logica.utilitarios.Ut;
 

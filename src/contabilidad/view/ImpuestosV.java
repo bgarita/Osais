@@ -1,12 +1,12 @@
 /* 
- * Impuestos_v.java 
+ * ImpuestosV.java 
  *
  * Created on 18/07/2020 9:07 AM
  */
-package MVC.view;
+package contabilidad.view;
 
-import MVC.controller.Impuestos_c;
-import MVC.model.Impuestos_m;
+import contabilidad.logica.ImpuestosService;
+import contabilidad.model.ImpuestosM;
 import Mail.Bitacora;
 import accesoDatos.UtilBD;
 import interfase.otros.Buscador;
@@ -23,7 +23,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import logica.contabilidad.Cuenta;
+import contabilidad.logica.Cuenta;
 import logica.utilitarios.SQLInjectionException;
 import logica.utilitarios.Ut;
 
@@ -32,7 +32,7 @@ import logica.utilitarios.Ut;
  * @author Bosco Garita
  */
 @SuppressWarnings("serial")
-public class Impuestos_v extends JFrame {
+public class ImpuestosV extends JFrame {
 
     public ResultSet rs, rs3;
     private final String tabla;
@@ -41,8 +41,8 @@ public class Impuestos_v extends JFrame {
     private Navegador nav = null;
     private Buscador bd = null;
     private final Bitacora b = new Bitacora();
-    private Impuestos_c ivController;
-    private List<Impuestos_m> ivModelList;
+    private ImpuestosService ivController;
+    private List<ImpuestosM> ivModelList;
     private boolean skipCombo;
     private final Cuenta cta;
     private int buscar; // 1 = Tarifas, 2 = Cuentas 1, 3 = Cuentas 2
@@ -54,7 +54,7 @@ public class Impuestos_v extends JFrame {
      * @throws java.sql.SQLException
      * @throws logica.utilitarios.SQLInjectionException
      */
-    public Impuestos_v(Connection c) throws SQLException, SQLInjectionException {
+    public ImpuestosV(Connection c) throws SQLException, SQLInjectionException {
         initComponents();
         btnBuscar.setVisible(false);
         tabla = "tarifa_iva";
@@ -63,8 +63,8 @@ public class Impuestos_v extends JFrame {
         conn = c;
         cta = new Cuenta(c);
 
-        Impuestos_m ivModel = new Impuestos_m();
-        ivController = new Impuestos_c(ivModel);
+        ImpuestosM ivModel = new ImpuestosM();
+        ivController = new ImpuestosService(ivModel);
         ivModel = ivController.getFirst();
 
         setData(ivModel);
@@ -314,7 +314,7 @@ public class Impuestos_v extends JFrame {
 
         mnuArchivo.setText("Archivo");
 
-        mnuGuardar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
+        mnuGuardar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/disk.png"))); // NOI18N
         mnuGuardar.setText("Guardar");
         mnuGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -324,7 +324,7 @@ public class Impuestos_v extends JFrame {
         });
         mnuArchivo.add(mnuGuardar);
 
-        mnuSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.CTRL_MASK));
+        mnuSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/control-power.png"))); // NOI18N
         mnuSalir.setText("Salir");
         mnuSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -338,7 +338,7 @@ public class Impuestos_v extends JFrame {
 
         mnuEdicion.setText("Edición");
 
-        mnuBorrar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, java.awt.event.InputEvent.CTRL_MASK));
+        mnuBorrar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/cross.png"))); // NOI18N
         mnuBorrar.setText("Borrar");
         mnuBorrar.addActionListener(new java.awt.event.ActionListener() {
@@ -348,7 +348,7 @@ public class Impuestos_v extends JFrame {
         });
         mnuEdicion.add(mnuBorrar);
 
-        mnuBuscar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
+        mnuBuscar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/binocular.png"))); // NOI18N
         mnuBuscar.setText("Buscar");
         mnuBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -481,8 +481,8 @@ public class Impuestos_v extends JFrame {
 
     private void txtcodigoTarifaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcodigoTarifaActionPerformed
         try {
-            Impuestos_m ivM = new Impuestos_m();
-            ivController = new Impuestos_c(ivM);
+            ImpuestosM ivM = new ImpuestosM();
+            ivController = new ImpuestosService(ivM);
             ivM = ivController.getIv(this.txtcodigoTarifa.getText().trim());
 
             setData(ivM);
@@ -522,14 +522,14 @@ public class Impuestos_v extends JFrame {
     private void btnPrimeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrimeroActionPerformed
         // Cuando es una tabla pequeña se puede tener toda en memoria y no requiere
         // ir a la BD a buscar la info. pero si así fuera debería usar el método
-        // first de la clase controller (Impuestos_c.java)
-        Impuestos_m ivM = this.ivModelList.get(0);
+        // first de la clase controller (ImpuestosService.java)
+        ImpuestosM ivM = this.ivModelList.get(0);
         setData(ivM);
 }//GEN-LAST:event_btnPrimeroActionPerformed
 
     private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
         try {
-            Impuestos_m ivM = this.ivController.getPrevious(this.txtcodigoTarifa.getText());
+            ImpuestosM ivM = this.ivController.getPrevious(this.txtcodigoTarifa.getText());
             setData(ivM);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,
@@ -542,7 +542,7 @@ public class Impuestos_v extends JFrame {
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
         try {
-            Impuestos_m ivM = this.ivController.getNext(this.txtcodigoTarifa.getText());
+            ImpuestosM ivM = this.ivController.getNext(this.txtcodigoTarifa.getText());
             setData(ivM);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,
@@ -557,7 +557,7 @@ public class Impuestos_v extends JFrame {
 
         int index = ivModelList.size() - 1;
 
-        Impuestos_m ivM = this.ivModelList.get(index);
+        ImpuestosM ivM = this.ivModelList.get(index);
         setData(ivM);
 }//GEN-LAST:event_btnUltimoActionPerformed
 
@@ -681,7 +681,7 @@ public class Impuestos_v extends JFrame {
                 return;
             } // end if
         } catch (Exception ex) {
-            Logger.getLogger(Impuestos_v.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ImpuestosV.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -690,7 +690,7 @@ public class Impuestos_v extends JFrame {
         }
         // Fin Bosco agregado 23/07/2011
         try {
-            Impuestos_v run = new Impuestos_v(c);
+            ImpuestosV run = new ImpuestosV(c);
             run.setVisible(true);
         } catch (SQLException | SQLInjectionException ex) {
             JOptionPane.showMessageDialog(
@@ -731,7 +731,7 @@ public class Impuestos_v extends JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void guardarRegistro() throws Exception {
-        Impuestos_m ivM = new Impuestos_m();
+        ImpuestosM ivM = new ImpuestosM();
         ivM.setCodigoTarifa(this.txtcodigoTarifa.getText());
         ivM.setDescrip(this.txtDescrip.getText());
         ivM.setPorcentaje(Float.parseFloat(
@@ -759,7 +759,7 @@ public class Impuestos_v extends JFrame {
         } // end for
     } // end sincronizarCombo
 
-    private void setData(Impuestos_m ivM) {
+    private void setData(ImpuestosM ivM) {
         try {
             this.txtcodigoTarifa.setText(ivM.getCodigoTarifa());
             this.txtDescrip.setText(ivM.getDescrip());

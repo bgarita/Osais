@@ -1,6 +1,6 @@
 package testing;
 
-import logica.contabilidad.Indent;
+import contabilidad.logica.Indent;
 
 /**
  *

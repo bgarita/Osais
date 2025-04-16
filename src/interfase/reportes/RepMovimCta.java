@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import logica.contabilidad.Cuenta;
+import contabilidad.logica.Cuenta;
 import logica.utilitarios.Ut;
 
 /**

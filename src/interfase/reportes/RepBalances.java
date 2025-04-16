@@ -20,7 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import logica.contabilidad.PeriodoContable;
+import contabilidad.model.PeriodoContable;
 import logica.utilitarios.Ut;
 
 /**

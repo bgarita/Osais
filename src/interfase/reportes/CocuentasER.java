@@ -1,6 +1,6 @@
 package interfase.reportes;
 
-import MVC.model.CoparametrosER;
+import contabilidad.model.CoparametrosER;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import interfase.menus.Menu;
@@ -15,7 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import logica.contabilidad.Cuenta;
+import contabilidad.logica.Cuenta;
 import logica.utilitarios.Ut;
 
 /**

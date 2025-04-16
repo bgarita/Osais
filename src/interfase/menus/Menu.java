@@ -5,9 +5,14 @@
  */
 package interfase.menus;
 
-import Catalogos.CatalogueDriver;
-import MVC.view.Cocuentasres_v;
-import MVC.view.Impuestos_v;
+import contabilidad.view.CoAplicaMov;
+import contabilidad.view.TiposAsiento;
+import contabilidad.view.PeriodoContable;
+import contabilidad.view.Configconta;
+import contabilidad.view.CatalogoContable;
+import general.model.catalogues.CatalogueDriver;
+import contabilidad.view.CocuentasresV;
+import contabilidad.view.ImpuestosV;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.DatabaseConnection;
@@ -54,7 +59,7 @@ import logica.CompanyPropertiesController;
 import logica.Fondo;
 import logica.Usuario;
 import logica.backup.BackupFiles;
-import logica.contabilidad.CoactualizCat;
+import contabilidad.logica.CoactualizCat;
 import logica.utilitarios.Archivos;
 import logica.utilitarios.DirectoryStructure;
 import logica.utilitarios.Encripcion;
@@ -2141,7 +2146,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuCatalogoClientesActionPerformed
 
     private void mnuEntradasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuEntradasActionPerformed
-        Catalogos.CatalogueDriver driver;
+        general.model.catalogues.CatalogueDriver driver;
         int[] catalogo = {CatalogueDriver.BODEGAS, CatalogueDriver.TIPOS_DOCUMENTO};
         try {
             driver = new CatalogueDriver(CONEXION.getConnection(), catalogo);
@@ -4114,7 +4119,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuRespArchivosActionPerformed
 
     private void mnuCatalogoImpuestosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCatalogoImpuestosActionPerformed
-        Impuestos_v.main(CONEXION.getConnection());
+        ImpuestosV.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuCatalogoImpuestosActionPerformed
 
     private void mnuImpPeriodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuImpPeriodosActionPerformed
@@ -4215,7 +4220,7 @@ public class Menu extends javax.swing.JFrame {
             return;
         }
 
-        logica.contabilidad.PeriodoContable per = new logica.contabilidad.PeriodoContable(CONEXION.getConnection());
+        contabilidad.model.PeriodoContable per = new contabilidad.model.PeriodoContable(CONEXION.getConnection());
         javax.swing.ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource("/Icons/calendar-day.png"));
         String periodo = "El periodo contable en proceso es " + per.getMesLetras() + " " + per.getAño();
 
@@ -4462,7 +4467,7 @@ public class Menu extends javax.swing.JFrame {
             return;
         }
 
-        Cocuentasres_v.main(CONEXION.getConnection());
+        CocuentasresV.main(CONEXION.getConnection());
     }//GEN-LAST:event_mnuCtasRestringidasActionPerformed
 
     private void mnuCompaniesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCompaniesActionPerformed

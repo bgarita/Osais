@@ -1,4 +1,4 @@
-package logica.contabilidad;
+package contabilidad.model;
 
 import Mail.Bitacora;
 import accesoDatos.CMD;
@@ -26,7 +26,7 @@ public class PeriodoContable {
     private boolean error;
     private String error_msg;
     
-    private final Bitacora b = new Bitacora();
+    private final Bitacora log = new Bitacora();
     
     /*
     Este constructor se debe usar solo cuando la clase se usará como contenedor
@@ -89,7 +89,7 @@ public class PeriodoContable {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         
     } // end setData
@@ -204,7 +204,7 @@ public class PeriodoContable {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     } // end cargarRegistro
 } // end class

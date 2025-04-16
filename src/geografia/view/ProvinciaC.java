@@ -1,4 +1,4 @@
-package MVC.controller.geofrafia;
+package geografia.view;
 
 import Mail.Bitacora;
 import accesoDatos.CMD;
@@ -8,9 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import MVC.model.geografia.ProvinciaM;
+import geografia.model.ProvinciaM;
 
 /**
  *
@@ -23,7 +21,7 @@ public class ProvinciaC {
     private final Connection conn;
     private boolean error;
     private String errorMessage;
-    private final Bitacora b = new Bitacora();
+    private final Bitacora log = new Bitacora();
 
     public ProvinciaC(Connection conn) {
         this.conn = conn;
@@ -73,10 +71,9 @@ public class ProvinciaC {
                 + "    `provincia`  "
                 + "FROM `provincia` "
                 + "WHERE id = ?";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sqlSent,
-                    ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY);
+        try (PreparedStatement ps = conn.prepareStatement(sqlSent,
+                ResultSet.TYPE_SCROLL_SENSITIVE,
+                ResultSet.CONCUR_READ_ONLY)) {
             ps.setInt(1, id);
             ResultSet rs = CMD.select(ps);
             if (rs != null && rs.first()) {
@@ -85,12 +82,10 @@ public class ProvinciaC {
                 this.error = true;
                 this.errorMessage = "No hay datos para el ID " + this.id;
             } // end if
-            ps.close();
         } catch (SQLException ex) {
             this.error = true;
             this.errorMessage = ex.getMessage();
-            Logger.getLogger(ProvinciaC.class.getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     } // end loadProvincia
 
@@ -116,20 +111,17 @@ public class ProvinciaC {
                 + "    `codigo`, "
                 + "    `provincia`  "
                 + "FROM `provincia` ";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sqlSent,
-                    ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY);
+        try (PreparedStatement ps = conn.prepareStatement(sqlSent,
+                ResultSet.TYPE_SCROLL_SENSITIVE,
+                ResultSet.CONCUR_READ_ONLY)) {
             ResultSet rs = CMD.select(ps);
             if (rs != null && rs.first()) {
                 setData(rs, l);
             } // end if
-            ps.close();
         } catch (SQLException ex) {
             this.error = true;
             this.errorMessage = ex.getMessage();
-            Logger.getLogger(ProvinciaC.class.getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
 
         return l;
