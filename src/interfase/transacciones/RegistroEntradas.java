@@ -3319,7 +3319,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                 } // end if
             } // end if
             // Fin Bosco agregado 23/07/2011.
-        } catch (HeadlessException ex) {
+        } catch (HeadlessException | SQLException ex) {
             Logger.getLogger(RegistroEntradas.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     null,

@@ -20,16 +20,12 @@ import interfase.otros.Cantidad;
 import interfase.otros.Navegador;
 import interfase.otros.OrdendeCompra;
 import interfase.seguridad.Permiso;
-import java.applet.AudioClip;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.HeadlessException;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -39,7 +35,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.swing.JApplet;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
@@ -3012,7 +3007,16 @@ public class RegistroFacturasV extends javax.swing.JFrame {
     }//GEN-LAST:event_txtBodegaActionPerformed
 
     private void txtClicodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClicodeActionPerformed
-        this.autorizaFacturas = UtilBD.tienePermisoEspecial(conn, "facturas");
+        try {
+            this.autorizaFacturas = UtilBD.tienePermisoEspecial(conn, "facturas");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            return;
+        }
 
         // Bosco agregado 21/01/2012.
         // Cada vez que se cambia de cliente se libera de responsabilidad al 
