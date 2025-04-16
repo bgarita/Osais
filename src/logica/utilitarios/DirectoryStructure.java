@@ -1,6 +1,7 @@
 package logica.utilitarios;
 
 import interfase.menus.Menu;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -42,7 +43,8 @@ public class DirectoryStructure {
 
         this.reports = this.home + Ut.getProperty(Ut.FILE_SEPARATOR) + "src" + Ut.getProperty(Ut.FILE_SEPARATOR) + "reports";
         
-        persistVariables();
+        this.persistVariables();
+        this.createDirectoryStructure();
     } // end constructor
 
     /**
@@ -197,4 +199,48 @@ public class DirectoryStructure {
         s.append("Bitácoras del sistema: ").append(systemLog).append("\n");
         return s.toString();
     } // end toString
+    
+    /**
+     * Crear la estructura de carpetas que el sistema requiere para
+     * operar con normalidad (no se incluye src porque esa esa una
+     * carpeta propia de la instalación).
+     */
+    private void createDirectoryStructure() {
+        File folder = new File(this.systemLog);
+        if (!folder.exists() || !folder.isDirectory()) {
+            folder.mkdir();
+        }
+        folder = new File(this.fotos);
+        if (!folder.exists() || !folder.isDirectory()) {
+            folder.mkdir();
+        }
+        folder = new File(this.fotos);
+        if (!folder.exists() || !folder.isDirectory()) {
+            folder.mkdir();
+        }
+        folder = new File(this.xmls);
+        if (!folder.exists() || !folder.isDirectory()) {
+            folder.mkdir();
+        }
+        folder = new File(this.pdfs);
+        if (!folder.exists() || !folder.isDirectory()) {
+            folder.mkdir();
+        }
+        folder = new File(this.firmados);
+        if (!folder.exists() || !folder.isDirectory()) {
+            folder.mkdir();
+        }
+        folder = new File(this.errores);
+        if (!folder.exists() || !folder.isDirectory()) {
+            folder.mkdir();
+        }
+        folder = new File(this.xmlProveed);
+        if (!folder.exists() || !folder.isDirectory()) {
+            folder.mkdir();
+        }
+        folder = new File(this.logs);
+        if (!folder.exists() || !folder.isDirectory()) {
+            folder.mkdir();
+        }
+    }
 } // end DirectoryStructure

@@ -13,7 +13,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.*;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -60,7 +59,7 @@ public class UtilBD {
     public static final int LAST = 5;
     public static final int AFTER_LAST = 6;
     public static final int ABSOLUTE = 7;
-
+    
     /**
      * Este método verifica si el sistema está configurado para redondear
      * precios o no. (08/07/2009 - Bosco Garita)
@@ -117,22 +116,22 @@ public class UtilBD {
      * solicitados. Si el SP no encuentra el tipo de cambio o el TC es cero ese
      * será el valor de retorno de este método.
      *
-     * @param pCodigo Código de monea
-     * @param pFecha Fecha para establecer el TC
+     * @param codigoMoneda Código de monea
+     * @param fecha Fecha para establecer el TC
      * @param c Conexión con la base de datos
      * @return float Tipo de Cambio
      * @throws SQLException
      */
-    public static float tipoCambio(String pCodigo, Date pFecha, Connection c)
+    public static float tipoCambio(String codigoMoneda, Date fecha, Connection c)
             throws SQLException {
-        String fechaSQL = Ut.fechaSQL(pFecha);
+        String fechaSQL = Ut.fechaSQL(fecha);
         float tc = 0.0f;
         String sqlSent
                 = "SELECT ConsultarTipoca(?," + fechaSQL + ")";
         try (PreparedStatement ps = c.prepareStatement(
                 sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
-            ps.setString(1, pCodigo);
+            ps.setString(1, codigoMoneda);
             ResultSet rs = CMD.select(ps);
             if (rs != null && rs.first()) {
                 tc = rs.getFloat(1);
@@ -181,7 +180,7 @@ public class UtilBD {
             throws CurrencyExchangeException, SQLException {
         float tc;
         Calendar cal = GregorianCalendar.getInstance();
-
+        
         // Select para cargar el código de moneda del dolar.
         String sqlSent = "Select codigoDolar from config";
         String tcDolar = null;
@@ -518,8 +517,9 @@ public class UtilBD {
     } // end getArtcode
 
     /**
-     * @author Bosco Garita Actualiza la base de datos usando la sentencia que
+     * Actualiza la base de datos usando la sentencia que
      * recibe por parámetro.
+     * @author Bosco Garita
      * @param c
      * @param sqlSent
      * @return int Número de registros afectados
@@ -534,50 +534,23 @@ public class UtilBD {
     } // end sqlUpdate
 
     /**
-     * @author Bosco Garita
-     * @param c
-     * @param sqlSent
-     * @return
-     * @throws java.sql.SQLException
-     * @deprecated 23/03/2013. Use CMD.select()
-     */
-    @Deprecated
-    public static ResultSet SQLSelect(Connection c, String sqlSent) throws SQLException {
-        ResultSet r;
-        Statement st;
-        st = c.createStatement(
-                ResultSet.TYPE_SCROLL_SENSITIVE,
-                ResultSet.CONCUR_READ_ONLY);
-        r = st.executeQuery(sqlSent);
-
-        return r;
-    } // end SQLSelect
-
-    /**
-     * @throws java.lang.Exception
-     * @Author Bosco Garita 18/07/2011 Método que determina si un usuario está
+     * Método que determina si un usuario está
      * autorizado a usar el programa que recibe por parámetro.
+     * El usuario que se revisa es el que ya está cargado en Menu.USUARIOBD
+     * @throws java.lang.Exception
+     * @Author Bosco Garita 18/07/2011
+     * @Updated Bosco Garita 15/04/2025
      * @param c Conexión a la base de datos.
      * @param programa Programa o procedimiento a validar
      * @return true=Está autorizado, false=No lo está.
      */
     public static boolean tienePermiso(Connection c, String programa) throws Exception {
         boolean existe = false;
-        String sqlSelect = "Select user()";
-        String userLogged;
-        ResultSet rs;
-
-        try (PreparedStatement ps = c.prepareStatement(sqlSelect,
-                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
-            rs = CMD.select(ps);
-            rs.first();
-            userLogged = rs.getString(1).toLowerCase().trim();
+        
+        String userLogged = Menu.USUARIOBD;
+        if (userLogged == null) {
+            userLogged = getUserLogged(c);
         }
-
-        // Dejo solo la parte que corresponde al login
-        if (userLogged.contains("@")) {
-            userLogged = userLogged.substring(0, userLogged.indexOf("@"));
-        } // end if
 
         // Estos usuarios no tienen restricción.
         if (userLogged.equals("bgarita") 
@@ -589,13 +562,13 @@ public class UtilBD {
 
         // La función GetDBUser() devuelve el string del usuario antes de
         // la arroba.
-        sqlSelect
+        String sqlSelect
                 = "Select * from autoriz Where user = GetDBUser() and programa = ?";
 
         try (PreparedStatement ps = c.prepareStatement(sqlSelect,
                 ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
             ps.setString(1, programa);
-            rs = CMD.select(ps);
+            ResultSet rs = CMD.select(ps);
             if (rs != null && rs.first()) {
                 existe = true;
             } // end if
@@ -604,53 +577,37 @@ public class UtilBD {
     } // end tienePermiso
 
     /**
-     * @Author Bosco Garita 23/07/2011 Método para verificar los permisos
-     * especiales
+     * Método para verificar los permisos
+     * especiales.
+     * @throws java.sql.SQLException
+     * @Author Bosco Garita 23/07/2011 
      * @param c Conexión a la base de datos
      * @param permiso Campo que indica si tiene o no el permiso
      * @return boolean true=Tiene el permiso, false=No lo tiene
      */
-    public static boolean tienePermisoEspecial(Connection c, String permiso) {
+    public static boolean tienePermisoEspecial(Connection c, String permiso) throws SQLException {
+        String userLogged = Menu.USUARIOBD;
         boolean tienePermiso = false;
-        String sqlSelect = "Select user()";
-        String userLogged;
-        ResultSet rs;
-        PreparedStatement ps;
-        try {
-            ps = c.prepareStatement(sqlSelect,
-                    ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            rs = CMD.select(ps);
-            rs.first();
-            userLogged = rs.getString(1).toLowerCase().trim();
 
-            if (userLogged.contains("@")) {
-                int posArroba = Ut.getPosicion(userLogged, "@");
-                userLogged = userLogged.substring(0, posArroba);
-            } // end if
-
-            // Estos usuarios no tienen restricción
-            if (userLogged.equals("bgarita") || userLogged.equals("root")) {
-                tienePermiso = true;
-                return tienePermiso;
-            } // end if
-
-            // La función GetDBUser() devuelve el string del usuario antes de
-            // la arroba.
-            sqlSelect
-                    = "Select * from usuario Where user = GetDBUser()";
-            ps = c.prepareStatement(sqlSelect,
-                    ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            rs = CMD.select(ps);
+        // Estos usuarios no tienen restricción.
+        if (userLogged.equals("bgarita") 
+                || userLogged.equals("bgaritaa") 
+                || userLogged.equals("root")) {
+            tienePermiso = true;
+            return tienePermiso;
+        } // end if
+        
+        // La función GetDBUser() devuelve el string del usuario antes de
+        // la arroba.
+        String sqlSelect
+                = "Select * from usuario Where user = GetDBUser()";
+        try (PreparedStatement ps = c.prepareStatement(sqlSelect,
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+            ResultSet rs = CMD.select(ps);
             if (rs != null && rs.first()) {
                 tienePermiso = rs.getBoolean(permiso);
             } // end if
-            ps.close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,
-                    ex.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-        } // end try-catch
+        }
         return tienePermiso;
     } // end tienePermisoEspecial
 
@@ -895,30 +852,27 @@ public class UtilBD {
      * @author Bosco Garita 15/01/2012. Establecer la máscara telefónica.
      * @param conn Connection Conexión a la base de datos
      * @param telefonos JFormattedTextField[] Arreglo de objetos a formatear
+     * @throws java.lang.Exception
      */
-    public static void setMascaraT(Connection conn, JFormattedTextField[] telefonos) {
-        String sqlSelect = "Select mascaratel from config";
+    public static void setMascaraT(Connection conn, JFormattedTextField[] telefonos) throws Exception {
+        String sqlSent = "Select mascaratel from config";
+        
         ResultSet rs;
         String mascaratel;
 
-        try {
-            rs = UtilBD.SQLSelect(conn, sqlSelect);
+        try (PreparedStatement ps = conn.prepareStatement(sqlSent,
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+            rs = CMD.select(ps);
             if (rs == null || !rs.first()) {
-                return;
+                throw new Exception("La tabla de configuración no tiene datos.");
             } // end if
 
             mascaratel = rs.getString(1);
 
-            for (int i = 0; i < telefonos.length; i++) {
-                telefonos[i].setFormatterFactory(
-                        new javax.swing.text.DefaultFormatterFactory(
-                                new javax.swing.text.MaskFormatter(mascaratel)));
+            for (JFormattedTextField telefono : telefonos) {
+                telefono.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(
+                        new javax.swing.text.MaskFormatter(mascaratel)));
             } // end for
-        } catch (SQLException | ParseException ex) {
-            JOptionPane.showMessageDialog(null,
-                    ex.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
         } // end try-catch
     } // end setMascaraT
 
@@ -2834,4 +2788,31 @@ public class UtilBD {
 
         return exito;
     } // end goRecord
+    
+    /**
+     * Este método devuelve el usuario de base de datos antes de la @.
+     * Básicamente hace lo mismo que la función getDBUser() en la BD.
+     * @param c
+     * @return User logged
+     * @throws SQLException 
+     */
+    public static String getUserLogged(Connection c) throws SQLException {
+        String sqlSelect = "Select user()";
+        String userLogged;
+        ResultSet rs;
+
+        try (PreparedStatement ps = c.prepareStatement(sqlSelect,
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+            rs = CMD.select(ps);
+            rs.first();
+            userLogged = rs.getString(1).toLowerCase().trim();
+        }
+
+        // Dejo solo la parte que corresponde al login
+        if (userLogged.contains("@")) {
+            userLogged = userLogged.substring(0, userLogged.indexOf("@"));
+        } // end if
+        
+        return userLogged;
+    }
 } // end class UtilBD

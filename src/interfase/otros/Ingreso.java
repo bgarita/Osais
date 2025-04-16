@@ -7,6 +7,7 @@ package interfase.otros;
 
 import Exceptions.CurrencyExchangeException;
 import Mail.Bitacora;
+import accesoDatos.CMD;
 import accesoDatos.DatabaseConnection;
 import accesoDatos.UtilBD;
 import interfase.mantenimiento.Tipocambio;
@@ -19,7 +20,11 @@ import java.awt.SplashScreen;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Double;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -40,7 +45,7 @@ public class Ingreso extends javax.swing.JFrame {
     private static Graphics2D splashGraphics;
     private Font font;
     private final String url;
-    private final Bitacora b = new Bitacora();
+    private final Bitacora log = new Bitacora();
 
     /**
      * Creates new form Ingreso
@@ -249,11 +254,11 @@ public class Ingreso extends javax.swing.JFrame {
             } // end if
             acciones.cleanErrorMsg();
         }
-        
+
         continuar = true;
 
         setVisible(false);
-        
+
         acciones.validarIntervaloClaves();
 
         // Bosco agregado 23/02/2013
@@ -265,7 +270,6 @@ public class Ingreso extends javax.swing.JFrame {
         try {
             tcDolar = UtilBD.tipoCambioDolar(conn);
         } catch (CurrencyExchangeException | SQLException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             tcDolar = 0;
             String tituloM = "Advertencia";
             int tipoM = JOptionPane.WARNING_MESSAGE;
@@ -280,10 +284,24 @@ public class Ingreso extends javax.swing.JFrame {
                     ex.getMessage(),
                     tituloM,
                     tipoM);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         try {
+            // Agregar la opción de usar el mismo tipo de cambio registrado la última vez.
+            if (tcDolar == 0) {
+                int userSelection = JOptionPane.showConfirmDialog(null,
+                        "¿Desea usar el último TC registrado?",
+                        "Tipo de Cambio - confirme",
+                        JOptionPane.YES_NO_OPTION);
+                if (userSelection == JOptionPane.YES_OPTION) {
+                    addLastTC();
+                    tcDolar = UtilBD.tipoCambioDolar(conn);
+                }
+            }
+            
+            // El registro no fue agregado por petición del usuario, entonces se
+            // le presenta el form para que ingrese los datos.
             if (tcDolar == 0 && UtilBD.tienePermiso(conexion.getConnection(), "Tipocambio")) {
                 try {
                     tipoCambio = new Tipocambio(conexion.getConnection());
@@ -295,18 +313,17 @@ public class Ingreso extends javax.swing.JFrame {
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
                     continuar = false;
-                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+                    log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 } // end try-catch
             } // end if
             // Fin Bosco agregado 23/02/2013
         } catch (Exception ex) {
-            Logger.getLogger(Ingreso.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             continuar = false;
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
 
         if (!continuar) {
@@ -554,4 +571,46 @@ public class Ingreso extends javax.swing.JFrame {
         } // end if
 
     } // end retryConnection
+
+    /**
+     * Duplicar los últimos tipos de cambio registrados pero con fecha de hoy.
+     *
+     * @throws SQLException
+     */
+    private void addLastTC() throws SQLException {
+        int consecutivo = 0;
+        Map<String, Float> tcs = new HashMap<>();
+        String sqlSent
+                = "SELECT * FROM tipocambio "
+                + "WHERE fecha = (SELECT MAX(fecha) FROM tipocambio) "
+                + "ORDER BY nConsecutivo";
+        try (PreparedStatement ps = conn.prepareStatement(
+                sqlSent,
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+            ResultSet rs = CMD.select(ps);
+
+            // Recorrer el rs para cargar los datos que serán enviados
+            // de nuevo a la BD.
+            while (rs != null && rs.next()) {
+                tcs.put(rs.getString("codigo"), rs.getFloat("tipoca"));
+                if (rs.getInt("nConsecutivo") > consecutivo) {
+                    consecutivo = rs.getInt("nConsecutivo");
+                }
+            }
+            consecutivo++;
+
+            sqlSent
+                    = "INSERT INTO tipocambio(codigo, fecha, tipoca, nConsecutivo) "
+                    + "VALUES(?, DATE(NOW()), ?, ?)";
+            try (PreparedStatement ps2 = conn.prepareStatement(sqlSent)) {
+                for (Map.Entry<String, Float> entrada : tcs.entrySet()) {
+                    ps2.setString(1, entrada.getKey());
+                    ps2.setFloat(2, entrada.getValue());
+                    ps2.setInt(3, consecutivo);
+                    CMD.update(ps2);
+                    consecutivo++;
+                }
+            }
+        }
+    }
 }
