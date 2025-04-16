@@ -1,4 +1,4 @@
-package Catalogos;
+package general.model.catalogues;
 
 /**
  *

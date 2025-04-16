@@ -9,7 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import logica.DatabaseOptions;
-import logica.contabilidad.CoactualizCat;
+import contabilidad.logica.CoactualizCat;
 import logica.utilitarios.ProcessProgressBar;
 import logica.utilitarios.Ut;
 

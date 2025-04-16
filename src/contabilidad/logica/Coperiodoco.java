@@ -1,4 +1,4 @@
-package logica.contabilidad;
+package contabilidad.logica;
 
 import Mail.Bitacora;
 import accesoDatos.CMD;

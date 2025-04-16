@@ -50,10 +50,10 @@ import logica.Catransa;
 import logica.Formato;
 import logica.OrdenCompra;
 import logica.Usuario;
-import logica.contabilidad.CoasientoD;
-import logica.contabilidad.CoasientoE;
-import logica.contabilidad.Cotipasient;
-import logica.contabilidad.Cuenta;
+import contabilidad.logica.CoasientoD;
+import contabilidad.logica.CoasientoE;
+import contabilidad.logica.Cotipasient;
+import contabilidad.logica.Cuenta;
 import logica.utilitarios.FormatoTabla;
 import logica.utilitarios.Ut;
 

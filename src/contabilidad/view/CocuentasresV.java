@@ -1,12 +1,12 @@
 /* 
- * Cocuentasres_v.java 
+ * CocuentasresV.java 
  *
  * Created on 03/02/2021 11:21 AM
  */
-package MVC.view;
+package contabilidad.view;
 
-import MVC.controller.Cocuentasres_c;
-import MVC.model.Cocuentasres_m;
+import contabilidad.logica.CocuentasresService;
+import contabilidad.model.CocuentasresM;
 import Mail.Bitacora;
 import accesoDatos.UtilBD;
 import interfase.otros.Buscador;
@@ -20,7 +20,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import logica.contabilidad.Cuenta;
+import contabilidad.logica.Cuenta;
 import logica.utilitarios.SQLInjectionException;
 
 /**
@@ -28,7 +28,7 @@ import logica.utilitarios.SQLInjectionException;
  * @author Bosco Garita
  */
 @SuppressWarnings("serial")
-public class Cocuentasres_v extends JFrame {
+public class CocuentasresV extends JFrame {
 
     public ResultSet rs, rs3;
     private final String tabla;
@@ -37,7 +37,7 @@ public class Cocuentasres_v extends JFrame {
     private Navegador nav = null;
     private Buscador bd = null;
     private final Bitacora b = new Bitacora();
-    private Cocuentasres_c crController;
+    private CocuentasresService crController;
     private final Cuenta cta;
     private int buscar; // 1 = Cuentas restringidas, 2 = Cuentas del catálogo contable
 
@@ -48,7 +48,7 @@ public class Cocuentasres_v extends JFrame {
      * @throws java.sql.SQLException
      * @throws logica.utilitarios.SQLInjectionException
      */
-    public Cocuentasres_v(Connection c) throws SQLException, SQLInjectionException {
+    public CocuentasresV(Connection c) throws SQLException, SQLInjectionException {
         initComponents();
         btnBuscar.setVisible(false);
         tabla = "cocuentasres";
@@ -57,8 +57,8 @@ public class Cocuentasres_v extends JFrame {
         conn = c;
         cta = new Cuenta(c);
 
-        Cocuentasres_m crModel = new Cocuentasres_m();
-        crController = new Cocuentasres_c(crModel);
+        CocuentasresM crModel = new CocuentasresM();
+        crController = new CocuentasresService(crModel);
         crModel = crController.getFirst();
 
         setData(crModel);
@@ -251,7 +251,7 @@ public class Cocuentasres_v extends JFrame {
 
         mnuArchivo.setText("Archivo");
 
-        mnuGuardar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
+        mnuGuardar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/disk.png"))); // NOI18N
         mnuGuardar.setText("Guardar");
         mnuGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -261,7 +261,7 @@ public class Cocuentasres_v extends JFrame {
         });
         mnuArchivo.add(mnuGuardar);
 
-        mnuSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.CTRL_MASK));
+        mnuSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/control-power.png"))); // NOI18N
         mnuSalir.setText("Salir");
         mnuSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -275,7 +275,7 @@ public class Cocuentasres_v extends JFrame {
 
         mnuEdicion.setText("Edición");
 
-        mnuBorrar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, java.awt.event.InputEvent.CTRL_MASK));
+        mnuBorrar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/cross.png"))); // NOI18N
         mnuBorrar.setText("Borrar");
         mnuBorrar.addActionListener(new java.awt.event.ActionListener() {
@@ -285,7 +285,7 @@ public class Cocuentasres_v extends JFrame {
         });
         mnuEdicion.add(mnuBorrar);
 
-        mnuBuscar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
+        mnuBuscar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/binocular.png"))); // NOI18N
         mnuBuscar.setText("Buscar");
         mnuBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -401,8 +401,8 @@ public class Cocuentasres_v extends JFrame {
 
     private void txtRecnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRecnoActionPerformed
         try {
-            Cocuentasres_m cuentasRestringidas = new Cocuentasres_m();
-            crController = new Cocuentasres_c(cuentasRestringidas);
+            CocuentasresM cuentasRestringidas = new CocuentasresM();
+            crController = new CocuentasresService(cuentasRestringidas);
             cuentasRestringidas
                     = crController.getCuentaRestringida(Integer.parseInt(this.txtRecno.getText().trim()));
 
@@ -419,7 +419,7 @@ public class Cocuentasres_v extends JFrame {
 
     private void btnPrimeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrimeroActionPerformed
         try {
-            Cocuentasres_m crM = this.crController.getFirst();
+            CocuentasresM crM = this.crController.getFirst();
             setData(crM);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,
@@ -432,7 +432,7 @@ public class Cocuentasres_v extends JFrame {
 
     private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
         try {
-            Cocuentasres_m crM = this.crController.getPrevious(Integer.parseInt(this.txtRecno.getText().trim()));
+            CocuentasresM crM = this.crController.getPrevious(Integer.parseInt(this.txtRecno.getText().trim()));
             setData(crM);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,
@@ -445,7 +445,7 @@ public class Cocuentasres_v extends JFrame {
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
         try {
-            Cocuentasres_m crM = this.crController.getPrevious(Integer.parseInt(this.txtRecno.getText().trim()));
+            CocuentasresM crM = this.crController.getPrevious(Integer.parseInt(this.txtRecno.getText().trim()));
             setData(crM);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,
@@ -458,7 +458,7 @@ public class Cocuentasres_v extends JFrame {
 
     private void btnUltimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUltimoActionPerformed
         try {
-            Cocuentasres_m crM = this.crController.getLast();
+            CocuentasresM crM = this.crController.getLast();
             setData(crM);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,
@@ -573,7 +573,7 @@ public class Cocuentasres_v extends JFrame {
      */
     public static void main(Connection c) {
         try {
-            Cocuentasres_v run = new Cocuentasres_v(c);
+            CocuentasresV run = new CocuentasresV(c);
             run.setVisible(true);
         } catch (SQLException | SQLInjectionException ex) {
             JOptionPane.showMessageDialog(
@@ -609,7 +609,7 @@ public class Cocuentasres_v extends JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void guardarRegistro() throws Exception {
-        Cocuentasres_m crM = new Cocuentasres_m();
+        CocuentasresM crM = new CocuentasresM();
         crM.setRecno(Integer.parseInt(this.txtRecno.getText().trim()));
         crM.setCuenta(this.txtCuenta.getText().trim());
         crM.setUser(this.txtUser.getText());
@@ -624,7 +624,7 @@ public class Cocuentasres_v extends JFrame {
 
     } // end guardar
 
-    private void setData(Cocuentasres_m crM) {
+    private void setData(CocuentasresM crM) {
         try {
             this.txtRecno.setText(crM.getRecno() + "");
             this.txtUser.setText(crM.getUser());

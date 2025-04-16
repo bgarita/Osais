@@ -1,4 +1,4 @@
-package interfase.transacciones;
+package contabilidad.view;
 
 import Mail.Bitacora;
 import accesoDatos.CMD;
@@ -8,8 +8,8 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import logica.contabilidad.CoactualizCat;
-import logica.contabilidad.PeriodoContable;
+import contabilidad.logica.CoactualizCat;
+import contabilidad.model.PeriodoContable;
 
 /**
  *

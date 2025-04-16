@@ -10,8 +10,8 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import logica.contabilidad.CoactualizCat;
-import logica.contabilidad.Coperiodoco;
+import contabilidad.logica.CoactualizCat;
+import contabilidad.logica.Coperiodoco;
 
 /**
  *
@@ -250,7 +250,7 @@ public class ReaperturaConta extends javax.swing.JFrame {
         // Si el resultado del proceso es exitoso hay que establecer el nuevo
         // periodo contatable
         // Falta condicionarlo
-        logica.contabilidad.PeriodoContable per = new logica.contabilidad.PeriodoContable(conn);
+        contabilidad.model.PeriodoContable per = new contabilidad.model.PeriodoContable(conn);
         javax.swing.ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource("/Icons/calendar-day.png"));
         String msg = "El nuevo periodo contable en proceso es " + per.getMesLetras() + " " + per.getAño();
 

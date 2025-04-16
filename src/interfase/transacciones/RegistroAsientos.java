@@ -25,12 +25,12 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import logica.contabilidad.CoactualizCat;
-import logica.contabilidad.CoasientoD;
-import logica.contabilidad.CoasientoE;
-import logica.contabilidad.Cotipasient;
-import logica.contabilidad.Cuenta;
-import logica.contabilidad.PeriodoContable;
+import contabilidad.logica.CoactualizCat;
+import contabilidad.logica.CoasientoD;
+import contabilidad.logica.CoasientoE;
+import contabilidad.logica.Cotipasient;
+import contabilidad.logica.Cuenta;
+import contabilidad.model.PeriodoContable;
 import logica.utilitarios.Ut;
 
 /**

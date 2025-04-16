@@ -1,7 +1,7 @@
 /*
  * Esta clase se encarga de manejar todo lo relacionado con la tabla coasientod.
  */
-package logica.contabilidad;
+package contabilidad.logica;
 
 import Mail.Bitacora;
 import accesoDatos.CMD;

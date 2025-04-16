@@ -1,4 +1,4 @@
-package Catalogos;
+package general.model.catalogues;
 
 import java.sql.Timestamp;
 import java.util.Calendar;

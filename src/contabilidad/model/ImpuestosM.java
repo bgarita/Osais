@@ -1,10 +1,10 @@
-package MVC.model;
+package contabilidad.model;
 
 /**
  *
  * @author bosco, 18/07/2020
  */
-public class Impuestos_m {
+public class ImpuestosM {
     private String codigoTarifa;
     private String descrip;
     private float porcentaje;
@@ -20,7 +20,7 @@ public class Impuestos_m {
     
     
     //<editor-fold defaultstate="collapsed" desc="Constructores">
-    public Impuestos_m(){
+    public ImpuestosM(){
         this.codigoTarifa = "";
         this.descrip = "";
         this.cuenta = "0";
@@ -31,7 +31,7 @@ public class Impuestos_m {
         this.error_msg = "";
     } // end empty constructor
 
-    public Impuestos_m(String codigoTarifa, String descrip, float porcentaje, String cuenta, String nom_cta, String cuenta_c) {
+    public ImpuestosM(String codigoTarifa, String descrip, float porcentaje, String cuenta, String nom_cta, String cuenta_c) {
         this.codigoTarifa = codigoTarifa;
         this.descrip = descrip;
         this.porcentaje = porcentaje;

@@ -40,7 +40,7 @@ public class Ingreso extends javax.swing.JFrame {
     private static Graphics2D splashGraphics;
     private Font font;
     private final String url;
-    private final Bitacora b = new Bitacora();
+    private final Bitacora log = new Bitacora();
 
     /**
      * Creates new form Ingreso
@@ -265,7 +265,6 @@ public class Ingreso extends javax.swing.JFrame {
         try {
             tcDolar = UtilBD.tipoCambioDolar(conn);
         } catch (CurrencyExchangeException | SQLException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             tcDolar = 0;
             String tituloM = "Advertencia";
             int tipoM = JOptionPane.WARNING_MESSAGE;
@@ -280,7 +279,7 @@ public class Ingreso extends javax.swing.JFrame {
                     ex.getMessage(),
                     tituloM,
                     tipoM);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         try {
@@ -295,18 +294,17 @@ public class Ingreso extends javax.swing.JFrame {
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
                     continuar = false;
-                    b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+                    log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 } // end try-catch
             } // end if
             // Fin Bosco agregado 23/02/2013
         } catch (Exception ex) {
-            Logger.getLogger(Ingreso.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             continuar = false;
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
 
         if (!continuar) {

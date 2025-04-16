@@ -1,5 +1,6 @@
-package logica.contabilidad;
+package contabilidad.logica;
 
+import contabilidad.model.PeriodoContable;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import java.sql.Connection;

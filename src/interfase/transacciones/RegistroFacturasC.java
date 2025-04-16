@@ -7,8 +7,8 @@ package interfase.transacciones;
 
 import Exceptions.CurrencyExchangeException;
 import Exceptions.EmptyDataSourceException;
-import MVC.controller.Impuestos_c;
-import MVC.model.Impuestos_m;
+import contabilidad.logica.ImpuestosService;
+import contabilidad.model.ImpuestosM;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -29,10 +29,10 @@ import javax.swing.JTextField;
 import logica.Cacaja;
 import logica.Catransa;
 import logica.Usuario;
-import logica.contabilidad.CoasientoD;
-import logica.contabilidad.CoasientoE;
-import logica.contabilidad.Cotipasient;
-import logica.contabilidad.Cuenta;
+import contabilidad.logica.CoasientoD;
+import contabilidad.logica.CoasientoE;
+import contabilidad.logica.Cotipasient;
+import contabilidad.logica.Cuenta;
 import logica.utilitarios.SQLInjectionException;
 import logica.utilitarios.Ut;
 
@@ -59,8 +59,8 @@ public class RegistroFacturasC extends javax.swing.JFrame {
     private final boolean genmovcaja;   // Generar los movimientos de caja
     private JTextField txtIdtarjeta;    // Código de tarjeta
     private boolean genasienfac;        // Indica si el interface contable está activado o no.
-    private final Impuestos_c iva;      // Controlador para tarifas IVA
-    private Impuestos_m im;             // Modelo para tarifas IVA
+    private final ImpuestosService iva;      // Controlador para tarifas IVA
+    private ImpuestosM im;             // Modelo para tarifas IVA
     private final Bitacora b = new Bitacora();
 
     public RegistroFacturasC(Connection c) throws SQLException {
@@ -138,7 +138,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
 
         habilitarObjetos();
 
-        iva = new Impuestos_c(new Impuestos_m());
+        iva = new ImpuestosService(new ImpuestosM());
         this.txtCodigoTarifaFocusLost(null); // Mostrar el IVA por default
     } // end contructor
 
