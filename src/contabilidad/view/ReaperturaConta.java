@@ -1,4 +1,4 @@
-package interfase.otros;
+package contabilidad.view;
 
 import Mail.Bitacora;
 import accesoDatos.CMD;

@@ -6,15 +6,16 @@
  * Llamado desde Inclient.java
  * 
  */
-
 package interfase.consultas;
 
 import Mail.Bitacora;
+import accesoDatos.CMD;
 import accesoDatos.UtilBD;
 import interfase.reportes.RepVentasxclienteDetalle;
 import java.awt.Color;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
@@ -34,20 +35,24 @@ import logica.utilitarios.Ut;
  */
 @SuppressWarnings("serial")
 public class ConsultaFacturas extends javax.swing.JFrame {
+
     Connection conn = null;
     private ResultSet rs = null;
     private final int clicode;
     private Bitacora b = new Bitacora();
 
-    /** Creates new form JFrame1
+    /**
+     * Creates new form JFrame1
+     *
      * @param c
      * @param pClicode
      * @param conSaldo
-     * @throws java.sql.SQLException */
+     * @throws java.sql.SQLException
+     */
     public ConsultaFacturas(Connection c, int pClicode, boolean conSaldo)
             throws SQLException {
         initComponents();
-        
+
         conn = c;
         this.clicode = pClicode;
 
@@ -63,61 +68,63 @@ public class ConsultaFacturas extends javax.swing.JFrame {
         this.tblFacturas.setDefaultRenderer(String.class, formato);
 
         String sqlSelect = "Select clidesc from inclient where clicode = ?";
-        CallableStatement cs = conn.prepareCall(sqlSelect);
-        cs.setInt(1, pClicode);
-        rs = cs.executeQuery();
-        rs.first();
-        if (!conSaldo){
-            this.setTitle("Historial");
-        } // end if
+        try (PreparedStatement ps = conn.prepareStatement(sqlSelect)) {
+            ps.setInt(1, pClicode);
+            rs = CMD.select(ps);
+            rs.first();
+            if (!conSaldo) {
+                this.setTitle("Historial");
+            } // end if
+        }
+
         this.setTitle(this.getTitle() + " - " + rs.getString(1));
 
-        sqlSelect = conSaldo ? "Call ConsultarFacturasCliente(?,?)":
-            "Call ConsultarDocumentosCliente(?)";
-        cs = conn.prepareCall(sqlSelect);
-        cs.setInt(1, pClicode);
-        if (conSaldo){
-            cs.setInt(2, 1);
-        } // end if
-        rs = cs.executeQuery();
+        sqlSelect = conSaldo ? "Call ConsultarFacturasCliente(?,?)"
+                : "Call ConsultarDocumentosCliente(?)";
+        try (CallableStatement cs = conn.prepareCall(sqlSelect)) {
+            cs.setInt(1, pClicode);
+            if (conSaldo) {
+                cs.setInt(2, 1);
+            } // end if
+            rs = cs.executeQuery();
 
-        if (rs == null) {
-            return;
-        } // end if
+            if (rs == null) {
+                return;
+            } // end if
 
-        if (!rs.first()){
-            return;
-        } // end if
+            if (!rs.first()) {
+                return;
+            } // end if
 
-        // Obtengo el número de filas obtenidas en ResultSet
-        rs.last();
-        int totalFilas = rs.getRow();
-        
-        // Obtener el modelo de la tabla y establecer el número exacto
-        // de filas.
-        DefaultTableModel dtm = (DefaultTableModel) tblFacturas.getModel();
-        dtm.setRowCount(totalFilas);
-        tblFacturas.setModel(dtm);
+            // Obtengo el número de filas obtenidas en ResultSet
+            rs.last();
+            int totalFilas = rs.getRow();
 
-        rs.beforeFirst();
-        int row = 0;
-        // Cargar los datos en la tabla
-        while (rs.next()){
-            tblFacturas.setValueAt(rs.getInt("facnume"), row, 0);
-            tblFacturas.setValueAt(rs.getInt("facplazo"), row, 1);
-            tblFacturas.setValueAt(rs.getString("fecha"), row, 2);
-            tblFacturas.setValueAt(rs.getDouble("MontoML"), row, 3);
-            tblFacturas.setValueAt(rs.getDouble("SaldoML"), row, 4);
-            tblFacturas.setValueAt(rs.getString("TipoDoc"), row, 5);
-            row++;
-        } // end while
+            // Obtener el modelo de la tabla y establecer el número exacto
+            // de filas.
+            DefaultTableModel dtm = (DefaultTableModel) tblFacturas.getModel();
+            dtm.setRowCount(totalFilas);
+            tblFacturas.setModel(dtm);
 
+            rs.beforeFirst();
+            int row = 0;
+            // Cargar los datos en la tabla
+            while (rs.next()) {
+                tblFacturas.setValueAt(rs.getInt("facnume"), row, 0);
+                tblFacturas.setValueAt(rs.getInt("facplazo"), row, 1);
+                tblFacturas.setValueAt(rs.getString("fecha"), row, 2);
+                tblFacturas.setValueAt(rs.getDouble("MontoML"), row, 3);
+                tblFacturas.setValueAt(rs.getDouble("SaldoML"), row, 4);
+                tblFacturas.setValueAt(rs.getString("TipoDoc"), row, 5);
+                row++;
+            } // end while
+        }
     } // end constructor
-    
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -302,16 +309,16 @@ public class ConsultaFacturas extends javax.swing.JFrame {
 
     private void tblFacturasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblFacturasMouseClicked
         int row = tblFacturas.getSelectedRow();
-        
+
         // Si no hay fila seleccionada...
-        if (row < 0){
+        if (row < 0) {
             return;
         } // end if
 
         // Cargo el detalle de la factura/ND seleccionada
         int facnume = Integer.parseInt(tblFacturas.getValueAt(row, 0).toString());
         int tipoDoc = tblFacturas.getValueAt(row, 5).equals("FC") ? 1 : 2;
-        
+
         // Si facnume es negativo se trata de una NC pero en esta pantalla solo
         // se cargan las facturas y las notas de débito.  Aún así este método 
         // queda preparado para cualquier documento.
@@ -319,7 +326,7 @@ public class ConsultaFacturas extends javax.swing.JFrame {
             tipoDoc = 3;
         } // end if
 
-        switch (tipoDoc){
+        switch (tipoDoc) {
             case 1:
                 lblDetalle.setText("Detalle de la factura");
                 break;
@@ -329,22 +336,22 @@ public class ConsultaFacturas extends javax.swing.JFrame {
             default:
                 lblDetalle.setText("Detalle de la nota de crédito");
         } // end switch
-        
+
         String sqlSent = "Call ConsultarDetalleFacturaNDNCXC(?,?)";
         CallableStatement cs;
         ResultSet rsDet;
-        
-        try{
+
+        try {
             cs = conn.prepareCall(sqlSent);
             cs.setInt(1, facnume);
             cs.setInt(2, tipoDoc);
             rsDet = cs.executeQuery();
-            
+
             // Si no hay datos...
-            if (!UtilBD.goRecord(rsDet, UtilBD.BEFORE_FIRST)){
+            if (!UtilBD.goRecord(rsDet, UtilBD.BEFORE_FIRST)) {
                 return;
             } // end if
-            
+
             // Redimensiono el JTable
             UtilBD.goRecord(rsDet, UtilBD.LAST);
             int rows = Ut.recNo(rsDet);
@@ -353,7 +360,7 @@ public class ConsultaFacturas extends javax.swing.JFrame {
             tblDetalle.setModel(dtm);
             row = 0;
             UtilBD.goRecord(rsDet, UtilBD.BEFORE_FIRST);
-            while (UtilBD.goRecord(rsDet, UtilBD.NEXT)){
+            while (UtilBD.goRecord(rsDet, UtilBD.NEXT)) {
                 tblDetalle.setValueAt(
                         rsDet.getString("artcode"), row, 0);
                 tblDetalle.setValueAt(
@@ -368,8 +375,8 @@ public class ConsultaFacturas extends javax.swing.JFrame {
                         rsDet.getDouble("facmont"), row, 5);
                 row++;
             } // end while
-        }catch(SQLException ex){
-            JOptionPane.showMessageDialog(null, 
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
@@ -382,17 +389,16 @@ public class ConsultaFacturas extends javax.swing.JFrame {
     private void mnuImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuImprimirActionPerformed
         Calendar cal1 = GregorianCalendar.getInstance();
         Calendar cal2 = GregorianCalendar.getInstance();
-        
+
         // Obtener las filas de la tabla de detalle de facturas
         int rows = this.tblFacturas.getModel().getRowCount();
-        
+
         String fecha = this.tblFacturas.getValueAt(0, 2).toString();
         cal1.setTime(Ut.ctod(fecha));
-        
-        fecha = this.tblFacturas.getValueAt(rows-1, 2).toString();
+
+        fecha = this.tblFacturas.getValueAt(rows - 1, 2).toString();
         cal2.setTime(Ut.ctod(fecha));
-        
-        
+
         try {
             RepVentasxclienteDetalle rv = new RepVentasxclienteDetalle(conn);
             rv.setFeha(cal1, 1);
@@ -402,7 +408,7 @@ public class ConsultaFacturas extends javax.swing.JFrame {
             rv.runReport();
         } catch (SQLException ex) {
             Logger.getLogger(ConsultaFacturas.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, 
+            JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
@@ -414,16 +420,16 @@ public class ConsultaFacturas extends javax.swing.JFrame {
      * @param c
      * @param pClicode
      * @param conSaldo
-    */
+     */
     public static void main(Connection c, int pClicode, boolean conSaldo) {
         JFrame.setDefaultLookAndFeelDecorated(true);
         try {
-            ConsultaFacturas run = new ConsultaFacturas(c,pClicode,conSaldo);
-            run.setVisible(true);            
+            ConsultaFacturas run = new ConsultaFacturas(c, pClicode, conSaldo);
+            run.setVisible(true);
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, 
+            JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
-                    "Error", 
+                    "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -439,5 +445,5 @@ public class ConsultaFacturas extends javax.swing.JFrame {
     private javax.swing.JTable tblDetalle;
     private javax.swing.JTable tblFacturas;
     // End of variables declaration//GEN-END:variables
-   
+
 } // end class

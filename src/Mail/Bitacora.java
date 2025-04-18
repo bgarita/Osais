@@ -158,7 +158,7 @@ public class Bitacora {
         contentInBytes = text.getBytes();
         
         // También se envía la salida a la consola cuando es un WAR o un ERROR
-        if (nivel.equals(WARN) || nivel.equals(ERROR)) {
+        if (logLevel == WARN || logLevel == ERROR) {
             System.err.println(text);
         }
 

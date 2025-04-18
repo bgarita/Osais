@@ -949,7 +949,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
             // - localhost y %)
             userSQL = UtilBD.getDBString(conn,
                     "mysql.user", "UPPER(user) = '"
-                    + user.toUpperCase() + "'", "distinct user");
+                    + user.toUpperCase() + "'", "distinct concat(user, '@', host) as user");
         } catch (NotUniqueValueException | SQLException ex) {
             Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
@@ -989,8 +989,8 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
         // En mysql server 8.0 estas dos tablas no existen.
         // Este permiso es requerido para que el usuario pueda ejecutar SPs.
         // En MariaDB 11 si existen.
-        String SQLGrantOnMySQL = "GRANT SELECT ON mysql.proc to " + user;
-        String SQLRevokeOnMySQL = "REVOKE SELECT ON mysql.proc from " + user;
+        String SQLGrantOnMySQL = "GRANT SELECT ON mysql.proc to " + userSQL;
+        String SQLRevokeOnMySQL = "REVOKE SELECT ON mysql.proc from " + userSQL;
 
         SQLGrant += chkSelect.isSelected() ? "SELECT," : "";
         SQLRevoke += chkSelect.isSelected() ? "" : "SELECT,";
@@ -1013,14 +1013,14 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
         if (SQLGrant.trim().equals("GRANT")) {
             SQLGrant = "";
         } else {
-            SQLGrant += " ON " + BASEDATOS + ".* TO   " + user;
+            SQLGrant += " ON " + BASEDATOS + ".* TO   " + userSQL;
         } // end if
 
         // Si no hay permisos que revocar dejo vacía la cadena
         if (SQLRevoke.trim().equals("REVOKE")) {
             SQLRevoke = "";
         } else {
-            SQLRevoke += " ON " + BASEDATOS + ".* FROM " + user;
+            SQLRevoke += " ON " + BASEDATOS + ".* FROM " + userSQL;
         } // end if
 
         try {

@@ -12,10 +12,7 @@ OsaisReports/
 xmls/*.txt
 xmls/errores/*.*
 *.xlsx
-laflor/
-contaxyz/
 mail.props
 *.rar
-nbproject/
 osais.txt
 contadm/DirectoryStructure.js 

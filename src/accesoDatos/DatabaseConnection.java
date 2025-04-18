@@ -112,10 +112,10 @@ public class DatabaseConnection {
         try {
             conn = DriverManager.getConnection(url, user, password);
         } catch (SQLException ex) {
-            this.errorMessage = ex.getMessage();
-            Bitacora b = new Bitacora();
-            b.setLogLevel(Bitacora.ERROR);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            this.errorMessage = ex.getMessage() + "\n Usuario o clave incorrecta.";
+            Bitacora log = new Bitacora();
+            log.setLogLevel(Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + this.errorMessage, Bitacora.ERROR);
         }
         if (conn != null) {
             connected = true;

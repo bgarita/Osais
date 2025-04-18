@@ -1,4 +1,4 @@
-package interfase.otros;
+package interfase.main;
 
 import Mail.Bitacora;
 import accesoDatos.CMD;
