@@ -3,8 +3,8 @@
  *
  * Created on 06/09/2009, 07:19:23 PM
  */
-
 package interfase.transacciones;
+
 import Exceptions.CurrencyExchangeException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
@@ -26,59 +26,62 @@ import javax.swing.JTextField;
 import logica.utilitarios.FormatoTabla;
 import logica.utilitarios.SQLInjectionException;
 import logica.utilitarios.Ut;
+
 /**
  *
  * @author Bosco Garita
  */
 public class RegistroSalidas extends javax.swing.JFrame {
+
     private static final long serialVersionUID = 200L;
-    private Buscador   bd;
+    private Buscador bd;
     private Connection conn;
-    private Navegador  nav = null;
-    private Statement  stat;
-    private ResultSet  rs = null;   // Uso general
-    private ResultSet  rsMoneda = null;
-    private ResultSet  rsMovtido;    // Tipos de documento
-    private String     codigoTC;
-    private boolean    inicio = true;
-    private boolean    fin = false;     // Se usa para evitar que corran agunos eventos
-    private final Bitacora b = new Bitacora();
+    private Navegador nav = null;
+    private Statement stat;
+    private ResultSet rs = null;   // Uso general
+    private ResultSet rsMoneda = null;
+    private ResultSet rsMovtido;    // Tipos de documento
+    private String codigoTC;
+    private boolean inicio = true;
+    private boolean fin = false;     // Se usa para evitar que corran agunos eventos
+    private final Bitacora log = new Bitacora();
 
     // Constantes para las búsquedas
     private final int PROVEEDOR = 1;
-    private final int ARTICULO  = 2;
-    private final int BODEGA    = 3;
-    
+    private final int ARTICULO = 2;
+    private final int BODEGA = 3;
 
     // Variable que define el tipo de búsqueda
     private int buscar = 2; // Default
 
     FormatoTabla formato;
-    
+
     // Bosco agregado 19/05/2012.
     private ResultSet rsPedido; // Se usa para cargar el pedido del cliente.
     private boolean pedidoCargado = false; // Determina si se ha cargado un pedido o no.
     private String clicode = "";           // Se usa para identificar el pedido cargado.
     private boolean cargandoPedido = false;// Se activa mientras dure el proceso de carga de pedidos. 
     // Fin Bosco agregado 19/05/2012.
-    
-    private String formatoCant, formatoPrecio; // Bosco agregado 18/03/2014
-    
 
-    /** Creates new form RegistroEntradas
+    private String formatoCant, formatoPrecio; // Bosco agregado 18/03/2014
+
+    /**
+     * Creates new form RegistroEntradas
+     *
      * @param c
-     * @throws java.sql.SQLException */
+     * @throws java.sql.SQLException
+     */
     public RegistroSalidas(Connection c) throws SQLException {
         initComponents();
-        
-        addWindowListener(new WindowAdapter(){
+
+        addWindowListener(new WindowAdapter() {
             @Override
-            public void windowClosing(WindowEvent e){
+            public void windowClosing(WindowEvent e) {
                 btnSalirActionPerformed(null);
             } // end windowClosing
         } // end class
         ); // end Listener
-        
+
         formato = new FormatoTabla();
         try {
             formato.formatColumn(tblDetalle, 2, FormatoTabla.H_LEFT, Color.MAGENTA);
@@ -87,14 +90,13 @@ public class RegistroSalidas extends javax.swing.JFrame {
             formato.formatColumn(tblDetalle, 5, FormatoTabla.H_RIGHT, Color.BLUE);
         } catch (Exception ex) {
             Logger.getLogger(RegistroSalidas.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, 
-                    ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            JOptionPane.showMessageDialog(null,
+                    ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
-        
-        
+
         conn = c;
-        nav  = new Navegador();
+        nav = new Navegador();
         nav.setConexion(conn);
         stat = conn.createStatement(
                 ResultSet.TYPE_SCROLL_SENSITIVE,
@@ -112,68 +114,62 @@ public class RegistroSalidas extends javax.swing.JFrame {
 
         // Elijo la moneda predeterminada y la forma de manejar el consecutivo
         rs = stat.executeQuery(
-                "Select " +
-                "   codigoTC,BloquearConsDi,formatoCant,formatoPrecio,bodega  " +
-                "from config");
-        if (rs == null){ // No se hay registros
+                "Select "
+                + "   codigoTC,BloquearConsDi,formatoCant,formatoPrecio,bodega  "
+                + "from config");
+        if (rs == null) { // No se hay registros
             return;
         } // end if
         rs.first();
         codigoTC = rs.getString("codigoTC").trim();
-        
+
         // Bosco agregado 18/03/2014
         // Cargar la bodega default
         this.txtBodega.setText(rs.getString("bodega"));
-        
+
         // Formato personalizado para las cantidades y los precios (también aplica para costos)
-        formatoCant   = rs.getString("formatoCant");
+        formatoCant = rs.getString("formatoCant");
         formatoPrecio = rs.getString("formatoPrecio");
-        if (formatoCant != null && !formatoCant.trim().isEmpty()){
+        if (formatoCant != null && !formatoCant.trim().isEmpty()) {
             txtMovcant.setFormatterFactory(
                     new javax.swing.text.DefaultFormatterFactory(
-                    new javax.swing.text.NumberFormatter(
-                    new java.text.DecimalFormat(formatoCant))));
+                            new javax.swing.text.NumberFormatter(
+                                    new java.text.DecimalFormat(formatoCant))));
         } // end if
-        
-        if (formatoPrecio != null && !formatoPrecio.trim().isEmpty()){
+
+        if (formatoPrecio != null && !formatoPrecio.trim().isEmpty()) {
             txtMovcoun.setFormatterFactory(
                     new javax.swing.text.DefaultFormatterFactory(
-                    new javax.swing.text.NumberFormatter(
-                    new java.text.DecimalFormat(formatoPrecio))));
+                            new javax.swing.text.NumberFormatter(
+                                    new java.text.DecimalFormat(formatoPrecio))));
         } // end if
-        // Fin Bosco agregado 18/03/2014
-
+        
         // Cargar el consecutivo
-        // Bosco agregado 18/02/2013.
-        // Obtengo solo la parte numérica para poder usarlo como consecutivo.
-        //        Number tempDoc = 
-        //                Ut.quitarCaracteres(rs.getString("docinv").trim());
         int doc = 0;
         try {
             //doc = Integer.parseInt(tempDoc.toString()) + 1;
             doc = UtilBD.getNextInventoryDocument(c);
-        } catch (SQLException | NumberFormatException ex){
+        } catch (SQLException | NumberFormatException ex) {
             JOptionPane.showMessageDialog(
                     null,
-                    ex.getMessage() + "\n" +
-                    "No se pudo usar consecutivo automático para los documentos\n" +
-                    "Deberá establecerlo manualmente.",
+                    ex.getMessage() + "\n"
+                    + "No se pudo usar consecutivo automático para los documentos\n"
+                    + "Deberá establecerlo manualmente.",
                     "Error",
                     JOptionPane.WARNING_MESSAGE);
             this.txtMovdocu.setEditable(true);
             this.txtMovdocu.setEnabled(true);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
-        // Fin Bosco agregado 18/02/2013.
-        
+
         txtMovdocu.setText(String.valueOf(doc).trim());
 
         // Verifico si el consecutivo se debe bloquear
-        if (rs.getBoolean("BloquearConsDi")){
+        if (rs.getBoolean("BloquearConsDi")) {
             txtMovdocu.setEnabled(false);
         } // end if
-        
-        if (rsMoneda == null){  // No hay monedas
+
+        if (rsMoneda == null) {  // No hay monedas
             JOptionPane.showMessageDialog(null,
                     "No se han configurado las monedas.",
                     "Error",
@@ -181,33 +177,32 @@ public class RegistroSalidas extends javax.swing.JFrame {
             dispose();
             return;
         } // end if
-        
+
         String descrip = "";
         rsMoneda.beforeFirst();
-        while (rsMoneda.next()){
-            if (rsMoneda.getString("codigo").trim().equals(codigoTC)){
+        while (rsMoneda.next()) {
+            if (rsMoneda.getString("codigo").trim().equals(codigoTC)) {
                 descrip = rsMoneda.getString("descrip").trim();
                 break;
             } // end if
         } // end while
-        if (!descrip.equals("")){
+        if (!descrip.equals("")) {
             cboMoneda.setSelectedItem(descrip);
         } // end if
-        
+
         // Cargar combo de tipos de documento
         cargarComboTiposDoc();
-        
+
         // Bosco agregado 19/05/2012.
         // Si hay pedidos en la tabla SALIDA activo el menú cargar pedidos
         revisarPedidos();
         // Fin Bosco agregado 19/05/2012.
     } // constructor
 
-    
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -908,18 +903,18 @@ public class RegistroSalidas extends javax.swing.JFrame {
         Double totalCant;
         int row = 0;
         int col = 0;
-        
+
         // Bosco agregado 18/03/2014
         /*
          * Si el campo del artículos está vacío no tiene sentido evaluar la bodega.
          */
-        if (this.txtArtcode.getText().trim().isEmpty()){
+        if (this.txtArtcode.getText().trim().isEmpty()) {
             return;
         } // end if
         // Fin Bosco agregado 18/03/2014
 
         // Nuevamente valido la bodega y el artículo
-        if (!UtilBD.existeBodega(conn, txtBodega.getText())){
+        if (!UtilBD.existeBodega(conn, txtBodega.getText())) {
             JOptionPane.showMessageDialog(
                     null,
                     "Bodega no existe.",
@@ -928,9 +923,9 @@ public class RegistroSalidas extends javax.swing.JFrame {
             txtBodega.requestFocusInWindow();
             return;
         } // end if
-        
+
         try {
-            if (!UtilBD.asignadoEnBodega(conn,txtArtcode.getText(),txtBodega.getText())){
+            if (!UtilBD.asignadoEnBodega(conn, txtArtcode.getText(), txtBodega.getText())) {
                 JOptionPane.showMessageDialog(
                         null,
                         "Artículo no asignado a bodega.",
@@ -945,11 +940,11 @@ public class RegistroSalidas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
 
-        if (txtArtdesc.getText().trim().equals("")){
+        if (txtArtdesc.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(
                     null,
                     "Artículo no existe.",
@@ -958,27 +953,26 @@ public class RegistroSalidas extends javax.swing.JFrame {
             return;
         } // end if
 
-        artcode   = txtArtcode.getText().trim();
-        bodega    = txtBodega.getText().trim();
-        artdesc   = txtArtdesc.getText().trim();
+        artcode = txtArtcode.getText().trim();
+        bodega = txtBodega.getText().trim();
+        artdesc = txtArtdesc.getText().trim();
         try {
             // Quito el formato para poder realizar cálculos y comparaciones
-            movcant   = Ut.quitarFormato(txtMovcant).toString();
-            movcoun   = Ut.quitarFormato(txtMovcoun).toString();
+            movcant = Ut.quitarFormato(txtMovcant).toString();
+            movcoun = Ut.quitarFormato(txtMovcoun).toString();
             artcosfob = Ut.quitarFormato(txtArtcosfob).toString();
         } catch (ParseException ex) {
             Logger.getLogger(RegistroSalidas.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, 
+            JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
-        
 
         // Valido la cantidad
-        if (Float.parseFloat(movcant) <= 0){
+        if (Float.parseFloat(movcant) <= 0) {
             JOptionPane.showMessageDialog(
                     null,
                     "Debe digitar una cantidad válida.",
@@ -995,7 +989,7 @@ public class RegistroSalidas extends javax.swing.JFrame {
             row = Ut.seek(tblDetalle, (Object) artcode, 0,
                     (Object) bodega, 1);
 
-            if (row >= 0){ // row es -1 si no se encontraron los valores
+            if (row >= 0) { // row es -1 si no se encontraron los valores
                 movcant1 = tblDetalle.getValueAt(row, 3).toString().trim();
                 movcant1 = Ut.quitarFormato(movcant1);
                 totalCant += Double.valueOf(movcant1);
@@ -1005,7 +999,6 @@ public class RegistroSalidas extends javax.swing.JFrame {
             // Si el artículo viene de la tabla transitoria SALIDA no se debe
             // hacer esta revisión ya que antes de guardarse ahí el proceso de
             // pedidos ya lo había hecho.
-            
             // Verifico si hay suficiente existencia
             if (!cargandoPedido && UtilBD.existencia(artcode, bodega, conn) - totalCant < 0) {
                 // Fin Bosco modificado 20/05/2012.
@@ -1022,18 +1015,18 @@ public class RegistroSalidas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
 
         // Si row ya tiene un número válido no es necesario buscar
         // la próxima fila disponible
-        if (row == -1){
+        if (row == -1) {
             row = Ut.seekNull(tblDetalle, col);
         } // end if
 
         // Si row es -1 es porque no hay nulos
-        if (row == -1){
+        if (row == -1) {
             JOptionPane.showMessageDialog(
                     null,
                     "Ya no hay espacio para más líneas.",
@@ -1041,13 +1034,13 @@ public class RegistroSalidas extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
             return;
         } // end if
-        
+
         // Bosco agregado 10/07/2016
         // El costo no puede quedar en cero
-        if (Double.parseDouble(movcoun) <= 0){
-            JOptionPane.showMessageDialog(null, 
-                    "El costo es incorrecto.\n" +
-                    "Debe ir al mantenimiento de artículos y corregirlo.",
+        if (Double.parseDouble(movcoun) <= 0) {
+            JOptionPane.showMessageDialog(null,
+                    "El costo es incorrecto.\n"
+                    + "Debe ir al mantenimiento de artículos y corregirlo.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             return;
@@ -1057,14 +1050,14 @@ public class RegistroSalidas extends javax.swing.JFrame {
         // Si totalCant es mayor que movcant es porque el artículo ya existe
         // en la tabla y por lo tanto hay que poner la nueva cantidad en vez
         // de agregar una nueva línea.
-        if (totalCant > Double.parseDouble(movcant)){
+        if (totalCant > Double.parseDouble(movcant)) {
             movcant = String.valueOf(totalCant).trim();
         } // end if
-        
+
         try {
             // Establezco el formato para el despliegue de datos
-            movcant   = Ut.setDecimalFormat(movcant,   formatoCant);
-            movcoun   = Ut.setDecimalFormat(movcoun,   formatoPrecio);
+            movcant = Ut.setDecimalFormat(movcant, formatoCant);
+            movcoun = Ut.setDecimalFormat(movcoun, formatoPrecio);
             artcosfob = Ut.setDecimalFormat(artcosfob, formatoPrecio);
         } catch (Exception ex) {
             Logger.getLogger(RegistroSalidas.class.getName()).log(Level.SEVERE, null, ex);
@@ -1073,10 +1066,9 @@ public class RegistroSalidas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
-        
 
         tblDetalle.setValueAt(artcode, row, col);
         col++;
@@ -1091,8 +1083,8 @@ public class RegistroSalidas extends javax.swing.JFrame {
         tblDetalle.setValueAt(artcosfob, row, col);
         col++;
 
-        Ut.sortTable(tblDetalle,2);
-        
+        Ut.sortTable(tblDetalle, 2);
+
         totalizarDocumento();
 
         // Establezco el focus y limpio los campos (excepto bodega)
@@ -1102,21 +1094,21 @@ public class RegistroSalidas extends javax.swing.JFrame {
         txtMovcant.setText("0.00");
         txtMovcoun.setText("0.00");
         txtArtcosfob.setText("0.00");
-        
+
         // Deshabilito el combo de tipo de Movdocu y el de moneda porque
         // una vez que el usuario ingresa la primer línea de detalle no debe
         // cambiar ninguno de estos valores
-        if (this.cboMoneda.isEnabled()){
+        if (this.cboMoneda.isEnabled()) {
             this.cboMoneda.setEnabled(false);
             this.cboMovtido.setEnabled(false);
         } // end if
-        
+
 }//GEN-LAST:event_cmdAgregarActionPerformed
 
     private void cmdBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdBorrarActionPerformed
         int row = tblDetalle.getSelectedRow();
         // Si no hay una fila seleccionada no hay nada que borrar
-        if (row == -1){
+        if (row == -1) {
             return;
         } // end if
 
@@ -1132,19 +1124,18 @@ public class RegistroSalidas extends javax.swing.JFrame {
         totalizarDocumento();
 
         // Si la tabla está vacía vuelvo a habilitar los combos
-        if (Ut.countNotNull(tblDetalle, 0) == 0){
+        if (Ut.countNotNull(tblDetalle, 0) == 0) {
             this.cboMoneda.setEnabled(true);
             this.cboMovtido.setEnabled(true);
         } // end if
 }//GEN-LAST:event_cmdBorrarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        if (!sePuedeGuardar()){
+        if (!sePuedeGuardar()) {
             return;
         } // end if
-        
-        String
-                movdocu,
+
+        String movdocu,
                 movtimo,
                 movorco,
                 movdesc,
@@ -1163,13 +1154,13 @@ public class RegistroSalidas extends javax.swing.JFrame {
         movtido = 6;    // Requisición
         movorco = "";   // No aplica en una salida
         movsolic = this.txtMovsolic.getText().trim();
-        
+
         try {
             // Asigno el valor directamente desde el rs porque
             // el método sePuedeGuardar ubica el valor del combo
             movtido = rsMovtido.getInt("Movtido");
             movdesc = this.txaMovdesc.getText().trim();
-            if (Ut.isSQLInjection(movdesc)){
+            if (Ut.isSQLInjection(movdesc)) {
                 return;
             } // end if
         } catch (SQLException | SQLInjectionException ex) {
@@ -1178,39 +1169,47 @@ public class RegistroSalidas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
-        
-        updateSql =
-            "CALL InsertarEncabezadoDocInv(" +
-            "?," + // Documento
-            "?," + // Tipo de movimiento (E o S)
-            "?," + // Orden de compra
-            "?," + // Descripción del movimiento
-            "?," + // Fecha del movimiento
-            "?," + // Tipo de cambio
-            "?," + // Tipo de Movdocu (detalle arriba)
-            "?," + // Persona que solicita
-            "?)"; // Código de moneda
-        
-            boolean success = false;
-            
+
+        updateSql
+                = "CALL InsertarEncabezadoDocInv("
+                + "?,"
+                + // Documento
+                "?,"
+                + // Tipo de movimiento (E o S)
+                "?,"
+                + // Orden de compra
+                "?,"
+                + // Descripción del movimiento
+                "?,"
+                + // Fecha del movimiento
+                "?,"
+                + // Tipo de cambio
+                "?,"
+                + // Tipo de Movdocu (detalle arriba)
+                "?,"
+                + // Persona que solicita
+                "?)"; // Código de moneda
+
+        boolean success = false;
+
         try {
             Tipoca = Float.parseFloat(Ut.quitarFormato(txtTipoca.getText()));
-             
+
             success = CMD.transaction(conn, CMD.START_TRANSACTION);
-            
-            if (!success){
-                JOptionPane.showMessageDialog(null, 
-                        "Ocurrió un error en la base de datos.\n" +
-                        "El sistema se cerrará para proteger la integridad.",
+
+            if (!success) {
+                JOptionPane.showMessageDialog(null,
+                        "Ocurrió un error en la base de datos.\n"
+                        + "El sistema se cerrará para proteger la integridad.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 System.exit(1);
                 return;
             } // end if
-            
+
             PreparedStatement psEncabezado = conn.prepareStatement(updateSql);
             psEncabezado.setString(1, movdocu);
             psEncabezado.setString(2, movtimo);
@@ -1225,65 +1224,78 @@ public class RegistroSalidas extends javax.swing.JFrame {
             regAfect = psEncabezado.executeUpdate();
 
             // Afecto el consecuvito de documentos de inventario
-            if (regAfect > 0){
-                PreparedStatement psConfig =
-                        conn.prepareStatement("Update inconsecutivo Set docinv = ?");
+            if (regAfect > 0) {
+                PreparedStatement psConfig
+                        = conn.prepareStatement("Update inconsecutivo Set docinv = ?");
                 psConfig.setString(1, movdocu);
                 regAfect = psConfig.executeUpdate();
             } // end if
 
             // Registro el detalle del movimiento
-            if (regAfect > 0){
+            if (regAfect > 0) {
                 String Artcode, Bodega, Centroc;
                 float Artprec, Movcant, Movcoun, Artcosfob, Facimve, Facdesc;
-                
-                PreparedStatement psPrecio =
-                        conn.prepareStatement("Select ConsultarPrecio(?,1)");
-                
+
+                PreparedStatement psPrecio
+                        = conn.prepareStatement("Select ConsultarPrecio(?,1)");
+
                 // Preparar el insert para el detalle del documento.
-                updateSql =
-                            "CALL InsertarDetalleDocInv(" +
-                            "?," + // Documento
-                            "?," + // Tipo de movimiento
-                            "?," + // Código de artículo
-                            "?," + // Bodega
-                            "?," + // Código de proveedor
-                            "?," + // Unidades
-                            "?," + // Costo unitario
-                            "?," + // Costo FOB
-                            "?," + // Precio de venta (1)
-                            "?," + // Impuesto de ventas
-                            "?," + // Descuento
-                            "?," + // Tipo de documento
-                            "?," + // Centro de costo
-                            "?)";  // Fecha de vencimiento
+                updateSql
+                        = "CALL InsertarDetalleDocInv("
+                        + "?,"
+                        + // Documento
+                        "?,"
+                        + // Tipo de movimiento
+                        "?,"
+                        + // Código de artículo
+                        "?,"
+                        + // Bodega
+                        "?,"
+                        + // Código de proveedor
+                        "?,"
+                        + // Unidades
+                        "?,"
+                        + // Costo unitario
+                        "?,"
+                        + // Costo FOB
+                        "?,"
+                        + // Precio de venta (1)
+                        "?,"
+                        + // Impuesto de ventas
+                        "?,"
+                        + // Descuento
+                        "?,"
+                        + // Tipo de documento
+                        "?,"
+                        + // Centro de costo
+                        "?)";  // Fecha de vencimiento
                 PreparedStatement psDetalle = conn.prepareStatement(updateSql);
 
                 procode = txtProcode.getText().trim();
-                
+
                 // Recorrido por la tabla para guardar el detalle de la entrada
                 int row = 0; // Numero de fila para el while
-                while (row < tblDetalle.getRowCount()){
+                while (row < tblDetalle.getRowCount()) {
                     // Primeramente hago una revisión para determinar
                     // si el registro es válido.
-                    if (tblDetalle.getValueAt(row, 0) == null){
+                    if (tblDetalle.getValueAt(row, 0) == null) {
                         break;
                     } // end if
 
                     Artcode = tblDetalle.getValueAt(row, 0).toString().trim();
-                    Bodega  = tblDetalle.getValueAt(row, 1).toString().trim();
-                    Movcant =
-                            Float.parseFloat(
-                            Ut.quitarFormato(
-                            tblDetalle.getValueAt(row, 3).toString().trim()));
-                    Movcoun =
-                            Float.parseFloat(
-                            Ut.quitarFormato(
-                            tblDetalle.getValueAt(row, 4).toString().trim()));
-                    Artcosfob =
-                            Float.parseFloat(
-                            Ut.quitarFormato(
-                            tblDetalle.getValueAt(row, 5).toString().trim()));
+                    Bodega = tblDetalle.getValueAt(row, 1).toString().trim();
+                    Movcant
+                            = Float.parseFloat(
+                                    Ut.quitarFormato(
+                                            tblDetalle.getValueAt(row, 3).toString().trim()));
+                    Movcoun
+                            = Float.parseFloat(
+                                    Ut.quitarFormato(
+                                            tblDetalle.getValueAt(row, 4).toString().trim()));
+                    Artcosfob
+                            = Float.parseFloat(
+                                    Ut.quitarFormato(
+                                            tblDetalle.getValueAt(row, 5).toString().trim()));
 
                     // Obtener el precio de lista # 1 (moneda local)
                     psPrecio.setString(1, Artcode);
@@ -1293,7 +1305,7 @@ public class RegistroSalidas extends javax.swing.JFrame {
                     // Convertir el precio a la moneda de la transacción
                     Artprec = rs.getFloat(1) / Tipoca;
                     rs.close();
-                    
+
                     Facimve = 0f;
                     Facdesc = 0f;
                     Centroc = " ";
@@ -1318,12 +1330,12 @@ public class RegistroSalidas extends javax.swing.JFrame {
                     // Actualizar las existencias.  Solamente se actualiza
                     // bodexis porque ya existe un trigger en bodexis que se
                     // encarga de actualizar el registro relacionado en inarticu.
-                    if (regAfect > 0){
-                        updateSql =
-                                "Update bodexis Set " +
-                                "artexis = artexis - ? " +
-                                "Where artcode = ? " +
-                                "and bodega = ?";
+                    if (regAfect > 0) {
+                        updateSql
+                                = "Update bodexis Set "
+                                + "artexis = artexis - ? "
+                                + "Where artcode = ? "
+                                + "and bodega = ?";
                         PreparedStatement psBodexis = conn.prepareStatement(updateSql);
                         psBodexis.setFloat(1, Movcant);
                         psBodexis.setString(2, Artcode);
@@ -1332,12 +1344,12 @@ public class RegistroSalidas extends javax.swing.JFrame {
                     } // endif
 
                     // Actualizar fecha de la última salida
-                    if (regAfect > 0){
-                        if (cboMovtido.getSelectedIndex() == 0){ // Compra
-                            updateSql =
-                                    "Update inarticu Set " +
-                                    "Artfeus = ? " +
-                                    "Where artcode = ?";
+                    if (regAfect > 0) {
+                        if (cboMovtido.getSelectedIndex() == 0) { // Compra
+                            updateSql
+                                    = "Update inarticu Set "
+                                    + "Artfeus = ? "
+                                    + "Where artcode = ?";
                             PreparedStatement psInarticu = conn.prepareStatement(updateSql);
                             psInarticu.setTimestamp(1, movfech);
                             psInarticu.setString(2, Artcode);
@@ -1346,7 +1358,7 @@ public class RegistroSalidas extends javax.swing.JFrame {
                     } // end if
 
                     // Si alguno de los Updates falló...
-                    if (regAfect <= 0){
+                    if (regAfect <= 0) {
                         // ..salgo del while para que se ejecute el rollback
                         break;
                     } // end if
@@ -1357,17 +1369,17 @@ public class RegistroSalidas extends javax.swing.JFrame {
             // Bosco agregado 19/05/2012.
             // Si se cargó un pedido habrá que eliminarlo de la tabla transitoria
             // pero antes debe liberarse el reservado.
-            if (regAfect > 0 && this.pedidoCargado && !this.clicode.isEmpty()){
-                String updateReservado = 
-                        "Update salida,bodexis " +
-                        "    Set bodexis.artreserv = bodexis.artreserv - salida.movcant " +
-                        "Where salida.artcode = bodexis.artcode " +
-                        "and salida.bodega = bodexis.bodega " +
-                        "and movdocu = ?";
+            if (regAfect > 0 && this.pedidoCargado && !this.clicode.isEmpty()) {
+                String updateReservado
+                        = "Update salida,bodexis "
+                        + "    Set bodexis.artreserv = bodexis.artreserv - salida.movcant "
+                        + "Where salida.artcode = bodexis.artcode "
+                        + "and salida.bodega = bodexis.bodega "
+                        + "and movdocu = ?";
                 PreparedStatement psReservado = conn.prepareStatement(updateReservado);
                 psReservado.setString(1, clicode);
                 regAfect = psReservado.executeUpdate();
-                if (regAfect > 0){
+                if (regAfect > 0) {
                     String deleteSql = "Delete from salida where movdocu = ?";
                     PreparedStatement psDelete = conn.prepareStatement(deleteSql);
                     psDelete.setString(1, clicode);
@@ -1375,30 +1387,30 @@ public class RegistroSalidas extends javax.swing.JFrame {
                 } // end if
             } // end if
             // Fin Bosco agregado 19/05/2012.
-            
+
             // Si no hubo errores confirmo los cambios...
-            if (regAfect > 0){
+            if (regAfect > 0) {
                 success = CMD.transaction(conn, CMD.COMMIT);
-                
+
                 // Si el commit fue exitoso quito la referencia del pedido
                 // cargado
-                if (success){
+                if (success) {
                     this.pedidoCargado = false;
                     this.clicode = "";
                 } // end if
-                
+
                 double monto = Double.parseDouble(
                         Ut.quitarFormato(txtTotalCosto.getText().trim()));
                 // Si el documento es una devolución entonces hay que
                 // disparar el registro de la ND como tal.
-                if (movtido == 7){ // Salida por devolución
+                if (movtido == 7) { // Salida por devolución
                     RegistroFacturasC.main(movtido, procode, movdocu, monto, 0.0, 0.0, conn);
                 } else {
                     // Disparo el mensaje solo si la salida no es por devolución
                     Thread t;
                     t = new Thread() {
                         @Override
-                        public void run(){
+                        public void run() {
                             JOptionPane.showMessageDialog(
                                     null,
                                     "Documento guardado satisfactoriamente.",
@@ -1408,7 +1420,7 @@ public class RegistroSalidas extends javax.swing.JFrame {
                     };
                     t.start();
                 } // end if
-                
+
                 dispose();
             } else {
                 JOptionPane.showMessageDialog(
@@ -1424,21 +1436,21 @@ public class RegistroSalidas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             try {
                 CMD.transaction(conn, CMD.ROLLBACK);
             } catch (SQLException ex1) {
                 Logger.getLogger(RegistroSalidas.class.getName()).log(Level.SEVERE, null, ex1);
                 JOptionPane.showMessageDialog(
                         null,
-                        "Ocurrió un error en la base de datos.\n" +
-                        "El sistema se cerrará para proteger la integridad.",
+                        "Ocurrió un error en la base de datos.\n"
+                        + "El sistema se cerrará para proteger la integridad.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                b.writeToLog(this.getClass().getName() + "--> " + ex1.getMessage(), Bitacora.ERROR);
+                log.writeToLog(this.getClass().getName() + "--> " + ex1.getMessage(), Bitacora.ERROR);
                 System.exit(1);
             } // end try-catch
-        } 
+        }
         // Esto está en revisión porque después del primer movimieto no deja
         // hacer más movimientos, hay que salir y volver a entrar en el sistema 06/12/2015
         // El problema continúa aún sin esto 06/12/2015
@@ -1451,44 +1463,45 @@ public class RegistroSalidas extends javax.swing.JFrame {
         // Verifico si hay datos sin guardar
         // Si hay datos advierto al usuario
         int registros = Ut.countNotNull(tblDetalle, 0);
-        
-        if (registros == 0){
+
+        if (registros == 0) {
             try {
                 conn.close();
             } catch (SQLException ex) {
                 Logger.getLogger(RegistroSalidas.class.getName()).log(Level.SEVERE, null, ex);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+                log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             }
             dispose();
         } // end if
-        
-        if (registros > 0){
-            
+
+        if (registros > 0) {
+
             Thread t;
             t = new Thread() {
                 @Override
-                public void run(){
+                public void run() {
                     int resp = JOptionPane.showConfirmDialog(null,
-                            "No ha guardado el documento.\n" +
-                                    "Si continúa perderá los datos.\n" +
-                                    "\n¿Realmente desea salir?",
+                            "No ha guardado el documento.\n"
+                            + "Si continúa perderá los datos.\n"
+                            + "\n¿Realmente desea salir?",
                             "Advertencia",
                             JOptionPane.YES_NO_OPTION);
-                    if (resp == JOptionPane.YES_OPTION){
+                    if (resp == JOptionPane.YES_OPTION) {
                         fin = true;
                         try {
                             conn.close();
                         } catch (SQLException ex) {
                             Logger.getLogger(RegistroSalidas.class.getName()).log(Level.SEVERE, null, ex);
-                            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+                            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                         }
                         dispose();
                     }
-                }};
+                }
+            };
             t.start();
-            
+
         } // end if
-        
+
 }//GEN-LAST:event_btnSalirActionPerformed
 
     private void txtArtcodeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtArtcodeFocusGained
@@ -1514,39 +1527,39 @@ public class RegistroSalidas extends javax.swing.JFrame {
     }//GEN-LAST:event_txtArtcosfobFocusGained
 
     private void mnuBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBuscarActionPerformed
-        if (buscar == this.PROVEEDOR){
+        if (buscar == this.PROVEEDOR) {
             bd = new Buscador(new java.awt.Frame(), true,
-                    "inproved","procode,prodesc","prodesc",txtProcode,conn);
+                    "inproved", "procode,prodesc", "prodesc", txtProcode, conn);
             bd.setTitle("Buscar proveedores");
             bd.lblBuscar.setText("Nombre:");
-        } else if (buscar == this.ARTICULO){
+        } else if (buscar == this.ARTICULO) {
             String campos = "artcode,artdesc,artexis-artreserv as Disponible, artpre1";
-                bd = new Buscador(new java.awt.Frame(), true,
-                        "inarticu",
-                        campos,
-                        "artdesc",
-                        txtArtcode,
-                        conn,
-                        3,
-                        new String[] {"Código","Descripción","Disponible","precio"}
-                        );
-                bd.setTitle("Buscar artículos");
-                bd.lblBuscar.setText("Descripción:");
-                bd.buscar("");
-        } else if (buscar == this.BODEGA){
             bd = new Buscador(new java.awt.Frame(), true,
-                    "bodegas","bodega,descrip","descrip",txtBodega,conn);
+                    "inarticu",
+                    campos,
+                    "artdesc",
+                    txtArtcode,
+                    conn,
+                    3,
+                    new String[]{"Código", "Descripción", "Disponible", "precio"}
+            );
+            bd.setTitle("Buscar artículos");
+            bd.lblBuscar.setText("Descripción:");
+            bd.buscar("");
+        } else if (buscar == this.BODEGA) {
+            bd = new Buscador(new java.awt.Frame(), true,
+                    "bodegas", "bodega,descrip", "descrip", txtBodega, conn);
             bd.setTitle("Buscar bodegas");
             bd.lblBuscar.setText("Descripción:");
         }
 
         bd.setVisible(true);
 
-        if (buscar == this.PROVEEDOR){
+        if (buscar == this.PROVEEDOR) {
             txtProcodeActionPerformed(null);
-        }else if (buscar == this.ARTICULO){
+        } else if (buscar == this.ARTICULO) {
             txtArtcodeActionPerformed(null);
-        }else if (buscar == this.BODEGA){
+        } else if (buscar == this.BODEGA) {
             txtBodegaActionPerformed(null);
         }
 
@@ -1558,7 +1571,7 @@ public class RegistroSalidas extends javax.swing.JFrame {
     }//GEN-LAST:event_txtArtcodeActionPerformed
 
     private void txtBodegaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBodegaActionPerformed
-        
+
         txtBodega.transferFocus();
     }//GEN-LAST:event_txtBodegaActionPerformed
 
@@ -1579,39 +1592,44 @@ public class RegistroSalidas extends javax.swing.JFrame {
     }//GEN-LAST:event_txtArtcosfobActionPerformed
 
     private void txtMovdocuFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMovdocuFocusLost
+        try {
+            // Si la conexión ya está cerrada es porque este método se ejecutó
+            // después de que el usuario presionara el botón de salir.
+            if (this.conn.isClosed()) {
+                return;
+            }
+        } catch (SQLException ex) {
+            // No se gestiona el error
+        }
+
         String documento = txtMovdocu.getText().trim();
-        if (UtilBD.existeDocumento(conn, documento, "S", rsMovtido, cboMovtido)){
-            JOptionPane.showMessageDialog(
-                    null,
-                    "El documento ya existe.\n" +
-                    "El consecutivo será cambiado automáticamente.",
+        if (UtilBD.existeDocumento(conn, documento, "S", rsMovtido, cboMovtido)) {
+            JOptionPane.showMessageDialog(null, """
+                                                El documento ya existe.
+                                                El consecutivo ser\u00e1 cambiado autom\u00e1ticamente.""",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             try {
-                //btnGuardar.setEnabled(false);
-                //return;
-                documento = UtilBD.getNextInventoryDocument(conn)+"";
+                documento = UtilBD.getNextInventoryDocument(conn) + "";
                 txtMovdocu.setText(documento);
             } catch (SQLException | NumberFormatException ex) {
-                Logger.getLogger(RegistroEntradas.class.getName()).log(Level.SEVERE, null, ex);
-                JOptionPane.showMessageDialog(
-                        null,
-                        "No fue posible cambiar el consecutivo automáticamente.\n" +
-                        "Debe digitar manualmente el número de documento.",
+                JOptionPane.showMessageDialog(null, """
+                                                    No fue posible cambiar el consecutivo autom\u00e1ticamente.
+                                                    Debe digitar manualmente el n\u00famero de documento.""",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 btnGuardar.setEnabled(false);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+                log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 return;
             } // end try-catch
         } // end if
-        
+
         try {
             // Bosco agregado 21/11/2011.
             // Solo las salidas por devolución requieren del proveedor.
             // El metodo existeDocumento() deja el puntero ubicado en el registro
             // correcto y por lo tanto solo es necesario consultar el campo ReqProveed
-            if (rsMovtido.getBoolean("ReqProveed")){
+            if (rsMovtido.getBoolean("ReqProveed")) {
                 lblProcode.setVisible(true);
                 txtProcode.setVisible(true);
                 txtProdesc.setVisible(true);
@@ -1620,13 +1638,13 @@ public class RegistroSalidas extends javax.swing.JFrame {
                 txtProcode.setVisible(false);
                 txtProdesc.setVisible(false);
             } // end if
-        // Fin Bosco agregado 21/11/2011.
-        } catch(SQLException ex){
-            JOptionPane.showMessageDialog(null, 
+            // Fin Bosco agregado 21/11/2011.
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
         btnGuardar.setEnabled(true);
@@ -1634,21 +1652,20 @@ public class RegistroSalidas extends javax.swing.JFrame {
     }//GEN-LAST:event_txtMovdocuFocusLost
 
     private void txtArtcodeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtArtcodeFocusLost
-        
+
         txtArtcode.setText(txtArtcode.getText().toUpperCase());
         String artcode = txtArtcode.getText().trim();
-        String arttmp  = txtArtcode.getText().trim();
-        
-        if (artcode.isEmpty()){
+
+        if (artcode.isEmpty()) {
             return;
         }
 
         // Verifico el tipo de cambio
-        if (Float.parseFloat(this.txtTipoca.getText()) <= 0){
+        if (Float.parseFloat(this.txtTipoca.getText()) <= 0) {
             JOptionPane.showMessageDialog(
                     null,
-                    "Aún no ha registrado el tipo de cambio para " + "'" +
-                    this.cboMoneda.getSelectedItem() + "'",
+                    "Aún no ha registrado el tipo de cambio para " + "'"
+                    + this.cboMoneda.getSelectedItem() + "'",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             this.cboMoneda.requestFocusInWindow();
@@ -1667,79 +1684,76 @@ public class RegistroSalidas extends javax.swing.JFrame {
                     "inarticu",
                     "artcode",
                     "artcode",
-                    artcode) == null){
+                    artcode) == null) {
                 JTextField tmp = new JTextField();
                 tmp.setText(txtArtcode.getText());
                 // Ejecuto el buscador automático
                 bd = new Buscador(
-                            new java.awt.Frame(),
-                            true,
-                            "inarticu",
-                            "artcode,artdesc,artexis-artreserv as Disponible",
-                            "artdesc",
-                            tmp,
-                            conn,
-                            3,
-                            new String[] {"Código","Descripción","Disponible"}
-                            );
+                        new java.awt.Frame(),
+                        true,
+                        "inarticu",
+                        "artcode,artdesc,artexis-artreserv as Disponible",
+                        "artdesc",
+                        tmp,
+                        conn,
+                        3,
+                        new String[]{"Código", "Descripción", "Disponible"}
+                );
                 bd.setTitle("Buscar artículos");
                 bd.lblBuscar.setText("Descripción:");
                 bd.buscar(txtArtcode.getText().trim());
                 bd.setVisible(true);
-                
+
                 txtArtcode.setText(tmp.getText());
 
                 artcode = tmp.getText();
             } // end if
             // Fin Bosco agregado 24/10/2011.
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroSalidas.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
 
         // En una salida el costo que se usa es el costo promedio
-        String sqlQuery =
-                "Select artdesc, artcost, artcosp, artcosFOB  " +
-                "from inarticu   " +
-                "Where artcode = ?";
-        PreparedStatement ps;
-        try {
-            ps = conn.prepareStatement(sqlQuery);
+        String sqlQuery
+                = "Select artdesc, artcost, artcosp, artcosFOB  "
+                + "from inarticu   "
+                + "Where artcode = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sqlQuery)) {
             ps.setString(1, artcode);
             rs = CMD.select(ps);
-            if (rs != null){
+            if (rs != null) {
                 rs.first();
             } // end if
 
             // Si el registro no existe limpio la descripción para usarla
             // como validación a la hora de guardar
-            if (rs == null || rs.getRow() < 1){
+            if (rs == null || rs.getRow() < 1) {
                 txtArtdesc.setText("");
                 txtMovcoun.setText("0.00");
                 txtArtcosfob.setText("0.00");
                 return;
             } // end if
-            
+
             txtArtcode.setText(artcode);
             txtArtdesc.setText(rs.getString("artdesc"));
 
             // Obtengo el costo promedio que está en moneda local
             // y lo convierto a la moneda de la transacción.
-            Double costo =
-                    rs.getDouble("artcosp") / Float.valueOf(txtTipoca.getText());
-            
+            Double costo
+                    = rs.getDouble("artcosp") / Float.valueOf(txtTipoca.getText());
+
             // Bosco agregado 10/07/2016
             // Si el costo promedio viene en cero (por la razón que sea) tomo el costo estándar
-            if (costo <= 0){
+            if (costo <= 0) {
                 costo = rs.getDouble("artcost") / Float.valueOf(txtTipoca.getText());
             } // end if
             // Fin Bosco agregado 10/07/2016
-            
+
             txtMovcoun.setText(String.valueOf(costo));
             txtMovcoun.setText(
                     Ut.setDecimalFormat(txtMovcoun.getText(), formatoPrecio));
@@ -1749,27 +1763,24 @@ public class RegistroSalidas extends javax.swing.JFrame {
             txtArtcosfob.setText(String.valueOf(costo));
             txtArtcosfob.setText(
                     Ut.setDecimalFormat(txtArtcosfob.getText(), formatoPrecio));
-            
-            ps.close();
-
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
-        
+
         // Bosco agregado 05/01/2016
         // Si este textbox está vacío es porque el artículo no existe.
-        if (txtArtdesc.getText().trim().isEmpty()){
+        if (txtArtdesc.getText().trim().isEmpty()) {
             return;
         }
-        
+
         // Bosco agregado 18/03/2014
-        if (this.txtBodega.getText().trim().isEmpty()){
+        if (this.txtBodega.getText().trim().isEmpty()) {
             return;
         }
         this.txtBodegaActionPerformed(null);
@@ -1779,12 +1790,12 @@ public class RegistroSalidas extends javax.swing.JFrame {
 
     private void tblDetalleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDetalleMouseClicked
         int row = tblDetalle.getSelectedRow();
-        
+
         // Si la fila seleccionada no tiene datos entonces no proceso nada.
-        if (tblDetalle.getValueAt(row, 0) == null){
+        if (tblDetalle.getValueAt(row, 0) == null) {
             return;
         } // end if
-        
+
         txtArtcode.setText(tblDetalle.getValueAt(row, 0).toString());
         txtBodega.setText(tblDetalle.getValueAt(row, 1).toString());
         txtArtdesc.setText(tblDetalle.getValueAt(row, 2).toString());
@@ -1794,7 +1805,7 @@ public class RegistroSalidas extends javax.swing.JFrame {
     }//GEN-LAST:event_tblDetalleMouseClicked
 
     private void cboMonedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboMonedaActionPerformed
-        if (inicio || fin){
+        if (inicio || fin) {
             return;
         } // end if
 
@@ -1811,7 +1822,7 @@ public class RegistroSalidas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     }//GEN-LAST:event_cboMonedaActionPerformed
 
@@ -1821,14 +1832,14 @@ public class RegistroSalidas extends javax.swing.JFrame {
 
     private void txtBodegaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBodegaFocusLost
         // Si no hay descripción nisiquiera vale la pena revisar la bodega
-        if (this.txtArtdesc.getText().trim().isEmpty()){
+        if (this.txtArtdesc.getText().trim().isEmpty()) {
             return;
         }
         txtBodega.setText(txtBodega.getText().toUpperCase());
-        
+
         // Uso un método que también será usado para validar a la hora de
         // guardar el documento.
-        if (!UtilBD.existeBodega(conn, txtBodega.getText())){
+        if (!UtilBD.existeBodega(conn, txtBodega.getText())) {
             JOptionPane.showMessageDialog(
                     null,
                     "Bodega no existe.",
@@ -1838,9 +1849,9 @@ public class RegistroSalidas extends javax.swing.JFrame {
             return;
         } // end if
 
-        try{
+        try {
             // Verificar la fecha de cierre de la bodega.
-            if (UtilBD.bodegaCerrada(conn,txtBodega.getText(),DatMovfech.getDate())){
+            if (UtilBD.bodegaCerrada(conn, txtBodega.getText(), DatMovfech.getDate())) {
                 JOptionPane.showMessageDialog(
                         null,
                         "La bodega ya se encuentra cerrada para esta fecha.",
@@ -1849,19 +1860,19 @@ public class RegistroSalidas extends javax.swing.JFrame {
                 this.cmdAgregar.setEnabled(false);
                 return;
             } // end if
-        } catch (SQLException ex){
+        } catch (SQLException ex) {
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             this.cmdAgregar.setEnabled(false);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
-        
+
         try {
-            if (!UtilBD.asignadoEnBodega(conn,txtArtcode.getText(),txtBodega.getText())){
+            if (!UtilBD.asignadoEnBodega(conn, txtArtcode.getText(), txtBodega.getText())) {
                 JOptionPane.showMessageDialog(
                         null,
                         "Artículo no asignado a bodega.",
@@ -1876,32 +1887,32 @@ public class RegistroSalidas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
-        
+
         this.cmdAgregar.setEnabled(true);
     }//GEN-LAST:event_txtBodegaFocusLost
 
     private void cmdAgregarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmdAgregarKeyPressed
-        if(evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
             cmdAgregarActionPerformed(null);
         }
     }//GEN-LAST:event_cmdAgregarKeyPressed
 
     private void mnuCargarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCargarPedidoActionPerformed
         // Verifico el tipo de cambio antes de cargar el pedido
-        if (Float.parseFloat(this.txtTipoca.getText()) <= 0){
+        if (Float.parseFloat(this.txtTipoca.getText()) <= 0) {
             JOptionPane.showMessageDialog(
                     null,
-                    "Aún no ha registrado el tipo de cambio para " + "'" +
-                    this.cboMoneda.getSelectedItem() + "'",
+                    "Aún no ha registrado el tipo de cambio para " + "'"
+                    + this.cboMoneda.getSelectedItem() + "'",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             this.cboMoneda.requestFocusInWindow();
             return;
         } // end if
-        
+
         JTextField t = new JTextField(""); // Solo por requisito del buscador
         // No está mostrando todas las columnas
         bd = new Buscador(
@@ -1913,33 +1924,33 @@ public class RegistroSalidas extends javax.swing.JFrame {
                 t,
                 conn,
                 3, // Filas (solo para crear el objeto)
-                new String[] {"Documento","Cliente","Artículo","Bodega","Cantidad"}
-                );
+                new String[]{"Documento", "Cliente", "Artículo", "Bodega", "Cantidad"}
+        );
         bd.setTitle("Buscar salidas provevientes de pedidos");
         bd.lblBuscar.setText("Cliente:");
-        bd.setVisible(true); 
-        
+        bd.setVisible(true);
+
         pedidoCargado = false;
         this.clicode = "";
-        if (!t.getText().trim().isEmpty()){
+        if (!t.getText().trim().isEmpty()) {
             this.pedidoCargado = true;
             this.clicode = t.getText().trim();
         } // end if
         bd.dispose();
-                
-        if (this.clicode.isEmpty()){
+
+        if (this.clicode.isEmpty()) {
             return;
         } // end if
-        
-        String sqlSelect =
-                "Select artcode,bodega,movcant as reservado from salida " +
-                "Where movdocu = " + clicode; // En esta tabla movdocu es el número de cliente.
+
+        String sqlSelect
+                = "Select artcode,bodega,movcant as reservado from salida "
+                + "Where movdocu = " + clicode; // En esta tabla movdocu es el número de cliente.
         try {
             rsPedido = stat.executeQuery(sqlSelect);
             if (rsPedido == null || !rsPedido.first()) {
                 JOptionPane.showMessageDialog(null,
-                        "Debe haber un error en la base de datos." +
-                        "\n!El pedido no se pudo cargar!",
+                        "Debe haber un error en la base de datos."
+                        + "\n!El pedido no se pudo cargar!",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 this.pedidoCargado = false;
@@ -1957,9 +1968,9 @@ public class RegistroSalidas extends javax.swing.JFrame {
                 rsPedido.next();
             } // end for
             rsPedido.close();
-            
+
             this.cargandoPedido = true;
-            
+
             // Cargo la tabla
             for (int i = 0; i < registros; i++) {
                 this.txtArtcode.setText(pedido[i][0]);
@@ -1969,15 +1980,15 @@ public class RegistroSalidas extends javax.swing.JFrame {
                 this.txtMovcant.setText(pedido[i][2]);
                 cmdAgregarActionPerformed(evt);
             } // end for
-            
+
             this.cargandoPedido = false;
-            
+
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, 
+            JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
-                    "Error", 
+                    "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
 
@@ -2027,10 +2038,10 @@ public class RegistroSalidas extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
         } // end try-catch
-        */
-        
+         */
+
         String procode = txtProcode.getText().trim();
-        
+
         try {
             // Antes de revisar enviar el mensaje de error le muestro al usuario
             // todos los registros que tienen el texto que digitó en alguna parte.
@@ -2042,21 +2053,21 @@ public class RegistroSalidas extends javax.swing.JFrame {
                     "inproved",
                     "procode",
                     "procode",
-                    procode) == null){
+                    procode) == null) {
                 JTextField tmp = new JTextField();
                 tmp.setText(txtProcode.getText());
                 // Ejecuto el buscador automático
                 bd = new Buscador(
-                            new java.awt.Frame(),
-                            true,
-                            "inproved",
-                            "procode,prodesc,concat(protel1,',',protel2) as Tel",
-                            "prodesc",
-                            tmp,
-                            conn,
-                            3,
-                            new String[] {"Código","Nombre","Teléfonos"}
-                            );
+                        new java.awt.Frame(),
+                        true,
+                        "inproved",
+                        "procode,prodesc,concat(protel1,',',protel2) as Tel",
+                        "prodesc",
+                        tmp,
+                        conn,
+                        3,
+                        new String[]{"Código", "Nombre", "Teléfonos"}
+                );
                 bd.setTitle("Buscar proveedores");
                 bd.lblBuscar.setText("Nombre:");
                 bd.buscar(txtProcode.getText().trim());
@@ -2065,25 +2076,25 @@ public class RegistroSalidas extends javax.swing.JFrame {
                 procode = tmp.getText();
                 txtProcode.transferFocus();
             } // end if
-        
-            String sqlQuery =
-                    "Select prodesc from inproved   " +
-                    "Where procode = ?";
-       
+
+            String sqlQuery
+                    = "Select prodesc from inproved   "
+                    + "Where procode = ?";
+
             PreparedStatement ps = conn.prepareStatement(sqlQuery);
             ps.setString(1, procode);
             rs = CMD.select(ps);
-            if (rs != null){
+            if (rs != null) {
                 rs.first();
             } // end if
 
             // Si el registro no existe limpio la descripción para usarla
             // como validación a la hora de guardar
             txtProdesc.setText("");
-            if (rs != null && rs.first()){
+            if (rs != null && rs.first()) {
                 txtProcode.setText(procode);
                 txtProdesc.setText(rs.getString("prodesc"));
-                if (txtProcode.isFocusOwner()){
+                if (txtProcode.isFocusOwner()) {
                     txtProcode.transferFocus();
                 } // end if
             } // end if
@@ -2095,19 +2106,19 @@ public class RegistroSalidas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     }//GEN-LAST:event_txtProcodeFocusLost
 
     /**
      * @param c
-    */
+     */
     public static void main(final Connection c) {
         //final Connection c = DataBaseConnection.getConnection("temp");
         try {
             // Bosco agregado 23/07/2011
             // Integración del segundo nivel de seguridad.
-            if (!UtilBD.tienePermiso(c,"RegistroSalidas")){
+            if (!UtilBD.tienePermiso(c, "RegistroSalidas")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
@@ -2116,7 +2127,7 @@ public class RegistroSalidas extends javax.swing.JFrame {
             } // end if
         } catch (Exception ex) {
             Logger.getLogger(RegistroSalidas.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, 
+            JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
@@ -2189,79 +2200,77 @@ public class RegistroSalidas extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField txtTotalCosto;
     // End of variables declaration//GEN-END:variables
 
-    
-    private void totalizarDocumento(){
+    private void totalizarDocumento() {
         try {
             // Totalizo cantidad y costo
             Float cantidad = 0.0F, costo = 0.0F, cantidad2;
-            for (int row = 0; row < tblDetalle.getRowCount(); row++){
-                if (tblDetalle.getValueAt(row, 0) == null){
+            for (int row = 0; row < tblDetalle.getRowCount(); row++) {
+                if (tblDetalle.getValueAt(row, 0) == null) {
                     break;
                 } // end if
-                cantidad2 =
-                        Float.parseFloat(
-                        Ut.quitarFormato(
-                        tblDetalle.getValueAt(row, 3).toString().trim()));
+                cantidad2
+                        = Float.parseFloat(
+                                Ut.quitarFormato(
+                                        tblDetalle.getValueAt(row, 3).toString().trim()));
 
                 cantidad += cantidad2;
 
-                costo +=
-                        Float.parseFloat(
-                        Ut.quitarFormato(
-                        tblDetalle.getValueAt(row, 4).toString().trim())) * cantidad2;
+                costo
+                        += Float.parseFloat(
+                                Ut.quitarFormato(
+                                        tblDetalle.getValueAt(row, 4).toString().trim())) * cantidad2;
             } // end for
             txtTotalCantidad.setText(
                     Ut.setDecimalFormat(
-                    String.valueOf(cantidad), this.formatoCant));
+                            String.valueOf(cantidad), this.formatoCant));
             txtTotalCosto.setText(
                     Ut.setDecimalFormat(
-                    String.valueOf(costo), this.formatoPrecio));
-        } catch (Exception ex){
+                            String.valueOf(costo), this.formatoPrecio));
+        } catch (Exception ex) {
             Logger.getLogger(RegistroSalidas.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     } // totalizarDocumento
-    
-    
-    private boolean sePuedeGuardar(){
+
+    private boolean sePuedeGuardar() {
         String documento = txtMovdocu.getText().trim();
         String tipoca = txtTipoca.getText().trim();
         int lineas = 0;
-        
-        if (UtilBD.existeDocumento(conn, documento, "S", rsMovtido, cboMovtido)){
+
+        if (UtilBD.existeDocumento(conn, documento, "S", rsMovtido, cboMovtido)) {
             JOptionPane.showMessageDialog(
                     null,
-                    "El documento ya existe.\n" +
-                    "El consecutivo será cambiado automáticamente.",
+                    "El documento ya existe.\n"
+                    + "El consecutivo será cambiado automáticamente.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             try {
-                documento = UtilBD.getNextInventoryDocument(conn)+"";
+                documento = UtilBD.getNextInventoryDocument(conn) + "";
                 txtMovdocu.setText(documento);
             } catch (SQLException | NumberFormatException ex) {
                 Logger.getLogger(RegistroSalidas.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(
                         null,
-                        "No fue posible cambiar el consecutivo automáticamente.\n" +
-                        "Debe digitar manualmente el número de documento.",
+                        "No fue posible cambiar el consecutivo automáticamente.\n"
+                        + "Debe digitar manualmente el número de documento.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 txtMovdocu.requestFocusInWindow();
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+                log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 return false;
             } // end try-catch
-            
+
         } // end if
 
         String fecha;
         fecha = Ut.fechaSQL(this.DatMovfech.getDate());
         try {
-            if (!UtilBD.isValidDate(conn,fecha)){
+            if (!UtilBD.isValidDate(conn, fecha)) {
                 JOptionPane.showMessageDialog(null,
                         "La fecha corresponde a un período cerrado.",
                         "Error",
@@ -2276,14 +2285,14 @@ public class RegistroSalidas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return false;
         } // end try-catch
 
         // Verifico el tipo de cambio
         cboMonedaActionPerformed(null);
-        
-        if (tipoca.equals("")){
+
+        if (tipoca.equals("")) {
             JOptionPane.showMessageDialog(null,
                     "Tipo de cambio no establecido",
                     "Error",
@@ -2292,7 +2301,7 @@ public class RegistroSalidas extends javax.swing.JFrame {
             return false;
         } // end if
 
-        if (Float.parseFloat(tipoca) <= 0.0){
+        if (Float.parseFloat(tipoca) <= 0.0) {
             JOptionPane.showMessageDialog(null,
                     "Tipo de cambio no establecido",
                     "Error",
@@ -2303,13 +2312,13 @@ public class RegistroSalidas extends javax.swing.JFrame {
 
         // Bosco agregado 14/12/2013
         // Verificar que la tabla tenga alguna línea
-        for (int i = 0; i < this.tblDetalle.getRowCount(); i++){
-            if (this.tblDetalle.getValueAt(i, 0) == null){
+        for (int i = 0; i < this.tblDetalle.getRowCount(); i++) {
+            if (this.tblDetalle.getValueAt(i, 0) == null) {
                 continue;
             } // end if
             lineas++;
         } // end for
-        if (lineas == 0){
+        if (lineas == 0) {
             JOptionPane.showMessageDialog(null,
                     "No hay detalle que guardar.",
                     "Error",
@@ -2317,27 +2326,27 @@ public class RegistroSalidas extends javax.swing.JFrame {
             return false;
         } // end if
         // Fin Bosco agregado 14/12/2013
-        
+
         return true;
     } // sePuedeGuardar
 
     private void cargarCombo() {
         try {
             rsMoneda = nav.cargarRegistro(Navegador.TODOS, "", "monedas", "codigo");
-            if (rsMoneda == null){
+            if (rsMoneda == null) {
                 return;
             } // end if
             //this.cboMoneda.removeAllItems();
             rsMoneda.beforeFirst();
-            while (rsMoneda.next()){
+            while (rsMoneda.next()) {
                 cboMoneda.addItem(rsMoneda.getString("descrip"));
             } // end while
         } catch (SQLException | SQLInjectionException ex) {
             JOptionPane.showMessageDialog(null,
-                    ex.getMessage(), 
+                    ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     } // end cargarCombo
 
@@ -2348,10 +2357,10 @@ public class RegistroSalidas extends javax.swing.JFrame {
                 return;
             } // end if
 
-            if (Ut.seek(rsMoneda, cboMoneda.getSelectedItem().toString().trim(), "descrip")){
+            if (Ut.seek(rsMoneda, cboMoneda.getSelectedItem().toString().trim(), "descrip")) {
                 codigoTC = rsMoneda.getString("codigo").trim();
             }
-            
+
 //            rsMoneda.beforeFirst();
 //            while (rsMoneda.next()) {
 //                if (cboMoneda.getSelectedItem().toString().trim().equals(
@@ -2365,7 +2374,7 @@ public class RegistroSalidas extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     } // end ubicarCodigo
 
@@ -2373,11 +2382,11 @@ public class RegistroSalidas extends javax.swing.JFrame {
         try {
             rsMovtido = nav.cargarRegistro(
                     Navegador.TODOS, 0, "intiposdoc", "Movtido");
-            if (rsMovtido == null){
+            if (rsMovtido == null) {
                 return;
             } // end if
             rsMovtido.beforeFirst();
-            while (rsMovtido.next()){
+            while (rsMovtido.next()) {
                 // Bosco modificado 09/01/2014
                 // Inluyo todos los tipos que corresponden a inventarios
                 //                if (rsMovtido.getInt("Movtido") == 6
@@ -2386,48 +2395,47 @@ public class RegistroSalidas extends javax.swing.JFrame {
                 //                    cboMovtido.addItem(rsMovtido.getString("descrip"));
                 //                } // end if
                 if (rsMovtido.getString("modulo").equals("INV")
-                        && rsMovtido.getString("EntradaSalida").equals("S")){
+                        && rsMovtido.getString("EntradaSalida").equals("S")) {
                     cboMovtido.addItem(rsMovtido.getString("descrip"));
                 } // end if
                 // Fin Bosco modificado 09/01/2014
             } // end while
         } catch (SQLException | SQLInjectionException ex) {
             JOptionPane.showMessageDialog(null,
-                    ex.getMessage(), 
+                    ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     } // end cargarComboTiposDoc
-    
+
     /**
-     * @author:     Bosco Garita 19/05/2012
-     * Verifica si hay registro en la tabla SALIDA para activar o desactivar
-     * el menú cargar pedido (F8)
+     * @author: Bosco Garita 19/05/2012 Verifica si hay registro en la tabla
+     * SALIDA para activar o desactivar el menú cargar pedido (F8)
      */
-    private void revisarPedidos(){
+    private void revisarPedidos() {
         this.mnuCargarPedido.setEnabled(false);
         String sqlSent = "Select movdocu from salida";
-        
+
         // Si la variable clicode no está vacía es porque se cargó algún pedido
         // y por lo tanto ese cliente no cuenta.
-        if (!this.clicode.isEmpty()){
+        if (!this.clicode.isEmpty()) {
             sqlSent += " Where clicode <> " + clicode;
         } // end if
         try {
             rs = stat.executeQuery(sqlSent);
-            if (rs != null && rs.first()){
+            if (rs != null && rs.first()) {
                 this.mnuCargarPedido.setEnabled(true);
             } // end if
-            if (rs != null){
+            if (rs != null) {
                 rs.close();
             } // end if
-        } catch(SQLException ex){
-            JOptionPane.showMessageDialog(null, 
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     } // end revisarPedidos
 } // end class

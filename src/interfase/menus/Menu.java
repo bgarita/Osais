@@ -2151,7 +2151,6 @@ public class Menu extends javax.swing.JFrame {
         try {
             driver = new CatalogueDriver(CONEXION.getConnection(), catalogo);
         } catch (SQLException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",

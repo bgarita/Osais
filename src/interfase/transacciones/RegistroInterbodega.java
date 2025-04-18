@@ -1631,12 +1631,21 @@ public class RegistroInterbodega extends javax.swing.JFrame {
     }//GEN-LAST:event_txtArtcosfobActionPerformed
 
     private void txtMovdocuFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMovdocuFocusLost
+        try {
+            // Si la conexión ya está cerrada es porque este método se ejecutó
+            // después de que el usuario presionara el botón de salir.
+            if (this.conn.isClosed()) {
+                return;
+            }
+        } catch (SQLException ex) {
+            // No se gestiona el error
+        }
+        
         String documento = txtMovdocu.getText().trim();
         if (existeDocumento(documento)) {
-            JOptionPane.showMessageDialog(
-                    null,
-                    "El documento ya existe.\n"
-                    + "El consecutivo será cambiado automáticamente.",
+            JOptionPane.showMessageDialog(null, """
+                                                El documento ya existe.
+                                                El consecutivo ser\u00e1 cambiado autom\u00e1ticamente.""",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             try {
@@ -1644,10 +1653,9 @@ public class RegistroInterbodega extends javax.swing.JFrame {
                 txtMovdocu.setText(documento);
             } catch (SQLException | NumberFormatException ex) {
                 Logger.getLogger(RegistroInterbodega.class.getName()).log(Level.SEVERE, null, ex);
-                JOptionPane.showMessageDialog(
-                        null,
-                        "No fue posible cambiar el consecutivo automáticamente.\n"
-                        + "Debe digitar manualmente el número de documento.",
+                JOptionPane.showMessageDialog(null, """
+                                                    No fue posible cambiar el consecutivo autom\u00e1ticamente.
+                                                    Debe digitar manualmente el n\u00famero de documento.""",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 cmdGuardar.setEnabled(false);
