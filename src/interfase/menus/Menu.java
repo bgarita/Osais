@@ -5,6 +5,12 @@
  */
 package interfase.menus;
 
+import contabilidad.view.CierreConta;
+import contabilidad.view.ReaperturaConta;
+import interfase.main.Config;
+import interfase.main.Empresa;
+import interfase.main.Companies;
+import interfase.main.Ingreso;
 import contabilidad.view.CoAplicaMov;
 import contabilidad.view.TiposAsiento;
 import contabilidad.view.PeriodoContable;
@@ -181,8 +187,8 @@ public class Menu extends javax.swing.JFrame {
         // Bosco agregado 23/04/2015
         // Agrego estos valores en variables estáticas para poder
         // tener acceso a ellas desde cualquier clase.
-        Usuario.USUARIO = USUARIO;
-        Usuario.USUARIOBD = USUARIOBD;
+        Usuario.USUARIO = Menu.USUARIO;
+        Usuario.USUARIOBD = Menu.USUARIOBD;
         // Fin Bosco agregado 23/04/2015
 
         FONDO = new Fondo();
@@ -2232,7 +2238,6 @@ public class Menu extends javax.swing.JFrame {
                 return;
             } // end if
         } catch (Exception ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -2277,7 +2282,6 @@ public class Menu extends javax.swing.JFrame {
                 return;
             } // end if
         } catch (Exception ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -2314,7 +2318,6 @@ public class Menu extends javax.swing.JFrame {
             } // Fin Bosco agregado 18/07/2011
             // Fin Bosco agregado 18/07/2011
         } catch (Exception ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -2349,7 +2352,6 @@ public class Menu extends javax.swing.JFrame {
             } // Fin Bosco agregado 18/07/2011
             // Fin Bosco agregado 18/07/2011
         } catch (Exception ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -2384,7 +2386,6 @@ public class Menu extends javax.swing.JFrame {
             } // Fin Bosco agregado 18/07/2011
             // Fin Bosco agregado 18/07/2011
         } catch (Exception ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -2449,7 +2450,6 @@ public class Menu extends javax.swing.JFrame {
             } // Fin Bosco agregado 18/07/2011
             // Fin Bosco agregado 18/07/2011
         } catch (Exception ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -2475,9 +2475,9 @@ public class Menu extends javax.swing.JFrame {
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(null,
-                        "El proceso de generación de interés moratorio"
-                        + "\nfinalizó correctamente.",
+                JOptionPane.showMessageDialog(null, """
+                                                    El proceso de generaci\u00f3n de inter\u00e9s moratorio
+                                                    finaliz\u00f3 correctamente.""",
                         "Información",
                         JOptionPane.INFORMATION_MESSAGE);
             } // end if
@@ -2535,7 +2535,6 @@ public class Menu extends javax.swing.JFrame {
             } // Fin Bosco agregado 18/07/2011
             // Fin Bosco agregado 18/07/2011
         } catch (Exception ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -2633,7 +2632,6 @@ public class Menu extends javax.swing.JFrame {
             } // Fin Bosco agregado 23/07/2011
             // Fin Bosco agregado 23/07/2011
         } catch (Exception ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -2680,7 +2678,6 @@ public class Menu extends javax.swing.JFrame {
             } // end if
             // Fin Bosco agregado 23/07/2011
         } catch (Exception ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -2728,7 +2725,6 @@ public class Menu extends javax.swing.JFrame {
             } // end if
             // Fin Bosco agregado 23/07/2011
         } catch (Exception ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -2839,7 +2835,6 @@ public class Menu extends javax.swing.JFrame {
                         JOptionPane.INFORMATION_MESSAGE);
             } // end if
         } catch (SQLException ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),
@@ -2957,7 +2952,6 @@ public class Menu extends javax.swing.JFrame {
                 return;
             } // end if
         } catch (Exception ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -3028,7 +3022,6 @@ public class Menu extends javax.swing.JFrame {
                 return;
             } // end if
         } catch (Exception ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -3063,7 +3056,6 @@ public class Menu extends javax.swing.JFrame {
             } // Fin Bosco agregado 18/07/2011
             // Fin Bosco agregado 18/07/2011
         } catch (Exception ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -3118,7 +3110,6 @@ public class Menu extends javax.swing.JFrame {
             } // Fin Bosco agregado 18/07/2011
             // Fin Bosco agregado 18/07/2011
         } catch (Exception ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -3287,7 +3278,6 @@ public class Menu extends javax.swing.JFrame {
         try {
             ExportarAsientos.main(CONEXION.getConnection());
         } catch (JDBFException | IOException | SQLException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -3401,7 +3391,6 @@ public class Menu extends javax.swing.JFrame {
                 return;
             } // end if
         } catch (Exception ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -3435,7 +3424,6 @@ public class Menu extends javax.swing.JFrame {
                 return;
             } // end if
         } catch (Exception ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -3468,7 +3456,6 @@ public class Menu extends javax.swing.JFrame {
                 return;
             } // end if
         } catch (Exception ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -3743,7 +3730,6 @@ public class Menu extends javax.swing.JFrame {
                     "Mensaje",
                     JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException | HeadlessException | FileNotFoundException | UnsupportedEncodingException ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     "No hay datos para este reporte.",
                     "Error",
@@ -3759,7 +3745,6 @@ public class Menu extends javax.swing.JFrame {
             CMD.update(ps);
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage() + "\n"
                     + "No se pudieron eliminar los registros exportados en archivo de texto.\n"
@@ -3869,7 +3854,6 @@ public class Menu extends javax.swing.JFrame {
             } // end while
 
         } catch (IOException ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -3972,7 +3956,6 @@ public class Menu extends javax.swing.JFrame {
                 return;
             } // end if
         } catch (Exception ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -3998,7 +3981,6 @@ public class Menu extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(), "Error",
                     JOptionPane.ERROR_MESSAGE);
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
             log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
@@ -4021,7 +4003,6 @@ public class Menu extends javax.swing.JFrame {
             fact.setTipo(FacturaXML.FACTURA);
             fact.setVisible(true);
         } catch (Exception ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
             log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
@@ -4040,7 +4021,6 @@ public class Menu extends javax.swing.JFrame {
                 return;
             } // end if
         } catch (Exception ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
@@ -4057,7 +4037,6 @@ public class Menu extends javax.swing.JFrame {
                 return;
             } // end if
         } catch (Exception ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
             log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
@@ -4108,7 +4087,6 @@ public class Menu extends javax.swing.JFrame {
                 return;
             } // end if
         } catch (Exception ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
             log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
@@ -4386,7 +4364,6 @@ public class Menu extends javax.swing.JFrame {
                     "Módulos",
                     JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
@@ -4482,11 +4459,11 @@ public class Menu extends javax.swing.JFrame {
                 return;
             } // end if
         } catch (Exception ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
 

@@ -3,7 +3,7 @@
  *
  * Created on 24/04/2009, 09:44:25 PM
  */
-package interfase.otros;
+package interfase.main;
 
 import Exceptions.CurrencyExchangeException;
 import Mail.Bitacora;
@@ -221,7 +221,7 @@ public class Ingreso extends javax.swing.JFrame {
         // Si no se logró establecer la conexión...
         if (!connected) {
             JOptionPane.showMessageDialog(null,
-                    conexion.getErrorMessage(),
+                    acciones.getErrorMsg(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             return;

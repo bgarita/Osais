@@ -1,4 +1,4 @@
-package interfase.otros;
+package interfase.main;
 
 import Mail.Bitacora;
 import accesoDatos.CMD;
@@ -96,7 +96,12 @@ public class IngresoAcciones {
             } // end if (!CONEXION.isConnected()) && ...
         } // end if (url.contains("localhost")) else ...
 
-        conn = conexion.getSharedConnection();
+        if (conexion.getErrorMessage().isEmpty()) {
+            conn = conexion.getSharedConnection();
+        } else {
+            this.errorMsg = conexion.getErrorMessage();
+        }
+        
         return conexion.isConnected();
     }
 

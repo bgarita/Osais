@@ -3,12 +3,13 @@
  *
  * Created on 17/05/2009, 03:10:10 PM
  */
-package interfase.otros;
+package interfase.main;
 
 import Exceptions.NotUniqueValueException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
+import interfase.otros.Navegador;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;

@@ -26,10 +26,10 @@ public class CompanyPropertiesController {
 
     private final List<CompanyPropertiesModel> companyList;
     private int currentIndex;
-    private final Bitacora b;
+    private final Bitacora log;
 
     public CompanyPropertiesController() {
-        this.b = new Bitacora();
+        this.log = new Bitacora();
         companyList = new ArrayList<>();
         currentIndex = -1;
         loadCompanies();
@@ -57,7 +57,7 @@ public class CompanyPropertiesController {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error", JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     } // end loadCompanies
 
@@ -107,18 +107,18 @@ public class CompanyPropertiesController {
     }
 
     /**
-     * Este método valida que tango la carpeta como la base de datos existan.
+     * Este método valida que tanto la carpeta como la base de datos existan.
      *
      * @throws java.sql.SQLException
      */
     public void validIntegrity() throws SQLException {
         StringBuilder sb = new StringBuilder();
         String sqlSent = "SHOW DATABASES";
-        PreparedStatement ps;
         ResultSet rs;
-        try (java.sql.Connection conn = Menu.CONEXION.getConnection()) {
-            ps = conn.prepareStatement(sqlSent,
-                    ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        try (java.sql.Connection conn = Menu.CONEXION.getConnection(); 
+                PreparedStatement ps = conn.prepareStatement(sqlSent,
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+
             rs = CMD.select(ps);
             for (CompanyPropertiesModel company : this.companyList) {
                 String database = company.getBasedatos();
@@ -130,7 +130,6 @@ public class CompanyPropertiesController {
                     sb.append("La base de datos ").append(database).append(" ya no existe en el servidor.");
                 }
             }
-            ps.close();
         }
         System.out.println("Integrity validation OK");
     }

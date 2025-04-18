@@ -9,10 +9,12 @@
 
 package interfase.consultas;
 
+import accesoDatos.CMD;
 import java.awt.Color;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -52,57 +54,60 @@ public class ConsultaFacturasCXP extends javax.swing.JFrame {
         this.tblFacturas.setDefaultRenderer(String.class, formato);
 
         String sqlSelect = "Select prodesc from inproved where procode = ?";
-        CallableStatement cs = conn.prepareCall(sqlSelect);
-        cs.setString(1, pProcode);
-        rs = cs.executeQuery();
-        rs.first();
-        if (!conSaldo){
-            this.setTitle("Historial");
-        } // end if
-        this.setTitle(this.getTitle() + " - " + rs.getString(1));
+        try (PreparedStatement ps = conn.prepareStatement(sqlSelect)) {
+            ps.setString(1, pProcode);
+            rs = CMD.select(ps);
+            
+            rs.first();
+            if (!conSaldo){
+                this.setTitle("Historial");
+            } // end if
+            this.setTitle(this.getTitle() + " - " + rs.getString(1));
+        }
 
         sqlSelect = conSaldo ? "Call ConsultarFacturasProveedor(?,?)":
-            "Call ConsultarDocumentosProveedor(?)"; // falta crear este SP
-        cs = conn.prepareCall(sqlSelect);
-        cs.setString(1, pProcode);
-        if (conSaldo){
-            cs.setInt(2, 1);
-        } // end if
-        rs = cs.executeQuery();
-
-        if (rs == null) {
-            return;
-        } // end if
-
-        if (!rs.first()){
-            return;
-        } // end if
-
-        // Obtengo el número de filas obtenidas en ResultSet
-        rs.last();
-        int totalFilas = rs.getRow();
-        
-        // Obtener el modelo de la tabla y establecer el número exacto
-        // de filas.
-        DefaultTableModel dtm = (DefaultTableModel) tblFacturas.getModel();
-        dtm.setRowCount(totalFilas);
-        tblFacturas.setModel(dtm);
-
-        rs.beforeFirst();
-        int row = 0;
-        // Cargar los datos en la tabla
-        while (rs.next()){
-            tblFacturas.setValueAt(rs.getInt("factura"), row, 0);
-            tblFacturas.setValueAt(rs.getInt("vence_en"), row, 1);
-            tblFacturas.setValueAt(rs.getString("fecha"), row, 2);
-            tblFacturas.setValueAt(rs.getDouble("MontoML"), row, 3);
-            tblFacturas.setValueAt(rs.getDouble("SaldoML"), row, 4);
-            tblFacturas.setValueAt(rs.getString("TipoDoc"), row, 5);
-            row++;
-        } // end while
-
-        java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((screenSize.width-710)/2, (screenSize.height-230)/2, 710, 230);
+            "Call ConsultarDocumentosProveedor(?)";
+        try (java.sql.CallableStatement cs = conn.prepareCall(sqlSelect)) {
+            cs.setString(1, pProcode);
+            if (conSaldo){
+                cs.setInt(2, 1);
+            } // end if
+            rs = cs.executeQuery();
+            
+            if (rs == null) {
+                return;
+            } // end if
+            
+            if (!rs.first()){
+                return;
+            } // end if
+            
+            // Obtengo el número de filas obtenidas en ResultSet
+            rs.last();
+            int totalFilas = rs.getRow();
+            
+            // Obtener el modelo de la tabla y establecer el número exacto
+            // de filas.
+            DefaultTableModel dtm = (DefaultTableModel) tblFacturas.getModel();
+            dtm.setRowCount(totalFilas);
+            tblFacturas.setModel(dtm);
+            
+            rs.beforeFirst();
+            int row = 0;
+            // Cargar los datos en la tabla
+            while (rs.next()){
+                tblFacturas.setValueAt(rs.getInt("factura"), row, 0);
+                tblFacturas.setValueAt(rs.getInt("vence_en"), row, 1);
+                tblFacturas.setValueAt(rs.getString("fecha"), row, 2);
+                tblFacturas.setValueAt(rs.getDouble("MontoML"), row, 3);
+                tblFacturas.setValueAt(rs.getDouble("SaldoML"), row, 4);
+                tblFacturas.setValueAt(rs.getString("TipoDoc"), row, 5);
+                row++;
+            } // end while
+            
+            java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+            setBounds((screenSize.width-710)/2, (screenSize.height-230)/2, 710, 230);
+        }
     } // end constructor
     
     /** This method is called from within the constructor to
