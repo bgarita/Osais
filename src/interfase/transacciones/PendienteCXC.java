@@ -14,8 +14,6 @@ import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -26,12 +24,19 @@ import logica.utilitarios.FormatoTabla;
 import logica.utilitarios.Ut;
 
 /**
- *
+ * Esta clase envía transacciones por cobrar ala caja, éstas están relacionadas 
+ * con facturas de crédito que se encuentran pendientes de cobro, de esta manera
+ * en la caja se puede ejecutar el cobro y al mismo tiempo se realiza el pago
+ * a la factura.
+ * Nota:
+ * Cuando se trabaja con cajas no se hace el pago directo a las facturas por cobrar
+ * sino que se envía primero a la caja para que el cajero reciba el dinero y ese mismo
+ * proceso ejecute el pago.
  * @author bosco
  */
 public class PendienteCXC extends javax.swing.JFrame {
     private static final long serialVersionUID = 10L;
-    private final Bitacora b = new Bitacora();
+    private final Bitacora log = new Bitacora();
 
     /**
      * Creates new form PendienteCXC
@@ -49,8 +54,7 @@ public class PendienteCXC extends javax.swing.JFrame {
             formato.formatColumn(tblDetalle, 7, FormatoTabla.H_RIGHT, Color.MAGENTA);
             formato.formatColumn(tblDetalle, 8, FormatoTabla.H_RIGHT, Color.ORANGE);
         } catch (Exception ex) {
-            Logger.getLogger(PendienteCXC.class.getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
         cargarDatos();
     }
@@ -416,13 +420,12 @@ public class PendienteCXC extends javax.swing.JFrame {
             saldo = Double.parseDouble(
                     Ut.quitarFormato(this.tblDetalle.getValueAt(row, 8).toString()));
         } catch (Exception ex) {
-            Logger.getLogger(PendienteCXC.class.getName()).log(Level.SEVERE, null, ex);
             saldo = 0;
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         
         if (saldo == 0){
@@ -461,13 +464,12 @@ public class PendienteCXC extends javax.swing.JFrame {
                     Ut.quitarFormato(this.tblDetalle.getValueAt(row, 8).toString()));
             abono = Double.parseDouble(Ut.quitarFormato(this.txtMonto.getText().trim()));
         } catch (Exception ex) {
-            Logger.getLogger(PendienteCXC.class.getName()).log(Level.SEVERE, null, ex);
             saldo = 0;
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         
         if (abono <= 0){
@@ -498,8 +500,7 @@ public class PendienteCXC extends javax.swing.JFrame {
         // Actualizar la base de datos
         String sqlSent;
         PreparedStatement ps;
-        ResultSet rs;
-        String errorMsg = "";
+        String errorMsg;
         String cliente;
         
         
@@ -507,12 +508,11 @@ public class PendienteCXC extends javax.swing.JFrame {
             // Inicio la transacción
             CMD.transaction(conn, CMD.START_TRANSACTION);
         } catch (SQLException ex) {
-            Logger.getLogger(PendienteCXC.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
         
@@ -556,13 +556,12 @@ public class PendienteCXC extends javax.swing.JFrame {
             //this.txtUser.setEditable(true);
             this.txtCliente.setEnabled(true);
         } catch (SQLException | NumberFormatException ex) {
-            Logger.getLogger(PendienteCXC.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             errorMsg = ex.getMessage();
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         
         try {
@@ -572,12 +571,11 @@ public class PendienteCXC extends javax.swing.JFrame {
                 CMD.transaction(conn, CMD.ROLLBACK);
             } // end if-else
         } catch(SQLException ex){
-            Logger.getLogger(PendienteCXC.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             System.exit(1); // No debe seguir activo
             return;
         } // end try-catch
@@ -598,13 +596,12 @@ public class PendienteCXC extends javax.swing.JFrame {
             montocxc = Double.parseDouble(
                     Ut.quitarFormato(this.txtMonto.getText().trim()));
         } catch (Exception ex) {
-            Logger.getLogger(PendienteCXC.class.getName()).log(Level.SEVERE, null, ex);
             montocxc = 0;
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         
         if (montocxc <= 0){
@@ -647,12 +644,11 @@ public class PendienteCXC extends javax.swing.JFrame {
             // Inicio la transacción
             CMD.transaction(conn, CMD.START_TRANSACTION);
         } catch (SQLException ex) {
-            Logger.getLogger(PendienteCXC.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
         
@@ -699,13 +695,12 @@ public class PendienteCXC extends javax.swing.JFrame {
             
             ps.close();
         } catch (SQLException | NumberFormatException ex) {
-            Logger.getLogger(PendienteCXC.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             errorMsg = ex.getMessage();
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         
         
@@ -716,12 +711,11 @@ public class PendienteCXC extends javax.swing.JFrame {
                 CMD.transaction(conn, CMD.ROLLBACK);
             } // end if-else
         } catch(SQLException ex){
-            Logger.getLogger(PendienteCXC.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             System.exit(1); // No debe seguir activo
             return;
         } // end try-catch
@@ -766,13 +760,14 @@ public class PendienteCXC extends javax.swing.JFrame {
 
     private void btnCerrarDiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarDiaActionPerformed
         int resp =
-                JOptionPane.showConfirmDialog(null, 
-                        "Este cierre debe ejecutarse cuando ya haya cerrado la caja!\n" +
-                        "Recuerde que una vez cerrado el día no podrá ver los registros\n" +
-                        "cancelados el día de hoy.  De igual forma tampoco podrá ver\n" +
-                        "los pagos realizados hoy.\n" +
-                        "Solo se mostrará el movimiento neto.\n\n" +
-                        "¿Realmente desea cerrar el día?", 
+                JOptionPane.showConfirmDialog(null, """
+                                                    Este cierre debe ejecutarse cuando ya haya cerrado la caja!
+                                                    Recuerde que una vez cerrado el d\u00eda no podr\u00e1 ver los registros
+                                                    cancelados el d\u00eda de hoy.  De igual forma tampoco podr\u00e1 ver
+                                                    los pagos realizados hoy.
+                                                    Solo se mostrar\u00e1 el movimiento neto.
+                                                    
+                                                    \u00bfRealmente desea cerrar el d\u00eda?""", 
                         "Advertencia",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.WARNING_MESSAGE);
@@ -813,22 +808,20 @@ public class PendienteCXC extends javax.swing.JFrame {
             
             CMD.transaction(conn, CMD.COMMIT);
         } catch (SQLException ex) {
-            Logger.getLogger(PendienteCXC.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             try {
                 CMD.transaction(conn, CMD.ROLLBACK);
             } catch (SQLException ex1) {
-                Logger.getLogger(PendienteCXC.class.getName()).log(Level.SEVERE, null, ex1);
-                JOptionPane.showMessageDialog(null, 
-                        "Ha ocurrido un error en el motor de base de datos.\n" +
-                        "El sistema se cerrará para proteger la integridad.", 
+                JOptionPane.showMessageDialog(null, """
+                                                    Ha ocurrido un error en el motor de base de datos.
+                                                    El sistema se cerrar\u00e1 para proteger la integridad.""", 
                         "Error", 
                         JOptionPane.ERROR_MESSAGE);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+                log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 System.exit(1);
             } // end try-catch
             return;
@@ -845,7 +838,6 @@ public class PendienteCXC extends javax.swing.JFrame {
         this.limpiarControles();
         this.cargarDatos();
         this.txtCliente.setEnabled(true);
-        //this.txtUser.setEnabled(true);
         this.btnAgregar.setEnabled(true);
     }//GEN-LAST:event_btnRecalcularActionPerformed
 
@@ -878,12 +870,11 @@ public class PendienteCXC extends javax.swing.JFrame {
             this.txtCliente.setText(rs.getString(1));
             ps.close();
         } catch (NumberFormatException | SQLException ex) {
-            Logger.getLogger(PendienteCXC.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         
         this.txtFacnume.transferFocus();
@@ -954,8 +945,7 @@ public class PendienteCXC extends javax.swing.JFrame {
             c = new ConsultaFactNDNC_CXC(conn, this.txtFacnume.getText().trim(), "1");
             c.setVisible(true);
         } catch (SQLException ex) {
-            Logger.getLogger(PendienteCXC.class.getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
         
     }//GEN-LAST:event_btnVerFacturaActionPerformed
@@ -996,7 +986,6 @@ public class PendienteCXC extends javax.swing.JFrame {
                 return;
             } // end if
         } catch (Exception ex) {
-            Logger.getLogger(PendienteCXC.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
@@ -1044,7 +1033,7 @@ public class PendienteCXC extends javax.swing.JFrame {
         PreparedStatement ps;
         ResultSet rs;
         Date hoy = new Date();
-        double saldocxc = 0, montoHoy = 0, pagoHoy = 0, balanceD = 0;
+        double saldocxc = 0, montoHoy = 0, pagoHoy = 0;
         
         // Cargar los registros con saldo y los que son de hoy
         sqlSent = 
@@ -1118,12 +1107,11 @@ public class PendienteCXC extends javax.swing.JFrame {
             this.txtBalanceD.setText(Ut.setDecimalFormat((pagoHoy - montoHoy) + "","#,##0.00"));
             
         } catch (Exception ex) {
-            Logger.getLogger(PendienteCXC.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     } // end cargarDatos
    
@@ -1151,13 +1139,12 @@ public class PendienteCXC extends javax.swing.JFrame {
                                 Ut.quitarFormato(
                                 tblDetalle.getValueAt(row, 8).toString()));
             } catch (Exception ex) {
-                Logger.getLogger(PendienteCXC.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(null, 
                         ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 saldo = 0;
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+                log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 break;
             } // end try-catch
         } // end for
@@ -1167,13 +1154,11 @@ public class PendienteCXC extends javax.swing.JFrame {
             this.lblSumaSaldo.setText(
                     "SUMA(Saldo) = " + Ut.setDecimalFormat(saldo+"", "#,##0.00"));
         } catch (Exception ex) {
-            Logger.getLogger(PendienteCXC.class.getName()).log(Level.SEVERE, null, ex);
-            Logger.getLogger(PendienteCXC.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     } // end sumarCeldas
     
@@ -1198,14 +1183,13 @@ public class PendienteCXC extends javax.swing.JFrame {
         try {
             cajaN = getCajaForThisUser(Usuario.USUARIO, conn);
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroFacturasC.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             errorMsg = ex.getMessage();
             cajaN = -1;
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         
         // Crear el objeto caja con el número correspondiente al usuario
@@ -1321,9 +1305,8 @@ public class PendienteCXC extends javax.swing.JFrame {
             ps.setInt(1, tran.getRecnume());
             CMD.update(ps);
         } catch (SQLException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             errorMsg = ex.getMessage();
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         
         

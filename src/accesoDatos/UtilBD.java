@@ -1309,7 +1309,10 @@ public class UtilBD {
 
         rs = CMD.select(ps);
 
-        rs.first();
+        boolean hayDatos = rs.first();
+        if (!hayDatos) {
+            throw new SQLException("Aún no hay una caja asignada para el usuario " + user);
+        }
 
         int cajax = rs.getInt(1);
         ps.close();
@@ -2675,7 +2678,7 @@ public class UtilBD {
         String sqlSent
                 = "SELECT "
                 + "	("
-                + "		(SELECT impuesto FROM cabys WHERE codigoCabys = ?) -  "
+                + "		(SELECT round(impuesto*100,2) FROM cabys WHERE codigoCabys = ?) -  "
                 + "		(SELECT porcentaje FROM tarifa_iva WHERE codigoTarifa = ?) "
                 + "	) AS diferencia";
         try (PreparedStatement ps = conn.prepareStatement(sqlSent,
