@@ -201,10 +201,7 @@ public class UtilBD {
         tc = tipoCambio(tcDolar, cal.getTime(), c);
 
         if (tc == 0.00) {
-            throw new CurrencyExchangeException(
-                    """
-                    A\u00fan no se ha configurado el TC del d\u00f3lar para hoy.
-                    Vaya al men\u00fa Registro y elija Tipo de cambio.""");
+            throw new CurrencyExchangeException();
         } // end if
 
         return tc;
@@ -2515,9 +2512,10 @@ public class UtilBD {
         DirectoryStructure dir = new DirectoryStructure();
         File cabys = new File(dir.getHome() + File.separator + fileName);
         if (!cabys.exists()) {
-            msg = "El catálogo de bienes y servicios de Hacienda no fue encontrado.\n"
-                    + "Debe descargarlo de la página del Banco Central y colocarlo\n"
-                    + "en la carpeta " + dir.getHome() + "\n"
+            msg = """
+                  El cat\u00e1logo de bienes y servicios de Hacienda no fue encontrado.
+                  Debe descargarlo de la p\u00e1gina del Banco Central y colocarlo
+                  en la carpeta """ + dir.getHome() + "\n"
                     + "Asegúrese de que el nombre del archivo sea " + fileName;
             return msg;
         } // end if
@@ -2591,7 +2589,7 @@ public class UtilBD {
                         case 18: {
                             impuesto = cell.toString().trim();
 
-                            if (impuesto.equalsIgnoreCase("Exento")) {
+                            if (impuesto.equalsIgnoreCase("Exento") || impuesto.equalsIgnoreCase("na")) {
                                 impuesto = "0%";
                             }
                             // Elimino el caracter final (%) y posibles espacios en blanco

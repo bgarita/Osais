@@ -3,10 +3,8 @@ package interfase.otros;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import logica.utilitarios.SQLInjectionException;
+import Exceptions.SQLInjectionException;
 import logica.utilitarios.Ut;
 
 /**
@@ -48,7 +46,7 @@ public class Navegador {
      * @param campoLlave
      * @return 
      * @throws java.sql.SQLException 
-     * @throws logica.utilitarios.SQLInjectionException 
+     * @throws Exceptions.SQLInjectionException 
      */
     public ResultSet cargarRegistro(
             int registro,
@@ -168,9 +166,8 @@ public class Navegador {
         return rs;
     } // end cargarRegistro
 
-    /**Método sobrecargado para traer registros cuya llave es numérica.
-     * Este método carga un registro de la base de datos (o todos)
-     * dependiendo de los parametros que reciba.
+    /**Método sobrecargado para traer registros cuya llave es numérica.Este método carga un registro de la base de datos (o todos)
+ dependiendo de los parametros que reciba.
      * @param searchType 0=Todos los registros, 1=Primer registro
      * 2=Registro anterior, 3=Siguiente registro, 4=Último registro
      * 5=Registro específico.
@@ -182,7 +179,7 @@ public class Navegador {
      * @param keyFieldName
      * @return 
      * @throws java.sql.SQLException
-     * @throws logica.utilitarios.SQLInjectionException
+     * @throws Exceptions.SQLInjectionException
      */
     public ResultSet cargarRegistro(
             int searchType,
@@ -629,7 +626,6 @@ public class Navegador {
         try {
             Ut.isSQLInjection(pSqlSent);
         } catch (SQLInjectionException ex) {
-            Logger.getLogger(Navegador.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),

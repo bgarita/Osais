@@ -37,7 +37,7 @@ import logica.Bodexis;
 import logica.Formato;
 import logica.utilitarios.Archivos;
 import logica.utilitarios.FiltrodeArchivos;
-import logica.utilitarios.SQLInjectionException;
+import Exceptions.SQLInjectionException;
 import logica.utilitarios.Ut;
 
 /**

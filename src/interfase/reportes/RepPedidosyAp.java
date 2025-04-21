@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import logica.utilitarios.SQLInjectionException;
+import Exceptions.SQLInjectionException;
 import logica.utilitarios.Ut;
 
 /**
@@ -43,7 +43,7 @@ public class RepPedidosyAp extends JFrame {
      * @param artcode
      * @throws java.sql.SQLException
      * @throws Exceptions.EmptyDataSourceException
-     * @throws logica.utilitarios.SQLInjectionException */
+     * @throws Exceptions.SQLInjectionException */
     public RepPedidosyAp(Connection c, String artcode) 
             throws SQLException, EmptyDataSourceException, SQLInjectionException {
         initComponents();

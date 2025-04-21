@@ -24,7 +24,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import logica.Cacaja;
 import logica.Usuario;
-import logica.utilitarios.SQLInjectionException;
+import Exceptions.SQLInjectionException;
 import logica.utilitarios.Ut;
 
 /**
@@ -44,7 +44,7 @@ public class Caja extends JFrame {
     /** Creates new form Caja
      * @param c
      * @throws java.sql.SQLException
-     * @throws logica.utilitarios.SQLInjectionException
+     * @throws Exceptions.SQLInjectionException
      * @throws Exceptions.EmptyDataSourceException */
     public Caja(Connection c) 
             throws SQLException, SQLInjectionException, EmptyDataSourceException {

@@ -20,7 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import logica.IMantenimiento;
-import logica.utilitarios.SQLInjectionException;
+import Exceptions.SQLInjectionException;
 import logica.utilitarios.Ut;
 
 /**
@@ -43,7 +43,7 @@ public class ProveedoresAsignados extends javax.swing.JFrame implements IManteni
      * @param codigo
      * @param descripcion
      * @throws java.sql.SQLException
-     * @throws logica.utilitarios.SQLInjectionException */
+     * @throws Exceptions.SQLInjectionException */
     public ProveedoresAsignados(Connection c, String codigo, String descripcion) throws SQLException, SQLInjectionException {
         initComponents();
 

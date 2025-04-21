@@ -6,6 +6,7 @@
 package interfase.transacciones;
 
 import Exceptions.CurrencyExchangeException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -21,11 +22,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.GregorianCalendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import logica.OrdenCompra;
-import logica.utilitarios.SQLInjectionException;
+import Exceptions.SQLInjectionException;
+import java.text.ParseException;
 import logica.utilitarios.Ut;
 
 /**
@@ -47,7 +47,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
     private boolean fin;                // Se usa para evitar que corran agunos eventos
     private OrdenCompra orden;          // Bosco agregado 26/09/2018
     private boolean buscando;
-    private final Bitacora b = new Bitacora();
+    private final Bitacora log = new Bitacora();
 
     public RegistroNDCXC(Connection c) throws SQLException {
         initComponents();
@@ -401,93 +401,58 @@ public class RegistroNDCXC extends javax.swing.JFrame {
         try {
             conn.close();
         } catch (SQLException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
         dispose();
 }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        String facnume, clicode, referencia, tipoca, sqlSent;
+        String facnume, lcFacmont, clicode, referencia, tipoca, fecha, sqlSent;
 
         // ****** Validar los datos ******
         // La referencia no puede ser mayor a 10 caracteres
         referencia = txtReferencia.getText().trim();
-        if (referencia.length() > 10) {
-            JOptionPane.showMessageDialog(null,
-                    "El número de referencia no puede exeder "
-                    + "los 10 caracteres.",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            txtReferencia.requestFocusInWindow();
-            return;
-        } // end if
-        
-        // Tampoco puede quedar vacía (referencia para Hacienda)
-        if (referencia.length() == 0) {
-            JOptionPane.showMessageDialog(null,
-                    "El número de referencia no puede quedar vacío.",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            txtReferencia.requestFocusInWindow();
-            return;
-        } // end if
-
-        // Valido el cliente
-        if (txtClidesc.getText().trim().equals("")) {
-            JOptionPane.showMessageDialog(null,
-                    "El cliente no es válido.",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            txtClicode.requestFocusInWindow();
-            return;
-        } // end if
-
-        // Valido la fecha
-        String fecha;
-        fecha = Ut.fechaSQL(this.DatFacfech.getDate());
         try {
-            if (!UtilBD.isValidDate(conn, fecha)) {
-                JOptionPane.showMessageDialog(null,
-                        "La fecha corresponde a un período cerrado.",
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                DatFacfech.requestFocusInWindow();
-                return;
+            if (referencia.isEmpty()) {
+                txtReferencia.requestFocusInWindow();
+                throw new OsaisException("El número de referencia no puede quedar vacío.");
+            }
+            if (referencia.length() > 10) {
+                txtReferencia.requestFocusInWindow();
+                throw new OsaisException("El número de referencia no puede exeder los 10 caracteres.");
             } // end if
-        } catch (SQLException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+
+            // Valido el cliente
+            if (txtClidesc.getText().trim().equals("")) {
+                txtClicode.requestFocusInWindow();
+                throw new OsaisException("El cliente no es válido.");
+            } // end if
+
+            // Valido la fecha
+            fecha = Ut.fechaSQL(this.DatFacfech.getDate());
+
+            if (!UtilBD.isValidDate(conn, fecha)) {
+                DatFacfech.requestFocusInWindow();
+                throw new OsaisException("La fecha corresponde a un período cerrado.");
+            } // end if
+
+            // Valido el monto de la ND
+            lcFacmont = txtFacmont.getText().trim();
+            lcFacmont = Ut.quitarFormato(lcFacmont);
+
+            if (Double.parseDouble(lcFacmont) <= 0.00) {
+                txtFacmont.requestFocusInWindow();
+                throw new OsaisException("Debe digitar un monto válido.");
+            } // end if
+        } catch (OsaisException | SQLException | ParseException ex) {
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
-
-        // Valido el monto de la ND
-        String lcFacmont = txtFacmont.getText().trim();
-        try {
-            lcFacmont = Ut.quitarFormato(lcFacmont);
-        } catch (Exception ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null,
-                    ex.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
-            return;
-        } // end try-catch
-
-        if (Double.parseDouble(lcFacmont) <= 0.00) {
-            JOptionPane.showMessageDialog(null,
-                    "Debe digitar un monto válido.",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            txtFacmont.requestFocusInWindow();
-            return;
-        } // end if
 
         // Inicia el proceso de guardado
         facnume = txtFacnume.getText();
@@ -508,16 +473,12 @@ public class RegistroNDCXC extends javax.swing.JFrame {
                 + "-" + facnume + ")"; // Bosco agregado 26/09/2018
         try {
             CMD.transaction(conn, CMD.START_TRANSACTION);
-            hayTransaccion = true;
             rs = stat.executeQuery(sqlSent); // Este SP devuelve un resultado
             rs.first();
             if (rs.getBoolean(1)) {
-                JOptionPane.showMessageDialog(null,
-                        rs.getString(2),
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                CMD.transaction(conn, CMD.ROLLBACK);
-                return;
+                String msg = rs.getString(2);
+                rs.close();
+                throw new OsaisException(msg);
             } // end if
 
             // Actualizar el saldo del cliente (siempre va en moneda local).
@@ -529,12 +490,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
             int affected = stat.executeUpdate(sqlUpdate);
 
             if (affected == 0) {
-                JOptionPane.showMessageDialog(null,
-                        "No se pudo actualizar el saldo del cliente.",
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                CMD.transaction(conn, CMD.ROLLBACK);
-                return;
+                throw new OsaisException("No se pudo actualizar el saldo del cliente.");
             } // end if
 
             // Actualizar el consecutivo
@@ -542,13 +498,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
             affected = stat.executeUpdate(sqlUpdate);
 
             if (affected == 0) {
-                JOptionPane.showMessageDialog(null,
-                        "No se pudo actualizar el consecutivo de notas de débito.",
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
-
-                CMD.transaction(conn, CMD.ROLLBACK);
-                return;
+                throw new OsaisException("No se pudo actualizar el consecutivo de notas de débito.");
             } // end if
 
             // Bosco agregado 26/09/2018
@@ -575,27 +525,23 @@ public class RegistroNDCXC extends javax.swing.JFrame {
                         + "?, "
                         + "?)";
 
-                PreparedStatement psFaotros = conn.prepareStatement(sqlUpdate);
-                psFaotros.setInt(1, orden.getFacnume());
-                psFaotros.setInt(2, orden.getFacnd());
-                psFaotros.setString(3, orden.getWMNumeroVendedor());
-                psFaotros.setString(4, orden.getWMNumeroOrden());
-                psFaotros.setString(5, orden.getWMEnviarGLN());
-                psFaotros.setString(6, orden.getWMNumeroReclamo());
-                psFaotros.setString(7, orden.getWMFechaReclamo());
+                try (PreparedStatement psFaotros = conn.prepareStatement(sqlUpdate)) {
+                    psFaotros.setInt(1, orden.getFacnume());
+                    psFaotros.setInt(2, orden.getFacnd());
+                    psFaotros.setString(3, orden.getWMNumeroVendedor());
+                    psFaotros.setString(4, orden.getWMNumeroOrden());
+                    psFaotros.setString(5, orden.getWMEnviarGLN());
+                    psFaotros.setString(6, orden.getWMNumeroReclamo());
+                    psFaotros.setString(7, orden.getWMFechaReclamo());
 
-                affected = psFaotros.executeUpdate();
-                if (affected == 0) {
-                    JOptionPane.showMessageDialog(null,
-                            "No se pudieron registrar los datos de la orden de compra."
-                            + "\nFactura NO guardada.",
-                            "Error",
-                            JOptionPane.ERROR_MESSAGE);
-
-                    CMD.transaction(conn, CMD.ROLLBACK);
-                    return;
-                } // end if
-                psFaotros.close();
+                    affected = psFaotros.executeUpdate();
+                    if (affected == 0) {
+                        throw new OsaisException(
+                                """
+                                        No se pudieron registrar los datos de la orden de compra.
+                                        Factura NO guardada.""");
+                    } // end if
+                }
             } // end if
             // Fin Bosco agregado 26/09/2018
 
@@ -613,26 +559,25 @@ public class RegistroNDCXC extends javax.swing.JFrame {
             txtOrdenC.setText("");
             txtFacmont.setText("0.00");
             txtReferencia.setText("");
-        } catch (SQLException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
-            if (hayTransaccion) {
-                try {
-                    CMD.transaction(conn, CMD.ROLLBACK);
-                } catch (SQLException ex1) {
-                    JOptionPane.showMessageDialog(null,
-                            ex1.getMessage(),
-                            "Error",
-                            JOptionPane.ERROR_MESSAGE);
-                    b.writeToLog(this.getClass().getName() + "--> " + ex1.getMessage(), Bitacora.ERROR);
-                    // Si a este nivel ocurre un error hay que cerrar el sistema
-                    System.exit(-1);
-                }
-            } // end if
-        } // end catch
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            try {
+                CMD.transaction(conn, CMD.ROLLBACK);
+            } catch (SQLException ex1) {
+                JOptionPane.showMessageDialog(null,
+                        ex1.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                log.writeToLog(this.getClass().getName() + "--> " + ex1.getMessage(), Bitacora.ERROR);
+                // Si a este nivel ocurre un error hay que cerrar el sistema
+                System.exit(-1);
+            }
+        }
+
         txtClicode.requestFocusInWindow();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
@@ -669,13 +614,12 @@ public class RegistroNDCXC extends javax.swing.JFrame {
                 DatFacfech.setDate(GregorianCalendar.getInstance().getTime());
             } // end if
         } catch (SQLException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
 }//GEN-LAST:event_DatFacfechPropertyChange
 
@@ -718,7 +662,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         if (!existe) {
@@ -770,7 +714,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         }
         txtFacmontFocusLost(null);
@@ -801,6 +745,10 @@ public class RegistroNDCXC extends javax.swing.JFrame {
 
     private void txtReferenciaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtReferenciaFocusLost
         String ref = this.txtReferencia.getText().trim();
+        if (ref.isEmpty()) {
+            return;
+        }
+
         try {
             if (Integer.parseInt(ref) > 0) {
                 ref = "-" + ref;
@@ -813,7 +761,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             this.txtReferencia.setText(""); // Al guardar se debe validar que este campo no esté vacío.
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
 
@@ -828,31 +776,27 @@ public class RegistroNDCXC extends javax.swing.JFrame {
                 + "and (facestado = '' or facestado is null) "
                 + "and claveHacienda is not NULL "
                 + "and claveHacienda > ''";
-        PreparedStatement ps;
-        
-        try {
-            ps = conn.prepareStatement(sqlSent,
-                    ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY);
+
+        try (PreparedStatement ps = conn.prepareStatement(sqlSent,
+                ResultSet.TYPE_SCROLL_SENSITIVE,
+                ResultSet.CONCUR_READ_ONLY)) {
             ps.setInt(1, Integer.parseInt(ref));
             ps.setInt(2, Integer.parseInt(ref));
-            
-            ResultSet rs = CMD.select(ps);
-            
-            if (rs == null || !rs.first()){
-                JOptionPane.showMessageDialog(null, 
-                        "La nota de crédito no existe, está nula o no ha sido enviada a Hacienda.",
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
+
+            ResultSet rs1 = CMD.select(ps);
+
+            if (rs1 == null || !rs1.first()) {
                 this.txtReferencia.setText("");
+                throw new OsaisException("La nota de crédito no existe, está nula o no ha sido enviada a Hacienda.");
             } else {
-                this.txtFacmont.setText(rs.getDouble("Monto") + "");
+                this.txtFacmont.setText(rs1.getDouble("Monto") + "");
             } // end if-else
-            
-            ps.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+        } catch (OsaisException | NumberFormatException | SQLException ex) {
+            JOptionPane.showMessageDialog(null,
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     }//GEN-LAST:event_txtReferenciaFocusLost
 
@@ -871,7 +815,6 @@ public class RegistroNDCXC extends javax.swing.JFrame {
                 return;
             } // end if
         } catch (Exception ex) {
-            Logger.getLogger(RegistroNDCXC.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -948,7 +891,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     } // end setConsecutivo
 
@@ -971,7 +914,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     } // end ubicarCodigo
 
@@ -992,7 +935,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     } // end cargarComboMonedas
 
@@ -1012,12 +955,11 @@ public class RegistroNDCXC extends javax.swing.JFrame {
             txtFacmont.setText(Ut.setDecimalFormat(monto, "##0.00"));
         } // end redondear
         catch (Exception ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     } // end redondear
 } // end class

@@ -25,7 +25,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import contabilidad.logica.Cocatalogo;
 import contabilidad.logica.Cuenta;
-import logica.utilitarios.SQLInjectionException;
+import Exceptions.SQLInjectionException;
 import logica.utilitarios.Ut;
 
 /**
@@ -48,7 +48,7 @@ public class CatalogoContable extends JFrame {
      *
      * @param c
      * @throws java.sql.SQLException
-     * @throws logica.utilitarios.SQLInjectionException
+     * @throws Exceptions.SQLInjectionException
      * @throws Exceptions.EmptyDataSourceException
      * @throws java.text.ParseException
      */

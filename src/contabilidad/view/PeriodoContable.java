@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import contabilidad.logica.Coperiodoco;
-import logica.utilitarios.SQLInjectionException;
+import Exceptions.SQLInjectionException;
 
 /**
  *
@@ -41,7 +41,7 @@ public class PeriodoContable extends JFrame {
 
     /** Creates new form PeriodoContable
      * @throws java.sql.SQLException
-     * @throws logica.utilitarios.SQLInjectionException
+     * @throws Exceptions.SQLInjectionException
      * @throws Exceptions.EmptyDataSourceException */
     @SuppressWarnings({"unchecked"})
     public PeriodoContable() 

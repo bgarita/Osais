@@ -6,9 +6,9 @@ package Exceptions;
  * Excepción controlada.
  */
 @SuppressWarnings("serial")
-public class NotUniqueValueException extends OsaisException {
+public class OsaisException extends Exception {
     
-    public NotUniqueValueException(String message){
+    public OsaisException(String message){
         super(message);
     } // end constructor
 } // end NotUniqueValueException

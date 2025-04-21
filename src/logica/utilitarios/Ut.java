@@ -1,5 +1,6 @@
 package logica.utilitarios;
 
+import Exceptions.SQLInjectionException;
 import Exceptions.EmptyDataSourceException;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -91,7 +92,7 @@ public class Ut {
      * @return String
      * @throws java.text.ParseException
      */
-    public static String quitarFormato(String valortexto) throws Exception {
+    public static String quitarFormato(String valortexto) throws ParseException {
         if (valortexto != null && valortexto.equals("NaN")) {
             return "0";
         }
@@ -1918,7 +1919,7 @@ public class Ut {
         } // end if
 
         if (rs == null || !rs.first()) {
-            throw new EmptyDataSourceException("Fuente de datos vacía");
+            throw new EmptyDataSourceException();
         } // end if
 
         if (replace) {
@@ -2034,7 +2035,7 @@ public class Ut {
      *
      * @param sqlSent
      * @return true=Hay inyección, false=no hay
-     * @throws logica.utilitarios.SQLInjectionException
+     * @throws SQLInjectionException
      */
     public static boolean isSQLInjection(String sqlSent) throws SQLInjectionException {
         boolean inyectado;
@@ -2045,9 +2046,7 @@ public class Ut {
         inyectado = injectionByOperator(s);
 
         if (inyectado) {
-            throw new SQLInjectionException(
-                    "Se ha detectado una posible inyección de código.\n"
-                    + "La sentencia SQL no se ejecutará.");
+            throw new SQLInjectionException();
         } // end if
 
         // También elimino todos los espacios en blanco para buscar inyección.
@@ -2081,9 +2080,7 @@ public class Ut {
                 s.contains("VERSION(") // No se permite la función VERSION()
                 ;
         if (inyectado) {
-            throw new SQLInjectionException(
-                    "Se ha detectado una posible inyección de código.\n"
-                    + "La sentencia SQL no se ejecutará.");
+            throw new SQLInjectionException();
         } // end if
         // Incorporar casos como este: ' or 1=1
         // En este caso se trata de detectar expresiones que siempre evalúen

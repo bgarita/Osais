@@ -18,7 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import logica.IMantenimiento;
-import logica.utilitarios.SQLInjectionException;
+import Exceptions.SQLInjectionException;
 
 /**
  *
@@ -38,7 +38,7 @@ public class CentroCosto extends javax.swing.JFrame implements IMantenimiento {
     /** Creates new form CentroCosto
      * @param c
      * @throws java.sql.SQLException
-     * @throws logica.utilitarios.SQLInjectionException */
+     * @throws Exceptions.SQLInjectionException */
     @SuppressWarnings({"unchecked", "unchecked", "unchecked"})
     public CentroCosto(Connection c) throws SQLException, SQLInjectionException {
         initComponents();

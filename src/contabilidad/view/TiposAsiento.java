@@ -21,7 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import contabilidad.logica.CoasientoE;
 import contabilidad.logica.Cotipasient;
-import logica.utilitarios.SQLInjectionException;
+import Exceptions.SQLInjectionException;
 import logica.utilitarios.Ut;
 
 /**
@@ -46,7 +46,7 @@ public class TiposAsiento extends JFrame {
      * Creates new form Bodegas
      *
      * @throws java.sql.SQLException
-     * @throws logica.utilitarios.SQLInjectionException
+     * @throws Exceptions.SQLInjectionException
      * @throws Exceptions.EmptyDataSourceException
      */
     @SuppressWarnings({"unchecked"})

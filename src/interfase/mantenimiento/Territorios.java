@@ -18,7 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import logica.utilitarios.SQLInjectionException;
+import Exceptions.SQLInjectionException;
 
 /**
  *

@@ -26,7 +26,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import contabilidad.logica.Cotipasient;
 import contabilidad.logica.Cuenta;
-import logica.utilitarios.SQLInjectionException;
+import Exceptions.SQLInjectionException;
 import logica.utilitarios.Ut;
 
 /**
@@ -46,7 +46,7 @@ public class Configconta extends JFrame {
     /** Creates new form Bodegas
      * @param c
      * @throws java.sql.SQLException
-     * @throws logica.utilitarios.SQLInjectionException
+     * @throws Exceptions.SQLInjectionException
      * @throws Exceptions.EmptyDataSourceException */
     @SuppressWarnings({"unchecked"})
     public Configconta(Connection c) 

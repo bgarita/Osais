@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import logica.Babanco;
-import logica.utilitarios.SQLInjectionException;
+import Exceptions.SQLInjectionException;
 
 /**
  *
@@ -39,7 +39,7 @@ public class Banco extends JFrame {
     /** Creates new form Banco
      * @param c
      * @throws java.sql.SQLException
-     * @throws logica.utilitarios.SQLInjectionException
+     * @throws Exceptions.SQLInjectionException
      * @throws Exceptions.EmptyDataSourceException */
     public Banco(Connection c) 
             throws SQLException, SQLInjectionException, EmptyDataSourceException {

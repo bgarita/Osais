@@ -29,7 +29,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import logica.DatabaseOptions;
 import logica.utilitarios.FormatoTabla;
-import logica.utilitarios.SQLInjectionException;
+import Exceptions.SQLInjectionException;
 import logica.utilitarios.Ut;
 
 /**
