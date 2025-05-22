@@ -163,25 +163,25 @@ public class ProcessProgressBar extends Thread {
              */
             for (int i = 1; i <= 15; i++){
                 switch (i){
-                    case 1:setLblInfoText("Verificando integridad de facturas.."); break;
-                    case 2:setLblInfoText("Verificando integridad de documentos de inventario.."); break;
-                    case 3:setLblInfoText("Eliminando posibles inconsistencias.."); break;
-                    case 4:setLblInfoText("Recalculando el inventario reservado.."); break;
-                    case 5:setLblInfoText("Recalculando las cuentas por cobrar.."); break;
-                    case 6:setLblInfoText("Recalculando saldo de clientes al cierre.."); break;
-                    case 7:setLblInfoText("Recalculando inventarios al cierre.."); break;
-                    case 8:setLblInfoText("Trasladando registros a los históricos.."); break;
-                    case 9:setLblInfoText("Protegiendo facturas NC y ND en cuentas por cobrar.."); break;
-                    case 10:setLblInfoText("Protegiendo registros de cuentas por cobrar en inventarios.."); break;
-                    case 11:setLblInfoText("Protegiendo movimientos de inventarios.."); break;
-                    case 12:setLblInfoText("Protegiendos recibos.."); break;
-                    case 13:setLblInfoText("Recalculando facturas en cuentas por cobrar.."); break;
-                    case 14:setLblInfoText("Recalculando saldos de clientes.."); break;
-                    case 15:setLblInfoText("Recalculando inventarios a hoy.."); break;
+                    case 1 -> setLblInfoText("Verificando integridad de facturas..");
+                    case 2 -> setLblInfoText("Verificando integridad de documentos de inventario..");
+                    case 3 -> setLblInfoText("Eliminando posibles inconsistencias..");
+                    case 4 -> setLblInfoText("Recalculando el inventario reservado..");
+                    case 5 -> setLblInfoText("Recalculando las cuentas por cobrar..");
+                    case 6 -> setLblInfoText("Recalculando saldo de clientes al cierre..");
+                    case 7 -> setLblInfoText("Recalculando inventarios al cierre..");
+                    case 8 -> setLblInfoText("Trasladando registros a los históricos..");
+                    case 9 -> setLblInfoText("Protegiendo facturas NC y ND en cuentas por cobrar..");
+                    case 10 -> setLblInfoText("Protegiendo registros de cuentas por cobrar en inventarios..");
+                    case 11 -> setLblInfoText("Protegiendo movimientos de inventarios..");
+                    case 12 -> setLblInfoText("Protegiendos recibos..");
+                    case 13 -> setLblInfoText("Recalculando facturas en cuentas por cobrar..");
+                    case 14 -> setLblInfoText("Recalculando saldos de clientes..");
+                    case 15 -> setLblInfoText("Recalculando inventarios a hoy..");
                 } // end switch
                 cs.setInt(5, i);
-                // Ejecutar el SP
-                cs.executeUpdate();
+                // Ejecutar el SP. Se usa execute porque puede que devuelva un ResultSet o varios.
+                cs.execute();
                 
                 // Verificar si hubo error
                 if (cs.getBoolean(3)){

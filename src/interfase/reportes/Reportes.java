@@ -359,9 +359,10 @@ public class Reportes {
 
         if (!f.exists() || f.isDirectory()) {
             JOptionPane.showMessageDialog(null,
-                    "No encuentro el archivo de impresión. "
-                    + "\nDebería estar en la siguiente dirección:"
-                    + "\n" + masterFileName,
+                    """
+                    No encuentro el archivo de impresi\u00f3n. 
+                    Deber\u00eda estar en la siguiente direcci\u00f3n:
+                    """ + masterFileName,
                     "Error de configuración",
                     JOptionPane.ERROR_MESSAGE);
             return;

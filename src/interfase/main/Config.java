@@ -1355,24 +1355,26 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
 
             // Cejilla Inventarios
             bodega = rs.getString("bodega");
-            ResultSet rsBodega = // Cargar todas las bodegas
-                    nav.ejecutarQuery(
-                            "Select concat(bodega,' ',descrip) from bodegas");
-
+            boolean continuar;
+            int indice;
             // Cargar el combo y elegir la que aparezca en la base de datos
-            boolean continuar = (rsBodega != null && rsBodega.first());
-            int indice = 0;
-            this.cboDescrip.addItem("    Ninguna");
-            indice++;
-            while (continuar) {
-                this.cboDescrip.addItem(rsBodega.getString(1));
-                if (rsBodega.getString(1).substring(0, 3).equals(bodega)) {
-                    this.cboDescrip.setSelectedIndex(indice);
-                } // end if
-                continuar = rsBodega.next();
+            try (ResultSet rsBodega = // Cargar todas las bodegas
+                    nav.ejecutarQuery(
+                            "Select concat(bodega,' ',descrip) from bodegas")) {
+                // Cargar el combo y elegir la que aparezca en la base de datos
+                continuar = (rsBodega != null && rsBodega.first());
+                indice = 0;
+                this.cboDescrip.addItem("    Ninguna");
                 indice++;
-            } // end while
-            rsBodega.close();
+                while (continuar) {
+                    this.cboDescrip.addItem(rsBodega.getString(1));
+                    if (rsBodega.getString(1).substring(0, 3).equals(bodega)) {
+                        this.cboDescrip.setSelectedIndex(indice);
+                    } // end if
+                    continuar = rsBodega.next();
+                    indice++;
+                } // end while
+            }
 
             // Agregado Bosco 05/02/2015
             movtidoE = rs.getShort("movtidoE");

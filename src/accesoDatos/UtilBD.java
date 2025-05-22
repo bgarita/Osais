@@ -27,6 +27,8 @@ import logica.Column;
 import contabilidad.logica.Coperiodoco;
 import contabilidad.logica.Cuenta;
 import contabilidad.model.PeriodoContable;
+import java.util.HashMap;
+import java.util.Map;
 import logica.utilitarios.DirectoryStructure;
 import logica.utilitarios.Ut;
 import org.apache.poi.ss.usermodel.Cell;
@@ -59,7 +61,7 @@ public class UtilBD {
     public static final int LAST = 5;
     public static final int AFTER_LAST = 6;
     public static final int ABSOLUTE = 7;
-    
+
     /**
      * Este método verifica si el sistema está configurado para redondear
      * precios o no. (08/07/2009 - Bosco Garita)
@@ -180,7 +182,7 @@ public class UtilBD {
             throws CurrencyExchangeException, SQLException {
         float tc;
         Calendar cal = GregorianCalendar.getInstance();
-        
+
         // Select para cargar el código de moneda del dolar.
         String sqlSent = "Select codigoDolar from config";
         String tcDolar = null;
@@ -227,7 +229,7 @@ public class UtilBD {
         double existencia = 0.00;
         sqlSent = "Select ConsultarExistenciaDisponible(?,?)";
         try (PreparedStatement ps = c.prepareStatement(sqlSent,
-                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)){
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
             ps.setString(1, artcode);
             ps.setString(2, bodega);
             ResultSet rs = CMD.select(ps);
@@ -285,6 +287,26 @@ public class UtilBD {
 
         return cerrada;
     } // end bodegaCerrada
+    
+    /**
+     * Obtener el último periodo cerrado (no es el de contabilidad).
+     * @param c
+     * @return Map month=n, year=nnnn
+     * @throws SQLException 
+     */
+    public static Map<String, Integer> getLastClosedPeriod(Connection c) throws SQLException {
+        Map<String, Integer> periodo = new HashMap<>();
+        String sqlSent = "Select mescerrado, anocerrado from config";
+        try (PreparedStatement ps = c.prepareStatement(sqlSent,
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY); ResultSet rs = CMD.select(ps)) {
+            if (rs != null && rs.first()) {
+                periodo.put("month", rs.getInt("mescerrado"));
+                periodo.put("year", rs.getInt("anocerrado"));
+            } // end if
+        }
+     
+        return periodo;
+    }
 
     /**
      * Autor: Bosco Garita. 31/08/2010.
@@ -346,6 +368,7 @@ public class UtilBD {
      * el uso debe estar dirigido a tablas maestras. En caso de que se obtenga
      * más de un valor para el compo solicitado se mostrará un error y retornará
      * blancos.
+     * @Updated 22/04/2025
      *
      * @param c Connection Conexión con la base de datos
      * @param tabla String nombre de la tabla a consultar
@@ -371,26 +394,24 @@ public class UtilBD {
         String sqlSent
                 = "Select " + expresion + " from " + tabla
                 + (!condicion.isEmpty() ? " Where " + condicion : "");
-        PreparedStatement ps;
+        try (PreparedStatement ps = c.prepareStatement(sqlSent,
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
 
-        ps = c.prepareStatement(sqlSent,
-                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        ResultSet r = CMD.select(ps);
+            ResultSet r = CMD.select(ps);
 
-        goRecord(r, LAST);
+            goRecord(r, LAST);
 
-        int registros = Ut.recNo(r); // Cantidad de registros
-        if (registros > 1) {
-            throw new NotUniqueValueException(
-                    "El valor a consultar ["
-                    + r.getString(alias) + "]"
-                    + " no es único.");
-        } else if (registros == 1) {
-            DBValue = r.getString(alias);
-        } // end if-else
+            int registros = Ut.recNo(r); // Cantidad de registros
+            if (registros > 1) {
+                throw new NotUniqueValueException(
+                        "El valor a consultar ["
+                        + r.getString(alias) + "]"
+                        + " no es único.");
+            } else if (registros == 1) {
+                DBValue = r.getString(alias);
+            } // end if-else
 
-        ps.close();
-
+        }
         return DBValue;
     } // end getDBString
 
@@ -514,8 +535,8 @@ public class UtilBD {
     } // end getArtcode
 
     /**
-     * Actualiza la base de datos usando la sentencia que
-     * recibe por parámetro.
+     * Actualiza la base de datos usando la sentencia que recibe por parámetro.
+     *
      * @author Bosco Garita
      * @param c
      * @param sqlSent
@@ -531,9 +552,10 @@ public class UtilBD {
     } // end sqlUpdate
 
     /**
-     * Método que determina si un usuario está
-     * autorizado a usar el programa que recibe por parámetro.
-     * El usuario que se revisa es el que ya está cargado en Menu.USUARIOBD
+     * Método que determina si un usuario está autorizado a usar el programa que
+     * recibe por parámetro. El usuario que se revisa es el que ya está cargado
+     * en Menu.USUARIOBD
+     *
      * @throws java.lang.Exception
      * @Author Bosco Garita 18/07/2011
      * @Updated Bosco Garita 15/04/2025
@@ -543,15 +565,15 @@ public class UtilBD {
      */
     public static boolean tienePermiso(Connection c, String programa) throws Exception {
         boolean existe = false;
-        
+
         String userLogged = Menu.USUARIOBD;
         if (userLogged == null) {
             userLogged = getUserLogged(c);
         }
 
         // Estos usuarios no tienen restricción.
-        if (userLogged.equals("bgarita") 
-                || userLogged.equals("bgaritaa") 
+        if (userLogged.equals("bgarita")
+                || userLogged.equals("bgaritaa")
                 || userLogged.equals("root")) {
             existe = true;
             return existe;
@@ -574,10 +596,10 @@ public class UtilBD {
     } // end tienePermiso
 
     /**
-     * Método para verificar los permisos
-     * especiales.
+     * Método para verificar los permisos especiales.
+     *
      * @throws java.sql.SQLException
-     * @Author Bosco Garita 23/07/2011 
+     * @Author Bosco Garita 23/07/2011
      * @param c Conexión a la base de datos
      * @param permiso Campo que indica si tiene o no el permiso
      * @return boolean true=Tiene el permiso, false=No lo tiene
@@ -587,13 +609,13 @@ public class UtilBD {
         boolean tienePermiso = false;
 
         // Estos usuarios no tienen restricción.
-        if (userLogged.equals("bgarita") 
-                || userLogged.equals("bgaritaa") 
+        if (userLogged.equals("bgarita")
+                || userLogged.equals("bgaritaa")
                 || userLogged.equals("root")) {
             tienePermiso = true;
             return tienePermiso;
         } // end if
-        
+
         // La función GetDBUser() devuelve el string del usuario antes de
         // la arroba.
         String sqlSelect
@@ -853,7 +875,7 @@ public class UtilBD {
      */
     public static void setMascaraT(Connection conn, JFormattedTextField[] telefonos) throws Exception {
         String sqlSent = "Select mascaratel from config";
-        
+
         ResultSet rs;
         String mascaratel;
 
@@ -2789,13 +2811,14 @@ public class UtilBD {
 
         return exito;
     } // end goRecord
-    
+
     /**
      * Este método devuelve el usuario de base de datos antes de la @.
      * Básicamente hace lo mismo que la función getDBUser() en la BD.
+     *
      * @param c
      * @return User logged
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static String getUserLogged(Connection c) throws SQLException {
         String sqlSelect = "Select user()";
@@ -2813,7 +2836,7 @@ public class UtilBD {
         if (userLogged.contains("@")) {
             userLogged = userLogged.substring(0, userLogged.indexOf("@"));
         } // end if
-        
+
         return userLogged;
     }
 } // end class UtilBD

@@ -2238,16 +2238,16 @@ public class Ut {
 
     /**
      *
-     * @param cadena String en donde se realizará la búsqueda
-     * @param subcadena String que se buscará
+     * @param buscarEn String en donde se realizará la búsqueda
+     * @param texto String que se buscará
      * @return int primera posición encontrada
      */
-    public static int AT(String cadena, String subcadena) {
-        return getPosicion(cadena, subcadena);
+    public static int AT(String buscarEn, String texto) {
+        return getPosicion(texto, buscarEn);
     } // end AT
 
-    public static int AT(String cadena, String subcadena, int ocurrencia) {
-        return getPosicion(cadena, subcadena, ocurrencia);
+    public static int AT(String buscarEn, String texto, int ocurrencia) {
+        return getPosicion(texto, buscarEn, ocurrencia);
     } // end AT
 
     public static int ATC(String cadena, String subcadena) {
@@ -3284,4 +3284,35 @@ public class Ut {
         }
         return modules.contains(module);
     } // end isModuleAvailable
+    
+    /**
+     * Este método se usa para agregar las comillas simples a los parámetros
+     * en una función SQL; no funciona con parámetros anidados, tampoco se debe
+     * usar para sentencias where directas; todo se formatea como texto porque 
+     * los motores de base de datos hacen la transformación de los datos numéricos 
+     * en forma automática.
+     * @param sqlFunction String texto sql a formatear. Ej.: call miFunc(param1,pamar2)
+     * @return 
+     */
+    public static String sqlFormat(String sqlFunction) {
+        String sqlStringFormatted;
+        int firstParenthesis = sqlFunction.indexOf("(");
+        int lastParentesis = sqlFunction.lastIndexOf(")");
+        String functionPart1 = sqlFunction.substring(0, firstParenthesis+1);
+        String functionPart2 = sqlFunction.substring(lastParentesis);
+        String parameters[] = sqlFunction.substring(firstParenthesis+1, lastParentesis).split(",");
+        
+        for (int i = 0; i < parameters.length; i++) {
+            functionPart1 += "'" + parameters[i] + "'";
+            if (i < (parameters.length-1)) {
+                functionPart1 += ", ";
+            }
+        }
+        
+        // En caso de que el desarrollador haya enviado por error una comilla simple.
+        functionPart1 = functionPart1.replace("''", "'");
+        sqlStringFormatted = functionPart1 + functionPart2;
+        
+        return sqlStringFormatted;
+    }
 } // end utlitarios
