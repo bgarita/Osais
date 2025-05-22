@@ -49,7 +49,7 @@ import contabilidad.logica.CoasientoE;
 import contabilidad.logica.Cotipasient;
 import contabilidad.logica.Cuenta;
 import logica.utilitarios.FormatoTabla;
-import logica.utilitarios.SQLInjectionException;
+import Exceptions.SQLInjectionException;
 import logica.utilitarios.Ut;
 /**
  *

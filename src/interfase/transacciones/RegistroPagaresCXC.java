@@ -20,7 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import logica.utilitarios.SQLInjectionException;
+import Exceptions.SQLInjectionException;
 import logica.utilitarios.Ut;
 
 /**
@@ -50,7 +50,7 @@ public class RegistroPagaresCXC extends JFrame {
      * Creates new form Bodegas
      * @param c
      * @throws java.sql.SQLException
-     * @throws logica.utilitarios.SQLInjectionException
+     * @throws Exceptions.SQLInjectionException
      */
     public RegistroPagaresCXC(Connection c) throws SQLException, SQLInjectionException {
         try{

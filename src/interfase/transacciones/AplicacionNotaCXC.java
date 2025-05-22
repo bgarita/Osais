@@ -25,7 +25,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import logica.utilitarios.FormatoTabla;
-import logica.utilitarios.SQLInjectionException;
+import Exceptions.SQLInjectionException;
 import logica.utilitarios.Ut;
 
 /**
@@ -1194,7 +1194,6 @@ public class AplicacionNotaCXC extends javax.swing.JFrame {
             } // Fin Bosco agregado 18/07/2011
             // Fin Bosco agregado 18/07/2011
         } catch (Exception ex) {
-            Logger.getLogger(AplicacionNotaCXC.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",

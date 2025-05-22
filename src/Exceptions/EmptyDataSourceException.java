@@ -6,9 +6,9 @@ package Exceptions;
  * Excepción controlada.
  */
 @SuppressWarnings("serial")
-public class EmptyDataSourceException extends Exception {
+public class EmptyDataSourceException extends OsaisException {
     
-    public EmptyDataSourceException(String message){
-        super(message);
+    public EmptyDataSourceException(){
+        super("Fuente de datos vacía");
     } // end constructor
 } // end NotUniqueValueException

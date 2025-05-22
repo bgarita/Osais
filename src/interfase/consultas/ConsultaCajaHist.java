@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import logica.STRcaja;
-import logica.utilitarios.SQLInjectionException;
+import Exceptions.SQLInjectionException;
 import logica.utilitarios.Ut;
 import static logica.utilitarios.Ut.setDecimalFormat;
 
@@ -48,7 +48,7 @@ public class ConsultaCajaHist extends JFrame {
     /** Creates new form Caja
      * @param c
      * @throws java.sql.SQLException
-     * @throws logica.utilitarios.SQLInjectionException
+     * @throws Exceptions.SQLInjectionException
      * @throws Exceptions.EmptyDataSourceException */
     public ConsultaCajaHist(Connection c) 
             throws SQLException, SQLInjectionException, EmptyDataSourceException {

@@ -31,7 +31,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import logica.IMantenimiento;
 import contabilidad.logica.Cuenta;
-import logica.utilitarios.SQLInjectionException;
+import Exceptions.SQLInjectionException;
 import logica.utilitarios.Ut;
 
 /**

@@ -24,7 +24,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import contabilidad.logica.Cuenta;
-import logica.utilitarios.SQLInjectionException;
+import Exceptions.SQLInjectionException;
 import logica.utilitarios.Ut;
 
 /**
@@ -52,7 +52,7 @@ public class ImpuestosV extends JFrame {
      *
      * @param c
      * @throws java.sql.SQLException
-     * @throws logica.utilitarios.SQLInjectionException
+     * @throws Exceptions.SQLInjectionException
      */
     public ImpuestosV(Connection c) throws SQLException, SQLInjectionException {
         initComponents();

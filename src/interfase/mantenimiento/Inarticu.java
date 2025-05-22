@@ -37,7 +37,7 @@ import logica.Bodexis;
 import logica.Formato;
 import logica.utilitarios.Archivos;
 import logica.utilitarios.FiltrodeArchivos;
-import logica.utilitarios.SQLInjectionException;
+import Exceptions.SQLInjectionException;
 import logica.utilitarios.Ut;
 
 /**
@@ -90,7 +90,7 @@ public class Inarticu extends JFrame {
     private boolean error;
     private String errorMsg;
 
-    private Bitacora b = new Bitacora();
+    private Bitacora log = new Bitacora();
 
     /**
      * Creates new form Inarticu
@@ -129,7 +129,7 @@ public class Inarticu extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
 
         asignarprovaut = false; // Bosco agregado 30/12/2013
@@ -149,7 +149,7 @@ public class Inarticu extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
 
         txtArtdesc.setForeground(Color.BLUE);
@@ -223,7 +223,7 @@ public class Inarticu extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
         txtArtcode.requestFocusInWindow();
     } // end constructor
@@ -1932,7 +1932,7 @@ public class Inarticu extends JFrame {
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(Inarticu.class.getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
         dispose();
 }//GEN-LAST:event_mnuSalirActionPerformed
@@ -2022,7 +2022,7 @@ public class Inarticu extends JFrame {
                     ex.getMessage(),
                     "Mensaje",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
 }//GEN-LAST:event_btnPrimeroActionPerformed
 
@@ -2045,7 +2045,7 @@ public class Inarticu extends JFrame {
                     ex.getMessage(),
                     "Mensaje",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
 }//GEN-LAST:event_btnAnteriorActionPerformed
 
@@ -2068,7 +2068,7 @@ public class Inarticu extends JFrame {
                     ex.getMessage(),
                     "Mensaje",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
 }//GEN-LAST:event_btnSiguienteActionPerformed
 
@@ -2092,7 +2092,7 @@ public class Inarticu extends JFrame {
                     ex.getMessage(),
                     "Mensaje",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
 }//GEN-LAST:event_btnUltimoActionPerformed
 
@@ -2129,7 +2129,7 @@ public class Inarticu extends JFrame {
                         + "Aunque se produjo este error el artículo si fue creado.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+                log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 // No se pone return porque aunque ocurriera un error
                 // el proceso debe continuar.
             } // end try-catch
@@ -2170,7 +2170,7 @@ public class Inarticu extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
 }//GEN-LAST:event_btnGuardarActionPerformed
@@ -2498,7 +2498,7 @@ public class Inarticu extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // try-catch
 
@@ -2674,12 +2674,11 @@ public class Inarticu extends JFrame {
                 txtArtgan5.setText("0.25");
             } // end if
         } catch (Exception ex) {
-            Logger.getLogger(Inarticu.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Mensaje",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
 
@@ -2698,17 +2697,37 @@ public class Inarticu extends JFrame {
 
     private void txtProcodeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtProcodeFocusLost
         try {
+            // Si la conexión ya está cerrada es porque este método se ejecutó
+            // después de que el usuario presionara el botón de salir.
+            if (this.conn.isClosed()) {
+                return;
+            }
+        } catch (SQLException ex) {
+            // No se gestiona el error
+        }
+        
+        try {
             this.txtProdesc.setText(this.getProveedor(this.txtProcode.getText().trim()));
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Mensaje",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     }//GEN-LAST:event_txtProcodeFocusLost
 
     private void txtArtfamFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtArtfamFocusLost
+        try {
+            // Si la conexión ya está cerrada es porque este método se ejecutó
+            // después de que el usuario presionara el botón de salir.
+            if (this.conn.isClosed()) {
+                return;
+            }
+        } catch (SQLException ex) {
+            // No se gestiona el error
+        }
+        
         try {
             this.txtFamilia.setText(getFamilia(this.txtArtfam.getText()));
         } catch (SQLException ex) {
@@ -2720,7 +2739,7 @@ public class Inarticu extends JFrame {
                 this.error = true;
                 this.errorMsg = ex.getMessage();
             }
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     }//GEN-LAST:event_txtArtfamFocusLost
 
@@ -2796,12 +2815,22 @@ public class Inarticu extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
     }//GEN-LAST:event_btnFiltroActionPerformed
 
     private void txtBarcodeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBarcodeFocusLost
+        try {
+            // Si la conexión ya está cerrada es porque este método se ejecutó
+            // después de que el usuario presionara el botón de salir.
+            if (this.conn.isClosed()) {
+                return;
+            }
+        } catch (SQLException ex) {
+            // No se gestiona el error
+        }
+
         // Hay que validar si el código de barras ya está asignado a otro producto
         // y de ser así se debe advertir al usuario.  Esto se hace con el fin de
         // evitar que los código de barra se repitan ya que podría causar algún
@@ -2813,33 +2842,30 @@ public class Inarticu extends JFrame {
 
         String sqlSent;
         ResultSet lRs;
-        PreparedStatement ps;
         sqlSent
                 = "Select count(barcode) as veces  "
                 + "from inarticu     "
                 + "Where barcode = ? "
                 + "and artcode <> ?";
-        try {
-            ps = conn.prepareStatement(sqlSent,
-                    ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        try (PreparedStatement ps = conn.prepareStatement(sqlSent,
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+
             ps.setString(1, this.txtBarcode.getText().trim());
             ps.setString(2, this.txtArtcode.getText().trim());
             lRs = CMD.select(ps);
             if (lRs != null && lRs.first() && lRs.getInt(1) > 0) {
-                JOptionPane.showMessageDialog(null,
-                        "Este código de barras ya está asignado a otro artículo.\n"
-                        + "Debe verificar cuál es y decidir cuá se va a dejar.",
+                JOptionPane.showMessageDialog(null, """
+                                                    Este c\u00f3digo de barras ya est\u00e1 asignado a otro art\u00edculo.
+                                                    Debe verificar cu\u00e1l es y decidir cu\u00e1 se va a dejar.""",
                         "Error",
                         JOptionPane.WARNING_MESSAGE);
             } // end if
-            ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(Inarticu.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     }//GEN-LAST:event_txtBarcodeFocusLost
 
@@ -2849,13 +2875,23 @@ public class Inarticu extends JFrame {
 
     private void txtCodigoTarifaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCodigoTarifaFocusLost
         try {
+            // Si la conexión ya está cerrada es porque este método se ejecutó
+            // después de que el usuario presionara el botón de salir.
+            if (this.conn.isClosed()) {
+                return;
+            }
+        } catch (SQLException ex) {
+            // No se gestiona el error
+        }
+
+        try {
             cargarTarifa();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Mensaje",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     }//GEN-LAST:event_txtCodigoTarifaFocusLost
 
@@ -2873,13 +2909,23 @@ public class Inarticu extends JFrame {
 
     private void txtCodigoCabysFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCodigoCabysFocusLost
         try {
+            // Si la conexión ya está cerrada es porque este método se ejecutó
+            // después de que el usuario presionara el botón de salir.
+            if (this.conn.isClosed()) {
+                return;
+            }
+        } catch (SQLException ex) {
+            // No se gestiona el error
+        }
+
+        try {
             cargarCabys();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Mensaje",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     }//GEN-LAST:event_txtCodigoCabysFocusLost
 
@@ -2923,7 +2969,7 @@ public class Inarticu extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
         if (sqlResult > 0) {
@@ -3340,9 +3386,9 @@ public class Inarticu extends JFrame {
             // Esto no debería suceder nunca. Lo voy a dejar por un tiempo
             // prudencial y luego lo elimino 16/08/2016
             if (!registroCargado) {
-                JOptionPane.showMessageDialog(btnGuardar,
-                        "El registro no se pudo guardar.\n"
-                        + "Atención: esto no debió suceder.",
+                JOptionPane.showMessageDialog(btnGuardar, """
+                                                          El registro no se pudo guardar.
+                                                          Atenci\u00f3n: esto no debi\u00f3 suceder.""",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return false;
@@ -3364,7 +3410,7 @@ public class Inarticu extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return false;
         } // end try-catch
 
@@ -3477,7 +3523,7 @@ public class Inarticu extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end catch
 
     } // end refrescarObjetos
@@ -3507,7 +3553,7 @@ public class Inarticu extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
         return existe;
     } // end consultarRegistro
@@ -3656,7 +3702,7 @@ public class Inarticu extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
 
         habilitarObjetos();
@@ -3831,7 +3877,7 @@ public class Inarticu extends JFrame {
 
         // Validar que el porcentaje del impuesto coincida con el del cabys
         if (this.usarCabys) {
-            double ivaA = Double.parseDouble(txtPorcentaje.getText().trim());
+            double ivaA = Double.parseDouble(txtPorcentaje.getText().trim()) / 100;
             double ivaB = Double.parseDouble(txtPorcentajeCabys.getText().trim());
             if (ivaA != ivaB) {
                 JOptionPane.showMessageDialog(null,
@@ -3879,13 +3925,23 @@ public class Inarticu extends JFrame {
 
     /**
      * Este método establece el precio y el porcentaje de utilidad. Es preciso
-     * que la configuración regional este definida como #,##0.00 es decir; coma
+     * que la configuración regional esté definida como #,##0.00 es decir; coma
      * para separar los miles y punto para los decimales.
      *
      * @param preciox Objeto de precio que será modificado
      * @param gananciax Objeto de utilidad que será modificado
      */
     private void setUtilidad(JTextField preciox, JTextField gananciax) {
+        try {
+            // Si la conexión ya está cerrada es porque este método se ejecutó
+            // después de que el usuario presionara el botón de salir.
+            if (this.conn.isClosed()) {
+                return;
+            }
+        } catch (SQLException ex) {
+            // No se gestiona el error
+        }
+
         String precioOriginal, precioSinIVA, costo;
         double utilidad;
 
@@ -3932,7 +3988,7 @@ public class Inarticu extends JFrame {
                     "[setUtilidad] " + ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
 
@@ -3994,7 +4050,7 @@ public class Inarticu extends JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
 
     } // end setPrecio
@@ -4036,7 +4092,7 @@ public class Inarticu extends JFrame {
                     ex.getMessage() + depur,
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
 
@@ -4301,7 +4357,7 @@ public class Inarticu extends JFrame {
             this.formatoUtilidad = formato.getFormatoUtilidad();
         } catch (SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
 
         if (formatoCantidad != null && !formatoCantidad.trim().isEmpty()) {

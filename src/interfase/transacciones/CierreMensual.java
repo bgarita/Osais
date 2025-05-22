@@ -7,6 +7,7 @@ package interfase.transacciones;
 
 import Mail.Bitacora;
 import accesoDatos.UtilBD;
+import interfase.menus.Menu;
 import java.awt.Cursor;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -14,7 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -40,8 +41,34 @@ public class CierreMensual extends JFrame {
     public CierreMensual(Connection c) throws SQLException {
         initComponents();
         conn = c;
-        txtAno.setText("" + GregorianCalendar.getInstance().get(Calendar.YEAR));
-
+        txtAno.setText("" + Calendar.getInstance().get(Calendar.YEAR));
+        
+        Connection tempCon = Menu.CONEXION.getConnection();
+        Map<String, Integer> periodo = UtilBD.getLastClosedPeriod(tempCon);
+        if (periodo.isEmpty()) {
+            return;
+        }
+        
+        Integer nextMonth = 0;
+        Integer year = 0;
+        // Esto solo debe traer dos entradas
+        for (Map.Entry<String, Integer> entry : periodo.entrySet()) {
+            String key = entry.getKey();
+            Integer value = entry.getValue();
+            
+            if (key.equals("month")) {
+                if (value == 12) {
+                    nextMonth = 1;
+                } else {
+                    nextMonth = value;
+                }
+            } else {
+                year = value;
+            }
+        }
+        
+        this.cboMes.setSelectedIndex(nextMonth);
+        this.txtAno.setText(year+"");
     } // end constructor
 
     public void setConexion(Connection c) {

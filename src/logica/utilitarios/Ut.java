@@ -1,5 +1,6 @@
 package logica.utilitarios;
 
+import Exceptions.SQLInjectionException;
 import Exceptions.EmptyDataSourceException;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -91,7 +92,7 @@ public class Ut {
      * @return String
      * @throws java.text.ParseException
      */
-    public static String quitarFormato(String valortexto) throws Exception {
+    public static String quitarFormato(String valortexto) throws ParseException {
         if (valortexto != null && valortexto.equals("NaN")) {
             return "0";
         }
@@ -1918,7 +1919,7 @@ public class Ut {
         } // end if
 
         if (rs == null || !rs.first()) {
-            throw new EmptyDataSourceException("Fuente de datos vacía");
+            throw new EmptyDataSourceException();
         } // end if
 
         if (replace) {
@@ -2034,7 +2035,7 @@ public class Ut {
      *
      * @param sqlSent
      * @return true=Hay inyección, false=no hay
-     * @throws logica.utilitarios.SQLInjectionException
+     * @throws SQLInjectionException
      */
     public static boolean isSQLInjection(String sqlSent) throws SQLInjectionException {
         boolean inyectado;
@@ -2045,9 +2046,7 @@ public class Ut {
         inyectado = injectionByOperator(s);
 
         if (inyectado) {
-            throw new SQLInjectionException(
-                    "Se ha detectado una posible inyección de código.\n"
-                    + "La sentencia SQL no se ejecutará.");
+            throw new SQLInjectionException();
         } // end if
 
         // También elimino todos los espacios en blanco para buscar inyección.
@@ -2081,9 +2080,7 @@ public class Ut {
                 s.contains("VERSION(") // No se permite la función VERSION()
                 ;
         if (inyectado) {
-            throw new SQLInjectionException(
-                    "Se ha detectado una posible inyección de código.\n"
-                    + "La sentencia SQL no se ejecutará.");
+            throw new SQLInjectionException();
         } // end if
         // Incorporar casos como este: ' or 1=1
         // En este caso se trata de detectar expresiones que siempre evalúen
@@ -2241,16 +2238,16 @@ public class Ut {
 
     /**
      *
-     * @param cadena String en donde se realizará la búsqueda
-     * @param subcadena String que se buscará
+     * @param buscarEn String en donde se realizará la búsqueda
+     * @param texto String que se buscará
      * @return int primera posición encontrada
      */
-    public static int AT(String cadena, String subcadena) {
-        return getPosicion(cadena, subcadena);
+    public static int AT(String buscarEn, String texto) {
+        return getPosicion(texto, buscarEn);
     } // end AT
 
-    public static int AT(String cadena, String subcadena, int ocurrencia) {
-        return getPosicion(cadena, subcadena, ocurrencia);
+    public static int AT(String buscarEn, String texto, int ocurrencia) {
+        return getPosicion(texto, buscarEn, ocurrencia);
     } // end AT
 
     public static int ATC(String cadena, String subcadena) {
@@ -3287,4 +3284,35 @@ public class Ut {
         }
         return modules.contains(module);
     } // end isModuleAvailable
+    
+    /**
+     * Este método se usa para agregar las comillas simples a los parámetros
+     * en una función SQL; no funciona con parámetros anidados, tampoco se debe
+     * usar para sentencias where directas; todo se formatea como texto porque 
+     * los motores de base de datos hacen la transformación de los datos numéricos 
+     * en forma automática.
+     * @param sqlFunction String texto sql a formatear. Ej.: call miFunc(param1,pamar2)
+     * @return 
+     */
+    public static String sqlFormat(String sqlFunction) {
+        String sqlStringFormatted;
+        int firstParenthesis = sqlFunction.indexOf("(");
+        int lastParentesis = sqlFunction.lastIndexOf(")");
+        String functionPart1 = sqlFunction.substring(0, firstParenthesis+1);
+        String functionPart2 = sqlFunction.substring(lastParentesis);
+        String parameters[] = sqlFunction.substring(firstParenthesis+1, lastParentesis).split(",");
+        
+        for (int i = 0; i < parameters.length; i++) {
+            functionPart1 += "'" + parameters[i] + "'";
+            if (i < (parameters.length-1)) {
+                functionPart1 += ", ";
+            }
+        }
+        
+        // En caso de que el desarrollador haya enviado por error una comilla simple.
+        functionPart1 = functionPart1.replace("''", "'");
+        sqlStringFormatted = functionPart1 + functionPart2;
+        
+        return sqlStringFormatted;
+    }
 } // end utlitarios

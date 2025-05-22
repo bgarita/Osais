@@ -230,7 +230,7 @@ public class RepClientes extends JFrame {
                 .addGap(4, 4, 4)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(lblArtcode7)
-                    .addComponent(txtClicode1, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
+                    .addComponent(txtClicode1)
                     .addComponent(txtClicode2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -240,8 +240,8 @@ public class RepClientes extends JFrame {
                 .addGap(4, 4, 4)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblArtcode4)
-                    .addComponent(txtVend1, javax.swing.GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE)
-                    .addComponent(txtVend2, javax.swing.GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE))
+                    .addComponent(txtVend1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, Short.MAX_VALUE)
+                    .addComponent(txtVend2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, Short.MAX_VALUE))
                 .addContainerGap(70, Short.MAX_VALUE))
         );
 
@@ -330,7 +330,7 @@ public class RepClientes extends JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(cmdCerrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(cmdImprimir))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(9, Short.MAX_VALUE))
         );
 
         jPanel5Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmdCerrar, cmdImprimir});
@@ -379,7 +379,7 @@ public class RepClientes extends JFrame {
 
         mnuArchivo.setText("Archivo");
 
-        mnuGuardar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
+        mnuGuardar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZPRINT.JPG"))); // NOI18N
         mnuGuardar.setText("Imprimir");
         mnuGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -389,7 +389,7 @@ public class RepClientes extends JFrame {
         });
         mnuArchivo.add(mnuGuardar);
 
-        mnuSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.CTRL_MASK));
+        mnuSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/control-power.png"))); // NOI18N
         mnuSalir.setText("Salir");
         mnuSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -403,7 +403,7 @@ public class RepClientes extends JFrame {
 
         mnuEdicion.setText("Edición");
 
-        mnuBuscar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
+        mnuBuscar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/binocular.png"))); // NOI18N
         mnuBuscar.setText("Buscar");
         mnuBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -442,7 +442,7 @@ public class RepClientes extends JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(27, Short.MAX_VALUE))
+                        .addContainerGap(67, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -450,7 +450,7 @@ public class RepClientes extends JFrame {
                         .addGap(4, 4, 4))))
         );
 
-        setSize(new java.awt.Dimension(366, 310));
+        setSize(new java.awt.Dimension(366, 321));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -495,8 +495,8 @@ public class RepClientes extends JFrame {
         where = "";
         if (!clicode1.isEmpty() || !clicode2.isEmpty()) {
             where = " Where ";
-            where += "clicode between " + clicode1 +
-                    " and " + clicode2;
+            where += "clicode between '" + clicode1 +
+                    "' and '" + clicode2 + "'";
         } // end if
 
         // Procesar filtro y Where para zonas
@@ -505,8 +505,8 @@ public class RepClientes extends JFrame {
             "*Todas*": "de la " + terr1 + " a la " + terr2;
         if (!terr1.isEmpty() || !terr2.isEmpty()) {
             where = where.isEmpty() ? " Where ": where + " and ";
-            where += "terr between " + terr1 +
-                    " and " + terr2;
+            where += "terr between '" + terr1 +
+                    "' and '" + terr2 + "'";
         }
 
         // Procesar filtro y Where para vendedores
@@ -515,8 +515,8 @@ public class RepClientes extends JFrame {
             "*Todos*": "del " + vend1 + " al " + vend2;
         if (!vend1.isEmpty() || !vend2.isEmpty()) {
             where = where.isEmpty() ? " Where ": where + " and ";
-            where += "vend between " + vend1 +
-                    " and " + vend2;
+            where += "vend between '" + vend1 +
+                    "' and '" + vend2 + "'";
         }
 
         // Decidir el tipo y el estado de los clientes

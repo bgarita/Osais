@@ -21,7 +21,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import logica.utilitarios.SQLInjectionException;
+import Exceptions.SQLInjectionException;
 import logica.utilitarios.Ut;
 
 /**
@@ -45,7 +45,7 @@ public class Infamily extends javax.swing.JFrame {
      * @param c
      * @throws java.sql.SQLException
      * @throws Exceptions.EmptyDataSourceException
-     * @throws logica.utilitarios.SQLInjectionException
+     * @throws Exceptions.SQLInjectionException
      */
     public Infamily(Connection c) throws SQLException, EmptyDataSourceException, SQLInjectionException {
         initComponents();

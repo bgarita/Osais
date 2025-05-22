@@ -400,11 +400,13 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         if (this.descuentos) {
             try {
                 // Cargar el monto máximo permitido para este usuario
-                maxDesc = Float.valueOf(
-                        UtilBD.getDBString(
-                                conn, "usuario", "user = GetDBUser()", "maxDesc"));
+                String max = 
+                        UtilBD.getDBString(conn, "usuario", "user = GetDBUser()", "maxDesc");
+                maxDesc = 0f;
+                if (!max.isBlank()) {
+                    maxDesc = Float.parseFloat(max);
+                }
             } catch (NotUniqueValueException ex) {
-                Logger.getLogger(RegistroFacturasV.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(null,
                         ex.getMessage(),
                         "Error",
@@ -1979,8 +1981,9 @@ public class RegistroFacturasV extends javax.swing.JFrame {
             codigoTarifa = this.lblCodigoTarifa.getText().trim();
             if (this.usarCabys && !UtilBD.validarCabys(conn, codigoTarifa, codigoCabys)) {
                 throw new Exception(
-                        "La tarifa IVA no coincide con el impuesto establecido en el CABYS.\n"
-                        + "Vaya al catálogo de productos y asegúrese que ambos valores sean iguales.");
+                        """
+                        La tarifa IVA no coincide con el impuesto establecido en el CABYS.
+                        Vaya al cat\u00e1logo de productos y aseg\u00farese que ambos valores sean iguales.""");
             } // end if
         } catch (Exception ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
