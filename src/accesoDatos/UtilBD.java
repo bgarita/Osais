@@ -61,7 +61,7 @@ public class UtilBD {
     public static final int LAST = 5;
     public static final int AFTER_LAST = 6;
     public static final int ABSOLUTE = 7;
-
+    
     /**
      * Este método verifica si el sistema está configurado para redondear
      * precios o no. (08/07/2009 - Bosco Garita)
@@ -751,9 +751,6 @@ public class UtilBD {
 
             if (rs == null || !rs.first()) {
                 corrio = false;
-            } // end if
-
-            if (!corrio) {
                 ps.close();
                 return corrio;
             } // end if
@@ -843,16 +840,16 @@ public class UtilBD {
                 corrio = false;
             } // end if
 
-            if (corrio) {
+            if (rs != null && corrio) {
                 rs.beforeFirst();
-                PreparedStatement ps1 = c.prepareCall(sqlUpdate);
-                while (rs.next()) {
-                    artcode = rs.getString("artcode");
-                    ps1.setString(1, artcode);
-                    // No se valida ningún valor de devolución, corre o no corre, eso es todo.
-                    ps1.execute();
-                } // end while
-                ps1.close();
+                try (PreparedStatement ps1 = c.prepareCall(sqlUpdate)) {
+                    while (rs.next()) {
+                        artcode = rs.getString("artcode");
+                        ps1.setString(1, artcode);
+                        // No se valida ningún valor de devolución, corre o no corre, eso es todo.
+                        ps1.execute();
+                    } // end while
+                }
             } // end (corrio)
             ps.close();
         } catch (SQLException ex) {
@@ -934,15 +931,12 @@ public class UtilBD {
         boolean success = false;
         try {
             switch (type) {
-                case START_TRANSACTION:
-                    c.setAutoCommit(false);
-                    break;
-                case COMMIT:
-                    c.setAutoCommit(true);
-                    break;
-                default:
+                case START_TRANSACTION -> c.setAutoCommit(false);
+                case COMMIT -> c.setAutoCommit(true);
+                default -> {
                     c.rollback();
                     c.setAutoCommit(true);
+                }
             } // end switch
             success = true;
         } catch (SQLException ex) {
@@ -2314,41 +2308,43 @@ public class UtilBD {
         result[0] = "N";    // No hay error
         result[1] = "";     // Mensaje de error
 
-        int lnMax_cta, // Longitud máxima de la cuenta
-                ln1, // Posición de la primera cuenta de mayor
-                ln2, // Posición de la segunda cuenta de mayor
-                ln3, // Posición de la tercera cuenta de mayor
-                x;      // Se usa para optener la posición de la cuenta
-        String lcCta, temp, lcKey;
+        int longMaxCuenta, // Longitud máxima de la cuenta
+                posNivel1, // Posición de la primera cuenta de mayor
+                posNivel2, // Posición de la segunda cuenta de mayor
+                posNivel3, // Posición de la tercera cuenta de mayor
+                posCuenta; // Se usa para optener la posición de la cuenta
+        String cuentaMayor, 
+                temp, 
+                key;
 
-        lnMax_cta = 12;
-        ln1 = 3;
-        ln2 = 6;
-        ln3 = 9;
+        longMaxCuenta = 12;
+        posNivel1 = 3;
+        posNivel2 = 6;
+        posNivel3 = 9;
 
         // Creo todas las cuentas de mayor en un solo string. (36 posiciones)
-        lcCta = cuenta.substring(0, ln1);
+        cuentaMayor = cuenta.substring(0, posNivel1);
 
         // Cuenta de mayor primer nivel
-        lcCta = Ut.rpad(lcCta, "0", lnMax_cta);
+        cuentaMayor = Ut.rpad(cuentaMayor, "0", longMaxCuenta);
 
         // Cuenta de mayor segundo nivel
-        temp = cuenta.substring(0, ln2);
-        temp = Ut.rpad(temp, "0", lnMax_cta);
-        lcCta += temp;
+        temp = cuenta.substring(0, posNivel2);
+        temp = Ut.rpad(temp, "0", longMaxCuenta);
+        cuentaMayor += temp;
 
         // Cuenta de mayor tercer nivel
-        temp = cuenta.substring(0, ln3);
-        temp = Ut.rpad(temp, "0", lnMax_cta);
-        lcCta += temp;
+        temp = cuenta.substring(0, posNivel3);
+        temp = Ut.rpad(temp, "0", longMaxCuenta);
+        cuentaMayor += temp;
 
         // Obtener la posición de la cuenta dentro todo el String
-        x = Ut.AT(lcCta, cuenta);
-        if (x > 0) {
-            lcCta = lcCta.substring(0, x);
+        posCuenta = Ut.AT(cuentaMayor, cuenta);
+        if (posCuenta > 0) {
+            cuentaMayor = cuentaMayor.substring(0, posCuenta);
         } // end if
 
-        x = 0;
+        posCuenta = 0;
         PreparedStatement ps;
         ResultSet rs;
         String mayor, sub_cta, sub_sub, colect;
@@ -2368,13 +2364,13 @@ public class UtilBD {
                     ResultSet.CONCUR_READ_ONLY);
 
             // Recorrer todo String de cuenta para ir procesando cada cuenta de mayor
-            while (x < lcCta.length()) {
+            while (posCuenta < cuentaMayor.length()) {
                 // Cuenta mayor
-                lcKey = lcCta.substring(x, (x + lnMax_cta));
-                mayor = lcKey.substring(0, ln1);
-                sub_cta = lcKey.substring(ln1, ln2);
-                sub_sub = lcKey.substring(ln2, ln3);
-                colect = lcKey.substring(ln3);
+                key = cuentaMayor.substring(posCuenta, (posCuenta + longMaxCuenta));
+                mayor = key.substring(0, posNivel1);
+                sub_cta = key.substring(posNivel1, posNivel2);
+                sub_sub = key.substring(posNivel2, posNivel3);
+                colect = key.substring(posNivel3);
 
                 // Verificar si la cuenta existe
                 ps.setString(1, mayor);
@@ -2395,7 +2391,7 @@ public class UtilBD {
 
                 rs.close();
                 // Paso a la siguiente cuenta
-                x += lnMax_cta;
+                posCuenta += longMaxCuenta;
             } // end while
 
             ps.close();

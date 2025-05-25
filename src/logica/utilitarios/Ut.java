@@ -2238,12 +2238,12 @@ public class Ut {
 
     /**
      *
-     * @param buscarEn String en donde se realizará la búsqueda
-     * @param texto String que se buscará
+     * @param buscar String que se buscará
+     * @param texto String en donde se realizará la búsqueda
      * @return int primera posición encontrada
      */
-    public static int AT(String buscarEn, String texto) {
-        return getPosicion(texto, buscarEn);
+    public static int AT(String buscar, String texto) {
+        return getPosicion(texto, buscar);
     } // end AT
 
     public static int AT(String buscarEn, String texto, int ocurrencia) {

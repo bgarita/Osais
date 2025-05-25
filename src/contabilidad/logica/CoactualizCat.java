@@ -48,9 +48,9 @@ los tres métodos pero de la siguiente forma:
     acumulados a la fecha.
  */
 /**
- * Desaplica un asiento o un grupo de asientos. Esta clase no lleva control transaccional
- * (excepto los métodos sumarizarCuentas y recalcularSaldos), debe hacerlo la rutina que
- * la invoque.
+ * Desaplica un asiento o un grupo de asientos. Esta clase no lleva control
+ * transaccional (excepto los métodos sumarizarCuentas y recalcularSaldos), debe
+ * hacerlo la rutina que la invoque.
  *
  * @author bosco, 20/07/2016
  */
@@ -70,20 +70,22 @@ public class CoactualizCat {
     } // end constructor
 
     /**
-     * Aplica o desaplica un asiento o grupo de asientos por rango de fechas. Si el número
-     * de asiento viene vacío se procesa el rango de fechas, caso contrario solo se
-     * procesa el asiento. Si aplica o desaplica solo depende del operador recibido
-     * (+=aplica,-=desaplica). Si la variable de clase mayorizar está en true entonces
-     * también realiza el proceso de mayorización.
+     * Aplica o desaplica un asiento o grupo de asientos por rango de fechas. Si
+     * el número de asiento viene vacío se procesa el rango de fechas, caso
+     * contrario solo se procesa el asiento. Si aplica o desaplica solo depende
+     * del operador recibido (+=aplica,-=desaplica). Si la variable de clase
+     * mayorizar está en true entonces también realiza el proceso de
+     * mayorización.
      *
      * @author Bosco Garita, agosto 2016.
      * @param fechaInicial Date Rango inicial
      * @param fechaFinal Date Rango final
      * @param asiento String Asiento a actualizar
      * @param tipoA short Tipo de asiento a actualizar
-     * @param operador String indica el tipo de operación a realizar. Solo acepta + o -
-     * @return boolean true = Tuvo éxito, false = no lo tuvo. Si es false debe utilizar
-     * getMensaje_err() para obtener un mensaje del error que ocurrió.
+     * @param operador String indica el tipo de operación a realizar. Solo
+     * acepta + o -
+     * @return boolean true = Tuvo éxito, false = no lo tuvo. Si es false debe
+     * utilizar getMensaje_err() para obtener un mensaje del error que ocurrió.
      */
     public boolean actualizarCuentasMov(
             Date fechaInicial, Date fechaFinal, String asiento, short tipoA, String operador) {
@@ -147,54 +149,49 @@ public class CoactualizCat {
             rs = CMD.select(ps);
 
             if (rs == null || !rs.first()) {
-                exito = false;
-                this.mensaje_err = "[ERROR] No se encontraron datos para actualizar";
+                throw new SQLException("[ERROR] No se encontraron datos para actualizar");
             } // end if
 
             // Inicia proceso de actualización del catálogo (solo cuentas de movimiento)
-            if (exito) {
+            sqlSent
+                    = "Update cocatalogo Set "
+                    + "   db_mes = db_mes " + operador + " ?, "
+                    + "   cr_mes = cr_mes " + operador + " ?, "
+                    + "   fecha_upd = now() "
+                    + "Where mayor = ? and sub_cta = ? and sub_sub = ? and colect = ?";
 
-                sqlSent
-                        = "Update cocatalogo Set "
-                        + "   db_mes = db_mes " + operador + " ?, "
-                        + "   cr_mes = cr_mes " + operador + " ?, "
-                        + "   fecha_upd = now() "
-                        + "Where mayor = ? and sub_cta = ? and sub_sub = ? and colect = ?";
+            ps2 = conn.prepareStatement(sqlSent);
 
-                ps2 = conn.prepareStatement(sqlSent);
+            String cuenta;
+            // Este rs nunca estará nulo al entrar en este if
+            rs.beforeFirst();
+            while (rs.next()) {
+                ps2.setDouble(1, rs.getDouble("debito"));
+                ps2.setDouble(2, rs.getDouble("credito"));
+                ps2.setString(3, rs.getString("mayor"));
+                ps2.setString(4, rs.getString("sub_cta"));
+                ps2.setString(5, rs.getString("sub_sub"));
+                ps2.setString(6, rs.getString("colect"));
 
-                String cuenta;
-                // Este rs nunca estará nulo al entrar en este if
-                rs.beforeFirst();
-                while (rs.next()) {
-                    ps2.setDouble(1, rs.getDouble("debito"));
-                    ps2.setDouble(2, rs.getDouble("credito"));
-                    ps2.setString(3, rs.getString("mayor"));
-                    ps2.setString(4, rs.getString("sub_cta"));
-                    ps2.setString(5, rs.getString("sub_sub"));
-                    ps2.setString(6, rs.getString("colect"));
+                CMD.update(ps2);
 
-                    CMD.update(ps2);
+                cuenta
+                        = rs.getString("mayor") + rs.getString("sub_cta")
+                        + rs.getString("sub_sub") + rs.getString("colect");
 
-                    cuenta
-                            = rs.getString("mayor") + rs.getString("sub_cta")
-                            + rs.getString("sub_sub") + rs.getString("colect");
-
-                    // Mayorización
-                    if (this.mayorizar) {
-                        exito = mayorizar(
-                                cuenta, rs.getDouble("debito"), rs.getDouble("credito"), operador, 0, 0, 0);
-                        if (!exito) {
-                            break;
-                        } // end if
+                // Mayorización
+                if (this.mayorizar) {
+                    exito = mayorizar(
+                            cuenta, rs.getDouble("debito"), rs.getDouble("credito"), operador, 0, 0, 0);
+                    if (!exito) {
+                        break;
                     } // end if
-                } // end while
-                ps2.close();
-            } // end if (exito)
-
+                } // end if
+            } // end while
+            
+            ps2.close();
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             exito = false;
             this.mensaje_err = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
@@ -204,8 +201,8 @@ public class CoactualizCat {
     } // end actualizarCuentasMov
 
     /**
-     * Este método aplica los saldos registrados en las cuentas de movimiento a las
-     * cuentas de mayor.
+     * Este método aplica los saldos registrados en las cuentas de movimiento a
+     * las cuentas de mayor.
      *
      * @param cuenta String los cuatro niveles concatenados
      * @param db_mes double débitos del mes
@@ -226,50 +223,52 @@ public class CoactualizCat {
         algún cambio en alguno de los dos también debe hacerse en el otro.
          */
         boolean exito = true; // Variable de retorno
-        int lnMax_cta, // Longitud máxima de la cuenta
-                ln1, // Posición de la primera cuenta de mayor
-                ln2, // Posición de la segunda cuenta de mayor
-                ln3, // Posición de la tercera cuenta de mayor
-                x;      // Se usa para optener la posición de la cuenta
-        String lcCta, temp, lcKey;
+        int longMaxCuenta, // Longitud máxima de la cuenta
+                posNivel1, // Posición de la primera cuenta de mayor
+                posNivel2, // Posición de la segunda cuenta de mayor
+                posNivel3, // Posición de la tercera cuenta de mayor
+                posCuenta; // Se usa para optener la posición de la cuenta
+        String cuentaMayor, // Se convierte en un string de 36 caracteres que contendrá las 3 cuentas de mayor de cada cuenta de movimientos.
+                temp,   // Variable de trabajo para obtener cada cuenta de mayor de acuerdo a su nivel.
+                key;    // Se usa como llave para actualizar el catálogo de cuentas.
 
-        lnMax_cta = 12;
-        ln1 = 3;
-        ln2 = 6;
-        ln3 = 9;
+        longMaxCuenta = 12;
+        posNivel1 = 3;
+        posNivel2 = 6;
+        posNivel3 = 9;
 
         // Creo todas las cuentas de mayor en un solo string. (36 posiciones)
-        lcCta = cuenta.substring(0, ln1);
+        cuentaMayor = cuenta.substring(0, posNivel1);
 
         // Cuenta de mayor primer nivel
-        lcCta = Ut.rpad(lcCta, "0", lnMax_cta);
+        cuentaMayor = Ut.rpad(cuentaMayor, "0", longMaxCuenta);
 
         // Cuenta de mayor segundo nivel
-        temp = cuenta.substring(0, ln2);
-        temp = Ut.rpad(temp, "0", lnMax_cta);
-        lcCta += temp;
+        temp = cuenta.substring(0, posNivel2);
+        temp = Ut.rpad(temp, "0", longMaxCuenta);
+        cuentaMayor += temp;
 
         // Cuenta de mayor tercer nivel
-        temp = cuenta.substring(0, ln3);
-        temp = Ut.rpad(temp, "0", lnMax_cta);
-        lcCta += temp;
+        temp = cuenta.substring(0, posNivel3);
+        temp = Ut.rpad(temp, "0", longMaxCuenta);
+        cuentaMayor += temp;
 
         // Obtener la posición de la cuenta dentro todo el String
-        x = Ut.AT(lcCta, cuenta);
-        if (x > 0) {
-            lcCta = lcCta.substring(0, x);
+        posCuenta = Ut.AT(cuentaMayor, cuenta); // Cambiar esto por cuentaMayor.indexOf() 25/05/2025
+        if (posCuenta > 0) {
+            cuentaMayor = cuentaMayor.substring(0, posCuenta);
         } // end if
 
         // Limpio la variable de mensajes
         this.mensaje_err = "";
 
-        x = 0;
+        posCuenta = 0;
         PreparedStatement ps, ps2;
         ResultSet rs;
         String mayor, sub_cta, sub_sub, colect;
-        String sqlSent2;
+        String sqlSelect;
 
-        String sqlSent
+        String sqlUpdate
                 = "Update cocatalogo Set    "
                 + "   ano_anter = ano_anter " + operador + " ?, "
                 + "   db_fecha  = db_fecha  " + operador + " ?, "
@@ -279,24 +278,24 @@ public class CoactualizCat {
                 + "   fecha_upd = now()     "
                 + "Where mayor  = ? and sub_cta = ? and sub_sub = ? and colect = ?";
 
-        sqlSent2
+        sqlSelect
                 = "Select nivel from cocatalogo "
                 + "where mayor = ? and sub_cta = ? and sub_sub = ? and colect = ?";
 
         try {
-            ps = conn.prepareStatement(sqlSent); // Actualiza el catálogo
+            ps = conn.prepareStatement(sqlUpdate); // Actualiza el catálogo
 
-            ps2 = conn.prepareStatement(sqlSent2,
+            ps2 = conn.prepareStatement(sqlSelect,
                     ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
             // Recorrer todo String de cuenta para ir procesando cada cuenta de mayor
-            while (x < lcCta.length()) {
+            while (posCuenta < cuentaMayor.length()) {
                 // Cuenta mayor
-                lcKey = lcCta.substring(x, (x + lnMax_cta));
-                mayor = lcKey.substring(0, ln1);
-                sub_cta = lcKey.substring(ln1, ln2);
-                sub_sub = lcKey.substring(ln2, ln3);
-                colect = lcKey.substring(ln3);
+                key = cuentaMayor.substring(posCuenta, (posCuenta + longMaxCuenta));
+                mayor = key.substring(0, posNivel1);
+                sub_cta = key.substring(posNivel1, posNivel2);
+                sub_sub = key.substring(posNivel2, posNivel3);
+                colect = key.substring(posNivel3);
 
                 // Validar el nivel de la cuenta
                 ps2.setString(1, mayor);
@@ -345,13 +344,12 @@ public class CoactualizCat {
                 CMD.update(ps);
 
                 // Paso a la siguiente cuenta
-                x += lnMax_cta;
+                posCuenta += longMaxCuenta;
             } // end while
 
             ps.close();
             ps2.close();
         } catch (SQLException ex) {
-            Logger.getLogger(CoactualizCat.class.getName()).log(Level.SEVERE, null, ex);
             exito = false;
             this.mensaje_err = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
@@ -396,10 +394,10 @@ public class CoactualizCat {
     }
 
     /**
-     * Este metodo recalcula los saldos de todas las cuentas de mayor; es decir siempre
-     * mayoriza. Pero antes de hacerlo pone todos los campos en cero incluyendo el saldo
-     * del año anterior y saldos acumulados a la fecha. Nota: si alguna cuenta está en
-     * cero no la toca.
+     * Este metodo recalcula los saldos de todas las cuentas de mayor; es decir
+     * siempre mayoriza. Pero antes de hacerlo pone todos los campos en cero
+     * incluyendo el saldo del año anterior y saldos acumulados a la fecha.
+     * Nota: si alguna cuenta está en cero no la toca.
      *
      * @return boolean true=Exito, false=Fallo
      */
@@ -489,9 +487,9 @@ public class CoactualizCat {
     }
 
     /**
-     * Este método recalcula únicamente las cuentas de movimiento tomando como parámetros
-     * las fechas del periodo en proceso. Nota: para correr este proceso no debe haber
-     * nadie en el sistema.
+     * Este método recalcula únicamente las cuentas de movimiento tomando como
+     * parámetros las fechas del periodo en proceso. Nota: para correr este
+     * proceso no debe haber nadie en el sistema.
      *
      * @return boolean true=Exito, false=Falló
      */
@@ -508,10 +506,10 @@ public class CoactualizCat {
         if (!exito) {
             return false;
         }
-        
+
         // También reviso si hay asientos descuadrados
         exito = revisarAsientosDescuadrados();
-        
+
         if (!exito) {
             return false;
         }
@@ -618,9 +616,9 @@ public class CoactualizCat {
     } // end close
 
     /**
-     * Revisa todos los asientos de los periodos en proceso para determinar si alguno está
-     * descuadrado. Si la respuesta es false, hay que revisar el mensaje de error con el
-     * método getMensaje_err() de esta misma clase.
+     * Revisa todos los asientos de los periodos en proceso para determinar si
+     * alguno está descuadrado. Si la respuesta es false, hay que revisar el
+     * mensaje de error con el método getMensaje_err() de esta misma clase.
      *
      * @return false=Existen asientos descuadrados, true=Todo está bien
      */
