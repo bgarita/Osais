@@ -21,7 +21,6 @@ import java.sql.*;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -107,7 +106,7 @@ public class RegistroOrdenCompra extends javax.swing.JFrame {
         stat = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY);
 
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         datMovfech.setDate(cal.getTime());
         txtMovcant.setText("0.00");
         txtMovcoun.setText("0.00");

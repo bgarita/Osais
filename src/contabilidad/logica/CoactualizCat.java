@@ -10,10 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import logica.utilitarios.Ut;
 
 /*
 Esta clase provee dos métodos que garantizan la integridad de los saldos para
@@ -95,7 +93,7 @@ public class CoactualizCat {
         ResultSet rs;
         java.sql.Date fecha1;
         java.sql.Timestamp fecha2;
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
 
         // Validación del operador
         if ((!operador.contains("+") && !operador.contains("-")) || operador.isEmpty() || operador.length() > 1) {
@@ -223,41 +221,12 @@ public class CoactualizCat {
         algún cambio en alguno de los dos también debe hacerse en el otro.
          */
         boolean exito = true; // Variable de retorno
-        int longMaxCuenta, // Longitud máxima de la cuenta
-                posNivel1, // Posición de la primera cuenta de mayor
-                posNivel2, // Posición de la segunda cuenta de mayor
-                posNivel3, // Posición de la tercera cuenta de mayor
-                posCuenta; // Se usa para optener la posición de la cuenta
+        int posCuenta;      // Se usa para optener la posición de la cuenta
         String cuentaMayor, // Se convierte en un string de 36 caracteres que contendrá las 3 cuentas de mayor de cada cuenta de movimientos.
-                temp,   // Variable de trabajo para obtener cada cuenta de mayor de acuerdo a su nivel.
-                key;    // Se usa como llave para actualizar el catálogo de cuentas.
-
-        longMaxCuenta = 12;
-        posNivel1 = 3;
-        posNivel2 = 6;
-        posNivel3 = 9;
+                key;        // Se usa como llave para actualizar el catálogo de cuentas.
 
         // Creo todas las cuentas de mayor en un solo string. (36 posiciones)
-        cuentaMayor = cuenta.substring(0, posNivel1);
-
-        // Cuenta de mayor primer nivel
-        cuentaMayor = Ut.rpad(cuentaMayor, "0", longMaxCuenta);
-
-        // Cuenta de mayor segundo nivel
-        temp = cuenta.substring(0, posNivel2);
-        temp = Ut.rpad(temp, "0", longMaxCuenta);
-        cuentaMayor += temp;
-
-        // Cuenta de mayor tercer nivel
-        temp = cuenta.substring(0, posNivel3);
-        temp = Ut.rpad(temp, "0", longMaxCuenta);
-        cuentaMayor += temp;
-
-        // Obtener la posición de la cuenta dentro todo el String
-        posCuenta = Ut.AT(cuentaMayor, cuenta); // Cambiar esto por cuentaMayor.indexOf() 25/05/2025
-        if (posCuenta > 0) {
-            cuentaMayor = cuentaMayor.substring(0, posCuenta);
-        } // end if
+        cuentaMayor = Mayores.getMayores(cuenta);
 
         // Limpio la variable de mensajes
         this.mensaje_err = "";
@@ -291,11 +260,11 @@ public class CoactualizCat {
             // Recorrer todo String de cuenta para ir procesando cada cuenta de mayor
             while (posCuenta < cuentaMayor.length()) {
                 // Cuenta mayor
-                key = cuentaMayor.substring(posCuenta, (posCuenta + longMaxCuenta));
-                mayor = key.substring(0, posNivel1);
-                sub_cta = key.substring(posNivel1, posNivel2);
-                sub_sub = key.substring(posNivel2, posNivel3);
-                colect = key.substring(posNivel3);
+                key = cuentaMayor.substring(posCuenta, (posCuenta + Mayores.LONGITUD_MAXIMA));
+                mayor = key.substring(0, Mayores.POSICION_PRIMER_NIVEL);
+                sub_cta = key.substring(Mayores.POSICION_PRIMER_NIVEL, Mayores.POSICION_SEGUNDO_NIVEL);
+                sub_sub = key.substring(Mayores.POSICION_SEGUNDO_NIVEL, Mayores.POSICION_TERCER_NIVEL);
+                colect = key.substring(Mayores.POSICION_TERCER_NIVEL);
 
                 // Validar el nivel de la cuenta
                 ps2.setString(1, mayor);
@@ -344,7 +313,7 @@ public class CoactualizCat {
                 CMD.update(ps);
 
                 // Paso a la siguiente cuenta
-                posCuenta += longMaxCuenta;
+                posCuenta += Mayores.LONGITUD_MAXIMA;
             } // end while
 
             ps.close();
@@ -377,7 +346,7 @@ public class CoactualizCat {
                 String[] result = UtilBD.validarEstructuraLogica(conn, rs.getString(1));
                 if (result[0].equals("S")) {
                     rs.close();
-                    throw new Exception(result[0]);
+                    throw new Exception(result[1]);
                 }
             }
             rs.close();
@@ -495,7 +464,7 @@ public class CoactualizCat {
      */
     public boolean recalcularSaldos() {
         boolean exito;
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         java.sql.Date fecha1;
         java.sql.Timestamp fecha2;
         PreparedStatement ps1, ps2;

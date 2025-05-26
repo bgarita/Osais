@@ -16,7 +16,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -60,7 +59,7 @@ public class AplicacionAjustesInv extends JFrame {
         // Parámetros: combo, ResultSet, columna, reemplazar
         Ut.fillComboBox(cboBodegas, rs, 2, false);
         inicio = false;
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         DatMovfech.setDate(cal.getTime());
 
         cboBodegasActionPerformed(null);
@@ -277,7 +276,7 @@ public class AplicacionAjustesInv extends JFrame {
         }
         
         // Se sugiere este número de documento
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.setTime(DatMovfech.getDate());
         int dia = cal.get(Calendar.DAY_OF_MONTH);
         int mes = cal.get(Calendar.MONTH) + 1;

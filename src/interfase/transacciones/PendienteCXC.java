@@ -13,7 +13,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -1242,7 +1241,7 @@ public class PendienteCXC extends javax.swing.JFrame {
         tran.setTipodoc(tipomov.equals("R") ? "FAC":"REC");
         tran.setTipomov(tipomov);
         
-        cal = GregorianCalendar.getInstance();
+        cal = Calendar.getInstance();
         
         tran.setFecha(new java.sql.Date(cal.getTimeInMillis())); 
         tran.setCedula(cliente);

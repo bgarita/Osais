@@ -10,7 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -941,7 +940,7 @@ public class Cacaja implements IEstructuraBD {
 
             // También es necesario establecer la fecha de hoy como la fecha
             // de inicio de proceso.
-            Calendar cal = GregorianCalendar.getInstance();
+            Calendar cal = Calendar.getInstance();
             this.fechaInicio = new Date(cal.getTimeInMillis());
 
             String sqlSent

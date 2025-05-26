@@ -15,7 +15,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -61,9 +60,9 @@ public class RepBalanceSituacion extends JFrame {
         btnImprimir = new javax.swing.JButton();
         btnCerrar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        cboMes = new javax.swing.JComboBox<>();
+        cboMonth = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
-        txtAno = new javax.swing.JFormattedTextField();
+        txtYear = new javax.swing.JFormattedTextField();
         jLabel3 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         radN4 = new javax.swing.JRadioButton();
@@ -121,26 +120,26 @@ public class RepBalanceSituacion extends JFrame {
         jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel1.setText("Mes a procesar");
 
-        cboMes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
+        cboMonth.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
 
         jLabel2.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel2.setText("Año");
 
-        txtAno.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        txtAno.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txtAno.setText("0");
-        txtAno.setToolTipText("0=Periodo actual");
-        txtAno.addFocusListener(new java.awt.event.FocusAdapter() {
+        txtYear.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        txtYear.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtYear.setText("0");
+        txtYear.setToolTipText("0=Periodo actual");
+        txtYear.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                txtAnoFocusGained(evt);
+                txtYearFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                txtAnoFocusLost(evt);
+                txtYearFocusLost(evt);
             }
         });
-        txtAno.addActionListener(new java.awt.event.ActionListener() {
+        txtYear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtAnoActionPerformed(evt);
+                txtYearActionPerformed(evt);
             }
         });
 
@@ -194,7 +193,7 @@ public class RepBalanceSituacion extends JFrame {
 
         mnuArchivo.setText("Archivo");
 
-        mnuGuardar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
+        mnuGuardar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZPRINT.JPG"))); // NOI18N
         mnuGuardar.setText("Imprimir");
         mnuGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -204,7 +203,7 @@ public class RepBalanceSituacion extends JFrame {
         });
         mnuArchivo.add(mnuGuardar);
 
-        mnuSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.CTRL_MASK));
+        mnuSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/control-power.png"))); // NOI18N
         mnuSalir.setText("Salir");
         mnuSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -234,11 +233,11 @@ public class RepBalanceSituacion extends JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(cboMes, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cboMonth, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addGap(4, 4, 4)
-                                .addComponent(txtAno, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtYear, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(33, 33, 33)
                                 .addComponent(jLabel3)))
@@ -252,11 +251,11 @@ public class RepBalanceSituacion extends JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cboMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cboMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(txtAno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(7, 7, 7)
                         .addComponent(jLabel3))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -311,8 +310,8 @@ public class RepBalanceSituacion extends JFrame {
         } // end if-else
         
         // Elegir la tabla.
-        tabla = txtAno.getText().trim().equals("0") ? "cocatalogo":"hcocatalogo";
-        boolean hist = !txtAno.getText().trim().equals("0");
+        tabla = txtYear.getText().trim().equals("0") ? "cocatalogo":"hcocatalogo";
+        boolean hist = !txtYear.getText().trim().equals("0");
         
         // Enviar los datos a una tabla temporal para luego proceder a realizar
         // cambios según corresponda para emitir el informe.
@@ -342,15 +341,15 @@ public class RepBalanceSituacion extends JFrame {
             where += " and nivelc <= " + nivelc + " and nivel = 0 ";
         } // end if
         
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.set(Calendar.DAY_OF_MONTH, 1);
-        cal.set(Calendar.MONTH, this.cboMes.getSelectedIndex());
-        cal.set(Calendar.YEAR, Integer.parseInt(this.txtAno.getText().trim()));
+        cal.set(Calendar.MONTH, this.cboMonth.getSelectedIndex());
+        cal.set(Calendar.YEAR, Integer.parseInt(this.txtYear.getText().trim()));
         int dia = Ut.lastDay(cal.getTime());
         cal.set(Calendar.DAY_OF_MONTH, dia);
         java.sql.Date fecha_cierre = new java.sql.Date(cal.getTimeInMillis());
         
-        if (!txtAno.getText().trim().equals("0")){
+        if (!txtYear.getText().trim().equals("0")){
             where += " and fecha_cierre = ? ";
         }
         
@@ -382,7 +381,7 @@ public class RepBalanceSituacion extends JFrame {
         PreparedStatement ps;
         try {
             ps = conn.prepareStatement(sqlSent);
-            if (!txtAno.getText().trim().equals("0")){
+            if (!txtYear.getText().trim().equals("0")){
                 ps.setDate(1, fecha_cierre);
             }
             CMD.update(ps);
@@ -492,12 +491,12 @@ public class RepBalanceSituacion extends JFrame {
             return;
         } // end try-catch
         
-        String per = this.cboMes.getSelectedItem().toString();
-        String año = txtAno.getText().trim();
-        if (txtAno.getText().trim().equals("0")){
-            año = GregorianCalendar.getInstance().get(Calendar.YEAR) + "";
+        String per = this.cboMonth.getSelectedItem().toString();
+        String year = txtYear.getText().trim();
+        if (txtYear.getText().trim().equals("0")){
+            year = Calendar.getInstance().get(Calendar.YEAR) + "";
         } // end if
-        per += ", " + año;
+        per += ", " + year;
         
         String query = "Select * from balancesit order by orden, mayor, nivelc";
         /*
@@ -540,18 +539,18 @@ public class RepBalanceSituacion extends JFrame {
         btnImprimirActionPerformed(evt);
     }//GEN-LAST:event_mnuGuardarActionPerformed
 
-    private void txtAnoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtAnoFocusGained
-        txtAno.selectAll();
-    }//GEN-LAST:event_txtAnoFocusGained
+    private void txtYearFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtYearFocusGained
+        txtYear.selectAll();
+    }//GEN-LAST:event_txtYearFocusGained
 
-    private void txtAnoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtAnoFocusLost
+    private void txtYearFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtYearFocusLost
         // Validar si el período solicitado existe o no
         validarPer();
-    }//GEN-LAST:event_txtAnoFocusLost
+    }//GEN-LAST:event_txtYearFocusLost
 
-    private void txtAnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAnoActionPerformed
-        txtAno.transferFocus();
-    }//GEN-LAST:event_txtAnoActionPerformed
+    private void txtYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtYearActionPerformed
+        txtYear.transferFocus();
+    }//GEN-LAST:event_txtYearActionPerformed
 
 
     /**
@@ -573,7 +572,7 @@ public class RepBalanceSituacion extends JFrame {
     private javax.swing.JButton btnCerrar;
     private javax.swing.JButton btnImprimir;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JComboBox<String> cboMes;
+    private javax.swing.JComboBox<String> cboMonth;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -587,12 +586,12 @@ public class RepBalanceSituacion extends JFrame {
     private javax.swing.JRadioButton radN2;
     private javax.swing.JRadioButton radN3;
     private javax.swing.JRadioButton radN4;
-    private javax.swing.JFormattedTextField txtAno;
+    private javax.swing.JFormattedTextField txtYear;
     // End of variables declaration//GEN-END:variables
 
     private void setCurrentPeriod() {
         PeriodoContable per = new PeriodoContable(conn);
-        this.cboMes.setSelectedIndex(per.getMes()-1);
+        this.cboMonth.setSelectedIndex(per.getMes()-1);
     } // end setCurrentPeriod
 
     
@@ -600,15 +599,15 @@ public class RepBalanceSituacion extends JFrame {
         boolean correcto = true;
         // Si el año seleccionado es cero quiere decir que el usuario desea
         // ver el periodo en proceso.
-        if (txtAno.getText().trim().equals("0")){
+        if (txtYear.getText().trim().equals("0")){
             PeriodoContable per = new PeriodoContable(conn);
-            if (this.cboMes.getSelectedIndex() != (per.getMes()-1)){
+            if (this.cboMonth.getSelectedIndex() != (per.getMes()-1)){
                 JOptionPane.showMessageDialog(null, 
                         "El período en proceso es " + per.getMesLetras() +
-                        ", no " + this.cboMes.getSelectedItem() + ".",
+                        ", no " + this.cboMonth.getSelectedItem() + ".",
                         "Validación",
                         JOptionPane.ERROR_MESSAGE);
-                this.cboMes.requestFocusInWindow();
+                this.cboMonth.requestFocusInWindow();
                 correcto = false;
             } // end if
             
@@ -624,10 +623,10 @@ public class RepBalanceSituacion extends JFrame {
         
         // Si el usuario eligió un año distinto de cero habrá que revisar el
         // histórico para verificar si el período solicitado existe.
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.set(Calendar.DAY_OF_MONTH, 1);
-        cal.set(Calendar.MONTH, this.cboMes.getSelectedIndex());
-        cal.set(Calendar.YEAR, Integer.parseInt(this.txtAno.getText().trim()));
+        cal.set(Calendar.MONTH, this.cboMonth.getSelectedIndex());
+        cal.set(Calendar.YEAR, Integer.parseInt(this.txtYear.getText().trim()));
         int dia = Ut.lastDay(cal.getTime());
         cal.set(Calendar.DAY_OF_MONTH, dia);
         java.sql.Date fecha_cierre = new java.sql.Date(cal.getTimeInMillis());

@@ -9,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
 import logica.utilitarios.Ut;
 
@@ -793,7 +792,7 @@ public class ConsultaMovCierre extends javax.swing.JFrame {
         Date d = Ut.ctod(firstDay + "/" + month + "/" + year);
         this.fechaIn = new Timestamp(d.getTime());
         d = Ut.lastDate(d);
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.setTime(d);
         cal.set(Calendar.HOUR_OF_DAY, 23);
         cal.set(Calendar.MINUTE, 59);

@@ -6,7 +6,6 @@
 package testing;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import logica.utilitarios.Ut;
 
 /**
@@ -19,8 +18,8 @@ public class testtimeDiff {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Calendar cal = GregorianCalendar.getInstance();
-        Calendar cal2 = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
         long hora = 1000*60*60;
         int minuto = 1000*60;
         short segundo = 1000;
@@ -40,8 +39,8 @@ public class testtimeDiff {
         System.out.println("Segundos: " + dif[0][2]);
         System.out.println("Milisegundos: " + dif[0][3]);
         
-        cal2 = GregorianCalendar.getInstance();
-        cal = GregorianCalendar.getInstance();
+        cal2 = Calendar.getInstance();
+        cal = Calendar.getInstance();
         cal.add(Calendar.MONTH, -5);
         System.out.print("La diferencia en meses entre " 
                 + cal.getTime() + " y " + cal2.getTime() + " es: ");

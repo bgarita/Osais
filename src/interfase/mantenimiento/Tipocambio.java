@@ -17,7 +17,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -495,7 +494,7 @@ public class Tipocambio extends JFrame {
             return;
         } // end if
         // Fecha actual con formato local
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         this.DatFecha.setDate(cal.getTime());
         ubicarCodigo();
         refrescartxtTipoca();

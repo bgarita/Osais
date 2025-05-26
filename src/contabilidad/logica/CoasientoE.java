@@ -8,7 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import logica.utilitarios.Ut;
@@ -143,7 +142,7 @@ public class CoasientoE {
         } // end if
 
         int mes, año;
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
 
         cal.setTime(fecha_comp);
         mes = this.cierreAnual ? 13 : cal.get(Calendar.MONTH) + 1;

@@ -21,7 +21,6 @@ import java.awt.event.WindowEvent;
 import java.sql.*;
 import java.text.DateFormat;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -60,7 +59,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
     private String codigoTC;        // Código del tipo de cambio
     private boolean inicio = true;  // Se usa para evitar que corran agunos eventos
     private boolean fin = false;    // Se usa para evitar que corran agunos eventos
-    private Calendar fechaA = GregorianCalendar.getInstance();
+    private Calendar fechaA = Calendar.getInstance();
     private boolean validarCliprec = true;
     private JTextArea fatext = new JTextArea("");  // Texto para la NC
     private boolean procesar = true;   // Se usa para validar si se puede o no procesar
@@ -3257,7 +3256,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         facfech = Ut.fechaSQL(this.datFacfech.getDate());
         facplazo = "1";
 
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.setTime(this.datFacfech.getDate());
         cal.add(Calendar.DAY_OF_YEAR, Integer.parseInt(facplazo));
 
@@ -4186,7 +4185,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         tran.setTipodoc("NDC");
         tran.setTipomov("R");
 
-        cal = GregorianCalendar.getInstance();
+        cal = Calendar.getInstance();
 
         tran.setFecha(new Date(cal.getTimeInMillis()));
         tran.setCedula(this.txtClicode.getText());

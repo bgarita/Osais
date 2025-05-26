@@ -8,7 +8,6 @@ package testing;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import logica.utilitarios.Ut;
 
 /**
@@ -32,7 +31,7 @@ public class Fechas {
      */
     public static void main(String[] args) {
         System.out.println(getHoraActual());
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.set(Calendar.MONTH, 1);
         cal.set(Calendar.YEAR, 2012);
         

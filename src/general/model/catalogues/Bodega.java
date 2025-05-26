@@ -2,7 +2,6 @@ package general.model.catalogues;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 /**
  *
@@ -16,7 +15,7 @@ public class Bodega {
     public Bodega(){
         this.bodega = "";
         this.descrip = "";
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         this.cerrada = new Timestamp(cal.getTimeInMillis());
     }
 

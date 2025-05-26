@@ -17,7 +17,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -446,7 +445,7 @@ public class RepEstadoResultados extends javax.swing.JFrame {
 
         // Si el usuario eligió un año distinto de cero habrá que revisar el
         // histórico para verificar si el período solicitado existe.
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.set(Calendar.DAY_OF_MONTH, 1);
         cal.set(Calendar.MONTH, this.cboMes.getSelectedIndex());
         cal.set(Calendar.YEAR, Integer.parseInt(this.txtAno.getText().trim()));

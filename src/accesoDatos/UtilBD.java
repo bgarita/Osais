@@ -16,7 +16,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -26,6 +25,7 @@ import javax.swing.table.DefaultTableModel;
 import logica.Column;
 import contabilidad.logica.Coperiodoco;
 import contabilidad.logica.Cuenta;
+import contabilidad.logica.Mayores;
 import contabilidad.model.PeriodoContable;
 import java.util.HashMap;
 import java.util.Map;
@@ -181,7 +181,7 @@ public class UtilBD {
     public static float tipoCambioDolar(Connection c)
             throws CurrencyExchangeException, SQLException {
         float tc;
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
 
         // Select para cargar el código de moneda del dolar.
         String sqlSent = "Select codigoDolar from config";
@@ -1469,7 +1469,7 @@ public class UtilBD {
         ResultSet rs;
 
         // Establezco una fecha para determinar si existe un período ya cerrado.
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(fecha.getTime());
         cal.set(Calendar.DAY_OF_MONTH, 1);
         cal.add(Calendar.DAY_OF_MONTH, -1);
@@ -1666,8 +1666,8 @@ public class UtilBD {
                 + "WHERE e.fecha_comp BETWEEN ? AND ? "
                 + "GROUP BY 1";
         PeriodoContable per = new PeriodoContable(conn);
-        Calendar fecha1 = GregorianCalendar.getInstance();
-        Calendar fecha2 = GregorianCalendar.getInstance();
+        Calendar fecha1 = Calendar.getInstance();
+        Calendar fecha2 = Calendar.getInstance();
 
         fecha1.setTime(per.getFecha_in());
         fecha2.setTime(per.getFecha_fi());
@@ -1740,8 +1740,8 @@ public class UtilBD {
                 + "	FROM coasientoe e "
                 + "	WHERE e.fecha_comp BETWEEN ? AND ?";
         PeriodoContable per = new PeriodoContable(conn);
-        Calendar fecha1 = GregorianCalendar.getInstance();
-        Calendar fecha2 = GregorianCalendar.getInstance();
+        Calendar fecha1 = Calendar.getInstance();
+        Calendar fecha2 = Calendar.getInstance();
 
         fecha1.setTime(per.getFecha_in());
         fecha2.setTime(per.getFecha_fi());
@@ -2049,7 +2049,7 @@ public class UtilBD {
      */
     public static boolean CGfechaValida(Connection conn, Date fecha) throws SQLException {
         boolean valida = false;
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.setTime(fecha);
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH) + 1;
@@ -2308,41 +2308,15 @@ public class UtilBD {
         result[0] = "N";    // No hay error
         result[1] = "";     // Mensaje de error
 
-        int longMaxCuenta, // Longitud máxima de la cuenta
-                posNivel1, // Posición de la primera cuenta de mayor
-                posNivel2, // Posición de la segunda cuenta de mayor
-                posNivel3, // Posición de la tercera cuenta de mayor
-                posCuenta; // Se usa para optener la posición de la cuenta
+        int posCuenta; // Se usa para optener la posición de la cuenta
         String cuentaMayor, 
-                temp, 
                 key;
 
-        longMaxCuenta = 12;
-        posNivel1 = 3;
-        posNivel2 = 6;
-        posNivel3 = 9;
-
+        if (cuenta.equals("120002001000")) {
+            System.out.println("Revisando...");
+        }
         // Creo todas las cuentas de mayor en un solo string. (36 posiciones)
-        cuentaMayor = cuenta.substring(0, posNivel1);
-
-        // Cuenta de mayor primer nivel
-        cuentaMayor = Ut.rpad(cuentaMayor, "0", longMaxCuenta);
-
-        // Cuenta de mayor segundo nivel
-        temp = cuenta.substring(0, posNivel2);
-        temp = Ut.rpad(temp, "0", longMaxCuenta);
-        cuentaMayor += temp;
-
-        // Cuenta de mayor tercer nivel
-        temp = cuenta.substring(0, posNivel3);
-        temp = Ut.rpad(temp, "0", longMaxCuenta);
-        cuentaMayor += temp;
-
-        // Obtener la posición de la cuenta dentro todo el String
-        posCuenta = Ut.AT(cuentaMayor, cuenta);
-        if (posCuenta > 0) {
-            cuentaMayor = cuentaMayor.substring(0, posCuenta);
-        } // end if
+        cuentaMayor = Mayores.getMayores(cuenta);
 
         posCuenta = 0;
         PreparedStatement ps;
@@ -2366,11 +2340,11 @@ public class UtilBD {
             // Recorrer todo String de cuenta para ir procesando cada cuenta de mayor
             while (posCuenta < cuentaMayor.length()) {
                 // Cuenta mayor
-                key = cuentaMayor.substring(posCuenta, (posCuenta + longMaxCuenta));
-                mayor = key.substring(0, posNivel1);
-                sub_cta = key.substring(posNivel1, posNivel2);
-                sub_sub = key.substring(posNivel2, posNivel3);
-                colect = key.substring(posNivel3);
+                key = cuentaMayor.substring(posCuenta, (posCuenta + Mayores.LONGITUD_MAXIMA));
+                mayor = key.substring(0, Mayores.POSICION_PRIMER_NIVEL);
+                sub_cta = key.substring(Mayores.POSICION_PRIMER_NIVEL, Mayores.POSICION_SEGUNDO_NIVEL);
+                sub_sub = key.substring(Mayores.POSICION_SEGUNDO_NIVEL, Mayores.POSICION_TERCER_NIVEL);
+                colect = key.substring(Mayores.POSICION_TERCER_NIVEL);
 
                 // Verificar si la cuenta existe
                 ps.setString(1, mayor);
@@ -2391,7 +2365,7 @@ public class UtilBD {
 
                 rs.close();
                 // Paso a la siguiente cuenta
-                posCuenta += longMaxCuenta;
+                posCuenta += Mayores.LONGITUD_MAXIMA;
             } // end while
 
             ps.close();

@@ -9,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import logica.IEstructuraBD;
@@ -315,7 +314,7 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
             sqlSent += " and year(fecha_cierre) = " + this.perA + " and month(fecha_cierre) = " + this.perM;
         } // end if
 
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.set(1900, 00, 01);
         try {
             try (PreparedStatement ps = conn.prepareStatement(sqlSent,
@@ -871,7 +870,7 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
 
     @Override
     public void setDefaultValues() {
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.set(1900, 00, 01);
         setNom_cta("");
         this.tipo_cta  = 1; // Cuenta de activo

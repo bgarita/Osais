@@ -21,7 +21,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.*;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -87,7 +86,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
         nav = new Navegador();
         nav.setConexion(conn);
 
-        datFecha_fac.setDate(GregorianCalendar.getInstance().getTime());
+        datFecha_fac.setDate(Calendar.getInstance().getTime());
 
         // Cargo el combo de las monedas
         cargarComboMonedas();
@@ -959,7 +958,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
 
         fecha_fac = new Timestamp(datFecha_fac.getCalendar().getTimeInMillis());
 
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(datFecha_fac.getCalendar().getTimeInMillis());
         cal.add(Calendar.DAY_OF_MONTH, vence_en);
         fecha_pag = new Timestamp(cal.getTimeInMillis());
@@ -1281,13 +1280,13 @@ public class RegistroFacturasC extends javax.swing.JFrame {
         String facfech = Ut.fechaSQL(datFecha_fac.getDate());
         try {
             if (!UtilBD.isValidDate(conn, facfech)) {
-                JOptionPane.showMessageDialog(null,
-                        "No puede utilizar esta fecha.  "
-                        + "\nCorresponde a un período ya cerrado.",
+                JOptionPane.showMessageDialog(null, """
+                                                    No puede utilizar esta fecha.  
+                                                    Corresponde a un per\u00edodo ya cerrado.""",
                         "Validar fecha..",
                         JOptionPane.ERROR_MESSAGE);
                 btnGuardar.setEnabled(false);
-                datFecha_fac.setDate(GregorianCalendar.getInstance().getTime());
+                datFecha_fac.setDate(Calendar.getInstance().getTime());
             } // end if
         } catch (SQLException ex) {
             Logger.getLogger(RegistroFacturasC.class.getName()).log(Level.SEVERE, null, ex);
@@ -2279,7 +2278,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
             tran.setTipomov("D");
         } // end if
 
-        cal = GregorianCalendar.getInstance();
+        cal = Calendar.getInstance();
 
         tran.setFecha(new Date(cal.getTimeInMillis()));
         tran.setCedula(this.txtProcode.getText());

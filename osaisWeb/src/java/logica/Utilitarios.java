@@ -5,7 +5,6 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 /**
  *
@@ -65,7 +64,7 @@ public class Utilitarios {
      * @return String con el formato "dd/mm/aaaa"
      */
     public static String dtoc(Date Dfecha){
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
 
         if (Dfecha == null)
             return "  /  /    ";
@@ -181,7 +180,7 @@ public class Utilitarios {
      * @return Fecha sql 'aaaa-mm-dd'
      */
     public static String fechaSQL(Date Dfecha){
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
 
         if (Dfecha == null)
             return "null";

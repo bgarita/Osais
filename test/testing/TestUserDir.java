@@ -3,7 +3,7 @@ package testing;
 import Mail.Bitacora;
 import Mail.Correo;
 import Mail.MailSender;
-import java.util.GregorianCalendar;
+import java.util.Calendar;
 
 /**
  *
@@ -28,7 +28,7 @@ public class TestUserDir {
         if (Correo.malformado(destinatario)) {
             b.logMail(
                     "\nCorreo mal formado " + destinatario + ". no fue enviado. "
-                    + GregorianCalendar.getInstance().getTime(), nIdenvio);
+                    + Calendar.getInstance().getTime(), nIdenvio);
             return;
         } // end if
         // Capturo los errores propios del envío y los guardo en la bitácora.

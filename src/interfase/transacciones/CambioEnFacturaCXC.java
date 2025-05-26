@@ -22,7 +22,6 @@ import java.sql.Statement;
 import java.sql.Types;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -46,7 +45,7 @@ public class CambioEnFacturaCXC extends JFrame {
     private ResultSet  rs;
     private final Statement  stat;
     private Connection conn   = null;
-    private final Calendar   fechaA = GregorianCalendar.getInstance();
+    private final Calendar   fechaA = Calendar.getInstance();
     private boolean    inicio = true;
     private int facplazo      = 0;
 

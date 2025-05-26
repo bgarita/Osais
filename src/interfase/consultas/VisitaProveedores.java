@@ -9,7 +9,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -205,7 +204,7 @@ public class VisitaProveedores extends javax.swing.JFrame {
                 "Where Exists(Select dia from prodiavisita " +
                 "               Where procode = inproved.procode " +
                 "               and dia = ?)";
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         String hoy = Ut.hoy(cal.getTime());
         PreparedStatement ps;
         ResultSet rs;

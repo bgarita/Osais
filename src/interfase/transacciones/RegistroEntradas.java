@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.sql.*;
 import java.text.ParseException;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -106,7 +105,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
         stat = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY);
 
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         DatMovfech.setDate(cal.getTime());
 
         // Cargo el combo de las monedas
@@ -3478,7 +3477,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
         // Valido la fecha de vencimiento
         if (todoCorrecto && DatFechaven.getDate() != null) {
             Long fecha1 = DatFechaven.getCalendar().getTimeInMillis();
-            Long fecha2 = GregorianCalendar.getInstance().getTimeInMillis();
+            Long fecha2 = Calendar.getInstance().getTimeInMillis();
 
             if (Ut.getDays(fecha1, fecha2) > 0) {
                 mensajeError = "La fecha de vencimiento no puede ser inferior a hoy.";

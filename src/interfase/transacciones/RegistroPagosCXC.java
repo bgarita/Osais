@@ -35,7 +35,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -67,7 +66,7 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
     private String     codigoTC;        // Código del tipo de cambio
     private boolean    inicio = true;   // Se usa para evitar que corran agunos eventos
     private boolean    fin = false;     // Se usa para evitar que corran agunos eventos
-    private Calendar   fechaA = GregorianCalendar.getInstance();
+    private Calendar   fechaA = Calendar.getInstance();
     private boolean fechaCorrecta = false;
     private final Bitacora b = new Bitacora();
 
@@ -2329,7 +2328,7 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
         tran.setTipodoc("REC");
         tran.setTipomov("D");
         
-        cal = GregorianCalendar.getInstance();
+        cal = Calendar.getInstance();
         
         tran.setFecha(new Date(cal.getTimeInMillis())); 
         tran.setCedula(this.txtClicode.getText());

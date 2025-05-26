@@ -17,7 +17,6 @@ import java.awt.event.WindowEvent;
 import java.sql.*;
 import java.text.ParseException;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -82,7 +81,6 @@ public class RegistroIntercodigo extends javax.swing.JFrame {
             formato.formatColumn(tblDetalle, 4, FormatoTabla.H_RIGHT, Color.BLUE);
             formato.formatColumn(tblDetalle, 5, FormatoTabla.H_RIGHT, Color.BLUE);
         } catch (Exception ex) {
-            Logger.getLogger(RegistroIntercodigo.class.getName()).log(Level.SEVERE, null, ex);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
 
@@ -92,7 +90,7 @@ public class RegistroIntercodigo extends javax.swing.JFrame {
         stat = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY);
 
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         DatMovfech.setDate(cal.getTime());
         txtMovcantO.setText("0.00");
         txtMovcounO.setText("0.00");

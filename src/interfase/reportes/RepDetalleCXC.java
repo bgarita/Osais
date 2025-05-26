@@ -10,7 +10,6 @@ import accesoDatos.UtilBD;
 import java.sql.Connection;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -33,7 +32,7 @@ public class RepDetalleCXC extends JFrame {
 
         this.conn = c;
 
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         DatFacfech1.setDate(cal.getTime());
         DatFacfech2.setDate(cal.getTime());
     } // end constructor

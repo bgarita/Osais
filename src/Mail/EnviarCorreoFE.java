@@ -7,7 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.GregorianCalendar;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import logica.utilitarios.Ut;
@@ -191,7 +191,7 @@ public class EnviarCorreoFE {
                 b.setLogLevel(Bitacora.ERROR);
                 b.logMail(
                         "\nCorreo mal formado " + destinatario + ". No fue enviado. "
-                        + GregorianCalendar.getInstance().getTime(), nIdenvio);
+                        + Calendar.getInstance().getTime(), nIdenvio);
                 this.error = true;
                 this.error_msg = "Correo mal formado " + destinatario + ". No fue enviado.";
                 throw new Exception(this.error_msg);
