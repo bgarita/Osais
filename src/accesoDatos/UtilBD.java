@@ -2312,9 +2312,6 @@ public class UtilBD {
         String cuentaMayor, 
                 key;
 
-        if (cuenta.equals("120002001000")) {
-            System.out.println("Revisando...");
-        }
         // Creo todas las cuentas de mayor en un solo string. (36 posiciones)
         cuentaMayor = Mayores.getMayores(cuenta);
 
@@ -2370,7 +2367,6 @@ public class UtilBD {
 
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(UtilBD.class.getName()).log(Level.SEVERE, null, ex);
             result[0] = "S";
             result[1] = ex.getMessage();
         } // end try-catch

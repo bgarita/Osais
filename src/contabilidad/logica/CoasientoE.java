@@ -8,8 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import logica.utilitarios.Ut;
 
 /**
@@ -314,7 +312,6 @@ public class CoasientoE {
             // Busco si el asiento fue reversado por algún otro
             this.anuladoPor = this.anuladoPor();
         } catch (SQLException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
             this.descrip = "";
@@ -323,7 +320,7 @@ public class CoasientoE {
     } // end cargarRegistro
 
     /**
-     * Este método usa la vista de consecutivo de asientos para determina si un número
+     * Este método usa la vista de consecutivo de asientos para determinar si un número
      * de asiento ya fue usado o no.
      *
      * @author Bosco Garita 06/09/2013 SD
@@ -334,22 +331,6 @@ public class CoasientoE {
      */
     public boolean existeEnBaseDatos(String no_comprob, short tipo_comp) throws SQLException {
         return this.cotipasient.existeConsecutivo(Integer.parseInt(no_comprob), tipo_comp);
-//        boolean existe = false;
-//        String sqlSent
-//                = "Select no_comprob from vistaconsecutivoasientos "
-//                + "Where no_comprob = ? and tipo_comp = ?";
-//        try (PreparedStatement ps = conn.prepareStatement(sqlSent,
-//                ResultSet.TYPE_FORWARD_ONLY,
-//                ResultSet.CONCUR_READ_ONLY)) {
-//            ps.setString(1, no_comprob);
-//            ps.setShort(2, tipo_comp);
-//            ResultSet rs = CMD.select(ps);
-//            if (rs != null && rs.first()) {
-//                existe = true;
-//            } // end if
-//            ps.close();
-//        } // end try with resources
-//        return existe;
     } // end existeEnBaseDatos
 
     /**
@@ -368,7 +349,6 @@ public class CoasientoE {
         String descripA;
         String sqlSent;
         PreparedStatement ps;
-        ResultSet rs;
         CoasientoD det;         // Detalle del asiento
 
         this.error = false;
@@ -434,7 +414,6 @@ public class CoasientoE {
             } // end if
             this.asientoDeAnulacion = no_comprob2;
         } catch (SQLException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
@@ -502,7 +481,6 @@ public class CoasientoE {
                 exitoso = true;
             } // end if
         } catch (SQLException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
@@ -549,7 +527,6 @@ public class CoasientoE {
 
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(CoasientoE.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
@@ -593,7 +570,6 @@ public class CoasientoE {
                 ps.close();
             } // end try with resources
         } catch (SQLException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
@@ -651,7 +627,6 @@ public class CoasientoE {
                 ps.close();
             } // end try with resources
         } catch (SQLException ex) {
-            Logger.getLogger(CoasientoE.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
@@ -682,7 +657,6 @@ public class CoasientoE {
             registros = CMD.update(ps);
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(CoasientoE.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);

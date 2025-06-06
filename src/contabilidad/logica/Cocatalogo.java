@@ -9,8 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import logica.IEstructuraBD;
 import logica.utilitarios.Ut;
 
@@ -376,7 +374,7 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
                     + "AND d.sub_cta = ? "
                     + "AND d.sub_sub = ? "
                     + "AND d.colect  = ? ";
-            
+
             try (PreparedStatement ps = conn.prepareStatement(sqlSent,
                     ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_READ_ONLY)) {
@@ -385,17 +383,15 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
                 ps.setString(3, this.getSub_cta());
                 ps.setString(4, this.getSub_sub());
                 ps.setString(5, this.getColect());
-                
+
                 ResultSet rs = CMD.select(ps);
-                if (rs != null && rs.first()){
+                if (rs != null && rs.first()) {
                     this.db_pend = rs.getDouble("debitos");
                     this.cr_pend = rs.getDouble("creditos");
                 } // end if
                 ps.close();
             } // end try with resources
         } catch (SQLException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-
             this.error = true;
             this.mensaje_error = ex.getMessage();
             setNom_cta("");
@@ -447,7 +443,6 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
                 } // end for
             } // end try with resources
         } catch (SQLException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
             setNom_cta("");
@@ -558,7 +553,6 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
                 ps.close();
             } // end try with resources
         } catch (SQLException ex) {
-            Logger.getLogger(Cocatalogo.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
@@ -625,7 +619,6 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
                 ps.close();
             } // end try with resources
         } catch (SQLException ex) {
-            Logger.getLogger(Cocatalogo.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
@@ -667,7 +660,6 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
                 ps.close();
             } // end try
         } catch (SQLException ex) {
-            Logger.getLogger(Cocatalogo.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
@@ -734,7 +726,6 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
                         return false;
                     } // end if
                 } catch (SQLException ex) {
-                    Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                     this.mensaje_error = ex.getMessage();
                     b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                     return false;
@@ -768,7 +759,6 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
                     } // end if
                     ps.close();
                 } catch (SQLException ex) {
-                    Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                     mensaje_error = ex.getMessage();
                     b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                     valid = false;
@@ -813,14 +803,14 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
                 if (rs == null || !rs.first()) {
                     valid = false;
                     mensaje_error
-                            = "No puede establecer esta cuenta como cuenta de\n"
-                            + "mayor porque ya tiene movimientos.\n"
-                            + "Primero debe trasladar todos los asientos a otra\n"
-                            + "cuenta.";
+                            = """
+                              No puede establecer esta cuenta como cuenta de
+                              mayor porque ya tiene movimientos.
+                              Primero debe trasladar todos los asientos a otra
+                              cuenta.""";
                 } // end if
                 ps.close();
             } catch (SQLException ex) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                 mensaje_error = ex.getMessage();
                 b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
                 valid = false;
@@ -853,7 +843,6 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
             } // end if
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             mensaje_error = ex.getMessage();
             valid = false;
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
@@ -873,19 +862,19 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
         Calendar cal = Calendar.getInstance();
         cal.set(1900, 00, 01);
         setNom_cta("");
-        this.tipo_cta  = 1; // Cuenta de activo
+        this.tipo_cta = 1; // Cuenta de activo
         this.fecha_upd = new Timestamp(cal.getTimeInMillis());
         this.ano_anter = 0;
-        this.db_fecha  = 0;
-        this.cr_fecha  = 0;
-        this.db_mes    = 0;
-        this.cr_mes    = 0;
-        this.db_pend   = 0;
-        this.cr_pend   = 0;
-        this.nivelc    = 1;
-        this.nombre    = 0;
-        this.fecha_c   = new Timestamp(cal.getTimeInMillis());
-        this.activa    = 1;
+        this.db_fecha = 0;
+        this.cr_fecha = 0;
+        this.db_mes = 0;
+        this.cr_mes = 0;
+        this.db_pend = 0;
+        this.cr_pend = 0;
+        this.nivelc = 1;
+        this.nombre = 0;
+        this.fecha_c = new Timestamp(cal.getTimeInMillis());
+        this.activa = 1;
     } // end setDefaultValues
 
     /**
@@ -899,18 +888,16 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
         Boolean existe = false;
         String sqlSent
                 = "Select mayor from hcocatalogo where year(fecha_cierre) = ? LIMIT 1";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sqlSent,
-                    ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY);
+        try (PreparedStatement ps = conn.prepareStatement(sqlSent,
+                ResultSet.TYPE_SCROLL_SENSITIVE,
+                ResultSet.CONCUR_READ_ONLY)) {
+
             ps.setInt(1, year);
             ResultSet rs = CMD.select(ps);
             if (rs != null && rs.first()) {
                 existe = true;
             } // end if
-            ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             this.error = true;
             this.mensaje_error = ex.getMessage();

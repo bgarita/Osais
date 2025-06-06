@@ -10,8 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /*
 Esta clase provee dos métodos que garantizan la integridad de los saldos para
@@ -177,9 +175,9 @@ public class CoactualizCat {
                         = rs.getString("mayor") + rs.getString("sub_cta")
                         + rs.getString("sub_sub") + rs.getString("colect");
 
-                // Mayorización
+                // Mayorización (Post to the ledger)
                 if (this.mayorizar) {
-                    exito = mayorizar(
+                    exito = post(
                             cuenta, rs.getDouble("debito"), rs.getDouble("credito"), operador, 0, 0, 0);
                     if (!exito) {
                         break;
@@ -201,6 +199,10 @@ public class CoactualizCat {
     /**
      * Este método aplica los saldos registrados en las cuentas de movimiento a
      * las cuentas de mayor.
+     * 
+     * IMPORTANTE: Este método solo debe recibir cuentas de movimientos.
+     * Se usa el nombre en inglés para evitar que se confunda con la variable
+     * mayorizar.
      *
      * @param cuenta String los cuatro niveles concatenados
      * @param db_mes double débitos del mes
@@ -211,19 +213,14 @@ public class CoactualizCat {
      * @param cr_fecha double créditos acumulados del ejercicio contable actual
      * @return boolean true=Exitoso, false=Falló
      */
-    private boolean mayorizar(
+    private boolean post(
             String cuenta, double db_mes, double cr_mes,
             String operador, double ano_anter, double db_fecha, double cr_fecha) {
-        /*
-        Nota importante: (Bosco, 12/09/2016)
-        La lógica de validación de este método es idéntico a 
-        UtilBD.validarEstructuraLogica(conn, cuenta) por lo tanto, si se hace
-        algún cambio en alguno de los dos también debe hacerse en el otro.
-         */
-        boolean exito = true; // Variable de retorno
-        int posCuenta;      // Se usa para optener la posición de la cuenta
-        String cuentaMayor, // Se convierte en un string de 36 caracteres que contendrá las 3 cuentas de mayor de cada cuenta de movimientos.
-                key;        // Se usa como llave para actualizar el catálogo de cuentas.
+        
+        boolean exito = true;   // Variable de retorno
+        int posCuenta;          // Se usa para optener la posición de la cuenta
+        String cuentaMayor,     // Se convierte en un string de 36 caracteres que contendrá las 3 cuentas de mayor de cada cuenta de movimientos.
+                key;            // Se usa como llave para actualizar el catálogo de cuentas.
 
         // Creo todas las cuentas de mayor en un solo string. (36 posiciones)
         cuentaMayor = Mayores.getMayores(cuenta);
@@ -325,7 +322,7 @@ public class CoactualizCat {
         } // end try-catch
 
         return exito;
-    } // end Mayorizar
+    } // end Post
 
     public boolean revisarIntegridadCuentas() {
         b.setLogLevel(Bitacora.INFO);
@@ -415,7 +412,7 @@ public class CoactualizCat {
                             + rs.getString("sub_sub") + rs.getString("colect");
 
                     // Mayorizar la cuenta
-                    exito = mayorizar(
+                    exito = post(
                             cuenta, rs.getDouble("db_mes"), rs.getDouble("cr_mes"), "+",
                             rs.getDouble("ano_anter"), rs.getDouble("db_fecha"), rs.getDouble("cr_fecha"));
                     if (!exito) {
@@ -425,7 +422,6 @@ public class CoactualizCat {
             } // end if (exito)
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(CoactualizCat.class.getName()).log(Level.SEVERE, null, ex);
             this.mensaje_err = ex.getMessage();
             exito = false;
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
@@ -439,7 +435,6 @@ public class CoactualizCat {
                 CMD.transaction(conn, CMD.ROLLBACK);
             } // end if
         } catch (SQLException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             this.mensaje_err = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
@@ -457,8 +452,8 @@ public class CoactualizCat {
 
     /**
      * Este método recalcula únicamente las cuentas de movimiento tomando como
-     * parámetros las fechas del periodo en proceso. Nota: para correr este
-     * proceso no debe haber nadie en el sistema.
+     * parámetros las fechas del periodo en proceso. 
+     * Nota: para correr este proceso no debe haber nadie en el sistema.
      *
      * @return boolean true=Exito, false=Falló
      */
@@ -544,7 +539,6 @@ public class CoactualizCat {
 
             CMD.transaction(conn, CMD.COMMIT);
         } catch (SQLException ex) {
-            Logger.getLogger(CoactualizCat.class.getName()).log(Level.SEVERE, null, ex);
             this.mensaje_err = ex.getMessage();
             exito = false;
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
@@ -554,7 +548,6 @@ public class CoactualizCat {
             try {
                 CMD.transaction(conn, CMD.ROLLBACK);
             } catch (SQLException ex) {
-                Logger.getLogger(CoactualizCat.class.getName()).log(Level.SEVERE, null, ex);
                 // Si aquí se produce un error es mejor advertir al usuario para que
                 // cierre el sistema.
                 this.mensaje_err = "Se produjo un error inesperado, debe cerrar el sistema";
@@ -579,7 +572,6 @@ public class CoactualizCat {
             } // end if
         } catch (SQLException ex) {
             // No proceso el error porque no es necesario
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
     } // end close
@@ -628,7 +620,7 @@ public class CoactualizCat {
 
             // Si hay asientos descuadrados los pongo en el mensaje para que el
             // usuario los pueda revisar y corregir.
-            if (!correcto) {
+            if (!correcto && rs != null) {
                 StringBuilder msg = new StringBuilder();
                 msg.append("Los siguientes asientos están descuadrados:\n");
                 rs.beforeFirst();

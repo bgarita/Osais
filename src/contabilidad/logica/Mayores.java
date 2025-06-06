@@ -38,6 +38,10 @@ public class Mayores {
         temp = Ut.rpad(temp, "0", LONGITUD_MAXIMA);
         cuentasMayores += temp;
 
+        // Esta parte se usa para detectar cuentas de movimiento que parecen de mayor,
+        // sin embargo solo se conserva por compatibilidad con versiones anteriores
+        // ya que en la versión actual existe una validación que no permite que una
+        // cuenta terminada en 000 se declare como de movimientos (27/05/2025).
         // Obtener la posición de la cuenta dentro todo el String
         posCuenta = Ut.AT(cuentasMayores, cuenta); // Cambiar esto por cuentaMayor.indexOf() 25/05/2025
         if (posCuenta > 0) {

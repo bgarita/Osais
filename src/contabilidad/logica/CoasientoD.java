@@ -10,9 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import logica.utilitarios.Ut;
 
 /**
  *
@@ -218,7 +215,6 @@ public class CoasientoD {
                 ps.close();
             } // end try with resources
         } catch (SQLException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
@@ -274,7 +270,6 @@ public class CoasientoD {
                 ps.close();
             } // end try with resources
         } catch (SQLException ex) {
-            Logger.getLogger(Cotipasient.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
@@ -306,8 +301,9 @@ public class CoasientoD {
         if (this.monto > 0){
             this.error = true;
             this.mensaje_error = 
-                    "Para que una línea de detalle pueda ser eliminada\n" +
-                    "debe tener el monto de los débitos y créditos en cero.";
+                    """
+                    Para que una l\u00ednea de detalle pueda ser eliminada
+                    debe tener el monto de los d\u00e9bitos y cr\u00e9ditos en cero.""";
             return registros;
         } // end if
         
@@ -318,7 +314,6 @@ public class CoasientoD {
                 ps.close();
             } // end try with resources
         } catch (SQLException ex) {
-            Logger.getLogger(Cotipasient.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
@@ -369,7 +364,6 @@ public class CoasientoD {
                 } // end for
             } // end try with resources
         } catch (SQLException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
             this.descrip = "";
@@ -430,7 +424,6 @@ public class CoasientoD {
             } // end if
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
@@ -458,7 +451,6 @@ public class CoasientoD {
             CMD.update(ps);
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
