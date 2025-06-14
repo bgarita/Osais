@@ -168,12 +168,10 @@ public class ImpuestosService {
                 + "	tarifa_iva.descrip,  "
                 + "	tarifa_iva.porcentaje,  "
                 + "	tarifa_iva.cuenta,  "
-                + "	ifNull(a.nom_cta, '') AS nom_cta, "
+                + "	IFNULL((SELECT nom_cta FROM vistacocatalogo WHERE cuenta = tarifa_iva.cuenta), '') AS nom_cta, "
                 + "	tarifa_iva.cuenta_c,  "
-                + "	ifNull(b.nom_cta,'') AS nom_cta_c "
-                + "FROM tarifa_iva  "
-                + "Left join vistacocatalogo a on tarifa_iva.cuenta = a.cuenta  "
-                + "Left join vistacocatalogo b on tarifa_iva.cuenta_c = a.cuenta  ";
+                + "	IFNULL((SELECT nom_cta FROM vistacocatalogo WHERE cuenta = tarifa_iva.cuenta_c), '') AS nom_cta_c "
+                + "FROM tarifa_iva  ";
         try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
