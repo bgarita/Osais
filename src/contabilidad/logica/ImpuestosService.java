@@ -52,12 +52,10 @@ public class ImpuestosService {
                 + "	tarifa_iva.descrip,  "
                 + "	tarifa_iva.porcentaje,  "
                 + "	tarifa_iva.cuenta,  "
-                + "	ifNull(a.nom_cta, '') AS nom_cta, "
+                + "	IFNULL((SELECT nom_cta FROM vistacocatalogo WHERE cuenta = tarifa_iva.cuenta), '') AS nom_cta, "
                 + "	tarifa_iva.cuenta_c,  "
-                + "	ifNull(b.nom_cta,'') AS nom_cta_c "
+                + "	IFNULL((SELECT nom_cta FROM vistacocatalogo WHERE cuenta = tarifa_iva.cuenta_c), '') AS nom_cta_c "
                 + "FROM tarifa_iva  "
-                + "Left join vistacocatalogo a on tarifa_iva.cuenta = a.cuenta  "
-                + "Left join vistacocatalogo b on tarifa_iva.cuenta_c = b.cuenta  "
                 + "WHERE tarifa_iva.codigoTarifa = ?";
         try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
@@ -196,9 +194,9 @@ public class ImpuestosService {
             ps.close();
         } // end try // end try
         return tmList;
-    } // end getAll
+    } // end getAllLike
 
-    public List<ImpuestosM> getAll(String like) throws SQLException {
+    public List<ImpuestosM> getAllLike(String like) throws SQLException {
         like = '%' + like.trim() + '%';
 
         List<ImpuestosM> tmList = new ArrayList<>();
@@ -209,12 +207,10 @@ public class ImpuestosService {
                 + "	tarifa_iva.descrip,  "
                 + "	tarifa_iva.porcentaje,  "
                 + "	tarifa_iva.cuenta,  "
-                + "	ifNull(a.nom_cta, '') AS nom_cta, "
+                + "	IFNULL((SELECT nom_cta FROM vistacocatalogo WHERE cuenta = tarifa_iva.cuenta), '') AS nom_cta, "
                 + "	tarifa_iva.cuenta_c,  "
-                + "	ifNull(b.nom_cta,'') AS nom_cta_c "
+                + "	IFNULL((SELECT nom_cta FROM vistacocatalogo WHERE cuenta = tarifa_iva.cuenta_c), '') AS nom_cta_c "
                 + "FROM tarifa_iva  "
-                + "Left join vistacocatalogo a on tarifa_iva.cuenta = a.cuenta  "
-                + "Left join vistacocatalogo b on tarifa_iva.cuenta_c = a.cuenta  "
                 + "where tarifa_iva.descrip like ?";
         try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
@@ -242,7 +238,7 @@ public class ImpuestosService {
             ps.close();
         } // end try // end try
         return tmList;
-    } // end getAll
+    } // end getAllLike
 
     private boolean insert() throws SQLException {
         boolean inserted;

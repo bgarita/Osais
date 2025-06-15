@@ -13,7 +13,6 @@ import interfase.otros.Buscador;
 import interfase.otros.Navegador;
 import java.awt.Color;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -35,10 +34,7 @@ import logica.utilitarios.Ut;
 public class ImpuestosV extends JFrame {
 
     public ResultSet rs, rs3;
-    private final String tabla;
-    private PreparedStatement ps;
     private Connection conn = null;
-    private Navegador nav = null;
     private Buscador bd = null;
     private final Bitacora b = new Bitacora();
     private ImpuestosService ivController;
@@ -57,9 +53,6 @@ public class ImpuestosV extends JFrame {
     public ImpuestosV(Connection c) throws SQLException, SQLInjectionException {
         initComponents();
         btnBuscar.setVisible(false);
-        tabla = "tarifa_iva";
-        nav = new Navegador();
-
         conn = c;
         cta = new Cuenta(c);
 
