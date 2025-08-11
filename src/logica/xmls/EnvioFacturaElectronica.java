@@ -41,7 +41,7 @@ public class EnvioFacturaElectronica extends Thread {
     public EnvioFacturaElectronica(DetalleNotificacionXml dn, String windowTitle) {
         this.detalleNotificaciones = dn;
         this.windowTitle = windowTitle;
-        this.conn = Menu.CONEXION.getConnection();
+        this.conn = Menu.DATABASE_CONNECTION_DRIVER.getConnection();
 
         this.frame = new GeneralFrame(windowTitle);
         this.content = this.frame.getContentPane();

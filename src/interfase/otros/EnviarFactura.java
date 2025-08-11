@@ -322,7 +322,7 @@ public class EnviarFactura extends javax.swing.JFrame {
 
             // NOTA 1: El tipo de documento para tiquetes se (re)define más adelante.
             // NOTA 2: El registro en la tabla faestadodocelect se agrega por medio de un trigger en la tabla faencabe.
-            conn = Menu.CONEXION.getConnection();
+            conn = Menu.DATABASE_CONNECTION_DRIVER.getConnection();
 
             CMD.transaction(conn, CMD.START_TRANSACTION);
 

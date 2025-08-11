@@ -27,7 +27,7 @@ public class CierreConta extends javax.swing.JFrame {
      */
     public CierreConta() {
         initComponents();
-        this.conn = Menu.CONEXION.getConnection();
+        this.conn = Menu.DATABASE_CONNECTION_DRIVER.getConnection();
         this.per = new PeriodoContable(conn);
         this.lblPeriodo.setText("Periodo a cerrar: " + per.getMesLetras() + ", " + per.getAño());
     } // end constructor

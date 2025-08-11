@@ -25,7 +25,7 @@ public class RepComparativoMensual extends javax.swing.JFrame {
      */
     public RepComparativoMensual() {
         initComponents();
-        this.conn = Menu.CONEXION.getConnection();
+        this.conn = Menu.DATABASE_CONNECTION_DRIVER.getConnection();
         Calendar cal = Calendar.getInstance();
         this.txtYearA.setText(cal.get(Calendar.YEAR) + "");
         this.txtYearB.setText((cal.get(Calendar.YEAR) - 1) + "");

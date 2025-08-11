@@ -43,7 +43,7 @@ public class CierreMensual extends JFrame {
         conn = c;
         txtAno.setText("" + Calendar.getInstance().get(Calendar.YEAR));
         
-        Connection tempCon = Menu.CONEXION.getConnection();
+        Connection tempCon = Menu.DATABASE_CONNECTION_DRIVER.getConnection();
         Map<String, Integer> periodo = UtilBD.getLastClosedPeriod(tempCon);
         if (periodo.isEmpty()) {
             return;

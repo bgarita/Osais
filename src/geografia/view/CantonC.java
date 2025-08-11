@@ -52,7 +52,7 @@ public class CantonC {
     }
 
     /**
-     * Establece el objeto canton en base al codigo del cantón y no del Id
+     * Establece el objeto canton en base al código del cantón y no del Id
      *
      * @param codigo
      */

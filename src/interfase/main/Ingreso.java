@@ -8,7 +8,7 @@ package interfase.main;
 import Exceptions.CurrencyExchangeException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
-import accesoDatos.DatabaseConnection;
+import accesoDatos.DatabaseConnectionDriver;
 import accesoDatos.UtilBD;
 import interfase.mantenimiento.Tipocambio;
 import interfase.menus.Menu;
@@ -25,8 +25,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -37,7 +35,7 @@ public class Ingreso extends javax.swing.JFrame {
 
     private static final long serialVersionUID = 2L;
 
-    private DatabaseConnection conexion = null;
+    private DatabaseConnectionDriver dataBaseConnectionDriver = null;
     private Connection conn = null;     // Conexión principal.
     private static SplashScreen mySplash;
     private static Double splashTextArea;
@@ -54,9 +52,6 @@ public class Ingreso extends javax.swing.JFrame {
      */
     public Ingreso(String url) {
         initComponents();
-        // Una vez establecida la conexión se debe enviar el objeto de conección
-        // al menú y éste a su vez debe enviarlo a cada form o programa que invoque.
-        //conn = CONEXION.getConnection();
         splashInit();           // initialize splash overlay drawing parameters
         appInit();              // simulate what an application would do
         // before starting
@@ -83,7 +78,7 @@ public class Ingreso extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         btnAceptar = new javax.swing.JButton();
-        cmdCancelar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -122,12 +117,12 @@ public class Ingreso extends javax.swing.JFrame {
             }
         });
 
-        cmdCancelar.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
-        cmdCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Salir.png"))); // NOI18N
-        cmdCancelar.setText("Cancelar");
-        cmdCancelar.addActionListener(new java.awt.event.ActionListener() {
+        btnCancelar.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Salir.png"))); // NOI18N
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdCancelarActionPerformed(evt);
+                btnCancelarActionPerformed(evt);
             }
         });
 
@@ -139,17 +134,17 @@ public class Ingreso extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
-                .addComponent(cmdCancelar)
+                .addComponent(btnCancelar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAceptar, cmdCancelar});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAceptar, btnCancelar});
 
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(btnAceptar)
-                .addComponent(cmdCancelar))
+                .addComponent(btnCancelar))
         );
 
         jSeparator1.setPreferredSize(new java.awt.Dimension(50, 5));
@@ -206,9 +201,9 @@ public class Ingreso extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cmdCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdCancelarActionPerformed
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         System.exit(0);
-    }//GEN-LAST:event_cmdCancelarActionPerformed
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
@@ -216,18 +211,21 @@ public class Ingreso extends javax.swing.JFrame {
                 = new IngresoAcciones(txtUser.getText().trim(), txtPassword.getPassword(), url);
 
         this.setCursor(null);
-        boolean connected = acciones.setConnected();
+        
+        // Crear la conexión con la base de datos
+        boolean isConnected = acciones.createConnection();
 
         // Si no se logró establecer la conexión...
-        if (!connected) {
+        if (!isConnected) {
             JOptionPane.showMessageDialog(null,
                     acciones.getErrorMsg(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             return;
         } // end if
-        conexion = acciones.getConexion();
-        conn = acciones.getConn();
+        
+        dataBaseConnectionDriver = acciones.getDatabaseConnectionDriver();
+        conn = acciones.getConnection();
 
         boolean continuar = false;
         boolean disponible = true;
@@ -302,9 +300,9 @@ public class Ingreso extends javax.swing.JFrame {
             
             // El registro no fue agregado por petición del usuario, entonces se
             // le presenta el form para que ingrese los datos.
-            if (tcDolar == 0 && UtilBD.tienePermiso(conexion.getConnection(), "Tipocambio")) {
+            if (tcDolar == 0 && UtilBD.tienePermiso(dataBaseConnectionDriver.getConnection(), "Tipocambio")) {
                 try {
-                    tipoCambio = new Tipocambio(conexion.getConnection());
+                    tipoCambio = new Tipocambio(dataBaseConnectionDriver.getConnection());
                     tipoCambio.setVisible(true);
                     tipoCambio.setAlwaysOnTop(true);
                 } catch (SQLException ex) {
@@ -334,7 +332,9 @@ public class Ingreso extends javax.swing.JFrame {
 
         dispose();
         Menu.PASS = acciones.getPassword();
-        Menu.main(conexion, disponible, url);
+        
+        // El menú principal tomará el control de las conexiones de aquí en adelante
+        Menu.main(dataBaseConnectionDriver, disponible, url);
 
         // Just to test
         String[] args = {};
@@ -392,7 +392,7 @@ public class Ingreso extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
-    private javax.swing.JButton cmdCancelar;
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -525,24 +525,24 @@ public class Ingreso extends javax.swing.JFrame {
             lastIPNumber++;
             urlx = urlx.substring(0, lastDot + 1) + lastIPNumber + sinceColon;
 
-            //conexion = new DatabaseConnection(usuario,pass2);
-            conexion = new DatabaseConnection(usuario, pass2, urlx);
+            //conexion = new DatabaseConnectionDriver(usuario,pass2);
+            dataBaseConnectionDriver = new DatabaseConnectionDriver(usuario, pass2, urlx);
             // Fin Bosco modificado 01/05/2011
 
             // Si ya hay conexión me saldo del ciclo
-            if (conexion.isConnected()) {
+            if (dataBaseConnectionDriver.isConnected()) {
                 break;
             } // end if
 
             // Si no se conectó pero ya no es problema de IP...
-            if (!conexion.isConnected()
-                    && !conexion.getErrorMessage().contains("Communications link failure")) {
+            if (!dataBaseConnectionDriver.isConnected()
+                    && !dataBaseConnectionDriver.getErrorMessage().contains("Communications link failure")) {
                 return;
             } // end if
         } // end for
 
         // Aún no hay conexión realizo otros 11 intentos hacia abajo
-        if (!conexion.isConnected()) {
+        if (!dataBaseConnectionDriver.isConnected()) {
             urlx = url;
             lastDot = urlx.lastIndexOf(".");
             lastIPNumber = Integer.parseInt(urlx.substring(lastDot + 1, colon));
@@ -556,15 +556,15 @@ public class Ingreso extends javax.swing.JFrame {
                 } // end if
 
                 urlx = urlx.substring(0, lastDot + 1) + lastIPNumber + sinceColon;
-                conexion = new DatabaseConnection(usuario, pass2, urlx);
+                dataBaseConnectionDriver = new DatabaseConnectionDriver(usuario, pass2, urlx);
 
                 // Si ya hay conexión o el número es negativo me saldo del ciclo
-                if (conexion.isConnected() || lastIPNumber < 0) {
+                if (dataBaseConnectionDriver.isConnected() || lastIPNumber < 0) {
                     break;
                 } // end if
                 // Si no se conectó pero ya no es problema de IP...
-                if (!conexion.isConnected()
-                        && !conexion.getErrorMessage().contains("Communications link failure")) {
+                if (!dataBaseConnectionDriver.isConnected()
+                        && !dataBaseConnectionDriver.getErrorMessage().contains("Communications link failure")) {
                     return;
                 } // end if
             } // end for

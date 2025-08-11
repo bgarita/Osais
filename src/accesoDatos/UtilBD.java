@@ -1230,7 +1230,7 @@ public class UtilBD {
         String sqlUpdate, bodega, localiz;
         int pos;
         PreparedStatement ps;
-        //Connection conn = DatabaseConnection.getConnection();
+        //Connection conn = DatabaseConnectionDriver.getConnection();
 
         // Si la tabla viene vacía no continúo
         if (tblExistencias.getRowCount() == 0 || tblExistencias.getValueAt(0, 0) == null) {
@@ -1441,7 +1441,7 @@ public class UtilBD {
     /**
      * Obtener el saldo de una cuenta a una fecha específica.
      *
-     * @param cta Cuenta objeto con la cuenta y CONEXION ya cargados.
+     * @param cta Cuenta objeto con la cuenta y DATABASE_CONNECTION_DRIVER ya cargados.
      * @param fecha Date fecha a la que se desea obtener el saldo
      * @return double saldo de la cuenta
      * @throws java.lang.Exception
@@ -2703,7 +2703,7 @@ public class UtilBD {
 
     public static void optimizeDatabase() throws SQLException {
         String sqlSent = "SHOW FULL TABLES FROM " + Menu.BASEDATOS; // Trae todas las tablas y vistas.
-        PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
+        PreparedStatement ps = Menu.DATABASE_CONNECTION_DRIVER.getConnection().prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY);
         ResultSet rs = CMD.select(ps);
@@ -2721,12 +2721,12 @@ public class UtilBD {
                 continue;
             }
             sqlSent = "ALTER TABLE " + table + " ENGINE = 'InnoDB'";
-            ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent);
+            ps = Menu.DATABASE_CONNECTION_DRIVER.getConnection().prepareStatement(sqlSent);
             CMD.update(ps);
         } // end for
 
         sqlSent = "ALTER TABLE saisystem.notificado ENGINE = 'InnoDB'";
-        ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent);
+        ps = Menu.DATABASE_CONNECTION_DRIVER.getConnection().prepareStatement(sqlSent);
         CMD.update(ps);
 
         ps.close();

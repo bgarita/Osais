@@ -549,7 +549,7 @@ public class ConsultaMovCierre extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void consultarVentas() throws Exception {
-        Connection conn = Menu.CONEXION.getConnection();
+        Connection conn = Menu.DATABASE_CONNECTION_DRIVER.getConnection();
         String sqlSent = "Call Rep_Ventasxarticulo(?,?,'','',0)";
         PreparedStatement ps;
         ResultSet rs;
@@ -579,7 +579,7 @@ public class ConsultaMovCierre extends javax.swing.JFrame {
     } // end consultarVentas
 
     private void consltarServicios() throws Exception {
-        Connection conn = Menu.CONEXION.getConnection();
+        Connection conn = Menu.DATABASE_CONNECTION_DRIVER.getConnection();
         String sqlSent
                 = "Select "
                 + "	 sum(a.movcant) as Utilidad "
@@ -616,7 +616,7 @@ public class ConsultaMovCierre extends javax.swing.JFrame {
 
     private void consultarBonificaciones() throws Exception {
         double total;
-        try (Connection conn = Menu.CONEXION.getConnection()) {
+        try (Connection conn = Menu.DATABASE_CONNECTION_DRIVER.getConnection()) {
             String sqlSent
                     = "Select  "
                     + "	fechac as fecha, "
@@ -668,7 +668,7 @@ public class ConsultaMovCierre extends javax.swing.JFrame {
      * @throws Exception
      */
     private void consultarAjustes() throws Exception {
-        Connection conn = Menu.CONEXION.getConnection();
+        Connection conn = Menu.DATABASE_CONNECTION_DRIVER.getConnection();
         String sqlSent
                 = "Select  "
                 + "    a.movdocu,"
@@ -742,7 +742,7 @@ public class ConsultaMovCierre extends javax.swing.JFrame {
     } // end consultarAjustes
 
     private void consultarCajas() throws Exception {
-        Connection conn = Menu.CONEXION.getConnection();
+        Connection conn = Menu.DATABASE_CONNECTION_DRIVER.getConnection();
         String sqlSent
                 = "Select  "
                 + "	idcaja,  "

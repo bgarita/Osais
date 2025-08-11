@@ -54,7 +54,7 @@ public class RepEstadoResultados extends javax.swing.JFrame {
     public RepEstadoResultados() {
         initComponents();
         this.numberFormat = "#,##0.00";
-        this.conn = Menu.CONEXION.getConnection();
+        this.conn = Menu.DATABASE_CONNECTION_DRIVER.getConnection();
         setCurrentPeriod();
         this.listPar = new ArrayList<>();
         this.formatoTabla = new FormatoTabla();

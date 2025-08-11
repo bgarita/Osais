@@ -175,7 +175,7 @@ public class RepVentasxImpuesto extends javax.swing.JFrame {
         
         try {
             // Ejecutar la consulta y cargar la tabla.
-            ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent, 
+            ps = Menu.DATABASE_CONNECTION_DRIVER.getConnection().prepareStatement(sqlSent, 
                     ResultSet.TYPE_SCROLL_SENSITIVE, 
                     ResultSet.CONCUR_READ_ONLY);
             ps.setInt(1, year);

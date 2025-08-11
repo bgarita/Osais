@@ -452,7 +452,7 @@ public class Companies extends javax.swing.JFrame {
         lstTablas.add("territor");
         lstTablas.add("cocatalogo");
 
-        try (Connection conn = Menu.CONEXION.getConnection()) {
+        try (Connection conn = Menu.DATABASE_CONNECTION_DRIVER.getConnection()) {
 
             for (String table : lstTablas) {
                 sqlSent = "INSERT INTO " + newDatabase + "." + table + " "

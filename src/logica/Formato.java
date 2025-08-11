@@ -68,7 +68,7 @@ public class Formato {
                 "   formatoCant,  " +
                 "   formatoPrecio " +
                 "From config";
-        try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(
+        try (PreparedStatement ps = Menu.DATABASE_CONNECTION_DRIVER.getConnection().prepareStatement(
                 sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {

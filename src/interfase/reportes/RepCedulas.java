@@ -38,7 +38,7 @@ public class RepCedulas extends javax.swing.JFrame {
     public RepCedulas() {
         initComponents();
         this.init = true;
-        this.conn = Menu.CONEXION.getConnection();
+        this.conn = Menu.DATABASE_CONNECTION_DRIVER.getConnection();
         this.coca = new Cocatalogo(conn);
         this.txtCuent = new JTextField("000");
         setCurrentPeriod();
