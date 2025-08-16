@@ -133,7 +133,7 @@ public class Ut {
         } // end if
 
         String devolver;
-        Double Dnumero = Double.parseDouble(quitarFormato(numero.trim()));
+        Double Dnumero = Double.valueOf(quitarFormato(numero.trim()));
         devolver = new java.text.DecimalFormat(formato).format(Dnumero);
         return devolver.trim();
     } // end setDecimalFormat
@@ -160,7 +160,7 @@ public class Ut {
         formato = "%,." + decimales + "f";
 
         String devolver;
-        Double Dnumero = Double.parseDouble(quitarFormato(numero.trim()));
+        Double Dnumero = Double.valueOf(quitarFormato(numero.trim()));
         devolver = String.format(formato, Dnumero);
         return devolver.trim();
     } // end setDecimalFormat
@@ -172,8 +172,8 @@ public class Ut {
      * @return una cadena como "nn años, nn meses, nn días."
      */
     public static String calcularEdad(Date fechaNacimiento) {
-        Calendar fechaNac = GregorianCalendar.getInstance();
-        Calendar fechaAct = GregorianCalendar.getInstance();
+        Calendar fechaNac = Calendar.getInstance();
+        Calendar fechaAct = Calendar.getInstance();
         String edad;
         fechaNac.setTime(fechaNacimiento);
 
@@ -219,7 +219,7 @@ public class Ut {
      * @return valor numérico (int) que representa el último día.
      */
     public static int lastDay(Date dFecha) {
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.setTime(dFecha);
         return lastDay(cal);
     } // lastDay
@@ -233,7 +233,7 @@ public class Ut {
      * @return int último día
      */
     public static int lastDay(long fecha) {
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(fecha);
         return lastDay(cal);
     } // end lastDay
@@ -265,7 +265,7 @@ public class Ut {
 
         // Agregar un mes a la fecha recibida
         Date date = Ut.goMonth(dFecha, meses);
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.setTime(date);
 
         // A la nueva fecha se le cambia el día por el primer día del mes
@@ -286,7 +286,7 @@ public class Ut {
      * @return Date. Fecha que contiene el último día del mes.
      */
     public static Date lastDate(int year, int month) {
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.set(year, month, 1);
 
         return lastDate(cal.getTime());
@@ -352,7 +352,7 @@ public class Ut {
      * @return Fecha String sql 'aaaa-mm-dd'
      */
     public static String fechaSQL(Date dFecha) {
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
 
         if (dFecha == null) {
             return "null";
@@ -500,7 +500,7 @@ public class Ut {
      * @return convert(datetime,'dd/mm/aaaa',103)
      */
     public static String fechaSQLSPF(Date dFecha) {
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
 
         if (dFecha == null) {
             return "null";
@@ -580,37 +580,37 @@ public class Ut {
         Calendar xfecha2 = new GregorianCalendar();
         xfecha1.setTimeInMillis(fecha1);
         xfecha2.setTimeInMillis(fecha2);
-        String año1, mes1, dia1, año2, mes2, dia2, yfecha1 = null, yfecha2 = null;
-        año1 = String.valueOf(xfecha1.get(Calendar.YEAR));
-        año2 = String.valueOf(xfecha2.get(Calendar.YEAR));
-        mes1 = String.valueOf(xfecha1.get(Calendar.MONTH));
-        mes2 = String.valueOf(xfecha2.get(Calendar.MONTH));
-        dia1 = String.valueOf(xfecha1.get(Calendar.DAY_OF_MONTH));
-        dia2 = String.valueOf(xfecha2.get(Calendar.DAY_OF_MONTH));
-        if (dia1.length() < 2) {
-            dia1 = "0" + dia1;
+        String year1, month1, day1, year2, month2, day2, yfecha1 = null, yfecha2 = null;
+        year1 = String.valueOf(xfecha1.get(Calendar.YEAR));
+        year2 = String.valueOf(xfecha2.get(Calendar.YEAR));
+        month1 = String.valueOf(xfecha1.get(Calendar.MONTH));
+        month2 = String.valueOf(xfecha2.get(Calendar.MONTH));
+        day1 = String.valueOf(xfecha1.get(Calendar.DAY_OF_MONTH));
+        day2 = String.valueOf(xfecha2.get(Calendar.DAY_OF_MONTH));
+        if (day1.length() < 2) {
+            day1 = "0" + day1;
         } // end if
-        if (mes1.length() < 2) {
-            mes1 = "0" + mes1;
+        if (month1.length() < 2) {
+            month1 = "0" + month1;
         } // end if
-        if (dia2.length() < 2) {
-            dia2 = "0" + dia2;
+        if (day2.length() < 2) {
+            day2 = "0" + day2;
         } // end if
-        if (mes2.length() < 2) {
-            mes2 = "0" + mes2;
+        if (month2.length() < 2) {
+            month2 = "0" + month2;
         } // end if
         switch (iniciaCon) {
             case DAY:
-                yfecha1 = dia1 + "/" + mes1 + "/" + año1;
-                yfecha2 = dia2 + "/" + mes2 + "/" + año2;
+                yfecha1 = day1 + "/" + month1 + "/" + year1;
+                yfecha2 = day2 + "/" + month2 + "/" + year2;
                 break;
             case MONTH:
-                yfecha1 = mes1 + "/" + dia1 + "/" + año1;
-                yfecha2 = mes2 + "/" + dia2 + "/" + año2;
+                yfecha1 = month1 + "/" + day1 + "/" + year1;
+                yfecha2 = month2 + "/" + day2 + "/" + year2;
                 break;
             case YEAR:
-                yfecha1 = año1 + "/" + mes1 + "/" + dia1;
-                yfecha2 = año2 + "/" + mes2 + "/" + dia2;
+                yfecha1 = year1 + "/" + month1 + "/" + day1;
+                yfecha2 = year2 + "/" + month2 + "/" + day2;
                 break;
         } // end switch
         return getDays(yfecha1, yfecha2, iniciaCon);
@@ -680,8 +680,8 @@ public class Ut {
      */
     public static int getMonths(Date fecha1, Date fecha2) {
         int meses;
-        Calendar calA = GregorianCalendar.getInstance();
-        Calendar calB = GregorianCalendar.getInstance();
+        Calendar calA = Calendar.getInstance();
+        Calendar calB = Calendar.getInstance();
         calA.setTime(fecha1);
         calB.setTime(fecha2);
 
@@ -728,7 +728,7 @@ public class Ut {
      * @return String con el formato "dd/mm/aaaa"
      */
     public static String dtoc(Date dFecha) {
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
 
         if (dFecha == null) {
             return "  /  /    ";
@@ -736,14 +736,14 @@ public class Ut {
 
         cal.setTime(dFecha);
 
-        String dia, mes, año;
-        dia = String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
-        mes = String.valueOf(cal.get(Calendar.MONTH) + 1);
-        año = String.valueOf(cal.get(Calendar.YEAR));
-        dia = dia.length() < 2 ? "0" + dia : dia;
-        mes = mes.length() < 2 ? "0" + mes : mes;
+        String day, month, year;
+        day = String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
+        month = String.valueOf(cal.get(Calendar.MONTH) + 1);
+        year = String.valueOf(cal.get(Calendar.YEAR));
+        day = day.length() < 2 ? "0" + day : day;
+        month = month.length() < 2 ? "0" + month : month;
 
-        return dia + "/" + mes + "/" + año;
+        return day + "/" + month + "/" + year;
     } // end dtoc
 
     /**
@@ -761,16 +761,16 @@ public class Ut {
             return null;
         } // end if
         
-        String dia, mes, año;
+        String day, month, year;
         fechaSPF = fechaSPF.trim();
-        dia = fechaSPF.substring(0, Ut.AT(fechaSPF, "/"));
-        dia = dia.length() == 1 ? "0" + dia : dia;
-        mes = fechaSPF.substring((Ut.AT(fechaSPF, "/") + 1), Ut.AT(fechaSPF, "/", 2));
-        mes = mes.length() == 1 ? "0" + mes : mes;
-        año = fechaSPF.substring((Ut.AT(fechaSPF, "/", 2) + 1));
+        day = fechaSPF.substring(0, Ut.AT(fechaSPF, "/"));
+        day = day.length() == 1 ? "0" + day : day;
+        month = fechaSPF.substring((Ut.AT(fechaSPF, "/") + 1), Ut.AT(fechaSPF, "/", 2));
+        month = month.length() == 1 ? "0" + month : month;
+        year = fechaSPF.substring((Ut.AT(fechaSPF, "/", 2) + 1));
         
-        Calendar cal = GregorianCalendar.getInstance();
-        cal.set(Integer.parseInt(año), Integer.parseInt(mes) - 1, Integer.parseInt(dia));
+        Calendar cal = Calendar.getInstance();
+        cal.set(Integer.parseInt(year), Integer.parseInt(month) - 1, Integer.parseInt(day));
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
@@ -791,7 +791,7 @@ public class Ut {
      */
     public static Date goMonth(Date dFecha, short meses) {
         Date date = new Date();
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
 
         if (dFecha == null) {
             return dFecha;
@@ -1457,14 +1457,14 @@ public class Ut {
         // Convierto a Double el último dígito del entero
         Double valor = Double.valueOf(ultimoDigito);
         // Proceso de redondeo a 5 ó 10
-        if (Integer.valueOf(ultimoDigito) > 5) {
-            if (10 - Integer.valueOf(ultimoDigito) <= 2.5) {
+        if (Integer.parseInt(ultimoDigito) > 5) {
+            if (10 - Integer.parseInt(ultimoDigito) <= 2.5) {
                 lnNumero = lnNumero + (10 - valor);
             } else {
                 lnNumero = lnNumero - valor + 5;
             } // end if
         } else {
-            if (5 - Integer.valueOf(ultimoDigito) <= 2.5) {
+            if (5 - Integer.parseInt(ultimoDigito) <= 2.5) {
                 lnNumero = lnNumero + (5 - valor);
             } else {
                 lnNumero = lnNumero - valor;
@@ -1473,11 +1473,7 @@ public class Ut {
         if (esNegativo) {
             lnNumero *= -1;
         } // end if
-        devolver = String.valueOf(lnNumero);
-        // Ahora se eliminan los decimales también (Bosco 01/07/2010)
-        //if (esEntero){
         devolver = String.valueOf(lnNumero.intValue());
-        //} // end if
         return devolver;
     } // end redondearA5
 
@@ -1503,20 +1499,14 @@ public class Ut {
         if (metodo < 1 || metodo > 3) {
             metodo = 3;
         } // end if
-
         /*
          * Cargar el redondeo según las constantes de redondeo de BigDecimal
          */
-        switch (metodo) {
-            case 1:
-                big = big.setScale(decimales, RoundingMode.HALF_UP);
-                break;
-            case 2:
-                big = big.setScale(decimales, RoundingMode.HALF_DOWN);
-                break;
-            default:
-                big = big.setScale(decimales, RoundingMode.HALF_EVEN);
-        } // end switch
+        big = switch (metodo) {
+            case 1 -> big.setScale(decimales, RoundingMode.HALF_UP);
+            case 2 -> big.setScale(decimales, RoundingMode.HALF_DOWN);
+            default -> big.setScale(decimales, RoundingMode.HALF_EVEN);
+        }; // end switch
 
         return big.doubleValue();
     } // end redondear
@@ -1548,46 +1538,21 @@ public class Ut {
      */
     public static String mesLetras(int pMes) {
         String mes;
-        switch (pMes) {
-            case Calendar.JANUARY:
-                mes = "Enero";
-                break;
-            case Calendar.FEBRUARY:
-                mes = "Febrero";
-                break;
-            case Calendar.MARCH:
-                mes = "Marzo";
-                break;
-            case Calendar.APRIL:
-                mes = "Abril";
-                break;
-            case Calendar.MAY:
-                mes = "Mayo";
-                break;
-            case Calendar.JUNE:
-                mes = "Junio";
-                break;
-            case Calendar.JULY:
-                mes = "Julio";
-                break;
-            case Calendar.AUGUST:
-                mes = "Agosto";
-                break;
-            case Calendar.SEPTEMBER:
-                mes = "Setiembre";
-                break;
-            case Calendar.OCTOBER:
-                mes = "Octubre";
-                break;
-            case Calendar.NOVEMBER:
-                mes = "Noviembre";
-                break;
-            case Calendar.DECEMBER:
-                mes = "Diciembre";
-                break;
-            default:
-                mes = "";
-        } // end switch
+        mes = switch (pMes) {
+            case Calendar.JANUARY -> "Enero";
+            case Calendar.FEBRUARY -> "Febrero";
+            case Calendar.MARCH -> "Marzo";
+            case Calendar.APRIL -> "Abril";
+            case Calendar.MAY -> "Mayo";
+            case Calendar.JUNE -> "Junio";
+            case Calendar.JULY -> "Julio";
+            case Calendar.AUGUST -> "Agosto";
+            case Calendar.SEPTEMBER -> "Setiembre";
+            case Calendar.OCTOBER -> "Octubre";
+            case Calendar.NOVEMBER -> "Noviembre";
+            case Calendar.DECEMBER -> "Diciembre";
+            default -> "";
+        }; // end switch
         return mes;
     } // end mesLetras
 
@@ -1599,31 +1564,16 @@ public class Ut {
      */
     public static String diaLetras(int pDia) {
         String dia;
-        switch (pDia) {
-            case Calendar.SUNDAY:
-                dia = "Domingo";
-                break;
-            case Calendar.MONDAY:
-                dia = "Lunes";
-                break;
-            case Calendar.TUESDAY:
-                dia = "Martes";
-                break;
-            case Calendar.WEDNESDAY:
-                dia = "Miércoles";
-                break;
-            case Calendar.THURSDAY:
-                dia = "Jueves";
-                break;
-            case Calendar.FRIDAY:
-                dia = "Viernes";
-                break;
-            case Calendar.SATURDAY:
-                dia = "Sábado";
-                break;
-            default:
-                dia = "";
-        } // end switch
+        dia = switch (pDia) {
+            case Calendar.SUNDAY -> "Domingo";
+            case Calendar.MONDAY -> "Lunes";
+            case Calendar.TUESDAY -> "Martes";
+            case Calendar.WEDNESDAY -> "Miércoles";
+            case Calendar.THURSDAY -> "Jueves";
+            case Calendar.FRIDAY -> "Viernes";
+            case Calendar.SATURDAY -> "Sábado";
+            default -> "";
+        }; // end switch
         return dia;
     } // end diaLetras
 
@@ -1665,33 +1615,6 @@ public class Ut {
             suma = (Number) sumaDouble;
         } // end for
 
-//        if (t.getValueAt(0, col) instanceof Float
-//                || t.getValueAt(0, col) instanceof Double
-//                || t.getValueAt(0, col) instanceof String) {
-//            // Recorro la tabla sumando los valores
-//            for (int i = 0; i < rows; i++) {
-//                if (t.getValueAt(i, col) != null) {
-//                    valor = Ut.quitarFormato(t.getValueAt(i, col).toString());
-//                    sumaFloat += Double.parseDouble(valor);
-//                }// end if
-//            } // end for
-//            suma = (Number) sumaFloat;
-//        } else if (t.getValueAt(0, col) instanceof Byte
-//                || t.getValueAt(0, col) instanceof Short
-//                || t.getValueAt(0, col) instanceof Integer
-//                || t.getValueAt(0, col) instanceof Long) {
-//            // Recorro la tabla sumando los valores
-//            for (int i = 0; i < rows; i++) {
-//                if (t.getValueAt(i, col) != null) {
-//                    valor = Ut.quitarFormato(t.getValueAt(i, col).toString());
-//                    sumaInt = +Long.parseLong(valor);
-//                } // end if
-//            } // end for
-//            suma = (Number) sumaInt;
-//        }
-//        if (suma == null) {
-//            suma = 0;
-//        } // end if
         return suma;
     } // end sum
 
@@ -1729,24 +1652,16 @@ public class Ut {
             }
 
             valor = Ut.quitarFormato(t.getValueAt(i, col1).toString());
-            valorIz = Double.parseDouble(valor);
+            valorIz = Double.valueOf(valor);
 
             valor = Ut.quitarFormato(t.getValueAt(i, col2).toString());
-            valorDe = Double.parseDouble(valor);
+            valorDe = Double.valueOf(valor);
 
             switch (operator) {
-                case '+':
-                    valorIz = valorIz + valorDe;
-                    break;
-                case '-':
-                    valorIz = valorIz - valorDe;
-                    break;
-                case '*':
-                    valorIz = valorIz * valorDe;
-                    break;
-                case '/':
-                    valorIz = valorIz / valorDe;
-                    break;
+                case '+' -> valorIz = valorIz + valorDe;
+                case '-' -> valorIz = valorIz - valorDe;
+                case '*' -> valorIz = valorIz * valorDe;
+                case '/' -> valorIz = valorIz / valorDe;
             } // end switch
 
             total += valorIz;
@@ -1817,7 +1732,7 @@ public class Ut {
 
                 if (t.getValueAt(i, col) != null) {
                     valor = Ut.quitarFormato(t.getValueAt(i, col).toString());
-                    sumaInt = +Long.parseLong(valor);
+                    sumaInt = +Long.valueOf(valor);
                 } // end if
             } // end for
             suma = (Number) sumaInt;
@@ -1839,52 +1754,28 @@ public class Ut {
     public static String getProperty(int prop) {
         String name = null;
         switch (prop) {
-            case USER_NAME:
-                name = System.getProperty("user.name");
-                break;
-            case USER_DIR:
-                name = System.getProperty("user.dir");
-                break;
-            case USER_HOME:
-                name = System.getProperty("user.home");
-                break;
-            case TMPDIR:
-                name = System.getProperty("java.io.tmpdir");
-                break;
-            case OS_NAME:
-                name = System.getProperty("os.name");
-                break;
-            case OS_VERSION:
-                name = System.getProperty("os.version");
-                break;
-            case FILE_SEPARATOR:
-                name = System.getProperty("file.separator");
-                break;
-            case PATH_SEPARATOR:
-                name = System.getProperty("path.separator");
-                break;
-            case LINE_SEPARATOR:
-                name = System.getProperty("line.separator");
-                break;
-            case WINDIR:
+            case USER_NAME -> name = System.getProperty("user.name");
+            case USER_DIR -> name = System.getProperty("user.dir");
+            case USER_HOME -> name = System.getProperty("user.home");
+            case TMPDIR -> name = System.getProperty("java.io.tmpdir");
+            case OS_NAME -> name = System.getProperty("os.name");
+            case OS_VERSION -> name = System.getProperty("os.version");
+            case FILE_SEPARATOR -> name = System.getProperty("file.separator");
+            case PATH_SEPARATOR -> name = System.getProperty("path.separator");
+            case LINE_SEPARATOR -> name = System.getProperty("line.separator");
+            case WINDIR -> {
                 if (System.getProperty("os.name").equalsIgnoreCase("Windows XP")) {
                     name = System.getenv("windir");
                 } // end if
-                break;
-            case SYSTEM32:
+            }
+            case SYSTEM32 -> {
                 if (System.getProperty("os.name").equalsIgnoreCase("Windows XP")) {
                     name = System.getenv("windir") + "\\system32";
                 } // end if
-                break;
-            case COMPUTERNAME:
-                name = System.getenv("COMPUTERNAME");
-                break;
-            case PROCESSOR_IDENTIFIER:
-                name = System.getenv("PROCESSOR_IDENTIFIER");
-                break;
-            case JAVA_VERSION:
-                name = System.getenv("java.version");
-                break;
+            }
+            case COMPUTERNAME -> name = System.getenv("COMPUTERNAME");
+            case PROCESSOR_IDENTIFIER -> name = System.getenv("PROCESSOR_IDENTIFIER");
+            case JAVA_VERSION -> name = System.getenv("java.version");
         } // end switch
         return name;
     } // end getProperty
@@ -2109,7 +2000,7 @@ public class Ut {
      * @return Date fecha
      */
     public static Date ttod(long dateTime) {
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(dateTime);
         String fecha
                 = cal.get(Calendar.DAY_OF_MONTH) + "/"
@@ -2238,12 +2129,12 @@ public class Ut {
 
     /**
      *
-     * @param buscarEn String en donde se realizará la búsqueda
-     * @param texto String que se buscará
+     * @param buscar String que se buscará
+     * @param texto String en donde se realizará la búsqueda
      * @return int primera posición encontrada
      */
-    public static int AT(String buscarEn, String texto) {
-        return getPosicion(texto, buscarEn);
+    public static int AT(String buscar, String texto) {
+        return getPosicion(texto, buscar);
     } // end AT
 
     public static int AT(String buscarEn, String texto, int ocurrencia) {
@@ -2275,7 +2166,7 @@ public class Ut {
             } // end if
         } // end for
         if (tempString.length() > 0) {
-            numero = Integer.parseInt(tempString);
+            numero = Integer.valueOf(tempString);
         } // end if
         return numero;
     } // end quitarCaracteres
@@ -2305,7 +2196,7 @@ public class Ut {
 
         } // end for
         if (tempString.length() > 0) {
-            numero = Double.parseDouble(tempString);
+            numero = Double.valueOf(tempString);
         } // end if
         return numero;
     } // end quitarCaracteres
@@ -2470,61 +2361,26 @@ public class Ut {
         if (rs.getMetaData().getColumnCount() < col) {
             return "U";
         } // end if
-        switch (rs.getMetaData().getColumnType(col)) {
-            case java.sql.Types.BIGINT:
-                fieldType = "L";
-                break;
-            case java.sql.Types.BIT:
-                fieldType = "L";
-                break;
-            case java.sql.Types.INTEGER:
-                fieldType = "L";
-                break;
-            case java.sql.Types.TINYINT:
-                fieldType = "L";
-                break;
-            case java.sql.Types.NUMERIC:
-                fieldType = "N";
-                break;
-            case java.sql.Types.DECIMAL:
-                fieldType = "N";
-                break;
-            case java.sql.Types.FLOAT:
-                fieldType = "N";
-                break;
-            case java.sql.Types.DOUBLE:
-                fieldType = "N";
-                break;
-            case java.sql.Types.BOOLEAN:
-                fieldType = "B";
-                break;
-            case java.sql.Types.CHAR:
-                fieldType = "S";
-                break;
-            case java.sql.Types.VARCHAR:
-                fieldType = "S";
-                break;
-            case java.sql.Types.LONGNVARCHAR:
-                fieldType = "S";
-                break;
-            case java.sql.Types.NCHAR:
-                fieldType = "S";
-                break;
-            case java.sql.Types.NVARCHAR:
-                fieldType = "S";
-                break;
-            case java.sql.Types.NULL:
-                fieldType = "U";
-                break;
-            case java.sql.Types.DATE:
-                fieldType = "D";
-                break;
-            case java.sql.Types.TIMESTAMP:
-                fieldType = "T";
-                break;
-            default:
-                fieldType = "O";
-        } // end switch
+        fieldType = switch (rs.getMetaData().getColumnType(col)) {
+            case java.sql.Types.BIGINT -> "L";
+            case java.sql.Types.BIT -> "L";
+            case java.sql.Types.INTEGER -> "L";
+            case java.sql.Types.TINYINT -> "L";
+            case java.sql.Types.NUMERIC -> "N";
+            case java.sql.Types.DECIMAL -> "N";
+            case java.sql.Types.FLOAT -> "N";
+            case java.sql.Types.DOUBLE -> "N";
+            case java.sql.Types.BOOLEAN -> "B";
+            case java.sql.Types.CHAR -> "S";
+            case java.sql.Types.VARCHAR -> "S";
+            case java.sql.Types.LONGNVARCHAR -> "S";
+            case java.sql.Types.NCHAR -> "S";
+            case java.sql.Types.NVARCHAR -> "S";
+            case java.sql.Types.NULL -> "U";
+            case java.sql.Types.DATE -> "D";
+            case java.sql.Types.TIMESTAMP -> "T";
+            default -> "O";
+        }; // end switch
         return fieldType;
     } // end
 
@@ -2692,31 +2548,17 @@ public class Ut {
      * @return String hoy
      */
     public static String hoy(Date date) {
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         String day = "";
         switch (cal.get(Calendar.DAY_OF_WEEK)) {
-            case 1:
-                day = "Domingo";
-                break;
-            case 2:
-                day = "Lunes";
-                break;
-            case 3:
-                day = "Martes";
-                break;
-            case 4:
-                day = "Miércoles";
-                break;
-            case 5:
-                day = "Jueves";
-                break;
-            case 6:
-                day = "Viernes";
-                break;
-            case 7:
-                day = "Sábado";
-                break;
+            case 1 -> day = "Domingo";
+            case 2 -> day = "Lunes";
+            case 3 -> day = "Martes";
+            case 4 -> day = "Miércoles";
+            case 5 -> day = "Jueves";
+            case 6 -> day = "Viernes";
+            case 7 -> day = "Sábado";
         } // end switch
 
         return day;
@@ -3235,20 +3077,17 @@ public class Ut {
      */
     public static int getDatePart(Date date, int part) {
         int datePart = 0;
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         switch (part) {
-            case Ut.DAY: {
+            case Ut.DAY ->  {
                 datePart = cal.get(Calendar.DAY_OF_MONTH);
-                break;
             }
-            case Ut.MONTH: {
+            case Ut.MONTH ->  {
                 datePart = cal.get(Calendar.MONTH);
-                break;
             }
-            case Ut.YEAR: {
+            case Ut.YEAR ->  {
                 datePart = cal.get(Calendar.YEAR);
-                break;
             }
         } // end switch
 

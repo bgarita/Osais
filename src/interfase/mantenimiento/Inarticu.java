@@ -38,6 +38,7 @@ import logica.Formato;
 import logica.utilitarios.Archivos;
 import logica.utilitarios.FiltrodeArchivos;
 import Exceptions.SQLInjectionException;
+import java.io.IOException;
 import logica.utilitarios.Ut;
 
 /**
@@ -73,7 +74,6 @@ public class Inarticu extends JFrame {
     private final int CAMBIARFOTO = 2;
     private final int BORRARFOTOANTERIOR = 3;
     private File archivoFotoAnterior = null;
-    private File archivoFotoActual = null;
     // Fin Bosco agregado 07/11/2010.
     private boolean inicio = true;
 
@@ -133,7 +133,7 @@ public class Inarticu extends JFrame {
         }
 
         asignarprovaut = false; // Bosco agregado 30/12/2013
-        bodegaDefault = "";    // Bosco agregado 30/12/2013
+        bodegaDefault = "";     // Bosco agregado 30/12/2013
 
         // Cargar los formatos de precios, cantidades, etc.
         setNumericFieldsFormat();
@@ -154,7 +154,6 @@ public class Inarticu extends JFrame {
 
         txtArtdesc.setForeground(Color.BLUE);
 
-        cmdBuscar.setVisible(false);
         tabla = "inarticu";
         join = " INNER JOIN tarifa_iva ON inarticu.codigoTarifa = tarifa_iva.codigoTarifa ";
         join += "INNER JOIN cabys on inarticu.codigoCabys = cabys.codigoCabys ";
@@ -332,7 +331,7 @@ public class Inarticu extends JFrame {
         btnFiltro = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         lblAviso = new javax.swing.JLabel();
-        cmdBuscar = new javax.swing.JButton();
+        btnBuscar = new javax.swing.JButton();
         btnPrimero = new javax.swing.JButton();
         btnAnterior = new javax.swing.JButton();
         btnSiguiente = new javax.swing.JButton();
@@ -587,7 +586,7 @@ public class Inarticu extends JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        txtCodigoCabys.setToolTipText("Codigo de tarifa");
+        txtCodigoCabys.setToolTipText("Codigo de catálogo de bienes y servicios");
         txtCodigoCabys.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtCodigoCabysFocusGained(evt);
@@ -1211,7 +1210,7 @@ public class Inarticu extends JFrame {
                     .addComponent(jLabel32)
                     .addComponent(txtArtpre5, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtArtgan5, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(94, Short.MAX_VALUE))
+                .addContainerGap(92, Short.MAX_VALUE))
         );
 
         panelPrincipal.addTab("Costos - precios - utilidades", panelCostosyUtilidades);
@@ -1451,7 +1450,7 @@ public class Inarticu extends JFrame {
                             .addComponent(txtDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(27, 27, 27)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
         panelPrincipal.addTab("Existencias", panelExistencias);
@@ -1506,7 +1505,7 @@ public class Inarticu extends JFrame {
         panelFechasLayout.setVerticalGroup(
             panelFechasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFechasLayout.createSequentialGroup()
-                .addContainerGap(151, Short.MAX_VALUE)
+                .addContainerGap(143, Short.MAX_VALUE)
                 .addGroup(panelFechasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel26)
                     .addComponent(txtArtfech, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1550,7 +1549,7 @@ public class Inarticu extends JFrame {
             .addGroup(panelObservacionesLayout.createSequentialGroup()
                 .addGap(76, 76, 76)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(76, Short.MAX_VALUE))
+                .addContainerGap(74, Short.MAX_VALUE))
         );
 
         panelPrincipal.addTab("Observaciones", panelObservaciones);
@@ -1625,7 +1624,7 @@ public class Inarticu extends JFrame {
                     .addComponent(cboTipoPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnFiltro))
                 .addGap(4, 4, 4)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1638,10 +1637,11 @@ public class Inarticu extends JFrame {
         lblAviso.setDebugGraphicsOptions(javax.swing.DebugGraphics.FLASH_OPTION);
         lblAviso.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        cmdBuscar.setText("Buscar");
-        cmdBuscar.addActionListener(new java.awt.event.ActionListener() {
+        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/binocular.png"))); // NOI18N
+        btnBuscar.setToolTipText("Buscar artículos, proveedores, familias, etc.");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdBuscarActionPerformed(evt);
+                btnBuscarActionPerformed(evt);
             }
         });
 
@@ -1706,6 +1706,8 @@ public class Inarticu extends JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnBuscar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnPrimero, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1717,38 +1719,36 @@ public class Inarticu extends JFrame {
                 .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(174, 174, 174))
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addComponent(cmdBuscar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(136, 136, 136))
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblAviso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jPanel6Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAnterior, btnBorrar, btnGuardar, btnPrimero, btnSiguiente, btnUltimo});
+        jPanel6Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAnterior, btnBorrar, btnBuscar, btnGuardar, btnPrimero, btnSiguiente, btnUltimo});
 
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(4, 4, 4)
                 .addComponent(lblAviso, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
-                .addGap(4, 4, 4)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnBorrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addComponent(cmdBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnPrimero)
                             .addComponent(btnSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnUltimo)
-                            .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
-        jPanel6Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAnterior, btnBorrar, btnGuardar, btnPrimero, btnSiguiente, btnUltimo});
+        jPanel6Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAnterior, btnBorrar, btnBuscar, btnGuardar, btnPrimero, btnSiguiente, btnUltimo});
 
         txtArtdesc.setColumns(50);
         try {
@@ -1798,7 +1798,7 @@ public class Inarticu extends JFrame {
 
         mnuArchivo.setText("Archivo");
 
-        mnuGuardar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
+        mnuGuardar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/disk.png"))); // NOI18N
         mnuGuardar.setText("Guardar");
         mnuGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -1808,7 +1808,7 @@ public class Inarticu extends JFrame {
         });
         mnuArchivo.add(mnuGuardar);
 
-        mnuAsignar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, java.awt.event.InputEvent.CTRL_MASK));
+        mnuAsignar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuAsignar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/clear-folders--arrow.png"))); // NOI18N
         mnuAsignar.setText("Asignar este artículo a una bodega");
         mnuAsignar.addActionListener(new java.awt.event.ActionListener() {
@@ -1818,7 +1818,7 @@ public class Inarticu extends JFrame {
         });
         mnuArchivo.add(mnuAsignar);
 
-        mnuMinimos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, java.awt.event.InputEvent.CTRL_MASK));
+        mnuMinimos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuMinimos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/balloon-twitter.png"))); // NOI18N
         mnuMinimos.setText("Establecer mínimos por bodega");
         mnuMinimos.addActionListener(new java.awt.event.ActionListener() {
@@ -1828,7 +1828,7 @@ public class Inarticu extends JFrame {
         });
         mnuArchivo.add(mnuMinimos);
 
-        mnuProveedores.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, java.awt.event.InputEvent.CTRL_MASK));
+        mnuProveedores.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuProveedores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/clipboard--arrow.png"))); // NOI18N
         mnuProveedores.setText("Asignar proveedores");
         mnuProveedores.addActionListener(new java.awt.event.ActionListener() {
@@ -1838,7 +1838,7 @@ public class Inarticu extends JFrame {
         });
         mnuArchivo.add(mnuProveedores);
 
-        mnuSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.CTRL_MASK));
+        mnuSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/control-power.png"))); // NOI18N
         mnuSalir.setText("Salir");
         mnuSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -1852,7 +1852,7 @@ public class Inarticu extends JFrame {
 
         mnuEdicion.setText("Edición");
 
-        mnuBorrar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, java.awt.event.InputEvent.CTRL_MASK));
+        mnuBorrar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/cross.png"))); // NOI18N
         mnuBorrar.setText("Borrar");
         mnuBorrar.addActionListener(new java.awt.event.ActionListener() {
@@ -1862,7 +1862,7 @@ public class Inarticu extends JFrame {
         });
         mnuEdicion.add(mnuBorrar);
 
-        mnuBuscar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
+        mnuBuscar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/binocular.png"))); // NOI18N
         mnuBuscar.setText("Buscar");
         mnuBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -1931,7 +1931,6 @@ public class Inarticu extends JFrame {
         try {
             conn.close();
         } catch (SQLException ex) {
-            Logger.getLogger(Inarticu.class.getName()).log(Level.SEVERE, null, ex);
             log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
         dispose();
@@ -1943,21 +1942,21 @@ public class Inarticu extends JFrame {
 }//GEN-LAST:event_mnuBorrarActionPerformed
 
     private void mnuBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBuscarActionPerformed
-        cmdBuscarActionPerformed(evt);
+        btnBuscarActionPerformed(evt);
 }//GEN-LAST:event_mnuBuscarActionPerformed
 
-    private void cmdBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdBuscarActionPerformed
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         if (buscar < 0) {
-            JOptionPane.showMessageDialog(null,
-                    "Debe hacer click primero en la casilla en donde"
-                    + "\ndesea realizar la búsqueda.",
+            JOptionPane.showMessageDialog(null, """
+                                                Debe hacer click primero en la casilla en donde
+                                                desea realizar la b\u00fasqueda.""",
                     "Mensaje",
                     JOptionPane.INFORMATION_MESSAGE);
             return;
         } // end if
 
         switch (buscar) {
-            case ARTICULOS:     // Buscar artículos
+            case ARTICULOS -> {
                 String campos = "artcode,artdesc,artexis-artreserv as Disponible, artpre1";
                 bd = new Buscador(new java.awt.Frame(), true,
                         "inarticu",
@@ -1971,37 +1970,34 @@ public class Inarticu extends JFrame {
                 bd.setTitle("Buscar artículos");
                 bd.lblBuscar.setText("Descripción:");
                 bd.buscar("");
-                break;
-            case FAMLIAS:       // Buscar FAMLIAS
+            }
+            case FAMLIAS -> {
                 bd = new Buscador(new java.awt.Frame(), true,
                         "infamily", "artfam,familia", "familia", txtArtfam, conn);
                 bd.setTitle("Buscar familias");
                 bd.lblBuscar.setText("Familia:");
-                break;
-            case PROVEEDORES:   // Buscar proveedores
+            }
+            case PROVEEDORES -> {
                 bd = new Buscador(new java.awt.Frame(), true,
                         "inproved", "procode,prodesc", "prodesc", txtProcode, conn);
                 bd.setTitle("Buscar proveedores");
                 bd.lblBuscar.setText("Nombre:");
-                break;
+            }
         } // end switch
 
         bd.setVisible(true);
 
         switch (buscar) {
-            case ARTICULOS:     // Buscar artículos
+            case ARTICULOS ->
                 txtArtcodeActionPerformed(null);
-                break;
-            case FAMLIAS:       // Buscar FAMLIAS
+            case FAMLIAS ->
                 txtArtfamActionPerformed(null);
-                break;
-            case PROVEEDORES:   // Buscar proveedores
+            case PROVEEDORES ->
                 txtProcodeActionPerformed(null);
-                break;
         } // end switch
 
         bd.dispose();
-}//GEN-LAST:event_cmdBuscarActionPerformed
+}//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnPrimeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrimeroActionPerformed
         try {
@@ -2073,7 +2069,6 @@ public class Inarticu extends JFrame {
 }//GEN-LAST:event_btnSiguienteActionPerformed
 
     private void btnUltimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUltimoActionPerformed
-
         try {
             rs = nav.cargarRegistroJoin(
                     Navegador.ULTIMO,
@@ -2123,7 +2118,6 @@ public class Inarticu extends JFrame {
                 // el costo y los precios.
                 addSincronizedItem(artcode);
             } catch (SQLException ex) {
-                Logger.getLogger(Inarticu.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(null,
                         ex.getMessage() + "\n"
                         + "Aunque se produjo este error el artículo si fue creado.",
@@ -2165,7 +2159,6 @@ public class Inarticu extends JFrame {
             objBodega.asignarBodega(bodegaDefault, artcode, true);
             refrescarObjetos();
         } catch (SQLException ex) {
-            Logger.getLogger(Inarticu.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -2411,9 +2404,10 @@ public class Inarticu extends JFrame {
 
     private void btnQuitarFotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarFotoActionPerformed
         int confirmar
-                = JOptionPane.showConfirmDialog(null,
-                        "Se dispone a eliminar la foto de este producto."
-                        + "\n¿Realmente desea hacerlo?",
+                = JOptionPane.showConfirmDialog(
+                        null, """
+                                                Se dispone a eliminar la foto de este producto.
+                                                \u00bfRealmente desea hacerlo?""",
                         "Confirme..",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.WARNING_MESSAGE);
@@ -2423,7 +2417,6 @@ public class Inarticu extends JFrame {
 
         this.accionFoto = this.BORRARFOTOANTERIOR;
         this.lblFoto.setIcon(null);
-        this.archivoFotoActual = null;
         btnQuitarFoto.setEnabled(false);
         btnAgregarFoto.setText("Agregar foto");
         btnAgregarFoto.setEnabled(true);
@@ -2449,9 +2442,11 @@ public class Inarticu extends JFrame {
         if (fotoAnterior != null
                 && new File(fotoAnterior.toString()).exists()) {
             int confirmar
-                    = JOptionPane.showConfirmDialog(null,
-                            "Se dispone a cambiar la foto de este producto."
-                            + "\n¿Realmente desea hacerlo?",
+                    = JOptionPane.showConfirmDialog(
+                            null, 
+                            """
+                                Se dispone a cambiar la foto de este producto.
+                                \u00bfRealmente desea hacerlo?""",
                             "Confirme..",
                             JOptionPane.YES_NO_OPTION,
                             JOptionPane.WARNING_MESSAGE);
@@ -2488,12 +2483,11 @@ public class Inarticu extends JFrame {
                 + "fotos" + Ut.getProperty(Ut.FILE_SEPARATOR)
                 + nombreArchivo.getName();
 
-        // Archivos el archivo.
+        // Copiar el archivo.
         Archivos cp = new Archivos();
         try {
             cp.copyFile(new File(archivoOrigen), new File(archivoDestino));
-            this.archivoFotoActual = new File(archivoDestino);
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -2705,7 +2699,7 @@ public class Inarticu extends JFrame {
         } catch (SQLException ex) {
             // No se gestiona el error
         }
-        
+
         try {
             this.txtProdesc.setText(this.getProveedor(this.txtProcode.getText().trim()));
         } catch (SQLException ex) {
@@ -2727,7 +2721,7 @@ public class Inarticu extends JFrame {
         } catch (SQLException ex) {
             // No se gestiona el error
         }
-        
+
         try {
             this.txtFamilia.setText(getFamilia(this.txtArtfam.getText()));
         } catch (SQLException ex) {
@@ -2810,7 +2804,6 @@ public class Inarticu extends JFrame {
             } // end for
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(Inarticu.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -3019,6 +3012,7 @@ public class Inarticu extends JFrame {
     private javax.swing.JButton btnAgregarFoto;
     private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnBorrar;
+    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnFiltro;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnPrimero;
@@ -3030,7 +3024,6 @@ public class Inarticu extends JFrame {
     private javax.swing.JCheckBox chkAplicaOferta;
     private javax.swing.JCheckBox chkEsServicio;
     private javax.swing.JCheckBox chkVinternet;
-    private javax.swing.JButton cmdBuscar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -3401,9 +3394,6 @@ public class Inarticu extends JFrame {
                     archivoFotoAnterior.delete();
                 } // end if
             } // end if
-
-            archivoFotoActual = null;
-            // Fin Bosco aregado 07/11/2010.
         } catch (Exception ex) {
             Logger.getLogger(Inarticu.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
@@ -4356,7 +4346,6 @@ public class Inarticu extends JFrame {
             this.formatoImpuesto = formato.getFormatoImpuesto();
             this.formatoUtilidad = formato.getFormatoUtilidad();
         } catch (SQLException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
 
@@ -4396,15 +4385,17 @@ public class Inarticu extends JFrame {
                 + "	impuesto "
                 + "FROM cabys "
                 + "WHERE codigocabys = ?";
-        PreparedStatement ps = conn.prepareStatement(sqlSent);
-        ps.setString(1, txtCodigoCabys.getText().trim());
-        ResultSet rsx = CMD.select(ps);
-        rsx.first();
-        if (rsx.getRow() == 1 && rsx.getString(1) != null) {
-            txaCabys.setText(rsx.getString("descrip"));
-            txtPorcentajeCabys.setText(Ut.setDecimalFormat(rsx.getString("impuesto"), this.formatoImpuesto));
-        } // end if
-        ps.close();
+        try (PreparedStatement ps = conn.prepareStatement(sqlSent)) {
+            ps.setString(1, txtCodigoCabys.getText().trim());
+            try (ResultSet rsx = CMD.select(ps)) {
+                rsx.first();
+                if (rsx.getRow() == 1 && rsx.getString(1) != null) {
+                    txaCabys.setText(rsx.getString("descrip"));
+                    txtPorcentajeCabys.setText(
+                            Ut.setDecimalFormat(rsx.getString("impuesto"), this.formatoImpuesto));
+                } // end if
+            }
+        }
     } // end cargarCabys
 
 } // end class

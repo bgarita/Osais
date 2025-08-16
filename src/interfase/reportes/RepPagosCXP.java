@@ -13,7 +13,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -33,13 +32,16 @@ public class RepPagosCXP extends JFrame {
     private Buscador   bd = null;
     private short objetoBusqueda = 1;
     
-    /** Creates new form */
+    /** Creates new form
+     * @param c
+     * @param procode
+     * @throws java.sql.SQLException */
     public RepPagosCXP(Connection c, String procode) throws SQLException {
         initComponents();
 
         conn = c;
 
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         DatFacfech1.setDate(cal.getTime());
         DatFacfech2.setDate(cal.getTime());
         txtProcode1.setText(" ");

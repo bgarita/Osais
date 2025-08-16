@@ -15,7 +15,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -37,10 +36,10 @@ public class RegistroPagaresCXC extends JFrame {
     private Buscador bd = null;
     private ResultSet rs2 = null;
     private ResultSet rsMoneda = null; // Monedas
-    private Calendar fechaA = GregorianCalendar.getInstance();
+    private Calendar fechaA = Calendar.getInstance();
     private boolean inicio = true;  // Se usa para evitar que corran agunos eventos
     private boolean fin = false; // Se usa para evitar que corran agunos eventos
-    private String codigoTCP;      // Código de la moneda predeterminada
+    private final String codigoTCP;      // Código de la moneda predeterminada
     private String codigoTC;       // Código de moneda.
     private int CLIENTES = 1;
     private int buscar = CLIENTES; // Valor default
@@ -1048,7 +1047,7 @@ public class RegistroPagaresCXC extends JFrame {
             if (rs == null || !rs.first() || txtPagare.getText().trim().equals("")) {
                 txtClidesc.setText("");
                 txtClicode.setText("0");
-                fechaA = GregorianCalendar.getInstance();
+                fechaA = Calendar.getInstance();
                 datEmision.setDate(fechaA.getTime());
                 datVencimiento.setDate(fechaA.getTime());
                 txtMonto.setText("0.00");
@@ -1056,19 +1055,7 @@ public class RegistroPagaresCXC extends JFrame {
 
                 // Establezco la moneda default
                 setDefaultCurrency();
-                //                codigoTC = codigoTCP;
-                //
-                //                String descrip = "";
-                //                rsMoneda.beforeFirst();
-                //                while (rsMoneda.next()){
-                //                    if (rsMoneda.getRSString("codigo").trim().equals(codigoTCP)){
-                //                        descrip = rsMoneda.getRSString("descrip").trim();
-                //                        break;
-                //                    } // end if
-                //                } // end while
-                //                if (!descrip.equals(""))
-                //                    cboMoneda.setSelectedItem(descrip);
-                //                // end if
+                
                 return;
             } // end if
 

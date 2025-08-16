@@ -59,7 +59,7 @@ public class PeriodoContable extends JFrame {
         fin = false;
         principio = true;
         
-        conn = Menu.CONEXION.getConnection();
+        conn = Menu.DATABASE_CONNECTION_DRIVER.getConnection();
 
         periodo = new Coperiodoco(conn);
         periodo.cargarUltimo();

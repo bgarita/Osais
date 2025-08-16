@@ -6,7 +6,7 @@
 package interfase.seguridad;
 
 import Mail.Bitacora;
-import accesoDatos.DatabaseConnection;
+import accesoDatos.DatabaseConnectionDriver;
 import accesoDatos.UtilBD;
 import interfase.menus.Menu;
 import java.awt.event.WindowAdapter;
@@ -209,7 +209,7 @@ public class Permiso extends javax.swing.JDialog {
         } // end for
 
         // Crear un conexión para validar el usuario
-        DatabaseConnection conexion = new DatabaseConnection(usuario, pass2, Menu.url);
+        DatabaseConnectionDriver conexion = new DatabaseConnectionDriver(usuario, pass2, Menu.url);
         Connection c = conexion.getConnection();
 
         if (c == null) {
@@ -220,7 +220,7 @@ public class Permiso extends javax.swing.JDialog {
         } // end if
 
         try {
-            // Validar el permiso con la nueva CONEXION
+            // Validar el permiso con la nueva DATABASE_CONNECTION_DRIVER
             // Correr proceso de verificación y actualizar propiedad de usuario.
             if (c != null && UtilBD.tienePermisoEspecial(c, permiso)) {
                 Permiso.autorizaUsr = usuario;

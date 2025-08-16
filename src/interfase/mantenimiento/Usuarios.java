@@ -941,6 +941,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
         // Verificar si el usuario SQL existe o no.
         String user = txtUser.getText().trim();
         String userSQL;
+        String host;
         try {
             // Bosco modificado 28/07/2013
             // Agrego distinct al tercer parámetor para evitar que
@@ -950,8 +951,13 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
             userSQL = UtilBD.getDBString(conn,
                     "mysql.user", "UPPER(user) = '"
                     + user.toUpperCase() + "'", "distinct concat(user, '@', host) as user");
+            if (userSQL != null && !userSQL.isEmpty()) {
+                String[] userParts = userSQL.split("@");
+                user = userParts[0];
+                host = userParts[1];
+                userSQL = "'" + user + "'@'" + host + "'";
+            }
         } catch (NotUniqueValueException | SQLException ex) {
-            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),
@@ -971,7 +977,16 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
                 ps.setString(1, user);
                 CMD.update(ps);
                 ps.close();
-            } catch (SQLException ex) {
+
+                // Obtener el usuario recién creado.
+                userSQL = UtilBD.getDBString(conn,
+                        "mysql.user", "UPPER(user) = '"
+                        + user.toUpperCase() + "'", "distinct concat(user, '@', host) as user");
+                String[] userParts = userSQL.split("@");
+                user = userParts[0];
+                host = userParts[1];
+                userSQL = "'" + user + "'@'" + host + "'";
+            } catch (NotUniqueValueException | SQLException ex) {
                 JOptionPane.showMessageDialog(null,
                         ex.getMessage(),
                         "Error",

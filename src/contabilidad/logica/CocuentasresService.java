@@ -28,7 +28,7 @@ public class CocuentasresService {
         boolean existe = false;
         String sqlSent
                 = "Select cuenta from cocuentasres Where recno = ?";
-        try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
+        try (PreparedStatement ps = Menu.DATABASE_CONNECTION_DRIVER.getConnection().prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
             ps.setInt(1, recno);
@@ -55,7 +55,7 @@ public class CocuentasresService {
                 + "FROM cocuentasres c "
                 + "INNER JOIN vistacocatalogo v ON c.cuenta = v.cuenta "
                 + "WHERE c.recno = ?";
-        try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
+        try (PreparedStatement ps = Menu.DATABASE_CONNECTION_DRIVER.getConnection().prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
             ps.setInt(1, recno);
@@ -82,7 +82,7 @@ public class CocuentasresService {
         cuentaRestringidas = new CocuentasresM();
         String sqlSent
                 = "Select min(recno) from cocuentasres";
-        try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
+        try (PreparedStatement ps = Menu.DATABASE_CONNECTION_DRIVER.getConnection().prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
             ResultSet rs = CMD.select(ps);
@@ -98,7 +98,7 @@ public class CocuentasresService {
     public CocuentasresM getNext(int recno) throws SQLException {
         String sqlSent
                 = "Select min(recno) from cocuentasres Where recno > ?";
-        try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
+        try (PreparedStatement ps = Menu.DATABASE_CONNECTION_DRIVER.getConnection().prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
             ps.setInt(1, recno);
@@ -117,7 +117,7 @@ public class CocuentasresService {
     public CocuentasresM getPrevious(int recno) throws SQLException {
         String sqlSent
                 = "Select max(recno) from cocuentasres Where recno < ?";
-        try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
+        try (PreparedStatement ps = Menu.DATABASE_CONNECTION_DRIVER.getConnection().prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
             ps.setInt(1, recno);
@@ -138,7 +138,7 @@ public class CocuentasresService {
 
         String sqlSent
                 = "Select max(recno) from cocuentasres";
-        try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
+        try (PreparedStatement ps = Menu.DATABASE_CONNECTION_DRIVER.getConnection().prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
             ResultSet rs = CMD.select(ps);
@@ -162,7 +162,7 @@ public class CocuentasresService {
                 + "	c.recno "
                 + "FROM cocuentasres c "
                 + "INNER JOIN vistacocatalogo v ON c.cuenta = v.cuenta ";
-        try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
+        try (PreparedStatement ps = Menu.DATABASE_CONNECTION_DRIVER.getConnection().prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
             ResultSet rs = CMD.select(ps);
@@ -198,7 +198,7 @@ public class CocuentasresService {
                 + "FROM cocuentasres c "
                 + "INNER JOIN vistacocatalogo v ON c.cuenta = v.cuenta "
                 + "where v.nom_cta like ?";
-        try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
+        try (PreparedStatement ps = Menu.DATABASE_CONNECTION_DRIVER.getConnection().prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
 
@@ -230,7 +230,7 @@ public class CocuentasresService {
                 = "INSERT INTO `cocuentasres` "
                 + "(`cuenta`, `user`) "
                 + "VALUES (?, ?)";
-        try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
+        try (PreparedStatement ps = Menu.DATABASE_CONNECTION_DRIVER.getConnection().prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
             ps.setString(1, this.cuentaRestringidas.getCuenta());
@@ -253,7 +253,7 @@ public class CocuentasresService {
                 = "UPDATE `cocuentasres` SET "
                 + "`cuenta` = ?, `user` = ? "
                 + "WHERE recno = ?";
-        try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
+        try (PreparedStatement ps = Menu.DATABASE_CONNECTION_DRIVER.getConnection().prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
             ps.setString(1, cuentaRestringidas.getCuenta());
@@ -275,7 +275,7 @@ public class CocuentasresService {
 
         String sqlSent
                 = "DELETE FROM `cocuentasres` Where recno = ?";
-        try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
+        try (PreparedStatement ps = Menu.DATABASE_CONNECTION_DRIVER.getConnection().prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
             ps.setInt(1, recno);

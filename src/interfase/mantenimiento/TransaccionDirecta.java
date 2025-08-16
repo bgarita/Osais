@@ -8,7 +8,6 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -240,7 +239,7 @@ public class TransaccionDirecta extends javax.swing.JFrame {
         tran.setTipodoc("");
         tran.setTipomov(deposito ? "D":"R");
 
-        cal = GregorianCalendar.getInstance();
+        cal = Calendar.getInstance();
 
         tran.setFecha(new Date(cal.getTimeInMillis()));
         tran.setCedula("");

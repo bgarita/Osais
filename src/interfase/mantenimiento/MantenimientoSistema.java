@@ -7,7 +7,7 @@
 package interfase.mantenimiento;
 
 import java.sql.Connection;
-import java.util.GregorianCalendar;
+import java.util.Calendar;
 import logica.DatabaseOptions;
 
 /**
@@ -22,7 +22,7 @@ public class MantenimientoSistema extends javax.swing.JFrame {
     public MantenimientoSistema(Connection c) {
         initComponents();
         this.conn = c;
-        this.DatFecha.setDate(GregorianCalendar.getInstance().getTime());
+        this.DatFecha.setDate(Calendar.getInstance().getTime());
         databaseOptions = new DatabaseOptions();
     } // end constructor
 

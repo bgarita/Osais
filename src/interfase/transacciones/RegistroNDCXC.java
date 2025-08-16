@@ -21,11 +21,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
 import logica.OrdenCompra;
 import Exceptions.SQLInjectionException;
 import java.text.ParseException;
+import java.util.Calendar;
 import logica.utilitarios.Ut;
 
 /**
@@ -70,7 +70,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
         nav.setConexion(conn);
 
         setConsecutivo();
-        DatFacfech.setDate(GregorianCalendar.getInstance().getTime());
+        DatFacfech.setDate(Calendar.getInstance().getTime());
         txtFacmont.setText("0.00");
 
         // Cargo el combo de las monedas
@@ -605,13 +605,13 @@ public class RegistroNDCXC extends javax.swing.JFrame {
         String facfech = Ut.fechaSQL(DatFacfech.getDate());
         try {
             if (!UtilBD.isValidDate(conn, facfech)) {
-                JOptionPane.showMessageDialog(null,
-                        "No puede utilizar esta fecha.  "
-                        + "\nCorresponde a un período ya cerrado.",
+                JOptionPane.showMessageDialog(null, """
+                                                    No puede utilizar esta fecha.  
+                                                    Corresponde a un per\u00edodo ya cerrado.""",
                         "Validar fecha..",
                         JOptionPane.ERROR_MESSAGE);
                 btnGuardar.setEnabled(false);
-                DatFacfech.setDate(GregorianCalendar.getInstance().getTime());
+                DatFacfech.setDate(Calendar.getInstance().getTime());
             } // end if
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(

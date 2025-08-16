@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -39,7 +38,7 @@ public class RepCedulas extends javax.swing.JFrame {
     public RepCedulas() {
         initComponents();
         this.init = true;
-        this.conn = Menu.CONEXION.getConnection();
+        this.conn = Menu.DATABASE_CONNECTION_DRIVER.getConnection();
         this.coca = new Cocatalogo(conn);
         this.txtCuent = new JTextField("000");
         setCurrentPeriod();
@@ -722,7 +721,7 @@ public class RepCedulas extends javax.swing.JFrame {
         
         // Si el usuario eligió un año distinto de cero habrá que revisar el
         // histórico para verificar si el período solicitado existe.
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.set(Calendar.DAY_OF_MONTH, 1);
         cal.set(Calendar.MONTH, this.cboMes.getSelectedIndex());
         cal.set(Calendar.YEAR, Integer.parseInt(this.txtAno.getText().trim()));

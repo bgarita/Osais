@@ -17,7 +17,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -1164,7 +1163,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
         // Esta clase aplica o desaplica un asiento o rango de asientos (por fecha).
         CoactualizCat actuCat = new CoactualizCat(conn);
 
-        cal = GregorianCalendar.getInstance();
+        cal = Calendar.getInstance();
         cal.setTime(this.datFecha_comp.getDate());
 
         // Si la fecha del asiento se encuentra en el perido actual hay que mayorizar.
@@ -1940,7 +1939,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
             // Esta clase aplica o desaplica un asiento o rango de asientos (por fecha).
             CoactualizCat actuCat = new CoactualizCat(conn);
 
-            Calendar cal = GregorianCalendar.getInstance();
+            Calendar cal = Calendar.getInstance();
             cal.setTime(this.datFecha_comp.getDate());
 
             // Si la fecha del asiento se encuentra en el perido actual hay que 

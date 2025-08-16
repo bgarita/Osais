@@ -59,7 +59,7 @@ public class TiposAsiento extends JFrame {
         tabla = "cotipasient";
         nav = new Navegador();
 
-        conn = Menu.CONEXION.getConnection();
+        conn = Menu.DATABASE_CONNECTION_DRIVER.getConnection();
 
         nav.setConexion(conn);
         cotipasient = new Cotipasient(conn);

@@ -19,7 +19,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -1458,7 +1457,7 @@ public class ConsultaCajaHist extends JFrame {
         Date tempDate  = this.aCaja[index].getFechaFinal();
         
         
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.setTime(tempDate);
         cal.add(Calendar.HOUR, 23);
         cal.add(Calendar.MINUTE, 59);

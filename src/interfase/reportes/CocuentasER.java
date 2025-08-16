@@ -35,7 +35,7 @@ public class CocuentasER extends javax.swing.JFrame {
      */
     public CocuentasER() {
         initComponents();
-        this.conn = Menu.CONEXION.getConnection();
+        this.conn = Menu.DATABASE_CONNECTION_DRIVER.getConnection();
         cta = new Cuenta(conn);
         listPar = new ArrayList<>();
         loadParameters();

@@ -33,7 +33,7 @@ public class CierreContaAnual extends javax.swing.JFrame {
      */
     public CierreContaAnual() {
         initComponents();
-        this.conn = Menu.CONEXION.getConnection();
+        this.conn = Menu.DATABASE_CONNECTION_DRIVER.getConnection();
         this.per = new PeriodoContable(conn);
         this.lblPeriodo.setText("Periodo a cerrar: " + per.getMesLetras() + ", " + per.getAño());
         try {

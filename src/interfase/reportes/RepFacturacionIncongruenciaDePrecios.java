@@ -13,7 +13,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -42,7 +41,7 @@ public class RepFacturacionIncongruenciaDePrecios extends JFrame {
 
         conn = c;
 
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         DatMovfech1.setDate(cal.getTime());
         DatMovfech2.setDate(cal.getTime());
 

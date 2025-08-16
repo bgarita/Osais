@@ -19,7 +19,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -387,8 +386,8 @@ public class ConsultaFacturas extends javax.swing.JFrame {
     }//GEN-LAST:event_tblFacturasMouseClicked
 
     private void mnuImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuImprimirActionPerformed
-        Calendar cal1 = GregorianCalendar.getInstance();
-        Calendar cal2 = GregorianCalendar.getInstance();
+        Calendar cal1 = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
 
         // Obtener las filas de la tabla de detalle de facturas
         int rows = this.tblFacturas.getModel().getRowCount();

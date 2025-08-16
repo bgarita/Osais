@@ -2,7 +2,7 @@ package interfase.main;
 
 import Mail.Bitacora;
 import accesoDatos.CMD;
-import accesoDatos.DatabaseConnection;
+import accesoDatos.DatabaseConnectionDriver;
 import accesoDatos.UtilBD;
 import interfase.seguridad.CambioClave;
 import java.awt.HeadlessException;
@@ -22,7 +22,7 @@ import logica.utilitarios.Ut;
  */
 public class IngresoAcciones {
 
-    private DatabaseConnection conexion;
+    private DatabaseConnectionDriver databaseConnectionDriver;
     private Connection conn;
     private final String user;
     private final String password;
@@ -35,7 +35,7 @@ public class IngresoAcciones {
         this.password = new String(password);
         this.url = url;
         this.errorMsg = "";
-        conexion = null;
+        databaseConnectionDriver = null;
     }
 
     public String getErrorMsg() {
@@ -50,19 +50,19 @@ public class IngresoAcciones {
         return user;
     }
 
-    public DatabaseConnection getConexion() {
-        return conexion;
+    public DatabaseConnectionDriver getDatabaseConnectionDriver() {
+        return databaseConnectionDriver;
     }
 
-    public Connection getConn() {
+    public Connection getConnection() {
         return conn;
     }
-    
+
     public String getPassword() {
         return this.password;
     }
 
-    public boolean setConnected() {
+    public boolean createConnection() {
         String IP = getIP(url);
         //        if (UtilBD.jPing(IP)){
         //            System.out.println(IP);
@@ -70,7 +70,7 @@ public class IngresoAcciones {
         // Si el url es un localhost no se requiere todo el procesamiento
         // para cambiar dinámicamente al IP.
         if (url.contains("localhost")) {
-            conexion = new DatabaseConnection(user, password, url);
+            databaseConnectionDriver = new DatabaseConnectionDriver(user, password, url);
         } else {
             //String IP = getIP(url);
 
@@ -80,29 +80,29 @@ public class IngresoAcciones {
                 El reintento de conectarse solo ha sido probado con urls que contienen
                 número de puerto.
             NOTA: este jPing no está funcionando con mysql8.  Se debe comentar y
-            habilitar //conexion = new DatabaseConnection(usuario,pass2,url);
+            habilitar //conexion = new DatabaseConnectionDriver(usuario,pass2,url);
              */
 //            if (UtilBD.jPing(IP)){
-//                CONEXION = new DatabaseConnection(usuario,pass2,url);
+//                CONEXION = new DatabaseConnectionDriver(usuario,pass2,url);
 //            } else {
 //                retryConnection(usuario,pass2,url);
 //            } // end if
-            conexion = new DatabaseConnection(user, password, url);
+            databaseConnectionDriver = new DatabaseConnectionDriver(user, password, url);
             // Si el error persiste intento nuevamente.  Pero solo si se trata de 
             // un problema con la IP.
-            if (!conexion.isConnected()
-                    && conexion.getErrorMessage().contains("Communications link failure")) {
+            if (!databaseConnectionDriver.isConnected()
+                    && databaseConnectionDriver.getErrorMessage().contains("Communications link failure")) {
                 retryConnection(user, password, url);
             } // end if (!CONEXION.isConnected()) && ...
         } // end if (url.contains("localhost")) else ...
 
-        if (conexion.getErrorMessage().isEmpty()) {
-            conn = conexion.getSharedConnection();
+        if (databaseConnectionDriver.getErrorMessage().isEmpty()) {
+            conn = databaseConnectionDriver.getSharedConnection();
         } else {
-            this.errorMsg = conexion.getErrorMessage();
+            this.errorMsg = databaseConnectionDriver.getErrorMessage();
         }
-        
-        return conexion.isConnected();
+
+        return databaseConnectionDriver.isConnected();
     }
 
     private String getIP(String urlx) {
@@ -126,24 +126,24 @@ public class IngresoAcciones {
             lastIPNumber++;
             urlx = urlx.substring(0, lastDot + 1) + lastIPNumber + sinceColon;
 
-            //conexion = new DatabaseConnection(usuario,pass2);
-            conexion = new DatabaseConnection(usuario, pass2, urlx);
+            //conexion = new DatabaseConnectionDriver(usuario,pass2);
+            databaseConnectionDriver = new DatabaseConnectionDriver(usuario, pass2, urlx);
             // Fin Bosco modificado 01/05/2011
 
             // Si ya hay conexión me saldo del ciclo
-            if (conexion.isConnected()) {
+            if (databaseConnectionDriver.isConnected()) {
                 break;
             } // end if
 
             // Si no se conectó pero ya no es problema de IP...
-            if (!conexion.isConnected()
-                    && !conexion.getErrorMessage().contains("Communications link failure")) {
+            if (!databaseConnectionDriver.isConnected()
+                    && !databaseConnectionDriver.getErrorMessage().contains("Communications link failure")) {
                 return;
             } // end if
         } // end for
 
         // Aún no hay conexión realizo otros 11 intentos hacia abajo
-        if (!conexion.isConnected()) {
+        if (!databaseConnectionDriver.isConnected()) {
             urlx = url;
             lastDot = urlx.lastIndexOf(".");
             lastIPNumber = Integer.parseInt(urlx.substring(lastDot + 1, colon));
@@ -157,15 +157,15 @@ public class IngresoAcciones {
                 } // end if
 
                 urlx = urlx.substring(0, lastDot + 1) + lastIPNumber + sinceColon;
-                conexion = new DatabaseConnection(usuario, pass2, urlx);
+                databaseConnectionDriver = new DatabaseConnectionDriver(usuario, pass2, urlx);
 
                 // Si ya hay conexión o el número es negativo me saldo del ciclo
-                if (conexion.isConnected() || lastIPNumber < 0) {
+                if (databaseConnectionDriver.isConnected() || lastIPNumber < 0) {
                     break;
                 } // end if
                 // Si no se conectó pero ya no es problema de IP...
-                if (!conexion.isConnected()
-                        && !conexion.getErrorMessage().contains("Communications link failure")) {
+                if (!databaseConnectionDriver.isConnected()
+                        && !databaseConnectionDriver.getErrorMessage().contains("Communications link failure")) {
                     return;
                 } // end if
             } // end for
@@ -216,14 +216,14 @@ public class IngresoAcciones {
         boolean continuar = true;
         try {
             // Bosco agregado 25/12/2011.  Control de inyección de código.
-            if (Ut.isSQLInjection(conexion.getUserID())) {
+            if (Ut.isSQLInjection(databaseConnectionDriver.getUserID())) {
                 System.exit(0);
             } // end if
             // Fin Bosco agregado 25/12/2011.
             ps = conn.prepareStatement(sqlSent,
                     ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
-            ps.setString(1, conexion.getUserID());
+            ps.setString(1, databaseConnectionDriver.getUserID());
             rs = CMD.select(ps);
             if (!UtilBD.goRecord(rs, UtilBD.FIRST)) {
                 continuar = false;
@@ -253,6 +253,16 @@ public class IngresoAcciones {
         int diasPCC = 0; // Días para cmabiar la clave
 
         try {
+            if (rs != null && rs.getString("intervalo") == null) {
+                String msg = "Los parámetros de seguridad aún no han sido establecidos.\n"
+                        + "Debe ir a 'Admin -> Seguridad' y establecerlos.";
+                JOptionPane.showMessageDialog(null, msg,
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                b.writeToLog(this.getClass().getName() + "--> " + msg, Bitacora.ERROR);
+                return;
+            }
+            
             // Valido si el usuario está activo
             if (rs != null && !rs.getString("activo").equals("S")) {
                 JOptionPane.showMessageDialog(null, """
@@ -264,7 +274,6 @@ public class IngresoAcciones {
             } // end if
             diasPCC = rs.getInt("intervalo") - rs.getInt("dias");
         } catch (SQLException | HeadlessException ex) {
-            Logger.getLogger(Ingreso.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     "No se puede calcular la fecha de vencimiento de su clave.\n"
                     + ex.getMessage(),
@@ -285,13 +294,13 @@ public class IngresoAcciones {
                     = new CambioClave(
                             new javax.swing.JFrame(),
                             true, conn,
-                            conexion.getUserID(), true);
+                            databaseConnectionDriver.getUserID(), true);
             try {
                 // Verifico si efectivamente cambió la clave o no.
                 ps = conn.prepareStatement(sqlSent,
                         ResultSet.TYPE_SCROLL_SENSITIVE,
                         ResultSet.CONCUR_READ_ONLY);
-                ps.setString(1, conexion.getUserID());
+                ps.setString(1, databaseConnectionDriver.getUserID());
 
                 rs = CMD.select(ps);
 

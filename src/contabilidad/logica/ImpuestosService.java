@@ -28,7 +28,7 @@ public class ImpuestosService {
         boolean existe = false;
         String sqlSent
                 = "Select codigoTarifa from tarifa_iva Where codigoTarifa = ?";
-        try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
+        try (PreparedStatement ps = Menu.DATABASE_CONNECTION_DRIVER.getConnection().prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
             ps.setString(1, iv);
@@ -52,14 +52,12 @@ public class ImpuestosService {
                 + "	tarifa_iva.descrip,  "
                 + "	tarifa_iva.porcentaje,  "
                 + "	tarifa_iva.cuenta,  "
-                + "	ifNull(a.nom_cta, '') AS nom_cta, "
+                + "	IFNULL((SELECT nom_cta FROM vistacocatalogo WHERE cuenta = tarifa_iva.cuenta), '') AS nom_cta, "
                 + "	tarifa_iva.cuenta_c,  "
-                + "	ifNull(b.nom_cta,'') AS nom_cta_c "
+                + "	IFNULL((SELECT nom_cta FROM vistacocatalogo WHERE cuenta = tarifa_iva.cuenta_c), '') AS nom_cta_c "
                 + "FROM tarifa_iva  "
-                + "Left join vistacocatalogo a on tarifa_iva.cuenta = a.cuenta  "
-                + "Left join vistacocatalogo b on tarifa_iva.cuenta_c = b.cuenta  "
                 + "WHERE tarifa_iva.codigoTarifa = ?";
-        try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
+        try (PreparedStatement ps = Menu.DATABASE_CONNECTION_DRIVER.getConnection().prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
             ps.setString(1, codigoTarifa);
@@ -90,7 +88,7 @@ public class ImpuestosService {
         ivM = new ImpuestosM();
         String sqlSent
                 = "Select min(codigoTarifa) from tarifa_iva";
-        try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
+        try (PreparedStatement ps = Menu.DATABASE_CONNECTION_DRIVER.getConnection().prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
             ResultSet rs = CMD.select(ps);
@@ -106,7 +104,7 @@ public class ImpuestosService {
     public ImpuestosM getNext(String iv) throws SQLException {
         String sqlSent
                 = "Select min(codigoTarifa) from tarifa_iva Where codigoTarifa > ?";
-        try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
+        try (PreparedStatement ps = Menu.DATABASE_CONNECTION_DRIVER.getConnection().prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
             ps.setString(1, iv);
@@ -125,7 +123,7 @@ public class ImpuestosService {
     public ImpuestosM getPrevious(String iv) throws SQLException {
         String sqlSent
                 = "Select max(codigoTarifa) from tarifa_iva Where codigoTarifa < ?";
-        try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
+        try (PreparedStatement ps = Menu.DATABASE_CONNECTION_DRIVER.getConnection().prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
             ps.setString(1, iv);
@@ -146,7 +144,7 @@ public class ImpuestosService {
 
         String sqlSent
                 = "Select max(codigoTarifa) from tarifa_iva";
-        try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
+        try (PreparedStatement ps = Menu.DATABASE_CONNECTION_DRIVER.getConnection().prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
             ResultSet rs = CMD.select(ps);
@@ -168,13 +166,11 @@ public class ImpuestosService {
                 + "	tarifa_iva.descrip,  "
                 + "	tarifa_iva.porcentaje,  "
                 + "	tarifa_iva.cuenta,  "
-                + "	ifNull(a.nom_cta, '') AS nom_cta, "
+                + "	IFNULL((SELECT nom_cta FROM vistacocatalogo WHERE cuenta = tarifa_iva.cuenta), '') AS nom_cta, "
                 + "	tarifa_iva.cuenta_c,  "
-                + "	ifNull(b.nom_cta,'') AS nom_cta_c "
-                + "FROM tarifa_iva  "
-                + "Left join vistacocatalogo a on tarifa_iva.cuenta = a.cuenta  "
-                + "Left join vistacocatalogo b on tarifa_iva.cuenta_c = a.cuenta  ";
-        try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
+                + "	IFNULL((SELECT nom_cta FROM vistacocatalogo WHERE cuenta = tarifa_iva.cuenta_c), '') AS nom_cta_c "
+                + "FROM tarifa_iva  ";
+        try (PreparedStatement ps = Menu.DATABASE_CONNECTION_DRIVER.getConnection().prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
             ResultSet rs = CMD.select(ps);
@@ -198,9 +194,9 @@ public class ImpuestosService {
             ps.close();
         } // end try // end try
         return tmList;
-    } // end getAll
+    } // end getAllLike
 
-    public List<ImpuestosM> getAll(String like) throws SQLException {
+    public List<ImpuestosM> getAllLike(String like) throws SQLException {
         like = '%' + like.trim() + '%';
 
         List<ImpuestosM> tmList = new ArrayList<>();
@@ -211,14 +207,12 @@ public class ImpuestosService {
                 + "	tarifa_iva.descrip,  "
                 + "	tarifa_iva.porcentaje,  "
                 + "	tarifa_iva.cuenta,  "
-                + "	ifNull(a.nom_cta, '') AS nom_cta, "
+                + "	IFNULL((SELECT nom_cta FROM vistacocatalogo WHERE cuenta = tarifa_iva.cuenta), '') AS nom_cta, "
                 + "	tarifa_iva.cuenta_c,  "
-                + "	ifNull(b.nom_cta,'') AS nom_cta_c "
+                + "	IFNULL((SELECT nom_cta FROM vistacocatalogo WHERE cuenta = tarifa_iva.cuenta_c), '') AS nom_cta_c "
                 + "FROM tarifa_iva  "
-                + "Left join vistacocatalogo a on tarifa_iva.cuenta = a.cuenta  "
-                + "Left join vistacocatalogo b on tarifa_iva.cuenta_c = a.cuenta  "
                 + "where tarifa_iva.descrip like ?";
-        try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
+        try (PreparedStatement ps = Menu.DATABASE_CONNECTION_DRIVER.getConnection().prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
 
@@ -244,7 +238,7 @@ public class ImpuestosService {
             ps.close();
         } // end try // end try
         return tmList;
-    } // end getAll
+    } // end getAllLike
 
     private boolean insert() throws SQLException {
         boolean inserted;
@@ -254,7 +248,7 @@ public class ImpuestosService {
                 = "INSERT INTO `tarifa_iva` "
                 + "(`codigoTarifa`, `descrip`, `porcentaje`, `cuenta`, `cuenta_c`) "
                 + "VALUES (?, ?, ?, ?, ?);";
-        try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
+        try (PreparedStatement ps = Menu.DATABASE_CONNECTION_DRIVER.getConnection().prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
             ps.setString(1, this.ivM.getCodigoTarifa());
@@ -280,7 +274,7 @@ public class ImpuestosService {
                 = "UPDATE `tarifa_iva` SET "
                 + "`descrip` = ?, `porcentaje` = ?, `cuenta` = ?, `cuenta_c` = ? "
                 + "WHERE codigoTarifa = ?";
-        try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
+        try (PreparedStatement ps = Menu.DATABASE_CONNECTION_DRIVER.getConnection().prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
             ps.setString(1, ivM.getDescrip());
@@ -304,7 +298,7 @@ public class ImpuestosService {
 
         String sqlSent
                 = "DELETE FROM `tarifa_iva` Where codigoTarifa = ?";
-        try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
+        try (PreparedStatement ps = Menu.DATABASE_CONNECTION_DRIVER.getConnection().prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY)) {
             ps.setString(1, codigoTarifa);

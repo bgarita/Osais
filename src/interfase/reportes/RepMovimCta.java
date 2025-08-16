@@ -16,7 +16,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -45,7 +44,7 @@ public class RepMovimCta extends JFrame {
         conn = c;
         
 
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         DatFacfech1.setDate(cal.getTime());
         DatFacfech2.setDate(cal.getTime());
 
@@ -429,7 +428,7 @@ public class RepMovimCta extends JFrame {
         Para eso utilizo el método CGgetSaldoAl y le mando la fecha inicial
         menos un día.
         */
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.setTime(DatFacfech1.getDate());
         cal.add(Calendar.DAY_OF_MONTH, -1);
         double saldoAnterior;

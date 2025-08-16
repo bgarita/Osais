@@ -5,7 +5,6 @@ import interfase.menus.Menu;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -26,8 +25,8 @@ public class RepComparativoMensual extends javax.swing.JFrame {
      */
     public RepComparativoMensual() {
         initComponents();
-        this.conn = Menu.CONEXION.getConnection();
-        Calendar cal = GregorianCalendar.getInstance();
+        this.conn = Menu.DATABASE_CONNECTION_DRIVER.getConnection();
+        Calendar cal = Calendar.getInstance();
         this.txtYearA.setText(cal.get(Calendar.YEAR) + "");
         this.txtYearB.setText((cal.get(Calendar.YEAR) - 1) + "");
     }

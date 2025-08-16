@@ -1,9 +1,2 @@
 PRIORITARIO:
-- Comparar los archivos (en temp) de laflor y contadm y hacer los cambios necesarios en ambas bases de datos
-    para que queden iguales.
-- Luego comparar contadm con contaxyz para ver cómo están las diferencias.
-- Luego comparar contra modelo y hacer que tambièn esté igual
-
-1. Revisar el proceso de entradas de inventario.  La conexión se está cerrando. En proceso...
-    Debe haber varios casos iguales.
-2. Continuar con la separación de código para evitar clases gigantes.
+1. Continuar con la separación de código para evitar clases gigantes.

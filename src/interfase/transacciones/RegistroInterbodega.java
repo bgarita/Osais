@@ -20,7 +20,6 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -78,7 +77,7 @@ public class RegistroInterbodega extends javax.swing.JFrame {
         stat = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY);
 
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         DatMovfech.setDate(cal.getTime());
         txtMovcant.setText("0.00");
         txtMovcoun.setText("0.00");

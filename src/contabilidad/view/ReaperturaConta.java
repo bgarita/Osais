@@ -32,7 +32,7 @@ public class ReaperturaConta extends javax.swing.JFrame {
      */
     public ReaperturaConta() {
         initComponents();
-        conn = Menu.CONEXION.getConnection();
+        conn = Menu.DATABASE_CONNECTION_DRIVER.getConnection();
 
         principio = true;
         fin = false;

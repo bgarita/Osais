@@ -12,7 +12,6 @@ import interfase.otros.Navegador;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -28,8 +27,6 @@ public class RepEstadoDeLasCXC extends JFrame {
 
     private Connection conn = null;
     Navegador          Nav = null;
-    private final Buscador   bd = null;
-    private final short objetoBusqueda = 1;
     
     /** Creates new form
      * @param c
@@ -39,7 +36,7 @@ public class RepEstadoDeLasCXC extends JFrame {
 
         conn = c;
 
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         DatFacfech.setDate(cal.getTime());
 
         Nav = new Navegador();

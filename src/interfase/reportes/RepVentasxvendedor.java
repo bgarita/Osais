@@ -11,7 +11,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -28,7 +27,9 @@ public class RepVentasxvendedor extends JFrame {
     private Connection conn = null;
     private boolean inicio, fin;
     
-    /** Creates new form */
+    /** Creates new form
+     * @param c
+     * @throws java.sql.SQLException */
     public RepVentasxvendedor(Connection c) throws SQLException {
         inicio = true;
         fin = false;
@@ -36,7 +37,7 @@ public class RepVentasxvendedor extends JFrame {
 
         conn = c;
 
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         DatFacfech1.setDate(cal.getTime());
         DatFacfech2.setDate(cal.getTime());
         inicio = false;

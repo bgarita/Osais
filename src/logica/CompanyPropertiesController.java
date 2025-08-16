@@ -115,7 +115,7 @@ public class CompanyPropertiesController {
         StringBuilder sb = new StringBuilder();
         String sqlSent = "SHOW DATABASES";
         ResultSet rs;
-        try (java.sql.Connection conn = Menu.CONEXION.getConnection(); 
+        try (java.sql.Connection conn = Menu.DATABASE_CONNECTION_DRIVER.getConnection(); 
                 PreparedStatement ps = conn.prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
 

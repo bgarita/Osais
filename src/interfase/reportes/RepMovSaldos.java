@@ -14,7 +14,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -44,13 +43,15 @@ public class RepMovSaldos extends JFrame {
     private int objetoBusqueda = ARTCODE1;
     private final Bitacora b = new Bitacora();
     
-    /** Creates new form */
+    /** Creates new form
+     * @param c
+     * @throws java.sql.SQLException */
     public RepMovSaldos(Connection c) throws SQLException {
         initComponents();
 
         conn = c;
 
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         DatMovfech1.setDate(cal.getTime());
         DatMovfech2.setDate(cal.getTime());
 

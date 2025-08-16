@@ -39,7 +39,7 @@ public class AplicacionNotaCXP extends javax.swing.JFrame {
     private ResultSet  rsMoneda = null; // Monedas
     private ResultSet  rsNotasD = null; // Notas de débito por aplicar
     private boolean    inicio = true;   // Se usa para evitar que corran agunos eventos
-    private Calendar   fechaA = GregorianCalendar.getInstance();
+    private Calendar   fechaA = Calendar.getInstance();
     private boolean fechaCorrecta = false;
     private String notaRecibida = null;   // Parámetro recibido para aplicar
     private final Bitacora b = new Bitacora();

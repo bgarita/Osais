@@ -16,7 +16,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -26,6 +25,7 @@ import javax.swing.table.DefaultTableModel;
 import logica.Column;
 import contabilidad.logica.Coperiodoco;
 import contabilidad.logica.Cuenta;
+import contabilidad.logica.Mayores;
 import contabilidad.model.PeriodoContable;
 import java.util.HashMap;
 import java.util.Map;
@@ -61,7 +61,7 @@ public class UtilBD {
     public static final int LAST = 5;
     public static final int AFTER_LAST = 6;
     public static final int ABSOLUTE = 7;
-
+    
     /**
      * Este método verifica si el sistema está configurado para redondear
      * precios o no. (08/07/2009 - Bosco Garita)
@@ -181,7 +181,7 @@ public class UtilBD {
     public static float tipoCambioDolar(Connection c)
             throws CurrencyExchangeException, SQLException {
         float tc;
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
 
         // Select para cargar el código de moneda del dolar.
         String sqlSent = "Select codigoDolar from config";
@@ -751,9 +751,6 @@ public class UtilBD {
 
             if (rs == null || !rs.first()) {
                 corrio = false;
-            } // end if
-
-            if (!corrio) {
                 ps.close();
                 return corrio;
             } // end if
@@ -843,16 +840,16 @@ public class UtilBD {
                 corrio = false;
             } // end if
 
-            if (corrio) {
+            if (rs != null && corrio) {
                 rs.beforeFirst();
-                PreparedStatement ps1 = c.prepareCall(sqlUpdate);
-                while (rs.next()) {
-                    artcode = rs.getString("artcode");
-                    ps1.setString(1, artcode);
-                    // No se valida ningún valor de devolución, corre o no corre, eso es todo.
-                    ps1.execute();
-                } // end while
-                ps1.close();
+                try (PreparedStatement ps1 = c.prepareCall(sqlUpdate)) {
+                    while (rs.next()) {
+                        artcode = rs.getString("artcode");
+                        ps1.setString(1, artcode);
+                        // No se valida ningún valor de devolución, corre o no corre, eso es todo.
+                        ps1.execute();
+                    } // end while
+                }
             } // end (corrio)
             ps.close();
         } catch (SQLException ex) {
@@ -934,15 +931,12 @@ public class UtilBD {
         boolean success = false;
         try {
             switch (type) {
-                case START_TRANSACTION:
-                    c.setAutoCommit(false);
-                    break;
-                case COMMIT:
-                    c.setAutoCommit(true);
-                    break;
-                default:
+                case START_TRANSACTION -> c.setAutoCommit(false);
+                case COMMIT -> c.setAutoCommit(true);
+                default -> {
                     c.rollback();
                     c.setAutoCommit(true);
+                }
             } // end switch
             success = true;
         } catch (SQLException ex) {
@@ -1236,7 +1230,7 @@ public class UtilBD {
         String sqlUpdate, bodega, localiz;
         int pos;
         PreparedStatement ps;
-        //Connection conn = DatabaseConnection.getConnection();
+        //Connection conn = DatabaseConnectionDriver.getConnection();
 
         // Si la tabla viene vacía no continúo
         if (tblExistencias.getRowCount() == 0 || tblExistencias.getValueAt(0, 0) == null) {
@@ -1447,7 +1441,7 @@ public class UtilBD {
     /**
      * Obtener el saldo de una cuenta a una fecha específica.
      *
-     * @param cta Cuenta objeto con la cuenta y CONEXION ya cargados.
+     * @param cta Cuenta objeto con la cuenta y DATABASE_CONNECTION_DRIVER ya cargados.
      * @param fecha Date fecha a la que se desea obtener el saldo
      * @return double saldo de la cuenta
      * @throws java.lang.Exception
@@ -1475,7 +1469,7 @@ public class UtilBD {
         ResultSet rs;
 
         // Establezco una fecha para determinar si existe un período ya cerrado.
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(fecha.getTime());
         cal.set(Calendar.DAY_OF_MONTH, 1);
         cal.add(Calendar.DAY_OF_MONTH, -1);
@@ -1672,8 +1666,8 @@ public class UtilBD {
                 + "WHERE e.fecha_comp BETWEEN ? AND ? "
                 + "GROUP BY 1";
         PeriodoContable per = new PeriodoContable(conn);
-        Calendar fecha1 = GregorianCalendar.getInstance();
-        Calendar fecha2 = GregorianCalendar.getInstance();
+        Calendar fecha1 = Calendar.getInstance();
+        Calendar fecha2 = Calendar.getInstance();
 
         fecha1.setTime(per.getFecha_in());
         fecha2.setTime(per.getFecha_fi());
@@ -1746,8 +1740,8 @@ public class UtilBD {
                 + "	FROM coasientoe e "
                 + "	WHERE e.fecha_comp BETWEEN ? AND ?";
         PeriodoContable per = new PeriodoContable(conn);
-        Calendar fecha1 = GregorianCalendar.getInstance();
-        Calendar fecha2 = GregorianCalendar.getInstance();
+        Calendar fecha1 = Calendar.getInstance();
+        Calendar fecha2 = Calendar.getInstance();
 
         fecha1.setTime(per.getFecha_in());
         fecha2.setTime(per.getFecha_fi());
@@ -2055,7 +2049,7 @@ public class UtilBD {
      */
     public static boolean CGfechaValida(Connection conn, Date fecha) throws SQLException {
         boolean valida = false;
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.setTime(fecha);
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH) + 1;
@@ -2314,41 +2308,14 @@ public class UtilBD {
         result[0] = "N";    // No hay error
         result[1] = "";     // Mensaje de error
 
-        int lnMax_cta, // Longitud máxima de la cuenta
-                ln1, // Posición de la primera cuenta de mayor
-                ln2, // Posición de la segunda cuenta de mayor
-                ln3, // Posición de la tercera cuenta de mayor
-                x;      // Se usa para optener la posición de la cuenta
-        String lcCta, temp, lcKey;
-
-        lnMax_cta = 12;
-        ln1 = 3;
-        ln2 = 6;
-        ln3 = 9;
+        int posCuenta; // Se usa para optener la posición de la cuenta
+        String cuentaMayor, 
+                key;
 
         // Creo todas las cuentas de mayor en un solo string. (36 posiciones)
-        lcCta = cuenta.substring(0, ln1);
+        cuentaMayor = Mayores.getMayores(cuenta);
 
-        // Cuenta de mayor primer nivel
-        lcCta = Ut.rpad(lcCta, "0", lnMax_cta);
-
-        // Cuenta de mayor segundo nivel
-        temp = cuenta.substring(0, ln2);
-        temp = Ut.rpad(temp, "0", lnMax_cta);
-        lcCta += temp;
-
-        // Cuenta de mayor tercer nivel
-        temp = cuenta.substring(0, ln3);
-        temp = Ut.rpad(temp, "0", lnMax_cta);
-        lcCta += temp;
-
-        // Obtener la posición de la cuenta dentro todo el String
-        x = Ut.AT(lcCta, cuenta);
-        if (x > 0) {
-            lcCta = lcCta.substring(0, x);
-        } // end if
-
-        x = 0;
+        posCuenta = 0;
         PreparedStatement ps;
         ResultSet rs;
         String mayor, sub_cta, sub_sub, colect;
@@ -2368,13 +2335,13 @@ public class UtilBD {
                     ResultSet.CONCUR_READ_ONLY);
 
             // Recorrer todo String de cuenta para ir procesando cada cuenta de mayor
-            while (x < lcCta.length()) {
+            while (posCuenta < cuentaMayor.length()) {
                 // Cuenta mayor
-                lcKey = lcCta.substring(x, (x + lnMax_cta));
-                mayor = lcKey.substring(0, ln1);
-                sub_cta = lcKey.substring(ln1, ln2);
-                sub_sub = lcKey.substring(ln2, ln3);
-                colect = lcKey.substring(ln3);
+                key = cuentaMayor.substring(posCuenta, (posCuenta + Mayores.LONGITUD_MAXIMA));
+                mayor = key.substring(0, Mayores.POSICION_PRIMER_NIVEL);
+                sub_cta = key.substring(Mayores.POSICION_PRIMER_NIVEL, Mayores.POSICION_SEGUNDO_NIVEL);
+                sub_sub = key.substring(Mayores.POSICION_SEGUNDO_NIVEL, Mayores.POSICION_TERCER_NIVEL);
+                colect = key.substring(Mayores.POSICION_TERCER_NIVEL);
 
                 // Verificar si la cuenta existe
                 ps.setString(1, mayor);
@@ -2395,12 +2362,11 @@ public class UtilBD {
 
                 rs.close();
                 // Paso a la siguiente cuenta
-                x += lnMax_cta;
+                posCuenta += Mayores.LONGITUD_MAXIMA;
             } // end while
 
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(UtilBD.class.getName()).log(Level.SEVERE, null, ex);
             result[0] = "S";
             result[1] = ex.getMessage();
         } // end try-catch
@@ -2737,7 +2703,7 @@ public class UtilBD {
 
     public static void optimizeDatabase() throws SQLException {
         String sqlSent = "SHOW FULL TABLES FROM " + Menu.BASEDATOS; // Trae todas las tablas y vistas.
-        PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent,
+        PreparedStatement ps = Menu.DATABASE_CONNECTION_DRIVER.getConnection().prepareStatement(sqlSent,
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY);
         ResultSet rs = CMD.select(ps);
@@ -2755,12 +2721,12 @@ public class UtilBD {
                 continue;
             }
             sqlSent = "ALTER TABLE " + table + " ENGINE = 'InnoDB'";
-            ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent);
+            ps = Menu.DATABASE_CONNECTION_DRIVER.getConnection().prepareStatement(sqlSent);
             CMD.update(ps);
         } // end for
 
         sqlSent = "ALTER TABLE saisystem.notificado ENGINE = 'InnoDB'";
-        ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent);
+        ps = Menu.DATABASE_CONNECTION_DRIVER.getConnection().prepareStatement(sqlSent);
         CMD.update(ps);
 
         ps.close();

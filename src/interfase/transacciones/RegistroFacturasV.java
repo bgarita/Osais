@@ -29,7 +29,6 @@ import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -67,7 +66,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
     private String codigoTC;            // Código del tipo de cambio
     private boolean inicio = true;      // Se usa para evitar que corran agunos eventos
     private boolean fin = false;        // Se usa para evitar que corran agunos eventos
-    private Calendar fechaA = GregorianCalendar.getInstance();
+    private Calendar fechaA = Calendar.getInstance();
     private boolean validarCliprec = true;
     private JTextArea fatext = new JTextArea("");  // Texto para la factura
     private final Bitacora b = new Bitacora();
@@ -2823,7 +2822,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 // número de precio.
                 if (rsArtcode.getBoolean("aplicaOferta")) {
                     Calendar c;
-                    c = GregorianCalendar.getInstance();
+                    c = Calendar.getInstance();
                     if (diaOferta == c.get(Calendar.DAY_OF_WEEK)) { // La semana debe iniciar por domingo
                         campoPrecio = "artpre" + precioOferta;
                     } // end if
@@ -5274,7 +5273,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         facplazo = txtFacplaz.getText().trim();
         facplazo = facplazo.equals("") ? "0" : facplazo;
 
-        Calendar cal = GregorianCalendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.setTime(this.DatFacfech.getDate());
         cal.add(Calendar.DAY_OF_YEAR, Integer.parseInt(facplazo));
         facnpag = this.txtFacnpag.getText().trim();
@@ -6353,7 +6352,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         tran.setTipodoc("FAC");
         tran.setTipomov("D");
 
-        cal = GregorianCalendar.getInstance();
+        cal = Calendar.getInstance();
 
         tran.setFecha(new Date(cal.getTimeInMillis()));
         tran.setCedula(this.txtClicode.getText());

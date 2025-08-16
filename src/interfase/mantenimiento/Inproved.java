@@ -2,7 +2,6 @@
  * Inproved.java 
  *
  * Created on 02/05/2009, 12:06:56 PM Bosco Garita Azofeifa
- * Modificado 02/09/2013, 08:12:00 PM Bosco Garita Azofeifa
  */
 package interfase.mantenimiento;
 
@@ -47,10 +46,7 @@ public class Inproved extends javax.swing.JFrame implements IMantenimiento {
     private final Statement stat;
     private ResultSet rs = null;
     private final String tabla;
-    // Bosco agregado 02/09/2013
-    // Agrego la clase de cuenta contable
     private Cuenta cuenta;
-    // Fin Bosco agregado 02/09/2013
 
     // Información para el xml de compara (Julio 2019)
     private int codigoP;    // Provincia
@@ -63,20 +59,20 @@ public class Inproved extends javax.swing.JFrame implements IMantenimiento {
     private boolean inicio;
     private Bitacora b = new Bitacora();
 
-    public Inproved(Connection c) throws Exception {
+    public Inproved(Connection conn) throws Exception {
         initComponents();
 
+        // Esta variable se usa para que algunos eventos no se disparen
+        // ya sea al inicio del form o al final.
         inicio = true;
 
-        // Bosco agregado 15/01/2012.
         // Establecer la máscara telefónica de acuerdo con la configuración.
         javax.swing.JFormattedTextField[] campos
                 = {txtProtel1, txtProtel2, txtProfax};
-        UtilBD.setMascaraT(c, campos);
-        // Fin Bosco agregado 15/01/2012.
+        UtilBD.setMascaraT(conn, campos);
 
         btnBuscar.setVisible(false);
-        conn = c;
+        this.conn = conn;
         tabla = "inproved";
         nav = new Navegador();
         nav.setConexion(conn);
@@ -87,9 +83,7 @@ public class Inproved extends javax.swing.JFrame implements IMantenimiento {
         if (rs == null || !rs.first() || rs.getRow() < 1) {
             return;
         } // end if
-        // Bosco agregado 02/09/2013
         cuenta = new Cuenta();
-        // Fin Bosco agregado 02/09/2013
         cargarObjetos();
 
         inicio = false;
@@ -1499,8 +1493,6 @@ public class Inproved extends javax.swing.JFrame implements IMantenimiento {
 
     @Override
     public final void cargarObjetos() {
-        // Bosco modificado 19/09/2011.
-        // Agrego la variable telefono y toda su funcionalidad
         String telefono;
         DateFormat df = DateFormat.getDateInstance();
         try {
@@ -1541,23 +1533,19 @@ public class Inproved extends javax.swing.JFrame implements IMantenimiento {
             txtProsald.setText(
                     Ut.setDecimalFormat(rs.getString("prosald"), "#,##0.00"));
             txtProplaz.setText(rs.getString("proplaz"));
-
-            // Bosco agregado 22/06/2019
             txtEmail.setText(rs.getString("email"));
             this.codigoP = rs.getInt("provincia");
             this.codigoC = rs.getInt("canton");
             this.codigoD = rs.getInt("distrito");
             this.txtIDProv.setText(rs.getString("idprov"));
             cboIdTipo.setSelectedIndex(rs.getInt("idtipo") - 1);
-            // Fin Bosco agregado 22/06/2019
-
-            // Bosco modificado 02/09/2013
-            //txtProcueco.setText(rs.getString("procueco"));
+            
             txtMayor.setText(rs.getString("mayor"));
             txtSub_cta.setText(rs.getString("sub_cta"));
             txtSub_sub.setText(rs.getString("sub_sub"));
             txtColect.setText(rs.getString("colect"));
             lblNom_cta.setText("");
+            
             // Si la cuenta está completa entonces cargo la clase cuenta
             if ((rs.getString("mayor")
                     + rs.getString("sub_cta")
@@ -1579,9 +1567,8 @@ public class Inproved extends javax.swing.JFrame implements IMantenimiento {
 
                 lblNom_cta.setText(cuenta.getNom_cta());
             } // end if
-            // Fin Bosco modificado 02/09/2013
+            
             txtProcueba.setText(rs.getString("procueba"));
-
             txtProsald1.setText(txtProsald.getText());
 
             // Cargar las provincias
@@ -1625,10 +1612,7 @@ public class Inproved extends javax.swing.JFrame implements IMantenimiento {
                 protel2,
                 profax,
                 proapar,
-                // Bosco modificado 02/09/2013
-                //Procueco,
                 mayor, sub_cta, sub_sub, colect,
-                // Fin Bosco modificado 02/09/2013
                 procueba,
                 email,
                 idProv;
@@ -1644,13 +1628,10 @@ public class Inproved extends javax.swing.JFrame implements IMantenimiento {
         proapar = txtProapar.getText().trim();
         pronac = (chkPronac.isSelected() == true ? 1 : 0);
         proplaz = Integer.parseInt(txtProplaz.getText().trim());
-        // Bosco modificado 02/09/2013
-        //Procueco = txtProcueco.getText().trim();
         mayor = txtMayor.getText();
         sub_cta = txtSub_cta.getText();
         sub_sub = txtSub_sub.getText();
         colect = txtColect.getText();
-        // Fin Bosco modificado 02/09/2013
         procueba = txtProcueba.getText().trim();
 
         email = this.txtEmail.getText().trim(); // Julio 2019
@@ -1812,7 +1793,6 @@ public class Inproved extends javax.swing.JFrame implements IMantenimiento {
             String sqlSent = "SELECT ConsultarProveedor(?)";
             PreparedStatement ps = conn.prepareStatement(sqlSent);
             ps.setString(1, procode);
-            //rs2 = stat.executeQuery(sqlSent);
             ResultSet rs2 = ps.executeQuery();
             if (rs2 != null && rs2.first() && rs2.getString(1) != null) {
                 existe = true;
@@ -1889,28 +1869,20 @@ public class Inproved extends javax.swing.JFrame implements IMantenimiento {
                 txtProapar.setText("");
                 chkPronac.setSelected(false);
                 txtProplaz.setText("");
-
-                // Bosco modificado 02/09/2013
-                //txtProcueco.setText("");
                 txtMayor.setText("");
                 txtSub_cta.setText("");
                 txtSub_sub.setText("");
                 txtColect.setText("");
-                // Fin Bosco modificado 02/09/2013
-
                 txtProcueba.setText("");
-
                 txtProsald.setText("0.00");
                 txtPromouc.setText("0.00");
                 txtProfeuc.setText("00/00/0000");
                 
-                // Bosco agregado 23/06/2019
                 this.codigoP = 1;
                 this.codigoC = 1;
                 this.codigoD = 1;
                 this.txtIDProv.setText("");
                 this.cboIdTipo.setSelectedIndex(0);
-                // Fin Bosco agregado 23/06/2019
             } else {
                 cargarObjetos();
             } // end if

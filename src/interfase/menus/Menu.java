@@ -21,7 +21,7 @@ import contabilidad.view.CocuentasresV;
 import contabilidad.view.ImpuestosV;
 import Mail.Bitacora;
 import accesoDatos.CMD;
-import accesoDatos.DatabaseConnection;
+import accesoDatos.DatabaseConnectionDriver;
 import accesoDatos.DatabaseEngine;
 import accesoDatos.UpdateVersion;
 import accesoDatos.UtilBD;
@@ -115,7 +115,7 @@ public class Menu extends javax.swing.JFrame {
     public static String OS_NAME;
     public static String PORT;
     public static DirectoryStructure DIR;
-    public static DatabaseConnection CONEXION;
+    public static DatabaseConnectionDriver DATABASE_CONNECTION_DRIVER;
     public static String engineVersion;
     public static String dataBaseVersion;
     private Path modulos;  // Archivo donde se encuentran los módulos habilitados
@@ -123,7 +123,7 @@ public class Menu extends javax.swing.JFrame {
     /**
      * Creates new form Menu
      */
-    Menu(DatabaseConnection c, boolean disponible, String url) {
+    Menu(DatabaseConnectionDriver databaseConnectionDriver, boolean disponible, String url) {
         initComponents();
         addWindowListener(new WindowAdapter() {
             @Override
@@ -137,7 +137,7 @@ public class Menu extends javax.swing.JFrame {
         // Establecer la versión del motor de base de datos
         // y la versión de la base de datos.
         try {
-            DatabaseEngine databaseEngine = new DatabaseEngine(c.getConnection());
+            DatabaseEngine databaseEngine = new DatabaseEngine(databaseConnectionDriver.getConnection());
             Menu.engineVersion = databaseEngine.getEngineVersion();
             Menu.dataBaseVersion = databaseEngine.getDataBaseVersion();
         } catch (SQLException ex) {
@@ -149,12 +149,12 @@ public class Menu extends javax.swing.JFrame {
         } // end try-catch
         // Fin Bosco agregado 19/07/2019
 
-        CONEXION = c;
-        Menu.USUARIO = c.getUserID();
-        Menu.BASEDATOS = c.getDataBaseName();
+        Menu.DATABASE_CONNECTION_DRIVER = databaseConnectionDriver;
+        Menu.USUARIO = databaseConnectionDriver.getUserID();
+        Menu.BASEDATOS = databaseConnectionDriver.getDataBaseName();
         Menu.url = url;
         Menu.OS_NAME = Ut.getProperty(Ut.OS_NAME);
-        Menu.PORT = DatabaseConnection.getConnectionPort(url);
+        Menu.PORT = DatabaseConnectionDriver.getConnectionPort(url);
 
         // Estructura de carpetas del sistema. Si una carpeta no existe, se crea.
         DIR = new DirectoryStructure();
@@ -170,9 +170,9 @@ public class Menu extends javax.swing.JFrame {
         this.mnuConsultaXML.setVisible(false); // Se deshabilita permamentemente para luego evaluar si la borro totalmente 05/04/2023
 
         // Estas opciones solamente las pueden ver estos usuarios
-        if (c.getUserID().equalsIgnoreCase("OWNER")
-                || c.getUserID().equalsIgnoreCase("BGARITA")
-                || c.getUserID().equalsIgnoreCase("BGARITAA")) {
+        if (databaseConnectionDriver.getUserID().equalsIgnoreCase("OWNER")
+                || databaseConnectionDriver.getUserID().equalsIgnoreCase("BGARITA")
+                || databaseConnectionDriver.getUserID().equalsIgnoreCase("BGARITAA")) {
             this.chkMenuSistemaDisp.setVisible(true);
             this.mnuDesconectarUsers.setVisible(true);
             this.mnuImportarInvw.setVisible(true);
@@ -194,7 +194,7 @@ public class Menu extends javax.swing.JFrame {
         FONDO = new Fondo();
         this.add(FONDO);
 
-        sConn = c.getSharedConnection();
+        sConn = databaseConnectionDriver.getSharedConnection();
 
         NAV = new Navegador();
         NAV.setConexion(sConn);
@@ -242,7 +242,7 @@ public class Menu extends javax.swing.JFrame {
          * notificación. Este intervalo se debe comparar contra el max(fecha) de
          * la tabla saisystem.notificado.
          */
-        NOTIF = new Notificacion(CONEXION.getConnection());
+        NOTIF = new Notificacion(DATABASE_CONNECTION_DRIVER.getConnection());
         NOTIF.start();
         // Fin Bosco agregado 27/07/2013
 
@@ -2115,47 +2115,47 @@ public class Menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mnuProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuProductosActionPerformed
-        Inarticu.main("", CONEXION.getConnection());
+        Inarticu.main("", DATABASE_CONNECTION_DRIVER.getConnection());
 }//GEN-LAST:event_mnuProductosActionPerformed
 
     private void mnuInfamilyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuInfamilyActionPerformed
-        Infamily.main(CONEXION.getConnection());
+        Infamily.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuInfamilyActionPerformed
 
     private void mnuBodegasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBodegasActionPerformed
-        Bodegas.main(CONEXION.getConnection());
+        Bodegas.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuBodegasActionPerformed
 
     private void mnuCatalogoProveedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCatalogoProveedoresActionPerformed
-        Inproved.main(CONEXION.getConnection());
+        Inproved.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuCatalogoProveedoresActionPerformed
 
     private void mnuCentroCostoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCentroCostoActionPerformed
-        CentroCosto.main(CONEXION.getConnection());
+        CentroCosto.main(DATABASE_CONNECTION_DRIVER.getConnection());
 }//GEN-LAST:event_mnuCentroCostoActionPerformed
 
     private void mnuConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConfiguracionActionPerformed
         // Se envía el fondo de pantalla como parámetro
-        Config.main(CONEXION.getConnection(), FONDO);
+        Config.main(DATABASE_CONNECTION_DRIVER.getConnection(), FONDO);
     }//GEN-LAST:event_mnuConfiguracionActionPerformed
 
     private void mnuCatalogoZonasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCatalogoZonasActionPerformed
-        Territorios.main(CONEXION.getConnection());
+        Territorios.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuCatalogoZonasActionPerformed
 
     private void mnuCatalogoVendedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCatalogoVendedoresActionPerformed
-        Vendedores.main(CONEXION.getConnection());
+        Vendedores.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuCatalogoVendedoresActionPerformed
 
     private void mnuCatalogoClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCatalogoClientesActionPerformed
-        Inclient.main(CONEXION.getConnection(), "");
+        Inclient.main(DATABASE_CONNECTION_DRIVER.getConnection(), "");
     }//GEN-LAST:event_mnuCatalogoClientesActionPerformed
 
     private void mnuEntradasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuEntradasActionPerformed
         general.model.catalogues.CatalogueDriver driver;
         int[] catalogo = {CatalogueDriver.BODEGAS, CatalogueDriver.TIPOS_DOCUMENTO};
         try {
-            driver = new CatalogueDriver(CONEXION.getConnection(), catalogo);
+            driver = new CatalogueDriver(DATABASE_CONNECTION_DRIVER.getConnection(), catalogo);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
@@ -2164,47 +2164,47 @@ public class Menu extends javax.swing.JFrame {
             log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
-        RegistroEntradas.main(CONEXION.getConnection(), driver);
+        RegistroEntradas.main(DATABASE_CONNECTION_DRIVER.getConnection(), driver);
 }//GEN-LAST:event_mnuEntradasActionPerformed
 
     private void mnuMonedasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMonedasActionPerformed
-        Monedas.main(CONEXION.getConnection());
+        Monedas.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuMonedasActionPerformed
 
     private void mnuTipocambioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuTipocambioActionPerformed
-        Tipocambio.main(CONEXION.getConnection());
+        Tipocambio.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuTipocambioActionPerformed
 
     private void mnuBarcodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBarcodeActionPerformed
-        Codigosdebarra.main(CONEXION.getConnection());
+        Codigosdebarra.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuBarcodeActionPerformed
 
     private void mnuSalidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSalidasActionPerformed
-        RegistroSalidas.main(CONEXION.getConnection());
+        RegistroSalidas.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuSalidasActionPerformed
 
     private void mnuInterBodegaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuInterBodegaActionPerformed
-        RegistroInterbodega.main(CONEXION.getConnection());
+        RegistroInterbodega.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuInterBodegaActionPerformed
 
     private void mnuPedidosVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPedidosVActionPerformed
-        RegistroPedidosV.main(CONEXION.getConnection(), "");
+        RegistroPedidosV.main(DATABASE_CONNECTION_DRIVER.getConnection(), "");
     }//GEN-LAST:event_mnuPedidosVActionPerformed
 
     private void mnuFacturacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuFacturacionActionPerformed
-        RegistroFacturasV.main(CONEXION.getConnection());
+        RegistroFacturasV.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuFacturacionActionPerformed
 
     private void mnuIntegridadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuIntegridadActionPerformed
         String program = "Integridad";
         String descrip = "Revisar integridad de base de datos";
         try {
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), program)) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -2216,7 +2216,7 @@ public class Menu extends javax.swing.JFrame {
             return;
         }
 
-        new MantenimientoSistema(CONEXION.getConnection()).setVisible(true);
+        new MantenimientoSistema(DATABASE_CONNECTION_DRIVER.getConnection()).setVisible(true);
 
     }//GEN-LAST:event_mnuIntegridadActionPerformed
 
@@ -2229,12 +2229,12 @@ public class Menu extends javax.swing.JFrame {
             // Integración del segundo nivel de seguridad.
             String program = "ImpresionFactura";
             String descrip = "Imprimir facturas";
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "ImpresionFactura")) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), "ImpresionFactura")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no posee privilegios para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -2249,22 +2249,22 @@ public class Menu extends javax.swing.JFrame {
         new ImpresionFactura(
                 new java.awt.Frame(),
                 true, // Modal
-                CONEXION.getConnection(), // Conexión
+DATABASE_CONNECTION_DRIVER.getConnection(), // Conexión
                 "0", // Número de factura, ND o NC
                 1) // 1 = Factura, 2 = ND, 3 = NC
                 .setVisible(true);
     }//GEN-LAST:event_mnuImprimirFacturaActionPerformed
 
     private void mnuNDCXCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuNDCXCActionPerformed
-        RegistroNDCXC.main(CONEXION.getConnection());
+        RegistroNDCXC.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuNDCXCActionPerformed
 
     private void mnuNCCXCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuNCCXCActionPerformed
-        RegistroNCCXC.main(CONEXION.getConnection());
+        RegistroNCCXC.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuNCCXCActionPerformed
 
     private void mnuPagosCXCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPagosCXCActionPerformed
-        RegistroPagosCXC.main(CONEXION.getConnection()); // Debe correr con conexión compartida
+        RegistroPagosCXC.main(DATABASE_CONNECTION_DRIVER.getConnection()); // Debe correr con conexión compartida
     }//GEN-LAST:event_mnuPagosCXCActionPerformed
 
     private void mnuImprimirRecibosCXCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuImprimirRecibosCXCActionPerformed
@@ -2274,7 +2274,7 @@ public class Menu extends javax.swing.JFrame {
             // de lo contrario habría que modificar también los menúes contextuales.
             // Bosco agregado 23/07/2011
             // Integración del segundo nivel de seguridad.
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "ImpresionReciboCXC")) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), "ImpresionReciboCXC")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
@@ -2293,13 +2293,13 @@ public class Menu extends javax.swing.JFrame {
         new ImpresionReciboCXC(
                 new java.awt.Frame(),
                 true, // Modal
-                CONEXION.getConnection(), // Conexión
+DATABASE_CONNECTION_DRIVER.getConnection(), // Conexión
                 "0") // Número de recibo
                 .setVisible(true);
     }//GEN-LAST:event_mnuImprimirRecibosCXCActionPerformed
 
     private void mnuAplicarNCCXCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAplicarNCCXCActionPerformed
-        AplicacionNotaCXC.main(CONEXION.getConnection(), 0);
+        AplicacionNotaCXC.main(DATABASE_CONNECTION_DRIVER.getConnection(), 0);
     }//GEN-LAST:event_mnuAplicarNCCXCActionPerformed
 
     private void mnuAnularPagosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAnularPagosActionPerformed
@@ -2308,12 +2308,12 @@ public class Menu extends javax.swing.JFrame {
             // Integración del segundo nivel de seguridad.
             String program = "AnulacionRecibosCXC";
             String descrip = "Anular recibos de cuentas por cobrar";
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), program)) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // Fin Bosco agregado 18/07/2011
             // Fin Bosco agregado 18/07/2011
@@ -2329,7 +2329,7 @@ public class Menu extends javax.swing.JFrame {
         new AnulacionRecibosCXC(
                 new java.awt.Frame(),
                 true, // Modal
-                CONEXION.getConnection(), // Conexión
+DATABASE_CONNECTION_DRIVER.getConnection(), // Conexión
                 "0") // Número de recibo
                 .setVisible(true);
     }//GEN-LAST:event_mnuAnularPagosActionPerformed
@@ -2342,12 +2342,12 @@ public class Menu extends javax.swing.JFrame {
             // Integración del segundo nivel de seguridad.
             String program = "AnulacionDocInv";
             String descrip = "Anular documentos de inventario";
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "AnulacionDocInv")) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), "AnulacionDocInv")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // Fin Bosco agregado 18/07/2011
             // Fin Bosco agregado 18/07/2011
@@ -2363,7 +2363,7 @@ public class Menu extends javax.swing.JFrame {
         new AnulacionDocInv(
                 new java.awt.Frame(),
                 true, // Modal
-                CONEXION.getConnection(), // Conexión
+DATABASE_CONNECTION_DRIVER.getConnection(), // Conexión
                 "0", 0) // Número de documento y tipo
                 .setVisible(true);
     }//GEN-LAST:event_mnuAnularDocsInvActionPerformed
@@ -2376,12 +2376,12 @@ public class Menu extends javax.swing.JFrame {
             // Integración del segundo nivel de seguridad.
             String program = "AnulacionFacturasCXC";
             String descrip = "Anular facturas CXC";
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "AnulacionFacturasCXC")) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), "AnulacionFacturasCXC")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // Fin Bosco agregado 18/07/2011
             // Fin Bosco agregado 18/07/2011
@@ -2397,41 +2397,41 @@ public class Menu extends javax.swing.JFrame {
         new AnulacionFacturasCXC(
                 new java.awt.Frame(),
                 true, // Modal
-                CONEXION.getConnection(), // Conexión
+DATABASE_CONNECTION_DRIVER.getConnection(), // Conexión
                 "0") // Número de documento
                 .setVisible(true);
     }//GEN-LAST:event_mnuAnularFacturasActionPerformed
 
     private void mnuExistBodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuExistBodActionPerformed
-        RepExistenciasPB.main(CONEXION.getConnection());
+        RepExistenciasPB.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuExistBodActionPerformed
 
     private void mnuMovInvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMovInvActionPerformed
-        RepMovInv.main(CONEXION.getConnection());
+        RepMovInv.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuMovInvActionPerformed
 
     private void mnuDocsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDocsActionPerformed
-        RepDocInv.main(CONEXION.getConnection(), "", "");
+        RepDocInv.main(DATABASE_CONNECTION_DRIVER.getConnection(), "", "");
     }//GEN-LAST:event_mnuDocsActionPerformed
 
     private void mnuMovSaldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMovSaldActionPerformed
-        RepMovSaldos.main(CONEXION.getConnection());
+        RepMovSaldos.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuMovSaldActionPerformed
 
     private void mnuVencimientosInvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuVencimientosInvActionPerformed
-        RepVencimientosInv.main(CONEXION.getConnection());
+        RepVencimientosInv.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuVencimientosInvActionPerformed
 
     private void mnuFacResumenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuFacResumenActionPerformed
-        RepFacturacionResumen.main(CONEXION.getConnection());
+        RepFacturacionResumen.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuFacResumenActionPerformed
 
     private void mnuFactXArtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuFactXArtActionPerformed
-        RepFacturacionXArticulo.main(CONEXION.getConnection());
+        RepFacturacionXArticulo.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuFactXArtActionPerformed
 
     private void mnuIncongruenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuIncongruenciaActionPerformed
-        RepFacturacionIncongruenciaDePrecios.main(CONEXION.getConnection());
+        RepFacturacionIncongruenciaDePrecios.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuIncongruenciaActionPerformed
 
     private void mnuInteresMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuInteresMActionPerformed
@@ -2440,12 +2440,12 @@ public class Menu extends javax.swing.JFrame {
             // Integración del segundo nivel de seguridad.
             String program = "GenerarInteresMoratorio";
             String descrip = "Generar intereses moratorios CXC";
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "GenerarInteresMoratorio")) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), "GenerarInteresMoratorio")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // Fin Bosco agregado 18/07/2011
             // Fin Bosco agregado 18/07/2011
@@ -2461,7 +2461,7 @@ public class Menu extends javax.swing.JFrame {
         try {
             ResultSet rs;
             String sqlSent = "Call GenerarInteresMoratorio()";
-            PreparedStatement ps = CONEXION.getConnection().prepareStatement(sqlSent,
+            PreparedStatement ps = DATABASE_CONNECTION_DRIVER.getConnection().prepareStatement(sqlSent,
                     ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
 
@@ -2492,31 +2492,31 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuInteresMActionPerformed
 
     private void mnuRClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRClientesActionPerformed
-        RepClientes.main(CONEXION.getConnection());
+        RepClientes.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuRClientesActionPerformed
 
     private void mnuUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuUsuariosActionPerformed
-        Usuarios.main(CONEXION.getConnection(), BASEDATOS);
+        Usuarios.main(DATABASE_CONNECTION_DRIVER.getConnection(), BASEDATOS);
     }//GEN-LAST:event_mnuUsuariosActionPerformed
 
     private void mnuDocsXCobrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDocsXCobrarActionPerformed
-        RepCXC.main(CONEXION.getConnection());
+        RepCXC.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuDocsXCobrarActionPerformed
 
     private void mnuAntSaldCXCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAntSaldCXCActionPerformed
-        RepAntigSaldosCXC.main(CONEXION.getConnection());
+        RepAntigSaldosCXC.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuAntSaldCXCActionPerformed
 
     private void mnuCatalogoTarifasExpressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCatalogoTarifasExpressActionPerformed
-        TarifasExpress.main(CONEXION.getConnection(), new javax.swing.JTextField(""));
+        TarifasExpress.main(DATABASE_CONNECTION_DRIVER.getConnection(), new javax.swing.JTextField(""));
     }//GEN-LAST:event_mnuCatalogoTarifasExpressActionPerformed
 
     private void mnuPagos_recibos_CXCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPagos_recibos_CXCActionPerformed
-        RepPagosCXC.main(CONEXION.getConnection(), null);
+        RepPagosCXC.main(DATABASE_CONNECTION_DRIVER.getConnection(), null);
     }//GEN-LAST:event_mnuPagos_recibos_CXCActionPerformed
 
     private void mnuEstadoCtaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuEstadoCtaActionPerformed
-        RepEstadoCtaCXC.main(CONEXION.getConnection(), 0);
+        RepEstadoCtaCXC.main(DATABASE_CONNECTION_DRIVER.getConnection(), 0);
     }//GEN-LAST:event_mnuEstadoCtaActionPerformed
 
     private void mnuNCPendientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuNCPendientesActionPerformed
@@ -2525,12 +2525,12 @@ public class Menu extends javax.swing.JFrame {
             // Integración del segundo nivel de seguridad.
             String program = "RepNCPendientes";
             String descrip = "Reporte de notas de crédito pendientes";
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "RepNCPendientes")) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), "RepNCPendientes")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // Fin Bosco agregado 18/07/2011
             // Fin Bosco agregado 18/07/2011
@@ -2555,7 +2555,7 @@ public class Menu extends javax.swing.JFrame {
 
         filtro = "Notas de crédito pendients de aplicar";
         formJasper = "RepNCPendientesCXC.jasper";
-        new Reportes(CONEXION.getConnection()).generico(
+        new Reportes(DATABASE_CONNECTION_DRIVER.getConnection()).generico(
                 query,
                 "", // where
                 "", // Order By
@@ -2565,55 +2565,55 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuNCPendientesActionPerformed
 
     private void mnuIntMoratoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuIntMoratoriosActionPerformed
-        RepIntMoratCXC.main(CONEXION.getConnection());
+        RepIntMoratCXC.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuIntMoratoriosActionPerformed
 
     private void mnuDetalleCXCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDetalleCXCActionPerformed
-        RepDetalleCXC.main(CONEXION.getConnection());
+        RepDetalleCXC.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuDetalleCXCActionPerformed
 
     private void mnuPagaresCXCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPagaresCXCActionPerformed
-        RegistroPagaresCXC.main(CONEXION.getConnection()); // Se comprueba que son las fechas las que dan el problema
+        RegistroPagaresCXC.main(DATABASE_CONNECTION_DRIVER.getConnection()); // Se comprueba que son las fechas las que dan el problema
     }//GEN-LAST:event_mnuPagaresCXCActionPerformed
 
     private void mnuPagaresEmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPagaresEmActionPerformed
-        RepPagaresCXC.main(CONEXION.getConnection());
+        RepPagaresCXC.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuPagaresEmActionPerformed
 
     private void mnuVtasxproveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuVtasxproveedorActionPerformed
-        RepVentasxproveedor.main(CONEXION.getConnection());
+        RepVentasxproveedor.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuVtasxproveedorActionPerformed
 
     private void mnuVtasxclienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuVtasxclienteActionPerformed
-        RepVentasxcliente.main(CONEXION.getConnection());
+        RepVentasxcliente.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuVtasxclienteActionPerformed
 
     private void mnuVtasxvendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuVtasxvendedorActionPerformed
-        RepVentasxvendedor.main(CONEXION.getConnection());
+        RepVentasxvendedor.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuVtasxvendedorActionPerformed
 
     private void mnuVtasxzonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuVtasxzonaActionPerformed
-        RepVentasxzona.main(CONEXION.getConnection());
+        RepVentasxzona.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuVtasxzonaActionPerformed
 
     private void mnuVtasxfamiliaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuVtasxfamiliaActionPerformed
-        RepVentasxfamilia.main(CONEXION.getConnection());
+        RepVentasxfamilia.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuVtasxfamiliaActionPerformed
 
     private void mnuVtasD151ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuVtasD151ActionPerformed
-        RepVentasD151.main(CONEXION.getConnection());
+        RepVentasD151.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuVtasD151ActionPerformed
 
     private void mnuVtasxClienteDetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuVtasxClienteDetActionPerformed
-        RepVentasxclienteDetalle.main(CONEXION.getConnection());
+        RepVentasxclienteDetalle.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuVtasxClienteDetActionPerformed
 
     private void mnuVtasxarticuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuVtasxarticuloActionPerformed
-        RepVentasxarticulo.main(CONEXION.getConnection());
+        RepVentasxarticulo.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuVtasxarticuloActionPerformed
 
     private void mnuDetallePYAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDetallePYAActionPerformed
-        RepPedidosyAp.main(CONEXION.getConnection(), "");
+        RepPedidosyAp.main(DATABASE_CONNECTION_DRIVER.getConnection(), "");
     }//GEN-LAST:event_mnuDetallePYAActionPerformed
 
     private void mnuDirEncomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDirEncomActionPerformed
@@ -2622,12 +2622,12 @@ public class Menu extends javax.swing.JFrame {
             // Integración del segundo nivel de seguridad.
             String program = "RepDirEncom";
             String descrip = "Reporte de direcciones de encomienda";
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "RepDirEncom")) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), "RepDirEncom")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // Fin Bosco agregado 23/07/2011
             // Fin Bosco agregado 23/07/2011
@@ -2653,7 +2653,7 @@ public class Menu extends javax.swing.JFrame {
         // al ordenamiento de los datos (0=Clidesc, 1=Clicode).
         query = "Call Rep_DirEncom(0)";
 
-        new Reportes(CONEXION.getConnection()).generico(
+        new Reportes(DATABASE_CONNECTION_DRIVER.getConnection()).generico(
                 query,
                 "", // where
                 "", // Order By
@@ -2669,7 +2669,7 @@ public class Menu extends javax.swing.JFrame {
         try {
             // Bosco agregado 23/07/2011
             // Integración del segundo nivel de seguridad.
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), formJasper)) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), formJasper)) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
@@ -2696,7 +2696,7 @@ public class Menu extends javax.swing.JFrame {
         // algún cambio al SP.
         query = "Call Rep_PedidosyDisponibles(0)";
 
-        new Reportes(CONEXION.getConnection()).generico(
+        new Reportes(DATABASE_CONNECTION_DRIVER.getConnection()).generico(
                 query,
                 "", // where
                 "", // Order By
@@ -2716,7 +2716,7 @@ public class Menu extends javax.swing.JFrame {
         try {
             // Bosco agregado 23/07/2011
             // Integración del segundo nivel de seguridad.
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "RepPedidosxconfirmar")) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), "RepPedidosxconfirmar")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
@@ -2741,7 +2741,7 @@ public class Menu extends javax.swing.JFrame {
         // algún cambio al SP.
         query = "Call Rep_PedidosyDisponibles(1)";
 
-        new Reportes(CONEXION.getConnection()).generico(
+        new Reportes(DATABASE_CONNECTION_DRIVER.getConnection()).generico(
                 query,
                 "", // where
                 "", // Order By
@@ -2751,51 +2751,51 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuPeidosxConfirmarActionPerformed
 
     private void mnuPedidosxfamiliaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPedidosxfamiliaActionPerformed
-        RepPedidosxfamilia.main(CONEXION.getConnection());
+        RepPedidosxfamilia.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuPedidosxfamiliaActionPerformed
 
     private void mnuConsultarFactNDNCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsultarFactNDNCActionPerformed
-        ConsultaFactNDNC_CXC.main(CONEXION.getConnection());
+        ConsultaFactNDNC_CXC.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuConsultarFactNDNCActionPerformed
 
     private void mnuConsultarRegCXCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsultarRegCXCActionPerformed
-        ConsultaRegistrosCXC.main(CONEXION.getConnection());
+        ConsultaRegistrosCXC.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuConsultarRegCXCActionPerformed
 
     private void mnuPrepararTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPrepararTablaActionPerformed
-        TablaConteo.main(CONEXION.getConnection());
+        TablaConteo.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuPrepararTablaActionPerformed
 
     private void mnuListadoTomaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuListadoTomaActionPerformed
-        RepListaparaConteo.main(CONEXION.getConnection());
+        RepListaparaConteo.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuListadoTomaActionPerformed
 
     private void mnuDigitarConteoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDigitarConteoActionPerformed
-        DigitacionConteo.main(CONEXION.getConnection());
+        DigitacionConteo.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuDigitarConteoActionPerformed
 
     private void mnuDiferenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDiferenciasActionPerformed
-        RepDiferenciasInv.main(CONEXION.getConnection());
+        RepDiferenciasInv.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuDiferenciasActionPerformed
 
     private void mnuAplicarAjActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAplicarAjActionPerformed
-        AplicacionAjustesInv.main(CONEXION.getConnection());
+        AplicacionAjustesInv.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuAplicarAjActionPerformed
 
     private void mnuCierreGeneralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCierreGeneralActionPerformed
-        CierreMensual.main(CONEXION.getConnection());
+        CierreMensual.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuCierreGeneralActionPerformed
 
     private void mnuEstadodelasCXCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuEstadodelasCXCActionPerformed
-        RepEstadoDeLasCXC.main(CONEXION.getConnection());
+        RepEstadoDeLasCXC.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuEstadodelasCXCActionPerformed
 
     private void mnuRecodificarArticulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRecodificarArticulosActionPerformed
-        RecodificacionArticulos.main(CONEXION.getConnection());
+        RecodificacionArticulos.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuRecodificarArticulosActionPerformed
 
     private void mnuCambiarDatosFactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCambiarDatosFactActionPerformed
-        CambioEnFacturaCXC.main(CONEXION.getConnection());
+        CambioEnFacturaCXC.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuCambiarDatosFactActionPerformed
 
     private void mnuVersionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuVersionActionPerformed
@@ -2827,7 +2827,7 @@ public class Menu extends javax.swing.JFrame {
 
         mensaje += "satisfactoriamente.";
         try {
-            if (UtilBD.sqlUpdate(CONEXION.getConnection(), sqlUpdate) > 0) {
+            if (UtilBD.sqlUpdate(DATABASE_CONNECTION_DRIVER.getConnection(), sqlUpdate) > 0) {
                 JOptionPane.showMessageDialog(
                         null,
                         mensaje,
@@ -2851,36 +2851,36 @@ public class Menu extends javax.swing.JFrame {
         // MEJORA: Esto deberá ser por permisos especiales, no por usuario.
 
         UsuariosSQLActivos eu = new UsuariosSQLActivos(
-                new java.awt.Frame(), true, CONEXION.getConnection(), USUARIO);
+                new java.awt.Frame(), true, DATABASE_CONNECTION_DRIVER.getConnection(), USUARIO);
         eu.setVisible(true);
     }//GEN-LAST:event_mnuDesconectarUsersActionPerformed
 
     private void mnuDatosEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDatosEmpresaActionPerformed
-        Empresa.main(CONEXION.getConnection());
+        Empresa.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuDatosEmpresaActionPerformed
 
     private void mnuConsecutivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsecutivosActionPerformed
-        Consecutivos.main(CONEXION.getConnection());
+        Consecutivos.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuConsecutivosActionPerformed
 
     private void mnuPermisosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPermisosActionPerformed
-        Autorizaciones.main(CONEXION.getConnection());
+        Autorizaciones.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuPermisosActionPerformed
 
     private void mnuConsultarPreciosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsultarPreciosActionPerformed
-        ConsultaPrecios.main(CONEXION.getConnection(), "");
+        ConsultaPrecios.main(DATABASE_CONNECTION_DRIVER.getConnection(), "");
     }//GEN-LAST:event_mnuConsultarPreciosActionPerformed
 
     private void mnuConsultarMovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsultarMovActionPerformed
-        ConsultaMovimientosInv.main(CONEXION.getConnection(), "", 1);
+        ConsultaMovimientosInv.main(DATABASE_CONNECTION_DRIVER.getConnection(), "", 1);
     }//GEN-LAST:event_mnuConsultarMovActionPerformed
 
     private void mnuBorrarRecibosCXCAnuladosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBorrarRecibosCXCAnuladosActionPerformed
-        EliminacionReciboAnuladoCXC.main(CONEXION.getConnection());
+        EliminacionReciboAnuladoCXC.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuBorrarRecibosCXCAnuladosActionPerformed
 
     private void mnuBorrarFacturasCXCAnuladasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBorrarFacturasCXCAnuladasActionPerformed
-        EliminacionFacturaAnuladaCXC.main(CONEXION.getConnection());
+        EliminacionFacturaAnuladaCXC.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuBorrarFacturasCXCAnuladasActionPerformed
 
     private void mnuImportarInvwActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuImportarInvwActionPerformed
@@ -2917,7 +2917,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuImportarInvwActionPerformed
 
     private void mnuConsultarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsultarClientesActionPerformed
-        ConsultaCliente.main(CONEXION.getConnection());
+        ConsultaCliente.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuConsultarClientesActionPerformed
 
     private void mnuClaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuClaveActionPerformed
@@ -2925,11 +2925,11 @@ public class Menu extends javax.swing.JFrame {
         CambioClave cambioClave
                 = new CambioClave(
                         new javax.swing.JFrame(),
-                        true, CONEXION.getConnection(), Menu.USUARIO, false);
+                        true, DATABASE_CONNECTION_DRIVER.getConnection(), Menu.USUARIO, false);
     }//GEN-LAST:event_mnuClaveActionPerformed
 
     private void mnuSeguridadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSeguridadActionPerformed
-        Seguridad.main(CONEXION.getConnection());
+        Seguridad.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuSeguridadActionPerformed
 
     private void mnuMaestroArtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMaestroArtActionPerformed
@@ -2943,12 +2943,12 @@ public class Menu extends javax.swing.JFrame {
         try {
             String program = "RepMaestroArt";
             String descrip = "Reporte maestro de artículos";
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "RepMaestroArt")) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), "RepMaestroArt")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -2971,7 +2971,7 @@ public class Menu extends javax.swing.JFrame {
 
         ReportesProgressBar rpb
                 = new ReportesProgressBar(
-                        CONEXION.getConnection(),
+                        DATABASE_CONNECTION_DRIVER.getConnection(),
                         "Maestro de artículos",
                         formJasper,
                         query,
@@ -2982,43 +2982,43 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuMaestroArtActionPerformed
 
     private void mnuFacTransitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuFacTransitoActionPerformed
-        ConsultaFacturacionTransito.main(CONEXION.getConnection());
+        ConsultaFacturacionTransito.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuFacTransitoActionPerformed
 
     private void mnuFactExpressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuFactExpressActionPerformed
-        RepFactExpress.main(CONEXION.getConnection());
+        RepFactExpress.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuFactExpressActionPerformed
 
     private void mnuFacturasCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuFacturasCActionPerformed
-        RegistroFacturasC.main(0, "", "", 0.0, 0.0, 0.0, CONEXION.getConnection());
+        RegistroFacturasC.main(0, "", "", 0.0, 0.0, 0.0, DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuFacturasCActionPerformed
 
     private void mnuRecibosCXPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRecibosCXPActionPerformed
-        RegistroPagosCXP.main(CONEXION.getConnection(), "");
+        RegistroPagosCXP.main(DATABASE_CONNECTION_DRIVER.getConnection(), "");
     }//GEN-LAST:event_mnuRecibosCXPActionPerformed
 
     private void mnuAplicarNDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAplicarNDBActionPerformed
-        AplicacionNotaCXP.main(CONEXION.getConnection(), null);
+        AplicacionNotaCXP.main(DATABASE_CONNECTION_DRIVER.getConnection(), null);
     }//GEN-LAST:event_mnuAplicarNDBActionPerformed
 
     private void mnuAntSaldCXPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAntSaldCXPActionPerformed
-        RepAntigSaldosCXP.main(CONEXION.getConnection(), "");
+        RepAntigSaldosCXP.main(DATABASE_CONNECTION_DRIVER.getConnection(), "");
     }//GEN-LAST:event_mnuAntSaldCXPActionPerformed
 
     private void mnuCXPsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCXPsActionPerformed
-        RepCXP.main(CONEXION.getConnection());
+        RepCXP.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuCXPsActionPerformed
 
     private void mnuAnularPagosCXPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAnularPagosCXPActionPerformed
         try {
             String program = "AnulacionRecibosCXP";
             String descrip = "Anular recibos de cuentas por pagar";
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "AnulacionRecibosCXP")) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), "AnulacionRecibosCXP")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3033,7 +3033,7 @@ public class Menu extends javax.swing.JFrame {
         new AnulacionRecibosCXP(
                 new java.awt.Frame(),
                 true, // Modal
-                CONEXION.getConnection(), // Conexión
+DATABASE_CONNECTION_DRIVER.getConnection(), // Conexión
                 "0") // Número de recibo
                 .setVisible(true);
     }//GEN-LAST:event_mnuAnularPagosCXPActionPerformed
@@ -3046,12 +3046,12 @@ public class Menu extends javax.swing.JFrame {
             // Integración del segundo nivel de seguridad.
             String program = "AnulacionFacturasCXP";
             String descrip = "Anular facturas de cuentas por pagar";
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "AnulacionFacturasCXP")) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), "AnulacionFacturasCXP")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // Fin Bosco agregado 18/07/2011
             // Fin Bosco agregado 18/07/2011
@@ -3067,21 +3067,21 @@ public class Menu extends javax.swing.JFrame {
         new AnulacionFacturasCXP(
                 new java.awt.Frame(),
                 true, // Modal
-                CONEXION.getConnection(), // Conexión
+DATABASE_CONNECTION_DRIVER.getConnection(), // Conexión
                 "0") // Número de documento
                 .setVisible(true);
     }//GEN-LAST:event_mnuEliminarFacturasNCyNDActionPerformed
 
     private void mnuImpPagActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuImpPagActionPerformed
-        RepFacturacionCXP.main(CONEXION.getConnection());
+        RepFacturacionCXP.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuImpPagActionPerformed
 
     private void mnuEstadosCXPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuEstadosCXPActionPerformed
-        RepEstadoCtaCXP.main(CONEXION.getConnection(), "");
+        RepEstadoCtaCXP.main(DATABASE_CONNECTION_DRIVER.getConnection(), "");
     }//GEN-LAST:event_mnuEstadosCXPActionPerformed
 
     private void mnuD151CXPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuD151CXPActionPerformed
-        RepComprasD151.main(CONEXION.getConnection());
+        RepComprasD151.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuD151CXPActionPerformed
 
     private void mnuEstadodelasCXPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuEstadodelasCXPActionPerformed
@@ -3092,7 +3092,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuEstadodelasCXPActionPerformed
 
     private void mnuMovCXPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMovCXPActionPerformed
-        RepMovimientosCXP.main(CONEXION.getConnection());
+        RepMovimientosCXP.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuMovCXPActionPerformed
 
     private void mnuConsultaSumarizadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsultaSumarizadaActionPerformed
@@ -3101,7 +3101,7 @@ public class Menu extends javax.swing.JFrame {
             // que encontrar la forma de hacerlo igual que todos los demás.
             // Bosco agregado 18/07/2011
             // Integración del segundo nivel de seguridad.
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "ConsultaSumarizada")) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), "ConsultaSumarizada")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
@@ -3121,24 +3121,24 @@ public class Menu extends javax.swing.JFrame {
         new ConsultaSumarizada(
                 new java.awt.Frame(),
                 true, // Modal
-                CONEXION.getConnection()) // Conexión
+DATABASE_CONNECTION_DRIVER.getConnection()) // Conexión
                 .setVisible(true);
     }//GEN-LAST:event_mnuConsultaSumarizadaActionPerformed
 
     private void mnuLiquidacionDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuLiquidacionDActionPerformed
-        LiquidacionDiaria.main(CONEXION.getConnection());
+        LiquidacionDiaria.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuLiquidacionDActionPerformed
 
     private void mnuTiposAsientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuTiposAsientoActionPerformed
         String program = "TiposAsiento";
         String descrip = "Mantenimiento de tipos de asiento";
         try {
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), program)) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3156,12 +3156,12 @@ public class Menu extends javax.swing.JFrame {
         String program = "ConfigConta";
         String descrip = "Configurar interfase contable";
         try {
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), program)) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3172,7 +3172,7 @@ public class Menu extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
-        Configconta.main(CONEXION.getConnection());
+        Configconta.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuParmContActionPerformed
 
     private void mnuImportCatalogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuImportCatalogoActionPerformed
@@ -3185,12 +3185,12 @@ public class Menu extends javax.swing.JFrame {
         String program = "ImportarCatalogo";
         String descrip = "Importar catálogo contable";
         try {
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), program)) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3216,7 +3216,7 @@ public class Menu extends javax.swing.JFrame {
             // obtener el archivo seleccionado
             File nombreArchivo = archivo.getSelectedFile();
             String srcFile = nombreArchivo.getAbsolutePath();
-            new CargarCatalogoContable(CONEXION.getConnection(), srcFile);
+            new CargarCatalogoContable(DATABASE_CONNECTION_DRIVER.getConnection(), srcFile);
         } catch (HeadlessException | JDBFException | InstantiationException | IllegalAccessException | SQLException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
@@ -3230,12 +3230,12 @@ public class Menu extends javax.swing.JFrame {
         String program = "CatalogoContable";
         String descrip = "Mantenimiento del catálogo de cuentas";
         try {
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), program)) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3246,7 +3246,7 @@ public class Menu extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
-        CatalogoContable.main(CONEXION.getConnection());
+        CatalogoContable.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuCatalogoContActionPerformed
 
     private void mnuNotificacionesAutomaticasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuNotificacionesAutomaticasActionPerformed
@@ -3258,12 +3258,12 @@ public class Menu extends javax.swing.JFrame {
         String program = "ExportarAsientos";
         String descrip = "Exportar asientos";
         try {
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), program)) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3276,7 +3276,7 @@ public class Menu extends javax.swing.JFrame {
         }
 
         try {
-            ExportarAsientos.main(CONEXION.getConnection());
+            ExportarAsientos.main(DATABASE_CONNECTION_DRIVER.getConnection());
         } catch (JDBFException | IOException | SQLException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
@@ -3290,12 +3290,12 @@ public class Menu extends javax.swing.JFrame {
         String program = "PeriodosContables";
         String descrip = "Mantenimiento de periodos contables";
         try {
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), program)) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3310,71 +3310,71 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuPeriodosActionPerformed
 
     private void mnuCierreCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCierreCajaActionPerformed
-        CierreCaja.main(CONEXION.getConnection());
+        CierreCaja.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuCierreCajaActionPerformed
 
     private void mnuTrasladarMovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuTrasladarMovActionPerformed
-        TrasladoMovimientosInv.main(CONEXION.getConnection());
+        TrasladoMovimientosInv.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuTrasladarMovActionPerformed
 
     private void mnuMinAutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMinAutActionPerformed
-        MinimoAutomatico.main(CONEXION.getConnection());
+        MinimoAutomatico.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuMinAutActionPerformed
 
     private void mnuArticulosxprovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuArticulosxprovActionPerformed
-        RepArticulosXProveedor.main(CONEXION.getConnection());
+        RepArticulosXProveedor.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuArticulosxprovActionPerformed
 
     private void mnuDocsxtipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDocsxtipoActionPerformed
-        RepDocumentosXTipo.main(CONEXION.getConnection());
+        RepDocumentosXTipo.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuDocsxtipoActionPerformed
 
     private void mnuArtMenosVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuArtMenosVActionPerformed
-        RepArticulosMenosVendidos.main(CONEXION.getConnection());
+        RepArticulosMenosVendidos.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuArtMenosVActionPerformed
 
     private void mnuPagosCXPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPagosCXPActionPerformed
-        RepPagosCXP.main(CONEXION.getConnection(), null);
+        RepPagosCXP.main(DATABASE_CONNECTION_DRIVER.getConnection(), null);
     }//GEN-LAST:event_mnuPagosCXPActionPerformed
 
     private void mnuOrdenesCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuOrdenesCActionPerformed
-        RegistroOrdenCompra.main(CONEXION.getConnection(), true);
+        RegistroOrdenCompra.main(DATABASE_CONNECTION_DRIVER.getConnection(), true);
     }//GEN-LAST:event_mnuOrdenesCActionPerformed
 
     private void mnuConsultarFactNDNC1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsultarFactNDNC1ActionPerformed
-        ConsultaFactNDNC_CXP.main(CONEXION.getConnection());
+        ConsultaFactNDNC_CXP.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuConsultarFactNDNC1ActionPerformed
 
     private void mnuHerramientasClienteFrecuenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuHerramientasClienteFrecuenteActionPerformed
-        ClienteFrecuente.main(CONEXION.getConnection());
+        ClienteFrecuente.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuHerramientasClienteFrecuenteActionPerformed
 
     private void mnuOtrasCXCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuOtrasCXCActionPerformed
-        PendienteCXC.main(CONEXION.getConnection());
+        PendienteCXC.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuOtrasCXCActionPerformed
 
     private void mnuMovInterCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMovInterCActionPerformed
-        RegistroIntercodigo.main(CONEXION.getConnection());
+        RegistroIntercodigo.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuMovInterCActionPerformed
 
     private void mnuVisitaProveedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuVisitaProveedoresActionPerformed
-        VisitaProveedores.main(CONEXION.getConnection());
+        VisitaProveedores.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuVisitaProveedoresActionPerformed
 
     private void mnuCatalogoCajasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCatalogoCajasActionPerformed
-        Caja.main(CONEXION.getConnection());
+        Caja.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuCatalogoCajasActionPerformed
 
     private void mnuTransCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuTransCajaActionPerformed
-        RegistroTransaccionesCaja.main(CONEXION.getConnection());
+        RegistroTransaccionesCaja.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuTransCajaActionPerformed
 
     private void mnuBancosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBancosActionPerformed
-        Banco.main(CONEXION.getConnection());
+        Banco.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuBancosActionPerformed
 
     private void mnuTarjetasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuTarjetasActionPerformed
-        TarjetaDC.main(CONEXION.getConnection(), null, null);
+        TarjetaDC.main(DATABASE_CONNECTION_DRIVER.getConnection(), null, null);
     }//GEN-LAST:event_mnuTarjetasActionPerformed
 
     private void mnuAnularReciboCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAnularReciboCajaActionPerformed
@@ -3382,12 +3382,12 @@ public class Menu extends javax.swing.JFrame {
             // Integración del segundo nivel de seguridad.
             String program = "AnulacionRecibosCaja";
             String descrip = "Anular recibos de caja";
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "AnulacionRecibosCaja")) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), "AnulacionRecibosCaja")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3402,7 +3402,7 @@ public class Menu extends javax.swing.JFrame {
         new AnulacionRecibosCaja(
                 new java.awt.Frame(),
                 true, // Modal
-                CONEXION.getConnection(), // Conexión
+DATABASE_CONNECTION_DRIVER.getConnection(), // Conexión
                 "0") // Número de recibo
                 .setVisible(true);
     }//GEN-LAST:event_mnuAnularReciboCajaActionPerformed
@@ -3415,12 +3415,12 @@ public class Menu extends javax.swing.JFrame {
             // Bosco agregado 23/07/2011
             String program = "ImpresionReciboCaja";
             String descrip = "Imprimir recibos de caja";
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "ImpresionReciboCaja")) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), "ImpresionReciboCaja")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3435,7 +3435,7 @@ public class Menu extends javax.swing.JFrame {
         new ImpresionReciboCaja(
                 new java.awt.Frame(),
                 true, // Modal
-                CONEXION.getConnection(), // Conexión
+DATABASE_CONNECTION_DRIVER.getConnection(), // Conexión
                 "0", // Número de recibo
                 true) // (true = Caja)
                 .setVisible(true);
@@ -3447,12 +3447,12 @@ public class Menu extends javax.swing.JFrame {
         try {
             String program = "ImpresionReciboCaja";
             String descrip = "Imprimir recibos de caja";
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "ImpresionReciboCaja")) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), "ImpresionReciboCaja")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3467,14 +3467,14 @@ public class Menu extends javax.swing.JFrame {
         new ImpresionReciboCaja(
                 new java.awt.Frame(),
                 true, // Modal
-                CONEXION.getConnection(), // Conexión
+DATABASE_CONNECTION_DRIVER.getConnection(), // Conexión
                 "0", // Número de recibo
                 false) // (false = no fue llamado desde caja)
                 .setVisible(true);
     }//GEN-LAST:event_mnuRecibosCXP0ActionPerformed
 
     private void mnuConsCierreCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsCierreCajaActionPerformed
-        ConsultaCajaHist.main(CONEXION.getConnection());
+        ConsultaCajaHist.main(DATABASE_CONNECTION_DRIVER.getConnection());
 
     }//GEN-LAST:event_mnuConsCierreCajaActionPerformed
 
@@ -3490,12 +3490,12 @@ public class Menu extends javax.swing.JFrame {
         String program = "Mayorizacion";
         String descrip = "Mayorizar cuentas";
         try {
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), program)) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3507,7 +3507,7 @@ public class Menu extends javax.swing.JFrame {
             return;
         }
 
-        CoactualizCat actuCat = new CoactualizCat(CONEXION.getConnection());
+        CoactualizCat actuCat = new CoactualizCat(DATABASE_CONNECTION_DRIVER.getConnection());
         boolean exito = actuCat.sumarizarCuentas();
         String mensaje = actuCat.getMensaje_err();
         if (exito) {
@@ -3524,12 +3524,12 @@ public class Menu extends javax.swing.JFrame {
         String program = "RecalcularMovConta";
         String descrip = "Recalcular cuentas de movimiento";
         try {
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), program)) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3541,7 +3541,7 @@ public class Menu extends javax.swing.JFrame {
             return;
         }
 
-        CoactualizCat actuCat = new CoactualizCat(CONEXION.getConnection());
+        CoactualizCat actuCat = new CoactualizCat(DATABASE_CONNECTION_DRIVER.getConnection());
         boolean exito = actuCat.recalcularSaldos();
         String mensaje = actuCat.getMensaje_err();
         if (exito) {
@@ -3560,12 +3560,12 @@ public class Menu extends javax.swing.JFrame {
         String program = "AplicarAsientos";
         String descrip = "Aplicar asientos contables";
         try {
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), program)) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3576,19 +3576,19 @@ public class Menu extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
-        CoAplicaMov.main(CONEXION.getConnection());
+        CoAplicaMov.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuActuCatActionPerformed
 
     private void mnuRepAsientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRepAsientosActionPerformed
         String program = "RepAsientos";
         String descrip = "Reporte de asientos";
         try {
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), program)) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3599,19 +3599,19 @@ public class Menu extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
-        RepAsientos.main(CONEXION.getConnection());
+        RepAsientos.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuRepAsientosActionPerformed
 
     private void mnuMovxctaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMovxctaActionPerformed
         String program = "RepMovimCta";
         String descrip = "Reporte de movimientos por cuenta";
         try {
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), program)) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3622,7 +3622,7 @@ public class Menu extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
-        RepMovimCta.main(CONEXION.getConnection());
+        RepMovimCta.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuMovxctaActionPerformed
 
     private void mnuGenArchSincActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuGenArchSincActionPerformed
@@ -3632,7 +3632,7 @@ public class Menu extends javax.swing.JFrame {
         PreparedStatement ps;
         ResultSet rs1;
         String sqlSent, dbtable, line, textFile;
-        Connection conn = CONEXION.getConnection();
+        Connection conn = DATABASE_CONNECTION_DRIVER.getConnection();
 
         JFileChooser selectorArchivo = new JFileChooser();
         selectorArchivo.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -3785,7 +3785,7 @@ public class Menu extends javax.swing.JFrame {
          2.  Setear todos los campos y ejecutar todos eventos ordenadamente 
          3.  Guardar el dato sin mostrar mensajes (excepto si hay errores)
          */
-        Connection conn = CONEXION.getConnection();
+        Connection conn = DATABASE_CONNECTION_DRIVER.getConnection();
         Inarticu in = new Inarticu("", conn);
         in.setInteractive(false);
         boolean continuar = true;
@@ -3876,12 +3876,12 @@ public class Menu extends javax.swing.JFrame {
         String program = "RepBalanceSituacion";
         String descrip = "Reporte balance de situación";
         try {
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), program)) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3892,7 +3892,7 @@ public class Menu extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
-        RepBalanceSituacion.main(CONEXION.getConnection());
+        RepBalanceSituacion.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuBalanceSitActionPerformed
 
     private void mnuImpAsientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuImpAsientosActionPerformed
@@ -3910,7 +3910,7 @@ public class Menu extends javax.swing.JFrame {
             // obtener el archivo seleccionado
             File nombreArchivo = archivo.getSelectedFile();
             String srcFile = nombreArchivo.getAbsolutePath();
-            new CargarAsientos(CONEXION.getConnection(), srcFile);
+            new CargarAsientos(DATABASE_CONNECTION_DRIVER.getConnection(), srcFile);
         } catch (HeadlessException | JDBFException | InstantiationException | IllegalAccessException | SQLException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
@@ -3924,12 +3924,12 @@ public class Menu extends javax.swing.JFrame {
         String program = "Balances";
         String descrip = "Reporte balances";
         try {
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), program)) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3940,19 +3940,19 @@ public class Menu extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
-        RepBalances.main(CONEXION.getConnection());
+        RepBalances.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuBalancesActionPerformed
 
     private void mnuBackupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBackupActionPerformed
         try {
             String program = "BackupInterface";
             String descrip = "Respaldar base de datos";
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "BackupInterface")) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), "BackupInterface")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -3964,13 +3964,13 @@ public class Menu extends javax.swing.JFrame {
             return;
         } // end try-catch
 
-        interfase.otros.BackupInterface bk = new interfase.otros.BackupInterface(CONEXION.getConnection());
+        interfase.otros.BackupInterface bk = new interfase.otros.BackupInterface(DATABASE_CONNECTION_DRIVER.getConnection());
         bk.setVisible(true);
     }//GEN-LAST:event_mnuBackupActionPerformed
 
     private void mnuXmlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuXmlActionPerformed
         try {
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "FacturaXML")) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), "FacturaXML")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
@@ -3998,7 +3998,7 @@ public class Menu extends javax.swing.JFrame {
          */
         FacturaXML fact;
         try {
-            fact = new FacturaXML(CONEXION.getConnection());
+            fact = new FacturaXML(DATABASE_CONNECTION_DRIVER.getConnection());
             fact.setMode(FacturaXML.INTERACTIVE);
             fact.setTipo(FacturaXML.FACTURA);
             fact.setVisible(true);
@@ -4013,7 +4013,7 @@ public class Menu extends javax.swing.JFrame {
         // el sistema basado en archivos ya no se usa.
         // Luego habrá que eliminar el código totalmente.
         try {
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "ConsultaFacturasXML")) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), "ConsultaFacturasXML")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
@@ -4024,12 +4024,12 @@ public class Menu extends javax.swing.JFrame {
             log.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
-        ConsultaFacturasXML.main(CONEXION.getConnection());
+        ConsultaFacturasXML.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuConsultaXMLActionPerformed
 
     private void mnuRecibirXMLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRecibirXMLActionPerformed
         try {
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "FacturaElectProveedor")) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), "FacturaElectProveedor")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
@@ -4041,16 +4041,16 @@ public class Menu extends javax.swing.JFrame {
             return;
         } // end try-catch
 
-        FacturaElectProveedor facP = new FacturaElectProveedor(CONEXION.getConnection());
+        FacturaElectProveedor facP = new FacturaElectProveedor(DATABASE_CONNECTION_DRIVER.getConnection());
         facP.setVisible(true);
     }//GEN-LAST:event_mnuRecibirXMLActionPerformed
 
     private void mnuRefNCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRefNCActionPerformed
-        ReferenciaNotaCXC.main(CONEXION.getConnection(), 0);
+        ReferenciaNotaCXC.main(DATABASE_CONNECTION_DRIVER.getConnection(), 0);
     }//GEN-LAST:event_mnuRefNCActionPerformed
 
     private void mnuConsXMLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsXMLActionPerformed
-        DetalleNotificacionXml dnx = new DetalleNotificacionXml(new javax.swing.JFrame(), true, CONEXION.getConnection());
+        DetalleNotificacionXml dnx = new DetalleNotificacionXml(new javax.swing.JFrame(), true, DATABASE_CONNECTION_DRIVER.getConnection());
         dnx.setVisible(true);
     }//GEN-LAST:event_mnuConsXMLActionPerformed
 
@@ -4058,12 +4058,12 @@ public class Menu extends javax.swing.JFrame {
         String program = "ConsultaMovCierre";
         String descrip = "Consulta de movimientos en los auxiliares";
         try {
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), program)) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -4079,7 +4079,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void mnuRespArchivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRespArchivosActionPerformed
         try {
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), "RespaldoArchivosSistema")) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), "RespaldoArchivosSistema")) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
@@ -4096,12 +4096,12 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuRespArchivosActionPerformed
 
     private void mnuCatalogoImpuestosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCatalogoImpuestosActionPerformed
-        ImpuestosV.main(CONEXION.getConnection());
+        ImpuestosV.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuCatalogoImpuestosActionPerformed
 
     private void mnuImpPeriodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuImpPeriodosActionPerformed
         try {
-            CargarPeriodosContables cpp = new CargarPeriodosContables(CONEXION.getConnection(), "/vconta/Migration/PER2.dbf");
+            CargarPeriodosContables cpp = new CargarPeriodosContables(DATABASE_CONNECTION_DRIVER.getConnection(), "/vconta/Migration/PER2.dbf");
         } catch (JDBFException | InstantiationException | IllegalAccessException | SQLException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -4111,12 +4111,12 @@ public class Menu extends javax.swing.JFrame {
         String program = "RepCedulas";
         String descrip = "Reporte de cédulas (contabilidad)";
         try {
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), program)) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -4134,12 +4134,12 @@ public class Menu extends javax.swing.JFrame {
         String program = "RepComparativoMensual";
         String descrip = "Reporte comparativo mensual (contabilidad)";
         try {
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), program)) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -4157,12 +4157,12 @@ public class Menu extends javax.swing.JFrame {
         String program = "CierreConta";
         String descrip = "Cierre mensual contable";
         try {
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), program)) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -4180,12 +4180,12 @@ public class Menu extends javax.swing.JFrame {
         String program = "ConsultaPeriodoContable";
         String descrip = "Consultar el período contable en proceso";
         try {
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), program)) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -4197,7 +4197,7 @@ public class Menu extends javax.swing.JFrame {
             return;
         }
 
-        contabilidad.model.PeriodoContable per = new contabilidad.model.PeriodoContable(CONEXION.getConnection());
+        contabilidad.model.PeriodoContable per = new contabilidad.model.PeriodoContable(DATABASE_CONNECTION_DRIVER.getConnection());
         javax.swing.ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource("/Icons/calendar-day.png"));
         String periodo = "El periodo contable en proceso es " + per.getMesLetras() + " " + per.getAño();
 
@@ -4212,12 +4212,12 @@ public class Menu extends javax.swing.JFrame {
         String program = "RegistroAsientos";
         String descrip = "Registro de asientos";
         try {
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), program)) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -4229,19 +4229,19 @@ public class Menu extends javax.swing.JFrame {
             return;
         }
 
-        RegistroAsientos.main(CONEXION.getConnection());
+        RegistroAsientos.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuAsientosActionPerformed
 
     private void mnuParERActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuParERActionPerformed
         String program = "CuentasER";
         String descrip = "Configurar estado de resultados";
         try {
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), program)) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -4259,12 +4259,12 @@ public class Menu extends javax.swing.JFrame {
         String program = "RepEstadoResultados";
         String descrip = "Reporte estado de resultados";
         try {
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), program)) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -4282,12 +4282,12 @@ public class Menu extends javax.swing.JFrame {
         String program = "CierreContaAnual";
         String descrip = "Cierre anual contable";
         try {
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), program)) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -4307,7 +4307,7 @@ public class Menu extends javax.swing.JFrame {
         // Hay que trabajar diferente la barra de progreso.  No se está mostrando sino hasta que termina.
         // Correr el proceso de actualización
         logica.utilitarios.ProcessBackground pb
-                = new logica.utilitarios.ProcessBackground(CONEXION.getConnection(), "Actualizar CABYS");
+                = new logica.utilitarios.ProcessBackground(DATABASE_CONNECTION_DRIVER.getConnection(), "Actualizar CABYS");
         pb.start();
 
     }//GEN-LAST:event_mnuCabysActionPerformed
@@ -4324,12 +4324,12 @@ public class Menu extends javax.swing.JFrame {
         String program = "ReaperturaConta";
         String descrip = "Re-abrir periodos contables";
         try {
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), program)) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -4381,12 +4381,12 @@ public class Menu extends javax.swing.JFrame {
         String program = "ImportarCatalogo";
         String descrip = "Importar catálogo contable";
         try {
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), program)) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -4412,7 +4412,7 @@ public class Menu extends javax.swing.JFrame {
             // obtener el archivo seleccionado
             File nombreArchivo = archivo.getSelectedFile();
             String srcFile = nombreArchivo.getAbsolutePath();
-            new CargarCatalogoContableCerrado(CONEXION.getConnection(), srcFile);
+            new CargarCatalogoContableCerrado(DATABASE_CONNECTION_DRIVER.getConnection(), srcFile);
         } catch (HeadlessException | JDBFException | InstantiationException | IllegalAccessException | SQLException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
@@ -4426,12 +4426,12 @@ public class Menu extends javax.swing.JFrame {
         String program = "Cocuentasres";
         String descrip = "Cuentas restringidas";
         try {
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), program)) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -4443,19 +4443,19 @@ public class Menu extends javax.swing.JFrame {
             return;
         }
 
-        CocuentasresV.main(CONEXION.getConnection());
+        CocuentasresV.main(DATABASE_CONNECTION_DRIVER.getConnection());
     }//GEN-LAST:event_mnuCtasRestringidasActionPerformed
 
     private void mnuCompaniesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCompaniesActionPerformed
         String program = "Companies";
         String descrip = "Crear compañías";
         try {
-            if (!UtilBD.tienePermiso(CONEXION.getConnection(), program)) {
+            if (!UtilBD.tienePermiso(DATABASE_CONNECTION_DRIVER.getConnection(), program)) {
                 JOptionPane.showMessageDialog(null,
                         "Usted no está autorizado para ejecutar este proceso",
                         "Error - Permisos",
                         JOptionPane.ERROR_MESSAGE);
-                UtilBD.agregarOpcionDeMenu(CONEXION.getConnection(), program, descrip);
+                UtilBD.agregarOpcionDeMenu(DATABASE_CONNECTION_DRIVER.getConnection(), program, descrip);
                 return;
             } // end if
         } catch (Exception ex) {
@@ -4471,11 +4471,11 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuCompaniesActionPerformed
 
     private void mnuDocumentoIndividualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDocumentoIndividualActionPerformed
-        ConsultaDocumentoElectronico consultaDocumentoElectronico = new ConsultaDocumentoElectronico(this, false, CONEXION.getConnection());
+        ConsultaDocumentoElectronico consultaDocumentoElectronico = new ConsultaDocumentoElectronico(this, false, DATABASE_CONNECTION_DRIVER.getConnection());
         consultaDocumentoElectronico.setVisible(true);
     }//GEN-LAST:event_mnuDocumentoIndividualActionPerformed
 
-    public static void main(final DatabaseConnection c, final boolean disponible, final String url) {
+    public static void main(final DatabaseConnectionDriver dcd, final boolean disponible, final String url) {
 
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -4497,7 +4497,7 @@ public class Menu extends javax.swing.JFrame {
         }
         //</editor-fold>
         java.awt.EventQueue.invokeLater(() -> {
-            new Menu(c, disponible, url).setVisible(true);
+            new Menu(dcd, disponible, url).setVisible(true);
         });
     }
 
@@ -4819,7 +4819,7 @@ public class Menu extends javax.swing.JFrame {
              */
             //if (conn.isValid(5)) {
             //conn.close();
-            DatabaseConnection.closeAllConnections();
+            DatabaseConnectionDriver.closeAllConnections();
             if (sConn != null) {
                 sConn.close();
             } // end if
@@ -4850,7 +4850,7 @@ public class Menu extends javax.swing.JFrame {
     } // end close
 
     public Connection getConn() {
-        return Menu.CONEXION.getConnection();
+        return Menu.DATABASE_CONNECTION_DRIVER.getConnection();
     }
 
     private void hideOptions() {

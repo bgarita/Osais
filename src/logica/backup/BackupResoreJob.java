@@ -333,7 +333,7 @@ public class BackupResoreJob extends Thread {
 
             // Crear la base de datos
             String sqlSent = "Create database " + newDatabase;
-            try (PreparedStatement ps = Menu.CONEXION.getConnection().prepareStatement(sqlSent)) {
+            try (PreparedStatement ps = Menu.DATABASE_CONNECTION_DRIVER.getConnection().prepareStatement(sqlSent)) {
                 CMD.update(ps);
             }
 

@@ -18,7 +18,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.*;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -41,7 +40,7 @@ public class AplicacionNotaCXC extends javax.swing.JFrame {
     private ResultSet rsMoneda = null; // Monedas
     private ResultSet rsNotasC = null; // Notas de crédito por aplicar
     private boolean inicio = true;   // Se usa para evitar que corran agunos eventos
-    private Calendar fechaA = GregorianCalendar.getInstance();
+    private Calendar fechaA = Calendar.getInstance();
     private boolean fechaCorrecta = false;
     private int notaRecibida = 0;   // Parámetro recibido para aplicar
     private final Bitacora b = new Bitacora();

@@ -13,7 +13,7 @@ import static logica.utilitarios.Ut.getPosicion;
  * encuentra en una capa que no debe tener ningún tipo de relación con el
  * usuario.
  */
-public class DatabaseConnection {
+public class DatabaseConnectionDriver {
 
     // Pila de conexiones
     private static Connection[] aConn;
@@ -23,7 +23,7 @@ public class DatabaseConnection {
     private String errorMessage = "";  // Bosco agregado 17/03/2013.
     private String url, user, pass;    // Estas variables no deben ser static (Bosco 24/12/2014)
 
-    public DatabaseConnection(String pUser, String pPassword, String url) {
+    public DatabaseConnectionDriver(String pUser, String pPassword, String url) {
         setConnection(pUser, pPassword, url);
     } // end constructor sobrecargado
 
