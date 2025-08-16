@@ -57,7 +57,7 @@ public class IngresoAcciones {
     public Connection getConnection() {
         return conn;
     }
-    
+
     public String getPassword() {
         return this.password;
     }
@@ -101,7 +101,7 @@ public class IngresoAcciones {
         } else {
             this.errorMsg = databaseConnectionDriver.getErrorMessage();
         }
-        
+
         return databaseConnectionDriver.isConnected();
     }
 
@@ -253,6 +253,16 @@ public class IngresoAcciones {
         int diasPCC = 0; // Días para cmabiar la clave
 
         try {
+            if (rs != null && rs.getString("intervalo") == null) {
+                String msg = "Los parámetros de seguridad aún no han sido establecidos.\n"
+                        + "Debe ir a 'Admin -> Seguridad' y establecerlos.";
+                JOptionPane.showMessageDialog(null, msg,
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                b.writeToLog(this.getClass().getName() + "--> " + msg, Bitacora.ERROR);
+                return;
+            }
+            
             // Valido si el usuario está activo
             if (rs != null && !rs.getString("activo").equals("S")) {
                 JOptionPane.showMessageDialog(null, """
@@ -264,7 +274,6 @@ public class IngresoAcciones {
             } // end if
             diasPCC = rs.getInt("intervalo") - rs.getInt("dias");
         } catch (SQLException | HeadlessException ex) {
-            Logger.getLogger(Ingreso.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     "No se puede calcular la fecha de vencimiento de su clave.\n"
                     + ex.getMessage(),

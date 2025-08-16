@@ -233,7 +233,9 @@ public class CambioClave extends javax.swing.JDialog {
             ps.executeUpdate();
             ps = conn.prepareStatement(sqlSent);
             ps.setString(1, SClave);
-            CMD.update(ps);
+            System.out.println(ps.toString());
+            int records = CMD.update(ps);
+            System.out.println("Records: " + records);
             
             CMD.transaction(conn, CMD.COMMIT);
             JOptionPane.showMessageDialog(this,
@@ -338,8 +340,9 @@ public class CambioClave extends javax.swing.JDialog {
 
             if (numeros < minNumeros || mayusculas < minMayusculas){
                 correcta = false;
-                error = "Su contraseña debe tener las siguientes características" +
-                        "\n1. Longitud " + longClave + " caracteres (mínimo)" +
+                error = """
+                        Su contrase\u00f1a debe tener las siguientes caracter\u00edsticas
+                        1. Longitud """ + longClave + " caracteres (mínimo)" +
                         "\n2. Numeros " + minNumeros + " (mínimo)" +
                         "\n3. Mayúcula " + minMayusculas + " (mínimo)";
             } // end if
