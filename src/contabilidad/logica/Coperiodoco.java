@@ -8,8 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import logica.IEstructuraBD;
 import logica.utilitarios.Ut;
 
@@ -162,7 +160,6 @@ public class Coperiodoco implements IEstructuraBD {
                 } // end if
             } // end try with resources
         } catch (SQLException ex) {
-            Logger.getLogger(Coperiodoco.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
             this.descrip = "";
@@ -204,7 +201,6 @@ public class Coperiodoco implements IEstructuraBD {
                 ps.close();
             } // end try with resources
         } catch (SQLException ex) {
-            Logger.getLogger(Coperiodoco.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
             this.descrip = "";
@@ -280,7 +276,6 @@ public class Coperiodoco implements IEstructuraBD {
                 ps.close();
             } // end try with resources
         } catch (SQLException ex) {
-            Logger.getLogger(Coperiodoco.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
@@ -321,7 +316,6 @@ public class Coperiodoco implements IEstructuraBD {
                 ps.close();
             } // end try with resources
         } catch (SQLException ex) {
-            Logger.getLogger(Coperiodoco.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
@@ -353,7 +347,6 @@ public class Coperiodoco implements IEstructuraBD {
             registros = CMD.update(ps);
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(Coperiodoco.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
@@ -403,7 +396,6 @@ public class Coperiodoco implements IEstructuraBD {
             } // end if
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(Coperiodoco.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
             this.descrip = "";
@@ -437,7 +429,6 @@ public class Coperiodoco implements IEstructuraBD {
             } // end if
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(Coperiodoco.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
             this.descrip = "";

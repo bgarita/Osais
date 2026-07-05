@@ -152,7 +152,7 @@ public class Bitacora {
         } // end switch
 
         Date date = new Date();
-        text = "[" + date + "][" + nivel + "]" + "[Usuario: " + Menu.USUARIO + "][" + text + "]\n";
+        text = "[" + date + "][" + nivel + "]" + "[Usuario: " + Menu.DB_USERNAME + "][" + text + "]\n";
         FileOutputStream log;
         byte[] contentInBytes;
         contentInBytes = text.getBytes();

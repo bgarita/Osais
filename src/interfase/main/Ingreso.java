@@ -19,13 +19,18 @@ import java.awt.Graphics2D;
 import java.awt.SplashScreen;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Double;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import javax.swing.JOptionPane;
+import logica.utilitarios.Props;
 
 /**
  *
@@ -207,8 +212,16 @@ public class Ingreso extends javax.swing.JFrame {
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
-        IngresoAcciones acciones
-                = new IngresoAcciones(txtUser.getText().trim(), txtPassword.getPassword(), url);
+        
+        //        IngresoAcciones acciones
+        //                = new IngresoAcciones(txtUser.getText().trim(), txtPassword.getPassword(), url);
+        IngresoAcciones acciones = new IngresoAcciones(url);
+        if (!acciones.getErrorMsg().isEmpty()){
+            JOptionPane.showMessageDialog(null, acciones.getErrorMsg(), "Error", JOptionPane.ERROR_MESSAGE);
+            log.writeToLog(this.getClass().getName() + "--> " + acciones.getErrorMsg(), Bitacora.ERROR);
+            this.setVisible(false);
+            dispose();
+        }
 
         this.setCursor(null);
         
@@ -226,15 +239,17 @@ public class Ingreso extends javax.swing.JFrame {
         
         dataBaseConnectionDriver = acciones.getDatabaseConnectionDriver();
         conn = acciones.getConnection();
+        
+        Menu.APP_USERNAME = this.txtUser.getText().trim();
 
         boolean continuar = false;
         boolean disponible = true;
         if (!acciones.isSystemAvailable()) {
             String mensaje = acciones.getErrorMsg();
             disponible = false;
-            if (acciones.getUser().equalsIgnoreCase("OWNER")
-                    || acciones.getUser().equalsIgnoreCase("BGARITA")
-                    || acciones.getUser().equalsIgnoreCase("BGARITAA")) {
+            if (Menu.APP_USERNAME.equalsIgnoreCase("OWNER")
+                    || Menu.APP_USERNAME.equalsIgnoreCase("BGARITA")
+                    || Menu.APP_USERNAME.equalsIgnoreCase("BGARITAA")) {
                 mensaje = """
                           El sistema se encuentra en una condici\u00f3n especial en
                           este momento.
@@ -256,7 +271,19 @@ public class Ingreso extends javax.swing.JFrame {
         continuar = true;
 
         setVisible(false);
-
+        
+        String flatPassword = Arrays.toString(this.txtPassword.getPassword());
+        flatPassword = flatPassword.replace(",", "");
+        flatPassword = flatPassword.replace("[", "");
+        flatPassword = flatPassword.replace("]", "");
+        flatPassword = flatPassword.replace(" ", "");
+                
+        boolean passOk = acciones.isAppUserPassOk(flatPassword);
+        if (!passOk) {
+            JOptionPane.showMessageDialog(null, acciones.getErrorMsg(), "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         acciones.validarIntervaloClaves();
 
         // Bosco agregado 23/02/2013

@@ -8,10 +8,8 @@ package Exceptions;
 public class CurrencyExchangeException extends OsaisException {
 
     public CurrencyExchangeException() {
-        String msg
-                = """
-                    A\u00fan no se ha configurado el TC del d\u00f3lar para hoy.
-                    Vaya al men\u00fa Registro y elija Tipo de cambio.""";
-        super(msg);
+        super("""
+                    Aún no se ha configurado el TC del dólar para hoy.
+                    Vaya al menú Registro y elija Tipo de cambio.""");
     } // end constructor
 } // end CurrencyExchangeException

@@ -505,7 +505,6 @@ public class TiposAsiento extends JFrame {
                 CMD.transaction(conn, CMD.COMMIT);
             }
         } catch (SQLException | SQLInjectionException | EmptyDataSourceException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),

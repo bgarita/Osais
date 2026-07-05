@@ -20,7 +20,7 @@ public class BackupPassw extends javax.swing.JDialog {
     public BackupPassw(java.awt.Frame parent, boolean modal, javax.swing.JPasswordField txtPassW) {
         super(parent, modal);
         initComponents();
-        this.txtUser.setText(Menu.USUARIO);
+        this.txtUser.setText(Menu.DB_USERNAME);
         this.txtPassW = txtPassW;
     }
 

@@ -35,85 +35,100 @@ CONTAINS SQL
 SQL SECURITY DEFINER
 COMMENT ''
 BEGIN
-    Declare vExisteEnBD tinyint(1);
     Declare vExisteEnOSAIS tinyint(1);
     Declare vMensaje varchar(40);
 
-    Set vExisteEnBD    = Exists(Select 1 from vistausuarios where user = pUser);
-    Set vExisteEnOSAIS = Exists(Select 1 from usuario where user = pUser);
+    Set vExisteEnOSAIS = Exists(
+        Select 1
+        from usuario
+        where user = pUser
+    );
 
-    If not vExisteEnBD then
-       Set vMensaje = '[BD] Usuario no existe en MySQL';
-    Else
-       if vExisteEnOSAIS then
-          Set vMensaje = '[BD] Usuario ya existe';
-       End if;
+    If vExisteEnOSAIS then
+        Set vMensaje = '[BD] Usuario ya existe';
     End if;
 
     If vMensaje is null then
-       Insert into usuario (
-          User,
-          Nivel,
-          N1,
-          N2,
-          N3,
-          Facturas,
-          N5,
-          N6,
-          N7,
-          N8,
-          N9,
-          Precios,
-          Devoluciones,
-          Descuentos,
-          MaxDesc,
-          NotifCompra,
-		Intervalo1,   -- Bosco agregado 28/07/2013
-		NotifFactcxc, -- Bosco agregado 28/07/2013
-		Intervalo2,   -- Bosco agregado 28/07/2013
-		NotifFactcxp, -- Bosco agregado 28/07/2013
-		Intervalo3,   -- Bosco agregado 28/07/2013
-		notifxmlfe, 	-- Bosco agregado 23/12/2018
-		Intervalo4,   -- Bosco agregado 23/12/2018
-          Firmas )
-       values(
-          pUser,
-          pNivel,
-          pN1,
-          pN2,
-          pN3,
-          pFacturas,
-          pN5,
-          pN6,
-          pN7,
-          pN8,
-          pN9,
-          pPrecios,
-          pDevoluciones,
-          pDescuentos,
-          pMaxDesc,
-          pNotifCompra,
-		pIntervalo1,   -- Bosco agregado 28/07/2013
-		pNotifFactcxc, -- Bosco agregado 28/07/2013
-		pIntervalo2,   -- Bosco agregado 28/07/2013
-		pNotifFactcxp, -- Bosco agregado 28/07/2013
-		pIntervalo3,   -- Bosco agregado 28/07/2013
-		pNotifxmlfe, 	 -- Bosco agregado 23/12/2018
-		pIntervalo4,   -- Bosco agregado 23/12/2018
-          pFirmas );
 
-		-- Si el usuario no existe en la base de datos del sistema
-		-- lo agrego.
-		if not Exists(Select user from saisystem.usuario
-					  Where user = pUser) then
-			Insert into saisystem.usuario (
-			  User,
-			  activo,       -- Bosco agregado 06/11/2011
-			  ultimaClave)  -- Bosco agregado 06/11/2011
-			Values(pUser, pActivo, pUltimaClave);
-		End if;
-    else
-       Select vMensaje;
-    end if;
+        Insert into usuario (
+            User,
+            Nivel,
+            N1,
+            N2,
+            N3,
+            Facturas,
+            N5,
+            N6,
+            N7,
+            N8,
+            N9,
+            Precios,
+            Devoluciones,
+            Descuentos,
+            MaxDesc,
+            NotifCompra,
+            Intervalo1,    -- Bosco agregado 28/07/2013
+            NotifFactcxc,  -- Bosco agregado 28/07/2013
+            Intervalo2,    -- Bosco agregado 28/07/2013
+            NotifFactcxp,  -- Bosco agregado 28/07/2013
+            Intervalo3,    -- Bosco agregado 28/07/2013
+            notifxmlfe,    -- Bosco agregado 23/12/2018
+            Intervalo4,    -- Bosco agregado 23/12/2018
+            Firmas
+        )
+        VALUES (
+            pUser,
+            pNivel,
+            pN1,
+            pN2,
+            pN3,
+            pFacturas,
+            pN5,
+            pN6,
+            pN7,
+            pN8,
+            pN9,
+            pPrecios,
+            pDevoluciones,
+            pDescuentos,
+            pMaxDesc,
+            pNotifCompra,
+            pIntervalo1,
+            pNotifFactcxc,
+            pIntervalo2,
+            pNotifFactcxp,
+            pIntervalo3,
+            pNotifxmlfe,
+            pIntervalo4,
+            pFirmas
+        );
+
+        -- Si el usuario no existe en la base de datos del sistema
+        -- lo agrego.
+        If NOT EXISTS (
+            Select 1
+            from saisystem.usuario
+            where user = pUser
+        ) Then
+
+            Insert into saisystem.usuario (
+                User,
+                activo,        -- Bosco agregado 06/11/2011
+                ultimaClave    -- Bosco agregado 06/11/2011
+            )
+            Values (
+                pUser,
+                pActivo,
+                pUltimaClave
+            );
+
+        End If;
+
+    Else
+
+        Select vMensaje;
+
+    End If;
+
 END$
 delimiter ;

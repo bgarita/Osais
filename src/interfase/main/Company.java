@@ -5,7 +5,6 @@
  */
 
 package interfase.main;
-import interfase.main.Ingreso;
 import Mail.Bitacora;
 import java.io.File;
 import java.util.Scanner;

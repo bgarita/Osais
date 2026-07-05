@@ -554,11 +554,11 @@ public class UtilBD {
     /**
      * Método que determina si un usuario está autorizado a usar el programa que
      * recibe por parámetro. El usuario que se revisa es el que ya está cargado
-     * en Menu.USUARIOBD
+     * en Menu.APP_USERNAME
      *
      * @throws java.lang.Exception
      * @Author Bosco Garita 18/07/2011
-     * @Updated Bosco Garita 15/04/2025
+     * @Updated Bosco Garita 01/07/2026
      * @param c Conexión a la base de datos.
      * @param programa Programa o procedimiento a validar
      * @return true=Está autorizado, false=No lo está.
@@ -566,11 +566,8 @@ public class UtilBD {
     public static boolean tienePermiso(Connection c, String programa) throws Exception {
         boolean existe = false;
 
-        String userLogged = Menu.USUARIOBD;
-        if (userLogged == null) {
-            userLogged = getUserLogged(c);
-        }
-
+        String userLogged = Menu.APP_USERNAME;
+        
         // Estos usuarios no tienen restricción.
         if (userLogged.equals("bgarita")
                 || userLogged.equals("bgaritaa")
@@ -581,12 +578,15 @@ public class UtilBD {
 
         // La función GetDBUser() devuelve el string del usuario antes de
         // la arroba.
+        // Esta función de base de datos ya no se usa para relacionar el usuario logueado
+        // ya que ahora el usuario de base de datos es distinto del que se loguea.
         String sqlSelect
-                = "Select * from autoriz Where user = GetDBUser() and programa = ?";
+                = "Select * from autoriz Where user = ? and programa = ?";
 
         try (PreparedStatement ps = c.prepareStatement(sqlSelect,
                 ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
-            ps.setString(1, programa);
+            ps.setString(1, userLogged);
+            ps.setString(2, programa);
             ResultSet rs = CMD.select(ps);
             if (rs != null && rs.first()) {
                 existe = true;
