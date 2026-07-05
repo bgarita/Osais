@@ -6,7 +6,6 @@
  */
 package interfase.mantenimiento;
 
-import Exceptions.NotUniqueValueException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -17,12 +16,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import logica.IMantenimiento;
 import Exceptions.SQLInjectionException;
-import interfase.menus.Menu;
 import logica.utilitarios.Ut;
 
 /**
@@ -72,7 +68,6 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
             // Nombre del campo llave
             cargarObjetos();
         } catch (SQLException | SQLInjectionException ex) {
-            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, null, ex);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
 
@@ -708,7 +703,6 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
             } // Fin Bosco agregado 23/07/2011
             // Fin Bosco agregado 23/07/2011
         } catch (Exception ex) {
-            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",

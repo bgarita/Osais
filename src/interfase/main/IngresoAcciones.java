@@ -53,7 +53,8 @@ public class IngresoAcciones {
             this.errorMsg = ex.toString();
         }
         this.user = dataBaseUser;
-        this.password = new String(dataBasePass);
+        //this.password = new String(dataBasePass);
+        this.password = dataBasePass;
         this.url = url;
         this.errorMsg = "";
         databaseConnectionDriver = null;
@@ -365,18 +366,24 @@ public class IngresoAcciones {
                     ResultSet.CONCUR_READ_ONLY);
             ps.setString(1, Menu.APP_USERNAME);
             ResultSet rs = CMD.select(ps);
-            String dbPass = "";
+            String dbPass = null;
             if (rs != null && rs.first()) {
                 dbPass = rs.getString(1);
-                if (!dbPass.isEmpty()) {
-                    passOk = PasswordUtil.verify(pass, dbPass);
-                }
             } // end if
-            
+
             ps.close();
-            
-            // Si el password en la base de datos está vacío, guardar el nuevo password hasheado
-            if (dbPass.isEmpty()) {
+
+            // Si el usuario no existe en la tabla, acceso denegado.
+            if (dbPass == null) {
+                this.errorMsg = "El usuario no existe en el sistema.";
+                return false;
+            }
+
+            if (!dbPass.isBlank()) {
+                passOk = PasswordUtil.verify(pass, dbPass);
+            } else {
+                // El usuario existe pero aún no tiene clave asignada:
+                // se guarda el hash del password ingresado.
                 String hash = PasswordUtil.hash(pass);
                 String updateSql = "UPDATE usuario SET clave = ? WHERE user = ?";
                 try (PreparedStatement psUpdate = conn.prepareStatement(updateSql)) {
@@ -384,9 +391,9 @@ public class IngresoAcciones {
                     psUpdate.setString(2, Menu.APP_USERNAME);
                     psUpdate.executeUpdate();
                 }
-                passOk = true; // Se aceptó el ingreso con el nuevo password hasheado
+                passOk = true;
             }
-            
+
             if (!passOk) {
                 this.errorMsg = "Clave incorrecta.";
             }

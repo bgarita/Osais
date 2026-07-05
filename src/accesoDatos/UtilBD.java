@@ -605,7 +605,7 @@ public class UtilBD {
      * @return boolean true=Tiene el permiso, false=No lo tiene
      */
     public static boolean tienePermisoEspecial(Connection c, String permiso) throws SQLException {
-        String userLogged = Menu.USUARIOBD;
+        String userLogged = Menu.APP_USERNAME;
         boolean tienePermiso = false;
 
         // Estos usuarios no tienen restricción.
@@ -619,9 +619,10 @@ public class UtilBD {
         // La función GetDBUser() devuelve el string del usuario antes de
         // la arroba.
         String sqlSelect
-                = "Select * from usuario Where user = GetDBUser()";
+                = "Select * from usuario Where user = ?";
         try (PreparedStatement ps = c.prepareStatement(sqlSelect,
                 ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+            ps.setString(1, userLogged);
             ResultSet rs = CMD.select(ps);
             if (rs != null && rs.first()) {
                 tienePermiso = rs.getBoolean(permiso);
@@ -2780,13 +2781,12 @@ public class UtilBD {
 
     /**
      * Este método devuelve el usuario de base de datos antes de la @.
-     * Básicamente hace lo mismo que la función getDBUser() en la BD.
      *
      * @param c
-     * @return User logged
+     * @return Database user connected
      * @throws SQLException
      */
-    public static String getUserLogged(Connection c) throws SQLException {
+    public static String getDatabaseUserConnected(Connection c) throws SQLException {
         String sqlSelect = "Select user()";
         String userLogged;
         ResultSet rs;

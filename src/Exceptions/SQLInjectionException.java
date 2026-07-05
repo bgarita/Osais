@@ -13,4 +13,4 @@ public class SQLInjectionException extends OsaisException {
                     Se ha detectado una posible inyección de código.
                     La sentencia SQL no se ejecutará.""");
     } // end constructor
-} // end NotUniqueValueException
+}
