@@ -204,7 +204,7 @@ public class Menu extends javax.swing.JFrame {
             UpdateVersion.update(sConn);
             
             // Obtengo el usuario de base de datos según el motor
-            Menu.USUARIOBD = UtilBD.getUserLogged(sConn);
+            Menu.USUARIOBD = UtilBD.getDatabaseUserConnected(sConn);
             
             ResultSet rs = NAV.ejecutarQuery("Select * from config");
             rs.first();
