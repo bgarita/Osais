@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Calendar;
+import interfase.menus.Menu;
 import logica.utilitarios.Ut;
 
 /**
@@ -19,6 +20,12 @@ import logica.utilitarios.Ut;
  * la clase en la migración de datos.
  */
 public class CoasientoE {
+
+    static {
+        if (Menu.APP_USERNAME == null || Menu.APP_USERNAME.trim().isEmpty()) {
+            throw new IllegalStateException("Menu.APP_USERNAME no puede ser nulo ni vacío.");
+        }
+    }
 
     private String no_comprob;      // Número de asiento
     private short tipo_comp;        // Tipo de asiento
@@ -392,15 +399,16 @@ public class CoasientoE {
             sqlSent
                     = "Insert into " + coasientoe
                     + "   Select ?, fecha_comp, no_refer, tipo_comp, ?, "
-                    + "   Trim(user()), periodo, modulo, documento, movtido, 0, ? "
+                    + "   ?, periodo, modulo, documento, movtido, 0, ? "
                     + "   From " + coasientoe + " a "
                     + "   Where a.no_comprob = ? and a.tipo_comp = ?";
             ps = conn.prepareStatement(sqlSent);
             ps.setString(1, no_comprob2);
             ps.setString(2, descripA);
-            ps.setString(3, no_comprob);
+            ps.setString(3, Menu.APP_USERNAME);
             ps.setString(4, no_comprob);
-            ps.setShort(5, tipo_comp);
+            ps.setString(5, no_comprob);
+            ps.setShort(6, tipo_comp);
             CMD.update(ps);
             ps.close();
 
@@ -553,18 +561,19 @@ public class CoasientoE {
                     = "Insert into " + this.coasientoe + "("
                     + "   no_comprob,fecha_comp,no_refer,tipo_comp,descrip, "
                     + "   usuario,periodo,modulo,documento,movtido,enviado) "
-                    + "Values(?,?,?,?,?,Trim(user()),?,?,?,?,?)";
+                    + "Values(?,?,?,?,?,?,?,?,?,?,?)";
             try (PreparedStatement ps = conn.prepareStatement(sqlSent)) {
                 ps.setString(1, no_comprob);
                 ps.setTimestamp(2, fecha_comp);
                 ps.setInt(3, no_refer);
                 ps.setShort(4, tipo_comp);
                 ps.setString(5, descrip);
-                ps.setInt(6, periodo);
-                ps.setString(7, modulo);
-                ps.setString(8, documento);
-                ps.setInt(9, movtido);
-                ps.setInt(10, (enviado ? 1 : 0));
+                ps.setString(6, Menu.APP_USERNAME);
+                ps.setInt(7, periodo);
+                ps.setString(8, modulo);
+                ps.setString(9, documento);
+                ps.setInt(10, movtido);
+                ps.setInt(11, (enviado ? 1 : 0));
 
                 CMD.update(ps);
                 ps.close();
@@ -599,30 +608,31 @@ public class CoasientoE {
                 + // 2
                 "   descrip = ?,   "
                 + // 3
-                "   usuario = trim(user()),"
+                "   usuario = ?,"
                 + "   periodo = ?,   "
-                + // 4
-                "   modulo = ?,    "
                 + // 5
-                "   documento = ?, "
+                "   modulo = ?,    "
                 + // 6
-                "   movtido = ?,   "
+                "   documento = ?, "
                 + // 7
-                "   enviado = ?    "
+                "   movtido = ?,   "
                 + // 8
+                "   enviado = ?    "
+                + // 9
                 "Where no_comprob = ? and tipo_comp = ?"; // 9 y 10
         try {
             try (PreparedStatement ps = conn.prepareStatement(sqlSent)) {
                 ps.setTimestamp(1, fecha_comp);
                 ps.setInt(2, no_refer);
                 ps.setString(3, descrip);
-                ps.setInt(4, periodo);
-                ps.setString(5, modulo);
-                ps.setString(6, documento);
-                ps.setInt(7, movtido);
-                ps.setInt(8, (enviado ? 1 : 0));
-                ps.setString(9, no_comprob);
-                ps.setShort(10, tipo_comp);
+                ps.setString(4, Menu.APP_USERNAME);
+                ps.setInt(5, periodo);
+                ps.setString(6, modulo);
+                ps.setString(7, documento);
+                ps.setInt(8, movtido);
+                ps.setInt(9, (enviado ? 1 : 0));
+                ps.setString(10, no_comprob);
+                ps.setShort(11, tipo_comp);
                 registros = CMD.update(ps);
                 ps.close();
             } // end try with resources

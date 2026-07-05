@@ -523,7 +523,7 @@ public class RepEstadoResultados extends javax.swing.JFrame {
     private void generarEstadoResultadosXLS(String periodo) throws FileNotFoundException, IOException, SQLException {
         // https://www.javatpoint.com/apache-poi-excel-header
 
-        File file = new File(Menu.USUARIO + "_ER.xlsx");
+        File file = new File(Menu.DB_USERNAME + "_ER.xlsx");
         Workbook wb = new HSSFWorkbook();
         OutputStream out = new FileOutputStream(file);
 

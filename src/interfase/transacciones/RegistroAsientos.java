@@ -1206,7 +1206,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
         // Fin de validaciones
 
         /*
-         * Averiguar si es una modificación al asiento o si es nuevo.
+         * Determinar si es una modificación al asiento o si es nuevo.
          * Si es una modificación el campo old_comprob no estará vacío.
          * 
          * Para modificar una línea de detalle se usa el campo idReg como
@@ -1252,7 +1252,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
             if (this.lblDescripA != null) {
                 asientoE.setCierreAnual(true);
             } // end if
-            asientoE.setUsuario(Menu.USUARIOBD);
+            asientoE.setUsuario(Menu.APP_USERNAME);
 
             // Si el asiento ya existe no se deben modificar estos campos
             if (old_comprob.isEmpty()) {

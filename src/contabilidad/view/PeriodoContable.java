@@ -336,7 +336,6 @@ public class PeriodoContable extends JFrame {
                         JOptionPane.INFORMATION_MESSAGE );
             } // end if
         } catch (SQLException | HeadlessException ex) {
-            Logger.getLogger(PeriodoContable.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),

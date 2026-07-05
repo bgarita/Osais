@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import logica.IMantenimiento;
 import Exceptions.SQLInjectionException;
+import interfase.menus.Menu;
 import logica.utilitarios.Ut;
 
 /**
@@ -101,12 +102,6 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
         radInactivo = new javax.swing.JRadioButton();
         jLabel2 = new javax.swing.JLabel();
         datFecha = new com.toedter.calendar.JDateChooser();
-        jPanel2 = new javax.swing.JPanel();
-        chkSelect = new javax.swing.JCheckBox();
-        chkInsert = new javax.swing.JCheckBox();
-        chkUpdate = new javax.swing.JCheckBox();
-        chkDelete = new javax.swing.JCheckBox();
-        chkExecute = new javax.swing.JCheckBox();
         jPanel3 = new javax.swing.JPanel();
         chkNotifcompra = new javax.swing.JCheckBox();
         chknotifFactcxc = new javax.swing.JCheckBox();
@@ -232,52 +227,6 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel2.setText("Última contraseña:");
-
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Permisos de Base de Datos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(204, 0, 204))); // NOI18N
-
-        chkSelect.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        chkSelect.setText("SELECT");
-
-        chkInsert.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        chkInsert.setText("INSERT");
-
-        chkUpdate.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        chkUpdate.setText("UPDATE");
-
-        chkDelete.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        chkDelete.setText("DELETE");
-
-        chkExecute.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        chkExecute.setText("EXECUTE");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(54, 54, 54)
-                .addComponent(chkSelect)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(chkInsert)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(chkUpdate)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(chkDelete)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(chkExecute)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(chkSelect)
-                    .addComponent(chkInsert)
-                    .addComponent(chkUpdate)
-                    .addComponent(chkDelete)
-                    .addComponent(chkExecute))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Notificaciones", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11), javax.swing.UIManager.getDefaults().getColor("PasswordField.selectionBackground"))); // NOI18N
 
@@ -510,7 +459,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
 
         mnuArchivo.setText("Archivo");
 
-        mnuGuardar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
+        mnuGuardar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/disk.png"))); // NOI18N
         mnuGuardar.setText("Guardar");
         mnuGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -520,7 +469,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
         });
         mnuArchivo.add(mnuGuardar);
 
-        mnuSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.CTRL_MASK));
+        mnuSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/control-power.png"))); // NOI18N
         mnuSalir.setText("Salir");
         mnuSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -534,7 +483,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
 
         mnuEdicion.setText("Edición");
 
-        mnuBorrar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, java.awt.event.InputEvent.CTRL_MASK));
+        mnuBorrar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/cross.png"))); // NOI18N
         mnuBorrar.setText("Borrar");
         mnuBorrar.addActionListener(new java.awt.event.ActionListener() {
@@ -544,7 +493,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
         });
         mnuEdicion.add(mnuBorrar);
 
-        mnuBuscar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
+        mnuBuscar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/binocular.png"))); // NOI18N
         mnuBuscar.setText("Buscar");
         mnuBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -565,7 +514,6 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(4, 4, 4)
@@ -602,9 +550,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
                     .addComponent(datFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
-                .addGap(6, 6, 6)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5)
+                .addGap(57, 57, 57)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -787,19 +733,14 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
     private javax.swing.JButton btnUltimo;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JCheckBox chkCajeroActivo;
-    private javax.swing.JCheckBox chkDelete;
     private javax.swing.JCheckBox chkDescuentos;
     private javax.swing.JCheckBox chkDevoluciones;
     private javax.swing.JCheckBox chkEsCajero;
-    private javax.swing.JCheckBox chkExecute;
     private javax.swing.JCheckBox chkFacturas;
     private javax.swing.JCheckBox chkFirmas;
-    private javax.swing.JCheckBox chkInsert;
     private javax.swing.JCheckBox chkN5;
     private javax.swing.JCheckBox chkNotifcompra;
     private javax.swing.JCheckBox chkPrecios;
-    private javax.swing.JCheckBox chkSelect;
-    private javax.swing.JCheckBox chkUpdate;
     private javax.swing.JCheckBox chknotifFactcxc;
     private javax.swing.JCheckBox chknotifFactcxp;
     private javax.swing.JCheckBox chknotifxmlfe;
@@ -816,7 +757,6 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JMenu mnuArchivo;
@@ -837,36 +777,12 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
 
     @Override
     public final void cargarObjetos() {
-        String user, userSQL;
-        // Bosco agregado 26/11/2011
-        limpiarPemisosSQL();
         limpiarCampos();
 
         try {
             if (rs == null || !rs.first()) {
                 return;
             } // end if
-
-            // Localizar el usuario SQL
-            user = rs.getString("user").trim().toUpperCase();
-            try {
-                userSQL = UtilBD.getDBString(
-                        conn, "mysql.user", "UPPER(user) = '" + user + "'", "distinct user");
-            } catch (NotUniqueValueException ex) {
-                Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, null, ex);
-                JOptionPane.showMessageDialog(
-                        null,
-                        ex.getMessage(),
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
-            } // end try-catch
-
-            if (userSQL != null && !userSQL.isEmpty()) {
-                //Cargar los permisos de usuario para la base de datos actual
-                cargarPermisosSQL(user);
-            } // end if
-            // Fin Bosco agregado 26/11/2011
 
             txtUser.setText(rs.getString("user").trim());
             chkFacturas.setSelected(rs.getBoolean("facturas"));
@@ -911,17 +827,18 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
 
             // Bosco agregado 16/04/2015
             // Determinar si el usuario es cajero y si está activo
+            String userName = this.txtUser.getText().trim();
             String sqlSent = "Select * from cajero Where user = ?";
-            PreparedStatement ps = conn.prepareStatement(sqlSent,
+            try (PreparedStatement ps = conn.prepareStatement(sqlSent,
                     ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY);
-            ps.setString(1, user);
-            ResultSet rsc = CMD.select(ps);
-            if (rsc != null && rsc.first()) {
-                chkEsCajero.setSelected(true);
-                chkCajeroActivo.setSelected(rsc.getString("activo").equals("S"));
-            } // end if
-            ps.close();
+                    ResultSet.CONCUR_READ_ONLY)) {
+                ps.setString(1, userName);
+                ResultSet rsc = CMD.select(ps);
+                if (rsc != null && rsc.first()) {
+                    chkEsCajero.setSelected(true);
+                    chkCajeroActivo.setSelected(rsc.getString("activo").equals("S"));
+                } // end if
+            }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
@@ -936,183 +853,52 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
         if (!validarDatos()) {
             return;
         } // end if
-
-        // Bosco agregado 27/11/2011
-        // Verificar si el usuario SQL existe o no.
-        String user = txtUser.getText().trim();
-        String userSQL;
-        String host;
-        try {
-            // Bosco modificado 28/07/2013
-            // Agrego distinct al tercer parámetor para evitar que
-            // se produzca el error de valor no único ya que puede
-            // haber más de un registro para cada usuario (por el esquema
-            // - localhost y %)
-            userSQL = UtilBD.getDBString(conn,
-                    "mysql.user", "UPPER(user) = '"
-                    + user.toUpperCase() + "'", "distinct concat(user, '@', host) as user");
-            if (userSQL != null && !userSQL.isEmpty()) {
-                String[] userParts = userSQL.split("@");
-                user = userParts[0];
-                host = userParts[1];
-                userSQL = "'" + user + "'@'" + host + "'";
-            }
-        } catch (NotUniqueValueException | SQLException ex) {
-            JOptionPane.showMessageDialog(
-                    null,
-                    ex.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
-            return;
-        } // end try-catch
-
-        if (userSQL == null || userSQL.isEmpty()) {
-            // Crear el usuario SQL con clave igual al ID
-            String sqlSent
-                    = "Create user " + user + " identified by ?";
-            try {
-                PreparedStatement ps;
-                ps = conn.prepareStatement(sqlSent);
-                ps.setString(1, user);
-                CMD.update(ps);
-                ps.close();
-
-                // Obtener el usuario recién creado.
-                userSQL = UtilBD.getDBString(conn,
-                        "mysql.user", "UPPER(user) = '"
-                        + user.toUpperCase() + "'", "distinct concat(user, '@', host) as user");
-                String[] userParts = userSQL.split("@");
-                user = userParts[0];
-                host = userParts[1];
-                userSQL = "'" + user + "'@'" + host + "'";
-            } catch (NotUniqueValueException | SQLException ex) {
-                JOptionPane.showMessageDialog(null,
-                        ex.getMessage(),
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
-                return;
-            } // end try-catch
-        } // end if
-
-        // Revisar cuáles permisos se agregan y cuáles se quitan.
-        // En rsPermisosSQL se encuentra los permisos registrados en la BD
-        String SQLGrant = "GRANT ";
-        String SQLRevoke = "REVOKE ";
-
-        // En mysql server 8.0 estas dos tablas no existen.
-        // Este permiso es requerido para que el usuario pueda ejecutar SPs.
-        // En MariaDB 11 si existen.
-        String SQLGrantOnMySQL = "GRANT SELECT ON mysql.proc to " + userSQL;
-        String SQLRevokeOnMySQL = "REVOKE SELECT ON mysql.proc from " + userSQL;
-
-        SQLGrant += chkSelect.isSelected() ? "SELECT," : "";
-        SQLRevoke += chkSelect.isSelected() ? "" : "SELECT,";
-        SQLGrant += chkInsert.isSelected() ? "INSERT," : "";
-        SQLRevoke += chkInsert.isSelected() ? "" : "INSERT,";
-        SQLGrant += chkUpdate.isSelected() ? "UPDATE," : "";
-        SQLRevoke += chkUpdate.isSelected() ? "" : "UPDATE,";
-        SQLGrant += chkDelete.isSelected() ? "DELETE," : "";
-        SQLRevoke += chkDelete.isSelected() ? "" : "DELETE,";
-        SQLGrant += chkExecute.isSelected() ? "EXECUTE" : "";
-        SQLRevoke += chkExecute.isSelected() ? "" : "EXECUTE";
-        if (SQLGrant.endsWith(",")) {
-            SQLGrant = SQLGrant.substring(0, SQLGrant.lastIndexOf(","));
-        } // end if
-        if (SQLRevoke.endsWith(",")) {
-            SQLRevoke = SQLRevoke.substring(0, SQLRevoke.lastIndexOf(","));
-        } // end if
-
-        // Si no hay permisos para agregar dejo vacía la cadena
-        if (SQLGrant.trim().equals("GRANT")) {
-            SQLGrant = "";
-        } else {
-            SQLGrant += " ON " + BASEDATOS + ".* TO   " + userSQL;
-        } // end if
-
-        // Si no hay permisos que revocar dejo vacía la cadena
-        if (SQLRevoke.trim().equals("REVOKE")) {
-            SQLRevoke = "";
-        } else {
-            SQLRevoke += " ON " + BASEDATOS + ".* FROM " + userSQL;
-        } // end if
-
-        try {
-            if (!SQLGrant.isEmpty()) {
-                stat.execute(SQLGrant);
-            } // end if
-            if (!SQLRevoke.isEmpty()) {
-                stat.execute(SQLRevoke);
-            } // end if
-
-            // Esto no aplica en mysql server 8.0
-            // Permiso o revocación de permiso para ejecutar SPs
-            stat.execute(SQLGrantOnMySQL);
-            if (!chkExecute.isSelected()) {
-                stat.execute(SQLRevokeOnMySQL);
-            } // end if
-
-            stat.execute("FLUSH PRIVILEGES");
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,
-                    ex.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
-            return;
-        } // end try-catch
-        // Fin Bosco agregado 27/11/2011
-
+        
         int affectedRecords = 0;
         boolean registroCargado;
-        String User,
-                Nivel,
+        String userName,
+                nivel,
                 N1,
                 N2,
                 N3,
-                Facturas,
+                facturas,
                 N5,
                 N6,
                 N7,
                 N8,
                 N9,
-                Precios,
-                Devoluciones,
-                Descuentos,
-                MaxDesc,
-                NotifCompra,
-                // Bosco agregado 28/07/2013
+                precios,
+                devoluciones,
+                descuentos,
+                maxDesc,
+                notifCompra,
                 intervalo1,
                 notifFactcxc,
                 intervalo2,
                 notifFactcxp,
                 intervalo3,
-                notifxmlfe, // Bosco agregado 23/12/2018
-                intervalo4, // Bosco agregado 23/12/2018
-                // Fin Bosco agregado 28/07/2013
-                Firmas,
-                // Bosco agregado 06/11/2011
+                notifxmlfe,
+                intervalo4,
+                firmas,
                 activo,
                 ultimaClave;
-        // Fin Bosco agregado 06/11/2011
 
-        User = txtUser.getText().trim();
-        Nivel = "0";
+        userName = txtUser.getText().trim();
+        nivel = "0";
         N1 = "0";
         N2 = "0";
         N3 = "0";
-        Facturas = chkFacturas.isSelected() ? "1" : "0";
+        facturas = chkFacturas.isSelected() ? "1" : "0";
         N5 = chkN5.isSelected() ? "1" : "0";
         N6 = "0";
         N7 = "0";
         N8 = "0";
         N9 = "0";
-        Precios = chkPrecios.isSelected() ? "1" : "0";
-        Devoluciones = chkDevoluciones.isSelected() ? "1" : "0";
-        Descuentos = chkDescuentos.isSelected() ? "1" : "0";
-        MaxDesc = spnMaxDesc.getValue().toString();
-        NotifCompra = chkNotifcompra.isSelected() ? "1" : "0";
+        precios = chkPrecios.isSelected() ? "1" : "0";
+        devoluciones = chkDevoluciones.isSelected() ? "1" : "0";
+        descuentos = chkDescuentos.isSelected() ? "1" : "0";
+        maxDesc = spnMaxDesc.getValue().toString();
+        notifCompra = chkNotifcompra.isSelected() ? "1" : "0";
         // Bosco agregado 28/07/2013
         intervalo1 = spnIntervalo1.getValue().toString();
         notifFactcxc = chknotifFactcxc.isSelected() ? "1" : "0";
@@ -1122,7 +908,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
         notifxmlfe = chknotifxmlfe.isSelected() ? "1" : "0";    // Bosco agregado 23/12/2018
         intervalo4 = spnIntervalo4.getValue().toString();       // Bosco agregado 23/12/2018
         // Fin Bosco agregado 28/07/2013
-        Firmas = chkFirmas.isSelected() ? "1" : "0";
+        firmas = chkFirmas.isSelected() ? "1" : "0";
 
         // Bosco agregado 06/11/2011
         activo = this.radActivo.isSelected() ? "S" : "N";
@@ -1131,26 +917,26 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
 
         String updateSQL;
 
-        if (!consultarRegistro(User)) {
+        if (!consultarRegistro(userName)) {
             // Este SP también agrega el usuario en saisystem
             updateSQL
                     = "CALL InsertarUsuario('"
-                    + User + "'" + ","
-                    + Nivel + ","
+                    + userName + "'" + ","
+                    + nivel + ","
                     + N1 + ","
                     + N2 + ","
                     + N3 + ","
-                    + Facturas + ","
+                    + facturas + ","
                     + N5 + ","
                     + N6 + ","
                     + N7 + ","
                     + N8 + ","
                     + N9 + ","
-                    + Precios + ","
-                    + Devoluciones + ","
-                    + Descuentos + ","
-                    + MaxDesc + ","
-                    + NotifCompra + ","
+                    + precios + ","
+                    + devoluciones + ","
+                    + descuentos + ","
+                    + maxDesc + ","
+                    + notifCompra + ","
                     + // Bosco agregado 28/07/2013
                     intervalo1 + ","
                     + notifFactcxc + ","
@@ -1164,25 +950,25 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
                     "'" + activo + "'" + ","
                     + ultimaClave + ","
                     + // Fin Bosco agregado 06/11/2011.
-                    Firmas + ")";
+                    firmas + ")";
         } else {
             updateSQL
                     = "Update usuario Set "
-                    + "  Nivel = " + Nivel + ","
+                    + "  Nivel = " + nivel + ","
                     + "  N1    = " + N1 + ","
                     + "  N2    = " + N2 + ","
                     + "  N3    = " + N3 + ","
-                    + "  Facturas = " + Facturas + ","
+                    + "  Facturas = " + facturas + ","
                     + "  N5    = " + N5 + ","
                     + "  N6    = " + N6 + ","
                     + "  N7    = " + N7 + ","
                     + "  N8    = " + N8 + ","
                     + "  N9    = " + N9 + ","
-                    + "  Precios = " + Precios + ","
-                    + "  Devoluciones = " + Devoluciones + ","
-                    + "  Descuentos   = " + Descuentos + ","
-                    + "  MaxDesc      = " + MaxDesc + ","
-                    + "  NotifCompra  = " + NotifCompra + ","
+                    + "  Precios = " + precios + ","
+                    + "  Devoluciones = " + devoluciones + ","
+                    + "  Descuentos   = " + descuentos + ","
+                    + "  MaxDesc      = " + maxDesc + ","
+                    + "  NotifCompra  = " + notifCompra + ","
                     + // Bosco agregado 28/07/2013
                     "  intervalo1   = " + intervalo1 + ","
                     + "  notifFactcxc = " + notifFactcxc + ","
@@ -1192,8 +978,8 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
                     + "  notifxmlfe = " + notifxmlfe + ","
                     + "  intervalo4   = " + intervalo4 + ","
                     + // Fin Bosco agregado 28/07/2013"
-                    "  Firmas       = " + Firmas + " "
-                    + "Where user = " + "'" + User + "'";
+                    "  Firmas       = " + firmas + " "
+                    + "Where user = " + "'" + userName + "'";
         } // end if
 
         try (PreparedStatement ps = conn.prepareStatement(updateSQL)) {
@@ -1214,7 +1000,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
                 + "	ultimaClave = NOW(), activo = 'S'";
 
         try (PreparedStatement ps = conn.prepareStatement(updateSQL)) {
-            ps.setString(1, User);
+            ps.setString(1, userName);
             affectedRecords = CMD.update(ps);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,
@@ -1242,7 +1028,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
             // end if
             rs = nav.cargarRegistro(
                     Navegador.ESPECIFICO,
-                    User, tabla, "user");
+                    userName, tabla, "user");
         } catch (SQLException | SQLInjectionException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
@@ -1336,9 +1122,13 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
         // Aunque el usuario está registrado en varias tablas no hay 
         // integridad referencial por lo que se puede eliminar sin problema.
         String sqlDelete = "CALL EliminarUsuario('" + pUser + "')";
+        
         int sqlResult;
         try {
             sqlResult = stat.executeUpdate(sqlDelete);
+            // Eliminar también el registro en saisystem
+            // Nota: hay que modificar el SP EliminarUsuario para que haga esto también, todo dentro de una transacción.
+            stat.execute("DELETE FROM saisystem.usuario WHERE user = '" + pUser + "'");
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(btnBorrar,
                     ex.getMessage(),
@@ -1347,68 +1137,6 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             return;
         } // end try-catch
-
-        // Bosco agregado 27/11/2011.
-        // Eliminar el usuario SQL. Si no se revocan todos los permisos antes
-        // de eliminar el usuario entonces se produce un error.  Aquí queda,
-        // por ahora, una pequeña debilidad; si el usuario que se está eliminando
-        // está asignado a otras bases de datos entonces este proceso no lo eliminará
-        // por completo ya que faltaría revocar los permisos de esas otras BD.
-        // Aquí se produciría un error pero en realidad así debe ser.  Sólo se
-        // eliminará por completo cuando ya no existan permisos en ningún lado.
-        String SQLGrants = "SHOW GRANTS FOR " + pUser;
-        String SQLRevoke
-                = "REVOKE ALL ON " + BASEDATOS + ".* FROM " + pUser;
-
-        String SQLDrop = "DROP USER " + pUser;
-        try {
-            boolean tienePermisos = true;
-            try {
-                stat.execute(SQLGrants);
-            } catch (SQLException ex) {
-                // Si se produce un error es porque no tiene permisos referenciados
-                tienePermisos = false;
-            }
-
-            try {
-                // Si tiene permisos se le revocan
-                if (dropUser && tienePermisos) {
-                    stat.execute(SQLRevoke);
-                }
-            } catch (SQLException ex) {
-                // No se hace nada si ocurre un error acá
-            }
-
-            try {
-                if (dropUser) {
-                    // Podría hacerse esta revisión antes:
-                    // SELECT * FROM mysql.user WHERE User like 'bgarita';
-                    // Queda pendiente: 06/04/2025
-                    stat.execute(SQLDrop);
-                }
-            } catch (SQLException ex) {
-                // Si el usuario no existe se producirá un error.
-                // No es necesario hacer nada.
-            }
-
-            if (dropUser) {
-                stat.execute("DELETE FROM saisystem.usuario WHERE user = '" + pUser + "'");
-                // Si la cuenta SQL se va a eliminar no tiene sentido
-                // que siga existiendo un registro en saisystem.
-                // Aquí hay un potencial error: cuando se intente eliminar
-                // una cuenta de usuario que tiene permisos en otra base de datos
-                // aquí se producirá un error pero ya el registro estará eliminado
-                // de saisystem.
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(btnBorrar,
-                    ex.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
-            return;
-        } // end try-catch
-        // Fin Bosco agregado 27/11/2011.
 
         JOptionPane.showMessageDialog(btnBorrar,
                 String.valueOf(sqlResult)
@@ -1441,48 +1169,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
         } // end try-catch
     } // end refrescarObjetos
 
-    private void limpiarPemisosSQL() {
-        this.chkSelect.setSelected(false);
-        this.chkInsert.setSelected(false);
-        this.chkUpdate.setSelected(false);
-        this.chkDelete.setSelected(false);
-        this.chkExecute.setSelected(false);
-    } // end limpiarPemisosSQL
-
-    private void cargarPermisosSQL(String user) throws SQLException {
-        if (rsPermisosSQL != null) {
-            rsPermisosSQL.close();
-        } // end if
-
-        String selectSQL
-                = "Select * from mysql.db Where upper(db) = ? "
-                + "and upper(user) = ? and host = '%'";
-        PreparedStatement ps
-                = conn.prepareStatement(selectSQL,
-                        ResultSet.TYPE_SCROLL_SENSITIVE,
-                        ResultSet.CONCUR_READ_ONLY);
-        ps.setString(1, BASEDATOS.toUpperCase());
-        ps.setString(2, user.toUpperCase());
-        rsPermisosSQL = CMD.select(ps);
-
-        if (rsPermisosSQL == null || !rsPermisosSQL.first()) {
-            this.limpiarPemisosSQL();
-            return;
-        } // end if
-
-        // Cargar los checkboxes
-        this.chkSelect.setSelected(
-                rsPermisosSQL.getString("Select_priv").trim().equals("Y"));
-        this.chkInsert.setSelected(
-                rsPermisosSQL.getString("Insert_priv").trim().equals("Y"));
-        this.chkUpdate.setSelected(
-                rsPermisosSQL.getString("Update_priv").trim().equals("Y"));
-        this.chkDelete.setSelected(
-                rsPermisosSQL.getString("Delete_priv").trim().equals("Y"));
-        this.chkExecute.setSelected(
-                rsPermisosSQL.getString("Execute_priv").trim().equals("Y"));
-    } // end cargarPermisosSQL
-
+    
     private void limpiarCampos() {
         chkFacturas.setSelected(false);
         chkN5.setSelected(false);

@@ -7,8 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import logica.utilitarios.Ut;
 
 /**
@@ -83,7 +81,6 @@ public class Cuenta {
             this.error = false;
             this.mensaje_error = "";
         } catch (SQLException ex) {
-            Logger.getLogger(Cuenta.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
@@ -377,7 +374,6 @@ public class Cuenta {
                 } // end if
             } // try with resources
         } catch (SQLException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             error = true;
             mensaje_error = ex.getMessage();
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);

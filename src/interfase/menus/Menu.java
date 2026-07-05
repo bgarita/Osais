@@ -104,10 +104,11 @@ public class Menu extends javax.swing.JFrame {
      probada y en producción. Además se cambia la forma de conectar con la base
      de datos y se comprueba la compatibilidad con MariaDB 10x y 11
      */
-    public static final String VERSIONN = "5.3r1";
-    private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Abr 2025";
-    public static String USUARIO;
-    public static String PASS;
+    public static final String VERSIONN = "5.3r2";
+    private final String VERSIONT = "OSAIS " + VERSIONN + " Feb 2009 - Jun 2026";
+    public static String DB_USERNAME; // Usuario de base de datos
+    public static String PASS;    // Clave del usuario de base de datos
+    public static String APP_USERNAME; // Usuario de aplicación (logueado)
     private static String SERVIDOR;
     public static String BASEDATOS;
     public static String USUARIOBD;
@@ -150,7 +151,7 @@ public class Menu extends javax.swing.JFrame {
         // Fin Bosco agregado 19/07/2019
 
         Menu.DATABASE_CONNECTION_DRIVER = databaseConnectionDriver;
-        Menu.USUARIO = databaseConnectionDriver.getUserID();
+        Menu.DB_USERNAME = databaseConnectionDriver.getUserID();
         Menu.BASEDATOS = databaseConnectionDriver.getDataBaseName();
         Menu.url = url;
         Menu.OS_NAME = Ut.getProperty(Ut.OS_NAME);
@@ -187,7 +188,7 @@ public class Menu extends javax.swing.JFrame {
         // Bosco agregado 23/04/2015
         // Agrego estos valores en variables estáticas para poder
         // tener acceso a ellas desde cualquier clase.
-        Usuario.USUARIO = Menu.USUARIO;
+        Usuario.USUARIO = Menu.DB_USERNAME;
         Usuario.USUARIOBD = Menu.USUARIOBD;
         // Fin Bosco agregado 23/04/2015
 
@@ -202,7 +203,7 @@ public class Menu extends javax.swing.JFrame {
         try {
             UpdateVersion.update(sConn);
             
-            // Otengo el usuario de base de datos según el motor
+            // Obtengo el usuario de base de datos según el motor
             Menu.USUARIOBD = UtilBD.getUserLogged(sConn);
             
             ResultSet rs = NAV.ejecutarQuery("Select * from config");
@@ -246,11 +247,10 @@ public class Menu extends javax.swing.JFrame {
         NOTIF.start();
         // Fin Bosco agregado 27/07/2013
 
-        setTitle(
-                "OSAIS  - "
+        setTitle("OSAIS  - "
                 + " Servidor: " + Menu.SERVIDOR
                 + " Base de datos: " + Menu.BASEDATOS
-                + " Usuario: " + Menu.USUARIO
+                + " Usuario: " + Menu.APP_USERNAME
                 + " Motor: " + Menu.engineVersion);
 
     } // constructor
@@ -2851,7 +2851,7 @@ DATABASE_CONNECTION_DRIVER.getConnection(), // Conexión
         // MEJORA: Esto deberá ser por permisos especiales, no por usuario.
 
         UsuariosSQLActivos eu = new UsuariosSQLActivos(
-                new java.awt.Frame(), true, DATABASE_CONNECTION_DRIVER.getConnection(), USUARIO);
+                new java.awt.Frame(), true, DATABASE_CONNECTION_DRIVER.getConnection(), DB_USERNAME);
         eu.setVisible(true);
     }//GEN-LAST:event_mnuDesconectarUsersActionPerformed
 
@@ -2921,11 +2921,11 @@ DATABASE_CONNECTION_DRIVER.getConnection(), // Conexión
     }//GEN-LAST:event_mnuConsultarClientesActionPerformed
 
     private void mnuClaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuClaveActionPerformed
-        //new CambioClave(conn,this.USUARIO);
+        //new CambioClave(conn,this.DB_USERNAME);
         CambioClave cambioClave
                 = new CambioClave(
                         new javax.swing.JFrame(),
-                        true, DATABASE_CONNECTION_DRIVER.getConnection(), Menu.USUARIO, false);
+                        true, DATABASE_CONNECTION_DRIVER.getConnection(), Menu.DB_USERNAME, false);
     }//GEN-LAST:event_mnuClaveActionPerformed
 
     private void mnuSeguridadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSeguridadActionPerformed
@@ -3142,7 +3142,6 @@ DATABASE_CONNECTION_DRIVER.getConnection()) // Conexión
                 return;
             } // end if
         } catch (Exception ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",

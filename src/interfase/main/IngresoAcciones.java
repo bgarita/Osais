@@ -14,6 +14,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import Exceptions.SQLInjectionException;
+import interfase.menus.Menu;
+import interfase.seguridad.PasswordUtil;
+import java.io.File;
+import java.io.IOException;
+import java.util.Properties;
+import logica.utilitarios.Props;
 import logica.utilitarios.Ut;
 
 /**
@@ -30,9 +36,24 @@ public class IngresoAcciones {
     private String errorMsg;
     private final Bitacora b = new Bitacora();
 
-    public IngresoAcciones(String user, char[] password, String url) {
-        this.user = user;
-        this.password = new String(password);
+    //public IngresoAcciones(String user, char[] password, String url) {
+    public IngresoAcciones(String url) {
+        String dataBaseUser = "";
+        String dataBasePass = "";
+        try {
+            Properties props = Props.getProps(new File("defaultUser.properties"));
+            dataBaseUser = props.getProperty("username");
+            dataBasePass = props.getProperty("userPass");
+            
+            if (url.contains("localhost")) {
+                dataBaseUser = props.getProperty("localUsername");
+                dataBasePass = props.getProperty("localUserPass");
+            }
+        } catch (IOException ex) {
+            this.errorMsg = ex.toString();
+        }
+        this.user = dataBaseUser;
+        this.password = new String(dataBasePass);
         this.url = url;
         this.errorMsg = "";
         databaseConnectionDriver = null;
@@ -64,29 +85,12 @@ public class IngresoAcciones {
 
     public boolean createConnection() {
         String IP = getIP(url);
-        //        if (UtilBD.jPing(IP)){
-        //            System.out.println(IP);
-        //        }
+        
         // Si el url es un localhost no se requiere todo el procesamiento
         // para cambiar dinámicamente al IP.
         if (url.contains("localhost")) {
             databaseConnectionDriver = new DatabaseConnectionDriver(user, password, url);
         } else {
-            //String IP = getIP(url);
-
-            /*
-                Si el ping no responde intento con 14 ips más. Esto lo hace el
-                método retryConnection()
-                El reintento de conectarse solo ha sido probado con urls que contienen
-                número de puerto.
-            NOTA: este jPing no está funcionando con mysql8.  Se debe comentar y
-            habilitar //conexion = new DatabaseConnectionDriver(usuario,pass2,url);
-             */
-//            if (UtilBD.jPing(IP)){
-//                CONEXION = new DatabaseConnectionDriver(usuario,pass2,url);
-//            } else {
-//                retryConnection(usuario,pass2,url);
-//            } // end if
             databaseConnectionDriver = new DatabaseConnectionDriver(user, password, url);
             // Si el error persiste intento nuevamente.  Pero solo si se trata de 
             // un problema con la IP.
@@ -223,7 +227,7 @@ public class IngresoAcciones {
             ps = conn.prepareStatement(sqlSent,
                     ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
-            ps.setString(1, databaseConnectionDriver.getUserID());
+            ps.setString(1, Menu.APP_USERNAME);
             rs = CMD.select(ps);
             if (!UtilBD.goRecord(rs, UtilBD.FIRST)) {
                 continuar = false;
@@ -331,5 +335,70 @@ public class IngresoAcciones {
                     JOptionPane.WARNING_MESSAGE);
         } // end if
         // Fin Bosco agregado 06/11/2011
+    }
+
+    /**
+     * Este método valida si la clave digitada es correcta para el usuario que
+     * intenta ingresar, pero también si en la base de datos el campo clave está
+     * vacío, el ingreso actual se tomará como válido quedando la clave que haya
+     * ingresado ya registrada oficialmente en base de datos.
+     * @param pass password to compare with database
+     * @return true if password is correct, false if not
+     */
+    boolean isAppUserPassOk(String pass) {
+        // No se haceptan claves vacías
+        if (pass.isBlank()) {
+            this.errorMsg = "La clave ingresada no puede estar en blanco.";
+            return false;
+        }
+        
+        // Verificar que la clave del usuario sea correcta
+        String sqlSent
+                = "SELECT clave FROM usuario Where user = ?";
+
+        
+        PreparedStatement ps;
+        boolean passOk = false;
+        try {
+            ps = conn.prepareStatement(sqlSent,
+                    ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
+            ps.setString(1, Menu.APP_USERNAME);
+            ResultSet rs = CMD.select(ps);
+            String dbPass = "";
+            if (rs != null && rs.first()) {
+                dbPass = rs.getString(1);
+                if (!dbPass.isEmpty()) {
+                    passOk = PasswordUtil.verify(pass, dbPass);
+                }
+            } // end if
+            
+            ps.close();
+            
+            // Si el password en la base de datos está vacío, guardar el nuevo password hasheado
+            if (dbPass.isEmpty()) {
+                String hash = PasswordUtil.hash(pass);
+                String updateSql = "UPDATE usuario SET clave = ? WHERE user = ?";
+                try (PreparedStatement psUpdate = conn.prepareStatement(updateSql)) {
+                    psUpdate.setString(1, hash);
+                    psUpdate.setString(2, Menu.APP_USERNAME);
+                    psUpdate.executeUpdate();
+                }
+                passOk = true; // Se aceptó el ingreso con el nuevo password hasheado
+            }
+            
+            if (!passOk) {
+                this.errorMsg = "Clave incorrecta.";
+            }
+                
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+        } // end try-catch
+        
+        return passOk;
     }
 }

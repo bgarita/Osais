@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="vtasxarticulo" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="772" leftMargin="18" rightMargin="2" topMargin="6" bottomMargin="6" uuid="a862c767-6ebc-4cb3-9e05-0ca98396bc1e">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="164"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="pQuery" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["Call Rep_Ventasxarticulo('2010-01-01','2010-12-31 23:59:59',null,null,2)"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pWhere" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pOrderBy" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="pFiltro" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["Aquí se mostrarán los rangos del reporte"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[$P!{pQuery}]]>
+	</queryString>
+	<field name="artcode" class="java.lang.String"/>
+	<field name="artdesc" class="java.lang.String"/>
+	<field name="faccant" class="java.math.BigDecimal"/>
+	<field name="artcosp" class="java.math.BigDecimal"/>
+	<field name="facmont" class="java.lang.Double"/>
+	<field name="facimve" class="java.lang.Double"/>
+	<field name="facdesc" class="java.lang.Double"/>
+	<field name="Venta" class="java.lang.Double"/>
+	<field name="Empresa" class="java.lang.String"/>
+	<variable name="vRegistros" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{Empresa}]]></variableExpression>
+	</variable>
+	<variable name="vFacimve" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{facimve}]]></variableExpression>
+	</variable>
+	<variable name="vFacdesc" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{facdesc}]]></variableExpression>
+	</variable>
+	<variable name="vVenta" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{Venta}]]></variableExpression>
+	</variable>
+	<variable name="vFaccant" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{faccant}]]></variableExpression>
+	</variable>
+	<variable name="vArtcosp" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{artcosp}]]></variableExpression>
+	</variable>
+	<variable name="vFacmont" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{facmont}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="7" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="63" splitType="Stretch">
+			<textField>
+				<reportElement x="90" y="0" width="592" height="20" forecolor="#0033CC" uuid="42ccb4e7-e739-4210-a0a3-fca3d7c3125d"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Empresa}.trim()]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy h.mm a">
+				<reportElement x="0" y="20" width="100" height="20" uuid="c92f2572-daf7-47c3-98e4-23a6bbf6831c"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="292" y="20" width="189" height="20" uuid="a9192ded-6121-404f-940d-8dca7b53c218"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Ventas por artículo]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="670" y="20" width="80" height="20" uuid="3f85585a-a29e-4ff5-84e6-2ee593bf6c8e"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Pág.: "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="26" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="11" width="212" height="15" uuid="6c1dce31-c82d-45b4-81b4-f10fa4da8143"/>
+				<textElement>
+					<font fontName="Tahoma" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Artículo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="471" y="11" width="56" height="15" uuid="cb145318-52fe-4d15-9548-ea5de66059b8"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IVA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="543" y="11" width="59" height="15" uuid="a0a25f13-5b67-4c83-8b03-f6281ba2108d"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descuento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="621" y="11" width="56" height="15" uuid="85302854-28ec-414a-bbf4-0a0519501e99"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Monto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="212" y="11" width="100" height="15" uuid="c844d41d-7b1e-4e80-8b2e-f8d75eaf075f"/>
+				<textElement textAlignment="Left">
+					<font fontName="Tahoma" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="325" y="11" width="53" height="15" uuid="14dde662-3fa0-45cc-a74f-c8006f15e7de"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="397" y="11" width="56" height="15" uuid="e8911efe-c001-4cf0-9361-303d672a0949"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Costo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="694" y="11" width="56" height="15" uuid="75bdc971-4be0-4789-b083-d9ae14293184"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Venta]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement isPrintRepeatedValues="false" x="0" y="0" width="212" height="13" uuid="e780eada-8082-4864-ae0e-be8afe6bd4cb"/>
+				<textElement>
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{artdesc}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement x="471" y="0" width="56" height="13" uuid="9d532bc8-99f9-4945-9205-4a6a30603555"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{facimve}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement x="543" y="0" width="59" height="13" uuid="471e20a4-e3c6-44e4-82f3-d53434e8f8c3"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{facdesc}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement x="621" y="0" width="56" height="13" uuid="a49b2fc8-bf94-4f97-aeaf-5cf9fe3b17bd"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{facmont}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement isPrintRepeatedValues="false" x="212" y="0" width="100" height="13" uuid="12fdfd6d-28b1-4d27-9f47-c9c4b2f2483a"/>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{artcode}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement x="325" y="0" width="53" height="13" uuid="16fff3bb-908a-4064-af3e-ad294f10e3a4"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{faccant}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement x="397" y="0" width="56" height="13" uuid="b5402d9c-b26c-4bda-b494-fc333574bbda"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{artcosp}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement x="694" y="0" width="56" height="13" uuid="9cbe3b91-8a78-44d7-a739-794e7f366443"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Venta}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="13" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="38" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="2" y="11" width="748" height="13" isRemoveLineWhenBlank="true" uuid="1628a396-a417-4056-b85c-cff5671b48ba"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pFiltro}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="69" splitType="Stretch">
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement x="456" y="11" width="71" height="13" forecolor="#0000FF" uuid="bacdfecc-b03e-4963-9962-79e1f4d841af"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{vFacimve}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement x="531" y="11" width="71" height="13" forecolor="#0000FF" uuid="b0f1b1a9-c840-4aa3-bbcf-1ed4c6fbc4df"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{vFacdesc}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement x="606" y="11" width="71" height="13" forecolor="#0000FF" uuid="dd05be4b-642d-4e25-bb50-02bd9c0e2f51"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{vFacmont}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement x="312" y="11" width="66" height="13" forecolor="#0000FF" uuid="4899c2da-69c2-41f0-95c3-093c779642cc"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{vFaccant}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement x="382" y="11" width="71" height="13" forecolor="#0000FF" uuid="ed1fe055-80c5-459a-98fa-798f0170f593"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{vArtcosp}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement x="679" y="11" width="71" height="13" forecolor="#0000FF" uuid="7ffdb359-44d4-487e-bf74-28f337fe1cb8"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{vVenta}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

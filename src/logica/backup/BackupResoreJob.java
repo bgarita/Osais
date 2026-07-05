@@ -80,7 +80,7 @@ public class BackupResoreJob extends Thread {
          */
 
         // Crear el archivo con los defaults
-        String defaultsFileName = Menu.USUARIO.trim() + ".txt";
+        String defaultsFileName = Menu.DB_USERNAME.trim() + ".txt";
         File defaultsF = new File(defaultsFileName);
         Archivos archivo = new Archivos();
         try {
@@ -114,7 +114,7 @@ public class BackupResoreJob extends Thread {
              */
             String tool = "mysqldump ";
             String cmd = tool
-                    + "--defaults-file=" + defaultsFileName + " --user=" + Menu.USUARIO.trim() + " --port=" + Menu.PORT
+                    + "--defaults-file=" + defaultsFileName + " --user=" + Menu.DB_USERNAME.trim() + " --port=" + Menu.PORT
                     + " --default-character-set=utf8 --single-transaction=TRUE --routines --events --triggers " + (!this.includeData ? "-d " : "") + DB;
 
             String fileName = targetFolder + "/" + unique + "_" + DB + ".osais";
@@ -292,7 +292,7 @@ public class BackupResoreJob extends Thread {
         Boolean error = false;
 
         // Crear el archivo con los defaults
-        String defaultsFileName = Menu.USUARIO.trim() + ".txt";
+        String defaultsFileName = Menu.DB_USERNAME.trim() + ".txt";
         File defaultsF = new File(defaultsFileName);
         Archivos archivo = new Archivos();
         try {
@@ -323,7 +323,7 @@ public class BackupResoreJob extends Thread {
          */
         String tool = "mysql ";
         String cmd = tool
-                + "--defaults-file=" + defaultsFileName + " --user=" + Menu.USUARIO.trim() + " --port=" + Menu.PORT
+                + "--defaults-file=" + defaultsFileName + " --user=" + Menu.DB_USERNAME.trim() + " --port=" + Menu.PORT
                 + " --default-character-set=utf8 " + newDatabase;
 
         try {
