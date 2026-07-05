@@ -616,8 +616,6 @@ public class UtilBD {
             return tienePermiso;
         } // end if
 
-        // La función GetDBUser() devuelve el string del usuario antes de
-        // la arroba.
         String sqlSelect
                 = "Select * from usuario Where user = ?";
         try (PreparedStatement ps = c.prepareStatement(sqlSelect,

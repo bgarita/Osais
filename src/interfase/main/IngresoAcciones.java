@@ -369,6 +369,9 @@ public class IngresoAcciones {
             String dbPass = null;
             if (rs != null && rs.first()) {
                 dbPass = rs.getString(1);
+                if (dbPass == null) {
+                    dbPass = "";
+                }
             } // end if
 
             ps.close();
