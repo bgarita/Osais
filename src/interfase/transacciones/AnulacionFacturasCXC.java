@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import logica.Catransa;
 import contabilidad.logica.CoasientoE;
+import interfase.menus.Menu;
 import logica.utilitarios.Ut;
 
 /**
@@ -470,14 +471,16 @@ public class AnulacionFacturasCXC extends java.awt.Dialog {
                 return;
             } // end if
 
-            sqlSent
-                    = "Call AnularFacNCNDCXC(" + facnume + "," + facnd + ")";
+            sqlSent = "Call AnularFacNCNDCXC(?,?,?)";
 
             // Utilizo CMD.select() porque el SP devuelve un RS
             // ya sea para indicar el error o para indicar que todo
             // salió bien.
             ps = conn.prepareStatement(sqlSent,
                     ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            ps.setInt(1, Integer.parseInt(facnume));
+            ps.setInt(2, facnd);
+            ps.setString(3, Menu.APP_USERNAME);
             rs = CMD.select(ps);
             UtilBD.goRecord(rs, UtilBD.FIRST);
 

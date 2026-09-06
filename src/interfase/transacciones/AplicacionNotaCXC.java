@@ -11,6 +11,7 @@ import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
 import interfase.consultas.ImpresionFactura;
+import interfase.menus.Menu;
 import interfase.otros.Navegador;
 import java.awt.Color;
 import java.awt.HeadlessException;
@@ -814,7 +815,7 @@ public class AplicacionNotaCXC extends javax.swing.JFrame {
             // No afecta el saldo del cliente porque éste fue afectado
             // en el momento de crear la NC. Tampoco afecta inventario
             // porque también se afectó a la hora de crearla.
-            sqlSent = "Call InsertarDetalleNCCXC(?,?,?,?,?)";
+            sqlSent = "Call InsertarDetalleNCCXC(?,?,?,?,?,?)";
             ps = sConn.prepareStatement(sqlSent);
 
             while (todoCorrecto && row < tblDetalle1.getRowCount()) {
@@ -846,6 +847,7 @@ public class AplicacionNotaCXC extends javax.swing.JFrame {
                 ps.setInt(3, facnd);
                 ps.setDouble(4, monto);
                 ps.setDouble(5, facsald);
+                ps.setString(6, Menu.APP_USERNAME);
 
                 // Uso executeQuery porque debe retornar un ResultSet
                 rs = ps.executeQuery();

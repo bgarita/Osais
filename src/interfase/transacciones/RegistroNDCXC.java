@@ -10,6 +10,7 @@ import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
+import interfase.menus.Menu;
 import interfase.otros.Buscador;
 import interfase.otros.Navegador;
 import interfase.otros.OrdendeCompra;
@@ -470,7 +471,8 @@ public class RegistroNDCXC extends javax.swing.JFrame {
                 + "'" + referencia + "'" + ","
                 + "'" + codigoTC + "'" + ","
                 + tipoca + ","
-                + "-" + facnume + ")"; // Bosco agregado 26/09/2018
+                + "-" + facnume + ","
+                + "'" + Menu.APP_USERNAME + "'" + ")"; // Bosco agregado 26/09/2018
         try {
             CMD.transaction(conn, CMD.START_TRANSACTION);
             rs = stat.executeQuery(sqlSent); // Este SP devuelve un resultado

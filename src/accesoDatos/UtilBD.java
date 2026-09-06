@@ -2661,11 +2661,13 @@ public class UtilBD {
         boolean sonIguales;
 
         String sqlSent
-                = "SELECT "
-                + "	("
-                + "		(SELECT round(impuesto*100,2) FROM cabys WHERE codigoCabys = ?) -  "
-                + "		(SELECT porcentaje FROM tarifa_iva WHERE codigoTarifa = ?) "
-                + "	) AS diferencia";
+                = "SELECT ( " +
+                "          (SELECT if(impuesto < 1, round(impuesto*100, 2), impuesto)" +
+                "           FROM cabys" +
+                "           WHERE codigoCabys = ?) -" +
+                "          (SELECT porcentaje" +
+                "           FROM tarifa_iva" +
+                "           WHERE codigoTarifa = ?)) AS diferencia";
         try (PreparedStatement ps = conn.prepareStatement(sqlSent,
                 ResultSet.CONCUR_READ_ONLY, ResultSet.TYPE_SCROLL_SENSITIVE)) {
             ps.setString(1, codigoCabys);

@@ -1,34 +1,49 @@
 # Reglas para asistentes de código
 
 Este proyecto usa formularios Swing creados con NetBeans GUI Builder (Matisse).
+Todo el código fuente de este proyecto se encuentra en el directorio `G:\Java Programs\Osais\src/`.
 
-## Archivos protegidos
+## Archivos con diseño visual (`.form`)
 Si existe un par de archivos con el mismo nombre base:
 
 - `Pantalla.java`
 - `Pantalla.form`
 
-entonces ambos archivos deben considerarse protegidos.
+entonces el archivo `.form` y las partes autogeneradas del `.java` están protegidas, pero la lógica en el `.java` sí puede modificarse.
 
-## Restricciones
+## Restricciones (PROHIBIDO)
 No modificar:
 
 - archivos `*.form`
-- el archivo `.java` asociado a un `.form`
-- `initComponents()`
-- código autogenerado por NetBeans
-- diseño visual de formularios
+- la región autogenerada `initComponents()` en `.java`
+- bloques de código autogenerado por NetBeans
+- propiedades o declaración de componentes visuales en `.java`
+- listeners/eventos vinculados a componentes UI (que se regeneran automáticamente)
 
-## Si un cambio afecta una pantalla protegida
-No editar los archivos.
+## Cambios permitidos
+Se pueden modificar automáticamente:
 
-En su lugar, crear un archivo Markdown en:
+- **Lógica de negocio** en métodos de clases con `.form`
+- **Validaciones** y procesamiento de datos
+- **Servicios** y DAO
+- **SQL** y consultas
+- **Utilitarios** y clases auxiliares
+- **Event handlers** personalizados fuera de `initComponents()`
+- **Métodos adicionales** para procesamiento de datos
+
+### Ejemplos de cambios permitidos en clases con `.form`:
+- Agregar métodos para validar campos
+- Modificar métodos que procesan datos antes de guardar
+- Cambiar lógica de búsqueda o filtrado
+- Refactorizar acceso a datos (servicios/DAO)
+- Agregar métodos auxiliares
+
+## Si un cambio afecta diseño visual
+Si necesita cambiar la estructura, layout o propiedades visuales de componentes, crear un archivo Markdown en:
 
 `manual-ui-changes/<NombrePantalla>.md`
 
-## Contenido del archivo Markdown
-Debe incluir:
-
+### Contenido del archivo Markdown:
 - pantalla afectada
 - objetivo del cambio
 - componentes a modificar
@@ -37,17 +52,6 @@ Debe incluir:
 - código adicional permitido fuera de bloques autogenerados
 - pasos de verificación
 
-## Cambios permitidos
-Sí se pueden modificar automáticamente archivos no asociados a `.form`, por ejemplo:
-
-- servicios
-- lógica de negocio
-- DAO o repositorios
-- SQL
-- validaciones
-- utilitarios
-- clases auxiliares
-
 ## Regla en caso de duda
-Si existe un archivo `.form` con el mismo nombre, no modificar el `.java`.
-Generar instrucciones manuales en Markdown.
+- **¿Es modificación de lógica, validación o procesamiento?** → Modificar directamente en el `.java`
+- **¿Es cambio de diseño, layout o propiedades visuales?** → Crear instrucciones en Markdown

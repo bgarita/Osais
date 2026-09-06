@@ -129,17 +129,17 @@
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="cmdPrimero" linkSize="1" min="-2" pref="69" max="-2" attributes="1"/>
+                      <Component id="btnPrimero" linkSize="1" min="-2" pref="69" max="-2" attributes="1"/>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Component id="cmdAnterior" linkSize="1" min="-2" pref="69" max="-2" attributes="3"/>
+                      <Component id="btnAnterior" linkSize="1" min="-2" pref="69" max="-2" attributes="3"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="cmdSiguiente" linkSize="1" min="-2" pref="69" max="-2" attributes="2"/>
+                      <Component id="btnSiguiente" linkSize="1" min="-2" pref="69" max="-2" attributes="2"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="cmdUltimo" linkSize="1" min="-2" pref="69" max="-2" attributes="2"/>
+                      <Component id="btnUltimo" linkSize="1" min="-2" pref="69" max="-2" attributes="2"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="cmdGuardar" linkSize="1" min="-2" pref="69" max="-2" attributes="2"/>
+                      <Component id="btnGuardar" linkSize="1" min="-2" pref="69" max="-2" attributes="2"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="cmdBorrar" linkSize="1" min="-2" pref="69" max="-2" attributes="2"/>
+                      <Component id="btnBorrar" linkSize="1" min="-2" pref="69" max="-2" attributes="2"/>
                   </Group>
               </Group>
           </Group>
@@ -167,12 +167,12 @@
               </Group>
               <EmptySpace pref="20" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="cmdPrimero" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="cmdAnterior" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="cmdSiguiente" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="cmdUltimo" linkSize="2" alignment="0" min="-2" pref="29" max="-2" attributes="0"/>
-                  <Component id="cmdGuardar" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="cmdBorrar" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnPrimero" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnAnterior" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnSiguiente" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnUltimo" linkSize="2" alignment="0" min="-2" pref="29" max="-2" attributes="0"/>
+                  <Component id="btnGuardar" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnBorrar" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
           </Group>
@@ -231,7 +231,7 @@
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JButton" name="cmdPrimero">
+    <Component class="javax.swing.JButton" name="btnPrimero">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/Icons/WZTOP.png"/>
@@ -240,10 +240,10 @@
         <Property name="focusCycleRoot" type="boolean" value="true"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmdPrimeroActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPrimeroActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="cmdAnterior">
+    <Component class="javax.swing.JButton" name="btnAnterior">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/Icons/WZBACK.png"/>
@@ -255,10 +255,10 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmdAnteriorActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAnteriorActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="cmdSiguiente">
+    <Component class="javax.swing.JButton" name="btnSiguiente">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/Icons/WZNEXT.png"/>
@@ -269,10 +269,10 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmdSiguienteActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSiguienteActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="cmdUltimo">
+    <Component class="javax.swing.JButton" name="btnUltimo">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/Icons/WZEND.png"/>
@@ -281,10 +281,10 @@
         <Property name="focusCycleRoot" type="boolean" value="true"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmdUltimoActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUltimoActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="cmdGuardar">
+    <Component class="javax.swing.JButton" name="btnGuardar">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/Icons/WZSAVE.png"/>
@@ -295,10 +295,10 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmdGuardarActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGuardarActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="cmdBorrar">
+    <Component class="javax.swing.JButton" name="btnBorrar">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/Icons/WZDELETE.png"/>
@@ -309,7 +309,7 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmdBorrarActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBorrarActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">

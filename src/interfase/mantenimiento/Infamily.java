@@ -50,7 +50,7 @@ public class Infamily extends javax.swing.JFrame {
     public Infamily(Connection c) throws SQLException, EmptyDataSourceException, SQLInjectionException {
         initComponents();
 
-        cmdBuscar.setVisible(false);
+        btnBuscar.setVisible(false);
         tabla = "infamily";
         nav = new Navegador();
 
@@ -80,16 +80,16 @@ public class Infamily extends javax.swing.JFrame {
     private void initComponents() {
 
         lblFamilia = new javax.swing.JLabel();
-        cmdPrimero = new javax.swing.JButton();
-        cmdAnterior = new javax.swing.JButton();
-        cmdSiguiente = new javax.swing.JButton();
-        cmdUltimo = new javax.swing.JButton();
-        cmdGuardar = new javax.swing.JButton();
-        cmdBorrar = new javax.swing.JButton();
+        btnPrimero = new javax.swing.JButton();
+        btnAnterior = new javax.swing.JButton();
+        btnSiguiente = new javax.swing.JButton();
+        btnUltimo = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
+        btnBorrar = new javax.swing.JButton();
         txtArtfam = new javax.swing.JFormattedTextField();
         txtFamilia = new javax.swing.JFormattedTextField();
         cboSeleccionar = new javax.swing.JComboBox<>();
-        cmdBuscar = new javax.swing.JButton();
+        btnBuscar = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         mnuGuardar = new javax.swing.JMenuItem();
@@ -105,58 +105,58 @@ public class Infamily extends javax.swing.JFrame {
         lblFamilia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblFamilia.setText("Familia");
 
-        cmdPrimero.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZTOP.png"))); // NOI18N
-        cmdPrimero.setToolTipText("Ir al primer registro");
-        cmdPrimero.setFocusCycleRoot(true);
-        cmdPrimero.addActionListener(new java.awt.event.ActionListener() {
+        btnPrimero.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZTOP.png"))); // NOI18N
+        btnPrimero.setToolTipText("Ir al primer registro");
+        btnPrimero.setFocusCycleRoot(true);
+        btnPrimero.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdPrimeroActionPerformed(evt);
+                btnPrimeroActionPerformed(evt);
             }
         });
 
-        cmdAnterior.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZBACK.png"))); // NOI18N
-        cmdAnterior.setToolTipText("Ir al registro anterior");
-        cmdAnterior.setFocusCycleRoot(true);
-        cmdAnterior.setMaximumSize(new java.awt.Dimension(93, 29));
-        cmdAnterior.addActionListener(new java.awt.event.ActionListener() {
+        btnAnterior.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZBACK.png"))); // NOI18N
+        btnAnterior.setToolTipText("Ir al registro anterior");
+        btnAnterior.setFocusCycleRoot(true);
+        btnAnterior.setMaximumSize(new java.awt.Dimension(93, 29));
+        btnAnterior.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdAnteriorActionPerformed(evt);
+                btnAnteriorActionPerformed(evt);
             }
         });
 
-        cmdSiguiente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZNEXT.png"))); // NOI18N
-        cmdSiguiente.setToolTipText("Ir al siguiente registro");
-        cmdSiguiente.setMaximumSize(new java.awt.Dimension(93, 29));
-        cmdSiguiente.addActionListener(new java.awt.event.ActionListener() {
+        btnSiguiente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZNEXT.png"))); // NOI18N
+        btnSiguiente.setToolTipText("Ir al siguiente registro");
+        btnSiguiente.setMaximumSize(new java.awt.Dimension(93, 29));
+        btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdSiguienteActionPerformed(evt);
+                btnSiguienteActionPerformed(evt);
             }
         });
 
-        cmdUltimo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZEND.png"))); // NOI18N
-        cmdUltimo.setToolTipText("Ir al último registro");
-        cmdUltimo.setFocusCycleRoot(true);
-        cmdUltimo.addActionListener(new java.awt.event.ActionListener() {
+        btnUltimo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZEND.png"))); // NOI18N
+        btnUltimo.setToolTipText("Ir al último registro");
+        btnUltimo.setFocusCycleRoot(true);
+        btnUltimo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdUltimoActionPerformed(evt);
+                btnUltimoActionPerformed(evt);
             }
         });
 
-        cmdGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZSAVE.png"))); // NOI18N
-        cmdGuardar.setToolTipText("Guardar registro");
-        cmdGuardar.setMaximumSize(new java.awt.Dimension(93, 29));
-        cmdGuardar.addActionListener(new java.awt.event.ActionListener() {
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZSAVE.png"))); // NOI18N
+        btnGuardar.setToolTipText("Guardar registro");
+        btnGuardar.setMaximumSize(new java.awt.Dimension(93, 29));
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdGuardarActionPerformed(evt);
+                btnGuardarActionPerformed(evt);
             }
         });
 
-        cmdBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZDELETE.png"))); // NOI18N
-        cmdBorrar.setToolTipText("Borrar registro");
-        cmdBorrar.setMaximumSize(new java.awt.Dimension(93, 29));
-        cmdBorrar.addActionListener(new java.awt.event.ActionListener() {
+        btnBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZDELETE.png"))); // NOI18N
+        btnBorrar.setToolTipText("Borrar registro");
+        btnBorrar.setMaximumSize(new java.awt.Dimension(93, 29));
+        btnBorrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdBorrarActionPerformed(evt);
+                btnBorrarActionPerformed(evt);
             }
         });
 
@@ -196,16 +196,16 @@ public class Infamily extends javax.swing.JFrame {
             }
         });
 
-        cmdBuscar.setText("Buscar");
-        cmdBuscar.addActionListener(new java.awt.event.ActionListener() {
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdBuscarActionPerformed(evt);
+                btnBuscarActionPerformed(evt);
             }
         });
 
         jMenu1.setText("Archivo");
 
-        mnuGuardar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
+        mnuGuardar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/disk.png"))); // NOI18N
         mnuGuardar.setText("Guardar");
         mnuGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -215,7 +215,7 @@ public class Infamily extends javax.swing.JFrame {
         });
         jMenu1.add(mnuGuardar);
 
-        mnuSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.CTRL_MASK));
+        mnuSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/control-power.png"))); // NOI18N
         mnuSalir.setText("Salir");
         mnuSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -229,7 +229,7 @@ public class Infamily extends javax.swing.JFrame {
 
         jMenu2.setText("Edición");
 
-        mnuBorrar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, java.awt.event.InputEvent.CTRL_MASK));
+        mnuBorrar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/cross.png"))); // NOI18N
         mnuBorrar.setText("Borrar");
         mnuBorrar.addActionListener(new java.awt.event.ActionListener() {
@@ -239,7 +239,7 @@ public class Infamily extends javax.swing.JFrame {
         });
         jMenu2.add(mnuBorrar);
 
-        mnuBuscar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
+        mnuBuscar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/binocular.png"))); // NOI18N
         mnuBuscar.setText("Buscar");
         mnuBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -271,25 +271,25 @@ public class Infamily extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGap(146, 146, 146)
-                        .addComponent(cmdBuscar)
+                        .addComponent(btnBuscar)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(25, Short.MAX_VALUE)
-                .addComponent(cmdPrimero, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnPrimero, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cmdAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cmdSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cmdUltimo, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnUltimo, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cmdGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cmdBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmdAnterior, cmdBorrar, cmdGuardar, cmdPrimero, cmdSiguiente, cmdUltimo});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAnterior, btnBorrar, btnGuardar, btnPrimero, btnSiguiente, btnUltimo});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -301,25 +301,25 @@ public class Infamily extends javax.swing.JFrame {
                     .addComponent(txtFamilia, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cboSeleccionar, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(cmdBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(cmdPrimero)
-                    .addComponent(cmdAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmdGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmdBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmdSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmdUltimo, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnPrimero)
+                    .addComponent(btnAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnUltimo, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(4, 4, 4))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmdAnterior, cmdBorrar, cmdGuardar, cmdPrimero, cmdSiguiente, cmdUltimo});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAnterior, btnBorrar, btnGuardar, btnPrimero, btnSiguiente, btnUltimo});
 
         setSize(new java.awt.Dimension(504, 187));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cmdPrimeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdPrimeroActionPerformed
+    private void btnPrimeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrimeroActionPerformed
         try {
             rs = nav.cargarRegistro(
                     Navegador.PRIMERO, txtArtfam.getText(), tabla, "artfam");
@@ -333,16 +333,15 @@ public class Infamily extends javax.swing.JFrame {
             txtFamilia.setText(rs.getString("familia"));
             sincronizarCombo();
 
-        } // try
-        catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | SQLInjectionException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
-}//GEN-LAST:event_cmdPrimeroActionPerformed
+}//GEN-LAST:event_btnPrimeroActionPerformed
 
-    private void cmdAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdAnteriorActionPerformed
+    private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
         try {
             rs = nav.cargarRegistro(
                     Navegador.ANTERIOR, txtArtfam.getText(), tabla, "artfam");
@@ -363,9 +362,9 @@ public class Infamily extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
-}//GEN-LAST:event_cmdAnteriorActionPerformed
+}//GEN-LAST:event_btnAnteriorActionPerformed
 
-    private void cmdSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdSiguienteActionPerformed
+    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
         try {
             rs = nav.cargarRegistro(
                     Navegador.SIGUIENTE, txtArtfam.getText(), tabla, "artfam");
@@ -386,9 +385,9 @@ public class Infamily extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
-}//GEN-LAST:event_cmdSiguienteActionPerformed
+}//GEN-LAST:event_btnSiguienteActionPerformed
 
-    private void cmdUltimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdUltimoActionPerformed
+    private void btnUltimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUltimoActionPerformed
 
         try {
             rs = nav.cargarRegistro(
@@ -410,9 +409,9 @@ public class Infamily extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
-}//GEN-LAST:event_cmdUltimoActionPerformed
+}//GEN-LAST:event_btnUltimoActionPerformed
 
-    private void cmdGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdGuardarActionPerformed
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         try {
             guardarRegistro();
         } catch (SQLException | SQLInjectionException ex) {
@@ -422,9 +421,9 @@ public class Infamily extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
-}//GEN-LAST:event_cmdGuardarActionPerformed
+}//GEN-LAST:event_btnGuardarActionPerformed
 
-    private void cmdBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdBorrarActionPerformed
+    private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
         try {
             eliminarRegistro(txtArtfam.getText());
         } catch (SQLException ex) {
@@ -434,7 +433,7 @@ public class Infamily extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
-}//GEN-LAST:event_cmdBorrarActionPerformed
+}//GEN-LAST:event_btnBorrarActionPerformed
 
     private void txtArtfamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtArtfamActionPerformed
         txtArtfam.transferFocus();
@@ -469,7 +468,7 @@ public class Infamily extends javax.swing.JFrame {
     }//GEN-LAST:event_cboSeleccionarActionPerformed
 
     private void mnuGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuGuardarActionPerformed
-        cmdGuardarActionPerformed(evt);
+        btnGuardarActionPerformed(evt);
     }//GEN-LAST:event_mnuGuardarActionPerformed
 
     private void mnuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSalirActionPerformed
@@ -489,16 +488,16 @@ public class Infamily extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuBorrarActionPerformed
 
     @SuppressWarnings("static-access")
-    private void cmdBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdBuscarActionPerformed
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
 
         bd = new Buscador(new java.awt.Frame(), true,
                 "infamily", "artfam,familia", "familia", txtArtfam, conn);
         bd.setVisible(true);
         txtArtfamActionPerformed(null);
-}//GEN-LAST:event_cmdBuscarActionPerformed
+}//GEN-LAST:event_btnBuscarActionPerformed
 
     private void mnuBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBuscarActionPerformed
-        cmdBuscarActionPerformed(evt);
+        btnBuscarActionPerformed(evt);
     }//GEN-LAST:event_mnuBuscarActionPerformed
 
     private void txtArtfamFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtArtfamFocusLost
@@ -533,7 +532,7 @@ public class Infamily extends javax.swing.JFrame {
         ps.setString(1, llave);
         int sqlResult = ps.executeUpdate(sqlDelete);
 
-        JOptionPane.showMessageDialog(cmdGuardar,
+        JOptionPane.showMessageDialog(btnGuardar,
                 String.valueOf(sqlResult)
                 + " registros eliminados",
                 "Mensaje",
@@ -582,14 +581,14 @@ public class Infamily extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAnterior;
+    private javax.swing.JButton btnBorrar;
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnPrimero;
+    private javax.swing.JButton btnSiguiente;
+    private javax.swing.JButton btnUltimo;
     private javax.swing.JComboBox<String> cboSeleccionar;
-    private javax.swing.JButton cmdAnterior;
-    private javax.swing.JButton cmdBorrar;
-    private javax.swing.JButton cmdBuscar;
-    private javax.swing.JButton cmdGuardar;
-    private javax.swing.JButton cmdPrimero;
-    private javax.swing.JButton cmdSiguiente;
-    private javax.swing.JButton cmdUltimo;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -636,7 +635,7 @@ public class Infamily extends javax.swing.JFrame {
         sqlresult = CMD.update(ps);
 
         if (sqlresult <= 0) {
-            JOptionPane.showMessageDialog(cmdGuardar,
+            JOptionPane.showMessageDialog(btnGuardar,
                     "El registro no se pudo guardar",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
@@ -648,14 +647,14 @@ public class Infamily extends javax.swing.JFrame {
         registroCargado = (rs == null ? false : true);
 
         if (!registroCargado) {
-            JOptionPane.showMessageDialog(cmdGuardar,
+            JOptionPane.showMessageDialog(btnGuardar,
                     "El registro no se pudo guardar",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        JOptionPane.showMessageDialog(cmdGuardar,
+        JOptionPane.showMessageDialog(btnGuardar,
                 "Registro guardado satisfatoriamente",
                 "Mensaje",
                 JOptionPane.INFORMATION_MESSAGE);

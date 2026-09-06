@@ -11,6 +11,7 @@ import Exceptions.NotUniqueValueException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
+import interfase.menus.Menu;
 import interfase.menus.MenuPopupArticulos;
 import interfase.menus.MenuPopupClientes;
 import interfase.otros.Buscador;
@@ -2443,10 +2444,13 @@ public class RegistroPedidosV extends javax.swing.JFrame {
 
             if (!existe) {
                 String sqlInsert
-                        = "Call InsertarEncabezadoPedido(" + clicode + "," + clicode + ")";
+                        = "Call InsertarEncabezadoPedido(?,?,?)";
                 pr = null;
                 pr = conn.prepareStatement(sqlInsert);
-                reg = pr.executeUpdate(sqlInsert);
+                pr.setInt(1, Integer.parseInt(clicode));
+                pr.setInt(2, Integer.parseInt(clicode));
+                pr.setString(3, Menu.APP_USERNAME);
+                reg = pr.executeUpdate();
             } // end if
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,

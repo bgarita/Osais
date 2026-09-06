@@ -918,16 +918,16 @@ public class RegistroTransaccionesCaja extends javax.swing.JFrame {
             // o una compra de contado.
             if (tran.getTipomov().equals("D")){ // Depósitos
                 if (tran.getTipodoc().equals("FAC")){ // Facturas
-                    sqlSent = 
+                    sqlSent =
                             "Update faencabe set " +
-                            "   reccaja = ?      " +
-                            "Where facnume = ?   " +
+                            "reccaja = ? " +
+                            "Where facnume = ? " +
                             "and facnd = 0";
                 } else { // Recibos
-                    sqlSent = 
-                            "Update pagos set  " +
-                            "   reccaja = ?    " +
-                            "Where recnume = ? ";
+                    sqlSent =
+                            "Update pagos set " +
+                            "reccaja = ? " +
+                            "Where recnume = ?";
                 } // end if
                 
                 
@@ -935,9 +935,9 @@ public class RegistroTransaccionesCaja extends javax.swing.JFrame {
                 ps.setInt(1, tran.getRecnume());
                 ps.setInt(2, doc);
             } else if (tran.getTipodoc().equals("NCR")){ // Retiros
-                sqlSent = 
+                sqlSent =
                         "Update faencabe set " +
-                        "   reccaja = ?    " +
+                        "reccaja = ? " +
                         "Where facnume = ? " +
                         "and facnd = abs(?)";
                 
@@ -946,9 +946,9 @@ public class RegistroTransaccionesCaja extends javax.swing.JFrame {
                 ps.setInt(2, doc);
                 ps.setInt(3, doc);
             } else if (tran.getTipodoc().equals("FAC")){ // Retiros
-                sqlSent = 
+                sqlSent =
                         "Update cxpfacturas set " +
-                        "   reccaja = ?    " +
+                        "reccaja = ? " +
                         "Where factura = ? " +
                         "and tipo = ? and procode = ?";
                 
@@ -958,11 +958,11 @@ public class RegistroTransaccionesCaja extends javax.swing.JFrame {
                 ps.setString(3, tran.getTipodoc());
                 ps.setString(4, tran.getCedula());
             } else {                                    // Retiro (pago a proveedores)
-                sqlSent = 
+                sqlSent =
                         "Update cxppage set " +
-                        "   reccaja = ?     " +
-                        "Where recnume = ?  ";
-                
+                        "reccaja = ? " +
+                        "Where recnume = ?";
+
                 ps = conn.prepareStatement(sqlSent);
                 ps.setInt(1, tran.getRecnume());
                 ps.setInt(2, doc);

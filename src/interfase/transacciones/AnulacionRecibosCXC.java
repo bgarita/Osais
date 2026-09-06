@@ -13,11 +13,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import contabilidad.logica.CoasientoE;
+import interfase.menus.Menu;
 import logica.utilitarios.Ut;
 
 /**
@@ -27,7 +27,6 @@ import logica.utilitarios.Ut;
 @SuppressWarnings("serial")
 public class AnulacionRecibosCXC extends java.awt.Dialog {
     private Connection conn;  // Conexión a la base de datos
-    private Statement stat;
     String recibo;         // Aquí estará el recibo pasado por parámetro
     private ResultSet rs  = null;  // Uso general
     private final Bitacora b = new Bitacora();
@@ -45,17 +44,6 @@ public class AnulacionRecibosCXC extends java.awt.Dialog {
 
         conn   = c;
         recibo = recnume.trim();
-
-        try {
-            stat = conn.createStatement(
-                    ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, 
-                    ex.getMessage(),
-                    "Error", 
-                    JOptionPane.ERROR_MESSAGE);
-            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
-        }
 
         // Si el número de recibo recibido es un cero entonces habilito
         // el campo para que el usuario pueda digitar un número.
@@ -358,12 +346,16 @@ public class AnulacionRecibosCXC extends java.awt.Dialog {
             
             hayTransaccion = CMD.transaction(conn, CMD.START_TRANSACTION);
 
-            String sqlDelete = "Call AnularPagoCXC(" + recibo + ")";
+            String sqlDelete = "Call AnularPagoCXC(?,?)";
 
             // Utilizo executeQuery() porque el SP devuelve un RS
             // ya sea para indicar el error o para indicar que todo
             // salió bien.
-            rs = stat.executeQuery(sqlDelete);
+            ps = conn.prepareStatement(sqlDelete,
+                    ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            ps.setInt(1, Integer.parseInt(recibo));
+            ps.setString(2, Menu.APP_USERNAME);
+            rs = CMD.select(ps);
 
             rs.first();
 

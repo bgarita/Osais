@@ -474,7 +474,6 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
             if (rs != null && rs.first()) {
                 existe = true;
             } // end if
-            ps.close();
         } // end try with resources
         return existe;
     } // end existeEnBaseDatos
@@ -637,6 +636,7 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
      * @return int número de registros afectados. Si hay error debe verificar el
      * mensaje de error (getMensaje_error())
      */
+    @Override
     public int delete() {
         if ((Math.abs(ano_anter) + Math.abs(db_fecha) + Math.abs(cr_fecha)
                 + Math.abs(db_mes) + Math.abs(cr_mes)) > 0) {
@@ -745,19 +745,17 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
                         = "Select min(nom_cta) as nom_cta from " + tabla + " "
                         + "Where mayor = ? and sub_cta = ? "
                         + "and sub_sub = '000' and colect = '000'";
-                try {
-                    ps = conn.prepareStatement(sqlSent,
-                            ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-                    ps.setString(1, getMayor());
-                    ps.setString(2, getSub_cta());
+                try (PreparedStatement psTmp = conn.prepareStatement(sqlSent,
+                        ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+                    psTmp.setString(1, getMayor());
+                    psTmp.setString(2, getSub_cta());
 
-                    rs = CMD.select(ps);
+                    rs = CMD.select(psTmp);
 
                     if (rs == null || !rs.first()) {
                         valid = false;
                         mensaje_error = "Debe crear primero el nivel anterior.";
                     } // end if
-                    ps.close();
                 } catch (SQLException ex) {
                     mensaje_error = ex.getMessage();
                     b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
@@ -790,15 +788,14 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
                     = "Select min(monto) as monto from coasientod "
                     + "Where mayor = ? and sub_cta = ? and sub_sub = ? "
                     + "and colect = ?";
-            try {
-                ps = conn.prepareStatement(sqlSent,
-                        ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-                ps.setString(1, getMayor());
-                ps.setString(2, getSub_cta());
-                ps.setString(3, getSub_sub());
-                ps.setString(4, getColect());
+            try (PreparedStatement psTmp = conn.prepareStatement(sqlSent,
+                    ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+                psTmp.setString(1, getMayor());
+                psTmp.setString(2, getSub_cta());
+                psTmp.setString(3, getSub_sub());
+                psTmp.setString(4, getColect());
 
-                rs = CMD.select(ps);
+                rs = CMD.select(psTmp);
 
                 if (rs == null || !rs.first()) {
                     valid = false;
@@ -809,7 +806,6 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
                               Primero debe trasladar todos los asientos a otra
                               cuenta.""";
                 } // end if
-                ps.close();
             } catch (SQLException ex) {
                 mensaje_error = ex.getMessage();
                 b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
@@ -828,20 +824,18 @@ public class Cocatalogo extends Cuenta implements IEstructuraBD {
                 = "Select min(nom_cta) as nom_cta from " + tabla + " "
                 + "Where mayor = ? and sub_cta = ? and sub_sub = ? "
                 + "and colect = '000'";
-        try {
-            ps = conn.prepareStatement(sqlSent,
-                    ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            ps.setString(1, getMayor());
-            ps.setString(2, getSub_cta());
-            ps.setString(3, getSub_sub());
+        try (PreparedStatement psTmp = conn.prepareStatement(sqlSent,
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+            psTmp.setString(1, getMayor());
+            psTmp.setString(2, getSub_cta());
+            psTmp.setString(3, getSub_sub());
 
-            rs = CMD.select(ps);
+            rs = CMD.select(psTmp);
 
             if (rs == null || !rs.first()) {
                 valid = false;
                 mensaje_error = "Debe crear primero el nivel anterior.";
             } // end if
-            ps.close();
         } catch (SQLException ex) {
             mensaje_error = ex.getMessage();
             valid = false;

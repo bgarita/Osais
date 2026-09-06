@@ -26,6 +26,7 @@ import javax.swing.JTextField;
 import contabilidad.logica.Cocatalogo;
 import contabilidad.logica.Cuenta;
 import Exceptions.SQLInjectionException;
+import static interfase.menus.Menu.DATABASE_CONNECTION_DRIVER;
 import logica.utilitarios.Ut;
 
 /**
@@ -71,29 +72,29 @@ public class CatalogoContable extends JFrame {
 
         nav.setConexion(conn);
         catalogo = new Cocatalogo(conn);
-        
+
         contabilidad.model.PeriodoContable per = new contabilidad.model.PeriodoContable(conn);
         this.lblPeriodo.setText(per.getMesLetras() + " " + per.getAño());
 
         try (ResultSet rs
                 = nav.cargarRegistro(
                         Navegador.PRIMERO, "", vista, "cuenta")) {
-                    if (rs == null || !rs.first()) {
-                        return;
-                    } // end if
+            if (rs == null || !rs.first()) {
+                return;
+            } // end if
 
-                    catalogo.setCuentaString(rs.getString("cuenta")); // Esta clase carga todos los campos
-                    rs.close();
-                    if (catalogo.isError()) {
-                        JOptionPane.showMessageDialog(null,
-                                catalogo.getMensaje_error(),
-                                "Error",
-                                JOptionPane.ERROR_MESSAGE);
-                        return;
-                    } // end if
+            catalogo.setCuentaString(rs.getString("cuenta")); // Esta clase carga todos los campos
+            rs.close();
+            if (catalogo.isError()) {
+                JOptionPane.showMessageDialog(null,
+                        catalogo.getMensaje_error(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            } // end if
 
-                    this.cargarRegistro();
-                } // end try with resources
+            this.cargarRegistro();
+        } // end try with resources
 
     } // end constructor
 
@@ -772,6 +773,10 @@ public class CatalogoContable extends JFrame {
 }//GEN-LAST:event_mnuBorrarActionPerformed
 
     private void mnuBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBuscarActionPerformed
+        if (!ensureActiveConnection()) {
+            return;
+        } // end if
+
         JTextField field = new JTextField("");
         bd = new Buscador(new java.awt.Frame(), true,
                 "vistacocatalogo",
@@ -815,6 +820,10 @@ public class CatalogoContable extends JFrame {
         ResultSet rs;
 
         try {
+            if (!ensureActiveConnection()) {
+                return;
+            } // end if
+
             rs = nav.cargarRegistro(
                     Navegador.PRIMERO, "", vista, "cuenta");
             if (rs == null) {
@@ -855,6 +864,10 @@ public class CatalogoContable extends JFrame {
         cuenta += txtColect.getText().trim().isEmpty() ? "000" : txtColect.getText().trim();
 
         try {
+            if (!ensureActiveConnection()) {
+                return;
+            } // end if
+
             rs = nav.cargarRegistro(
                     Navegador.ANTERIOR, cuenta, vista, "cuenta");
             if (rs == null) {
@@ -894,6 +907,10 @@ public class CatalogoContable extends JFrame {
         cuenta += txtColect.getText().trim().isEmpty() ? "000" : txtColect.getText().trim();
 
         try {
+            if (!ensureActiveConnection()) {
+                return;
+            } // end if
+
             rs = nav.cargarRegistro(
                     Navegador.SIGUIENTE, cuenta, vista, "cuenta");
             if (rs == null) {
@@ -927,6 +944,10 @@ public class CatalogoContable extends JFrame {
         ResultSet rs;
 
         try {
+            if (!ensureActiveConnection()) {
+                return;
+            } // end if
+
             rs = nav.cargarRegistro(
                     Navegador.ULTIMO, "", vista, "cuenta");
             if (rs == null) {
@@ -959,6 +980,9 @@ public class CatalogoContable extends JFrame {
 
     private void cmdGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdGuardarActionPerformed
         try {
+            if (!ensureActiveConnection()) {
+                return;
+            }
             CMD.transaction(conn, CMD.START_TRANSACTION);
             guardarRegistro();
             if (catalogo.isError()) {
@@ -970,7 +994,7 @@ public class CatalogoContable extends JFrame {
             Logger.getLogger(CatalogoContable.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     null,
-                    ex.getMessage(),
+                    ex.toString(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
@@ -1090,7 +1114,24 @@ public class CatalogoContable extends JFrame {
         // depués de hacer un cambio en el nivel (este nivel).
 
         boolean selected = this.chkMovimientos.isSelected();
-        catalogo.setNivel((short) (this.chkMovimientos.isSelected() ? 1 : 0));
+        catalogo.setNom_cta(this.txtNom_cta.getText());
+
+        if (!ensureActiveConnection()) {
+            this.chkMovimientos.setSelected(!selected);
+            return;
+        } // end if
+
+        try {
+            catalogo.setNivel((short) (this.chkMovimientos.isSelected() ? 1 : 0));
+        } catch (RuntimeException ex) {
+            this.chkMovimientos.setSelected(!selected);
+            JOptionPane.showMessageDialog(null,
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            return;
+        }
 
         if (catalogo.isError()) {
             JOptionPane.showMessageDialog(null,
@@ -1105,16 +1146,16 @@ public class CatalogoContable extends JFrame {
     }//GEN-LAST:event_chkMovimientosMouseClicked
 
     private void btnMovGeneralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMovGeneralActionPerformed
-        if (!this.chkMovimientos.isSelected()){
+        if (!this.chkMovimientos.isSelected()) {
             JOptionPane.showMessageDialog(null,
                     "Sólo se pueden consultar las cuentas de movimientos.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             return;
         } // end if
-        
+
         try {
-            String cuenta 
+            String cuenta
                     = this.txtMayor.getText().trim()
                     + this.txtSub_cta.getText().trim()
                     + this.txtSub_sub.getText().trim()
@@ -1181,6 +1222,10 @@ public class CatalogoContable extends JFrame {
      * @param cuenta String número de cuenta a eliminar
      */
     public void eliminarRegistro(String cuenta) {
+        if (!ensureActiveConnection()) {
+            return;
+        } // end if
+
         if (cuenta == null || cuenta.isEmpty()) {
             return;
         } // end if
@@ -1366,6 +1411,10 @@ public class CatalogoContable extends JFrame {
     @SuppressWarnings("unchecked")
     private void guardarRegistro()
             throws SQLException, SQLInjectionException, EmptyDataSourceException {
+        if (!ensureActiveConnection()) {
+            return;
+        } // end if
+
         String cuenta;
         cuenta = txtMayor.getText().trim();
         cuenta += txtSub_cta.getText().trim();
@@ -1495,22 +1544,22 @@ public class CatalogoContable extends JFrame {
         txtSub_sub.setText(catalogo.getSub_sub());
         txtColect.setText(catalogo.getColect());
         txtNom_cta.setText(catalogo.getNom_cta());
-        
+
         lblAno_anter.setText(Ut.setDecimalFormat(catalogo.getAno_anter() + "", "#,##0.00"));
-        
+
         lblCr_fecha.setText(Ut.setDecimalFormat(catalogo.getCr_fecha() + "", "#,##0.00"));
         lblDb_fecha.setText(Ut.setDecimalFormat(catalogo.getDb_fecha() + "", "#,##0.00"));
         lblSaldoMesAnterior.setText(Ut.setDecimalFormat(catalogo.getSaldoMesAnterior() + "", "#,##0.00"));
-        
+
         lblCr_mes.setText(Ut.setDecimalFormat(catalogo.getCr_mes() + "", "#,##0.00"));
         lblDb_mes.setText(Ut.setDecimalFormat(catalogo.getDb_mes() + "", "#,##0.00"));
         lblSaldoActual.setText(Ut.setDecimalFormat(catalogo.getSaldoActual() + "", "#,##0.00"));
-        
+
         lblDb_mes_pend.setText(Ut.setDecimalFormat(catalogo.getDb_pend() + "", "#,##0.00"));
         lblCr_mes_pend.setText(Ut.setDecimalFormat(catalogo.getCr_pend() + "", "#,##0.00"));
         lblSaldoPend.setText(Ut.setDecimalFormat(
                 (catalogo.getSaldoActual() + catalogo.getDb_pend() - catalogo.getCr_pend()) + "", "#,##0.00"));
-        
+
         lblFecha_c.setText(Ut.dtoc(catalogo.getFecha_c()));
         lblFecha_upd.setText(Ut.ttoc(catalogo.getFecha_upd().getTime()));
 
@@ -1534,6 +1583,10 @@ public class CatalogoContable extends JFrame {
      * @param cuenta
      */
     private void findAccount(String cuenta) {
+        if (!ensureActiveConnection()) {
+            return;
+        } // end if
+
         catalogo.setCuentaString(cuenta); // Esta clase carga todos los campos
         if (catalogo.isError()) {
             JOptionPane.showMessageDialog(null,
@@ -1553,4 +1606,28 @@ public class CatalogoContable extends JFrame {
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         } // end try-catch
     } // end findAccount
+
+    /**
+     * Garantiza que la ventana use una conexión viva; si está vencida, reconecta.
+     */
+    private boolean ensureActiveConnection() {
+        try {
+            if (this.conn == null || this.conn.isClosed() || !this.conn.isValid(3)) {
+                this.conn = DATABASE_CONNECTION_DRIVER.getConnection();
+                if (this.nav != null) {
+                    this.nav.setConexion(this.conn);
+                } // end if
+                this.catalogo.setConn(this.conn);
+            } // end if
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(CatalogoContable.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
+            return false;
+        }
+    } // end ensureActiveConnection
 } // end class

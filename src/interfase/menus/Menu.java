@@ -2921,11 +2921,10 @@ DATABASE_CONNECTION_DRIVER.getConnection(), // Conexión
     }//GEN-LAST:event_mnuConsultarClientesActionPerformed
 
     private void mnuClaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuClaveActionPerformed
-        //new CambioClave(conn,this.DB_USERNAME);
         CambioClave cambioClave
                 = new CambioClave(
                         new javax.swing.JFrame(),
-                        true, DATABASE_CONNECTION_DRIVER.getConnection(), Menu.DB_USERNAME, false);
+                        true, DATABASE_CONNECTION_DRIVER.getConnection(), false);
     }//GEN-LAST:event_mnuClaveActionPerformed
 
     private void mnuSeguridadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSeguridadActionPerformed

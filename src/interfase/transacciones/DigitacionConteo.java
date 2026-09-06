@@ -9,6 +9,7 @@ package interfase.transacciones;
 import Exceptions.EmptyDataSourceException;
 import Mail.Bitacora;
 import accesoDatos.UtilBD;
+import interfase.menus.Menu;
 import interfase.otros.Buscador;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -676,7 +677,7 @@ public class DigitacionConteo extends JFrame {
         } // end if
 
 
-        String sqlUpdate = "Call ConteoSelectivo('" + bodega + "')";
+        String sqlUpdate = "Call ConteoSelectivo('" + bodega + "','" + Menu.APP_USERNAME + "')";
         try {
             // Este metodo devuelve la cantidad de registros afectados
             // pero no lo reviso aquí porque la ejecución de código pasó

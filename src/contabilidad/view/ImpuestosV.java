@@ -10,7 +10,6 @@ import contabilidad.model.ImpuestosM;
 import Mail.Bitacora;
 import accesoDatos.UtilBD;
 import interfase.otros.Buscador;
-import interfase.otros.Navegador;
 import java.awt.Color;
 import java.sql.Connection;
 import java.sql.ResultSet;

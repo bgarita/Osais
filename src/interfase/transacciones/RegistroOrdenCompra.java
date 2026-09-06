@@ -9,6 +9,7 @@ import Exceptions.CurrencyExchangeException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
+import interfase.menus.Menu;
 import interfase.mantenimiento.MantenimientoBaseDatos;
 import interfase.otros.Buscador;
 import interfase.otros.GetUnitCost;
@@ -1386,7 +1387,9 @@ public class RegistroOrdenCompra extends javax.swing.JFrame {
                 + // Tipo de documento (2 para compras)
                 "   ?,"
                 + // Código de moneda
-                "   ?)";  // Proveedor
+                "   ?,"
+                + // Proveedor
+                "   ?)";  // Usuario
 
         try {
             // Reviso el campo más largo.
@@ -1446,6 +1449,7 @@ public class RegistroOrdenCompra extends javax.swing.JFrame {
             psEncabezado.setInt(5, movtido);
             psEncabezado.setString(6, codigoTC);
             psEncabezado.setString(7, procode);
+            psEncabezado.setString(8, Menu.APP_USERNAME);
 
             regAfec = CMD.update(psEncabezado);
             psEncabezado.close();

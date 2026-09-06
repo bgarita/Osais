@@ -1,7 +1,8 @@
 //localhost:3308/laflor@La Flor
+//localhost:3308/c0001@Contabilidad Ecred_local
+//serverless-us-west1.sysp0000.db2.skysql.com:4028/c0001@Contabilidad Ecred_cloud
 //127.0.0.1:3308/contaxyz@Bosco (Pruebas Conta)
 //127.0.0.1:3308/prueba@Prueba (eliminar)
 //localhost:3308/contadm@Bosco (Don Mincho)
 //localhost:3308/contabosco@Contabilidad - Bosco local
 //localhost:3308/c0019@INVERSIONES ARRIETA DE BELEN S.A.
-//serverless-us-west1.sysp0000.db2.skysql.com:4028/c0001@Contabilidad Ecred

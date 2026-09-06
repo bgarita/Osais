@@ -10,6 +10,7 @@ import Exceptions.CurrencyExchangeException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
+import interfase.menus.Menu;
 import interfase.otros.Buscador;
 import interfase.otros.Cantidad;
 import interfase.otros.GetUnitCost;
@@ -1319,10 +1320,12 @@ public class RegistroEntradas extends javax.swing.JFrame {
                 "   ?,"
                 + // Tipo de cambio
                 "   ?,"
-                + // Tipo de Movdocu (detalle arriba)
+                + // Tipo de Movdocu
                 "   ?,"
-                + // Persona que solicita (se usa en salidas)
-                "   ?)";  // Código de moneda
+                + // Persona que solicita
+                "   ?,"
+                + // Código de moneda
+                "   ?)";  // Usuario
 
         try {
             // Reviso el campo más largo.
@@ -1342,6 +1345,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
             psEncabezado.setInt(7, movtido);
             psEncabezado.setString(8, " ");
             psEncabezado.setString(9, codigoTC);
+            psEncabezado.setString(10, Menu.APP_USERNAME);
 
             CMD.transaction(conn, CMD.START_TRANSACTION);
 

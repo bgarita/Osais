@@ -1907,22 +1907,17 @@
               <Group type="102" attributes="0">
                   <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                   <Component id="lblAviso" pref="27" max="32767" attributes="1"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="btnBorrar" linkSize="6" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="btnAnterior" linkSize="6" min="-2" max="-2" attributes="0"/>
-                              <Component id="btnPrimero" linkSize="6" min="-2" max="-2" attributes="0"/>
-                              <Component id="btnSiguiente" linkSize="6" min="-2" max="-2" attributes="0"/>
-                              <Component id="btnUltimo" linkSize="6" min="-2" max="-2" attributes="0"/>
-                              <Component id="btnGuardar" linkSize="6" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="btnBorrar" linkSize="6" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnAnterior" linkSize="6" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnPrimero" linkSize="6" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnSiguiente" linkSize="6" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnUltimo" linkSize="6" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnGuardar" linkSize="6" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace min="-2" max="-2" attributes="0"/>
-                          <Component id="btnBuscar" linkSize="6" min="-2" pref="29" max="-2" attributes="1"/>
-                      </Group>
+                      <Component id="btnBuscar" linkSize="6" alignment="1" min="-2" pref="29" max="-2" attributes="1"/>
                   </Group>
               </Group>
           </Group>

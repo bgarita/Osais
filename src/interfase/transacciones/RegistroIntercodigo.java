@@ -23,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import logica.utilitarios.FormatoTabla;
 import Exceptions.SQLInjectionException;
+import interfase.menus.Menu;
 import logica.utilitarios.Ut;
 
 /**
@@ -1158,15 +1159,25 @@ public class RegistroIntercodigo extends javax.swing.JFrame {
 
         updateSql
                 = "CALL InsertarEncabezadoDocInv("
-                + "   ?," + // Documento
-                "   ?," + // Tipo de movimiento (E o S)
-                "   ?," + // Orden de compra
-                "   ?," + // Descripción del movimiento
-                "   ?," + // Fecha del movimiento
-                "   ?," + // Tipo de cambio
-                "   ?," + // Tipo de Movdocu (detalle arriba)
-                "   ?," + // Persona que solicita (se usa en salidas)
-                "   ?)";  // Código de moneda
+                + "   ?,"
+                + // Documento
+                "   ?,"
+                + // Tipo de movimiento (E o S)
+                "   ?,"
+                + // Orden de compra
+                "   ?,"
+                + // Descripción del movimiento
+                "   ?,"
+                + // Fecha del movimiento
+                "   ?,"
+                + // Tipo de cambio
+                "   ?,"
+                + // Tipo de Movdocu
+                "   ?,"
+                + // Persona que solicita
+                "   ?,"
+                + // Código de moneda
+                "   ?)";  // Usuario
 
         try {
             // Reviso el campo más largo.
@@ -1186,6 +1197,7 @@ public class RegistroIntercodigo extends javax.swing.JFrame {
             psEncabezado.setInt(7, this.movtidoE);
             psEncabezado.setString(8, " ");
             psEncabezado.setString(9, codigoTC);
+            psEncabezado.setString(10, Menu.APP_USERNAME);
 
             CMD.transaction(conn, CMD.START_TRANSACTION);
 
@@ -1218,19 +1230,32 @@ public class RegistroIntercodigo extends javax.swing.JFrame {
                 PreparedStatement psDetalle
                         = conn.prepareStatement(
                                 "CALL InsertarDetalleDocInv("
-                                + "   ?," + // Documento
-                                "   ?," + // Tipo de movimiento
-                                "   ?," + // Artículo
-                                "   ?," + // Bodega
-                                "   ?," + // Proveedor
-                                "   ?," + // Cantidad
-                                "   ?," + // Costo unitario
-                                "   ?," + // Costo FOB
-                                "   ?," + // Precio
-                                "   ?," + // Impuesto de ventas
-                                "   ?," + // Descuento
-                                "   ?," + // Tipo de documento
-                                "   ?," + // Centro de costo
+                                + "   ?,"
+                                + // Documento
+                                "   ?,"
+                                + // Tipo de movimiento
+                                "   ?,"
+                                + // Artículo
+                                "   ?,"
+                                + // Bodega
+                                "   ?,"
+                                + // Proveedor
+                                "   ?,"
+                                + // Cantidad
+                                "   ?,"
+                                + // Costo unitario
+                                "   ?,"
+                                + // Costo FOB
+                                "   ?,"
+                                + // Precio
+                                "   ?,"
+                                + // Impuesto de ventas
+                                "   ?,"
+                                + // Descuento
+                                "   ?,"
+                                + // Tipo de documento
+                                "   ?,"
+                                + // Centro de costo
                                 "   ?)"); // Fecha de vencimiento
                 ResultSet rs;
 
@@ -1392,11 +1417,16 @@ public class RegistroIntercodigo extends javax.swing.JFrame {
                     if (regAfec > 0) {
                         updateSql
                                 = "CALL ActualizarCostos("
-                                + "   ?," + // Artículo
-                                "   ?," + // Cantidad
-                                "   ?," + // Costo unitario
-                                "   ?," + // Costo FOB
-                                "   ?," + // Moneda
+                                + "   ?,"
+                                + // Artículo
+                                "   ?,"
+                                + // Cantidad
+                                "   ?,"
+                                + // Costo unitario
+                                "   ?,"
+                                + // Costo FOB
+                                "   ?,"
+                                + // Moneda
                                 "   ?)";  // Fecha para el tipo de cambio
 
                         PreparedStatement psCostos
@@ -1688,7 +1718,7 @@ public class RegistroIntercodigo extends javax.swing.JFrame {
         } catch (SQLException ex) {
             // No se gestiona el error
         }
-        
+
         String documento = txtMovdocu.getText().trim();
         if (UtilBD.existeDoc(conn, documento, movtidoE)
                 || UtilBD.existeDoc(conn, documento, movtidoS)) {
@@ -2323,8 +2353,10 @@ public class RegistroIntercodigo extends javax.swing.JFrame {
 
         String sqlQuery
                 = "Select ConsultarDocumento("
-                + "?," + // Documento
-                "?," + // Tipo de movimiento
+                + "?,"
+                + // Documento
+                "?,"
+                + // Tipo de movimiento
                 "?)";  // Tipo de documento
 
         try {
@@ -2351,8 +2383,10 @@ public class RegistroIntercodigo extends javax.swing.JFrame {
             } // end if
 
             sqlQuery = "Select ConsultarDocumento("
-                    + "?," + // Documento
-                    "?," + // Tipo de movimiento
+                    + "?,"
+                    + // Documento
+                    "?,"
+                    + // Tipo de movimiento
                     "?)";  // Tipo de documento
 
             ps = conn.prepareStatement(sqlQuery);

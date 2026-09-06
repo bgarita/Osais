@@ -1006,7 +1006,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                 = "Insert into cxpfacturas("
                 + "   factura,tipo,procode,fecha_fac,vence_en,fecha_pag,"
                 + "   total_fac,codigoTC,tipoca,descuento,impuesto,"
-                + "   refinv,saldo,user,fechac,observaciones,medioPago, "
+                + "   refinv,saldo,user,fechac,observaciones,medioPago,"
                 + "   chequeotar,monto_gra,monto_exe)"
                 + "Values("
                 + "   ?,?,?,?,?,?,"
@@ -1093,7 +1093,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
             if (vence_en > 0) {
                 sqlUpdate
                         = "Update inproved "
-                        + "   set prosald = prosald + (? * ?) "
+                        + "set prosald = prosald + (? * ?) "
                         + "Where procode = ?";
                 psUpdate = conn.prepareStatement(sqlUpdate);
                 psUpdate.setDouble(1, total_fac * tipoca); // El saldo se registra en moneda local
@@ -1121,7 +1121,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
             if (tipo.equals("FAC")) {
                 sqlUpdate
                         = "Update inproved "
-                        + "   set promouc = ?, profeuc = ? "
+                        + "set promouc = ?, profeuc = ? "
                         + "Where procode = ? and (profeuc is null or profeuc <= ? )";
 
                 psUpdate = conn.prepareStatement(sqlUpdate);
@@ -1302,7 +1302,8 @@ public class RegistroFacturasC extends javax.swing.JFrame {
     private void mnuBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBuscarActionPerformed
         String tabla
                 = buscar == PROVEEDOR ? "inproved"
-                        : "inmovime "
+                        : "inmovime"
+                        + " "
                         + "Inner Join inmovimd on inmovime.movdocu = inmovimd.movdocu "
                         + "and inmovime.movtimo = inmovimd.movtimo "
                         + "and inmovime.movtido = inmovimd.movtido "
@@ -2335,7 +2336,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
         // Actualizo la referencia de caja en la tabla faencabe
         sqlSent
                 = "Update cxpfacturas set "
-                + "   reccaja = ?    "
+                + "reccaja = ? "
                 + "Where factura = ? and procode = ?";
 
         try {

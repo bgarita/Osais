@@ -298,8 +298,7 @@ public class IngresoAcciones {
             CambioClave cambioClave
                     = new CambioClave(
                             new javax.swing.JFrame(),
-                            true, conn,
-                            databaseConnectionDriver.getUserID(), true);
+                            true, conn, true);
             try {
                 // Verifico si efectivamente cambió la clave o no.
                 ps = conn.prepareStatement(sqlSent,
@@ -387,6 +386,7 @@ public class IngresoAcciones {
             } else {
                 // El usuario existe pero aún no tiene clave asignada:
                 // se guarda el hash del password ingresado.
+                CMD.transaction(conn, CMD.START_TRANSACTION);
                 String hash = PasswordUtil.hash(pass);
                 String updateSql = "UPDATE usuario SET clave = ? WHERE user = ?";
                 try (PreparedStatement psUpdate = conn.prepareStatement(updateSql)) {
@@ -394,13 +394,22 @@ public class IngresoAcciones {
                     psUpdate.setString(2, Menu.APP_USERNAME);
                     psUpdate.executeUpdate();
                 }
+                
+                // Actualizar también la fecha del último cambio de clave
+                updateSql = "Update saisystem.usuario Set ultimaClave = now() Where user = ?";
+                try (PreparedStatement psUpdate = conn.prepareStatement(updateSql)) {
+                    psUpdate.setString(1, Menu.APP_USERNAME);
+                    psUpdate.executeUpdate();
+                }
+                CMD.transaction(conn, CMD.COMMIT);
+                
                 passOk = true;
             }
 
             if (!passOk) {
                 this.errorMsg = "Clave incorrecta.";
+                throw new SQLException("Clave incorrecta.");
             }
-                
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),

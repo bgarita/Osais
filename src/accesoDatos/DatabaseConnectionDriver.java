@@ -129,21 +129,46 @@ public class DatabaseConnectionDriver {
         connectionProps.put("password", password);
         conn = DriverManager.getConnection(url,connectionProps);
          */
+        Bitacora log = new Bitacora();
+        Connection connection = null;
+        int maxRetries = 3; // Número máximo de intentos
+        int currentAttempt = 1;
+        int waitTimeMs = 5000; // Esperar 5 segundos (5000 ms) entre intentos
+        DriverManager.setLoginTimeout(30);
 
-        Connection conn = null;
-        try {
-            conn = DriverManager.getConnection(url, user, password);
-            if (conn != null) {
-                connected = true;
+        while (connection == null && currentAttempt <= maxRetries) {
+            try {
+                log.writeToLog("Intentando conectar a la base de datos (Intento " + currentAttempt + " de " + maxRetries + ")...", Bitacora.INFO);
+                connection = DriverManager.getConnection(url, user, password);
+            } catch (SQLException ex) {
+                if (currentAttempt == maxRetries) {
+                    log.writeToLog("Se alcanzó el número máximo de reintentos. Abortando..", Bitacora.ERROR);
+                    this.connected = false;
+                    this.errorMessage = ex.getMessage() + "\n No se pudo realizar la conexión con la base de datos.";
+                    log.setLogLevel(Bitacora.ERROR);
+                    log.writeToLog(this.getClass().getName() + "--> " + this.errorMessage, Bitacora.ERROR);
+                    break;
+                }
+
+                log.writeToLog("La base de datos tardó en responder. Reintentando en " + (waitTimeMs / 1000) + " segundos...", Bitacora.INFO);
+                try {
+                    // Pausar la ejecución antes del siguiente intento
+                    Thread.sleep(waitTimeMs);
+                } catch (InterruptedException ie) {
+                    // Restaurar el estado de interrupción del hilo
+                    Thread.currentThread().interrupt();
+                    log.writeToLog("El hilo de espera para conectar con la base de datos fue interrumpido.", Bitacora.INFO);
+                    break;
+                }
+                currentAttempt++;
             }
-        } catch (SQLException ex) {
-            this.connected = false;
-            this.errorMessage = ex.getMessage() + "\n Usuario o clave incorrecta.";
-            Bitacora log = new Bitacora();
-            log.setLogLevel(Bitacora.ERROR);
-            log.writeToLog(this.getClass().getName() + "--> " + this.errorMessage, Bitacora.ERROR);
         }
 
-        return conn;
+        if (connection != null) {
+            connected = true;
+            // Este mensaje corresponde al usuario de base de datos, no al usuario del sistema.
+            log.writeToLog("¡Conexión establecida con éxito!", Bitacora.INFO);
+        }
+        return connection;
     }
 } // end class

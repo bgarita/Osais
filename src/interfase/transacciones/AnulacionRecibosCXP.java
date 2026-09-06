@@ -16,6 +16,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import interfase.menus.Menu;
 import logica.Catransa;
 import logica.utilitarios.Ut;
 
@@ -338,8 +339,8 @@ public class AnulacionRecibosCXP extends java.awt.Dialog {
         
         boolean hayTransaccion = false;
         PreparedStatement ps;
-        String sqlDelete = "Call AnularPagoCXP(?)";
-        
+        String sqlDelete = "Call AnularPagoCXP(?,?)";
+
         try {
             hayTransaccion = CMD.transaction(conn, CMD.START_TRANSACTION);
             
@@ -361,7 +362,8 @@ public class AnulacionRecibosCXP extends java.awt.Dialog {
                     ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             
             ps.setInt(1, Integer.parseInt(recibo));
-            
+            ps.setString(2, Menu.APP_USERNAME);
+
             // Utilizo executeQuery() porque el SP devuelve un RS
             // ya sea para indicar el error o para indicar que todo
             // salió bien.

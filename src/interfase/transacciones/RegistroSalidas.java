@@ -24,6 +24,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import logica.utilitarios.FormatoTabla;
 import Exceptions.SQLInjectionException;
+import interfase.menus.Menu;
 import logica.utilitarios.Ut;
 
 /**
@@ -142,7 +143,7 @@ public class RegistroSalidas extends javax.swing.JFrame {
                             new javax.swing.text.NumberFormatter(
                                     new java.text.DecimalFormat(formatoPrecio))));
         } // end if
-        
+
         // Cargar el consecutivo
         int doc = 0;
         try {
@@ -1187,10 +1188,12 @@ public class RegistroSalidas extends javax.swing.JFrame {
                 "?,"
                 + // Tipo de cambio
                 "?,"
-                + // Tipo de Movdocu (detalle arriba)
+                + // Tipo de Movdocu
                 "?,"
                 + // Persona que solicita
-                "?)"; // Código de moneda
+                "?,"
+                + // Código de moneda
+                "?)"; // Usuario
 
         boolean success = false;
 
@@ -1200,9 +1203,9 @@ public class RegistroSalidas extends javax.swing.JFrame {
             success = CMD.transaction(conn, CMD.START_TRANSACTION);
 
             if (!success) {
-                JOptionPane.showMessageDialog(null,
-                        "Ocurrió un error en la base de datos.\n"
-                        + "El sistema se cerrará para proteger la integridad.",
+                JOptionPane.showMessageDialog(null, """
+                                                    Ocurrió un error en la base de datos.
+                                                    El sistema se cerrará para proteger la integridad.""",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 System.exit(1);
@@ -1219,6 +1222,7 @@ public class RegistroSalidas extends javax.swing.JFrame {
             psEncabezado.setInt(7, movtido);
             psEncabezado.setString(8, movsolic);
             psEncabezado.setString(9, codigoTC);
+            psEncabezado.setString(10, Menu.APP_USERNAME);
 
             regAfect = psEncabezado.executeUpdate();
 
