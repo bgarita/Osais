@@ -113,12 +113,12 @@ public class CatalogoContable extends JFrame {
 
         txtMayor = new javax.swing.JFormattedTextField();
         txtNom_cta = new javax.swing.JFormattedTextField();
-        cmdPrimero = new javax.swing.JButton();
-        cmdAnterior = new javax.swing.JButton();
-        cmdSiguiente = new javax.swing.JButton();
-        cmdUltimo = new javax.swing.JButton();
-        cmdGuardar = new javax.swing.JButton();
-        cmdBorrar = new javax.swing.JButton();
+        btnFirst = new javax.swing.JButton();
+        btnPrevious = new javax.swing.JButton();
+        btnNext = new javax.swing.JButton();
+        btnLast = new javax.swing.JButton();
+        btnSave = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
         txtSub_cta = new javax.swing.JFormattedTextField();
         txtSub_sub = new javax.swing.JFormattedTextField();
         txtColect = new javax.swing.JFormattedTextField();
@@ -190,76 +190,76 @@ public class CatalogoContable extends JFrame {
             }
         });
 
-        txtNom_cta.setColumns(40);
+        txtNom_cta.setColumns(60);
         try {
             txtNom_cta.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("****************************************")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
         txtNom_cta.setToolTipText("Descripción");
-        txtNom_cta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNom_ctaActionPerformed(evt);
-            }
-        });
         txtNom_cta.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtNom_ctaFocusGained(evt);
             }
         });
-
-        cmdPrimero.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZTOP.png"))); // NOI18N
-        cmdPrimero.setToolTipText("Ir al primer registro");
-        cmdPrimero.setFocusCycleRoot(true);
-        cmdPrimero.addActionListener(new java.awt.event.ActionListener() {
+        txtNom_cta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdPrimeroActionPerformed(evt);
+                txtNom_ctaActionPerformed(evt);
             }
         });
 
-        cmdAnterior.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZBACK.png"))); // NOI18N
-        cmdAnterior.setToolTipText("Ir al registro anterior");
-        cmdAnterior.setFocusCycleRoot(true);
-        cmdAnterior.setMaximumSize(new java.awt.Dimension(93, 29));
-        cmdAnterior.addActionListener(new java.awt.event.ActionListener() {
+        btnFirst.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZTOP.png"))); // NOI18N
+        btnFirst.setToolTipText("Ir al primer registro");
+        btnFirst.setFocusCycleRoot(true);
+        btnFirst.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdAnteriorActionPerformed(evt);
+                btnFirstActionPerformed(evt);
             }
         });
 
-        cmdSiguiente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZNEXT.png"))); // NOI18N
-        cmdSiguiente.setToolTipText("Ir al siguiente registro");
-        cmdSiguiente.setMaximumSize(new java.awt.Dimension(93, 29));
-        cmdSiguiente.addActionListener(new java.awt.event.ActionListener() {
+        btnPrevious.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZBACK.png"))); // NOI18N
+        btnPrevious.setToolTipText("Ir al registro anterior");
+        btnPrevious.setFocusCycleRoot(true);
+        btnPrevious.setMaximumSize(new java.awt.Dimension(93, 29));
+        btnPrevious.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdSiguienteActionPerformed(evt);
+                btnPreviousActionPerformed(evt);
             }
         });
 
-        cmdUltimo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZEND.png"))); // NOI18N
-        cmdUltimo.setToolTipText("Ir al último registro");
-        cmdUltimo.setFocusCycleRoot(true);
-        cmdUltimo.addActionListener(new java.awt.event.ActionListener() {
+        btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZNEXT.png"))); // NOI18N
+        btnNext.setToolTipText("Ir al siguiente registro");
+        btnNext.setMaximumSize(new java.awt.Dimension(93, 29));
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdUltimoActionPerformed(evt);
+                btnNextActionPerformed(evt);
             }
         });
 
-        cmdGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZSAVE.png"))); // NOI18N
-        cmdGuardar.setToolTipText("Guardar registro");
-        cmdGuardar.setMaximumSize(new java.awt.Dimension(93, 29));
-        cmdGuardar.addActionListener(new java.awt.event.ActionListener() {
+        btnLast.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZEND.png"))); // NOI18N
+        btnLast.setToolTipText("Ir al último registro");
+        btnLast.setFocusCycleRoot(true);
+        btnLast.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdGuardarActionPerformed(evt);
+                btnLastActionPerformed(evt);
             }
         });
 
-        cmdBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZDELETE.png"))); // NOI18N
-        cmdBorrar.setToolTipText("Borrar registro");
-        cmdBorrar.setMaximumSize(new java.awt.Dimension(93, 29));
-        cmdBorrar.addActionListener(new java.awt.event.ActionListener() {
+        btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZSAVE.png"))); // NOI18N
+        btnSave.setToolTipText("Guardar registro");
+        btnSave.setMaximumSize(new java.awt.Dimension(93, 29));
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdBorrarActionPerformed(evt);
+                btnSaveActionPerformed(evt);
+            }
+        });
+
+        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/WZDELETE.png"))); // NOI18N
+        btnDelete.setToolTipText("Borrar registro");
+        btnDelete.setMaximumSize(new java.awt.Dimension(93, 29));
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
             }
         });
 
@@ -657,17 +657,17 @@ public class CatalogoContable extends JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cmdPrimero, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnFirst, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmdAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnPrevious, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmdSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmdUltimo, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnLast, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmdGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmdBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -690,7 +690,7 @@ public class CatalogoContable extends JFrame {
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmdAnterior, cmdBorrar, cmdGuardar, cmdPrimero, cmdSiguiente, cmdUltimo});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnDelete, btnFirst, btnLast, btnNext, btnPrevious, btnSave});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -713,12 +713,12 @@ public class CatalogoContable extends JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cmdPrimero)
-                                    .addComponent(cmdAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cmdSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cmdUltimo, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cmdGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cmdBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(btnFirst)
+                                    .addComponent(btnPrevious, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnNext, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnLast, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(8, 8, 8))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(lblPeriodo)
@@ -742,14 +742,14 @@ public class CatalogoContable extends JFrame {
                         .addGap(120, 120, 120))))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmdAnterior, cmdBorrar, cmdGuardar, cmdPrimero, cmdSiguiente, cmdUltimo});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnDelete, btnFirst, btnLast, btnNext, btnPrevious, btnSave});
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void mnuGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuGuardarActionPerformed
-        cmdGuardarActionPerformed(evt);
+        btnSaveActionPerformed(evt);
 }//GEN-LAST:event_mnuGuardarActionPerformed
 
     private void mnuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSalirActionPerformed
@@ -816,7 +816,7 @@ public class CatalogoContable extends JFrame {
         txtMayor.transferFocus();
 }//GEN-LAST:event_txtMayorActionPerformed
 
-    private void cmdPrimeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdPrimeroActionPerformed
+    private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
         ResultSet rs;
 
         try {
@@ -852,9 +852,9 @@ public class CatalogoContable extends JFrame {
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
-}//GEN-LAST:event_cmdPrimeroActionPerformed
+}//GEN-LAST:event_btnFirstActionPerformed
 
-    private void cmdAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdAnteriorActionPerformed
+    private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousActionPerformed
         String cuenta;
         ResultSet rs;
 
@@ -895,9 +895,9 @@ public class CatalogoContable extends JFrame {
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
-}//GEN-LAST:event_cmdAnteriorActionPerformed
+}//GEN-LAST:event_btnPreviousActionPerformed
 
-    private void cmdSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdSiguienteActionPerformed
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
         String cuenta;
         ResultSet rs;
 
@@ -938,9 +938,9 @@ public class CatalogoContable extends JFrame {
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
-}//GEN-LAST:event_cmdSiguienteActionPerformed
+}//GEN-LAST:event_btnNextActionPerformed
 
-    private void cmdUltimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdUltimoActionPerformed
+    private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
         ResultSet rs;
 
         try {
@@ -976,9 +976,9 @@ public class CatalogoContable extends JFrame {
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
-}//GEN-LAST:event_cmdUltimoActionPerformed
+}//GEN-LAST:event_btnLastActionPerformed
 
-    private void cmdGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdGuardarActionPerformed
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         try {
             if (!ensureActiveConnection()) {
                 return;
@@ -999,9 +999,9 @@ public class CatalogoContable extends JFrame {
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
-}//GEN-LAST:event_cmdGuardarActionPerformed
+}//GEN-LAST:event_btnSaveActionPerformed
 
-    private void cmdBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdBorrarActionPerformed
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         String cuenta;
         cuenta = txtMayor.getText().trim();
         cuenta += txtSub_cta.getText().trim();
@@ -1009,7 +1009,7 @@ public class CatalogoContable extends JFrame {
         cuenta += txtColect.getText().trim();
 
         eliminarRegistro(cuenta);
-}//GEN-LAST:event_cmdBorrarActionPerformed
+}//GEN-LAST:event_btnDeleteActionPerformed
 
     private void txtMayorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMayorFocusLost
         String cuenta = txtMayor.getText().trim();
@@ -1109,9 +1109,6 @@ public class CatalogoContable extends JFrame {
     }//GEN-LAST:event_chkNombreMouseClicked
 
     private void chkMovimientosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_chkMovimientosMouseClicked
-        // Falta depurar esta parte.
-        // También hay que revisar porqué se produce un error a la hora de guardar
-        // depués de hacer un cambio en el nivel (este nivel).
 
         boolean selected = this.chkMovimientos.isSelected();
         catalogo.setNom_cta(this.txtNom_cta.getText());
@@ -1344,18 +1341,18 @@ public class CatalogoContable extends JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnFirst;
+    private javax.swing.JButton btnLast;
     private javax.swing.JButton btnMovGeneral;
+    private javax.swing.JButton btnNext;
+    private javax.swing.JButton btnPrevious;
+    private javax.swing.JButton btnSave;
     private javax.swing.JComboBox<String> cboTipo_cta;
     private javax.swing.JCheckBox chkActiva;
     private javax.swing.JCheckBox chkAsigaraER;
     private javax.swing.JCheckBox chkMovimientos;
     private javax.swing.JCheckBox chkNombre;
-    private javax.swing.JButton cmdAnterior;
-    private javax.swing.JButton cmdBorrar;
-    private javax.swing.JButton cmdGuardar;
-    private javax.swing.JButton cmdPrimero;
-    private javax.swing.JButton cmdSiguiente;
-    private javax.swing.JButton cmdUltimo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
