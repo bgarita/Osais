@@ -192,7 +192,7 @@ public class CatalogoContable extends JFrame {
 
         txtNom_cta.setColumns(60);
         try {
-            txtNom_cta.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("****************************************")));
+            txtNom_cta.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("************************************************************")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
