@@ -18,6 +18,7 @@ import accesoDatos.CMD;
 import accesoDatos.UtilBD;
 import static accesoDatos.UtilBD.getCajaForThisUser;
 import interfase.consultas.ImpresionReciboCXC;
+import interfase.menus.Menu;
 import interfase.mantenimiento.TarjetaDC;
 import interfase.otros.Buscador;
 import interfase.otros.Navegador;
@@ -1054,7 +1055,8 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
                     "'" + cheque   + "'" + "," +
                     "'" + banco    + "'" + "," +
                     "'" + codigoTC + "'" + "," +
-                    tipoca + ")";
+                    tipoca + "," +
+                    "'" + Menu.APP_USERNAME + "'" + ")";
 
             if (errorMessage.equals("")){
                 rs = stat.executeQuery(sqlUpdate);
@@ -2371,11 +2373,11 @@ public class RegistroPagosCXC extends javax.swing.JFrame {
         } // end if
         
         // Actualizo la referencia de caja en la tabla pagos
-        sqlSent = 
-                "Update pagos set  " +
-                "   reccaja = ?    " +
-                "Where recnume = ? ";
-        
+        sqlSent =
+                "Update pagos set " +
+                "reccaja = ? " +
+                "Where recnume = ?";
+
         try {
             ps = conn.prepareStatement(sqlSent);
             ps.setInt(1, tran.getRecnume());

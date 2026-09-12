@@ -3,6 +3,7 @@ import accesoDatos.CMD;
 import accesoDatos.UtilBD;
 import com.svcon.jdbf.DBFReader;
 import com.svcon.jdbf.JDBFException;
+import interfase.menus.Menu;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -67,7 +68,7 @@ public class CargarSaldoInicial2 {
                     facturas.add(registro[0]);
                 } else {
                     // Si es nota de débito se carga de esta otra forma.
-                    sqlSentN = "Call InsertarNDCXC(?,?,?,?,'Inicio',?,1)";
+                    sqlSentN = "Call InsertarNDCXC(?,?,?,?,'Inicio',?,1,?,?)";
 
                     psND = conn.prepareStatement(sqlSentN);
                     
@@ -76,6 +77,8 @@ public class CargarSaldoInicial2 {
                     psND.setObject(3, registro[4]);                           // facfech
                     psND.setDouble(4, Double.parseDouble(registro[6].toString())); // facmont
                     psND.setObject(5, registro[12]);                           // codigoTC
+                    psND.setString(6, "1");                                   // pOrdenc
+                    psND.setString(7, Menu.APP_USERNAME);                      // pUsuario
                     try (ResultSet rs = psND.executeQuery()) {
                         rs.first();
                         if (rs.getBoolean(1)){

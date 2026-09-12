@@ -3201,7 +3201,7 @@ public class Inarticu extends JFrame {
             Artmaxi = Ut.quitarFormato(txtArtmaxi.getText().trim());
             Artiseg = Ut.quitarFormato(txtArtiseg.getText().trim());
 
-            Artdurp = txtArtdurp.getText().trim();
+            Artdurp = Ut.quitarFormato(txtArtdurp.getText().trim());
             codigoTarifa = txtCodigoTarifa.getText().trim();
             codigoCabys = txtCodigoCabys.getText().trim();
             Otroc = txtOtroC.getText().trim();
@@ -3365,8 +3365,6 @@ public class Inarticu extends JFrame {
 
             CMD.transaction(conn, CMD.COMMIT);
 
-//            rs = nav.cargarRegistro(
-//                    Navegador.ESPECIFICO, Artcode, tabla, "artcode");
             rs = nav.cargarRegistroJoin(
                     Navegador.ESPECIFICO,
                     Artcode,
@@ -3381,7 +3379,7 @@ public class Inarticu extends JFrame {
             if (!registroCargado) {
                 JOptionPane.showMessageDialog(btnGuardar, """
                                                           El registro no se pudo guardar.
-                                                          Atenci\u00f3n: esto no debi\u00f3 suceder.""",
+                                                          Atención: esto no debió suceder.""",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return false;
@@ -3867,8 +3865,9 @@ public class Inarticu extends JFrame {
 
         // Validar que el porcentaje del impuesto coincida con el del cabys
         if (this.usarCabys) {
-            double ivaA = Double.parseDouble(txtPorcentaje.getText().trim()) / 100;
-            double ivaB = Double.parseDouble(txtPorcentajeCabys.getText().trim());
+            double ivaA = Ut.parseFlexibleDouble(txtPorcentaje.getText().trim());
+            double ivaB = Ut.parseFlexibleDouble(txtPorcentajeCabys.getText().trim());
+            
             if (ivaA != ivaB) {
                 JOptionPane.showMessageDialog(null,
                         "El porcentaje del impuesto no coincide con el del CABYS.",

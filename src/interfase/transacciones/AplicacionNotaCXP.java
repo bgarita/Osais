@@ -10,6 +10,7 @@ import Exceptions.CurrencyExchangeException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
+import interfase.menus.Menu;
 import interfase.otros.Navegador;
 import java.awt.Color;
 import java.awt.HeadlessException;
@@ -829,7 +830,7 @@ public class AplicacionNotaCXP extends javax.swing.JFrame {
             // de crébito relacionadas.
             // No afecta el saldo del cliente porque éste fue afectado
             // en el momento de crear la ND. 
-            sqlSent = "Call InsertarDetalleNDCXP(?,?,?,?,?,?,?)";
+            sqlSent = "Call InsertarDetalleNDCXP(?,?,?,?,?,?,?,?)";
             ps = conn.prepareStatement(sqlSent);
 
             while (todoCorrecto && row < tblDetalle.getRowCount()){
@@ -863,6 +864,7 @@ public class AplicacionNotaCXP extends javax.swing.JFrame {
                 ps.setDouble(5, saldo);
                 ps.setTimestamp(6, fecha);
                 ps.setString(7, txtProcode.getText().trim());
+                ps.setString(8, Menu.APP_USERNAME);
 
                 // Liberar recursos
                 if (rs != null){

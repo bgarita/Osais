@@ -23,6 +23,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -71,11 +73,10 @@ public class Ut {
     public static final int PROCESSOR_IDENTIFIER = 13;
     public static final int JAVA_VERSION = 14;
 
-    
     /**
-     * @author: Bosco Garita Azofeifa Este método recibe un objeto de tipo JTextField que
-     * contiene un número formateado y devuelve otro objeto de tipo Number con el valor
-     * del objeto recibido pero sin formato.
+     * @author: Bosco Garita Azofeifa Este método recibe un objeto de tipo
+     * JTextField que contiene un número formateado y devuelve otro objeto de
+     * tipo Number con el valor del objeto recibido pero sin formato.
      * @param objeto
      * @return Number
      * @throws java.text.ParseException
@@ -86,8 +87,8 @@ public class Ut {
     } // end quitarFormato
 
     /**
-     * @author: Bosco Garita Azofeifa Método sobrecargado para utilizar con String en vez
-     * del objeto
+     * @author: Bosco Garita Azofeifa Método sobrecargado para utilizar con
+     * String en vez del objeto
      * @param valortexto
      * @return String
      * @throws java.text.ParseException
@@ -109,34 +110,87 @@ public class Ut {
     } // quitarFormato
 
     /**
-     * Este método formatea un string y lo devuelve con separador de miles y decimales o
-     * con el formato que se le pase.
+     * Este método formatea un string y lo devuelve con separador de miles y
+     * decimales o con el formato que se le pase.
      *
      * @param numero Valor a formatear
-     * @param formato Máscara que se usará para devolver el dato. Puede venir nulo o vacío
-     * en cuyo caso se usará el valor predeterminado "#,##0.00".
+     * @param formato Máscara que se usará para devolver el dato. Puede venir
+     * nulo o vacío en cuyo caso se usará el valor predeterminado "#,##0.00".
      * @return número formateado y sin espacios. (Redondea).
      * @throws java.text.ParseException
      */
     public static String setDecimalFormat(String numero, String formato) throws Exception {
-        if (numero == null) {
-            return "";
-        } // end if
-
-        if (numero.trim().equals("")) {
+        if (numero == null || numero.trim().isBlank()) {
             return "";
         } // end if
 
         // Establezco el formato predeterminado
-        if (formato == null || formato.trim().equals("")) {
+        if (formato == null || formato.trim().isEmpty()) {
             formato = "#,##0.00";
         } // end if
 
-        String devolver;
-        Double Dnumero = Double.valueOf(quitarFormato(numero.trim()));
-        devolver = new java.text.DecimalFormat(formato).format(Dnumero);
-        return devolver.trim();
+        try {
+            double valor = parseFlexibleDouble(numero);
+
+            DecimalFormatSymbols symbols = DecimalFormatSymbols.getInstance();
+            DecimalFormat df = new DecimalFormat(formato, symbols);
+
+            return df.format(valor).trim();
+
+        } catch (Exception ex) {
+            return "";
+        }
     } // end setDecimalFormat
+
+    /**
+     * Convierte un String a double, soportando diferentes formatos de números.
+     *
+     * Este método es flexible con los separadores de miles y decimales:
+     * - Soporta formato con punto como separador decimal: 1234.56
+     * - Soporta formato con coma como separador decimal: 1234,56
+     * - Soporta formato con punto y coma (punto para miles, coma para decimales): 1.234,56
+     * - Soporta formato con coma y punto (coma para miles, punto para decimales): 1,234.56
+     *
+     * El método utiliza el último separador encontrado como separador decimal.
+     *
+     * @param texto el string a convertir a double. Se eliminan espacios en blanco.
+     * @return el valor double resultante
+     * @throws NumberFormatException si el string no puede convertirse a un número válido
+     */
+    public static double parseFlexibleDouble(String texto) throws NumberFormatException {
+
+        texto = texto.trim();
+
+        // Eliminar espacios
+        texto = texto.replace(" ", "");
+
+        boolean tienePunto = texto.contains(".");
+        boolean tieneComa = texto.contains(",");
+
+        if (tienePunto && tieneComa) {
+
+            // El último separador es el decimal
+            int ultimoPunto = texto.lastIndexOf('.');
+            int ultimaComa = texto.lastIndexOf(',');
+
+            if (ultimoPunto > ultimaComa) {
+                // 1,234.56
+                texto = texto.replace(",", "");
+            } else {
+                // 1.234,56
+                texto = texto.replace(".", "");
+                texto = texto.replace(",", ".");
+            }
+
+        } else if (tieneComa) {
+
+            // 1234,56
+            texto = texto.replace(",", ".");
+
+        }
+
+        return Double.parseDouble(texto);
+    }
 
     /**
      * Este método formatea un string y lo devuelve con separador de miles.
@@ -212,8 +266,8 @@ public class Ut {
     } // calcularEdad
 
     /**
-     * Este método calcula el último día para el mes y año de la fecha recibida en el
-     * parámetro dFecha que es de tipo Date.
+     * Este método calcula el último día para el mes y año de la fecha recibida
+     * en el parámetro dFecha que es de tipo Date.
      *
      * @param dFecha Fecha recibida
      * @return valor numérico (int) que representa el último día.
@@ -225,8 +279,8 @@ public class Ut {
     } // lastDay
 
     /**
-     * Este método calcula el último día para el mes y año de la fecha recibida en el
-     * parámetro fecha que es de tipo long.
+     * Este método calcula el último día para el mes y año de la fecha recibida
+     * en el parámetro fecha que es de tipo long.
      *
      * @author Bosco Garita A. 03/11/2013
      * @param fecha long fecha recibida
@@ -239,9 +293,9 @@ public class Ut {
     } // end lastDay
 
     /**
-     * Este método calcula el último día para el mes y año de la fecha recibida en el
-     * parámetro cal que es de tipo Calendar. Además deja el parámetro establecido con la
-     * fecha del último día del mes.
+     * Este método calcula el último día para el mes y año de la fecha recibida
+     * en el parámetro cal que es de tipo Calendar. Además deja el parámetro
+     * establecido con la fecha del último día del mes.
      *
      * @author Bosco Garita A. 23/05/2014
      * @param cal Calendar fecha recibida
@@ -255,8 +309,8 @@ public class Ut {
     } // lastDay
 
     /**
-     * @author: Bosco Garita año 2010 Calcular la última fecha para un mes basándose en la
-     * fecha recibida
+     * @author: Bosco Garita año 2010 Calcular la última fecha para un mes
+     * basándose en la fecha recibida
      * @param dFecha - fecha que contiene el mes cuyo último día se calculará
      * @return Date. Fecha que contiene el último día del mes.
      */
@@ -277,10 +331,10 @@ public class Ut {
         date.setTime(cal.getTimeInMillis());
         return date;
     } // lastDate
-    
+
     /**
-     * @author: Bosco Garita May 2021 Calcular la última fecha para un mes basándose en el
-     * año y mes recibido por parámetro.
+     * @author: Bosco Garita May 2021 Calcular la última fecha para un mes
+     * basándose en el año y mes recibido por parámetro.
      * @param year int año
      * @param month int mes (Mes java)
      * @return Date. Fecha que contiene el último día del mes.
@@ -311,13 +365,13 @@ public class Ut {
     } // end fechaSQL
 
     /**
-     * Recibe un string con un formato de fecha en español (dd/mm/aaaa) y lo convierte a
-     * formato de fecha SQL (aaaa-mm-dd). Opcionalmente puede agregar el apóstrofo inicial
-     * y final a la cadena.
+     * Recibe un string con un formato de fecha en español (dd/mm/aaaa) y lo
+     * convierte a formato de fecha SQL (aaaa-mm-dd). Opcionalmente puede
+     * agregar el apóstrofo inicial y final a la cadena.
      *
      * @param fechaSPF String --> Fecha con formato dd/mm/aaaa
-     * @param apostrofo boolean --> Indica si la cadena con fecha SQL contendrá los
-     * apóstrofos inicial y final en cuyo caso sería: 'aaaa-mm-dd'
+     * @param apostrofo boolean --> Indica si la cadena con fecha SQL contendrá
+     * los apóstrofos inicial y final en cuyo caso sería: 'aaaa-mm-dd'
      * @return String --> fecha con formato SQL.
      */
     public static String fechaSQL(String fechaSPF, boolean apostrofo) {
@@ -343,9 +397,9 @@ public class Ut {
     } // end fechaSQL
 
     /**
-     * Este método recibe una variable de tipo Date y la convierte a un String con la
-     * fecha formateada para SQL; es decir que incluye la comilla inicial y la comilla
-     * final. Ejemplo '2009-31-01' (aaaa-mm-dd)
+     * Este método recibe una variable de tipo Date y la convierte a un String
+     * con la fecha formateada para SQL; es decir que incluye la comilla inicial
+     * y la comilla final. Ejemplo '2009-31-01' (aaaa-mm-dd)
      *
      * @since 1.0 - 10/07/2010 by Bosco Garita
      * @param dFecha Date
@@ -371,8 +425,8 @@ public class Ut {
     } // end fechaSQL
 
     /**
-     * Autor: Bosco Garita 02/05/2011. Esta función es idéntica a fechaSQL excepto por el
-     * resultado que va sin los apóstofos.
+     * Autor: Bosco Garita 02/05/2011. Esta función es idéntica a fechaSQL
+     * excepto por el resultado que va sin los apóstofos.
      *
      * @param Dfecha Date a convertir
      * @return String con formato aaaa-mm-dd (sin apóstrofes)
@@ -384,11 +438,12 @@ public class Ut {
     } // end fechaSQL2
 
     /**
-     * Autor: Bosco Garita 19/03/2011 Si la fecha recibida es null entonces el valor de
-     * retorno será "null" Si la hora recibida es null o alguno de los caracteres es
-     * inadecuado entonces el valor de retorno será "'aaaa-mm-dd 00:00:00'" Si alguno de
-     * los valores de hora minuto o segundo se encuentran fuera del rango respectivo
-     * entonces el valor se establecerá a 00 según corresponda.
+     * Autor: Bosco Garita 19/03/2011 Si la fecha recibida es null entonces el
+     * valor de retorno será "null" Si la hora recibida es null o alguno de los
+     * caracteres es inadecuado entonces el valor de retorno será "'aaaa-mm-dd
+     * 00:00:00'" Si alguno de los valores de hora minuto o segundo se
+     * encuentran fuera del rango respectivo entonces el valor se establecerá a
+     * 00 según corresponda.
      *
      * @param Dfecha Fecha a formatear
      * @param horaMilitar Hora a concatenar
@@ -413,10 +468,11 @@ public class Ut {
     } // end fechaHoraSQL
 
     /**
-     * Autor: Bosco Garita 19/03/2011 Valida que la hora que reciba sea válida. En caso de
-     * recibir un caracter inesperado en la posición respectiva (hh:mm:ss) inmediatemante
-     * retornará 00:00:00 Si alguno de los tres valores númericos no se encuentra dentro
-     * del rango adecuado, éste se establecerá a 00 para retornar un valor válido.
+     * Autor: Bosco Garita 19/03/2011 Valida que la hora que reciba sea válida.
+     * En caso de recibir un caracter inesperado en la posición respectiva
+     * (hh:mm:ss) inmediatemante retornará 00:00:00 Si alguno de los tres
+     * valores númericos no se encuentra dentro del rango adecuado, éste se
+     * establecerá a 00 para retornar un valor válido.
      *
      * @param hora String a validar como hora militar
      * @return String (hh:mm:ss) hora militar válida.
@@ -490,11 +546,11 @@ public class Ut {
     } // end horaValida
 
     /**
-     * Autor: Bosco Garita METODO PARA MSSQLSERVER. Este método recibe una cal de tipo
-     * Date y lo convierte a un String que incluye la función CONVERT() de sql. Este
-     * método es el más recomendado, sobre todo cuando no se tiene seguridad del formato
-     * de cal que utiliza SQL para convertir de caracter a cal. Ejemplo
-     * convert(datetime,'25/01/2009',103)
+     * Autor: Bosco Garita METODO PARA MSSQLSERVER. Este método recibe una cal
+     * de tipo Date y lo convierte a un String que incluye la función CONVERT()
+     * de sql. Este método es el más recomendado, sobre todo cuando no se tiene
+     * seguridad del formato de cal que utiliza SQL para convertir de caracter a
+     * cal. Ejemplo convert(datetime,'25/01/2009',103)
      *
      * @param dFecha
      * @return convert(datetime,'dd/mm/aaaa',103)
@@ -623,9 +679,9 @@ public class Ut {
     } // end getDays
 
     /**
-     * @author Bosco Garita 15/11/2011 11:09 PM Este método calcula la diferencia entre
-     * dos valores de tipo long y convierte la diferencia a horas, minutos, segundos y
-     * milisegundos.
+     * @author Bosco Garita 15/11/2011 11:09 PM Este método calcula la
+     * diferencia entre dos valores de tipo long y convierte la diferencia a
+     * horas, minutos, segundos y milisegundos.
      * @param fechaMayor long que representa una fecha (la fecha mayor)
      * @param fechaMenor long que representa una fecha (la fecha menor)
      * @return int[1][4] hora, minuto, segundo, milisegundo
@@ -648,9 +704,9 @@ public class Ut {
     } // end timeDiff
 
     /**
-     * @author Bosco Garita 12/09/2009 Este método devuelve la diferencia en meses entre
-     * dos fechas. Ver también el método timeDiff() Recibe dos strings con las fechas a
-     * procesar. El formato deberá venir en yyyy/mm/dd.
+     * @author Bosco Garita 12/09/2009 Este método devuelve la diferencia en
+     * meses entre dos fechas. Ver también el método timeDiff() Recibe dos
+     * strings con las fechas a procesar. El formato deberá venir en yyyy/mm/dd.
      * @param fecha1 "yyyy/mm/dd" Sfecha menor
      * @param fecha2 "yyyy/mm/dd" Sfecha mayor
      * @return número de meses
@@ -671,9 +727,9 @@ public class Ut {
     } // end getMonths
 
     /**
-     * @author Bosco Garita 08/05/2012 Este método devuelve la diferencia en meses entre
-     * dos fechas. Ver también el método timeDiff() Recibe dos Dates con las fechas a
-     * procesar.
+     * @author Bosco Garita 08/05/2012 Este método devuelve la diferencia en
+     * meses entre dos fechas. Ver también el método timeDiff() Recibe dos Dates
+     * con las fechas a procesar.
      * @param fecha1 Date fecha menor
      * @param fecha2 Date fecha mayor
      * @return número de meses
@@ -699,9 +755,9 @@ public class Ut {
     } // end getMonths
 
     /**
-     * @author Bosco Garita 08/05/2012 Este método devuelve la diferencia en meses entre
-     * dos fechas. Ver también el método timeDiff() Recibe dos Calendar con las fechas a
-     * procesar.
+     * @author Bosco Garita 08/05/2012 Este método devuelve la diferencia en
+     * meses entre dos fechas. Ver también el método timeDiff() Recibe dos
+     * Calendar con las fechas a procesar.
      * @param fecha1 Calendar fecha menor
      * @param fecha2 Calendar fecha mayor
      * @return número de meses
@@ -747,8 +803,8 @@ public class Ut {
     } // end dtoc
 
     /**
-     * @author Bosco Garita Este método recibe un String con formato de fecha dd/mm/aaaa y
-     * lo convierte a un objeto de tipo Date.
+     * @author Bosco Garita Este método recibe un String con formato de fecha
+     * dd/mm/aaaa y lo convierte a un objeto de tipo Date.
      * @param fechaSPF String fecha con formato castellano.
      * @return java.sql.Date
      */
@@ -760,7 +816,7 @@ public class Ut {
         if (fechaSPF.equalsIgnoreCase("NULL")) {
             return null;
         } // end if
-        
+
         String day, month, year;
         fechaSPF = fechaSPF.trim();
         day = fechaSPF.substring(0, Ut.AT(fechaSPF, "/"));
@@ -768,7 +824,7 @@ public class Ut {
         month = fechaSPF.substring((Ut.AT(fechaSPF, "/") + 1), Ut.AT(fechaSPF, "/", 2));
         month = month.length() == 1 ? "0" + month : month;
         year = fechaSPF.substring((Ut.AT(fechaSPF, "/", 2) + 1));
-        
+
         Calendar cal = Calendar.getInstance();
         cal.set(Integer.parseInt(year), Integer.parseInt(month) - 1, Integer.parseInt(day));
         cal.set(Calendar.HOUR_OF_DAY, 0);
@@ -781,10 +837,10 @@ public class Ut {
     } // end ctod
 
     /**
-     * @author: Bosco Garita A. 07/11/2010. Realiza la misma tarea que GOMONTH() en Visual
-     * Fox. Es dicir devuelve una cal aumentada o disminuida n meses dependiendo del valor
-     * que reciba en meses. Si el valor recibido en meses es negativo disminuye y si es
-     * positivo aumenta.
+     * @author: Bosco Garita A. 07/11/2010. Realiza la misma tarea que GOMONTH()
+     * en Visual Fox. Es dicir devuelve una cal aumentada o disminuida n meses
+     * dependiendo del valor que reciba en meses. Si el valor recibido en meses
+     * es negativo disminuye y si es positivo aumenta.
      * @param dFecha Fecha sobre la cual se aumentará o disminuirá
      * @param meses Número de meses a aumentar o disminuir
      * @return Date Fecha aumentada o disminuida.
@@ -804,13 +860,14 @@ public class Ut {
     } // end goMonth
 
     /**
-     * Este método simula la función Seek() de fox. Buscar un valor de tipo String en un
-     * ResultSet.
+     * Este método simula la función Seek() de fox. Buscar un valor de tipo
+     * String en un ResultSet.
      *
-     * @param rs ResultSet en donde se hará la búsqueda. El Statement que lo generó deberá
-     * tener la propieada de ResultSet.TYPE_SCROLL_SENSITIVE.
+     * @param rs ResultSet en donde se hará la búsqueda. El Statement que lo
+     * generó deberá tener la propieada de ResultSet.TYPE_SCROLL_SENSITIVE.
      * @param valor String que se buscará.
-     * @param columna Nombre del campo o columna en donde se ejecutará la búsqueda.
+     * @param columna Nombre del campo o columna en donde se ejecutará la
+     * búsqueda.
      * @return true (valor encontrado), false (valor no encontrado)
      * @throws SQLException
      */
@@ -854,12 +911,12 @@ public class Ut {
     } // end getCode
 
     /**
-     * Este método simula la función Seek() de fox. Buscar un valor de tipo int en un
-     * ResultSet. Al igual que fox el puntero queda ubicado en el registro correspondiente
-     * si lo encuentra o en eof() si no lo encuentra.
+     * Este método simula la función Seek() de fox. Buscar un valor de tipo int
+     * en un ResultSet. Al igual que fox el puntero queda ubicado en el registro
+     * correspondiente si lo encuentra o en eof() si no lo encuentra.
      *
-     * @param rs ResultSet en donde se hará la búsqueda. El Statement que lo generó deberá
-     * tener la propieada de ResultSet.TYPE_SCROLL_SENSITIVE.
+     * @param rs ResultSet en donde se hará la búsqueda. El Statement que lo
+     * generó deberá tener la propieada de ResultSet.TYPE_SCROLL_SENSITIVE.
      * @param buscar int valor a buscar
      * @param buscarEn Nombre del campo en donde se ejecutará la búsqueda.
      * @return true (valor encontrado), false (valor no encontrado)
@@ -891,8 +948,9 @@ public class Ut {
     } // end seek
 
     /**
-     * Autor: Bosco Garita. 30/01/2011. Busca un valor de tipo String en una JTable. Si el
-     * valor es encontrado devolverá true y además seleccionará el dato encontrado.
+     * Autor: Bosco Garita. 30/01/2011. Busca un valor de tipo String en una
+     * JTable. Si el valor es encontrado devolverá true y además seleccionará el
+     * dato encontrado.
      *
      * @param table JTable en donde se realiza la búsqueda
      * @param valor String Valor a buscar
@@ -923,8 +981,9 @@ public class Ut {
     } // end seek
 
     /**
-     * Autor: Bosco Garita. 30/01/2011. Busca un valor de tipo int en una JTable. Si el
-     * valor es encontrado devolverá true y además seleccionará el dato encontrado.
+     * Autor: Bosco Garita. 30/01/2011. Busca un valor de tipo int en una
+     * JTable. Si el valor es encontrado devolverá true y además seleccionará el
+     * dato encontrado.
      *
      * @param table JTable en donde se realiza la búsqueda
      * @param valor int Valor a buscar
@@ -950,8 +1009,8 @@ public class Ut {
     } // end seek
 
     /**
-     * Autor: Bosco Garita 13/09/2009 Devuelve el número de fila en donde se encontró el
-     * valor, <br>
+     * Autor: Bosco Garita 13/09/2009 Devuelve el número de fila en donde se
+     * encontró el valor, <br>
      * -1 si el valor no es encontrado.
      *
      * @param table JTable en donde se hará la búsqueda
@@ -988,14 +1047,15 @@ public class Ut {
     } // end seek
 
     /**
-     * Autor: Bosco Garita 20/09/2020 Devuelve el número de fila en donde se encontraron
-     * los valores, <br>
+     * Autor: Bosco Garita 20/09/2020 Devuelve el número de fila en donde se
+     * encontraron los valores, <br>
      * -1 si el valor no es encontrado.
      *
      * @param table JTable en donde se hará la búsqueda
      * @param valores Object[] valore a buscar
      * @param columns int[] columnas en donde se realizará la búsqueda
-     * @return int fila en donde se encontraron los valores o -1 si no se encontró
+     * @return int fila en donde se encontraron los valores o -1 si no se
+     * encontró
      */
     public static int seek(JTable table, Object[] valores, Integer[] columns) {
         if (valores == null) {
@@ -1058,9 +1118,11 @@ public class Ut {
      * @author: Bosco Garita 13/09/2009 devuelve -1.
      * @param table JTable en donde se hará la búsqueda
      * @param valor1 Object primer valor a buscar
-     * @param column1 int columna en donde se realizará la búsqueda para el primer valor
+     * @param column1 int columna en donde se realizará la búsqueda para el
+     * primer valor
      * @param valor2 Object segundo valor a buscar
-     * @param column2 int columna en donde se realizará la búsqueda para el segundo valor
+     * @param column2 int columna en donde se realizará la búsqueda para el
+     * segundo valor
      * @return int fila en donde se encontró el valor o -1 si no se encontró
      */
     public static int seek(JTable table, Object valor1, int column1,
@@ -1086,7 +1148,8 @@ public class Ut {
     } // end seek
 
     /**
-     * Cuenta la cantidad de datos no nulos en una tabla para una columna específica.
+     * Cuenta la cantidad de datos no nulos en una tabla para una columna
+     * específica.
      *
      * @author: Bosco Garita 13/09/2009
      * @param table JTable a revisar
@@ -1104,8 +1167,8 @@ public class Ut {
     } // end countNotNull
 
     /**
-     * Cuenta la cantidad de datos no nulos y con el valor de true en una tabla para una
-     * columna específica.
+     * Cuenta la cantidad de datos no nulos y con el valor de true en una tabla
+     * para una columna específica.
      *
      * @author Bosco Garita Azofeifa
      * @param table JTable a revisar
@@ -1125,8 +1188,8 @@ public class Ut {
 
     /**
      * Este método busca dentro de una JTable la primera fila nula en la columna
-     * especificada y retorna el número de fila. En caso de no existir ninguna fila nula
-     * devolverá un -1.
+     * especificada y retorna el número de fila. En caso de no existir ninguna
+     * fila nula devolverá un -1.
      *
      * @param table JTable en donde se realizará la búsqueda
      * @param column int columna que será consultada
@@ -1151,8 +1214,8 @@ public class Ut {
     } // end seekNull
 
     /**
-     * @author: Bosco Garita 24/11/2013 Devuelve el mínimo de una columna con valores
-     * numéricos. Si no se encontró devolverá 0
+     * @author: Bosco Garita 24/11/2013 Devuelve el mínimo de una columna con
+     * valores numéricos. Si no se encontró devolverá 0
      * @param table JTable tabla que será procesada
      * @param column int número de columna que será procesada
      * @return int valor mínimo encontrado
@@ -1188,9 +1251,9 @@ public class Ut {
     } // end getMin
 
     /**
-     * Busca la siguiente fila con valor null en la columna cero, si no la encuentra,
-     * agrega una nueva fila. IMPORTANTE: Si la columna cero debe tener valores nulos, no
-     * use este método.
+     * Busca la siguiente fila con valor null en la columna cero, si no la
+     * encuentra, agrega una nueva fila. IMPORTANTE: Si la columna cero debe
+     * tener valores nulos, no use este método.
      *
      * @param tblX JTable tabla sobre la cual se realizará la acción.
      * @return int número de fila agregada o con null en la columna cero.
@@ -1205,10 +1268,10 @@ public class Ut {
     } // end appendBlank
 
     /**
-     * Este método busca dentro de un arreglo bidimensional y retorna el índice en donde
-     * se encuentra el valor buscado. Este valor a buscar depende de la columna que se
-     * especifique mediante el parámetro column. En caso de no existir el valor
-     * especificado devolverá un -1.
+     * Este método busca dentro de un arreglo bidimensional y retorna el índice
+     * en donde se encuentra el valor buscado. Este valor a buscar depende de la
+     * columna que se especifique mediante el parámetro column. En caso de no
+     * existir el valor especificado devolverá un -1.
      *
      * @param array String[][] arreglo en donde se realizará la búsqueda
      * @param valor String valor a buscar
@@ -1236,8 +1299,9 @@ public class Ut {
     } // end seek
 
     /**
-     * Este método busca dentro de un arreglo y retorna el índice en donde se encuentra el
-     * valor buscado. En caso de no existir el valor especificado devolverá un -1.
+     * Este método busca dentro de un arreglo y retorna el índice en donde se
+     * encuentra el valor buscado. En caso de no existir el valor especificado
+     * devolverá un -1.
      *
      * @param valor String valor a buscar
      * @Autor: Bosco Garita 05/07/2014.
@@ -1261,7 +1325,8 @@ public class Ut {
     } // end seek
 
     /**
-     * Rellena a la izquierda con el caracter que reciba en el parámetro caracter
+     * Rellena a la izquierda con el caracter que reciba en el parámetro
+     * caracter
      *
      * @Autor: Bosco Garita 01/01/2010.
      * @param cadena string base
@@ -1299,7 +1364,8 @@ public class Ut {
     } // end lpad
 
     /**
-     * Autor: Bosco Garita 07/02/2011. Método sobrecargado para lpad de tipo string
+     * Autor: Bosco Garita 07/02/2011. Método sobrecargado para lpad de tipo
+     * string
      *
      * @param numero entero a rellenar
      * @param caracter caracter de relleno
@@ -1346,7 +1412,8 @@ public class Ut {
     } // end rpad
 
     /**
-     * Autor: Bosco Garita 07/02/2011. Método sobrecargado para rpad de tipo string
+     * Autor: Bosco Garita 07/02/2011. Método sobrecargado para rpad de tipo
+     * string
      *
      * @param numero entero a rellenar
      * @param caracter caracter de relleno
@@ -1358,8 +1425,8 @@ public class Ut {
     } // end lpad
 
     /**
-     * Rellena a la izquierda y a la derecha con el caracter que reciba en el parámetro
-     * caracter
+     * Rellena a la izquierda y a la derecha con el caracter que reciba en el
+     * parámetro caracter
      *
      * @autor: Bosco Garita 12/09/2011.
      * @param cadena string base
@@ -1399,10 +1466,10 @@ public class Ut {
     } // end cpad
 
     /**
-     * Autor: Bosco Garita 28/11/2009 Buscar en un objeto de tipo JComboBox si existe el
-     * objeto recibido en el parámetro valor. Si la búsqueda tiene éxito el método dejará
-     * seleccionado el Item encontrado y devolverá true, de lo contrario no seleccionará
-     * nada y devolverá false.
+     * Autor: Bosco Garita 28/11/2009 Buscar en un objeto de tipo JComboBox si
+     * existe el objeto recibido en el parámetro valor. Si la búsqueda tiene
+     * éxito el método dejará seleccionado el Item encontrado y devolverá true,
+     * de lo contrario no seleccionará nada y devolverá false.
      *
      * @param combo Objeto de tipo JComboBox en donde se realizará la búsqueda
      * @param buscar Object texto a buscar.
@@ -1422,14 +1489,15 @@ public class Ut {
     } // end seek
 
     /**
-     * Redondea un número a 5 ó 10. Depende cuál de estos enteros es el más cercano. Por
-     * ejemplo: 122 se redondeará a 120; 123 se redondeará a 125; 127 se redondeará a 125;
-     * 128 se redondeará a 130. Si el valor recibido viene con decimales éstos serán
-     * ignorados tanto para la evaluación del redondeo como para el resultado final.
+     * Redondea un número a 5 ó 10. Depende cuál de estos enteros es el más
+     * cercano. Por ejemplo: 122 se redondeará a 120; 123 se redondeará a 125;
+     * 127 se redondeará a 125; 128 se redondeará a 130. Si el valor recibido
+     * viene con decimales éstos serán ignorados tanto para la evaluación del
+     * redondeo como para el resultado final.
      *
      * @param pNumero String que contiene el valor a redondear.
-     * @return String que contiene el valor redondeado. Si el valor recibido es un entero
-     * entonces el String devuelto también será un entero.
+     * @return String que contiene el valor redondeado. Si el valor recibido es
+     * un entero entonces el String devuelto también será un entero.
      */
     public static String redondearA5(String pNumero) {
         // Convierto el parámetro recibido a Double.  Esto garantiza que aunque
@@ -1478,14 +1546,16 @@ public class Ut {
     } // end redondearA5
 
     /**
-     * Redondear un número de tipo double a un número determinado de decimales. El
-     * redondeo se hará al dígito más cercano utilizando tres métodos: Hacia arriba
-     * (HALF_UP), hacia abajo (HALF_DOWN) o dinámico (HALF_EVEN). En una ejecución
-     * sucesiva de redondeos el que tiene mayor precision es el dinámico.
+     * Redondear un número de tipo double a un número determinado de decimales.
+     * El redondeo se hará al dígito más cercano utilizando tres métodos: Hacia
+     * arriba (HALF_UP), hacia abajo (HALF_DOWN) o dinámico (HALF_EVEN). En una
+     * ejecución sucesiva de redondeos el que tiene mayor precision es el
+     * dinámico.
      *
      * @author: Bosco Garita 03/05/2013
      * @param numero double número a redondear
-     * @param decimales int número de posiciones decimales que se usarán en el redondeo
+     * @param decimales int número de posiciones decimales que se usarán en el
+     * redondeo
      * @param metodo int método de redondeo (1=Arriba, 2=Abajo, 3=Dinámico).
      * @return double Número redondeado.
      */
@@ -1503,9 +1573,12 @@ public class Ut {
          * Cargar el redondeo según las constantes de redondeo de BigDecimal
          */
         big = switch (metodo) {
-            case 1 -> big.setScale(decimales, RoundingMode.HALF_UP);
-            case 2 -> big.setScale(decimales, RoundingMode.HALF_DOWN);
-            default -> big.setScale(decimales, RoundingMode.HALF_EVEN);
+            case 1 ->
+                big.setScale(decimales, RoundingMode.HALF_UP);
+            case 2 ->
+                big.setScale(decimales, RoundingMode.HALF_DOWN);
+            default ->
+                big.setScale(decimales, RoundingMode.HALF_EVEN);
         }; // end switch
 
         return big.doubleValue();
@@ -1513,8 +1586,8 @@ public class Ut {
 
     /**
      *
-     * Redondear un float a un número específico de decimales. Ver más detalles en
-     * redondear(double numero, int decimales, int metodo)
+     * Redondear un float a un número específico de decimales. Ver más detalles
+     * en redondear(double numero, int decimales, int metodo)
      *
      * @param numero float número a redondear
      * @param decimales int número de decimales a usar en el redondeo
@@ -1530,8 +1603,8 @@ public class Ut {
     } // end redondear
 
     /**
-     * Convertir un número de mes a letras. Este número va de acuerdo a la clase Calendar;
-     * es decir enero=0
+     * Convertir un número de mes a letras. Este número va de acuerdo a la clase
+     * Calendar; es decir enero=0
      *
      * @param pMes int Número de mes.
      * @return String nombre del mes en español (Enero, Febrero, Marzo...)
@@ -1539,19 +1612,32 @@ public class Ut {
     public static String mesLetras(int pMes) {
         String mes;
         mes = switch (pMes) {
-            case Calendar.JANUARY -> "Enero";
-            case Calendar.FEBRUARY -> "Febrero";
-            case Calendar.MARCH -> "Marzo";
-            case Calendar.APRIL -> "Abril";
-            case Calendar.MAY -> "Mayo";
-            case Calendar.JUNE -> "Junio";
-            case Calendar.JULY -> "Julio";
-            case Calendar.AUGUST -> "Agosto";
-            case Calendar.SEPTEMBER -> "Setiembre";
-            case Calendar.OCTOBER -> "Octubre";
-            case Calendar.NOVEMBER -> "Noviembre";
-            case Calendar.DECEMBER -> "Diciembre";
-            default -> "";
+            case Calendar.JANUARY ->
+                "Enero";
+            case Calendar.FEBRUARY ->
+                "Febrero";
+            case Calendar.MARCH ->
+                "Marzo";
+            case Calendar.APRIL ->
+                "Abril";
+            case Calendar.MAY ->
+                "Mayo";
+            case Calendar.JUNE ->
+                "Junio";
+            case Calendar.JULY ->
+                "Julio";
+            case Calendar.AUGUST ->
+                "Agosto";
+            case Calendar.SEPTEMBER ->
+                "Setiembre";
+            case Calendar.OCTOBER ->
+                "Octubre";
+            case Calendar.NOVEMBER ->
+                "Noviembre";
+            case Calendar.DECEMBER ->
+                "Diciembre";
+            default ->
+                "";
         }; // end switch
         return mes;
     } // end mesLetras
@@ -1565,22 +1651,30 @@ public class Ut {
     public static String diaLetras(int pDia) {
         String dia;
         dia = switch (pDia) {
-            case Calendar.SUNDAY -> "Domingo";
-            case Calendar.MONDAY -> "Lunes";
-            case Calendar.TUESDAY -> "Martes";
-            case Calendar.WEDNESDAY -> "Miércoles";
-            case Calendar.THURSDAY -> "Jueves";
-            case Calendar.FRIDAY -> "Viernes";
-            case Calendar.SATURDAY -> "Sábado";
-            default -> "";
+            case Calendar.SUNDAY ->
+                "Domingo";
+            case Calendar.MONDAY ->
+                "Lunes";
+            case Calendar.TUESDAY ->
+                "Martes";
+            case Calendar.WEDNESDAY ->
+                "Miércoles";
+            case Calendar.THURSDAY ->
+                "Jueves";
+            case Calendar.FRIDAY ->
+                "Viernes";
+            case Calendar.SATURDAY ->
+                "Sábado";
+            default ->
+                "";
         }; // end switch
         return dia;
     } // end diaLetras
 
     /**
-     * Bosco Garita 17/05/2010 11:54 pm Totalizar los valores de una columna en una tabla.
-     * Esta columna puede ser numérica o String de números. Si es un String no importa si
-     * viene formateada.
+     * Bosco Garita 17/05/2010 11:54 pm Totalizar los valores de una columna en
+     * una tabla. Esta columna puede ser numérica o String de números. Si es un
+     * String no importa si viene formateada.
      *
      * @param t Tabla
      * @param col Número de columna a totalizar
@@ -1619,19 +1713,20 @@ public class Ut {
     } // end sum
 
     /**
-     * Bosco Garita 04/02/2016 11:19 am Totalizar los valores de dos columnas según el
-     * operador matemático recibido por parámetro. Estas columnas pueden ser numéricas o
-     * String de números. Si son String no importa si vienen formateadas. </br>
+     * Bosco Garita 04/02/2016 11:19 am Totalizar los valores de dos columnas
+     * según el operador matemático recibido por parámetro. Estas columnas
+     * pueden ser numéricas o String de números. Si son String no importa si
+     * vienen formateadas. </br>
      * NOTA: solo admite las cuatro operaciones básicas (+,-,*,/)
      *
      * @param t JTable Tabla que contiene los datos
      * @param col1 int Número de columna que tiene el valor que formará la parte
      * izquierada de la expresión
      * @param operator Strihg Operador que indicará el resultado a obtener
-     * @param col2 int Número de columna que tiene el valor que formará la parte derecha
-     * de la expresión
-     * @return Number Sumatoria del resultado de la expresión formada entre col1, operator
-     * y col2
+     * @param col2 int Número de columna que tiene el valor que formará la parte
+     * derecha de la expresión
+     * @return Number Sumatoria del resultado de la expresión formada entre
+     * col1, operator y col2
      * @throws java.text.ParseException
      */
     public static Number sum(JTable t, int col1, char operator, int col2) throws Exception {
@@ -1658,10 +1753,14 @@ public class Ut {
             valorDe = Double.valueOf(valor);
 
             switch (operator) {
-                case '+' -> valorIz = valorIz + valorDe;
-                case '-' -> valorIz = valorIz - valorDe;
-                case '*' -> valorIz = valorIz * valorDe;
-                case '/' -> valorIz = valorIz / valorDe;
+                case '+' ->
+                    valorIz = valorIz + valorDe;
+                case '-' ->
+                    valorIz = valorIz - valorDe;
+                case '*' ->
+                    valorIz = valorIz * valorDe;
+                case '/' ->
+                    valorIz = valorIz / valorDe;
             } // end switch
 
             total += valorIz;
@@ -1673,10 +1772,10 @@ public class Ut {
     } // end sum
 
     /**
-     * Bosco Garita 06/08/2015 10:54 pm Totalizar los valores de una columna en una tabla
-     * filtrando los datos en base al valor que contenga una columna específica. La
-     * columna a sumar puede ser numérica o String de números. Si es un String no importa
-     * si viene formateada.
+     * Bosco Garita 06/08/2015 10:54 pm Totalizar los valores de una columna en
+     * una tabla filtrando los datos en base al valor que contenga una columna
+     * específica. La columna a sumar puede ser numérica o String de números. Si
+     * es un String no importa si viene formateada.
      *
      * @param t JTable Tabla
      * @param col int Número de columna a totalizar
@@ -1745,8 +1844,9 @@ public class Ut {
     } // end sum
 
     /**
-     * Devuelve varias características que son prácticas a la hora de desarrollar
-     * aplicaciones. Algunas de ellas son de uso exclusivo en Windows XP.
+     * Devuelve varias características que son prácticas a la hora de
+     * desarrollar aplicaciones. Algunas de ellas son de uso exclusivo en
+     * Windows XP.
      *
      * @param prop Característica (ver las constantes de Utilitarios)
      * @return String característica deseada
@@ -1754,15 +1854,24 @@ public class Ut {
     public static String getProperty(int prop) {
         String name = null;
         switch (prop) {
-            case USER_NAME -> name = System.getProperty("user.name");
-            case USER_DIR -> name = System.getProperty("user.dir");
-            case USER_HOME -> name = System.getProperty("user.home");
-            case TMPDIR -> name = System.getProperty("java.io.tmpdir");
-            case OS_NAME -> name = System.getProperty("os.name");
-            case OS_VERSION -> name = System.getProperty("os.version");
-            case FILE_SEPARATOR -> name = System.getProperty("file.separator");
-            case PATH_SEPARATOR -> name = System.getProperty("path.separator");
-            case LINE_SEPARATOR -> name = System.getProperty("line.separator");
+            case USER_NAME ->
+                name = System.getProperty("user.name");
+            case USER_DIR ->
+                name = System.getProperty("user.dir");
+            case USER_HOME ->
+                name = System.getProperty("user.home");
+            case TMPDIR ->
+                name = System.getProperty("java.io.tmpdir");
+            case OS_NAME ->
+                name = System.getProperty("os.name");
+            case OS_VERSION ->
+                name = System.getProperty("os.version");
+            case FILE_SEPARATOR ->
+                name = System.getProperty("file.separator");
+            case PATH_SEPARATOR ->
+                name = System.getProperty("path.separator");
+            case LINE_SEPARATOR ->
+                name = System.getProperty("line.separator");
             case WINDIR -> {
                 if (System.getProperty("os.name").equalsIgnoreCase("Windows XP")) {
                     name = System.getenv("windir");
@@ -1773,9 +1882,12 @@ public class Ut {
                     name = System.getenv("windir") + "\\system32";
                 } // end if
             }
-            case COMPUTERNAME -> name = System.getenv("COMPUTERNAME");
-            case PROCESSOR_IDENTIFIER -> name = System.getenv("PROCESSOR_IDENTIFIER");
-            case JAVA_VERSION -> name = System.getenv("java.version");
+            case COMPUTERNAME ->
+                name = System.getenv("COMPUTERNAME");
+            case PROCESSOR_IDENTIFIER ->
+                name = System.getenv("PROCESSOR_IDENTIFIER");
+            case JAVA_VERSION ->
+                name = System.getenv("java.version");
         } // end switch
         return name;
     } // end getProperty
@@ -1783,17 +1895,18 @@ public class Ut {
     /**
      * @throws java.sql.SQLException
      * @throws Exceptions.EmptyDataSourceException
-     * @Author: Bosco Garita 04/01/2011. Carga un comboBox con los datos de un ResultSet
+     * @Author: Bosco Garita 04/01/2011. Carga un comboBox con los datos de un
+     * ResultSet
      * @param combo comboBox que se llenará
      * @param rs ResultSet con los datos para llenar el combo
      * @param col número de columna (del ResultSet) que se usará en el combo
      * @param replace true=sustituye los datos del combo, false=los agrega
-     * @return true=el proceso fue exitoso, false=el proceso falló Nota 1: el ResultSet
-     * que reciba este método debe venir con el atributo de
-     * ResultSet.TYPE_SCROLL_SENSITIVE. Nota 2: Si el parámetro replace viene en true debe
-     * asegurarse de que el evento ActionPerformed o algún otro que esté asociado al
-     * comboBox no se dispare durante la ejecución de este método porque causará un error
-     * de Null Pointer.
+     * @return true=el proceso fue exitoso, false=el proceso falló Nota 1: el
+     * ResultSet que reciba este método debe venir con el atributo de
+     * ResultSet.TYPE_SCROLL_SENSITIVE. Nota 2: Si el parámetro replace viene en
+     * true debe asegurarse de que el evento ActionPerformed o algún otro que
+     * esté asociado al comboBox no se dispare durante la ejecución de este
+     * método porque causará un error de Null Pointer.
      */
     public static boolean fillComboBox(
             javax.swing.JComboBox combo,
@@ -1829,9 +1942,9 @@ public class Ut {
     } // end fillComboBox
 
     /**
-     * Autor: Bosco Garita 17/04/2011 Este método es similar a RECNO() en VisualFox,
-     * devuelve el número de registro actual dentro de un ResultSet. Si el RS no tiene
-     * datos o está nulo devuelve cero
+     * Autor: Bosco Garita 17/04/2011 Este método es similar a RECNO() en
+     * VisualFox, devuelve el número de registro actual dentro de un ResultSet.
+     * Si el RS no tiene datos o está nulo devuelve cero
      *
      * @param r ResultSet a verificar
      * @return int número de registro actual en el RS
@@ -1847,9 +1960,9 @@ public class Ut {
     } // end recNo
 
     /**
-     * Autor: Bosco Garita 12/08/2011 Este método es similar a RECCOUNT() en VisualFox,
-     * devuelve el número de registros dentro de un ResultSet. Si el RS no tiene datos o
-     * está nulo devuelve cero
+     * Autor: Bosco Garita 12/08/2011 Este método es similar a RECCOUNT() en
+     * VisualFox, devuelve el número de registros dentro de un ResultSet. Si el
+     * RS no tiene datos o está nulo devuelve cero
      *
      * @param r ResultSet a verificar
      * @return int número de registro actual en el RS
@@ -1874,8 +1987,8 @@ public class Ut {
     } // end recCount
 
     /**
-     * Este método necesita que venga la palabra AS como parte de la expresión si se trata
-     * de una expresión pero si solo es un campo no la requiere.
+     * Este método necesita que venga la palabra AS como parte de la expresión
+     * si se trata de una expresión pero si solo es un campo no la requiere.
      *
      * @author: Bosco Garita 07/05/2011
      * @param expresion
@@ -1921,8 +2034,9 @@ public class Ut {
     } // end getAlias
 
     /**
-     * Este método revisa algunas características sobre inyección de código. Está diseñado
-     * para trabajar sobre MySQL únicamente pero responde a la mayoría de SQL stándar.
+     * Este método revisa algunas características sobre inyección de código.
+     * Está diseñado para trabajar sobre MySQL únicamente pero responde a la
+     * mayoría de SQL stándar.
      *
      * @param sqlSent
      * @return true=Hay inyección, false=no hay
@@ -1982,7 +2096,8 @@ public class Ut {
     } // end isSQLInjection
 
     /**
-     * @author: Bosco Garita 07/02/2012 Este método convierte una fecha y hora a String.
+     * @author: Bosco Garita 07/02/2012 Este método convierte una fecha y hora a
+     * String.
      * @param dateTime long (fecha y hora)
      * @return String con el formato ""dd/mm/aaaa hh:mm:ss a""
      */
@@ -1994,8 +2109,8 @@ public class Ut {
     } // end ttoc
 
     /**
-     * @author: Bosco Garita 03/01/2015 Este método convierte una fecha y hora a fecha sin
-     * hora.
+     * @author: Bosco Garita 03/01/2015 Este método convierte una fecha y hora a
+     * fecha sin hora.
      * @param dateTime long (fecha y hora)
      * @return Date fecha
      */
@@ -2028,7 +2143,8 @@ public class Ut {
     } // end ttoc
 
     /**
-     * Autor: Bosco Garita 29/04/2012 Este método limpia todas las celdas de una JTable.
+     * Autor: Bosco Garita 29/04/2012 Este método limpia todas las celdas de una
+     * JTable.
      *
      * @param tabla
      */
@@ -2044,8 +2160,8 @@ public class Ut {
     } // end clearJTable
 
     /**
-     * @author Bosco Garita 28/10/2012 Cuenta la cantidad filas que tienen una columna de
-     * tipo check seleccionada.
+     * @author Bosco Garita 28/10/2012 Cuenta la cantidad filas que tienen una
+     * columna de tipo check seleccionada.
      * @param table JTable a revisar
      * @param column número de columna a revisar
      * @return checked (Cantidad de registros con check)
@@ -2062,9 +2178,9 @@ public class Ut {
     } // end countChecked
 
     /**
-     * @since 14/02/2013 Bosco Garita Equivalente a AT() de Visual FoxPro. Devuelve un
-     * entero indicando la posición en donde se encuentra la subcadena a buscar. En caso
-     * de no existir devuelve -1
+     * @since 14/02/2013 Bosco Garita Equivalente a AT() de Visual FoxPro.
+     * Devuelve un entero indicando la posición en donde se encuentra la
+     * subcadena a buscar. En caso de no existir devuelve -1
      * @param cadena String en donde se realizará la búsqueda
      * @param subcadena String que se buscará
      * @return int primera posición encontrada
@@ -2074,9 +2190,10 @@ public class Ut {
     } // end getPosicion
 
     /**
-     * @since 14/02/2013 Bosco Garita Equivalente a AT() de Visual FoxPro. Devuelve un
-     * entero indicando la posición en donde se encuentra la subcadena a buscar
-     * considerando el número de ocurrencia. En caso de no existir devuelve -1
+     * @since 14/02/2013 Bosco Garita Equivalente a AT() de Visual FoxPro.
+     * Devuelve un entero indicando la posición en donde se encuentra la
+     * subcadena a buscar considerando el número de ocurrencia. En caso de no
+     * existir devuelve -1
      * @param cadena String en donde se realizará la búsqueda
      * @param subcadena String que se buscará
      * @param ocurrencia int número de ocurrencia
@@ -2103,9 +2220,10 @@ public class Ut {
     } // end getPosicion
 
     /**
-     * @since 14/02/2013 Bosco Garita Equivalente a ATC() de Visual FoxPro. Devuelve un
-     * entero indicando la posición en donde se encuentra la subcadena a buscar. En caso
-     * de no existir devuelve -1. No hace distinción de mayúscula y minúscula.
+     * @since 14/02/2013 Bosco Garita Equivalente a ATC() de Visual FoxPro.
+     * Devuelve un entero indicando la posición en donde se encuentra la
+     * subcadena a buscar. En caso de no existir devuelve -1. No hace distinción
+     * de mayúscula y minúscula.
      * @param cadena String en donde se realizará la búsqueda
      * @param subcadena String que se buscará
      * @return int primera posición encontrada
@@ -2115,9 +2233,10 @@ public class Ut {
     } // end getPosicionIgnoreCare
 
     /**
-     * @since 14/02/2013 Bosco Garita Equivalente a ATC() de Visual FoxPro. Devuelve un
-     * entero indicando la posición en donde se encuentra la subcadena a buscar. En caso
-     * de no existir devuelve -1. No hace distinción de mayúscula y minúscula.
+     * @since 14/02/2013 Bosco Garita Equivalente a ATC() de Visual FoxPro.
+     * Devuelve un entero indicando la posición en donde se encuentra la
+     * subcadena a buscar. En caso de no existir devuelve -1. No hace distinción
+     * de mayúscula y minúscula.
      * @param cadena String en donde se realizará la búsqueda
      * @param subcadena String que se buscará
      * @param ocurrencia int número de ocurrencia
@@ -2150,8 +2269,8 @@ public class Ut {
     } // end AT
 
     /**
-     * @author Bosco Garita 18/02/2013 Quita todos los caracteres de una cadena dejando
-     * solo los dígitos.
+     * @author Bosco Garita 18/02/2013 Quita todos los caracteres de una cadena
+     * dejando solo los dígitos.
      * @param valor String que será examinada
      * @return Number valor numérico de la cadena recibida.
      */
@@ -2172,11 +2291,11 @@ public class Ut {
     } // end quitarCaracteres
 
     /**
-     * @author Bosco Garita 20/07/2019 Quita todos los caracteres de una cadena dejando
-     * sólo los dígitos y el primer punto.
+     * @author Bosco Garita 20/07/2019 Quita todos los caracteres de una cadena
+     * dejando sólo los dígitos y el primer punto.
      * @param valor String que será examinada
-     * @param separadorDecimal String indica el separador decimal que pueda traer la
-     * cadena.
+     * @param separadorDecimal String indica el separador decimal que pueda
+     * traer la cadena.
      * @return Number valor numérico de la cadena recibida.
      */
     public static Number quitarCaracteres(String valor, String separadorDecimal) {
@@ -2202,8 +2321,8 @@ public class Ut {
     } // end quitarCaracteres
 
     /**
-     * Este método verifica expresiones lógicas que siempre den positivo pero se limita al
-     * operador igual que (=) precedido de un OR.
+     * Este método verifica expresiones lógicas que siempre den positivo pero se
+     * limita al operador igual que (=) precedido de un OR.
      *
      * @author Bosco Garita Azofeifa 13/07/2013
      * @param query String cadena de texto a analizar. Debe venir en mayúscula.
@@ -2274,8 +2393,8 @@ public class Ut {
     } // end injectionByOperator
 
     /**
-     * Devuelve una cadena de texto formateada tipo título (cada palabra inicia con
-     * mayúscula y el resto queda en minúscula)
+     * Devuelve una cadena de texto formateada tipo título (cada palabra inicia
+     * con mayúscula y el resto queda en minúscula)
      *
      * @param s String texto a formatear
      * @return texto String texto formateado
@@ -2296,9 +2415,10 @@ public class Ut {
     } // end tipoTitulo
 
     /**
-     * Este método redefine el tamaño de una JTable. Si el número de columnas/filas que
-     * reciba por parámetro es negativo entonces le restará ese número al que ya tiene la
-     * tabla pero si es positivo entonces se lo incrementa.
+     * Este método redefine el tamaño de una JTable. Si el número de
+     * columnas/filas que reciba por parámetro es negativo entonces le restará
+     * ese número al que ya tiene la tabla pero si es positivo entonces se lo
+     * incrementa.
      *
      * @author Bosco Garita Azofeifa 17/11/2013
      * @param t JTable tabla cuyo tamaño será cambiado
@@ -2316,9 +2436,9 @@ public class Ut {
     } // end resizeTable
 
     /**
-     * Este método devuelve el precio basándose en el porcentaje de utilidad y el costo.
-     * El porcentaje de utilidad lo toma del segundo parámetro que recibe y el costo del
-     * primero.
+     * Este método devuelve el precio basándose en el porcentaje de utilidad y
+     * el costo. El porcentaje de utilidad lo toma del segundo parámetro que
+     * recibe y el costo del primero.
      *
      * @author Bosco Garita Azofeifa
      * @param costo double costo base para el cálculo
@@ -2351,8 +2471,9 @@ public class Ut {
      *
      * @param rs ResultSet RS que contiene el campo a analizar
      * @param col int Columna a analizar
-     * @return String S=String, N=Numeric (cualquier número de punto flotante), B=Boolean,
-     * L=Long (cualquier número entero), O=Object, D=Date, T=Timestamp, U=Undefined o NULL
+     * @return String S=String, N=Numeric (cualquier número de punto flotante),
+     * B=Boolean, L=Long (cualquier número entero), O=Object, D=Date,
+     * T=Timestamp, U=Undefined o NULL
      * @throws SQLException
      */
     public static String getFieldType(ResultSet rs, int col) throws SQLException {
@@ -2362,32 +2483,50 @@ public class Ut {
             return "U";
         } // end if
         fieldType = switch (rs.getMetaData().getColumnType(col)) {
-            case java.sql.Types.BIGINT -> "L";
-            case java.sql.Types.BIT -> "L";
-            case java.sql.Types.INTEGER -> "L";
-            case java.sql.Types.TINYINT -> "L";
-            case java.sql.Types.NUMERIC -> "N";
-            case java.sql.Types.DECIMAL -> "N";
-            case java.sql.Types.FLOAT -> "N";
-            case java.sql.Types.DOUBLE -> "N";
-            case java.sql.Types.BOOLEAN -> "B";
-            case java.sql.Types.CHAR -> "S";
-            case java.sql.Types.VARCHAR -> "S";
-            case java.sql.Types.LONGNVARCHAR -> "S";
-            case java.sql.Types.NCHAR -> "S";
-            case java.sql.Types.NVARCHAR -> "S";
-            case java.sql.Types.NULL -> "U";
-            case java.sql.Types.DATE -> "D";
-            case java.sql.Types.TIMESTAMP -> "T";
-            default -> "O";
+            case java.sql.Types.BIGINT ->
+                "L";
+            case java.sql.Types.BIT ->
+                "L";
+            case java.sql.Types.INTEGER ->
+                "L";
+            case java.sql.Types.TINYINT ->
+                "L";
+            case java.sql.Types.NUMERIC ->
+                "N";
+            case java.sql.Types.DECIMAL ->
+                "N";
+            case java.sql.Types.FLOAT ->
+                "N";
+            case java.sql.Types.DOUBLE ->
+                "N";
+            case java.sql.Types.BOOLEAN ->
+                "B";
+            case java.sql.Types.CHAR ->
+                "S";
+            case java.sql.Types.VARCHAR ->
+                "S";
+            case java.sql.Types.LONGNVARCHAR ->
+                "S";
+            case java.sql.Types.NCHAR ->
+                "S";
+            case java.sql.Types.NVARCHAR ->
+                "S";
+            case java.sql.Types.NULL ->
+                "U";
+            case java.sql.Types.DATE ->
+                "D";
+            case java.sql.Types.TIMESTAMP ->
+                "T";
+            default ->
+                "O";
         }; // end switch
         return fieldType;
     } // end
 
     /**
-     * @author Bosco Garita Azofeifa 07/06/2014 Este método ordena una JTable por
-     * cualquier columna. Nota: el valor de la primera columna no puede venir nulo. Si así
-     * fuera toda la fila sería omitida.
+     * @author Bosco Garita Azofeifa 07/06/2014 Este método ordena una JTable
+     * por cualquier columna. Nota: el valor de la primera columna no puede
+     * venir nulo. Si así fuera toda la fila sería omitida.
      * @param t JTable tabla a ordenar
      * @param colN int número de columna por la que será ordenada la tabla
      */
@@ -2447,16 +2586,17 @@ public class Ut {
     } // end sortTable
 
     /**
-     * Este método totaliza los datos de una JTable basándose en agrupaciones de la misma
-     * forma que lo hace SQL (Select col1, col2, sum(coln) from tabla group by col1,
-     * col2). IMPORTANTE: no se agrupan columnas con valor null.
+     * Este método totaliza los datos de una JTable basándose en agrupaciones de
+     * la misma forma que lo hace SQL (Select col1, col2, sum(coln) from tabla
+     * group by col1, col2). IMPORTANTE: no se agrupan columnas con valor null.
      *
      * @author Bosco Garita Azofeifa 11/11/2014
      * @param t JTable que contiene los datos
-     * @param groupBy int[] arreglo que contiene los números de columna que se usarán en
-     * el group by
+     * @param groupBy int[] arreglo que contiene los números de columna que se
+     * usarán en el group by
      * @param sumColumn int número de columna que será totalizada
-     * @return String[][] arreglo (matriz) con el resultado de la suma por agrupación.
+     * @return String[][] arreglo (matriz) con el resultado de la suma por
+     * agrupación.
      */
     @SuppressWarnings("unchecked")
     public static String[][] totalTable(JTable t, int[] groupBy, int sumColumn) {
@@ -2552,13 +2692,20 @@ public class Ut {
         cal.setTime(date);
         String day = "";
         switch (cal.get(Calendar.DAY_OF_WEEK)) {
-            case 1 -> day = "Domingo";
-            case 2 -> day = "Lunes";
-            case 3 -> day = "Martes";
-            case 4 -> day = "Miércoles";
-            case 5 -> day = "Jueves";
-            case 6 -> day = "Viernes";
-            case 7 -> day = "Sábado";
+            case 1 ->
+                day = "Domingo";
+            case 2 ->
+                day = "Lunes";
+            case 3 ->
+                day = "Martes";
+            case 4 ->
+                day = "Miércoles";
+            case 5 ->
+                day = "Jueves";
+            case 6 ->
+                day = "Viernes";
+            case 7 ->
+                day = "Sábado";
         } // end switch
 
         return day;
@@ -2566,12 +2713,13 @@ public class Ut {
 
     /**
      * Determina la parte numérica de un String que normalmente se obtiene de la
-     * concatenación del código numérico, un guión o cualquier otro separador más el texto
-     * o descripción. Ejemplo: "25-Caja auxiliar" el código númerico es el 25.
+     * concatenación del código numérico, un guión o cualquier otro separador
+     * más el texto o descripción. Ejemplo: "25-Caja auxiliar" el código
+     * númerico es el 25.
      *
      * @param text String contiene el texto a analizar
-     * @param separator String puede ser cualquier caracter pero por lo general se usa un
-     * guión para separar la parte numérica del resto del texto.
+     * @param separator String puede ser cualquier caracter pero por lo general
+     * se usa un guión para separar la parte numérica del resto del texto.
      * @return int código numérico
      */
     public static int getNumericCode(String text, String separator) {
@@ -2631,10 +2779,10 @@ public class Ut {
     } // end jPing
 
     /**
-     * Buscar un valor en una tabla y traer como resultado el valor que se encuentre en la
-     * columna n. Si la tabla está vacía el resultado será #E/T (Empty Table) Si la
-     * columna no existe el resultado será #C/M (Column Missing) Si el valor no existe el
-     * resultado será #N/E (Not Exists)
+     * Buscar un valor en una tabla y traer como resultado el valor que se
+     * encuentre en la columna n. Si la tabla está vacía el resultado será #E/T
+     * (Empty Table) Si la columna no existe el resultado será #C/M (Column
+     * Missing) Si el valor no existe el resultado será #N/E (Not Exists)
      *
      * @author Bosco Garita Azofeifa 07/02/2016
      * @param text String texto a buscar
@@ -2684,14 +2832,14 @@ public class Ut {
     } // end vLookup
 
     /**
-     * Busca un sub grupo de filas que contengan el texto a buscar y los coloca en otra
-     * tabla para que se muestren al usuario.
+     * Busca un sub grupo de filas que contengan el texto a buscar y los coloca
+     * en otra tabla para que se muestren al usuario.
      *
      * @author Bosco Garita, Abril 2016
      * @param origen JTable tabla que tiene el conjunto completo de los datos
      * @param destino JTable tabla que tendrá el sub conjunto encontrado
-     * @param text String texto a buscar. Si viene un asterisco (*) se mostrarán todos los
-     * valores.
+     * @param text String texto a buscar. Si viene un asterisco (*) se mostrarán
+     * todos los valores.
      * @return true el texto exite, false no existe
      */
     public static boolean seekLike(JTable origen, JTable destino, String text) {
@@ -2740,8 +2888,8 @@ public class Ut {
     } // end seekLike
 
     /**
-     * Este método clona solo los datos por lo que se requiere que ambas tablas tenga la
-     * misma estructura y tamaño.
+     * Este método clona solo los datos por lo que se requiere que ambas tablas
+     * tenga la misma estructura y tamaño.
      *
      * @author Bosco Garita, Abril 2016
      * @param origen JTable
@@ -2756,8 +2904,8 @@ public class Ut {
     } // end clonarTabla
 
     /**
-     * @author Bosco Garita, 03/09/2016 Devuel el nombre del archivo sin extensión. NO
-     * verifica si el archivo existe o no.
+     * @author Bosco Garita, 03/09/2016 Devuel el nombre del archivo sin
+     * extensión. NO verifica si el archivo existe o no.
      * @param f File archivo a analizar
      * @return String nombre del archivo
      */
@@ -2771,8 +2919,8 @@ public class Ut {
     } // end justName
 
     /**
-     * @author Bosco Garita, 03/09/2016 Devuel la extensión del archivo. NO verifica si el
-     * archivo existe o no.
+     * @author Bosco Garita, 03/09/2016 Devuel la extensión del archivo. NO
+     * verifica si el archivo existe o no.
      * @param f File archivo a analizar
      * @return String extensión del archivo
      */
@@ -2787,8 +2935,8 @@ public class Ut {
     } // end justExt
 
     /**
-     * @author: Bosco Garita 15/07/2018 Este método convierte una fecha y hora a String y
-     * retorna solamente la hora.
+     * @author: Bosco Garita 15/07/2018 Este método convierte una fecha y hora a
+     * String y retorna solamente la hora.
      * @return String con el formato "hh:mm:ss AM/PM"
      */
     public static String getCurrentTime() {
@@ -2822,9 +2970,10 @@ public class Ut {
      *
      * @author Bosco Garita, 10/12/2014
      * @param fileName String nombre calificado del archivo a convertir
-     * @param formatHTML boolean true=Convertir caracteres especiales a código HTML,
-     * false=No hacerlo
-     * @return String cadena con el contenido del archivo formateado con caracteres HTML.
+     * @param formatHTML boolean true=Convertir caracteres especiales a código
+     * HTML, false=No hacerlo
+     * @return String cadena con el contenido del archivo formateado con
+     * caracteres HTML.
      * @throws java.lang.Exception
      */
     public static String fileToString(String fileName, boolean formatHTML) throws Exception {
@@ -2871,18 +3020,20 @@ public class Ut {
         }
         return sb.toString();
     } // end fileToString
+
     /**
      * Guardar un string en un archivo de texto.
+     *
      * @param text String texto a guardar.
      * @param path String archivo con la ruta completa.
      * @param append boolean true=Agregar, false=No agregar
      * @throws java.io.IOException
      */
-    public static void stringToFile(String text, String path, boolean append) throws IOException{
+    public static void stringToFile(String text, String path, boolean append) throws IOException {
         Archivos archivo = new Archivos();
         archivo.stringToFile(text, path, append);
     } // end stringToFile
-    
+
     public static String[] fileToArray(Path path) {
         String[] fileContent = null;
         try {
@@ -2897,9 +3048,9 @@ public class Ut {
                     Stream<String> stream = Files.lines(path, Charset.forName("ISO-8859-1"));
                     content = stream.toArray();
                 } // end try-catch interno
-                
+
                 fileContent = new String[content.length];
-                for (int i = 0; i < fileContent.length; i++){
+                for (int i = 0; i < fileContent.length; i++) {
                     fileContent[i] = content[i].toString();
                 } // end for
             } // end if-else
@@ -2910,7 +3061,8 @@ public class Ut {
     } // end fileToArray
 
     /**
-     * Prepara un string de texto con los códigos adecuados para los símbolos más comunes.
+     * Prepara un string de texto con los códigos adecuados para los símbolos
+     * más comunes.
      *
      * @author Bosco Garita Azofeifa 08/02/2018
      * @param texto String texto que contiene los caracteres a convertir.
@@ -2967,7 +3119,8 @@ public class Ut {
     } // esVocal
 
     /**
-     * Este método analiza el caracter recibido y dice si está en mayúscula o no.
+     * Este método analiza el caracter recibido y dice si está en mayúscula o
+     * no.
      *
      * @author Bosco Garita 29/04/2015
      * @param c char Letra a revisar
@@ -3047,11 +3200,11 @@ public class Ut {
     } // end getMailConfig
 
     /**
-     * Retorna un nombre único ideal para nombres de archivo (type=1), nombres de
-     * transacción, nombres de sesión web (type=2).
+     * Retorna un nombre único ideal para nombres de archivo (type=1), nombres
+     * de transacción, nombres de sesión web (type=2).
      *
-     * @param type int 1=Nombre único ideal para archivos, 2=Nombre único universal (128
-     * bits)
+     * @param type int 1=Nombre único ideal para archivos, 2=Nombre único
+     * universal (128 bits)
      * @return String unique name
      */
     public static String getUniqueName(int type) {
@@ -3067,26 +3220,27 @@ public class Ut {
     } // end uniqueName
 
     /**
-     * Obtener parte de una fecha (día, mes o año) todo depende del parámetro recibido.
+     * Obtener parte de una fecha (día, mes o año) todo depende del parámetro
+     * recibido.
      *
      * @param date Date fecha de la cual se extraerá el valor solicitado.
      * @param part int parte de la fecha que se extraerá.
-     * @return int parte de la fecha solicitado (los meses empiezan en cero). Si el
-     * parámetro part no coincide con los valores de Ut.java para día, mes o año el valor
-     * de retorno será un cero.
+     * @return int parte de la fecha solicitado (los meses empiezan en cero). Si
+     * el parámetro part no coincide con los valores de Ut.java para día, mes o
+     * año el valor de retorno será un cero.
      */
     public static int getDatePart(Date date, int part) {
         int datePart = 0;
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         switch (part) {
-            case Ut.DAY ->  {
+            case Ut.DAY -> {
                 datePart = cal.get(Calendar.DAY_OF_MONTH);
             }
-            case Ut.MONTH ->  {
+            case Ut.MONTH -> {
                 datePart = cal.get(Calendar.MONTH);
             }
-            case Ut.YEAR ->  {
+            case Ut.YEAR -> {
                 datePart = cal.get(Calendar.YEAR);
             }
         } // end switch
@@ -3096,8 +3250,9 @@ public class Ut {
 
     /**
      * Poner todas las celdas de una fila con valor null.
+     *
      * @param table JTable que contiene la fila a poner en null
-     * @param row  int Numero de fila que se pondrá en null
+     * @param row int Numero de fila que se pondrá en null
      * @author Bosco Garita
      */
     public static void setRowNull(JTable table, int row) {
@@ -3113,7 +3268,7 @@ public class Ut {
     public static boolean isModuleAvailable(String module, Path path) {
         String modules = "";
         try {
-            if (!path.toFile().exists()){
+            if (!path.toFile().exists()) {
                 Archivos a = new Archivos();
                 a.stringToFile(Encripcion.encrypt("Enter module info:"), path.toFile().getAbsolutePath(), false);
             }
@@ -3123,35 +3278,37 @@ public class Ut {
         }
         return modules.contains(module);
     } // end isModuleAvailable
-    
+
     /**
-     * Este método se usa para agregar las comillas simples a los parámetros
-     * en una función SQL; no funciona con parámetros anidados, tampoco se debe
-     * usar para sentencias where directas; todo se formatea como texto porque 
-     * los motores de base de datos hacen la transformación de los datos numéricos 
-     * en forma automática.
-     * @param sqlFunction String texto sql a formatear. Ej.: call miFunc(param1,pamar2)
-     * @return 
+     * Este método se usa para agregar las comillas simples a los parámetros en
+     * una función SQL; no funciona con parámetros anidados, tampoco se debe
+     * usar para sentencias where directas; todo se formatea como texto porque
+     * los motores de base de datos hacen la transformación de los datos
+     * numéricos en forma automática.
+     *
+     * @param sqlFunction String texto sql a formatear. Ej.: call
+     * miFunc(param1,pamar2)
+     * @return
      */
     public static String sqlFormat(String sqlFunction) {
         String sqlStringFormatted;
         int firstParenthesis = sqlFunction.indexOf("(");
         int lastParentesis = sqlFunction.lastIndexOf(")");
-        String functionPart1 = sqlFunction.substring(0, firstParenthesis+1);
+        String functionPart1 = sqlFunction.substring(0, firstParenthesis + 1);
         String functionPart2 = sqlFunction.substring(lastParentesis);
-        String parameters[] = sqlFunction.substring(firstParenthesis+1, lastParentesis).split(",");
-        
+        String parameters[] = sqlFunction.substring(firstParenthesis + 1, lastParentesis).split(",");
+
         for (int i = 0; i < parameters.length; i++) {
             functionPart1 += "'" + parameters[i] + "'";
-            if (i < (parameters.length-1)) {
+            if (i < (parameters.length - 1)) {
                 functionPart1 += ", ";
             }
         }
-        
+
         // En caso de que el desarrollador haya enviado por error una comilla simple.
         functionPart1 = functionPart1.replace("''", "'");
         sqlStringFormatted = functionPart1 + functionPart2;
-        
+
         return sqlStringFormatted;
     }
 } // end utlitarios

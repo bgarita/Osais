@@ -13,6 +13,7 @@ import accesoDatos.CMD;
 import accesoDatos.UtilBD;
 import static accesoDatos.UtilBD.getCajaForThisUser;
 import interfase.consultas.ImpresionReciboCaja;
+import interfase.menus.Menu;
 import interfase.mantenimiento.TarjetaDC;
 import interfase.otros.Buscador;
 import interfase.otros.Navegador;
@@ -1032,7 +1033,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
 
             // Guardar el encabezado del recibo.
             String sqlInsert
-                    = "Call InsertarPagoCXP(?,?,?,?,?,?,?,?)";
+                    = "Call InsertarPagoCXP(?,?,?,?,?,?,?,?,?)";
 
             if (errorMessage.equals("")) {
                 PreparedStatement pscxppage = conn.prepareStatement(sqlInsert);
@@ -1045,6 +1046,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
                 //pscxppage.setString(7, banco);
                 pscxppage.setString(7, codigoTC);
                 pscxppage.setFloat(8, tipoca);
+                pscxppage.setString(9, Menu.APP_USERNAME);
 
                 // Se usa executeQuery() porque el SP devuelve un Select.
                 ResultSet rs = CMD.select(pscxppage);
@@ -1133,7 +1135,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
             if (errorMessage.equals("")) {
                 String sqlUpdateProveedor
                         = "Update inproved "
-                        + "   set prosald = prosald - (? * ?) "
+                        + "set prosald = prosald - (? * ?) "
                         + "Where procode = ?";
                 PreparedStatement psUpdateProveedor
                         = conn.prepareStatement(sqlUpdateProveedor);
@@ -2037,8 +2039,8 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
     private String getOldestProcode() throws SQLException {
         String sqlSent
                 = "Select procode from cxpfacturas "
-                + "Where factura = (Select MIN(factura) from cxpfacturas"
-                + "		  Where saldo > 0 and tipo = 'FAC')   "
+                + "Where factura = (Select MIN(factura) from cxpfacturas "
+                + "Where saldo > 0 and tipo = 'FAC') "
                 + "and saldo > 0";
         String procode = "";
         PreparedStatement ps;
@@ -2203,9 +2205,9 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
 
         // Actualizo la referencia de caja en la tabla pagos
         sqlSent
-                = "Update cxppage set  "
-                + "   reccaja = ?    "
-                + "Where recnume = ? ";
+                = "Update cxppage set "
+                + "reccaja = ? "
+                + "Where recnume = ?";
 
         try {
             ps = conn.prepareStatement(sqlSent);

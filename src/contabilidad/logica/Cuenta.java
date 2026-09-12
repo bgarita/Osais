@@ -226,13 +226,23 @@ public class Cuenta {
      */
     public void setNivel(short nivel) {
         this.nivel = nivel;
+        if (this.nom_cta == null) {
+            this.nom_cta = "";
+            return;
+        } // end if
+
+        String nomCuenta = this.nom_cta.trim();
+        if (nomCuenta.isEmpty()) {
+            return;
+        } // end if
+
         this.nom_cta
-                = this.nom_cta.substring(0, 1).toUpperCase()
-                + this.nom_cta.substring(1).toLowerCase();
-        if (nivel == 0 && !this.nom_cta.trim().isEmpty()) {
+                = nomCuenta.substring(0, 1).toUpperCase()
+                + nomCuenta.substring(1).toLowerCase();
+        if (nivel == 0) {
             this.nom_cta = this.nom_cta.toUpperCase();
         } // end if
-    } // end if
+    } // end setNivel
 
     public short getTipo_cta() {
         return tipo_cta;

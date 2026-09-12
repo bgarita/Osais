@@ -48,6 +48,7 @@ import contabilidad.logica.CoasientoD;
 import contabilidad.logica.CoasientoE;
 import contabilidad.logica.Cotipasient;
 import contabilidad.logica.Cuenta;
+import interfase.menus.Menu;
 import logica.utilitarios.FormatoTabla;
 import logica.utilitarios.Ut;
 
@@ -1982,7 +1983,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 throw new Exception(
                         """
                         La tarifa IVA no coincide con el impuesto establecido en el CABYS.
-                        Vaya al cat\u00e1logo de productos y aseg\u00farese que ambos valores sean iguales.""");
+                        Vaya al catálogo de productos y asegúrese que ambos valores sean iguales.""");
             } // end if
         } catch (Exception ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
@@ -5100,8 +5101,8 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 + " wrk_fadetall.facpdesc "
                 + "from wrk_fadetall      "
                 + "Inner join inarticu on wrk_fadetall.artcode = inarticu.artcode "
-                + "Inner join bodexis  on wrk_fadetall.artcode = bodexis.artcode  "
-                + "      and wrk_fadetall.bodega  = bodexis.bodega "
+                + "Inner join bodexis on wrk_fadetall.artcode = bodexis.artcode "
+                + "and wrk_fadetall.bodega = bodexis.bodega "
                 + "Where id = " + id + " and faccant > 0 "
                 + "Order by inarticu.artdesc";
 
@@ -5308,7 +5309,8 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                     + terr + ","
                     + facfech + ","
                     + facplazo + ","
-                    + precio + ")";
+                    + precio + ","
+                    + "'" + Menu.APP_USERNAME + "'" + ")";
 
             ps = conn.prepareStatement(sqlInsert);
 
@@ -6397,7 +6399,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
         // Actualizo la referencia de caja en la tabla faencabe
         sqlSent
                 = "Update faencabe set "
-                + "   reccaja = ?    "
+                + "reccaja = ? "
                 + "Where facnume = ? "
                 + "and facnd = 0";
 

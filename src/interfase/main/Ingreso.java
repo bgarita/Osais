@@ -12,6 +12,7 @@ import accesoDatos.DatabaseConnectionDriver;
 import accesoDatos.UtilBD;
 import interfase.mantenimiento.Tipocambio;
 import interfase.menus.Menu;
+import interfase.seguridad.PasswordUtil;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -247,9 +248,9 @@ public class Ingreso extends javax.swing.JFrame {
                     || Menu.APP_USERNAME.equalsIgnoreCase("BGARITA")
                     || Menu.APP_USERNAME.equalsIgnoreCase("BGARITAA")) {
                 mensaje = """
-                          El sistema se encuentra en una condici\u00f3n especial en
+                          El sistema se encuentra en una condición especial en
                           este momento.
-                          Porfavor, \u00faselo para tareas administrativas \u00fanicamente.""";
+                          Porfavor, úselo para tareas administrativas únicamente.""";
                 continuar = true;
             } // end if
             JOptionPane.showMessageDialog(
@@ -268,15 +269,12 @@ public class Ingreso extends javax.swing.JFrame {
 
         setVisible(false);
         
-        String flatPassword = Arrays.toString(this.txtPassword.getPassword());
-        flatPassword = flatPassword.replace(",", "");
-        flatPassword = flatPassword.replace("[", "");
-        flatPassword = flatPassword.replace("]", "");
-        flatPassword = flatPassword.replace(" ", "");
+        String flatPassword = PasswordUtil.getFlatPassword(this.txtPassword);
                 
         boolean passOk = acciones.isAppUserPassOk(flatPassword);
         if (!passOk) {
             JOptionPane.showMessageDialog(null, acciones.getErrorMsg(), "Error", JOptionPane.ERROR_MESSAGE);
+            setVisible(true);
             return;
         }
         

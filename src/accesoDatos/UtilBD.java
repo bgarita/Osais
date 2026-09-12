@@ -61,7 +61,7 @@ public class UtilBD {
     public static final int LAST = 5;
     public static final int AFTER_LAST = 6;
     public static final int ABSOLUTE = 7;
-    
+
     /**
      * Este método verifica si el sistema está configurado para redondear
      * precios o no. (08/07/2009 - Bosco Garita)
@@ -287,12 +287,13 @@ public class UtilBD {
 
         return cerrada;
     } // end bodegaCerrada
-    
+
     /**
      * Obtener el último periodo cerrado (no es el de contabilidad).
+     *
      * @param c
      * @return Map month=n, year=nnnn
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static Map<String, Integer> getLastClosedPeriod(Connection c) throws SQLException {
         Map<String, Integer> periodo = new HashMap<>();
@@ -304,7 +305,7 @@ public class UtilBD {
                 periodo.put("year", rs.getInt("anocerrado"));
             } // end if
         }
-     
+
         return periodo;
     }
 
@@ -368,6 +369,7 @@ public class UtilBD {
      * el uso debe estar dirigido a tablas maestras. En caso de que se obtenga
      * más de un valor para el compo solicitado se mostrará un error y retornará
      * blancos.
+     *
      * @Updated 22/04/2025
      *
      * @param c Connection Conexión con la base de datos
@@ -567,7 +569,7 @@ public class UtilBD {
         boolean existe = false;
 
         String userLogged = Menu.APP_USERNAME;
-        
+
         // Estos usuarios no tienen restricción.
         if (userLogged.equals("bgarita")
                 || userLogged.equals("bgaritaa")
@@ -930,8 +932,10 @@ public class UtilBD {
         boolean success = false;
         try {
             switch (type) {
-                case START_TRANSACTION -> c.setAutoCommit(false);
-                case COMMIT -> c.setAutoCommit(true);
+                case START_TRANSACTION ->
+                    c.setAutoCommit(false);
+                case COMMIT ->
+                    c.setAutoCommit(true);
                 default -> {
                     c.rollback();
                     c.setAutoCommit(true);
@@ -1440,7 +1444,8 @@ public class UtilBD {
     /**
      * Obtener el saldo de una cuenta a una fecha específica.
      *
-     * @param cta Cuenta objeto con la cuenta y DATABASE_CONNECTION_DRIVER ya cargados.
+     * @param cta Cuenta objeto con la cuenta y DATABASE_CONNECTION_DRIVER ya
+     * cargados.
      * @param fecha Date fecha a la que se desea obtener el saldo
      * @return double saldo de la cuenta
      * @throws java.lang.Exception
@@ -2308,7 +2313,7 @@ public class UtilBD {
         result[1] = "";     // Mensaje de error
 
         int posCuenta; // Se usa para optener la posición de la cuenta
-        String cuentaMayor, 
+        String cuentaMayor,
                 key;
 
         // Creo todas las cuentas de mayor en un solo string. (36 posiciones)
@@ -2318,6 +2323,20 @@ public class UtilBD {
         PreparedStatement ps;
         ResultSet rs;
         String mayor, sub_cta, sub_sub, colect;
+
+        // Antes de hacer la consulta a la base de datos verifico que, si la cuenta es de movimientos
+        // los niveles anteriores no sean "000" ya que eso sería un error.
+        // 100 001 001 001
+        // 012 345 678 9xy
+        sub_cta = cuenta.substring(3, 6);
+        sub_sub = cuenta.substring(6, 9);
+        colect  = cuenta.substring(9);
+        if (Integer.parseInt(colect) > 0 && (sub_sub.equals("000") || sub_cta.equals("000"))) {
+            result[0] = "S";
+            result[1] = "La estructura de la cuenta [" + cuenta + "] es incorrecta.\n"
+                    + "Los niveles 2 y 3 nunca pueden ser '000' para una cuenta de movimientos.";
+            return result;
+        }
 
         String sqlSent
                 = "Select ano_anter From cocatalogo "
@@ -2661,11 +2680,13 @@ public class UtilBD {
         boolean sonIguales;
 
         String sqlSent
-                = "SELECT "
-                + "	("
-                + "		(SELECT round(impuesto*100,2) FROM cabys WHERE codigoCabys = ?) -  "
-                + "		(SELECT porcentaje FROM tarifa_iva WHERE codigoTarifa = ?) "
-                + "	) AS diferencia";
+                = "SELECT ( "
+                + "          (SELECT if(impuesto < 1, round(impuesto*100, 2), impuesto)"
+                + "           FROM cabys"
+                + "           WHERE codigoCabys = ?) -"
+                + "          (SELECT porcentaje"
+                + "           FROM tarifa_iva"
+                + "           WHERE codigoTarifa = ?)) AS diferencia";
         try (PreparedStatement ps = conn.prepareStatement(sqlSent,
                 ResultSet.CONCUR_READ_ONLY, ResultSet.TYPE_SCROLL_SENSITIVE)) {
             ps.setString(1, codigoCabys);

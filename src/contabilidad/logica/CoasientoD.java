@@ -6,6 +6,7 @@ package contabilidad.logica;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,6 +18,8 @@ import java.sql.SQLException;
  * 01/05/2021 incluyo el método setTabla para poder usar la clase en la migración de datos.
  */
 public class CoasientoD {
+    private static final BigDecimal CERO = BigDecimal.ZERO;
+
     private int idReg;              // Llave primaria. No debe tener set, solo get.
     private String no_comprob;      // Número de asiento
     private short tipo_comp;        // Tipo de asiento
@@ -24,9 +27,9 @@ public class CoasientoD {
     private byte db_cr;             // Indica si es débido o crédito (0,1)
     // Nota: el registro de asientos indica 1 para débitos y 0 para créditos
     // Esto es diferente al de fox.  Voy a estar validando 18/08/2022 (1=db, 0=cr)
-    private double monto;           // Monto del movimiento (cada línea)
-    private double totalDebito;     // Totaliza los débitos
-    private double totalCredito;    // Totaliza los créditos
+    private BigDecimal monto;       // Monto del movimiento (cada línea)
+    private BigDecimal totalDebito; // Totaliza los débitos
+    private BigDecimal totalCredito;// Totaliza los créditos
     private Cuenta cuenta;          // Clase que maneja todo lo relacionado con la cuenta
     
     private CoasientoD[] coasientod;// Carga todas las líneas de un asiento
@@ -42,16 +45,18 @@ public class CoasientoD {
     // <editor-fold defaultstate="collapsed" desc="Constructores"> 
     public CoasientoD(Connection conn) {
         this.conn = conn;
-        this.totalCredito = 0.00;
-        this.totalDebito = 0.00;
+        this.monto = CERO;
+        this.totalCredito = CERO;
+        this.totalDebito = CERO;
     }
     
     public CoasientoD(String no_comprob, short tipo_comp, Connection conn) {
         this.no_comprob = no_comprob;
         this.tipo_comp = tipo_comp;
         this.conn = conn;
-        this.totalCredito = 0.00;
-        this.totalDebito = 0.00;
+        this.monto = CERO;
+        this.totalCredito = CERO;
+        this.totalDebito = CERO;
     }
     // </editor-fold>
     
@@ -78,11 +83,11 @@ public class CoasientoD {
     }
 
     public double getTotalDebito() {
-        return totalDebito;
+        return totalDebito.doubleValue();
     }
 
     public double getTotalCredito() {
-        return totalCredito;
+        return totalCredito.doubleValue();
     }
 
     public void setTabla(String tabla) {
@@ -147,11 +152,11 @@ public class CoasientoD {
     }
 
     public double getMonto() {
-        return monto;
+        return monto.doubleValue();
     }
 
     public void setMonto(double monto) {
-        this.monto = monto;
+        this.monto = BigDecimal.valueOf(monto);
     }
 
     public Cuenta getCuenta() {
@@ -168,6 +173,10 @@ public class CoasientoD {
 
     public String getMensaje_error() {
         return mensaje_error;
+    }
+
+    private BigDecimal montoOrZero(BigDecimal valor) {
+        return valor == null ? CERO : valor;
     }
     // </editor-fold>
     
@@ -206,7 +215,7 @@ public class CoasientoD {
                 ps.setShort(2, tipo_comp);
                 ps.setString(3, descrip);
                 ps.setByte(4, db_cr);
-                ps.setDouble(5, monto);
+                ps.setBigDecimal(5, monto);
                 ps.setString(6, cuenta.getMayor());
                 ps.setString(7, cuenta.getSub_cta());
                 ps.setString(8, cuenta.getSub_sub());
@@ -260,7 +269,7 @@ public class CoasientoD {
                 ps.setShort(2, tipo_comp);
                 ps.setString(3, descrip);
                 ps.setByte(4, db_cr);
-                ps.setDouble(5, monto);
+                ps.setBigDecimal(5, monto);
                 ps.setString(6, cuenta.getMayor());
                 ps.setString(7, cuenta.getSub_cta());
                 ps.setString(8, cuenta.getSub_sub());
@@ -298,7 +307,7 @@ public class CoasientoD {
         this.error = false;
         this.mensaje_error = "";
         
-        if (this.monto > 0){
+        if (this.monto.compareTo(CERO) > 0){
             this.error = true;
             this.mensaje_error = 
                     """
@@ -332,7 +341,10 @@ public class CoasientoD {
                 "Select concat(mayor,sub_cta,sub_sub,colect) as cuenta," +
                 tabla + ".* from " + tabla + " " +
                 "Where no_comprob = ? and tipo_comp = ?";
-        
+
+        this.totalDebito = CERO;
+        this.totalCredito = CERO;
+
         try {
             try (PreparedStatement ps = conn.prepareStatement(sqlSent, 
                                         ResultSet.TYPE_SCROLL_SENSITIVE,
@@ -349,18 +361,22 @@ public class CoasientoD {
                 coasientod = new CoasientoD[rs.getRow()];
                 for (int i = 0; i < coasientod.length; i++){
                     rs.absolute(i+1);
+                    BigDecimal montoRs = montoOrZero(rs.getBigDecimal("monto"));
                     coasientod[i] = new CoasientoD(conn);
                     coasientod[i].cuenta = new Cuenta(conn);
                     coasientod[i].cuenta.setCuentaString(rs.getString("cuenta"));
                     coasientod[i].db_cr = rs.getByte("db_cr");
                     coasientod[i].descrip = rs.getString("descrip");
                     coasientod[i].idReg = rs.getInt("idReg");
-                    coasientod[i].monto = rs.getDouble("monto");
+                    coasientod[i].monto = montoRs;
                     coasientod[i].no_comprob = rs.getString("no_comprob");
                     coasientod[i].tipo_comp = rs.getShort("tipo_comp");
                     // Sumar los montos
-                    this.totalDebito  += rs.getByte("db_cr") == 1 ? rs.getDouble("monto"): 0.00;
-                    this.totalCredito += rs.getByte("db_cr") == 0 ? rs.getDouble("monto"): 0.00;
+                    if (rs.getByte("db_cr") == 1) {
+                        this.totalDebito = this.totalDebito.add(montoRs);
+                    } else {
+                        this.totalCredito = this.totalCredito.add(montoRs);
+                    }
                 } // end for
             } // end try with resources
         } catch (SQLException ex) {

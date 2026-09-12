@@ -1,6 +1,7 @@
 package logica.utilitarios;
 
 import Mail.Bitacora;
+import interfase.menus.Menu;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -180,6 +181,7 @@ public class ProcessProgressBar extends Thread {
                     case 15 -> setLblInfoText("Recalculando inventarios a hoy..");
                 } // end switch
                 cs.setInt(5, i);
+                cs.setString(6, Menu.APP_USERNAME);
                 // Ejecutar el SP. Se usa execute porque puede que devuelva un ResultSet o varios.
                 cs.execute();
                 

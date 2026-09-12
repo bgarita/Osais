@@ -26,6 +26,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import logica.utilitarios.FormatoTabla;
 import Exceptions.SQLInjectionException;
+import interfase.menus.Menu;
 import logica.utilitarios.Ut;
 
 /**
@@ -1101,16 +1102,17 @@ public class RegistroInterbodega extends javax.swing.JFrame {
                     Ut.quitarFormato(txtTipoca.getText()));
 
             updateSql
-                    = "CALL InsertarEncabezadoDocInv("
-                    + "?," + // Documento
-                    "?," + // Tipo de movimiento (E o S)
-                    "?," + // Orden de compra
-                    "?," + // Descripción del movimiento
-                    "?," + // Fecha del movimiento
-                    "?," + // Tipo de cambio
-                    "?," + // Tipo de Movdocu (detalle arriba)
-                    "?," + // Persona que solicita
-                    "?)";  // Código de moneda
+                = "CALL InsertarEncabezadoDocInv("
+                + "?," + // Documento
+                "?," + // Tipo de movimiento (E o S)
+                "?," + // Orden de compra
+                "?," + // Descripción del movimiento
+                "?," + // Fecha del movimiento
+                "?," + // Tipo de cambio
+                "?," + // Tipo de Movdocu
+                "?," + // Persona que solicita
+                "?," + // Código de moneda
+                "?)";  // Usuario
 
             String Artcode, Bodega, Procode, Centroc, Fechaven, temp;
             double Movcant, Movcoun, Artcosfob, Artprec, Facimve, Facdesc;
@@ -1129,6 +1131,7 @@ public class RegistroInterbodega extends javax.swing.JFrame {
             psEncabezadoE.setInt(7, Movtido);
             psEncabezadoE.setString(8, Movsolic);
             psEncabezadoE.setString(9, codigoTC);
+            psEncabezadoE.setString(10, Menu.APP_USERNAME);
 
             regAfec = psEncabezadoE.executeUpdate();
 
@@ -1258,6 +1261,7 @@ public class RegistroInterbodega extends javax.swing.JFrame {
                 psEncabezadoS.setInt(7, Movtido);
                 psEncabezadoS.setString(8, Movsolic);
                 psEncabezadoS.setString(9, codigoTC);
+                psEncabezadoS.setString(10, Menu.APP_USERNAME);
 
                 // Registro el encabezado de la salida
                 regAfec = psEncabezadoS.executeUpdate();

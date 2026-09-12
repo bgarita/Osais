@@ -282,7 +282,7 @@ public class CierreMensual extends JFrame {
         this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
         int mes = cboMes.getSelectedIndex() + 1;
         int ano = Integer.parseInt(this.txtAno.getText());
-        String sqlCall = "Call EjecutarCierreMensual(?,?,?,?,?)";
+        String sqlCall = "Call EjecutarCierreMensual(?,?,?,?,?,?)";
 
         try {
             CallableStatement cs = conn.prepareCall(sqlCall);

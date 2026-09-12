@@ -1,6 +1,7 @@
 package interfase.seguridad;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
+import java.util.Arrays;
 
 public final class PasswordUtil {
 
@@ -46,6 +47,15 @@ public final class PasswordUtil {
                 .verify(password.toCharArray(), hash);
 
         return result.verified;
+    }
+    
+    public static String getFlatPassword(javax.swing.JPasswordField passwordField) {
+        String flatPassword = Arrays.toString(passwordField.getPassword());
+        flatPassword = flatPassword.replace(",", "");
+        flatPassword = flatPassword.replace("[", "");
+        flatPassword = flatPassword.replace("]", "");
+        flatPassword = flatPassword.replace(" ", "");
+        return flatPassword;
     }
 
 }

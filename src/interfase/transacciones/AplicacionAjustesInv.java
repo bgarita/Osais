@@ -10,11 +10,13 @@ import Exceptions.EmptyDataSourceException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
+import interfase.menus.Menu;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -307,8 +309,8 @@ public class AplicacionAjustesInv extends JFrame {
 
         // Inicia proceso de aplicación del ajuste
         String movdocu = txtMovdocu.getText().trim();
-        String facfech = Ut.fechaSQL(DatMovfech.getDate());
-        
+        Timestamp movfech = new Timestamp(DatMovfech.getDate().getTime());
+
         String sqlSent;
         ResultSet rsAJ;
         PreparedStatement ps;
@@ -324,12 +326,8 @@ public class AplicacionAjustesInv extends JFrame {
         
         // Este SP siempre devuelve un Result Set
         // con dos campos Error, MensajeErr.
-        sqlSent =
-                "Call AplicarAjusteInventario(" +
-                "'" + bodega  + "'" + "," +
-                "'" + movdocu + "'" + "," +
-                      facfech + ")";
-        
+        sqlSent = "Call AplicarAjusteInventario(?,?,?,?)";
+
 
         // Inicia la transacción
         // 1=Start transaction, 2=Commit, 3=RollBack
@@ -337,6 +335,10 @@ public class AplicacionAjustesInv extends JFrame {
         try{
             ps = conn.prepareStatement(sqlSent, 
                     ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            ps.setString(1, bodega);
+            ps.setString(2, movdocu);
+            ps.setTimestamp(3, movfech);
+            ps.setString(4, Menu.APP_USERNAME);
             hayTransaccion = CMD.transaction(conn, CMD.START_TRANSACTION);
             rsAJ = CMD.select(ps);
             

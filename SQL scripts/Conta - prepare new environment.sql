@@ -1,3 +1,6 @@
+
+-- Cambios conta cloud solamente
+
 --- 24/06/2026
 USE contabosco;
 
@@ -14,3 +17,5 @@ SELECT * FROM usuario;
 DELETE FROM cajero WHERE USER <> 'bgarita';
 
 --- 
+ALTER TABLE `usuario`
+	ADD COLUMN `clave` VARCHAR(255) NOT NULL DEFAULT ' ' AFTER `user`;

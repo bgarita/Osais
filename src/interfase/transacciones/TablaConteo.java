@@ -10,6 +10,7 @@ import Exceptions.EmptyDataSourceException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
+import interfase.menus.Menu;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -274,8 +275,8 @@ public class TablaConteo extends JFrame {
         //                      porDesc      + "," +
         //                      regenerar    + "," + // Sobreescribir la tabla (1=Si,0=No)
         //                      valoracion   + ")";
-        String sqlSent = "Call PrepararConteo(?,?,?,?,?,?)";
-        
+        String sqlSent = "Call PrepararConteo(?,?,?,?,?,?,?)";
+
                 
         PreparedStatement ps;
         boolean hayTran = false;
@@ -298,6 +299,7 @@ public class TablaConteo extends JFrame {
             ps.setInt(4, valoracion);
             ps.setString(5, localiz1);
             ps.setString(6, localiz2);
+            ps.setString(7, Menu.APP_USERNAME);
             // Fin Bosco agregado 01/06/2013.
             
             // El SP devuelve un rs con el número de filas afectadas.

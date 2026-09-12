@@ -10,6 +10,7 @@ import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
 import interfase.otros.Navegador;
+import interfase.menus.Menu;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -289,7 +290,7 @@ public class AnulacionDocInv extends java.awt.Dialog {
                     "and (estado is null or estado = '') and movCerrado = 'N'";
 
         
-            ps = conn.prepareStatement(sqlSelect, 
+            ps = conn.prepareStatement(sqlSelect,
                     ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ps.setString(1, documento);
             ps.setString(2, movtimo);
@@ -362,7 +363,7 @@ public class AnulacionDocInv extends java.awt.Dialog {
         hayTransaccion = false;
 
         // Invocar el SP que realizará la acción.
-        sqlUpdate = "Call AnularDocInv(?,?,?,?)";
+        sqlUpdate = "Call AnularDocInv(?,?,?,?,?)";
         try {
             // Al llegar aquí ya el RS está ubicado en el registro
             // correspondiente al tipo de documento a anular.
@@ -377,6 +378,7 @@ public class AnulacionDocInv extends java.awt.Dialog {
             ps.setString(2, movtimo);
             ps.setInt(3, movtidox);
             ps.setString(4, "INV");
+            ps.setString(5, Menu.APP_USERNAME);
 
             if (rs != null){
                 rs.close();

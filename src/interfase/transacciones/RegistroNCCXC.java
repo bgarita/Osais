@@ -11,6 +11,7 @@ import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
 import static accesoDatos.UtilBD.getCajaForThisUser;
+import interfase.menus.Menu;
 import interfase.otros.Buscador;
 import interfase.otros.Navegador;
 import interfase.otros.OrdendeCompra;
@@ -1303,8 +1304,9 @@ public class RegistroNCCXC extends javax.swing.JFrame {
             codigoTarifa = this.lblCodigoTarifa.getText().trim();
             if (this.usarCabys && !UtilBD.validarCabys(conn, codigoTarifa, codigoCabys)) {
                 throw new Exception(
-                        "La tarifa IVA no coincide con el impuesto establecido en el CABYS.\n"
-                        + "Vaya al catálogo de productos y asegúrese que ambos valores sean iguales.");
+                        """
+                        La tarifa IVA no coincide con el impuesto establecido en el CABYS.
+                        Vaya al catálogo de productos y asegúrese que ambos valores sean iguales.""");
             } // end if
         } catch (Exception ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
@@ -3105,8 +3107,8 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                 + "wrk_fadetall.facpdesc  "
                 + "from wrk_fadetall          "
                 + "Inner join inarticu on wrk_fadetall.artcode = inarticu.artcode "
-                + "Inner join bodexis  on wrk_fadetall.artcode = bodexis.artcode  "
-                + "      and wrk_fadetall.bodega  = bodexis.bodega "
+                + "Inner join bodexis on wrk_fadetall.artcode = bodexis.artcode "
+                + "and wrk_fadetall.bodega = bodexis.bodega "
                 + "Where id = " + id + " "
                 + "Order by inarticu.artdesc";
 
@@ -3292,7 +3294,8 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                     + terr + ","
                     + facfech + ","
                     + facplazo + ","
-                    + precio + ")";
+                    + precio + ","
+                    + "'" + Menu.APP_USERNAME + "'" + ")";
 
             // Agrego un registro en el encabezado temporal y obtengo el ID
             stat.executeUpdate(sqlInsert);
@@ -4231,7 +4234,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
         // Actualizo la referencia de caja en la tabla faencabe
         sqlSent
                 = "Update faencabe set "
-                + "   reccaja = ?    "
+                + "reccaja = ? "
                 + "Where facnume = ? "
                 + "and facnd > 0";
 

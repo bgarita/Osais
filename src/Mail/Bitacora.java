@@ -30,22 +30,22 @@ public class Bitacora {
 
     public Bitacora() {
         this.error_message = "";
-        
+
         // Cuando el sistema recién inicia el menú aún no ha sido instanciado.  Por esa
         // razón es necesario que la bitácora del sistema se cree en el home y no en el
         // companyHome. (solo se da cuando ocurre un error antes del menú).
         try {
-            this.logFile = new File(Menu.DIR.getSystemLog() + Ut.getProperty(Ut.FILE_SEPARATOR)+ "log.txt");
-            
+            this.logFile = new File(Menu.DIR.getSystemLog() + Ut.getProperty(Ut.FILE_SEPARATOR) + "log.txt");
+
             // Si la carpeta no existe se crea.
             File folder = new File(Menu.DIR.getSystemLog());
             if (!folder.exists()) {
                 folder.mkdir();
             } // end if
-        } catch (Exception ex){
+        } catch (Exception ex) {
             this.logFile = new File("log.txt");
         }
-        
+
         setLogFile();
         this.logLevel = Bitacora.ERROR; // Nivel default
 
@@ -139,29 +139,32 @@ public class Bitacora {
 
         String nivel;
         switch (logLevel) {
-            case Bitacora.INFO ->  {
+            case Bitacora.INFO -> {
                 nivel = "INFO";
             }
-            case Bitacora.WARN ->  {
+            case Bitacora.WARN -> {
                 nivel = "WARN";
             }
-            case Bitacora.ERROR ->  {
+            case Bitacora.ERROR -> {
                 nivel = "ERROR";
             }
-            default -> nivel = "INFO";
+            default ->
+                nivel = "INFO";
         } // end switch
 
         Date date = new Date();
-        text = "[" + date + "][" + nivel + "]" + "[Usuario: " + Menu.DB_USERNAME + "][" + text + "]\n";
+        text = "[" + date + "][" + nivel + "]" + "[Usuario: " + Menu.APP_USERNAME + "][" + text + "]\n";
         FileOutputStream log;
         byte[] contentInBytes;
         contentInBytes = text.getBytes();
-        
-        // También se envía la salida a la consola cuando es un WAR o un ERROR
+
+        // También se envían todos los mensajes a la consola.
         if (logLevel == WARN || logLevel == ERROR) {
             System.err.println(text);
+        } else {
+            System.out.println(text);
         }
-
+        
         try {
             log = new FileOutputStream(this.logFile, true);
             log.write(contentInBytes);
@@ -220,7 +223,7 @@ public class Bitacora {
         } // end if
 
         // Iterar en reversa para renombrar los archivos que quedan
-        for (int i = maxFiles; i-- > 1; ) {
+        for (int i = maxFiles; i-- > 1;) {
             file = this.logFile.getAbsolutePath() + i;
             File newFile = new File(this.logFile.getAbsolutePath() + (i + 1));
             f = new File(file);
@@ -228,7 +231,7 @@ public class Bitacora {
                 f.renameTo(newFile);
             } // end if
         } // end for
-        
+
         // Renombrar también el archivo actual
         file = this.logFile.getAbsolutePath();
         f = new File(file);
