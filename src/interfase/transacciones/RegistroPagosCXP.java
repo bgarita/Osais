@@ -6,8 +6,8 @@
  */
 package interfase.transacciones;
 
-import Exceptions.CurrencyExchangeException;
-import Exceptions.EmptyDataSourceException;
+import Exceptions.OsaisException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -37,7 +37,7 @@ import contabilidad.logica.CoasientoE;
 import contabilidad.logica.Cotipasient;
 import contabilidad.logica.Cuenta;
 import logica.utilitarios.FormatoTabla;
-import Exceptions.SQLInjectionException;
+import Exceptions.OsaisException;
 import logica.utilitarios.Ut;
 
 /**
@@ -194,7 +194,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
         try {
             // Cargar el combo de bancos
             UtilBD.loadBancos(conn, cboBanco);
-        } catch (EmptyDataSourceException ex) {
+        } catch (OsaisException ex) {
             Logger.getLogger(RegistroPagosCXP.class.getName()).log(Level.SEVERE, null, ex);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
             JOptionPane.showMessageDialog(null,
@@ -1713,7 +1713,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
                         return;
                     } // end if
                     new RegistroPagosCXP(c, (procode == null ? "" : procode)).setVisible(true);
-                } catch (CurrencyExchangeException | SQLException | NumberFormatException | HeadlessException ex) {
+                } catch (OsaisException | SQLException | NumberFormatException | HeadlessException ex) {
                     JOptionPane.showMessageDialog(null,
                             ex.getMessage(),
                             "Error",
@@ -1863,7 +1863,7 @@ public class RegistroPagosCXP extends javax.swing.JFrame {
             while (rsMoneda.next()) {
                 cboMoneda.addItem(rsMoneda.getString("descrip"));
             } // end while
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",

@@ -6,7 +6,7 @@
 
 package contabilidad.view;
 
-import Exceptions.EmptyDataSourceException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -26,7 +26,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import contabilidad.logica.Cotipasient;
 import contabilidad.logica.Cuenta;
-import Exceptions.SQLInjectionException;
 import logica.utilitarios.Ut;
 
 /**
@@ -46,11 +45,11 @@ public class Configconta extends JFrame {
     /** Creates new form Bodegas
      * @param c
      * @throws java.sql.SQLException
-     * @throws Exceptions.SQLInjectionException
-     * @throws Exceptions.EmptyDataSourceException */
+     * @throws Exceptions.OsaisException
+     * @throws Exceptions.OsaisException */
     @SuppressWarnings({"unchecked"})
     public Configconta(Connection c) 
-            throws SQLException, SQLInjectionException, EmptyDataSourceException {
+            throws SQLException, OsaisException {
         initComponents();
                 
         conn = c;
@@ -1160,7 +1159,7 @@ public class Configconta extends JFrame {
                     "Registro guardado satisfactoriamente.",
                     "Mensaje",
                     JOptionPane.INFORMATION_MESSAGE);
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             try {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                 b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
@@ -1410,7 +1409,7 @@ public class Configconta extends JFrame {
         try {
             Configconta run = new Configconta(c);
             run.setVisible(true);
-        } catch (SQLException | SQLInjectionException | EmptyDataSourceException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),
@@ -1584,7 +1583,7 @@ public class Configconta extends JFrame {
         field.setForeground(c);
     } // end setNombreCuenta
 
-    private void guardarRegistro() throws SQLException, SQLInjectionException {
+    private void guardarRegistro() throws SQLException, OsaisException {
         // Obtengo los tipos de asiento para compras y ventas
         short tipo_comp_V  = getTipoCompFromCombo(this.cboDescripAsientoV);
         short tipo_comp_C  = getTipoCompFromCombo(this.cboDescripAsientoC);

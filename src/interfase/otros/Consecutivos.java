@@ -720,7 +720,7 @@ public class Consecutivos extends javax.swing.JFrame {
             } // end if
             CMD.transaction(conn, CMD.COMMIT);
             hayTran = false;
-        } catch(SQLException | NumberFormatException | NullPointerException ex){
+        } catch (SQLException | NumberFormatException | NullPointerException ex){
             huboError = true;
             JOptionPane.showMessageDialog(
                     null,
@@ -939,7 +939,7 @@ public class Consecutivos extends javax.swing.JFrame {
             
             // Bosco agregado 28/09/2013
             ps.close();
-        } catch(SQLException ex){
+        } catch (SQLException ex){
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),

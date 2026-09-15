@@ -1,6 +1,6 @@
 package testing;
 
-import Exceptions.EmptyDataSourceException;
+import Exceptions.OsaisException;
 import accesoDatos.CMD;
 import logica.backup.BackupResoreJob;
 import interfase.otros.BackupPassw;
@@ -599,7 +599,7 @@ public class StartJob extends javax.swing.JFrame {
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-        } catch (EmptyDataSourceException ex) {
+        } catch (OsaisException ex) {
             Logger.getLogger(StartJob.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),

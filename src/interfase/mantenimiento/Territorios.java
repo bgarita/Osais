@@ -18,7 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import Exceptions.SQLInjectionException;
+import Exceptions.OsaisException;
 
 /**
  *
@@ -37,7 +37,7 @@ public class Territorios extends JFrame {
     private final Bitacora b = new Bitacora();
 
     /** Creates new form */
-    public Territorios(Connection c) throws SQLException, SQLInjectionException {
+    public Territorios(Connection c) throws SQLException, OsaisException {
         initComponents();
         cmdBuscar.setVisible(false);
         tabla = "territor";
@@ -337,7 +337,7 @@ public class Territorios extends JFrame {
             txtTerritor.setText(Integer.toString(rs.getInt("terr")));
             txtDescrip.setText(rs.getString("descrip"));
         } // try
-        catch (NumberFormatException | SQLException | SQLInjectionException ex) {
+        catch (NumberFormatException | SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error", 
@@ -358,7 +358,7 @@ public class Territorios extends JFrame {
             
             txtTerritor.setText(Integer.toString(rs.getInt("terr")));
             txtDescrip.setText(rs.getString("descrip"));
-        } catch (NumberFormatException | SQLException | SQLInjectionException ex) {
+        } catch (NumberFormatException | SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error", 
@@ -378,7 +378,7 @@ public class Territorios extends JFrame {
             
             txtTerritor.setText(Integer.toString(rs.getInt("terr")));
             txtDescrip.setText(rs.getString("descrip"));
-        } catch (NumberFormatException | SQLException | SQLInjectionException ex) {
+        } catch (NumberFormatException | SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error", 
@@ -400,7 +400,7 @@ public class Territorios extends JFrame {
             
             txtTerritor.setText(Integer.toString(rs.getInt("terr")));
             txtDescrip.setText(rs.getString("descrip"));
-        } catch (NumberFormatException | SQLException | SQLInjectionException ex) {
+        } catch (NumberFormatException | SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error", 
@@ -489,7 +489,7 @@ public class Territorios extends JFrame {
         try {
             Territorios run = new Territorios(c);
             run.setVisible(true);
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
              JOptionPane.showMessageDialog(null, 
                      ex.getMessage(),
                     "Error", 
@@ -564,7 +564,7 @@ public class Territorios extends JFrame {
         try {
             // end if
             rs = hacer.cargarRegistro(5, llave, tabla, "terr");
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error", 
@@ -597,7 +597,7 @@ public class Territorios extends JFrame {
             } else {
                 txtDescrip.setText(rs.getString("descrip"));
             } // end if
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
              JOptionPane.showMessageDialog(null, 
                      ex.getMessage(),
                     "Error", 

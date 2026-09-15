@@ -217,7 +217,7 @@ public class PedObserva extends java.awt.Dialog {
             if (rs != null && rs.first()){
                 txaObserv.setText(rs.getString(1));
             } // end if
-        }catch(SQLException ex){
+        }catch (SQLException ex){
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),

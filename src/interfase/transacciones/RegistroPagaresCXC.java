@@ -5,7 +5,7 @@
  */
 package interfase.transacciones;
 
-import Exceptions.CurrencyExchangeException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.UtilBD;
 import interfase.otros.Buscador;
@@ -19,7 +19,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import Exceptions.SQLInjectionException;
 import logica.utilitarios.Ut;
 
 /**
@@ -49,12 +48,12 @@ public class RegistroPagaresCXC extends JFrame {
      * Creates new form Bodegas
      * @param c
      * @throws java.sql.SQLException
-     * @throws Exceptions.SQLInjectionException
+     * @throws Exceptions.OsaisException
      */
-    public RegistroPagaresCXC(Connection c) throws SQLException, SQLInjectionException {
+    public RegistroPagaresCXC(Connection c) throws SQLException, OsaisException {
         try{
             initComponents();
-        } catch(Exception ex){
+        } catch (Exception ex){
             JOptionPane.showMessageDialog(null, ex);
         }
         
@@ -562,7 +561,7 @@ public class RegistroPagaresCXC extends JFrame {
             } // end if
 
             refrescarDatos();
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -583,7 +582,7 @@ public class RegistroPagaresCXC extends JFrame {
             } // end if
 
             refrescarDatos();
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -604,7 +603,7 @@ public class RegistroPagaresCXC extends JFrame {
             } // end if
 
             refrescarDatos();
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -625,7 +624,7 @@ public class RegistroPagaresCXC extends JFrame {
             } // end if
 
             refrescarDatos();
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -646,7 +645,7 @@ public class RegistroPagaresCXC extends JFrame {
             } // end if
 
             refrescarDatos();
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -844,7 +843,7 @@ public class RegistroPagaresCXC extends JFrame {
 
             RegistroPagaresCXC run = new RegistroPagaresCXC(c);
             run.setVisible(true);
-        } catch (CurrencyExchangeException | SQLException | NumberFormatException | SQLInjectionException ex) {
+        } catch (OsaisException | SQLException | NumberFormatException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -1142,7 +1141,7 @@ public class RegistroPagaresCXC extends JFrame {
             while (rsMoneda.next()) {
                 cboMoneda.addItem(rsMoneda.getString("descrip"));
             } // end while
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),

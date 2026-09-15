@@ -6,7 +6,7 @@
 
 package interfase.transacciones;
 
-import Exceptions.EmptyDataSourceException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -41,8 +41,8 @@ public class AplicacionAjustesInv extends JFrame {
     /** Creates new form
      * @param c
      * @throws java.sql.SQLException
-     * @throws Exceptions.EmptyDataSourceException */
-    public AplicacionAjustesInv(Connection c) throws SQLException, EmptyDataSourceException {
+     * @throws Exceptions.OsaisException */
+    public AplicacionAjustesInv(Connection c) throws SQLException, OsaisException {
         initComponents();
 
         conn = c;
@@ -477,7 +477,7 @@ public class AplicacionAjustesInv extends JFrame {
         try {
             AplicacionAjustesInv run = new AplicacionAjustesInv(c);
             run.setVisible(true);
-        } catch (SQLException | EmptyDataSourceException ex) {
+        } catch (SQLException | OsaisException ex) {
              JOptionPane.showMessageDialog(null,
                      ex.getMessage(),
                     "Error", 

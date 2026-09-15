@@ -18,7 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import logica.IMantenimiento;
-import Exceptions.SQLInjectionException;
+import Exceptions.OsaisException;
 
 /**
  *
@@ -38,9 +38,9 @@ public class CentroCosto extends javax.swing.JFrame implements IMantenimiento {
     /** Creates new form CentroCosto
      * @param c
      * @throws java.sql.SQLException
-     * @throws Exceptions.SQLInjectionException */
+     * @throws Exceptions.OsaisException */
     @SuppressWarnings({"unchecked", "unchecked", "unchecked"})
-    public CentroCosto(Connection c) throws SQLException, SQLInjectionException {
+    public CentroCosto(Connection c) throws SQLException, OsaisException {
         initComponents();
         cmdBuscar.setVisible(false);
         tabla = "centrocosto";
@@ -339,7 +339,7 @@ public class CentroCosto extends javax.swing.JFrame implements IMantenimiento {
                 txtCentroco.setText(this.rs3.getString("Centroco"));
                 txtCentrocoActionPerformed(evt);
             } // end if
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getCause(),
                     "Error",
@@ -374,7 +374,7 @@ public class CentroCosto extends javax.swing.JFrame implements IMantenimiento {
             sincronizarCombo();
 
         } // try
-        catch (SQLException | SQLInjectionException ex) {
+        catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getCause(),
                     "Error",
@@ -396,7 +396,7 @@ public class CentroCosto extends javax.swing.JFrame implements IMantenimiento {
             txtDescrip.setText(rs.getString("descrip"));
             sincronizarCombo();
 
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getCause(),
                     "Error",
@@ -417,7 +417,7 @@ public class CentroCosto extends javax.swing.JFrame implements IMantenimiento {
             txtDescrip.setText(rs.getString("descrip"));
             sincronizarCombo();
 
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getCause(),
                     "Error",
@@ -440,7 +440,7 @@ public class CentroCosto extends javax.swing.JFrame implements IMantenimiento {
             txtDescrip.setText(rs.getString("descrip"));
             sincronizarCombo();
 
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getCause(),
                     "Error",
@@ -509,7 +509,7 @@ public class CentroCosto extends javax.swing.JFrame implements IMantenimiento {
             public void run() {
                 try {
                     new CentroCosto(c).setVisible(true);
-                } catch (SQLException | SQLInjectionException ex) {
+                } catch (SQLException | OsaisException ex) {
                     JOptionPane.showMessageDialog(null,
                             ex.getMessage(),
                             "Error",
@@ -627,7 +627,7 @@ public class CentroCosto extends javax.swing.JFrame implements IMantenimiento {
 
         try {
             rs = nav.cargarRegistro(5, llave, tabla, "centroco");
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getCause(),
                     "Error",
@@ -665,7 +665,7 @@ public class CentroCosto extends javax.swing.JFrame implements IMantenimiento {
                 cboSeleccionar.addItem(rsN.getString(2));
             } // end while
             sincronizarCombo();
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getCause(),
                     "Error",
@@ -700,7 +700,7 @@ public class CentroCosto extends javax.swing.JFrame implements IMantenimiento {
                 txtDescrip.setText(rs.getString("descrip"));
                 sincronizarCombo();
             } // end if
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getCause(),
                     "Error",

@@ -1,7 +1,7 @@
 
 package interfase.mantenimiento;
 
-import Exceptions.EmptyDataSourceException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -57,7 +57,7 @@ public class MinimoAutomatico extends javax.swing.JFrame {
             
             Ut.fillComboBox(cboBodega, rs, 1, false);
             ps.close();
-        } catch (SQLException | EmptyDataSourceException ex) {
+        } catch (SQLException | OsaisException ex) {
             Logger.getLogger(MinimoAutomatico.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),

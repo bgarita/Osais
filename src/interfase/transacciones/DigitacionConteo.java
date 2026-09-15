@@ -6,7 +6,7 @@
 
 package interfase.transacciones;
 
-import Exceptions.EmptyDataSourceException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.UtilBD;
 import interfase.menus.Menu;
@@ -45,8 +45,8 @@ public class DigitacionConteo extends JFrame {
     /** Creates new form
      * @param c
      * @throws java.sql.SQLException
-     * @throws Exceptions.EmptyDataSourceException */
-    public DigitacionConteo(Connection c) throws SQLException, EmptyDataSourceException {
+     * @throws Exceptions.OsaisException */
+    public DigitacionConteo(Connection c) throws SQLException, OsaisException {
         initComponents();
         // Defino el escuchador con una clase anónima para controlar la
         // salida de esta pantalla.  Esto funciona simpre que se haya
@@ -423,7 +423,7 @@ public class DigitacionConteo extends JFrame {
                     "descrip")){
                 bodega = rs.getString("bodega");
             } // end if
-        }catch(SQLException ex){
+        }catch (SQLException ex){
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),
@@ -830,7 +830,7 @@ public class DigitacionConteo extends JFrame {
         try {
             DigitacionConteo run = new DigitacionConteo(c);
             run.setVisible(true);
-        } catch (SQLException | EmptyDataSourceException ex) {
+        } catch (SQLException | OsaisException ex) {
              JOptionPane.showMessageDialog(null,
                      ex.getMessage(),
                     "Error", 

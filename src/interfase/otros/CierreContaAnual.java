@@ -1,6 +1,6 @@
 package interfase.otros;
 
-import Exceptions.NotUniqueValueException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -290,7 +290,7 @@ public class CierreContaAnual extends javax.swing.JFrame {
             ctaCierre = rs.getString(1).trim();
             ps.close();
             // Fin validaciones
-        } catch (NotUniqueValueException | HeadlessException | NumberFormatException | SQLException ex) {
+        } catch (OsaisException | HeadlessException | NumberFormatException | SQLException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",

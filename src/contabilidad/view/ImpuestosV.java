@@ -22,7 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import contabilidad.logica.Cuenta;
-import Exceptions.SQLInjectionException;
+import Exceptions.OsaisException;
 import logica.utilitarios.Ut;
 
 /**
@@ -47,9 +47,9 @@ public class ImpuestosV extends JFrame {
      *
      * @param c
      * @throws java.sql.SQLException
-     * @throws Exceptions.SQLInjectionException
+     * @throws Exceptions.OsaisException
      */
-    public ImpuestosV(Connection c) throws SQLException, SQLInjectionException {
+    public ImpuestosV(Connection c) throws SQLException, OsaisException {
         initComponents();
         btnBuscar.setVisible(false);
         conn = c;
@@ -684,7 +684,7 @@ public class ImpuestosV extends JFrame {
         try {
             ImpuestosV run = new ImpuestosV(c);
             run.setVisible(true);
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),

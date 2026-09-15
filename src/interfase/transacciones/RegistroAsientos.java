@@ -1,5 +1,6 @@
 package interfase.transacciones;
 
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -17,7 +18,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
@@ -39,8 +42,8 @@ import logica.utilitarios.Ut;
 public class RegistroAsientos extends javax.swing.JFrame {
 
     private static final long serialVersionUID = 1L;
-    private final int BUSCAR_ASIENTO = 1;
-    private final int BUSCAR_CUENTA = 2;
+    private static final int BUSCAR_ASIENTO = 1;
+    private static final int BUSCAR_CUENTA = 2;
     private int buscar = BUSCAR_ASIENTO;
     private final Bitacora b = new Bitacora();
     /*
@@ -51,10 +54,10 @@ public class RegistroAsientos extends javax.swing.JFrame {
     private String old_comprob;
     private short old_tipo;
 
-    private String[] aTipo_comp;
+    private final Map<String, Short> tiposComprobante;
 
     private CoasientoE asientoE; // Encabezado de asientos.
-    private final JTextField tmp_tipo; // Se usa para las búsquedas de asientos.
+    private final JTextField tmpTipoComp; // Se usa para las búsquedas de asientos.
     private CoasientoD asientoD; // Detalle del asiento
     private List<CoasientoD> deleteList;    // Lineas de detalle a borrar (cuando se modifica un asiento)
     private boolean inicio;      // Se usa para evitar que algunos eventos se disparen
@@ -64,7 +67,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
     private final PeriodoContable per; // Carga todos los datos del periodo contable actual
 
     // Este estiqueta tendrá el siguiente valor al terminar el asiento de cierre anual:
-    // "Comprobante: " + asientoE.getNo_comprob() + ", tipo: " + asientoE.getTipo_comp()
+    // "Comprobante: " + asientoE.getNo_comprob() + ", tipo: " + asientoE.getTipoComprobante()
     // Se usa para indicar que se está generando el asiento de cierre anual desde el auxiliar
     // En un asiento o proceso normal deberá ser null
     private JLabel lblDescripA;
@@ -98,8 +101,9 @@ public class RegistroAsientos extends javax.swing.JFrame {
         fin = false;
         old_comprob = "";
         old_tipo = 0;
-        tmp_tipo = new JTextField("0");
-        this.datFecha_comp.setDate(new Date());
+        tiposComprobante = new HashMap<>();
+        tmpTipoComp = new JTextField("0");
+        this.datFechaComp.setDate(new Date());
         cargarTipos();
         setThisPeriodDate();
         inicio = false;
@@ -126,8 +130,8 @@ public class RegistroAsientos extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        txtNo_comprob = new javax.swing.JFormattedTextField();
-        datFecha_comp = new com.toedter.calendar.JDateChooser();
+        txtComprobante = new javax.swing.JFormattedTextField();
+        datFechaComp = new com.toedter.calendar.JDateChooser();
         txtNo_refer = new javax.swing.JFormattedTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
@@ -180,11 +184,6 @@ public class RegistroAsientos extends javax.swing.JFrame {
                 txtDescripFocusGained(evt);
             }
         });
-        txtDescrip.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDescripActionPerformed(evt);
-            }
-        });
         txtDescrip.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtDescripKeyPressed(evt);
@@ -196,9 +195,6 @@ public class RegistroAsientos extends javax.swing.JFrame {
         cboDescrip.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 cboDescripFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                cboDescripFocusLost(evt);
             }
         });
         cboDescrip.addActionListener(new java.awt.event.ActionListener() {
@@ -213,30 +209,30 @@ public class RegistroAsientos extends javax.swing.JFrame {
 
         jLabel5.setText("Referencia");
 
-        txtNo_comprob.setColumns(10);
-        txtNo_comprob.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("0000000000"))));
-        txtNo_comprob.addFocusListener(new java.awt.event.FocusAdapter() {
+        txtComprobante.setColumns(10);
+        txtComprobante.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("0000000000"))));
+        txtComprobante.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                txtNo_comprobFocusGained(evt);
+                txtComprobanteFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                txtNo_comprobFocusLost(evt);
+                txtComprobanteFocusLost(evt);
             }
         });
-        txtNo_comprob.addActionListener(new java.awt.event.ActionListener() {
+        txtComprobante.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNo_comprobActionPerformed(evt);
+                txtComprobanteActionPerformed(evt);
             }
         });
-        txtNo_comprob.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtComprobante.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtNo_comprobKeyPressed(evt);
+                txtComprobanteKeyPressed(evt);
             }
         });
 
-        datFecha_comp.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+        datFechaComp.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                datFecha_compPropertyChange(evt);
+                datFechaCompPropertyChange(evt);
             }
         });
 
@@ -266,11 +262,11 @@ public class RegistroAsientos extends javax.swing.JFrame {
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtNo_comprob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtComprobante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(datFecha_comp, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(datFechaComp, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -294,8 +290,8 @@ public class RegistroAsientos extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(cboDescrip, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtNo_comprob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(datFecha_comp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtComprobante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(datFechaComp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtNo_refer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 10, Short.MAX_VALUE))
         );
@@ -696,7 +692,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
 
         mnuArchivo.setText("Archivo");
 
-        mnuGuardar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
+        mnuGuardar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/disk.png"))); // NOI18N
         mnuGuardar.setText("Guardar");
         mnuGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -706,7 +702,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
         });
         mnuArchivo.add(mnuGuardar);
 
-        mnuSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.CTRL_MASK));
+        mnuSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/control-power.png"))); // NOI18N
         mnuSalir.setText("Salir");
         mnuSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -720,7 +716,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
 
         mnuEdicion.setText("Edición");
 
-        mnuAnular.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, java.awt.event.InputEvent.CTRL_MASK));
+        mnuAnular.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuAnular.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/cross.png"))); // NOI18N
         mnuAnular.setText("Anular asiento");
         mnuAnular.addActionListener(new java.awt.event.ActionListener() {
@@ -730,7 +726,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
         });
         mnuEdicion.add(mnuAnular);
 
-        mnuBuscar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
+        mnuBuscar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnuBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/binocular.png"))); // NOI18N
         mnuBuscar.setText("Buscar");
         mnuBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -823,63 +819,24 @@ public class RegistroAsientos extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtDescripActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescripActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDescripActionPerformed
-
     private void txtCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCuentaActionPerformed
         txtCuenta.transferFocus();
     }//GEN-LAST:event_txtCuentaActionPerformed
 
     private void txtCuentaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCuentaFocusGained
         txtCuenta.selectAll();
-        this.buscar = this.BUSCAR_CUENTA;
+        this.buscar = RegistroAsientos.BUSCAR_CUENTA;
     }//GEN-LAST:event_txtCuentaFocusGained
 
     private void txtCuentaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCuentaFocusLost
-        this.lblNom_cta.setText("");
-
-        if (txtCuenta.getText().trim().isEmpty()) {
-            return;
-        } // end if
-
-        if (txtCuenta.getText().trim().length() != 12) {
-            JOptionPane.showMessageDialog(null,
-                    "La longitud de la cuenta no es apropiada.\n"
-                    + "Esta debe ser de 12 dígitos.",
+        try {
+            // Validar la cuenta y establecer el nombre
+            RegistroAsientosActions.setAccountName(txtCuenta, cta, lblNom_cta);
+        } catch (OsaisException ex) {
+            JOptionPane.showMessageDialog(null,ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            return;
-        } // end if
-
-        // Validar que la cuenta exista
-        cta.setCuentaString(txtCuenta.getText().trim());
-        if (cta.isError()) {
-            JOptionPane.showMessageDialog(null,
-                    cta.getMensaje_error(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            return;
-        } // end if
-
-        if (cta.getNom_cta().isEmpty()) {
-            JOptionPane.showMessageDialog(null,
-                    "Esta cuenta no existe.",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            return;
-        } // end if
-
-        // Validar que la cuenta sea de movimientos
-        if (cta.getNivel() == 0) {
-            JOptionPane.showMessageDialog(null,
-                    "No puede utilizar esta cuenta porque es de mayor.",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            return;
-        } // end if
-
-        this.lblNom_cta.setText(cta.getNom_cta());
+        }
     }//GEN-LAST:event_txtCuentaFocusLost
 
     private void txtCuentaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCuentaKeyPressed
@@ -924,21 +881,21 @@ public class RegistroAsientos extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
-    private void txtNo_comprobFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNo_comprobFocusGained
-        txtNo_comprob.selectAll();
-        this.buscar = this.BUSCAR_ASIENTO;
-    }//GEN-LAST:event_txtNo_comprobFocusGained
+    private void txtComprobanteFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtComprobanteFocusGained
+        txtComprobante.selectAll();
+        this.buscar = RegistroAsientos.BUSCAR_ASIENTO;
+    }//GEN-LAST:event_txtComprobanteFocusGained
 
-    private void txtNo_comprobFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNo_comprobFocusLost
-        if (txtNo_comprob.getText().trim().isEmpty()) {
+    private void txtComprobanteFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtComprobanteFocusLost
+        if (txtComprobante.getText().trim().isEmpty()) {
             return;
         } // end if
 
         // Obtener el tipo de asiento
-        short tipo = getTipo_comp();
+        short tipo = RegistroAsientosActions.getTipoComprobante(this.cboDescrip.getSelectedItem().toString(), this.tiposComprobante);
 
         asientoE.setTipo_comp(tipo);
-        asientoE.setNo_comprob(txtNo_comprob.getText());
+        asientoE.setNo_comprob(txtComprobante.getText());
 
         lblAnuladoPor.setText("");
         if (asientoE.getAnuladoPor() != null && !asientoE.getAnuladoPor().trim().isEmpty()) {
@@ -972,11 +929,11 @@ public class RegistroAsientos extends javax.swing.JFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             // Dejo este campo en blanco para evitar que se guarde el asiento.
-            txtNo_comprob.setText("");
+            txtComprobante.setText("");
         } // end if
 
-        this.setReferencia();
-    }//GEN-LAST:event_txtNo_comprobFocusLost
+        RegistroAsientosActions.setReferencia(this.lblDescripA, this.asientoE, this.datFechaComp, this.txtNo_refer);
+    }//GEN-LAST:event_txtComprobanteFocusLost
 
     private void btnBuscarAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarAsActionPerformed
         Buscador bd = new Buscador(
@@ -985,7 +942,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
                 "coasientoe",
                 "no_comprob,Trim(descrip) as descrip,fecha_comp,tipo_comp",
                 "descrip",
-                txtNo_comprob,
+                txtComprobante,
                 conn,
                 3,
                 new String[]{"Asiento", "Descripción", "Fecha", "Tipo"}
@@ -993,15 +950,15 @@ public class RegistroAsientos extends javax.swing.JFrame {
         bd.setTitle("Buscar asientos");
         bd.lblBuscar.setText("Descripción:");
         bd.setOrderByColumn(2, "ASC"); // Número de columna y tipo de orden.
-        bd.setObjetoRetorno2(this.tmp_tipo, 3);
+        bd.setObjetoRetorno2(this.tmpTipoComp, 3);
         bd.setVisible(true);
 
         // Validar los datos de retorno
-        if (txtNo_comprob.getText().trim().isEmpty()) {
+        if (txtComprobante.getText().trim().isEmpty()) {
             return;
         } // end if
 
-        short tipo = Short.parseShort(this.tmp_tipo.getText().trim());
+        short tipo = Short.parseShort(this.tmpTipoComp.getText().trim());
 
         if (tipo == 0) {
             return;
@@ -1009,32 +966,28 @@ public class RegistroAsientos extends javax.swing.JFrame {
 
         // Cargar los datos en la clase de encabezado de asientos
         asientoE = new CoasientoE(conn);
-        asientoE.setNo_comprob(txtNo_comprob.getText());
+        asientoE.setNo_comprob(txtComprobante.getText());
         asientoE.setTipo_comp(tipo);
 
         // Si el asiento existe cargo los valores tanto en los controles
         // actuales como en los anteriores para que siempre se pueda saber
         // cuál era el número y el tipo por si el usuario decide cambiar
         // alguno o ambos datos.
-        old_comprob = txtNo_comprob.getText().trim();
+        old_comprob = txtComprobante.getText().trim();
         old_tipo = tipo;
 
         txtDescrip.setText(asientoE.getDescrip());
 
-        // aTipo_comp es un arreglo que se carga al inicio de este form.
-        // Concatena el tipo y la descripción separados por una coma.
-        String wrk;
-        for (String s : aTipo_comp) {
-            wrk = s.substring(0, Ut.getPosicion(s, ",")).trim();
-            if (Short.parseShort(wrk) == tipo) {
-                wrk = s.substring(Ut.getPosicion(s, ",") + 1);
-                cboDescrip.setSelectedItem(wrk);
+        // Buscar la descripción asociada al tipo usando el mapa de tipos cargado al inicio.
+        for (Map.Entry<String, Short> entry : tiposComprobante.entrySet()) {
+            if (entry.getValue() == tipo) {
+                cboDescrip.setSelectedItem(entry.getKey());
                 break;
             } // end if
         } // end for
 
         txtNo_refer.setText(asientoE.getNo_refer() + "");
-        datFecha_comp.setDate(asientoE.getFecha_comp());
+        datFechaComp.setDate(asientoE.getFecha_comp());
 
         lblAnuladoPor.setText("Anulado por: " + asientoE.getAnuladoPor());
         if (asientoE.getAnuladoPor().trim().isEmpty()) {
@@ -1072,8 +1025,6 @@ public class RegistroAsientos extends javax.swing.JFrame {
                 tblDetalle.setValueAt(asientoD.getCoasientod()[row].getDescrip(), row, 2);
                 isDebito = (asientoD.getCoasientod()[row].getDb_cr() == 1);
                 String monto = Ut.setDecimalFormat(asientoD.getCoasientod()[row].getMonto() + "", "#,##0.00");
-                //tblDetalle.setValueAt((isDebito ? asientoD.getCoasientod()[row].getMonto() : 0.00), row, 3);
-                //tblDetalle.setValueAt((!isDebito ? asientoD.getCoasientod()[row].getMonto() : 0.00), row, 4);
                 tblDetalle.setValueAt((isDebito ? monto : 0.00), row, 3);
                 tblDetalle.setValueAt((!isDebito ? monto : 0.00), row, 4);
                 tblDetalle.setValueAt(asientoD.getCoasientod()[row].getIdReg(), row, 5);
@@ -1119,9 +1070,9 @@ public class RegistroAsientos extends javax.swing.JFrame {
         this.txtConcepto.requestFocusInWindow();
     }//GEN-LAST:event_btnBuscarCuActionPerformed
 
-    private void txtNo_comprobActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNo_comprobActionPerformed
-        txtNo_comprob.transferFocus();
-    }//GEN-LAST:event_txtNo_comprobActionPerformed
+    private void txtComprobanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtComprobanteActionPerformed
+        txtComprobante.transferFocus();
+    }//GEN-LAST:event_txtComprobanteActionPerformed
 
     private void cboDescripActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboDescripActionPerformed
         // Si la propiedad old_tipo tiene algún valor distinto de cero no hago 
@@ -1132,19 +1083,20 @@ public class RegistroAsientos extends javax.swing.JFrame {
 
         // Establecer el consecutivo de asientos para el tipo de asiento elegido
         Cotipasient cotipasient = new Cotipasient(conn);
-        cotipasient.setTipo_comp(this.getTipo_comp());
-        String no_comprob;
+        short tipo = RegistroAsientosActions.getTipoComprobante(this.cboDescrip.getSelectedItem().toString(), this.tiposComprobante);
+        cotipasient.setTipo_comp(tipo);
+        String comprobante;
 
         // No permitir el consecutivo cero.
-        no_comprob = (cotipasient.getConsecutivo() == 0 ? 1 : cotipasient.getConsecutivo() + 1) + "";
-        no_comprob = Ut.lpad(no_comprob, "0", 10);
+        comprobante = (cotipasient.getConsecutivo() == 0 ? 1 : cotipasient.getConsecutivo() + 1) + "";
+        comprobante = Ut.lpad(comprobante, "0", 10);
 
-        txtNo_comprob.setText(no_comprob);
+        txtComprobante.setText(comprobante);
 
         // Si el número de asiento no está vacío ejecuto el codigo del 
         // ActionPerformed para ese campo.
-        if (!txtNo_comprob.getText().trim().isEmpty()) {
-            txtNo_comprobActionPerformed(null);
+        if (!txtComprobante.getText().trim().isEmpty()) {
+            txtComprobanteActionPerformed(null);
         } // end if
         cboDescrip.transferFocus();
     }//GEN-LAST:event_cboDescripActionPerformed
@@ -1167,7 +1119,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
         CoactualizCat actuCat = new CoactualizCat(conn);
 
         cal = Calendar.getInstance();
-        cal.setTime(this.datFecha_comp.getDate());
+        cal.setTime(this.datFechaComp.getDate());
 
         // Si la fecha del asiento se encuentra en el perido actual hay que mayorizar.
         if (cal.get(Calendar.MONTH) == per.getMes() && cal.get(Calendar.YEAR) == per.getAño()) {
@@ -1219,36 +1171,31 @@ public class RegistroAsientos extends javax.swing.JFrame {
         // Si ya existe el asiento y (old_comprob es diferente de no_comprob
         // o old_tipo es diferente de tipo) hay que correr el método rename() 
         // de la clase CoasientoE
-        String no_comprob = this.txtNo_comprob.getText().trim();
-        short tipo = 0;
+        String comprobante = this.txtComprobante.getText().trim();
+        short tipo;
         String descrip = cboDescrip.getSelectedItem().toString();
-        Timestamp fecha_comp = new Timestamp(this.datFecha_comp.getDate().getTime());
+        Timestamp fechaComprobante = new Timestamp(this.datFechaComp.getDate().getTime());
         short movtido = 0; // Tipo de movimiento para Contabilidad en inventarios
 
-        for (String s : this.aTipo_comp) {
-            if (s.contains(descrip)) {
-                tipo = Short.parseShort(s.substring(0, Ut.getPosicion(s, ",")));
-                break;
-            } // end if
-        } // end for
+        tipo = RegistroAsientosActions.getTipoComprobante(descrip, this.tiposComprobante);
 
         try {
             // Iniciar la transacción
             CMD.transaction(conn, CMD.START_TRANSACTION);
 
-            if (!old_comprob.isEmpty() && (!old_comprob.trim().equals(no_comprob)
+            if (!old_comprob.isEmpty() && (!old_comprob.trim().equals(comprobante)
                     || old_tipo != tipo)) {
-                asientoE.rename(old_comprob, no_comprob, old_tipo, tipo);
+                asientoE.rename(old_comprob, comprobante, old_tipo, tipo);
                 if (asientoE.isError()) {
                     CMD.transaction(conn, CMD.ROLLBACK);
                     throw new SQLException(asientoE.getMensaje_error());
                 } // end if
             } // end if
 
-            asientoE.setNo_comprob(no_comprob);
+            asientoE.setNo_comprob(comprobante);
             asientoE.setTipo_comp(tipo);
             asientoE.setDescrip(this.txtDescrip.getText().trim());
-            asientoE.setFecha_comp(fecha_comp);
+            asientoE.setFecha_comp(fechaComprobante);
 
             // Si esta etiqueta existe es porque se está generando el asiento de
             // cierre anual. El método setCierreAnual cambia el periodo y la refernecia.
@@ -1270,7 +1217,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
             if (asientoE.isError()) {
                 CMD.transaction(conn, CMD.ROLLBACK);
                 throw new SQLException(asientoE.getMensaje_error());
-            } // end if (asientoE.isError())
+            }
 
             // Si old_comprob está vacío es porque se trata de un asiento nuevo.
             if (old_comprob.isEmpty()) {
@@ -1278,12 +1225,12 @@ public class RegistroAsientos extends javax.swing.JFrame {
                 // Una última revisión del consecutivo antes de guardar el asiento.
                 // Solo el asiento de cierre debe ser el mismo número y tipo de asiento
                 // todos los meses.
-                if (!asientoE.isCierreAnual() && asientoE.existeEnBaseDatos(no_comprob, tipo)) {
+                if (!asientoE.isCierreAnual() && asientoE.existeEnBaseDatos(comprobante, tipo)) {
                     Cotipasient cotipasient = new Cotipasient(conn);
-                    no_comprob = cotipasient.getSiguienteConsecutivo(tipo) + "";
-                    no_comprob = Ut.lpad(no_comprob, "0", 10);
-                    asientoE.setNo_comprob(no_comprob);
-                    txtNo_comprob.setText(no_comprob);
+                    comprobante = cotipasient.getSiguienteConsecutivo(tipo) + "";
+                    comprobante = Ut.lpad(comprobante, "0", 10);
+                    asientoE.setNo_comprob(comprobante);
+                    txtComprobante.setText(comprobante);
                 }
                 asientoE.insert();
             } else {
@@ -1291,7 +1238,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
                 asientoE.update();
 
                 // Hay que actualizarCuentasMov antes de guardar el nuevo detalle
-                if (actuCat.actualizarCuentasMov(fecha_comp, fecha_comp, no_comprob, tipo, "-") == false) {
+                if (actuCat.actualizarCuentasMov(fechaComprobante, fechaComprobante, comprobante, tipo, "-") == false) {
                     CMD.transaction(conn, CMD.ROLLBACK);
                     throw new SQLException(actuCat.getMensaje_err());
                 } // end if actuCat.actualizarCuentasMov...
@@ -1301,7 +1248,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
             if (asientoE.isError()) {
                 CMD.transaction(conn, CMD.ROLLBACK);
                 throw new SQLException(asientoE.getMensaje_error());
-            } // end if (asientoE.isError())
+            }
 
         } catch (SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
@@ -1315,7 +1262,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
 
         // Si id del registro en la tabla es negativo se trata de un registro 
         // nuevo por lo que debe ejecutarse un insert; caso contrario será un update.
-        asientoD.setNo_comprob(no_comprob);
+        asientoD.setNo_comprob(comprobante);
         asientoD.setTipo_comp(tipo);
         asientoD.setCuenta(cta);
 
@@ -1338,7 +1285,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
                 System.exit(0);
             } // end try-catch
             return;
-        } // end if (asientoD.isError())
+        }
 
         debitos = 0;
         creditos = 0;
@@ -1392,7 +1339,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
                 } // end if-else
             } else {
                 asientoD.insert();
-            } // end if (idReg > 0) - else
+            }
 
             // Si ocurrió algún error durante la actualización del detalle...
             if (asientoD.isError()) {
@@ -1413,7 +1360,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
                     System.exit(0);
                 } // end try-catch
                 return;
-            } // end if (asientoD.isError())
+            }
         } // end for
 
         // Borrar la línea que fueron eliminadas de la tabla.
@@ -1424,7 +1371,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
         });
 
         // Ahora hay que correr el proceso de actualización del catálogo
-        if (actuCat.actualizarCuentasMov(fecha_comp, fecha_comp, no_comprob, tipo, "+") == false) {
+        if (actuCat.actualizarCuentasMov(fechaComprobante, fechaComprobante, comprobante, tipo, "+") == false) {
             JOptionPane.showMessageDialog(null,
                     actuCat.getMensaje_err(),
                     "Error",
@@ -1450,7 +1397,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
                 Cotipasient cotipasient = new Cotipasient(conn);
                 cotipasient.setTipo_comp(tipo);
                 cotipasient.cargar();
-                cotipasient.setConsecutivo(Integer.parseInt(no_comprob));
+                cotipasient.setConsecutivo(Integer.parseInt(comprobante));
                 cotipasient.update();
             }
             CMD.transaction(conn, CMD.COMMIT);
@@ -1484,7 +1431,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
         this.btnNuevoActionPerformed(evt);
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-    private void datFecha_compPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_datFecha_compPropertyChange
+    private void datFechaCompPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_datFechaCompPropertyChange
         // Verificar que el período no esté cerrado.
 
         // Si estas variables son true no se debe correr el proceso o en el caso
@@ -1501,7 +1448,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
             // Si este label es null es porque no es el asiento de cierre.
             // Y el mensaje no aplica para el asiento de cierre.
             if (this.lblDescripA == null) {
-                if (!UtilBD.CGfechaValida(conn, datFecha_comp.getDate())) {
+                if (!UtilBD.CGfechaValida(conn, datFechaComp.getDate())) {
                     this.txtCuenta.setEnabled(false);
                     throw new Exception("Esta fecha se encuentra en un periodo cerrado.");
                 } // end if
@@ -1517,8 +1464,8 @@ public class RegistroAsientos extends javax.swing.JFrame {
             return;
         } // end try-catch
 
-        setReferencia();
-    }//GEN-LAST:event_datFecha_compPropertyChange
+        RegistroAsientosActions.setReferencia(this.lblDescripA, this.asientoE, this.datFechaComp, this.txtNo_refer);
+    }//GEN-LAST:event_datFechaCompPropertyChange
     /**
      * Este método pone en blanco todos los controles para que el usuario pueda
      * ingresar nuevos datos.
@@ -1530,9 +1477,9 @@ public class RegistroAsientos extends javax.swing.JFrame {
         this.txtDescrip.setText("");
         this.cboDescrip.setSelectedIndex(0);
         this.old_tipo = 0;
-        this.txtNo_comprob.setText("");
+        this.txtComprobante.setText("");
         this.old_comprob = "";
-        this.datFecha_comp.setDate(new Date());
+        this.datFechaComp.setDate(new Date());
         this.txtNo_refer.setText("0");
         this.txtCuenta.setText("");
         this.lblNom_cta.setText("");
@@ -1550,14 +1497,14 @@ public class RegistroAsientos extends javax.swing.JFrame {
         // Estos cambpos se deshabilitan al momento de bajar los datos al JTable
         this.txtDescrip.setEditable(true);
         this.cboDescrip.setEnabled(true);
-        this.txtNo_comprob.setEnabled(true);
-        this.datFecha_comp.setEnabled(true);
+        this.txtComprobante.setEnabled(true);
+        this.datFechaComp.setEnabled(true);
         this.txtNo_refer.setEnabled(true);
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void txtDescripFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDescripFocusGained
         txtDescrip.selectAll();
-        this.buscar = this.BUSCAR_ASIENTO;
+        this.buscar = RegistroAsientos.BUSCAR_ASIENTO;
     }//GEN-LAST:event_txtDescripFocusGained
 
     private void txtDescripKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescripKeyPressed
@@ -1566,11 +1513,11 @@ public class RegistroAsientos extends javax.swing.JFrame {
         } // end if
     }//GEN-LAST:event_txtDescripKeyPressed
 
-    private void txtNo_comprobKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNo_comprobKeyPressed
+    private void txtComprobanteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtComprobanteKeyPressed
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-            txtNo_comprob.transferFocus();
+            txtComprobante.transferFocus();
         } // end if
-    }//GEN-LAST:event_txtNo_comprobKeyPressed
+    }//GEN-LAST:event_txtComprobanteKeyPressed
 
     private void txtNo_referKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNo_referKeyPressed
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
@@ -1635,7 +1582,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuAnularActionPerformed
 
     private void mnuBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBuscarActionPerformed
-        if (this.buscar == this.BUSCAR_CUENTA) {
+        if (this.buscar == RegistroAsientos.BUSCAR_CUENTA) {
             this.btnBuscarCuActionPerformed(evt);
         } else {
             this.btnBuscarAsActionPerformed(evt);
@@ -1643,7 +1590,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuBuscarActionPerformed
 
     private void cboDescripFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cboDescripFocusGained
-        this.buscar = this.BUSCAR_ASIENTO;
+        this.buscar = RegistroAsientos.BUSCAR_ASIENTO;
     }//GEN-LAST:event_cboDescripFocusGained
 
     private void btnBajarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBajarActionPerformed
@@ -1657,12 +1604,12 @@ public class RegistroAsientos extends javax.swing.JFrame {
             return;
         } // end if
 
-        if (this.txtNo_comprob.getText().trim().isEmpty()) {
+        if (this.txtComprobante.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(null,
                     "El número de asiento no puede quedar en blanco.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            this.txtNo_comprob.requestFocusInWindow();
+            this.txtComprobante.requestFocusInWindow();
             return;
         } // end if
 
@@ -1673,7 +1620,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
                     "Hay un error con la fecha del asiento, verifique.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            this.datFecha_comp.requestFocusInWindow();
+            this.datFechaComp.requestFocusInWindow();
             return;
         } // end if
 
@@ -1805,8 +1752,8 @@ public class RegistroAsientos extends javax.swing.JFrame {
         // Este encabezado será habilitado nuevamente al guardar el asiento.
         this.txtDescrip.setEditable(false);
         this.cboDescrip.setEnabled(false);
-        this.txtNo_comprob.setEnabled(false);
-        this.datFecha_comp.setEnabled(false);
+        this.txtComprobante.setEnabled(false);
+        this.datFechaComp.setEnabled(false);
         this.txtNo_refer.setEnabled(false);
 
         // Pongo el foco en el campo de cuenta
@@ -1943,7 +1890,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
             CoactualizCat actuCat = new CoactualizCat(conn);
 
             Calendar cal = Calendar.getInstance();
-            cal.setTime(this.datFecha_comp.getDate());
+            cal.setTime(this.datFechaComp.getDate());
 
             // Si la fecha del asiento se encuentra en el perido actual hay que 
             // aplicar los movimientos y mayorizar.
@@ -2009,10 +1956,6 @@ public class RegistroAsientos extends javax.swing.JFrame {
         } // end if
     }//GEN-LAST:event_btnBajarKeyPressed
 
-    private void cboDescripFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cboDescripFocusLost
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cboDescripFocusLost
-
     /**
      * @param c
      */
@@ -2055,7 +1998,7 @@ public class RegistroAsientos extends javax.swing.JFrame {
     private javax.swing.JButton btnNuevo;
     private javax.swing.JButton btnSalir;
     private javax.swing.JComboBox<String> cboDescrip;
-    private com.toedter.calendar.JDateChooser datFecha_comp;
+    private com.toedter.calendar.JDateChooser datFechaComp;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2086,12 +2029,12 @@ public class RegistroAsientos extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuSalir;
     private javax.swing.JTable tblDetalle;
     private javax.swing.JFormattedTextField txtBalance;
+    private javax.swing.JFormattedTextField txtComprobante;
     private javax.swing.JTextField txtConcepto;
     private javax.swing.JFormattedTextField txtCuenta;
     private javax.swing.JTextField txtDescrip;
     private javax.swing.JFormattedTextField txtMontoC;
     private javax.swing.JFormattedTextField txtMontoD;
-    private javax.swing.JFormattedTextField txtNo_comprob;
     private javax.swing.JFormattedTextField txtNo_refer;
     private javax.swing.JFormattedTextField txtTotalCreditos;
     private javax.swing.JFormattedTextField txtTotalDebitos;
@@ -2102,23 +2045,22 @@ public class RegistroAsientos extends javax.swing.JFrame {
         String sqlSent
                 = "Select tipo_comp, descrip "
                 + "from cotipasient order by 2";
-        PreparedStatement ps;
-        try {
-            ps = conn.prepareStatement(sqlSent,
-                    ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            ResultSet rs = CMD.select(ps);
+        try (PreparedStatement ps = conn.prepareStatement(sqlSent,
+                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY); ResultSet rs = CMD.select(ps)) {
             if (rs == null) {
                 return;
             } // end if
             rs.last();
-            aTipo_comp = new String[rs.getRow()];
+            int lastRow = rs.getRow();
+            tiposComprobante.clear();
 
-            for (int i = 0; i < aTipo_comp.length; i++) {
+            for (int i = 0; i < lastRow; i++) {
                 rs.absolute(i + 1);
-                aTipo_comp[i] = rs.getString(1) + "," + rs.getString(2);
-                cboDescrip.addItem(rs.getString(2));
+                short tipo = rs.getShort(1);
+                String descrip = rs.getString(2);
+                tiposComprobante.put(descrip, tipo);
+                cboDescrip.addItem(descrip);
             } // end while
-            ps.close();
         } catch (SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
@@ -2131,26 +2073,8 @@ public class RegistroAsientos extends javax.swing.JFrame {
     } // end cargarTipos
 
     private void setThisPeriodDate() {
-        this.datFecha_comp.setDate(per.getFecha_in());
+        this.datFechaComp.setDate(per.getFecha_in());
     } // end setThisPeriodDate
-
-    private void setReferencia() {
-        // La referencia se compone de periodo + tipo de asiento + año
-        if (this.lblDescripA != null) { // Solo existe para el asiento de cierre anual.
-            asientoE.setCierreAnual(true);
-        } // end if
-
-        if (asientoE.getNo_refer() == 0) {
-            // Pongo la fecha que esté en este momento para que se pueda
-            // generar la referencia.
-            if (this.datFecha_comp.getDate() != null) {
-                Timestamp t = new Timestamp(this.datFecha_comp.getDate().getTime());
-                asientoE.setFecha_comp(t);
-            } // end if
-        } // end if
-
-        this.txtNo_refer.setText(asientoE.getNo_refer() + "");
-    } // end if
 
     /* 
      * Métodos para usar esta pantalla desde cualquier lugar (en este caso desde
@@ -2170,17 +2094,17 @@ public class RegistroAsientos extends javax.swing.JFrame {
         this.cboDescrip.setEnabled(false);
     }
 
-    public void setComprobante(String no_comprob) {
-        this.txtNo_comprob.requestFocusInWindow();
-        this.txtNo_comprob.setText(no_comprob);
-        this.txtNo_comprobFocusLost(null);
+    public void setComprobante(String comprobante) {
+        this.txtComprobante.requestFocusInWindow();
+        this.txtComprobante.setText(comprobante);
+        this.txtComprobanteFocusLost(null);
     }
 
     public void setFecha(Date fecha) {
-        this.datFecha_comp.setDate(fecha);
+        this.datFechaComp.setDate(fecha);
         Timestamp tm = new Timestamp(fecha.getTime());
         asientoE.setFecha_comp(tm);
-        this.datFecha_compPropertyChange(null); // Hay que validar si esta línea es necesaria.  Es posible que el evento se dispare solo.
+        this.datFechaCompPropertyChange(null); // Hay que validar si esta línea es necesaria.  Es posible que el evento se dispare solo.
     }
 
     public void setCuenta(String cuenta) {
@@ -2235,16 +2159,4 @@ public class RegistroAsientos extends javax.swing.JFrame {
         this.btnSalirActionPerformed(null);
     }
 
-    private short getTipo_comp() {
-        // Obtener el tipo de asiento
-        short tipo = 0;
-        String descrip = cboDescrip.getSelectedItem().toString();
-        for (String s : this.aTipo_comp) {
-            if (s.contains(descrip)) {
-                tipo = Short.parseShort(s.substring(0, Ut.getPosicion(s, ",")));
-                break;
-            } // end if
-        } // end for
-        return tipo;
-    } // end getTipo_comp
 }

@@ -5,7 +5,7 @@
  */
 package contabilidad.view;
 
-import Exceptions.EmptyDataSourceException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -25,7 +25,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import contabilidad.logica.Cocatalogo;
 import contabilidad.logica.Cuenta;
-import Exceptions.SQLInjectionException;
 import static interfase.menus.Menu.DATABASE_CONNECTION_DRIVER;
 import logica.utilitarios.Ut;
 
@@ -49,8 +48,8 @@ public class CatalogoContable extends JFrame {
      *
      * @param c
      * @throws java.sql.SQLException
-     * @throws Exceptions.SQLInjectionException
-     * @throws Exceptions.EmptyDataSourceException
+     * @throws Exceptions.OsaisException
+     * @throws Exceptions.OsaisException
      * @throws java.text.ParseException
      */
     @SuppressWarnings({"unchecked"})
@@ -990,7 +989,7 @@ public class CatalogoContable extends JFrame {
             } else {
                 CMD.transaction(conn, CMD.COMMIT);
             }
-        } catch (SQLException | SQLInjectionException | EmptyDataSourceException ex) {
+        } catch (SQLException | OsaisException ex) {
             Logger.getLogger(CatalogoContable.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     null,
@@ -1407,7 +1406,7 @@ public class CatalogoContable extends JFrame {
      */
     @SuppressWarnings("unchecked")
     private void guardarRegistro()
-            throws SQLException, SQLInjectionException, EmptyDataSourceException {
+            throws SQLException, OsaisException {
         if (!ensureActiveConnection()) {
             return;
         } // end if

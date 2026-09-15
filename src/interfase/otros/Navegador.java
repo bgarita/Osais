@@ -4,7 +4,7 @@ import Mail.Bitacora;
 import accesoDatos.CMD;
 import java.sql.*;
 import javax.swing.JOptionPane;
-import Exceptions.SQLInjectionException;
+import Exceptions.OsaisException;
 import logica.utilitarios.Ut;
 
 /**
@@ -46,13 +46,13 @@ public class Navegador {
      * @param campoLlave
      * @return 
      * @throws java.sql.SQLException 
-     * @throws Exceptions.SQLInjectionException 
+     * @throws Exceptions.OsaisException 
      */
     public ResultSet cargarRegistro(
             int registro,
             String llave,
             String tabla,
-            String campoLlave) throws SQLException, SQLInjectionException {
+            String campoLlave) throws SQLException, OsaisException {
 
         // Bosco agregado 22/12/2011.
         // Control de inyección de código.  Si se detecta inyección de código
@@ -179,13 +179,13 @@ public class Navegador {
      * @param keyFieldName
      * @return 
      * @throws java.sql.SQLException
-     * @throws Exceptions.SQLInjectionException
+     * @throws Exceptions.OsaisException
      */
     public ResultSet cargarRegistro(
             int searchType,
             Integer keyFieldValue,
             String tabla,
-            String keyFieldName) throws SQLException, SQLInjectionException{
+            String keyFieldName) throws SQLException, OsaisException{
 
         ResultSet rs;
 
@@ -470,14 +470,14 @@ public class Navegador {
      * Where de la consulta.
      * @return ResultSet 
      * @throws SQLException
-     * @throws SQLInjectionException
+     * @throws OsaisException
      */
     public ResultSet cargarRegistroJoin(
             int registro,
             String llave,
             String tabla,
             String join, 
-            String campoLlave) throws SQLException, SQLInjectionException{
+            String campoLlave) throws SQLException, OsaisException{
 
         ResultSet rs;
 
@@ -625,7 +625,7 @@ public class Navegador {
         
         try {
             Ut.isSQLInjection(pSqlSent);
-        } catch (SQLInjectionException ex) {
+        } catch (OsaisException ex) {
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),

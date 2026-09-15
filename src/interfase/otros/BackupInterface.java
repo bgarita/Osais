@@ -1,6 +1,6 @@
 package interfase.otros;
 
-import Exceptions.EmptyDataSourceException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import interfase.menus.Menu;
@@ -843,7 +843,7 @@ public class BackupInterface extends javax.swing.JFrame implements Serializable 
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
-        } catch (EmptyDataSourceException ex) {
+        } catch (OsaisException ex) {
             Logger.getLogger(BackupInterface.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),

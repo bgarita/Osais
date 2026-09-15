@@ -17,7 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import Exceptions.EmptyDataSourceException;
+import Exceptions.OsaisException;
 import logica.utilitarios.Ut;
 
 /**
@@ -34,9 +34,9 @@ public class RepFacturacionIncongruenciaDePrecios extends JFrame {
     /** Creates new form
      * @param c
      * @throws java.sql.SQLException
-     * @throws Exceptions.EmptyDataSourceException */
+     * @throws Exceptions.OsaisException */
     @SuppressWarnings("unchecked")
-    public RepFacturacionIncongruenciaDePrecios(Connection c) throws SQLException, EmptyDataSourceException {
+    public RepFacturacionIncongruenciaDePrecios(Connection c) throws SQLException, OsaisException {
         initComponents();
 
         conn = c;
@@ -455,7 +455,7 @@ public class RepFacturacionIncongruenciaDePrecios extends JFrame {
             RepFacturacionIncongruenciaDePrecios run =
                     new RepFacturacionIncongruenciaDePrecios(c);
             run.setVisible(true);
-        } catch (SQLException | EmptyDataSourceException ex) {
+        } catch (SQLException | OsaisException ex) {
              JOptionPane.showMessageDialog(null,
                      ex.getMessage(),
                     "Error",

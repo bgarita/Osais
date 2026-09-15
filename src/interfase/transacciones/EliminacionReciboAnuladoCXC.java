@@ -163,7 +163,7 @@ public class EliminacionReciboAnuladoCXC extends javax.swing.JFrame {
         int recnume = 0;
         try {
             recnume = Integer.parseInt(txtRecnume.getText().trim());
-        } catch(Exception ex){
+        } catch (Exception ex){
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
@@ -228,7 +228,7 @@ public class EliminacionReciboAnuladoCXC extends javax.swing.JFrame {
         int recnume = 0;
         try {
             recnume = Integer.parseInt(txtRecnume.getText().trim());
-        } catch(Exception ex){
+        } catch (Exception ex){
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",

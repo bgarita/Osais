@@ -6,7 +6,7 @@
 
 package interfase.seguridad;
 
-import Exceptions.EmptyDataSourceException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -87,7 +87,7 @@ public class Autorizaciones extends javax.swing.JFrame {
                 i++;
             } // end while
             ps.close();
-        } catch (SQLException | EmptyDataSourceException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -365,7 +365,7 @@ public class Autorizaciones extends javax.swing.JFrame {
 
             conn.commit();
             conn.setAutoCommit(true);
-        } catch(SQLException ex){
+        } catch (SQLException ex){
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -382,7 +382,7 @@ public class Autorizaciones extends javax.swing.JFrame {
         }finally{
             try{
                 conn.setAutoCommit(true);
-            }catch(SQLException ex){
+            }catch (SQLException ex){
                 JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",

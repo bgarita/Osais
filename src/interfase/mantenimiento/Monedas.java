@@ -19,7 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import Exceptions.SQLInjectionException;
+import Exceptions.OsaisException;
 
 /**
  *
@@ -41,9 +41,9 @@ public class Monedas extends JFrame {
      * Creates new form
      * @param c
      * @throws java.sql.SQLException
-     * @throws Exceptions.SQLInjectionException
+     * @throws Exceptions.OsaisException
      */
-    public Monedas(Connection c) throws SQLException, SQLInjectionException {
+    public Monedas(Connection c) throws SQLException, OsaisException {
         initComponents();
         btnBuscar.setVisible(false);
         tabla = "monedas";
@@ -372,7 +372,7 @@ public class Monedas extends JFrame {
             String codigo = txtCodigo.getText().trim();
             rs = nav.cargarRegistro(Navegador.PRIMERO, codigo, tabla, "codigo");
             setData(rs);
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -386,7 +386,7 @@ public class Monedas extends JFrame {
             String codigo = txtCodigo.getText().trim();
             rs = nav.cargarRegistro(Navegador.ANTERIOR, codigo, tabla, "codigo");
             setData(rs);
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -400,7 +400,7 @@ public class Monedas extends JFrame {
             String codigo = txtCodigo.getText().trim();
             rs = nav.cargarRegistro(Navegador.SIGUIENTE, codigo, tabla, "codigo");
             setData(rs);
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -415,7 +415,7 @@ public class Monedas extends JFrame {
             String codigo = txtCodigo.getText().trim();
             rs = nav.cargarRegistro(Navegador.ULTIMO, codigo, tabla, "codigo");
             setData(rs);
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -508,7 +508,7 @@ public class Monedas extends JFrame {
         try {
             Monedas run = new Monedas(c);
             run.setVisible(true);
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -638,7 +638,7 @@ public class Monedas extends JFrame {
                 txtSimbolo.setText(rs.getString("simbolo"));
                 txtCodigoHacienda.setText(rs.getString("codigoHacienda"));
             } // end if
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",

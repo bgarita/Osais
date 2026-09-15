@@ -5,8 +5,7 @@
  */
 package interfase.transacciones;
 
-import Exceptions.CurrencyExchangeException;
-import Exceptions.EmptyDataSourceException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -37,7 +36,6 @@ import contabilidad.logica.CoasientoE;
 import contabilidad.logica.Cotipasient;
 import contabilidad.logica.Cuenta;
 import logica.utilitarios.FormatoTabla;
-import Exceptions.SQLInjectionException;
 import logica.utilitarios.Ut;
 
 /**
@@ -110,9 +108,9 @@ public class RegistroNCCXC extends javax.swing.JFrame {
      *
      * @param c
      * @throws java.sql.SQLException
-     * @throws Exceptions.EmptyDataSourceException
+     * @throws Exceptions.OsaisException
      */
-    public RegistroNCCXC(Connection c) throws SQLException, EmptyDataSourceException {
+    public RegistroNCCXC(Connection c) throws SQLException, OsaisException {
         initComponents();
         // Defino el escuchador con una clase anónima para controlar la
         // salida de esta pantalla.  Esto funciona simpre que se haya
@@ -243,7 +241,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
              */
             rsV = nav.cargarRegistro(Navegador.TODOS, 0, "vendedor", "vend");
             rsT = nav.cargarRegistro(Navegador.TODOS, 0, "territor", "terr");
-        } catch (SQLInjectionException ex) {
+        } catch (OsaisException ex) {
             Logger.getLogger(RegistroNCCXC.class.getName()).log(Level.SEVERE, null, ex);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
@@ -2880,7 +2878,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
                         return;
                     }
                     new RegistroNCCXC(c).setVisible(true);
-                } catch (CurrencyExchangeException | NumberFormatException | SQLException | HeadlessException | EmptyDataSourceException ex) {
+                } catch (OsaisException | NumberFormatException | SQLException | HeadlessException ex) {
                     JOptionPane.showMessageDialog(null,
                             ex.getMessage(),
                             "Error",
@@ -3443,7 +3441,7 @@ public class RegistroNCCXC extends javax.swing.JFrame {
             while (rsMoneda.next()) {
                 cboMoneda.addItem(rsMoneda.getString("descrip"));
             } // end while
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",

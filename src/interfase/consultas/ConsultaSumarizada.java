@@ -6,7 +6,7 @@
 
 package interfase.consultas;
 
-import Exceptions.NotUniqueValueException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.UtilBD;
 import interfase.otros.Buscador;
@@ -271,7 +271,7 @@ public class ConsultaSumarizada extends java.awt.Dialog {
             lblClidesc.setText(
                     UtilBD.getDBString(
                     conn, "inclient", "clicode = " + txtClicode.getText(), "clidesc"));
-        } catch (NotUniqueValueException | SQLException ex) {
+        } catch (OsaisException | SQLException ex) {
             Logger.getLogger(ConsultaSumarizada.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     null,
@@ -317,7 +317,7 @@ public class ConsultaSumarizada extends java.awt.Dialog {
                     "facnume = " + txtFacnume.getText() + " and facnd = 0 and facestado = '' and " +
                     "clicode = " + txtClicode.getText(), 
                     "Concat('Fact ', Lpad(facnume,10,'0'), '   Saldo ', facsald) as factura");
-        } catch (NotUniqueValueException | SQLException ex) {
+        } catch (OsaisException | SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     null,

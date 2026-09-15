@@ -8,7 +8,7 @@
  */
 package interfase.mantenimiento;
 
-import Exceptions.EmptyDataSourceException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -33,7 +33,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import logica.IMantenimiento;
 import contabilidad.logica.Cuenta;
-import Exceptions.SQLInjectionException;
+import Exceptions.OsaisException;
 import logica.utilitarios.Ut;
 /**
  *
@@ -1751,7 +1751,7 @@ public class Inclient extends javax.swing.JFrame implements IMantenimiento {
             run.setClicode(clicode);
             run.setVisible(true);
             run.setClicodeValid();
-        } catch (SQLException | EmptyDataSourceException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -2382,7 +2382,7 @@ public class Inclient extends javax.swing.JFrame implements IMantenimiento {
                 ps.setShort(37, idtipo);
                 // Fin Bosco agregado 05/07/2018
 
-            } catch (SQLInjectionException | SQLException ex) {
+            } catch (OsaisException | SQLException ex) {
                 JOptionPane.showMessageDialog(null,
                         ex.getMessage(),
                         "Error",
@@ -2514,7 +2514,7 @@ public class Inclient extends javax.swing.JFrame implements IMantenimiento {
             // end if
             rs = nav.cargarRegistro(
                     Navegador.ESPECIFICO, clicode, tabla, "Clicode");
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",

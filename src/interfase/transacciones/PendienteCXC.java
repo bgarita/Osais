@@ -569,7 +569,7 @@ public class PendienteCXC extends javax.swing.JFrame {
             } else {
                 CMD.transaction(conn, CMD.ROLLBACK);
             } // end if-else
-        } catch(SQLException ex){
+        } catch (SQLException ex){
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
@@ -709,7 +709,7 @@ public class PendienteCXC extends javax.swing.JFrame {
             } else {
                 CMD.transaction(conn, CMD.ROLLBACK);
             } // end if-else
-        } catch(SQLException ex){
+        } catch (SQLException ex){
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",

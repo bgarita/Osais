@@ -16,7 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import Exceptions.SQLInjectionException;
+import Exceptions.OsaisException;
 import logica.utilitarios.Ut;
 
 /**
@@ -416,7 +416,7 @@ public class RepFacturacionXArticulo extends JFrame {
                         JOptionPane.ERROR_MESSAGE);
                 return;
             } // end if
-        } catch (SQLInjectionException ex) {
+        } catch (OsaisException ex) {
             Logger.getLogger(RepFacturacionXArticulo.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(), 

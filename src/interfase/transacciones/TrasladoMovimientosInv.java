@@ -6,7 +6,7 @@
 
 package interfase.transacciones;
 
-import Exceptions.NotUniqueValueException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -444,7 +444,7 @@ public class TrasladoMovimientosInv extends JFrame {
         try {
             txtArtdesc.setText(
                     UtilBD.getDBString(conn,"inarticu",condicion,"artdesc"));
-        } catch (NotUniqueValueException | SQLException ex) {
+        } catch (OsaisException | SQLException ex) {
             Logger.getLogger(TrasladoMovimientosInv.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     null,
@@ -472,7 +472,7 @@ public class TrasladoMovimientosInv extends JFrame {
         try {
             txtArtdesc1.setText(
                     UtilBD.getDBString(conn,"inarticu",condicion,"artdesc"));
-        } catch (NotUniqueValueException | SQLException ex) {
+        } catch (OsaisException | SQLException ex) {
             Logger.getLogger(TrasladoMovimientosInv.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     null,

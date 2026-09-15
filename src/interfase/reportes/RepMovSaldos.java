@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import Exceptions.SQLInjectionException;
+import Exceptions.OsaisException;
 import logica.utilitarios.Ut;
 
 /**
@@ -626,7 +626,7 @@ public class RepMovSaldos extends JFrame {
             if (Ut.isSQLInjection(query)){
                 return;
             } // end if
-        } catch (SQLInjectionException ex) {
+        } catch (OsaisException ex) {
             Logger.getLogger(RepMovSaldos.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),

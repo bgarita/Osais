@@ -5,7 +5,7 @@
  */
 package interfase.main;
 
-import Exceptions.CurrencyExchangeException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.DatabaseConnectionDriver;
@@ -288,7 +288,7 @@ public class Ingreso extends javax.swing.JFrame {
 
         try {
             tcDolar = UtilBD.tipoCambioDolar(conn);
-        } catch (CurrencyExchangeException | SQLException ex) {
+        } catch (OsaisException | SQLException ex) {
             tcDolar = 0;
             String tituloM = "Advertencia";
             int tipoM = JOptionPane.WARNING_MESSAGE;
@@ -399,10 +399,7 @@ public class Ingreso extends javax.swing.JFrame {
 //                    break;
 //                }
 //            }
-//        } catch (ClassNotFoundException | 
-//                InstantiationException | 
-//                IllegalAccessException | 
-//                javax.swing.UnsupportedLookAndFeelException ex) {
+//        } catch (ClassNotFoundException | //                InstantiationException | //                IllegalAccessException | //                javax.swing.UnsupportedLookAndFeelException ex) {
 //            java.util.logging.Logger.getLogger(Ingreso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        }
         //</editor-fold>

@@ -21,7 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import contabilidad.logica.Cuenta;
-import Exceptions.SQLInjectionException;
+import Exceptions.OsaisException;
 
 /**
  *
@@ -46,9 +46,9 @@ public class CocuentasresV extends JFrame {
      *
      * @param c
      * @throws java.sql.SQLException
-     * @throws Exceptions.SQLInjectionException
+     * @throws Exceptions.OsaisException
      */
-    public CocuentasresV(Connection c) throws SQLException, SQLInjectionException {
+    public CocuentasresV(Connection c) throws SQLException, OsaisException {
         initComponents();
         btnBuscar.setVisible(false);
         tabla = "cocuentasres";
@@ -575,7 +575,7 @@ public class CocuentasresV extends JFrame {
         try {
             CocuentasresV run = new CocuentasresV(c);
             run.setVisible(true);
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),

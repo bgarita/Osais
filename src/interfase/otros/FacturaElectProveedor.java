@@ -359,7 +359,7 @@ public class FacturaElectProveedor extends javax.swing.JFrame {
         String[] cedulaytipo; //Pos0=Cédula, Pos1=Tipo cédula
         try {
             cedulaytipo = getCedulaJ();
-        } catch(SQLException ex){
+        } catch (SQLException ex){
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),

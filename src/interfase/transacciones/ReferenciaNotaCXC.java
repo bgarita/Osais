@@ -28,7 +28,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import logica.utilitarios.FormatoTabla;
-import Exceptions.SQLInjectionException;
+import Exceptions.OsaisException;
 import logica.utilitarios.Ut;
 
 /**
@@ -1041,7 +1041,7 @@ public class ReferenciaNotaCXC extends javax.swing.JFrame {
                 return;
             } // end if
             rsMoneda.beforeFirst();
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",

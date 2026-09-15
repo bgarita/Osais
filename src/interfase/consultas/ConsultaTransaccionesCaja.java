@@ -1,7 +1,6 @@
 package interfase.consultas;
 
-import Exceptions.EmptyDataSourceException;
-import Exceptions.NotUniqueValueException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -342,7 +341,7 @@ public class ConsultaTransaccionesCaja extends javax.swing.JFrame {
         try {
             recibo    = Integer.parseInt(tblTrans.getValueAt(row, 0).toString());
             documento = Integer.parseInt(tblTrans.getValueAt(row, 7).toString());
-        } catch(Exception ex){
+        } catch (Exception ex){
             // No se requiere hacer nada cuando esto ocurra
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
@@ -357,7 +356,7 @@ public class ConsultaTransaccionesCaja extends javax.swing.JFrame {
         try {
             // El valor de cedula hay que traerlo de la tabla
             cedula = UtilBD.getDBString(conn, tabla, "recnume = " + recibo, "cedula");
-        } catch (NotUniqueValueException | SQLException ex) {
+        } catch (OsaisException | SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(), 
@@ -631,7 +630,7 @@ public class ConsultaTransaccionesCaja extends javax.swing.JFrame {
             Ut.fillComboBox(cboCaja, rs, 0, false);
             
             ps.close();
-        } catch (SQLException | EmptyDataSourceException ex) {
+        } catch (SQLException | OsaisException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),

@@ -6,7 +6,7 @@
 
 package interfase.transacciones;
 
-import Exceptions.NotUniqueValueException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.UtilBD;
 import interfase.otros.Buscador;
@@ -378,7 +378,7 @@ public class RecodificacionArticulos extends JFrame {
         try {
             txtArtdesc.setText(
                     UtilBD.getDBString(conn,"inarticu",condicion,"artdesc"));
-        } catch (NotUniqueValueException | SQLException ex) {
+        } catch (OsaisException | SQLException ex) {
             Logger.getLogger(RecodificacionArticulos.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     null,

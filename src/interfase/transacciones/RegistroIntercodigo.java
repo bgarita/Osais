@@ -5,7 +5,7 @@
  */
 package interfase.transacciones;
 
-import Exceptions.CurrencyExchangeException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -22,7 +22,6 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import logica.utilitarios.FormatoTabla;
-import Exceptions.SQLInjectionException;
 import interfase.menus.Menu;
 import logica.utilitarios.Ut;
 
@@ -2209,7 +2208,7 @@ public class RegistroIntercodigo extends javax.swing.JFrame {
                     Float tcd = UtilBD.tipoCambioDolar(c);
 
                     new RegistroIntercodigo(c).setVisible(true);
-                } catch (CurrencyExchangeException | SQLException | NumberFormatException ex) {
+                } catch (OsaisException | SQLException | NumberFormatException ex) {
                     JOptionPane.showMessageDialog(
                             null,
                             ex.getMessage(),
@@ -2490,7 +2489,7 @@ public class RegistroIntercodigo extends javax.swing.JFrame {
             while (rsMoneda.next()) {
                 cboMoneda.addItem(rsMoneda.getString("descrip"));
             } // end while
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",

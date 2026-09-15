@@ -158,7 +158,7 @@ public class ConteoProgressBar extends Thread {
                             JOptionPane.WARNING_MESSAGE);
                 } // end if
                 registrosGuardados += registrosAfectados;
-            }catch(SQLException ex){
+            }catch (SQLException ex){
                 JOptionPane.showMessageDialog(null,
                         ex.getMessage(),
                         "Error",

@@ -18,7 +18,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import logica.IMantenimiento;
-import Exceptions.SQLInjectionException;
+import Exceptions.OsaisException;
 import logica.utilitarios.Ut;
 
 /**
@@ -67,7 +67,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
 
             // Nombre del campo llave
             cargarObjetos();
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
         }
 
@@ -573,7 +573,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
             cargarObjetos();
 
         } // try
-        catch (SQLException | SQLInjectionException ex) {
+        catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -593,7 +593,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
 
             cargarObjetos();
 
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -613,7 +613,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
 
             cargarObjetos();
 
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -638,7 +638,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
 
             cargarObjetos();
 
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -1023,7 +1023,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
             rs = nav.cargarRegistro(
                     Navegador.ESPECIFICO,
                     userName, tabla, "user");
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -1154,7 +1154,7 @@ public class Usuarios extends javax.swing.JFrame implements IMantenimiento {
                     "a.user");         // Nombre del campo llave
             cargarObjetos();
 
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",

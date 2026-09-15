@@ -19,7 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import Exceptions.SQLInjectionException;
+import Exceptions.OsaisException;
 
 /**
  *
@@ -39,8 +39,8 @@ public class Bodegas extends JFrame {
     /** Creates new form Bodegas
      * @param c
      * @throws java.sql.SQLException
-     * @throws Exceptions.SQLInjectionException */
-    public Bodegas(Connection c) throws SQLException, SQLInjectionException {
+     * @throws Exceptions.OsaisException */
+    public Bodegas(Connection c) throws SQLException, OsaisException {
         initComponents();
         cmdBuscar.setVisible(false);
         tabla = "bodegas";
@@ -422,7 +422,7 @@ public class Bodegas extends JFrame {
             sincronizarCombo();
 
         } // try
-        catch (SQLException | SQLInjectionException ex) {
+        catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -444,7 +444,7 @@ public class Bodegas extends JFrame {
             txtDescrip.setText(rs.getString("descrip"));
             sincronizarCombo();
             
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -465,7 +465,7 @@ public class Bodegas extends JFrame {
             txtDescrip.setText(rs.getString("descrip"));
             sincronizarCombo();
             
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -488,7 +488,7 @@ public class Bodegas extends JFrame {
             txtDescrip.setText(rs.getString("descrip"));
             sincronizarCombo();
             
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
@@ -501,7 +501,7 @@ public class Bodegas extends JFrame {
 
         try {
             guardarRegistro();
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),
@@ -586,7 +586,7 @@ public class Bodegas extends JFrame {
         try {
             Bodegas run = new Bodegas(c);
             run.setVisible(true);
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),
@@ -627,7 +627,7 @@ public class Bodegas extends JFrame {
      * El método que lo invoca debe controlar las transacciones.
      * @throws java.sql.SQLException
      */
-    private void guardarRegistro() throws SQLException, SQLInjectionException{
+    private void guardarRegistro() throws SQLException, OsaisException{
         boolean registroCargado;
         String bodega  = txtBodega.getText();
         String descrip = txtDescrip.getText().trim();
@@ -699,7 +699,7 @@ public class Bodegas extends JFrame {
                 txtDescrip.setText(rs.getString("descrip"));
                 sincronizarCombo();
             } // end if-else
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),

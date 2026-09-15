@@ -141,7 +141,7 @@ public class ExportarAsientos {
             CMD.transaction(c, CMD.START_TRANSACTION);
             CMD.update(ps);
             CMD.transaction(c, CMD.COMMIT);
-        } catch(SQLException ex){
+        } catch (SQLException ex){
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(), 
                     "Error", 

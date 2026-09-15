@@ -6,7 +6,7 @@
 
 package interfase.reportes;
 
-import Exceptions.NotUniqueValueException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.UtilBD;
 import interfase.otros.Buscador;
@@ -18,7 +18,6 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import Exceptions.SQLInjectionException;
 import logica.utilitarios.Ut;
 
 /**
@@ -684,7 +683,7 @@ public class RepExistenciasPB extends JFrame {
             try {
                 titulo = 
                         UtilBD.getDBString(conn, "bodegas", "bodega = '" + bodega1 + "'" , "descrip");
-            } catch (NotUniqueValueException | SQLException ex) {
+            } catch (OsaisException | SQLException ex) {
                 Logger.getLogger(RepExistenciasPB.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(
                         null,
@@ -730,7 +729,7 @@ public class RepExistenciasPB extends JFrame {
               aplicaOferta +")";
         try {
             Ut.isSQLInjection(query);
-        } catch (NumberFormatException | SQLInjectionException ex) {
+        } catch (NumberFormatException | OsaisException ex) {
             Logger.getLogger(RepExistenciasPB.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),

@@ -6,7 +6,7 @@
  */
 package interfase.mantenimiento;
 
-import Exceptions.EmptyDataSourceException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -22,7 +22,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import logica.Tarjeta;
-import Exceptions.SQLInjectionException;
 import logica.utilitarios.Ut;
 
 /**
@@ -50,12 +49,12 @@ public class TarjetaDC extends JFrame {
      * @param codigo
      * @param numero
      * @throws java.sql.SQLException
-     * @throws Exceptions.SQLInjectionException
-     * @throws Exceptions.EmptyDataSourceException
+     * @throws Exceptions.OsaisException
+     * @throws Exceptions.OsaisException
      */
     @SuppressWarnings({"unchecked"})
     public TarjetaDC(Connection c, JTextField codigo, JTextField numero)
-            throws SQLException, SQLInjectionException, EmptyDataSourceException {
+            throws SQLException, OsaisException {
         initComponents();
         btnBuscar.setVisible(false);
         tabla = "tarjeta";
@@ -460,7 +459,7 @@ public class TarjetaDC extends JFrame {
             txtIdtarjeta.setText(rs.getShort("idtarjeta") + "");
             showData();
 
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             Logger.getLogger(TarjetaDC.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
@@ -487,7 +486,7 @@ public class TarjetaDC extends JFrame {
             txtIdtarjeta.setText(rs.getShort("idtarjeta") + "");
             showData();
 
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             Logger.getLogger(TarjetaDC.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
@@ -513,7 +512,7 @@ public class TarjetaDC extends JFrame {
             txtIdtarjeta.setText(rs.getShort("idtarjeta") + "");
             showData();
 
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             Logger.getLogger(TarjetaDC.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
@@ -539,7 +538,7 @@ public class TarjetaDC extends JFrame {
             rs.first();
             txtIdtarjeta.setText(rs.getShort("idtarjeta") + "");
             showData();
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             Logger.getLogger(TarjetaDC.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
@@ -577,7 +576,7 @@ public class TarjetaDC extends JFrame {
             } else {
                 CMD.transaction(conn, CMD.COMMIT);
             }
-        } catch (SQLException | SQLInjectionException | EmptyDataSourceException ex) {
+        } catch (SQLException | OsaisException ex) {
             Logger.getLogger(TarjetaDC.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     null,
@@ -653,7 +652,7 @@ public class TarjetaDC extends JFrame {
                 }
 
                 rs3 = nav.cargarRegistro(Navegador.TODOS, 0, tabla, "tipo_comp");
-            } catch (HeadlessException | SQLException | SQLInjectionException ex) {
+            } catch (HeadlessException | SQLException | OsaisException ex) {
                 Logger.getLogger(TarjetaDC.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(
                         null,
@@ -712,7 +711,7 @@ public class TarjetaDC extends JFrame {
         try {
             TarjetaDC run = new TarjetaDC(c, codigo, numero);
             run.setVisible(true);
-        } catch (SQLException | SQLInjectionException | EmptyDataSourceException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),
@@ -757,7 +756,7 @@ public class TarjetaDC extends JFrame {
      */
     @SuppressWarnings("unchecked")
     private void guardarRegistro()
-            throws SQLException, SQLInjectionException, EmptyDataSourceException {
+            throws SQLException, OsaisException {
         if (txtIdtarjeta.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(null,
                     "Debe digitar un código válido",

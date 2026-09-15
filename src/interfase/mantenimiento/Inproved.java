@@ -30,7 +30,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import logica.IMantenimiento;
 import contabilidad.logica.Cuenta;
-import Exceptions.SQLInjectionException;
+import Exceptions.OsaisException;
 import logica.utilitarios.Ut;
 
 /**
@@ -1009,7 +1009,7 @@ public class Inproved extends javax.swing.JFrame implements IMantenimiento {
 
             cargarObjetos();
 
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -1029,7 +1029,7 @@ public class Inproved extends javax.swing.JFrame implements IMantenimiento {
 
             cargarObjetos();
 
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -1049,7 +1049,7 @@ public class Inproved extends javax.swing.JFrame implements IMantenimiento {
 
             cargarObjetos();
 
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -1070,7 +1070,7 @@ public class Inproved extends javax.swing.JFrame implements IMantenimiento {
 
             cargarObjetos();
 
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -1735,7 +1735,7 @@ public class Inproved extends javax.swing.JFrame implements IMantenimiento {
 
         try {
             rs = nav.cargarRegistro(5, procode, tabla, "procode");
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -1887,7 +1887,7 @@ public class Inproved extends javax.swing.JFrame implements IMantenimiento {
                 cargarObjetos();
             } // end if
 
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",

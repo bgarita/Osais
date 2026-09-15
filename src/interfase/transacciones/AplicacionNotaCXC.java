@@ -6,7 +6,7 @@
  */
 package interfase.transacciones;
 
-import Exceptions.CurrencyExchangeException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -25,7 +25,6 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import logica.utilitarios.FormatoTabla;
-import Exceptions.SQLInjectionException;
 import logica.utilitarios.Ut;
 
 /**
@@ -1219,7 +1218,7 @@ public class AplicacionNotaCXC extends javax.swing.JFrame {
                     return;
                 } // end if
                 new AplicacionNotaCXC(c, notanume).setVisible(true);
-            } catch (CurrencyExchangeException | SQLException | NumberFormatException | HeadlessException ex) {
+            } catch (OsaisException | SQLException | NumberFormatException | HeadlessException ex) {
                 JOptionPane.showMessageDialog(null,
                         ex.getMessage(),
                         "Error",
@@ -1331,7 +1330,7 @@ public class AplicacionNotaCXC extends javax.swing.JFrame {
                 return;
             } // end if
             rsMoneda.beforeFirst();
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",

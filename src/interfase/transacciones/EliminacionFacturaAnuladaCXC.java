@@ -161,7 +161,7 @@ public class EliminacionFacturaAnuladaCXC extends javax.swing.JFrame {
         int recnume = 0;
         try {
             recnume = Integer.parseInt(txtFacnume.getText().trim());
-        } catch(Exception ex){
+        } catch (Exception ex){
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
@@ -227,7 +227,7 @@ public class EliminacionFacturaAnuladaCXC extends javax.swing.JFrame {
         int facnume = 0;
         try {
             facnume = Integer.parseInt(txtFacnume.getText().trim());
-        } catch(Exception ex){
+        } catch (Exception ex){
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",

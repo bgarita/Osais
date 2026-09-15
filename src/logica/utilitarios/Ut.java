@@ -1,7 +1,6 @@
 package logica.utilitarios;
 
-import Exceptions.SQLInjectionException;
-import Exceptions.EmptyDataSourceException;
+import Exceptions.OsaisException;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
 import java.io.BufferedReader;
@@ -1894,7 +1893,7 @@ public class Ut {
 
     /**
      * @throws java.sql.SQLException
-     * @throws Exceptions.EmptyDataSourceException
+     * @throws Exceptions.OsaisException
      * @Author: Bosco Garita 04/01/2011. Carga un comboBox con los datos de un
      * ResultSet
      * @param combo comboBox que se llenará
@@ -1912,7 +1911,7 @@ public class Ut {
             javax.swing.JComboBox combo,
             ResultSet rs,
             int col,
-            boolean replace) throws SQLException, EmptyDataSourceException {
+            boolean replace) throws SQLException, OsaisException {
 
         boolean datosCargados = false;
         int registros;
@@ -1923,7 +1922,7 @@ public class Ut {
         } // end if
 
         if (rs == null || !rs.first()) {
-            throw new EmptyDataSourceException();
+            throw new OsaisException("Fuente de datos vacia", Ut.class.getName());
         } // end if
 
         if (replace) {
@@ -2040,9 +2039,9 @@ public class Ut {
      *
      * @param sqlSent
      * @return true=Hay inyección, false=no hay
-     * @throws SQLInjectionException
+     * @throws OsaisException
      */
-    public static boolean isSQLInjection(String sqlSent) throws SQLInjectionException {
+    public static boolean isSQLInjection(String sqlSent) throws OsaisException {
         boolean inyectado;
         // Pasar todo a mayúcula para facilitar la revisión
         String s = sqlSent.toUpperCase();
@@ -2051,7 +2050,7 @@ public class Ut {
         inyectado = injectionByOperator(s);
 
         if (inyectado) {
-            throw new SQLInjectionException();
+            throw new OsaisException("Se ha detectado una posible inyección de código.\nLa sentencia SQL no se ejecutará.", Ut.class.getName());
         } // end if
 
         // También elimino todos los espacios en blanco para buscar inyección.
@@ -2085,7 +2084,7 @@ public class Ut {
                 s.contains("VERSION(") // No se permite la función VERSION()
                 ;
         if (inyectado) {
-            throw new SQLInjectionException();
+            throw new OsaisException("Se ha detectado una posible inyección de código.\nLa sentencia SQL no se ejecutará.", Ut.class.getName());
         } // end if
         // Incorporar casos como este: ' or 1=1
         // En este caso se trata de detectar expresiones que siempre evalúen

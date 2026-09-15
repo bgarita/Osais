@@ -20,7 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import logica.IMantenimiento;
-import Exceptions.SQLInjectionException;
+import Exceptions.OsaisException;
 import logica.utilitarios.Ut;
 
 /**
@@ -43,8 +43,8 @@ public class ProveedoresAsignados extends javax.swing.JFrame implements IManteni
      * @param codigo
      * @param descripcion
      * @throws java.sql.SQLException
-     * @throws Exceptions.SQLInjectionException */
-    public ProveedoresAsignados(Connection c, String codigo, String descripcion) throws SQLException, SQLInjectionException {
+     * @throws Exceptions.OsaisException */
+    public ProveedoresAsignados(Connection c, String codigo, String descripcion) throws SQLException, OsaisException {
         initComponents();
 
         conn = c;
@@ -445,7 +445,7 @@ public class ProveedoresAsignados extends javax.swing.JFrame implements IManteni
         this.eliminarRegistro(artcode, txtProcode.getText().trim());
         try {
             this.fillTable();
-        } catch (SQLInjectionException | SQLException ex) {
+        } catch (OsaisException | SQLException ex) {
             Logger.getLogger(ProveedoresAsignados.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
@@ -486,7 +486,7 @@ public class ProveedoresAsignados extends javax.swing.JFrame implements IManteni
             public void run() {
                 try {
                     new ProveedoresAsignados(c, pArtcode, pArtdesc).setVisible(true);
-                } catch (SQLException | SQLInjectionException ex) {
+                } catch (SQLException | OsaisException ex) {
                     JOptionPane.showMessageDialog(null,
                             ex.getMessage(),
                             "Error",
@@ -610,7 +610,7 @@ public class ProveedoresAsignados extends javax.swing.JFrame implements IManteni
 
     } // end eliminar
     
-    private void fillTable() throws SQLInjectionException, SQLException{
+    private void fillTable() throws OsaisException, SQLException{
         Ut.clearJTable(tblProveedores);
         String sqlSent =
                 "Select           " +

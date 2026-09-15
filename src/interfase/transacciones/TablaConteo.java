@@ -6,7 +6,7 @@
 
 package interfase.transacciones;
 
-import Exceptions.EmptyDataSourceException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -38,8 +38,8 @@ public class TablaConteo extends JFrame {
     /** Creates new form
      * @param c
      * @throws java.sql.SQLException
-     * @throws Exceptions.EmptyDataSourceException */
-    public TablaConteo(Connection c) throws SQLException, EmptyDataSourceException {
+     * @throws Exceptions.OsaisException */
+    public TablaConteo(Connection c) throws SQLException, OsaisException {
         initComponents();
 
         conn = c;
@@ -380,7 +380,7 @@ public class TablaConteo extends JFrame {
         try {
             TablaConteo run = new TablaConteo(c);
             run.setVisible(true);
-        } catch (SQLException | EmptyDataSourceException ex) {
+        } catch (SQLException | OsaisException ex) {
              JOptionPane.showMessageDialog(null,
                      ex.getMessage(),
                     "Error",

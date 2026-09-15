@@ -6,7 +6,7 @@
 
 package interfase.reportes;
 
-import Exceptions.NotUniqueValueException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -622,7 +622,7 @@ public class RepAsientos extends JFrame {
                             "vistacocatalogo", 
                             "cuenta = " + "'" + txtCuenta.getText().trim() + "'", 
                             "nom_cta"));
-        } catch (NotUniqueValueException | SQLException ex) {
+        } catch (OsaisException | SQLException ex) {
             Logger.getLogger(RepAsientos.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),

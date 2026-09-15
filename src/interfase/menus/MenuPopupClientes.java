@@ -1,7 +1,7 @@
 
 package interfase.menus;
 
-import Exceptions.EmptyDataSourceException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import interfase.consultas.ConsultaFacturas;
 import interfase.mantenimiento.Inclient;
@@ -243,7 +243,7 @@ public class MenuPopupClientes extends JPopupMenu {
             RepAntigSaldosCXC run = new RepAntigSaldosCXC(conn);
             run.setClicode(sclicode);
             run.setVisible(true);
-        }catch(SQLException ex){
+        }catch (SQLException ex){
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -259,7 +259,7 @@ public class MenuPopupClientes extends JPopupMenu {
             run.setClicode(sclicode);
             run.setVisible(true);
             run.setClicodeValid();
-        }catch(SQLException | EmptyDataSourceException ex){
+        }catch (SQLException | OsaisException ex){
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -274,7 +274,7 @@ public class MenuPopupClientes extends JPopupMenu {
             RegistroPagosCXC run = new RegistroPagosCXC(conn);
             run.setClicode(sclicode);
             run.setVisible(true);
-        }catch(SQLException ex){
+        }catch (SQLException ex){
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",

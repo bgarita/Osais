@@ -5,7 +5,7 @@
  */
 package contabilidad.view;
 
-import Exceptions.EmptyDataSourceException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import interfase.menus.Menu;
@@ -21,7 +21,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import contabilidad.logica.CoasientoE;
 import contabilidad.logica.Cotipasient;
-import Exceptions.SQLInjectionException;
 import logica.utilitarios.Ut;
 
 /**
@@ -46,12 +45,11 @@ public class TiposAsiento extends JFrame {
      * Creates new form Bodegas
      *
      * @throws java.sql.SQLException
-     * @throws Exceptions.SQLInjectionException
-     * @throws Exceptions.EmptyDataSourceException
+     * @throws Exceptions.OsaisException
      */
     @SuppressWarnings({"unchecked"})
     public TiposAsiento()
-            throws SQLException, SQLInjectionException, EmptyDataSourceException {
+            throws SQLException, OsaisException {
         initComponents();
 
         this.init = true;
@@ -402,7 +400,7 @@ public class TiposAsiento extends JFrame {
             txtTipo_comp.setText(rs.getString("tipo_comp"));
             txtDescrip.setText(rs.getString("descrip"));
             txtConsecutivo.setText(rs.getString("consecutivo"));
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
@@ -430,7 +428,7 @@ public class TiposAsiento extends JFrame {
             txtTipo_comp.setText(rs.getString("tipo_comp"));
             txtDescrip.setText(rs.getString("descrip"));
             txtConsecutivo.setText(rs.getString("consecutivo"));
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
@@ -457,7 +455,7 @@ public class TiposAsiento extends JFrame {
             txtTipo_comp.setText(rs.getString("tipo_comp"));
             txtDescrip.setText(rs.getString("descrip"));
             txtConsecutivo.setText(rs.getString("consecutivo"));
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
@@ -485,7 +483,7 @@ public class TiposAsiento extends JFrame {
             txtTipo_comp.setText(rs.getString("tipo_comp"));
             txtDescrip.setText(rs.getString("descrip"));
             txtConsecutivo.setText(rs.getString("consecutivo"));
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
@@ -504,7 +502,7 @@ public class TiposAsiento extends JFrame {
             } else {
                 CMD.transaction(conn, CMD.COMMIT);
             }
-        } catch (SQLException | SQLInjectionException | EmptyDataSourceException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),
@@ -616,7 +614,7 @@ public class TiposAsiento extends JFrame {
                 }
 
                 rs3 = nav.cargarRegistro(Navegador.TODOS, 0, tabla, "tipo_comp");
-            } catch (HeadlessException | SQLException | SQLInjectionException ex) {
+            } catch (HeadlessException | SQLException | OsaisException ex) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(
                         null,
@@ -656,7 +654,7 @@ public class TiposAsiento extends JFrame {
         try {
             TiposAsiento run = new TiposAsiento();
             run.setVisible(true);
-        } catch (SQLException | SQLInjectionException | EmptyDataSourceException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),
@@ -698,7 +696,7 @@ public class TiposAsiento extends JFrame {
      */
     @SuppressWarnings("unchecked")
     private void guardarRegistro()
-            throws SQLException, SQLInjectionException, EmptyDataSourceException {
+            throws SQLException, OsaisException {
         if (txtTipo_comp.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(null,
                     "Debe digitar un código válido",

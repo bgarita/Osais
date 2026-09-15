@@ -795,7 +795,7 @@ public class MantenimientoBaseDatos extends Thread {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             b.writeToLog(this.getClass().getName() + "--> " + ex.getMessage(), Bitacora.ERROR);
-        } // catch(SQLException ex)
+        } // catch (SQLException ex)
         return procesoOK;
     } // end recalcularSaldoClientes
 

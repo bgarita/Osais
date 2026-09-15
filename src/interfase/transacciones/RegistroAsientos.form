@@ -194,7 +194,6 @@
       </Properties>
       <Events>
         <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtDescripFocusGained"/>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtDescripActionPerformed"/>
         <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtDescripKeyPressed"/>
       </Events>
     </Component>
@@ -210,12 +209,12 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="txtNo_comprob" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtComprobante" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="datFecha_comp" alignment="0" min="-2" pref="147" max="-2" attributes="0"/>
+                      <Component id="datFechaComp" alignment="0" min="-2" pref="147" max="-2" attributes="0"/>
                       <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -247,9 +246,9 @@
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="cboDescrip" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtNo_comprob" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtComprobante" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="datFecha_comp" min="-2" max="-2" attributes="0"/>
+                      <Component id="datFechaComp" min="-2" max="-2" attributes="0"/>
                       <Component id="txtNo_refer" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="0" pref="10" max="32767" attributes="0"/>
@@ -271,7 +270,6 @@
           </Properties>
           <Events>
             <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="cboDescripFocusGained"/>
-            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="cboDescripFocusLost"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cboDescripActionPerformed"/>
           </Events>
           <AuxValues>
@@ -293,7 +291,7 @@
             <Property name="text" type="java.lang.String" value="Referencia"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JFormattedTextField" name="txtNo_comprob">
+        <Component class="javax.swing.JFormattedTextField" name="txtComprobante">
           <Properties>
             <Property name="columns" type="int" value="10"/>
             <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
@@ -301,15 +299,15 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtNo_comprobFocusGained"/>
-            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtNo_comprobFocusLost"/>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtNo_comprobActionPerformed"/>
-            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtNo_comprobKeyPressed"/>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtComprobanteFocusGained"/>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtComprobanteFocusLost"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtComprobanteActionPerformed"/>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtComprobanteKeyPressed"/>
           </Events>
         </Component>
-        <Component class="com.toedter.calendar.JDateChooser" name="datFecha_comp">
+        <Component class="com.toedter.calendar.JDateChooser" name="datFechaComp">
           <Events>
-            <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="datFecha_compPropertyChange"/>
+            <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="datFechaCompPropertyChange"/>
           </Events>
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="txtNo_refer">

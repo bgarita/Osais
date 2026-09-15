@@ -7,7 +7,7 @@
 
 package interfase.reportes;
 
-import Exceptions.EmptyDataSourceException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -56,10 +56,10 @@ public class RepDocInv extends JFrame {
      * @param tipoMov String tipo de movimiento
      * @param movdocu String número de documento
      * @throws java.sql.SQLException
-     * @throws Exceptions.EmptyDataSourceException 
+     * @throws Exceptions.OsaisException 
      */
     public RepDocInv(Connection c, String tipoMov, String movdocu)
-            throws SQLException, EmptyDataSourceException {
+            throws SQLException, OsaisException {
         initComponents();
 
         this.setVisible(true);
@@ -608,7 +608,7 @@ public class RepDocInv extends JFrame {
 
         try {
             RepDocInv run = new RepDocInv(c, tipoMov, movdocu);
-        } catch (SQLException | EmptyDataSourceException ex) {
+        } catch (SQLException | OsaisException ex) {
              JOptionPane.showMessageDialog(null,
                      ex.getMessage(),
                     "Error",

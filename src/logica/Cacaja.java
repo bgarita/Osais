@@ -1,6 +1,6 @@
 package logica;
 
-import Exceptions.NotUniqueValueException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -953,7 +953,7 @@ public class Cacaja implements IEstructuraBD {
                 ps.setInt(3, idcaja);
                 CMD.update(ps);
             } // end try with resources
-        } catch (NotUniqueValueException | SQLException ex) {
+        } catch (OsaisException | SQLException ex) {
             Logger.getLogger(Cacaja.class.getName()).log(Level.SEVERE, null, ex);
             this.error = true;
             this.mensaje_error = ex.getMessage();

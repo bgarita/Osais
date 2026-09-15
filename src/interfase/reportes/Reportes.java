@@ -8,7 +8,7 @@ import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
-import Exceptions.SQLInjectionException;
+import Exceptions.OsaisException;
 import logica.utilitarios.Ut;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -398,7 +398,7 @@ public class Reportes {
             jviewer.setTitle(titulo);
             jviewer.setVisible(true);
 
-        } catch (HeadlessException | JRException | SQLInjectionException ex) {
+        } catch (HeadlessException | JRException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -487,7 +487,7 @@ public class Reportes {
             JasperViewer jviewer = new JasperViewer(jasperPrint, false);
             jviewer.setTitle(titulo);
             jviewer.setVisible(true);
-        } catch (HeadlessException | JRException | SQLInjectionException ex) {
+        } catch (HeadlessException | JRException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -567,7 +567,7 @@ public class Reportes {
             JasperViewer jviewer = new JasperViewer(jasperPrint, false);
             jviewer.setTitle(titulo);
             jviewer.setVisible(true);
-        } catch (HeadlessException | JRException | SQLInjectionException ex) {
+        } catch (HeadlessException | JRException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -652,7 +652,7 @@ public class Reportes {
             JasperViewer jviewer = new JasperViewer(jasperPrint, false);
             jviewer.setTitle("Cédulas");
             jviewer.setVisible(true);
-        } catch (HeadlessException | JRException | SQLInjectionException ex) {
+        } catch (HeadlessException | JRException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -715,7 +715,7 @@ public class Reportes {
             JasperViewer jviewer = new JasperViewer(jasperPrint, false);
             jviewer.setTitle("Comparativo Mensual");
             jviewer.setVisible(true);
-        } catch (HeadlessException | JRException | SQLInjectionException ex) {
+        } catch (HeadlessException | JRException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",

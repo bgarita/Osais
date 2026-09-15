@@ -6,7 +6,7 @@
 
 package interfase.mantenimiento;
 
-import Exceptions.EmptyDataSourceException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -24,7 +24,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import logica.Cacaja;
 import logica.Usuario;
-import Exceptions.SQLInjectionException;
 import logica.utilitarios.Ut;
 
 /**
@@ -44,10 +43,10 @@ public class Caja extends JFrame {
     /** Creates new form Caja
      * @param c
      * @throws java.sql.SQLException
-     * @throws Exceptions.SQLInjectionException
-     * @throws Exceptions.EmptyDataSourceException */
+     * @throws Exceptions.OsaisException
+     * @throws Exceptions.OsaisException */
     public Caja(Connection c) 
-            throws SQLException, SQLInjectionException, EmptyDataSourceException {
+            throws SQLException, OsaisException {
         initComponents();
         nav = new Navegador();
                 
@@ -1070,7 +1069,7 @@ public class Caja extends JFrame {
         try {
             Caja run = new Caja(c);
             run.setVisible(true);
-        } catch (SQLException | SQLInjectionException | EmptyDataSourceException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),

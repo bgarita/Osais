@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import Exceptions.SQLInjectionException;
+import Exceptions.OsaisException;
 import interfase.menus.Menu;
 import interfase.seguridad.PasswordUtil;
 import java.io.File;
@@ -233,7 +233,7 @@ public class IngresoAcciones {
             if (!UtilBD.goRecord(rs, UtilBD.FIRST)) {
                 continuar = false;
             } // end if
-        } catch (SQLInjectionException | SQLException ex) {
+        } catch (OsaisException | SQLException ex) {
             Logger.getLogger(Ingreso.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),

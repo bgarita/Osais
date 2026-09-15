@@ -6,8 +6,7 @@
  */
 package interfase.transacciones;
 
-import Exceptions.CurrencyExchangeException;
-import Exceptions.NotUniqueValueException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -159,7 +158,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                 maxDesc = Float.valueOf(
                         UtilBD.getDBString(
                                 c, "usuario", "user = GetDBUser()", "maxDesc"));
-            } catch (NotUniqueValueException ex) {
+            } catch (OsaisException ex) {
                 Logger.getLogger(RegistroPedidosV.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(
                         null,
@@ -2248,7 +2247,7 @@ public class RegistroPedidosV extends javax.swing.JFrame {
                     Float tcd = UtilBD.tipoCambioDolar(c);
 
                     new RegistroPedidosV(c, clicode).setVisible(true);
-                } catch (CurrencyExchangeException | SQLException | NumberFormatException ex) {
+                } catch (OsaisException | SQLException | NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null,
                             ex.getMessage(),
                             "Error",

@@ -5,7 +5,7 @@
  */
 package interfase.mantenimiento;
 
-import Exceptions.EmptyDataSourceException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -21,7 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import Exceptions.SQLInjectionException;
+import Exceptions.OsaisException;
 import logica.utilitarios.Ut;
 
 /**
@@ -139,7 +139,7 @@ public class Tipocambio extends JFrame {
                 return;
             } // end if
             Ut.fillComboBox(cboDescrip, rs3, 2, false);
-        } catch (SQLException | EmptyDataSourceException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -416,7 +416,7 @@ public class Tipocambio extends JFrame {
 
             actualizarObjetos();
         } // try
-        catch (SQLException | SQLInjectionException ex) {
+        catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -435,7 +435,7 @@ public class Tipocambio extends JFrame {
             rs.first();
 
             actualizarObjetos();
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -453,7 +453,7 @@ public class Tipocambio extends JFrame {
             rs.first();
 
             actualizarObjetos();
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -472,7 +472,7 @@ public class Tipocambio extends JFrame {
             rs.first();
 
             actualizarObjetos();
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",

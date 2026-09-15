@@ -16,7 +16,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
-import Exceptions.SQLInjectionException;
+import Exceptions.OsaisException;
 import logica.utilitarios.Ut;
 
 /**
@@ -60,7 +60,7 @@ public class AnulacionDocInv extends java.awt.Dialog {
         // el campo para que el usuario pueda digitar un número.
         try{
             txtMovdocu.setEnabled(Integer.parseInt(documento) == 0);
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             // Si ocurriera un error aquí es porque lo que llegó no era un
             // número entonces lo tomo como cero para que se pueda continuar.
             txtMovdocu.setEnabled(true);
@@ -315,7 +315,7 @@ public class AnulacionDocInv extends java.awt.Dialog {
                         JOptionPane.ERROR_MESSAGE);
             } // end if
             ps.close();
-        } catch(SQLException ex){
+        } catch (SQLException ex){
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -430,7 +430,7 @@ public class AnulacionDocInv extends java.awt.Dialog {
             if (hayTransaccion){
                 try{
                     CMD.transaction(conn, CMD.ROLLBACK);
-                } catch(SQLException ex1){
+                } catch (SQLException ex1){
                     JOptionPane.showMessageDialog(null, 
                             ex1.getMessage(),
                             "Error",
@@ -501,7 +501,7 @@ public class AnulacionDocInv extends java.awt.Dialog {
                     } // end if
                 } // end if
             } // end while
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(), 
                     "Error",

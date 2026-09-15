@@ -7,7 +7,7 @@
 
 package interfase.reportes;
 
-import Exceptions.EmptyDataSourceException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.UtilBD;
 import interfase.otros.Buscador;
@@ -20,7 +20,6 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import Exceptions.SQLInjectionException;
 import logica.utilitarios.Ut;
 
 /**
@@ -42,10 +41,10 @@ public class RepPedidosyAp extends JFrame {
      * @param c
      * @param artcode
      * @throws java.sql.SQLException
-     * @throws Exceptions.EmptyDataSourceException
-     * @throws Exceptions.SQLInjectionException */
+     * @throws Exceptions.OsaisException
+     * @throws Exceptions.OsaisException */
     public RepPedidosyAp(Connection c, String artcode) 
-            throws SQLException, EmptyDataSourceException, SQLInjectionException {
+            throws SQLException, OsaisException {
         initComponents();
 
         conn = c;
@@ -478,7 +477,7 @@ public class RepPedidosyAp extends JFrame {
         try {
             RepPedidosyAp run = new RepPedidosyAp(c,artcode);
             //run.setVisible(true);
-        } catch (SQLException | EmptyDataSourceException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
              JOptionPane.showMessageDialog(
                      null, ex.getMessage(),
                     "Error",

@@ -8,7 +8,7 @@
  */
 package interfase.mantenimiento;
 
-import Exceptions.EmptyDataSourceException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -21,7 +21,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import Exceptions.SQLInjectionException;
 import logica.utilitarios.Ut;
 
 /**
@@ -44,10 +43,10 @@ public class Infamily extends javax.swing.JFrame {
      *
      * @param c
      * @throws java.sql.SQLException
-     * @throws Exceptions.EmptyDataSourceException
-     * @throws Exceptions.SQLInjectionException
+     * @throws Exceptions.OsaisException
+     * @throws Exceptions.OsaisException
      */
-    public Infamily(Connection c) throws SQLException, EmptyDataSourceException, SQLInjectionException {
+    public Infamily(Connection c) throws SQLException, OsaisException {
         initComponents();
 
         btnBuscar.setVisible(false);
@@ -333,7 +332,7 @@ public class Infamily extends javax.swing.JFrame {
             txtFamilia.setText(rs.getString("familia"));
             sincronizarCombo();
 
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -355,7 +354,7 @@ public class Infamily extends javax.swing.JFrame {
             txtFamilia.setText(rs.getString("familia"));
             sincronizarCombo();
 
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -378,7 +377,7 @@ public class Infamily extends javax.swing.JFrame {
             txtFamilia.setText(rs.getString("familia"));
             sincronizarCombo();
 
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -402,7 +401,7 @@ public class Infamily extends javax.swing.JFrame {
             txtFamilia.setText(rs.getString("familia"));
             sincronizarCombo();
 
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -414,7 +413,7 @@ public class Infamily extends javax.swing.JFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         try {
             guardarRegistro();
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -572,7 +571,7 @@ public class Infamily extends javax.swing.JFrame {
         try {
             Infamily run = new Infamily(c);
             run.setVisible(true);
-        } catch (SQLException | EmptyDataSourceException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -610,7 +609,7 @@ public class Infamily extends javax.swing.JFrame {
      *
      * @throws java.sql.SQLException
      */
-    private void guardarRegistro() throws SQLException, SQLInjectionException {
+    private void guardarRegistro() throws SQLException, OsaisException {
         int sqlresult;
         boolean registroCargado;
         String llave = txtArtfam.getText();
@@ -718,7 +717,7 @@ public class Infamily extends javax.swing.JFrame {
                 sincronizarCombo();
             }
             // end if
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",

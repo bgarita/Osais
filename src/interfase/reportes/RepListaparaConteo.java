@@ -6,7 +6,7 @@
 
 package interfase.reportes;
 
-import Exceptions.EmptyDataSourceException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.UtilBD;
 import java.sql.Connection;
@@ -36,8 +36,8 @@ public class RepListaparaConteo extends JFrame {
     /** Creates new form
      * @param c
      * @throws java.sql.SQLException
-     * @throws Exceptions.EmptyDataSourceException */
-    public RepListaparaConteo(Connection c) throws SQLException, EmptyDataSourceException {
+     * @throws Exceptions.OsaisException */
+    public RepListaparaConteo(Connection c) throws SQLException, OsaisException {
         initComponents();
 
         conn = c;
@@ -426,7 +426,7 @@ public class RepListaparaConteo extends JFrame {
         try {
             RepListaparaConteo run = new RepListaparaConteo(c);
             run.setVisible(true);
-        } catch (SQLException | EmptyDataSourceException ex) {
+        } catch (SQLException | OsaisException ex) {
              JOptionPane.showMessageDialog(null,
                      ex.getMessage(),
                     "Error", 

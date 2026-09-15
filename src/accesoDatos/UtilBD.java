@@ -3,9 +3,7 @@
  */
 package accesoDatos;
 
-import Exceptions.CurrencyExchangeException;
-import Exceptions.EmptyDataSourceException;
-import Exceptions.NotUniqueValueException;
+import Exceptions.OsaisException;
 import interfase.menus.Menu;
 import interfase.otros.Navegador;
 import java.io.File;
@@ -175,11 +173,11 @@ public class UtilBD {
      *
      * @param c Conexión a la base de datos
      * @return float Tipo de cambio para el dólar
-     * @throws CurrencyExchangeException
+     * @throws OsaisException
      * @throws java.sql.SQLException
      */
     public static float tipoCambioDolar(Connection c)
-            throws CurrencyExchangeException, SQLException {
+            throws OsaisException, SQLException {
         float tc;
         Calendar cal = Calendar.getInstance();
 
@@ -203,7 +201,7 @@ public class UtilBD {
         tc = tipoCambio(tcDolar, cal.getTime(), c);
 
         if (tc == 0.00) {
-            throw new CurrencyExchangeException();
+            throw new OsaisException("Aun no se ha configurado el TC del dolar para hoy.\nVaya al menu Registro y elija Tipo de cambio.", UtilBD.class.getName());
         } // end if
 
         return tc;
@@ -378,14 +376,14 @@ public class UtilBD {
      * @param expresion String campo o expresión que tiene el valor a obtener
      * (select).
      * @return String valor de la base de datos
-     * @throws Exceptions.NotUniqueValueException
+     * @throws Exceptions.OsaisException
      * @throws java.sql.SQLException
      */
     public static String getDBString(
             Connection c,
             String tabla,
             String condicion,
-            String expresion) throws NotUniqueValueException, SQLException {
+            String expresion) throws OsaisException, SQLException {
         // No hago ninguna validación para que el programador pueda ver
         // el error cuando alguno de los parámetros es incorrecto.
         // Si la expresión contiene un alias ese es el que se usará como nombre
@@ -405,7 +403,7 @@ public class UtilBD {
 
             int registros = Ut.recNo(r); // Cantidad de registros
             if (registros > 1) {
-                throw new NotUniqueValueException(
+                throw new OsaisException(
                         "El valor a consultar ["
                         + r.getString(alias) + "]"
                         + " no es único.");
@@ -1268,11 +1266,11 @@ public class UtilBD {
      * @param user String usuario logueado
      * @return true=El usuario es un cajero y está activo, false=El usuario no
      * es cajero o no estáctivo
-     * @throws NotUniqueValueException
+     * @throws OsaisException
      * @throws SQLException
      */
     public static boolean esCajeroActivo(Connection c, String user)
-            throws NotUniqueValueException, SQLException {
+            throws OsaisException, SQLException {
         String sqlWhere = "user = '" + user + "' and activo = 'S'";
         return !UtilBD.getDBString(c, "cajero", sqlWhere, "user").isEmpty();
     } // end esCajeroActivo
@@ -1336,7 +1334,7 @@ public class UtilBD {
         return cajax;
     } // end getCajaForThisUser
 
-    public static void loadBancos(Connection conn, JComboBox cboBanco) throws SQLException, EmptyDataSourceException {
+    public static void loadBancos(Connection conn, JComboBox cboBanco) throws SQLException, OsaisException {
         String sqlSent
                 = "Select concat(idbanco,'-',descrip) as banco from babanco";
         PreparedStatement ps;

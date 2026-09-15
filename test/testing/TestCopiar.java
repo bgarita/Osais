@@ -36,7 +36,7 @@ public class TestCopiar {
         try{
             cp.copy(new File(srcFile),new File(dstFile));
             System.out.print("Copiado con éxito");
-        }catch(Exception e){
+        }catch (Exception e){
             System.out.println(e);
         }
     }

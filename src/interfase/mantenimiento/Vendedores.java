@@ -19,7 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import Exceptions.SQLInjectionException;
+import Exceptions.OsaisException;
 import logica.utilitarios.Ut;
 
 /**
@@ -39,7 +39,7 @@ public class Vendedores extends JFrame {
     private final Bitacora b = new Bitacora();
 
     /** Creates new form */
-    public Vendedores(Connection c) throws SQLException, SQLInjectionException {
+    public Vendedores(Connection c) throws SQLException, OsaisException {
         initComponents();
         cmdBuscar.setVisible(false);
         tabla = "vendedor";
@@ -338,7 +338,7 @@ public class Vendedores extends JFrame {
             txtVend.setText(Integer.toString(rs.getInt("vend")));
             txtNombre.setText(rs.getString("nombre"));
         } // try
-        catch (NumberFormatException | SQLException | SQLInjectionException ex) {
+        catch (NumberFormatException | SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -359,7 +359,7 @@ public class Vendedores extends JFrame {
             
             txtVend.setText(Integer.toString(rs.getInt("vend")));
             txtNombre.setText(rs.getString("nombre"));
-        } catch (NumberFormatException | SQLException | SQLInjectionException ex) {
+        } catch (NumberFormatException | SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -380,7 +380,7 @@ public class Vendedores extends JFrame {
             
             txtVend.setText(Integer.toString(rs.getInt("vend")));
             txtNombre.setText(rs.getString("nombre"));
-        } catch (NumberFormatException | SQLException | SQLInjectionException ex) {
+        } catch (NumberFormatException | SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -402,7 +402,7 @@ public class Vendedores extends JFrame {
             
             txtVend.setText(Integer.toString(rs.getInt("vend")));
             txtNombre.setText(rs.getString("nombre"));
-        } catch (NumberFormatException | SQLException | SQLInjectionException ex) {
+        } catch (NumberFormatException | SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -486,7 +486,7 @@ public class Vendedores extends JFrame {
         try {
             Vendedores run = new Vendedores(c);
             run.setVisible(true);
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
              JOptionPane.showMessageDialog(null,
                      ex.getMessage(),
                     "Error",
@@ -555,7 +555,7 @@ public class Vendedores extends JFrame {
             } // end if
             sqlResult = psVendedor.executeUpdate();
             //sqlResult = sqlquery.executeUpdate(UpdateSql);
-        } catch (SQLInjectionException | SQLException ex) {
+        } catch (OsaisException | SQLException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -574,7 +574,7 @@ public class Vendedores extends JFrame {
         try {
             // end if
             rs = nav.cargarRegistro(5, vend, tabla, "vend");
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -609,7 +609,7 @@ public class Vendedores extends JFrame {
                 txtNombre.setText(rs.getString("nombre"));
             }
             // end if
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
              JOptionPane.showMessageDialog(null,
                      ex.getMessage(),
                     "Error",

@@ -6,7 +6,7 @@
 
 package interfase.reportes;
 
-import Exceptions.EmptyDataSourceException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.UtilBD;
 import java.sql.Connection;
@@ -36,8 +36,8 @@ public class RepDiferenciasInv extends JFrame {
     /** Creates new form
      * @param c
      * @throws java.sql.SQLException
-     * @throws Exceptions.EmptyDataSourceException */
-    public RepDiferenciasInv(Connection c) throws SQLException, EmptyDataSourceException {
+     * @throws Exceptions.OsaisException */
+    public RepDiferenciasInv(Connection c) throws SQLException, OsaisException {
         initComponents();
 
         conn = c;
@@ -314,7 +314,7 @@ public class RepDiferenciasInv extends JFrame {
         try {
             RepDiferenciasInv run = new RepDiferenciasInv(c);
             run.setVisible(true);
-        } catch (SQLException | EmptyDataSourceException ex) {
+        } catch (SQLException | OsaisException ex) {
              JOptionPane.showMessageDialog(null, 
                      ex.getMessage(),
                     "Error", 

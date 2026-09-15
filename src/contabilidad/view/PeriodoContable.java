@@ -6,7 +6,7 @@
 
 package contabilidad.view;
 
-import Exceptions.EmptyDataSourceException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import interfase.menus.Menu;
@@ -21,7 +21,6 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import contabilidad.logica.Coperiodoco;
-import Exceptions.SQLInjectionException;
 
 /**
  *
@@ -41,11 +40,11 @@ public class PeriodoContable extends JFrame {
 
     /** Creates new form PeriodoContable
      * @throws java.sql.SQLException
-     * @throws Exceptions.SQLInjectionException
-     * @throws Exceptions.EmptyDataSourceException */
+     * @throws Exceptions.OsaisException
+     */
     @SuppressWarnings({"unchecked"})
     public PeriodoContable() 
-            throws SQLException, SQLInjectionException, EmptyDataSourceException {
+            throws SQLException, OsaisException {
         initComponents();
         
         addWindowListener(new WindowAdapter() {
@@ -488,7 +487,7 @@ public class PeriodoContable extends JFrame {
         try {
             PeriodoContable run = new PeriodoContable();
             run.setVisible(true);
-        } catch (SQLException | SQLInjectionException | EmptyDataSourceException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),

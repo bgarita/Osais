@@ -23,7 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import Exceptions.SQLInjectionException;
+import Exceptions.OsaisException;
 import logica.utilitarios.Ut;
 
 /**
@@ -43,8 +43,8 @@ public class Codigosdebarra extends JFrame {
     /** Creates new form
      * @param c
      * @throws java.sql.SQLException
-     * @throws Exceptions.SQLInjectionException */
-    public Codigosdebarra(Connection c) throws SQLException, SQLInjectionException {
+     * @throws Exceptions.OsaisException */
+    public Codigosdebarra(Connection c) throws SQLException, OsaisException {
         initComponents();
         
         addWindowListener(new WindowAdapter(){
@@ -381,7 +381,7 @@ public class Codigosdebarra extends JFrame {
             } // end if
 
             refrescarObjetos();
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error", 
@@ -399,7 +399,7 @@ public class Codigosdebarra extends JFrame {
             } // end if
 
             refrescarObjetos();
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error", 
@@ -417,7 +417,7 @@ public class Codigosdebarra extends JFrame {
             } // end if
 
             refrescarObjetos();
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error", 
@@ -436,7 +436,7 @@ public class Codigosdebarra extends JFrame {
             } // end if
 
             refrescarObjetos();
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error", 
@@ -466,7 +466,7 @@ public class Codigosdebarra extends JFrame {
                 return;
             } // end if
             txtArtcode.transferFocus();
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                         "Error", 
@@ -527,7 +527,7 @@ public class Codigosdebarra extends JFrame {
         try {
             Codigosdebarra run = new Codigosdebarra(c);
             run.setVisible(true);
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
              JOptionPane.showMessageDialog(null,
                      ex.getMessage(),
                     "Error", 
@@ -597,7 +597,7 @@ public class Codigosdebarra extends JFrame {
                 return;
             }// end if
             ps.close();
-        } catch (SQLInjectionException | SQLException | HeadlessException ex) {
+        } catch (OsaisException | SQLException | HeadlessException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error", 

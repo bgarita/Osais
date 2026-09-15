@@ -6,7 +6,7 @@
 
 package interfase.mantenimiento;
 
-import Exceptions.EmptyDataSourceException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -20,7 +20,6 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import logica.Babanco;
-import Exceptions.SQLInjectionException;
 
 /**
  *
@@ -39,10 +38,10 @@ public class Banco extends JFrame {
     /** Creates new form Banco
      * @param c
      * @throws java.sql.SQLException
-     * @throws Exceptions.SQLInjectionException
-     * @throws Exceptions.EmptyDataSourceException */
+     * @throws Exceptions.OsaisException
+     * @throws Exceptions.OsaisException */
     public Banco(Connection c) 
-            throws SQLException, SQLInjectionException, EmptyDataSourceException {
+            throws SQLException, OsaisException {
         initComponents();
         b.setLogLevel(Bitacora.ERROR);
         nav = new Navegador();
@@ -562,7 +561,7 @@ public class Banco extends JFrame {
         try {
             Banco run = new Banco(c);
             run.setVisible(true);
-        } catch (SQLException | SQLInjectionException | EmptyDataSourceException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),

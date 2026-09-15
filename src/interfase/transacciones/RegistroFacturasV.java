@@ -5,9 +5,7 @@
  */
 package interfase.transacciones;
 
-import Exceptions.CurrencyExchangeException;
-import Exceptions.EmptyDataSourceException;
-import Exceptions.NotUniqueValueException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -165,9 +163,9 @@ public class RegistroFacturasV extends javax.swing.JFrame {
      *
      * @param c
      * @throws java.sql.SQLException
-     * @throws Exceptions.EmptyDataSourceException
+     * @throws Exceptions.OsaisException
      */
-    public RegistroFacturasV(Connection c) throws SQLException, EmptyDataSourceException {
+    public RegistroFacturasV(Connection c) throws SQLException, OsaisException {
         initComponents();
 
         //Connection c = DataBaseConnection.getConnection(this.getClass().getName());
@@ -406,7 +404,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                 if (!max.isBlank()) {
                     maxDesc = Float.parseFloat(max);
                 }
-            } catch (NotUniqueValueException ex) {
+            } catch (OsaisException ex) {
                 JOptionPane.showMessageDialog(null,
                         ex.getMessage(),
                         "Error",
@@ -4631,7 +4629,7 @@ public class RegistroFacturasV extends javax.swing.JFrame {
                         return;
                     }
                     new RegistroFacturasV(c).setVisible(true);
-                } catch (CurrencyExchangeException | SQLException | NumberFormatException | HeadlessException | EmptyDataSourceException ex) {
+                } catch (OsaisException | SQLException | NumberFormatException | HeadlessException ex) {
                     JOptionPane.showMessageDialog(null,
                             ex.getMessage(),
                             "Error",

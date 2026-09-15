@@ -6,7 +6,7 @@
 
 package interfase.reportes;
 
-import Exceptions.EmptyDataSourceException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -21,7 +21,6 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import Exceptions.SQLInjectionException;
 import logica.utilitarios.Ut;
 
 /**
@@ -408,7 +407,7 @@ public class RepArticulosXProveedor extends JFrame {
         
         try {
             Ut.isSQLInjection(query);
-        } catch (SQLInjectionException ex) {
+        } catch (OsaisException ex) {
             Logger.getLogger(RepArticulosXProveedor.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
@@ -512,7 +511,7 @@ public class RepArticulosXProveedor extends JFrame {
             ps = conn.prepareStatement(sqlSent, 
                     ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             rs = CMD.select(ps);
-        } catch (SQLInjectionException | SQLException ex) {
+        } catch (OsaisException | SQLException ex) {
             Logger.getLogger(RepArticulosXProveedor.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
@@ -602,7 +601,7 @@ public class RepArticulosXProveedor extends JFrame {
             
             Ut.fillComboBox(cboArtfam, rs, 1, false);
             ps.close();
-        } catch (SQLException | EmptyDataSourceException ex) {
+        } catch (SQLException | OsaisException ex) {
             Logger.getLogger(RepArticulosXProveedor.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(), 

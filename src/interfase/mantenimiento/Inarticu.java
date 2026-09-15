@@ -37,7 +37,7 @@ import logica.Bodexis;
 import logica.Formato;
 import logica.utilitarios.Archivos;
 import logica.utilitarios.FiltrodeArchivos;
-import Exceptions.SQLInjectionException;
+import Exceptions.OsaisException;
 import java.io.IOException;
 import logica.utilitarios.Ut;
 
@@ -217,7 +217,7 @@ public class Inarticu extends JFrame {
             // Agregar el menú contextual
             txtArtdesc.add(menuArticulos);
             // Fin Bosco agregado 18/08/2011
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -2013,7 +2013,7 @@ public class Inarticu extends JFrame {
 
             cargarObjetos();
 
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Mensaje",
@@ -2036,7 +2036,7 @@ public class Inarticu extends JFrame {
 
             cargarObjetos();
 
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Mensaje",
@@ -2059,7 +2059,7 @@ public class Inarticu extends JFrame {
 
             cargarObjetos();
 
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Mensaje",
@@ -2082,7 +2082,7 @@ public class Inarticu extends JFrame {
 
             cargarObjetos();
 
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Mensaje",
@@ -3506,7 +3506,7 @@ public class Inarticu extends JFrame {
             this.txaArtObse.setText("");
 
             lblAviso.setText("");
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",

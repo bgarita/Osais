@@ -6,7 +6,7 @@
 package interfase.transacciones;
 
 import general.model.catalogues.Intiposdoc;
-import Exceptions.CurrencyExchangeException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -3085,7 +3085,7 @@ public class RegistroEntradas extends javax.swing.JFrame {
                     Float tcd = UtilBD.tipoCambioDolar(c);
 
                     new RegistroEntradas(c, driver).setVisible(true);
-                } catch (CurrencyExchangeException | SQLException | NumberFormatException ex) {
+                } catch (OsaisException | SQLException | NumberFormatException ex) {
                     JOptionPane.showMessageDialog(
                             null,
                             ex.getMessage(),

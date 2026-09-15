@@ -4,7 +4,7 @@
  */
 package testing;
 
-import Exceptions.NotUniqueValueException;
+import Exceptions.OsaisException;
 
 /**
  *
@@ -17,10 +17,10 @@ public class TestException {
      */
     public static void main(String[] args) {
         try{
-            throw new NotUniqueValueException(
+            throw new OsaisException(
                 "El valor a consultar [?????] " +
                 " no es único.");
-        } catch (NotUniqueValueException ex){
+        } catch (OsaisException ex){
             System.out.println(ex.getMessage());
         }
     }

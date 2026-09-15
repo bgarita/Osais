@@ -60,7 +60,7 @@ public class Mensaje {
             //Hotmail
             t.connect(usuarioEmisorMensaje, passwordEmisorMensaje);
             t.sendMessage(mensaje, mensaje.getRecipients(Message.RecipientType.TO));
-        }catch(MessagingException e) {
+        }catch (MessagingException e) {
             System.err.println(e.getMessage());
         }
     }

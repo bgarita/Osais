@@ -18,7 +18,7 @@ import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import Exceptions.SQLInjectionException;
+import Exceptions.OsaisException;
 import logica.utilitarios.Ut;
 
 /**
@@ -271,7 +271,7 @@ public class Buscador extends java.awt.Dialog {
         jScrollPane1.setViewportView(tblDatos);
     } // end crearTabla
 
-    private void cargarTabla() throws SQLException, SQLInjectionException{
+    private void cargarTabla() throws SQLException, OsaisException{
         int fila, opcion;
         ResultSet rs4;
         String sqlSent;
@@ -647,7 +647,7 @@ public class Buscador extends java.awt.Dialog {
                 tblDatos.requestFocusInWindow();
             } // end if
             // Fin Bosco modificado 28/01/2012
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),

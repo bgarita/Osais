@@ -23,7 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import Exceptions.SQLInjectionException;
+import Exceptions.OsaisException;
 import logica.utilitarios.Ut;
 
 /**
@@ -645,7 +645,7 @@ public class Empresa extends JFrame {
             ps.setString(9, codActEc);
             
             regAfectados = ps.executeUpdate();
-        } catch (SQLInjectionException | SQLException ex) {
+        } catch (OsaisException | SQLException ex) {
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),

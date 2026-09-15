@@ -5,7 +5,6 @@
  */
 package interfase.transacciones;
 
-import Exceptions.CurrencyExchangeException;
 import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
@@ -24,7 +23,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import logica.OrdenCompra;
-import Exceptions.SQLInjectionException;
 import java.text.ParseException;
 import java.util.Calendar;
 import logica.utilitarios.Ut;
@@ -843,7 +841,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
                         return;
                     }
                     new RegistroNDCXC(c).setVisible(true);
-                } catch (CurrencyExchangeException | SQLException | NumberFormatException | HeadlessException ex) {
+                } catch (OsaisException | SQLException | NumberFormatException | HeadlessException ex) {
                     JOptionPane.showMessageDialog(null,
                             ex.getMessage(),
                             "Error",
@@ -932,7 +930,7 @@ public class RegistroNDCXC extends javax.swing.JFrame {
             while (rsMoneda.next()) {
                 cboMoneda.addItem(rsMoneda.getString("descrip"));
             } // end while
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",

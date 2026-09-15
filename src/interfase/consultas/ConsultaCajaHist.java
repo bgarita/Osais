@@ -6,7 +6,7 @@
 
 package interfase.consultas;
 
-import Exceptions.EmptyDataSourceException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -24,7 +24,6 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import logica.STRcaja;
-import Exceptions.SQLInjectionException;
 import logica.utilitarios.Ut;
 import static logica.utilitarios.Ut.setDecimalFormat;
 
@@ -47,10 +46,10 @@ public class ConsultaCajaHist extends JFrame {
     /** Creates new form Caja
      * @param c
      * @throws java.sql.SQLException
-     * @throws Exceptions.SQLInjectionException
-     * @throws Exceptions.EmptyDataSourceException */
+     * @throws Exceptions.OsaisException
+     * @throws Exceptions.OsaisException */
     public ConsultaCajaHist(Connection c) 
-            throws SQLException, SQLInjectionException, EmptyDataSourceException {
+            throws SQLException, OsaisException {
         initComponents();
         nav = new Navegador();
                 
@@ -1269,7 +1268,7 @@ public class ConsultaCajaHist extends JFrame {
         try {
             ConsultaCajaHist run = new ConsultaCajaHist(c);
             run.setVisible(true);
-        } catch (SQLException | SQLInjectionException | EmptyDataSourceException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),

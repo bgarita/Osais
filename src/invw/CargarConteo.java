@@ -84,14 +84,14 @@ public class CargarConteo {
             } // end while
             conn.setAutoCommit(true);
             d.close();
-        } catch(SQLException ex){
+        } catch (SQLException ex){
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             try{
                 conn.rollback();
-            } catch(SQLException ex1){
+            } catch (SQLException ex1){
                 JOptionPane.showMessageDialog(null, 
                         ex1.getMessage(),
                         "Error",

@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import Exceptions.SQLInjectionException;
+import Exceptions.OsaisException;
 import logica.utilitarios.Ut;
 
 /**
@@ -443,7 +443,7 @@ public class RepVentasxproveedor extends JFrame {
         try {
             // Esta rutina lanza una excepción cuando encuentra inyección de código.
             Ut.isSQLInjection(query);
-        } catch (SQLInjectionException ex) {
+        } catch (OsaisException ex) {
             Logger.getLogger(RepVentasxproveedor.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),

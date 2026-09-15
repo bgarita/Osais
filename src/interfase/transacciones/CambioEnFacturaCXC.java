@@ -6,7 +6,7 @@
 
 package interfase.transacciones;
 
-import Exceptions.NotUniqueValueException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -830,7 +830,7 @@ public class CambioEnFacturaCXC extends JFrame {
                     "Datos actualizados exitosamente.",
                     "Pura vida!",
                     JOptionPane.INFORMATION_MESSAGE);
-        }catch(SQLException ex){
+        }catch (SQLException ex){
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),
@@ -1108,7 +1108,7 @@ public class CambioEnFacturaCXC extends JFrame {
         String user = "";
         try {
             user = UtilBD.getDBString(conn, tabla, condicion, campo);
-        } catch (NotUniqueValueException | SQLException ex) {
+        } catch (OsaisException | SQLException ex) {
             Logger.getLogger(CambioEnFacturaCXC.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     null,
@@ -1171,7 +1171,7 @@ public class CambioEnFacturaCXC extends JFrame {
         try {
             lblVendedorDestino.setText(
                     UtilBD.getDBString(conn, tabla, condicion, campo));
-        } catch (NotUniqueValueException | SQLException ex) {
+        } catch (OsaisException | SQLException ex) {
             Logger.getLogger(CambioEnFacturaCXC.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     null,
@@ -1206,7 +1206,7 @@ public class CambioEnFacturaCXC extends JFrame {
         try {
             txtClidescDestino.setText(
                     UtilBD.getDBString(conn, tabla, condicion, campo));
-        } catch (NotUniqueValueException | SQLException ex) {
+        } catch (OsaisException | SQLException ex) {
             Logger.getLogger(CambioEnFacturaCXC.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(
                     null,
@@ -1239,7 +1239,7 @@ public class CambioEnFacturaCXC extends JFrame {
             try {
                 cliplaz = Integer.parseInt(
                         UtilBD.getDBString(conn, tabla, condicion, campo));
-            } catch (NotUniqueValueException | SQLException ex) {
+            } catch (OsaisException | SQLException ex) {
                 Logger.getLogger(CambioEnFacturaCXC.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(
                     null,
@@ -1265,7 +1265,7 @@ public class CambioEnFacturaCXC extends JFrame {
                 try {
                     disponible = Double.parseDouble(
                         UtilBD.getDBString(conn, tabla, condicion, campo));
-                } catch (NotUniqueValueException | SQLException ex) {
+                } catch (OsaisException | SQLException ex) {
                     Logger.getLogger(CambioEnFacturaCXC.class.getName()).log(Level.SEVERE, null, ex);
                     JOptionPane.showMessageDialog(
                             null,
@@ -1383,7 +1383,7 @@ public class CambioEnFacturaCXC extends JFrame {
                 
             } // end if
             
-        } catch(NumberFormatException | SQLException ex){
+        } catch (NumberFormatException | SQLException ex){
             Logger.getLogger(CambioEnFacturaCXC.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),

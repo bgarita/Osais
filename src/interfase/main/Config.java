@@ -5,7 +5,7 @@
  */
 package interfase.main;
 
-import Exceptions.NotUniqueValueException;
+import Exceptions.OsaisException;
 import Mail.Bitacora;
 import accesoDatos.CMD;
 import accesoDatos.UtilBD;
@@ -26,7 +26,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import logica.Fondo;
 import logica.IMantenimiento;
-import Exceptions.SQLInjectionException;
 import logica.utilitarios.Ut;
 
 
@@ -78,7 +77,7 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
         try {
             this.props = Ut.getMailConfig();
             rs = nav.cargarRegistro(Navegador.TODOS, "", tabla, "Empresa");
-        } catch (IOException | SQLException | SQLInjectionException ex) {
+        } catch (IOException | SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -1055,7 +1054,7 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
             this.lblClidesc.setText(
                     UtilBD.getDBString(conn, "inclient", "clicode = '"
                             + txtClicode.getText().trim() + "'", "clidesc"));
-        } catch (NotUniqueValueException | SQLException ex) {
+        } catch (OsaisException | SQLException ex) {
             Logger.getLogger(Config.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
@@ -1849,7 +1848,7 @@ public final class Config extends javax.swing.JFrame implements IMantenimiento {
                 cboMoneda.addItem(rsMoneda.getString("descrip"));
                 cbocodigoDolar.addItem(rsMoneda.getString("descrip"));
             } // end while
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(
                     null,
                     ex.getMessage(),

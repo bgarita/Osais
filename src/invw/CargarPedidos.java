@@ -101,14 +101,14 @@ public class CargarPedidos {
             } // end while
             conn.setAutoCommit(true);
             d.close();
-        } catch(SQLException ex){
+        } catch (SQLException ex){
             JOptionPane.showMessageDialog(null, 
                     ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             try{
                 conn.rollback();
-            } catch(SQLException ex1){
+            } catch (SQLException ex1){
                 JOptionPane.showMessageDialog(null, 
                         ex1.getMessage(),
                         "Error",
@@ -218,7 +218,7 @@ public class CargarPedidos {
             } // end while
             conn.setAutoCommit(true);
             d.close();
-        } catch(SQLException ex){
+        } catch (SQLException ex){
             JOptionPane.showMessageDialog(null,
                     ex.getMessage() + 
                     " Bodega " + bodega + 
@@ -228,7 +228,7 @@ public class CargarPedidos {
                     JOptionPane.ERROR_MESSAGE);
             try{
                 conn.rollback();
-            } catch(SQLException ex1){
+            } catch (SQLException ex1){
                 JOptionPane.showMessageDialog(null, 
                         ex1.getMessage(),
                         "Error",

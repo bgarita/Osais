@@ -5,8 +5,7 @@
  */
 package interfase.transacciones;
 
-import Exceptions.CurrencyExchangeException;
-import Exceptions.EmptyDataSourceException;
+import Exceptions.OsaisException;
 import contabilidad.logica.ImpuestosService;
 import contabilidad.model.ImpuestosM;
 import Mail.Bitacora;
@@ -32,7 +31,6 @@ import contabilidad.logica.CoasientoD;
 import contabilidad.logica.CoasientoE;
 import contabilidad.logica.Cotipasient;
 import contabilidad.logica.Cuenta;
-import Exceptions.SQLInjectionException;
 import logica.utilitarios.Ut;
 
 /**
@@ -120,7 +118,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
         try {
             UtilBD.loadBancos(conn, cboBanco);
             this.cboBanco.setSelectedIndex(0);
-        } catch (SQLException | EmptyDataSourceException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
@@ -1662,7 +1660,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
                         rfc.btnGuardar.requestFocusInWindow();
                     } // end if
 
-                } catch (CurrencyExchangeException | SQLException | NumberFormatException | HeadlessException ex) {
+                } catch (OsaisException | SQLException | NumberFormatException | HeadlessException ex) {
                     JOptionPane.showMessageDialog(null,
                             ex.getMessage(),
                             "Error",
@@ -1767,7 +1765,7 @@ public class RegistroFacturasC extends javax.swing.JFrame {
             while (rsMoneda.next()) {
                 cboMoneda.addItem(rsMoneda.getString("descrip"));
             } // end while
-        } catch (SQLException | SQLInjectionException ex) {
+        } catch (SQLException | OsaisException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.getMessage(),
                     "Error",
